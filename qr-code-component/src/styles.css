@@ -2,21 +2,41 @@
 @import "npm:@fontsource/outfit/700.css";
 
 :root {
+  --font-size-base-px: 16;
+
+  /* Color styles */
   --color-white: hsl(0, 0%, 100%);
   --color-light-gray: hsl(212, 45%, 89%);
   --color-grayish-blue: hsl(220, 15%, 55%);
   --color-dark-blue: hsl(218, 44%, 22%);
 
-  --font-family-heading: "Outfit";
+  /* Text styles - Heading */
+  --font-size-heading-px: 22;
+  --line-height-heading-px: 28;
+  --font-family-heading: "Outfit", sans-serif;
   --font-style-heading: normal;
   --font-weight-heading: 700;
-  --font-size-heading: 22px;
-  --line-height-heading: 28px;
+  --font-size-heading: calc(
+    var(--font-size-heading-px) / var(--font-size-base-px) * 1rem
+  );
+  --line-height-heading: calc(
+    var(--line-height-heading-px) / var(--font-size-heading-px)
+  );
 
-  --font-family-body: "Outfit";
+  /* Text styles - Body */
+  --font-size-body-px: 15;
+  --line-height-body-px: 19;
+  --letter-spacing-body-px: 0.1875;
+  --font-family-body: "Outfit", sans-serif;
   --font-style-body: normal;
   --font-weight-body: 400;
-  --font-size-body: 15px;
-  --line-height-body: 19px;
-  --letter-spacing-body: 0.1875px;
+  --font-size-body: calc(
+    var(--font-size-body-px) / var(--font-size-base-px) * 1rem
+  );
+  --line-height-body: calc(
+    var(--line-height-body-px) / var(--font-size-body-px)
+  );
+  --letter-spacing-body: calc(
+    var(--letter-spacing-body-px) / var(--font-size-base-px) * 1rem
+  );
 }
