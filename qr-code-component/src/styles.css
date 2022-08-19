@@ -1,0 +1,22 @@
+@import "npm:@fontsource/outfit/400.css";
+@import "npm:@fontsource/outfit/700.css";
+
+:root {
+  --color-white: hsl(0, 0%, 100%);
+  --color-light-gray: hsl(212, 45%, 89%);
+  --color-grayish-blue: hsl(220, 15%, 55%);
+  --color-dark-blue: hsl(218, 44%, 22%);
+
+  --font-family-heading: "Outfit";
+  --font-style-heading: normal;
+  --font-weight-heading: 700;
+  --font-size-heading: 22px;
+  --line-height-heading: 28px;
+
+  --font-family-body: "Outfit";
+  --font-style-body: normal;
+  --font-weight-body: 400;
+  --font-size-body: 15px;
+  --line-height-body: 19px;
+  --letter-spacing-body: 0.1875px;
+}
