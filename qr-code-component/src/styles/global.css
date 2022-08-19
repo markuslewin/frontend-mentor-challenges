@@ -1,4 +1,16 @@
 @import "_reset.css";
+
+@import "blocks/_card.css";
+@import "blocks/_description.css";
+@import "blocks/_qr-code.css";
+
+@import "utilities/_box.css";
+@import "utilities/_cover.css";
+@import "utilities/_frame.css";
+@import "utilities/_stack.css";
+@import "utilities/_token.css";
+@import "utilities/_wrapper.css";
+
 @import "npm:@fontsource/outfit/400.css";
 @import "npm:@fontsource/outfit/700.css";
 
@@ -40,4 +52,20 @@
   --letter-spacing-body: calc(
     var(--letter-spacing-body-px) / var(--font-size-base-px) * 1rem
   );
+
+  /* Radius */
+  --border-radius-small: 10px;
+  --border-radius-large: 20px;
+
+  /* Spacing */
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-10: 40px;
+
+  /* Sizing */
+  --size-80: 320px;
+
+  /* Shadow */
+  /* --shadow: box-shadow: 0px 25px 25px rgba(0, 0, 0, 0.0476518); */
+  --shadow: 0px 25px 25px rgba(0, 0, 0, 0.0476518);
 }

@@ -1,0 +1,6 @@
+.box {
+  outline: 0.125rem solid transparent;
+  outline-offset: -0.125rem;
+  border-radius: var(--box-border-radius);
+  padding: var(--box-padding);
+}

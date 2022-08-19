@@ -1,0 +1,4 @@
+.description {
+  --stack-gap: var(--space-4);
+  --stack-align-items: center;
+}

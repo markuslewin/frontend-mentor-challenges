@@ -1,0 +1,7 @@
+.card {
+  --box-border-radius: var(--border-radius-large);
+  --box-padding: var(--space-4);
+
+  --stack-align-items: center;
+  --stack-gap: var(--space-6);
+}

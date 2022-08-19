@@ -1,0 +1,61 @@
+.bg-primary {
+  background-color: var(--color-light-gray);
+}
+
+.bg-content {
+  background-color: var(--color-white);
+}
+
+.color-primary {
+  color: var(--color-dark-blue);
+}
+
+.color-secondary {
+  color: var(--color-grayish-blue);
+}
+
+.font-heading {
+  font-family: var(--font-family-heading);
+  font-style: var(--font-style-heading);
+  font-weight: var(--font-weight-heading);
+  font-size: var(--font-size-heading);
+  line-height: var(--line-height-heading);
+  letter-spacing: initial;
+}
+
+.font-body {
+  font-family: var(--font-family-body);
+  font-style: var(--font-style-body);
+  font-weight: var(--font-weight-body);
+  font-size: var(--font-size-body);
+  line-height: var(--line-height-body);
+  letter-spacing: var(--letter-spacing-body);
+}
+
+.padding-4 {
+  padding: var(--space-4);
+}
+
+.padding-block-end-10 {
+  padding-block-end: var(--space-10);
+}
+
+.padding-inline-4 {
+  padding-inline: var(--space-4);
+}
+
+.text-align-center {
+  text-align: center;
+}
+
+.inline-size-full {
+  width: 100%;
+}
+
+.border-radius-small {
+  border-radius: var(--border-radius-small);
+}
+
+.shadow {
+  box-shadow: var(--shadow);
+}
