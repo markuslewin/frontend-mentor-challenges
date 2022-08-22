@@ -5,3 +5,7 @@
   --stack-align-items: center;
   --stack-gap: var(--space-6);
 }
+
+.card > img {
+  order: -1;
+}
