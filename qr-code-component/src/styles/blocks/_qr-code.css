@@ -1,3 +1,6 @@
 .qr-code {
   --frame-aspect-ratio: 1;
+
+  border-radius: var(--border-radius-small);
+  inline-size: 100%;
 }

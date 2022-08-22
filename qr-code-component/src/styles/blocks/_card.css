@@ -4,6 +4,9 @@
 
   --stack-align-items: center;
   --stack-gap: var(--space-6);
+
+  box-shadow: var(--shadow);
+  background-color: var(--color-background-layer-1);
 }
 
 .card > img {
