@@ -1,24 +1,24 @@
-.bg-content {
-  background-color: var(--color-white);
+.bg-layer-1 {
+  background-color: var(--color-background-layer-1);
 }
 
-.padding-4 {
+.p-4 {
   padding: var(--space-4);
 }
 
-.padding-block-end-10 {
+.pbe-10 {
   padding-block-end: var(--space-10);
 }
 
-.padding-inline-4 {
+.pli-4 {
   padding-inline: var(--space-4);
 }
 
-.inline-size-full {
-  width: 100%;
+.is-full {
+  inline-size: 100%;
 }
 
-.border-radius-small {
+.rounded-small {
   border-radius: var(--border-radius-small);
 }
 
