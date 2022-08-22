@@ -1,6 +1,6 @@
 .stack {
   display: flex;
   flex-direction: column;
-  align-items: var(--stack-align-items);
-  gap: var(--stack-gap);
+  align-items: var(--stack-align-items, flex-start);
+  gap: var(--stack-gap, var(--space-4));
 }

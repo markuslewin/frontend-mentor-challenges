@@ -1,4 +1,4 @@
 .frame {
-  aspect-ratio: var(--frame-aspect-ratio);
+  aspect-ratio: var(--frame-aspect-ratio, 1);
   object-fit: cover;
 }
