@@ -19,7 +19,7 @@
   font-style: var(--font-style-heading);
   font-weight: var(--font-weight-heading);
   font-size: var(--font-size-heading);
-  line-height: var(--line-height-heading);
+  line-height: var(--font-line-height-heading);
   letter-spacing: initial;
 }
 
@@ -28,8 +28,8 @@
   font-style: var(--font-style-body);
   font-weight: var(--font-weight-body);
   font-size: var(--font-size-body);
-  line-height: var(--line-height-body);
-  letter-spacing: var(--letter-spacing-body);
+  line-height: var(--font-line-height-body);
+  letter-spacing: var(--font-letter-spacing-body);
 }
 
 .padding-4 {

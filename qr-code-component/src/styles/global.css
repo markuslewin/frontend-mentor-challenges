@@ -15,57 +15,59 @@
 @import "npm:@fontsource/outfit/700.css";
 
 :root {
+  /* Global tokens */
+  --font-family-sans-serif: "Outfit", sans-serif;
   --font-size-base-px: 16;
+  --font-size-large-px: 22;
+  --font-size-medium-px: 15;
+  --font-line-height-large-px: 28;
+  --font-line-height-medium-px: 19;
+  --font-letter-spacing-medium-px: 0.1875;
+  --font-style-normal: normal;
+  --font-weight-normal: 400;
+  --font-weight-bold: 700;
 
-  /* Color styles */
   --color-white: hsl(0, 0%, 100%);
   --color-light-gray: hsl(212, 45%, 89%);
   --color-grayish-blue: hsl(220, 15%, 55%);
   --color-dark-blue: hsl(218, 44%, 22%);
 
-  /* Text styles - Heading */
-  --font-size-heading-px: 22;
-  --line-height-heading-px: 28;
-  --font-family-heading: "Outfit", sans-serif;
-  --font-style-heading: normal;
-  --font-weight-heading: 700;
-  --font-size-heading: calc(
-    var(--font-size-heading-px) / var(--font-size-base-px) * 1rem
-  );
-  --line-height-heading: calc(
-    var(--line-height-heading-px) / var(--font-size-heading-px)
-  );
-
-  /* Text styles - Body */
-  --font-size-body-px: 15;
-  --line-height-body-px: 19;
-  --letter-spacing-body-px: 0.1875;
-  --font-family-body: "Outfit", sans-serif;
-  --font-style-body: normal;
-  --font-weight-body: 400;
-  --font-size-body: calc(
-    var(--font-size-body-px) / var(--font-size-base-px) * 1rem
-  );
-  --line-height-body: calc(
-    var(--line-height-body-px) / var(--font-size-body-px)
-  );
-  --letter-spacing-body: calc(
-    var(--letter-spacing-body-px) / var(--font-size-base-px) * 1rem
-  );
-
-  /* Radius */
   --border-radius-small: 10px;
   --border-radius-large: 20px;
 
-  /* Spacing */
   --space-4: 16px;
   --space-6: 24px;
   --space-10: 40px;
 
-  /* Sizing */
   --size-80: 320px;
 
-  /* Shadow */
-  /* --shadow: box-shadow: 0px 25px 25px rgba(0, 0, 0, 0.0476518); */
   --shadow: 0px 25px 25px rgba(0, 0, 0, 0.0476518);
+
+  /* Alias tokens */
+  --font-family-heading: var(--font-family-sans-serif);
+  --font-size-heading: calc(
+    var(--font-size-large-px) / var(--font-size-base-px) * 1rem
+  );
+  --font-style-heading: var(--font-style-normal);
+  --font-weight-heading: var(--font-weight-bold);
+  --font-line-height-heading: calc(
+    var(--font-line-height-large-px) / var(--font-size-large-px)
+  );
+  --font-family-body: var(--font-family-sans-serif);
+  --font-size-body: calc(
+    var(--font-size-medium-px) / var(--font-size-base-px) * 1rem
+  );
+  --font-style-body: var(--font-style-normal);
+  --font-weight-body: var(--font-weight-normal);
+  --font-line-height-body: calc(
+    var(--font-line-height-medium-px) / var(--font-size-medium-px)
+  );
+  --font-letter-spacing-body: calc(
+    var(--font-letter-spacing-medium-px) / var(--font-size-base-px) * 1rem
+  );
+
+  --color-background-base: var(--color-light-gray);
+  --color-background-layer-1: var(--color-white);
+  --color-heading: var(--color-dark-blue);
+  --color-body: var(--color-grayish-blue);
 }
