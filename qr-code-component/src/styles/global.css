@@ -71,3 +71,28 @@
   --color-heading: var(--color-dark-blue);
   --color-body: var(--color-grayish-blue);
 }
+
+body {
+  font-family: var(--font-family-body);
+  font-style: var(--font-style-body);
+  font-weight: var(--font-weight-body);
+  font-size: var(--font-size-body);
+  line-height: var(--font-line-height-body);
+  letter-spacing: var(--font-letter-spacing-body);
+
+  background-color: var(--color-background-base);
+  color: var(--color-body);
+
+  text-align: center;
+}
+
+h1 {
+  font-family: var(--font-family-heading);
+  font-style: var(--font-style-heading);
+  font-weight: var(--font-weight-heading);
+  font-size: var(--font-size-heading);
+  line-height: var(--font-line-height-heading);
+  letter-spacing: initial;
+
+  color: var(--color-heading);
+}
