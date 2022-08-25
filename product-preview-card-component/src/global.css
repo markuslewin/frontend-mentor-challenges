@@ -1,0 +1,7 @@
+@import "npm:@fontsource/montserrat/500.css";
+@import "npm:@fontsource/montserrat/700.css";
+@import "npm:@fontsource/fraunces/700.css";
+
+/* @tailwind base; */
+/* @tailwind components; */
+@tailwind utilities;
