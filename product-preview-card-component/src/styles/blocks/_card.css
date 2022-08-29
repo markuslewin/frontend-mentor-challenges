@@ -1,0 +1,19 @@
+.card {
+  @apply bg-pure-white rounded-large;
+  overflow: hidden;
+}
+
+.card > picture {
+  order: -1;
+}
+
+.card > picture img {
+  inline-size: 100%;
+  block-size: 240px;
+}
+
+@media (min-width: 632px) {
+  .card > picture img {
+    block-size: 100%;
+  }
+}

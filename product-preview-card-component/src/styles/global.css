@@ -1,0 +1,26 @@
+@import "_reset.css";
+
+@import "npm:@fontsource/montserrat/500.css";
+@import "npm:@fontsource/montserrat/700.css";
+@import "npm:@fontsource/fraunces/700.css";
+
+@import "blocks/_button.css";
+@import "blocks/_card.css";
+
+@import "utilities/_cluster.css";
+@import "utilities/_cover.css";
+@import "utilities/_splitter.css";
+@import "utilities/_stack.css";
+@import "utilities/_wrapper.css";
+
+/* @tailwind base; */
+/* @tailwind components; */
+@tailwind utilities;
+
+body {
+  @apply text-style-body bg-cream text-aurometal-saurus;
+}
+
+h1 {
+  @apply text-style-display text-gunmetal;
+}

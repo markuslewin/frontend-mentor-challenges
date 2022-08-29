@@ -14,31 +14,42 @@
 
     <title>Frontend Mentor | Product preview card component</title>
 
-    <link rel="stylesheet" href="global.css" />
+    <link rel="stylesheet" href="styles/global.css" />
   </head>
   <body>
-    <main>
-      <article>
-        <h1>Perfume: Gabrielle Essence Eau De Parfum</h1>
-        <p>
-          A floral, solar and voluptuous interpretation composed by Olivier
-          Polge, Perfumer-Creator for the House of CHANEL.
-        </p>
-        <p>
-          <strong><span class="sr-only">Current price: </span>$149.99</strong>
-        </p>
-        <p>
-          <s><span class="sr-only">Original price: </span>$169.99</s>
-        </p>
-        <p>
-          <button>Add to Cart</button>
-        </p>
+    <main class="[ cover ] [ pli-4 plb-7 ]">
+      <article class="[ card ] [ wrapper splitter ]">
+        <div class="p-8">
+          <h1 class="[ stack ] [ gap-5 mb-6 ]">
+            <span class="uppercase text-style-overline text-aurometal-saurus"
+              >Perfume<span class="sr-only">: </span></span
+            >Gabrielle Essence Eau De Parfum
+          </h1>
+          <p class="mb-[29px]">
+            A floral, solar and voluptuous interpretation composed by Olivier
+            Polge, Perfumer-Creator for the House of CHANEL.
+          </p>
+          <div class="[ cluster ] [ items-center gap-[19px] mb-[30px] ]">
+            <p class="text-style-display text-deep-aquamarine">
+              <strong
+                ><span class="sr-only">Current price: </span>$149.99</strong
+              >
+            </p>
+            <p class="text-small leading-medium">
+              <s><span class="sr-only">Original price: </span>$169.99</s>
+            </p>
+          </div>
+          <p>
+            <button class="[ button ] [ is-full ]">Add to Cart</button>
+          </p>
+        </div>
         <picture>
           <source
             srcset="images/image-product-mobile.jpg"
             media="(max-width: 600px)"
           />
           <img
+            class="object-cover"
             alt="Gabrielle Essence Eau De Parfum"
             src="images/image-product-desktop.jpg"
           />
