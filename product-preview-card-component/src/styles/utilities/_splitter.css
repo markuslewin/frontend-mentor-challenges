@@ -1,8 +1,14 @@
 .splitter {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
 }
 
 .splitter > * {
-  flex: 1 1 300px;
+  flex: 1 1 50%;
+}
+
+@media screen(sm) {
+  .splitter {
+    flex-direction: row;
+  }
 }

@@ -7,6 +7,9 @@ function pxToRem(px) {
 module.exports = {
   content: ["./src/*.{html,js}"],
   theme: {
+    screens: {
+      sm: "40em",
+    },
     colors: {
       "pure-white": "hsl(0, 0%, 100%)",
       cream: "hsl(30, 38%, 92%)",
@@ -39,7 +42,11 @@ module.exports = {
       small: 8,
       large: 10,
     },
-    extend: {},
+    extend: {
+      maxWidth: {
+        150: "37.5rem" /* 600px */,
+      },
+    },
   },
   variants: {},
   plugins: [

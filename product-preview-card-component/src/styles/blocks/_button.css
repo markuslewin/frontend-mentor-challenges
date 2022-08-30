@@ -1,9 +1,0 @@
-.button {
-  @apply rounded-small p-4 text-style-button-text bg-deep-aquamarine text-pure-white;
-  border: none;
-}
-
-.button:hover,
-.button:focus {
-  @apply bg-deep-aquamarine-hover;
-}

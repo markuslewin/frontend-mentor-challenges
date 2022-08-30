@@ -1,5 +1,6 @@
 .card {
   @apply bg-pure-white rounded-large;
+  display: flex;
   overflow: hidden;
 }
 
@@ -8,11 +9,11 @@
 }
 
 .card > picture img {
+  @apply bs-60;
   inline-size: 100%;
-  block-size: 240px;
 }
 
-@media (min-width: 632px) {
+@media screen(sm) {
   .card > picture img {
     block-size: 100%;
   }
