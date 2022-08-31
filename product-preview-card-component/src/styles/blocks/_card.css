@@ -1,11 +1,16 @@
 .card {
   @apply bg-pure-white rounded-large;
   display: flex;
-  overflow: hidden;
 }
 
 .card > picture {
   order: -1;
+}
+
+.card > picture,
+.card > picture img {
+  border-top-left-radius: inherit;
+  border-top-right-radius: inherit;
 }
 
 .card > picture img {
@@ -14,6 +19,13 @@
 }
 
 @media screen(sm) {
+  .card > picture,
+  .card > picture img {
+    border-top-left-radius: inherit;
+    border-top-right-radius: initial;
+    border-bottom-left-radius: inherit;
+  }
+
   .card > picture img {
     block-size: 100%;
   }
