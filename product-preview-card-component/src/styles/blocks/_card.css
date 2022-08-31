@@ -32,15 +32,15 @@
 /* Image border radius */
 .card > picture,
 .card > picture img {
-  border-top-left-radius: inherit;
-  border-top-right-radius: inherit;
+  border-start-start-radius: inherit;
+  border-start-end-radius: inherit;
 }
 
 @media screen(sm) {
   .card > picture,
   .card > picture img {
-    border-top-left-radius: inherit;
-    border-top-right-radius: initial;
-    border-bottom-left-radius: inherit;
+    border-start-start-radius: inherit;
+    border-start-end-radius: initial;
+    border-end-start-radius: inherit;
   }
 }
