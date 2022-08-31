@@ -3,12 +3,12 @@
   flex-direction: column;
 }
 
-.splitter > * {
-  flex: 1 1 50%;
-}
-
 @media screen(sm) {
   .splitter {
     flex-direction: row;
+  }
+
+  .splitter > * {
+    flex: 1 1 50%;
   }
 }

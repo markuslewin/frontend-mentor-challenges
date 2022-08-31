@@ -7,15 +7,33 @@
   order: -1;
 }
 
+/* 
+  Image sizing
+  Mobile: Static height
+  Desktop: Image is removed from flow so that its height is derived from the text content of the card
+*/
+.card > picture img {
+  @apply bs-60;
+  inline-size: 100%;
+}
+
+@media screen(sm) {
+  .card > picture {
+    position: relative;
+    block-size: auto;
+  }
+
+  .card > picture img {
+    position: absolute;
+    block-size: 100%;
+  }
+}
+
+/* Image border radius */
 .card > picture,
 .card > picture img {
   border-top-left-radius: inherit;
   border-top-right-radius: inherit;
-}
-
-.card > picture img {
-  @apply bs-60;
-  inline-size: 100%;
 }
 
 @media screen(sm) {
@@ -24,9 +42,5 @@
     border-top-left-radius: inherit;
     border-top-right-radius: initial;
     border-bottom-left-radius: inherit;
-  }
-
-  .card > picture img {
-    block-size: 100%;
   }
 }
