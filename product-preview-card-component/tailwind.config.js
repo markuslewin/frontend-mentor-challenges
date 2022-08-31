@@ -43,8 +43,14 @@ module.exports = {
       large: 10,
     },
     extend: {
+      spacing: {
+        3.75: pxToRem(15),
+      },
       maxWidth: {
-        150: "37.5rem" /* 600px */,
+        150: pxToRem(600),
+      },
+      minHeight: {
+        12: pxToRem(48),
       },
     },
   },

@@ -1,6 +1,17 @@
 .button {
-  @apply rounded-small p-4 text-style-button-text bg-deep-aquamarine text-pure-white;
+  @apply rounded-small min-bs-12 p-3.75 gap-3 text-style-button-text bg-deep-aquamarine text-pure-white;
   border: none;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.button img {
+  transform: translateX(1px);
+}
+
+.button .button__label {
+  transform: translateY(1px);
 }
 
 .button:hover,
