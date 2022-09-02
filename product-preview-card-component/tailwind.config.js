@@ -23,8 +23,8 @@ module.exports = {
       gunmetal: "hsl(212, 21%, 14%)",
     },
     fontFamily: {
-      fraunces: "Fraunces, serif",
-      montserrat: "Montserrat, sans-serif",
+      fraunces: "FrauncesVariable, serif",
+      montserrat: "MontserratVariable, sans-serif",
     },
     fontSize: {
       large: pxToRem(32),

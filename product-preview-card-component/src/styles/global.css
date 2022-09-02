@@ -1,8 +1,7 @@
 @import "_reset.css";
 
-@import "npm:@fontsource/montserrat/500.css";
-@import "npm:@fontsource/montserrat/700.css";
-@import "npm:@fontsource/fraunces/700.css";
+@import "npm:@fontsource/montserrat/variable-full.css";
+@import "npm:@fontsource/fraunces/variable-full.css";
 
 @import "blocks/_button.css";
 @import "blocks/_card.css";
