@@ -6,14 +6,6 @@
   align-items: center;
 }
 
-.button img {
-  transform: translateX(1px);
-}
-
-.button .button__label {
-  transform: translateY(1px);
-}
-
 .button:hover,
 .button:focus-visible {
   @apply bg-deep-aquamarine-hover;
