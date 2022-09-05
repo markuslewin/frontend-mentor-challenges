@@ -22,3 +22,7 @@ body {
 h1 {
   @apply text-style-display text-gunmetal;
 }
+
+strong {
+  @apply font-bold;
+}
