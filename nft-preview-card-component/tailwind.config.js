@@ -4,6 +4,10 @@ function pxToRem(px) {
   return `${px / 16}rem`;
 }
 
+function remScaleFromPxs(...pxs) {
+  return Object.fromEntries(Array.from(pxs).map((px) => [px / 4, pxToRem(px)]));
+}
+
 module.exports = {
   content: ["./src/*.{html,js}"],
   theme: {
@@ -28,7 +32,13 @@ module.exports = {
       base: pxToRem(26),
       xl: pxToRem(28),
     },
-    extend: {},
+    width: remScaleFromPxs(33),
+    height: remScaleFromPxs(1, 33),
+    maxWidth: remScaleFromPxs(350),
+    borderRadius: remScaleFromPxs(8, 15),
+    extend: {
+      spacing: remScaleFromPxs(62),
+    },
   },
   variants: {},
   plugins: [

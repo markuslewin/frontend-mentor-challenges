@@ -1,5 +1,37 @@
+@import "_reset.css";
+
 @import "npm:@fontsource/outfit/variable-full.css";
+
+@import "blocks/_card.css";
+@import "blocks/_divider.css";
+@import "blocks/_property.css";
+
+@import "utilities/_cluster.css";
+@import "utilities/_cover.css";
 
 /* @tailwind base; */
 /* @tailwind components; */
 @tailwind utilities;
+
+body {
+  @apply text-style-body bg-very-dark-blue-main-bg text-soft-blue;
+}
+
+h1 {
+  @apply text-style-heading text-white;
+}
+
+strong {
+  @apply font-semibold;
+}
+
+a {
+  @apply text-white;
+
+  text-decoration: none;
+}
+
+a:focus,
+a:hover {
+  @apply text-cyan;
+}

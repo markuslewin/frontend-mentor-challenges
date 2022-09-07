@@ -1,0 +1,5 @@
+.divider {
+  @apply bs-0.25 bg-very-dark-blue-line;
+
+  display: block;
+}

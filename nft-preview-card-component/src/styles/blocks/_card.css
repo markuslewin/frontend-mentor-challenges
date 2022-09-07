@@ -1,0 +1,10 @@
+.card {
+  @apply max-is-87.5 rounded-3.75 p-6 sm:pbe-8 bg-very-dark-blue-card-bg;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.card > *:last-child {
+  order: -1;
+}
