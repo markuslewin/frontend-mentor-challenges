@@ -35,7 +35,7 @@ module.exports = {
     width: { ...remScaleFromPxs(33), full: "100%" },
     height: { ...remScaleFromPxs(1, 33), full: "100%" },
     maxWidth: remScaleFromPxs(350),
-    borderRadius: remScaleFromPxs(8, 15),
+    borderRadius: { ...remScaleFromPxs(8, 15), full: "100%" },
     extend: {
       spacing: remScaleFromPxs(62),
     },
