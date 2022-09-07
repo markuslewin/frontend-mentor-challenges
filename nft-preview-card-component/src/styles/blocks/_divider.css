@@ -1,5 +1,5 @@
 .divider {
-  @apply bs-0.25 bg-very-dark-blue-line;
+  @apply border-0 border-be border-solid border-very-dark-blue-line;
 
   display: block;
 }
