@@ -1,0 +1,4 @@
+.box {
+  outline: 0.125rem solid transparent;
+  outline-offset: -0.125rem;
+}
