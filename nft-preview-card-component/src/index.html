@@ -17,7 +17,7 @@
     <link rel="stylesheet" href="styles/global.css" />
   </head>
   <body>
-    <main class="[ cover ] [ pli-6 plb-15.5 ]">
+    <main class="[ cover ] [ min-bs-screen pli-6 plb-15.5 ]">
       <article class="[ card ] [ box ]">
         <h1 class="mbe-3 sm:mbe-4"><a href="#">Equilibrium #3429</a></h1>
         <p class="mbe-4 sm:mbe-6">
@@ -41,12 +41,18 @@
           />
           <span>Creation of <a href="#">Jules Wyvern</a></span>
         </p>
-        <a class="mbe-6" href="#">
+        <a class="relative group mbe-6" href="#">
           <img
-            class="rounded-2 aspect-square object-cover"
+            class="rounded-2"
             alt="Equilibrium"
             src="images/image-equilibrium.jpg"
           />
+          <div
+            class="[ cover overlay ] [ opacity-0 group-hover:opacity-100 group-focus:opacity-100 ]"
+          >
+            <div class="[ is-full bs-full rounded-2 opacity-50 bg-cyan ]"></div>
+            <img class="absolute" alt="" src="images/icon-view.svg" />
+          </div>
         </a>
       </article>
     </main>

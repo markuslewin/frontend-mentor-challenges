@@ -32,8 +32,8 @@ module.exports = {
       base: pxToRem(26),
       xl: pxToRem(28),
     },
-    width: remScaleFromPxs(33),
-    height: remScaleFromPxs(1, 33),
+    width: { ...remScaleFromPxs(33), full: "100%" },
+    height: { ...remScaleFromPxs(1, 33), full: "100%" },
     maxWidth: remScaleFromPxs(350),
     borderRadius: remScaleFromPxs(8, 15),
     extend: {
