@@ -28,12 +28,7 @@ strong {
 }
 
 a {
-  @apply transition-colors text-white;
+  @apply transition-colors text-white hocus:text-cyan;
 
   text-decoration: none;
-}
-
-a:focus,
-a:hover {
-  @apply text-cyan;
 }

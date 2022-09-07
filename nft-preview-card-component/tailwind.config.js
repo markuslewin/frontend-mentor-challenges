@@ -43,7 +43,7 @@ module.exports = {
   variants: {},
   plugins: [
     require("tailwindcss-logical"),
-    plugin(function ({ addUtilities, theme }) {
+    plugin(function ({ addUtilities, addVariant, theme }) {
       addUtilities({
         ".text-style-heading": {
           fontFamily: theme("fontFamily.outfit"),
@@ -64,6 +64,11 @@ module.exports = {
           lineHeight: theme("lineHeight.sm"),
         },
       });
+      addVariant("hocus", ["&:hover", "&:focus"]);
+      addVariant("group-hocus", [
+        ":merge(.group):hover &",
+        ":merge(.group):focus &",
+      ]);
     }),
   ],
 };
