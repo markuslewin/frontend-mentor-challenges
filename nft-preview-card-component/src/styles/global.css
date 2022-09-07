@@ -28,7 +28,7 @@ strong {
 }
 
 a {
-  @apply text-white;
+  @apply transition-colors text-white;
 
   text-decoration: none;
 }
