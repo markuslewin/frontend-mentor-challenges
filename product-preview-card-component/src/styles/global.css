@@ -6,6 +6,7 @@
 @import "blocks/_button.css";
 @import "blocks/_card.css";
 
+@import "utilities/_box.css";
 @import "utilities/_cluster.css";
 @import "utilities/_cover.css";
 @import "utilities/_splitter.css";
