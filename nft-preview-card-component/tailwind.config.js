@@ -23,11 +23,13 @@ module.exports = {
       outfit: "OutfitVariable, sans-serif",
     },
     fontSize: {
+      xs: pxToRem(15),
       sm: pxToRem(16),
       base: pxToRem(18),
       xl: pxToRem(22),
     },
     lineHeight: {
+      xs: pxToRem(19),
       sm: pxToRem(20),
       base: pxToRem(26),
       xl: pxToRem(28),
@@ -57,12 +59,14 @@ module.exports = {
           fontSize: theme("fontSize.base"),
           lineHeight: theme("lineHeight.base"),
         },
-        ".text-style-caption": {
-          fontFamily: theme("fontFamily.outfit"),
-          fontWeight: theme("fontWeight.normal"),
-          fontSize: theme("fontSize.sm"),
-          lineHeight: theme("lineHeight.sm"),
-        },
+        // should adapt to breakpoints, implemented as a custom utility class
+        // instead.
+        // ".text-style-caption": {
+        //   fontFamily: theme("fontFamily.outfit"),
+        //   fontWeight: theme("fontWeight.normal"),
+        //   fontSize: theme("fontSize.sm"),
+        //   lineHeight: theme("lineHeight.sm"),
+        // },
       });
       addVariant("hocus", ["&:hover", "&:focus"]);
       addVariant("group-hocus", [

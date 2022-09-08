@@ -15,6 +15,13 @@
 /* @tailwind components; */
 @tailwind utilities;
 
+@layer utilities {
+  /* todo: can't be @apply'd for some reason */
+  .text-style-caption {
+    @apply font-outfit font-normal text-xs leading-xs sm:text-sm sm:leading-sm;
+  }
+}
+
 body {
   @apply text-style-body bg-very-dark-blue-main-bg text-soft-blue;
 }

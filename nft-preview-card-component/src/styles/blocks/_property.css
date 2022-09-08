@@ -1,6 +1,4 @@
 .property {
-  @apply text-style-caption;
-
   display: flex;
   align-items: center;
 }
