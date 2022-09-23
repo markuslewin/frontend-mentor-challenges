@@ -31,6 +31,7 @@ h6 strong {
 }
 
 p {
+  margin-inline: auto;
   max-inline-size: 40ch;
 }
 
@@ -51,5 +52,9 @@ p {
   h6 {
     margin-inline: unset;
     font-size: var(--size-700);
+  }
+
+  p {
+    margin-inline: unset;
   }
 }
