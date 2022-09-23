@@ -1,0 +1,10 @@
+[
+  {
+    "name": "Base",
+    "value": ["Inter", "sans-serif"]
+  },
+  {
+    "name": "Small",
+    "value": ["Lexend Deca", "sans-serif"]
+  }
+]

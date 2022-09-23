@@ -1,0 +1,32 @@
+[
+  {
+    "name": "Very dark blue",
+    "description": "Main background",
+    "value": "hsl(233, 47%, 7%)"
+  },
+  {
+    "name": "Dark desaturated blue",
+    "description": "Card background",
+    "value": "hsl(244, 38%, 16%)"
+  },
+  {
+    "name": "Soft violet",
+    "description": "Accent",
+    "value": "hsl(277, 64%, 61%)"
+  },
+  {
+    "name": "White",
+    "description": "Main heading, stats",
+    "value": "hsl(0, 0%, 100%)"
+  },
+  {
+    "name": "Slightly transparent white",
+    "description": "Main paragraph",
+    "value": "hsla(0, 0%, 100%, 0.75)"
+  },
+  {
+    "name": "Slightly transparent white",
+    "description": "Stat headings",
+    "value": "hsla(0, 0%, 100%, 0.6)"
+  }
+]

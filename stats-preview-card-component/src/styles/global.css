@@ -1,4 +1,5 @@
 @import "global-styles/reset";
+@import "global-styles/fonts";
 
 @tailwind base;
 @tailwind components;
