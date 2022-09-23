@@ -1,0 +1,55 @@
+body {
+  text-align: center;
+  line-height: calc(25 / 15);
+  font-size: var(--size-400);
+  font-family: var(--font-base);
+  background: var(--color-very-dark-blue);
+  color: var(--color-slightly-transparent-white);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-inline: auto;
+  max-inline-size: 16ch;
+  line-height: calc(44 / 36);
+  font-size: var(--size-600);
+  color: var(--color-white);
+}
+
+h1 strong,
+h2 strong,
+h3 strong,
+h4 strong,
+h5 strong,
+h6 strong {
+  font-weight: unset;
+  color: var(--color-soft-violet);
+}
+
+p {
+  max-inline-size: 40ch;
+}
+
+[role="list"] {
+  padding: 0;
+}
+
+@screen sm {
+  body {
+    text-align: unset;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    margin-inline: unset;
+    font-size: var(--size-700);
+  }
+}
