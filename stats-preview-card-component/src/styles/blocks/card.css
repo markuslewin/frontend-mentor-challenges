@@ -1,0 +1,24 @@
+.card {
+  --box-padding: 0;
+  --box-background: var(--color-dark-desaturated-blue);
+  --stack-space: var(--space-6_25);
+  --card-picture-order: -1;
+  --card-flex-direction: column;
+
+  inline-size: 100%;
+  display: flex;
+  flex-direction: var(--card-flex-direction);
+  border-radius: var(--rounded-lg);
+  overflow: hidden;
+}
+
+.card > picture {
+  order: var(--card-picture-order);
+}
+
+@screen sm {
+  .card {
+    --card-picture-order: unset;
+    --card-flex-direction: unset;
+  }
+}

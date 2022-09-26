@@ -36,6 +36,7 @@ p {
 }
 
 [role="list"] {
+  margin: 0;
   padding: 0;
 }
 

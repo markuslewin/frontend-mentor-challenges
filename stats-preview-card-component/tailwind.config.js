@@ -1,6 +1,7 @@
 const plugin = require("tailwindcss/plugin");
 
 const pxToRem = require("./css-utils/px-to-rem");
+const remScaleFromPxs = require("./css-utils/rem-scale-from-pxs");
 const tokensToTailwind = require("./css-utils/tokens-to-tailwind");
 const hasVariableFont = require("./css-utils/has-variable-font");
 
@@ -33,21 +34,31 @@ module.exports = {
     colors,
     fontFamily,
     fontSize,
-    extend: {},
+    extend: {
+      width: remScaleFromPxs(1110),
+      spacing: remScaleFromPxs(25, 72),
+    },
   },
   variants: {},
   plugins: [
     plugin(({ addComponents, theme }) => {
       const prefixByProperty = {
+        borderRadius: "rounded",
         colors: "color",
         fontSize: "size",
+        spacing: "space",
+        width: "is",
       };
+
+      function toCustomPropertyName(string) {
+        return string.replace(".", "_").replace("/", "-");
+      }
 
       for (const [property, prefix] of Object.entries(prefixByProperty)) {
         addComponents({
           ":root": Object.fromEntries(
             Object.entries(theme(property)).map(([name, value]) => [
-              `--${prefix}-${name}`,
+              `--${prefix}-${toCustomPropertyName(name)}`,
               value,
             ])
           ),

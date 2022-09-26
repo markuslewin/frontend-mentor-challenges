@@ -1,0 +1,4 @@
+.wrapper {
+  margin-inline: auto;
+  max-inline-size: var(--wrapper-size, var(--is-277_5));
+}

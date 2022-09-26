@@ -1,0 +1,8 @@
+.box {
+  --border-size: 0.125rem;
+
+  background: var(--box-background);
+  padding: var(--box-padding, 2em);
+  outline: var(--border-size) solid transparent;
+  outline-offset: calc(var(--border-size) * -1);
+}
