@@ -36,7 +36,7 @@ module.exports = {
     fontSize,
     extend: {
       width: remScaleFromPxs(1110),
-      spacing: remScaleFromPxs(25, 59, 60, 71, 72, 88),
+      spacing: remScaleFromPxs(25, 59, 60, 63, 71, 72, 88),
       lineHeight: remScaleFromPxs(25, 29, 44),
       letterSpacing: remScaleFromPxs(1),
     },
