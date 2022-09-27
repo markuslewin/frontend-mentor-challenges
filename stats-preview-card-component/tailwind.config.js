@@ -85,10 +85,13 @@ module.exports = {
       matchUtilities(
         {
           "cluster-space": (value) => ({
-            gap: value,
+            "--cluster-space": value,
+          }),
+          "stack-space": (value) => ({
+            "--stack-space": value,
           }),
           "switcher-space": (value) => ({
-            gap: value,
+            "--switcher-space": value,
           }),
         },
         {
