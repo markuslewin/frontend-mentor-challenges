@@ -1,0 +1,12 @@
+.switcher {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  gap: var(--switcher-space, 1em);
+}
+
+@screen md {
+  .switcher {
+    flex-direction: row;
+  }
+}

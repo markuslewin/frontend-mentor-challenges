@@ -87,6 +87,9 @@ module.exports = {
           "cluster-space": (value) => ({
             gap: value,
           }),
+          "switcher-space": (value) => ({
+            gap: value,
+          }),
         },
         {
           values: theme("spacing"),

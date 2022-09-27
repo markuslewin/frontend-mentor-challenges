@@ -10,6 +10,7 @@
 @import "compositions/cluster.css";
 @import "compositions/cover.css";
 @import "compositions/stack.css";
+@import "compositions/switcher.css";
 
 @import "utilities/blend.css";
 @import "utilities/wrapper.css";
