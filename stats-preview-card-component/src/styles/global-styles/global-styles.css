@@ -40,7 +40,7 @@ p {
   padding: 0;
 }
 
-@screen sm {
+@screen md {
   body {
     text-align: unset;
   }

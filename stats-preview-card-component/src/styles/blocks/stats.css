@@ -6,7 +6,7 @@
   gap: var(--space-6);
 }
 
-@screen sm {
+@screen md {
   .stats {
     margin-block-start: var(--space-18);
     flex-direction: row;

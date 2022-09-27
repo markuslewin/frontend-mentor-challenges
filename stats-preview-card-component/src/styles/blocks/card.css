@@ -19,7 +19,7 @@
   order: var(--card-picture-order);
 }
 
-@screen sm {
+@screen md {
   .card {
     --stack-space: var(--space-6_25);
     --card-picture-order: unset;
