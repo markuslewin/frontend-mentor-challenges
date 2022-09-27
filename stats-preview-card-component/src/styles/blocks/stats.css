@@ -1,0 +1,15 @@
+.stats {
+  margin-block-start: var(--space-10);
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  gap: var(--space-6);
+}
+
+@screen sm {
+  .stats {
+    margin-block-start: var(--space-18);
+    flex-direction: row;
+    gap: var(--space-15);
+  }
+}

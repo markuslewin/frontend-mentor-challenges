@@ -36,13 +36,14 @@ module.exports = {
     fontSize,
     extend: {
       width: remScaleFromPxs(1110),
-      spacing: remScaleFromPxs(25, 60, 72),
+      spacing: remScaleFromPxs(25, 59, 60, 72, 88),
       lineHeight: remScaleFromPxs(25, 29),
       letterSpacing: remScaleFromPxs(1),
     },
   },
   variants: {},
   plugins: [
+    require("tailwindcss-logical"),
     // create custom properties
     plugin(({ addComponents, theme }) => {
       const prefixByProperty = {

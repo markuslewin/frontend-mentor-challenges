@@ -7,6 +7,7 @@
 
   inline-size: 100%;
   display: flex;
+  justify-content: space-between;
   flex-direction: var(--card-flex-direction);
   border-radius: var(--rounded-lg);
   overflow: hidden;
