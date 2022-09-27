@@ -3,6 +3,7 @@
 @import "global-styles/global-styles";
 
 @import "blocks/card.css";
+@import "blocks/stat.css";
 
 @import "compositions/box.css";
 @import "compositions/cluster.css";

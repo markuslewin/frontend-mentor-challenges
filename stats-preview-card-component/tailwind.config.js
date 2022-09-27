@@ -36,17 +36,23 @@ module.exports = {
     fontSize,
     extend: {
       width: remScaleFromPxs(1110),
-      spacing: remScaleFromPxs(25, 72),
+      spacing: remScaleFromPxs(25, 60, 72),
+      lineHeight: remScaleFromPxs(25, 29),
+      letterSpacing: remScaleFromPxs(1),
     },
   },
   variants: {},
   plugins: [
+    // create custom properties
     plugin(({ addComponents, theme }) => {
       const prefixByProperty = {
         borderRadius: "rounded",
         colors: "color",
         fontSize: "size",
+        letterSpacing: "tracking",
+        lineHeight: "leading",
         spacing: "space",
+        fontWeight: "weight",
         width: "is",
       };
 
@@ -72,6 +78,19 @@ module.exports = {
           ])
         ),
       });
+    }),
+    // create utilities for css components
+    plugin(({ matchUtilities, theme }) => {
+      matchUtilities(
+        {
+          "cluster-space": (value) => ({
+            gap: value,
+          }),
+        },
+        {
+          values: theme("spacing"),
+        }
+      );
     }),
   ],
 };

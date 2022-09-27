@@ -1,0 +1,18 @@
+.stat {
+  --stack-space: var(--space-0_5);
+}
+
+.stat__number {
+  line-height: var(--leading-7_25);
+  font-weight: var(--weight-bold);
+  font-size: var(--size-500);
+  color: var(--color-white);
+}
+
+.stat__thing {
+  line-height: var(--leading-6_25);
+  font-size: var(--size-300);
+  letter-spacing: var(--tracking-0_25);
+  text-transform: uppercase;
+  font-family: var(--font-small);
+}
