@@ -1,6 +1,6 @@
 body {
   text-align: center;
-  line-height: calc(25 / 15);
+  line-height: var(--leading-6_25);
   font-size: var(--size-400);
   font-family: var(--font-base);
   background: var(--color-very-dark-blue);
@@ -15,7 +15,7 @@ h5,
 h6 {
   margin-inline: auto;
   max-inline-size: 16ch;
-  line-height: calc(44 / 36);
+  line-height: var(--leading-8);
   font-size: var(--size-600);
   color: var(--color-white);
 }
@@ -52,6 +52,7 @@ p {
   h5,
   h6 {
     margin-inline: unset;
+    line-height: var(--leading-11);
     font-size: var(--size-700);
   }
 

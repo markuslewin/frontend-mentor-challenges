@@ -10,7 +10,6 @@
 }
 
 .stat__thing {
-  line-height: var(--leading-6_25);
   font-size: var(--size-300);
   letter-spacing: var(--tracking-0_25);
   text-transform: uppercase;

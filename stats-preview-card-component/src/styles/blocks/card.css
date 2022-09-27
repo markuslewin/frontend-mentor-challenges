@@ -1,7 +1,7 @@
 .card {
   --box-padding: 0;
   --box-background: var(--color-dark-desaturated-blue);
-  --stack-space: var(--space-6_25);
+  --stack-space: var(--space-4);
   --card-picture-order: -1;
   --card-flex-direction: column;
 
@@ -21,6 +21,7 @@
 
 @screen sm {
   .card {
+    --stack-space: var(--space-6_25);
     --card-picture-order: unset;
     --card-flex-direction: unset;
   }
