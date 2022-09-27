@@ -1,0 +1,8 @@
+.blend {
+  background: var(--blend-background);
+}
+
+.blend__target {
+  mix-blend-mode: multiply;
+  opacity: 75.11%;
+}

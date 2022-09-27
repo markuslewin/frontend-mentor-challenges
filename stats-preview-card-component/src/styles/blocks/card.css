@@ -13,6 +13,8 @@
 }
 
 .card > picture {
+  --blend-background: var(--color-soft-violet);
+
   order: var(--card-picture-order);
 }
 
