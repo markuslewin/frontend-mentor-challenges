@@ -15,6 +15,7 @@ const customPropertiesFromTheme = plugin.withOptions(function (
             return [];
           }
           return Object.entries(values).flatMap(([name, valueOrValues]) => {
+            name = name.replace(".", "-");
             if (Array.isArray(valueOrValues)) {
               return [[`--${prefix}-${name}`, valueOrValues.join(", ")]];
             }

@@ -1,0 +1,10 @@
+.switcher {
+  display: flex;
+  flex-direction: column;
+}
+
+@screen md {
+  .switcher {
+    flex-direction: row;
+  }
+}

@@ -1,54 +1,23 @@
-:-moz-focusring {
-  outline: auto;
+h1,
+h2 {
+  font-family: var(--font-big-shoulders-display);
+  text-transform: uppercase;
 }
 
-:focus {
-  outline: var(--color-links) solid 2px;
-  outline-offset: 2px;
+h2 {
+  font-size: var(--fs-10);
+  line-height: var(--leading-12);
 }
 
-html,
 body {
-  padding: 0;
+  padding-inline: var(--space-6);
+  padding-block: var(--space-22);
+  font-family: var(--font-lexend-deca);
+  font-size: var(--fs-body-copy);
+  line-height: var(--leading-6-25);
+}
+
+[role="list"] {
   margin: 0;
-  background-color: var(--color-background);
-  color: var(--color-foreground);
-}
-
-body {
-  font-family: var(--font-body);
-  line-height: 1.5;
-}
-
-a {
-  color: var(--color-links);
-  text-decoration: none;
-}
-
-a:hover {
-  color: var(--color-links-hover);
-  text-decoration: underline;
-}
-
-hr {
-  display: block;
-  height: 1px;
-  border: 0;
-  background-color: var(--color-border);
-  margin-top: 2rem;
-  margin-bottom: 2rem;
-}
-
-input:where([type="text"]),
-input:where([type="search"]) {
-  display: block;
-  border: 1px solid var(--color-border);
-  width: 100%;
-  font: inherit;
-  line-height: 1;
-  height: calc(1ch + 1.5em);
-  padding-right: 0.5em;
-  padding-left: 0.5em;
-  background-color: hsl(0 0% 100% / 20%);
-  color: var(--color-foreground);
+  padding: 0;
 }

@@ -1,0 +1,12 @@
+.button {
+  border: 2px solid var(--button-color-background);
+  display: inline-flex;
+  padding-inline: var(--space-8);
+  padding-block: var(--space-3);
+  border-radius: 9999px;
+  align-items: center;
+  text-transform: capitalize;
+  text-decoration: none;
+  background: var(--button-color-background);
+  color: var(--button-color-foreground);
+}
