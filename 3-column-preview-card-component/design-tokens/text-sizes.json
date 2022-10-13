@@ -1,8 +1,8 @@
 {
   "title": "Text Sizes",
   "items": {
-    "400": {
-      "value": 16
+    "Body Copy": {
+      "value": 15
     }
   }
 }

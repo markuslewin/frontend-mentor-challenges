@@ -18,7 +18,8 @@
     "start": "remix-serve build"
   },
   "dependencies": {
-    "@fontsource/inter": "^4.5.12",
+    "@fontsource/big-shoulders-display": "4.5.9",
+    "@fontsource/lexend-deca": "4.5.11",
     "@remix-run/node": "^1.7.2",
     "@remix-run/react": "^1.7.2",
     "@remix-run/serve": "^1.7.2",

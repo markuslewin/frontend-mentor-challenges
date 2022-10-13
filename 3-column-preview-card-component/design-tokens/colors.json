@@ -1,29 +1,22 @@
 {
   "title": "Colors",
   "items": {
-    "White": {
-      "value": "hsl(0, 0%, 100%)"
+    "Bright orange": {
+      "value": "hsl(31, 77%, 52%)"
     },
-    "Light Gray": {
-      "value": "hsl(0, 0%, 82%)"
+    "Dark cyan": {
+      "value": "hsl(184, 100%, 22%)"
     },
-    "Dark Gray": {
-      "value": "hsl(0, 0%, 25%)"
+    "Very dark cyan": {
+      "value": "hsl(179, 100%, 13%)"
     },
-    "Black": {
-      "value": "hsl(0, 0%, 7%)"
+    "Transparent white": {
+      "description": "Paragraphs",
+      "value": "hsla(0, 0%, 100%, 0.75)"
     },
-    "Blue 300": {
-      "value": "hsl(213, 100%, 80%)"
-    },
-    "Blue 400": {
-      "value": "hsl(213, 100%, 73%)"
-    },
-    "Blue 500": {
-      "value": "hsl(213, 100%, 52%)"
-    },
-    "Blue 600": {
-      "value": "hsl(213, 100%, 43%)"
+    "Very light gray": {
+      "description": "Background, headings, buttons",
+      "value": "hsl(0, 0%, 95%)"
     }
   }
 }

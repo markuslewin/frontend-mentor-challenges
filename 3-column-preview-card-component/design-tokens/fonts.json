@@ -1,11 +1,11 @@
 {
   "title": "Fonts",
   "items": {
-    "Base": {
-      "value": ["Inter", "sans-serif"]
+    "Lexend Deca": {
+      "value": ["Lexend Deca", "sans-serif"]
     },
-    "Serif": {
-      "value": ["Georgia", "serif"]
+    "Big Shoulders Display": {
+      "value": ["Big Shoulders Display", "cursive"]
     }
   }
 }
