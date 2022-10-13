@@ -1,0 +1,29 @@
+{
+  "title": "Colors",
+  "items": {
+    "White": {
+      "value": "hsl(0, 0%, 100%)"
+    },
+    "Light Gray": {
+      "value": "hsl(0, 0%, 82%)"
+    },
+    "Dark Gray": {
+      "value": "hsl(0, 0%, 25%)"
+    },
+    "Black": {
+      "value": "hsl(0, 0%, 7%)"
+    },
+    "Blue 300": {
+      "value": "hsl(213, 100%, 80%)"
+    },
+    "Blue 400": {
+      "value": "hsl(213, 100%, 73%)"
+    },
+    "Blue 500": {
+      "value": "hsl(213, 100%, 52%)"
+    },
+    "Blue 600": {
+      "value": "hsl(213, 100%, 43%)"
+    }
+  }
+}
