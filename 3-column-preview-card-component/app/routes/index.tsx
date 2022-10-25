@@ -33,7 +33,10 @@ export default function Index() {
             const Icon = card.icon;
             return (
               <li key={index}>
-                <article className={`[ card ] [ flow ] [ ${card.utility} ]`}>
+                <article
+                  className={`[ card ] [ flow ] [ ${card.utility} ]`}
+                  data-flow-split="3"
+                >
                   <Icon aria-hidden="true" />
                   <h2>{card.title}</h2>
                   <p>{card.description}</p>

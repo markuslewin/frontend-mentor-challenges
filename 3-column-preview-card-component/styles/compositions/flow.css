@@ -1,3 +1,16 @@
+.flow {
+  display: flex;
+  flex-direction: column;
+}
+
 .flow > * + * {
   margin-block-start: var(--flow-space, 1em);
+}
+
+.flow[data-flow-split]:only-child {
+  block-size: 100%;
+}
+
+.flow[data-flow-split="3"] > *:nth-child(3) {
+  margin-block-end: auto;
 }
