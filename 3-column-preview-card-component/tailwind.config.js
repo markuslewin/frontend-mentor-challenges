@@ -32,8 +32,8 @@ module.exports = {
     extend: {
       fontSize: pxsToRemScale(40),
       lineHeight: pxsToRemScale(25, 48),
-      spacing: pxsToRemScale(88),
-      width: pxsToRemScale(920),
+      spacing: pxsToRemScale(88, 171),
+      width: pxsToRemScale(500, 920),
     },
   },
   // Disables Tailwind's reset etc

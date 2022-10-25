@@ -6,7 +6,7 @@ export default function Index() {
       <article className="center">
         <h1 className="sr-only">3-column preview card component</h1>
         {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
-        <ul className="switcher" role="list">
+        <ul className="[ switcher ] [ overflow-hidden rounded-lg ]" role="list">
           {[
             {
               icon: IconSedans,

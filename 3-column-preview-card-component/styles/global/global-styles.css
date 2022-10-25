@@ -17,6 +17,12 @@ body {
   line-height: var(--leading-6-25);
 }
 
+@screen md {
+  body {
+    padding-block: var(--space-42-75);
+  }
+}
+
 [role="list"] {
   margin: 0;
   padding: 0;

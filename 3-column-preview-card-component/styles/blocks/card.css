@@ -13,3 +13,9 @@
 .card h2 {
   color: var(--card-color-display);
 }
+
+@screen md {
+  .card {
+    min-block-size: var(--size-125);
+  }
+}
