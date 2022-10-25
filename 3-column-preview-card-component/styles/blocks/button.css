@@ -1,4 +1,7 @@
 .button {
+  --button-color-_background: var(--button-color-background);
+  --button-color-_foreground: var(--button-color-foreground);
+
   border: 2px solid var(--button-color-background);
   display: inline-flex;
   padding-inline: var(--space-8);
@@ -7,6 +10,12 @@
   align-items: center;
   text-transform: capitalize;
   text-decoration: none;
-  background: var(--button-color-background);
-  color: var(--button-color-foreground);
+  background: var(--button-color-_background);
+  color: var(--button-color-_foreground);
+}
+
+.button:hover,
+.button:focus {
+  --button-color-_background: transparent;
+  --button-color-_foreground: var(--button-color-background);
 }
