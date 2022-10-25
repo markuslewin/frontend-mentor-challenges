@@ -33,6 +33,7 @@ module.exports = {
       fontSize: pxsToRemScale(40),
       lineHeight: pxsToRemScale(25, 48),
       spacing: pxsToRemScale(88),
+      width: pxsToRemScale(920),
     },
   },
   // Disables Tailwind's reset etc
@@ -47,6 +48,7 @@ module.exports = {
       fontSize: "fs",
       lineHeight: "leading",
       spacing: "space",
+      width: "size",
     }),
     // Custom utility classes
     plugin(({ matchUtilities, theme }) => {

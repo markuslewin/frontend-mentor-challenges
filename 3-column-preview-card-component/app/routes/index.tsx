@@ -3,7 +3,7 @@ import { IconLuxury, IconSedans, IconSuvs } from "../svgs";
 export default function Index() {
   return (
     <main>
-      <article>
+      <article className="center">
         <h1 className="sr-only">3-column preview card component</h1>
         {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
         <ul className="switcher" role="list">
