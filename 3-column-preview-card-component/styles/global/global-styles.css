@@ -10,6 +10,7 @@ h2 {
 }
 
 body {
+  background: var(--color-background);
   padding-inline: var(--space-6);
   padding-block: var(--space-22);
   font-family: var(--font-lexend-deca);

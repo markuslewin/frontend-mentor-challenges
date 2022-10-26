@@ -1,4 +1,5 @@
 :root {
+  --color-background: var(--color-very-light-gray);
   --column-size: var(--size-82-5);
 }
 
