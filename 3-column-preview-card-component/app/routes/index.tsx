@@ -17,32 +17,33 @@ export default function Index() {
               title: "Sedans",
               description:
                 "Choose a sedan for its affordability and excellent fuel economy. Ideal for cruising in the city or on your next road trip.",
-              utility: "card-color-bright-orange",
+              theme: "Bright orange",
             },
             {
               icon: IconSuvs,
               title: "SUVs",
               description:
                 "Take an SUV for its spacious interior, power, and versatility. Perfect for your next family vacation and off-road adventures.",
-              utility: "card-color-dark-cyan",
+              theme: "Dark cyan",
             },
             {
               icon: IconLuxury,
               title: "Luxury",
               description:
                 "Cruise in the best car brands without the bloated prices. Enjoy the enhanced comfort of a luxury rental and arrive in style.",
-              utility: "card-color-very-dark-cyan",
+              theme: "Very dark cyan",
             },
           ].map((card, index) => {
             const Icon = card.icon;
             return (
               <li key={index}>
                 <article
-                  className={`[ card ] [ flow ] [ ${card.utility} flow-space-6.25 ]`}
+                  className={`[ card ] [ box flow ]`}
+                  data-card-theme={card.theme}
                   data-flow-split="3"
                 >
                   <Icon aria-hidden="true" />
-                  <h2 className="flow-space-8.75">{card.title}</h2>
+                  <h2>{card.title}</h2>
                   <p>{card.description}</p>
                   <p>
                     {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}

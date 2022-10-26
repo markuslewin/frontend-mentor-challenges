@@ -1,3 +1,9 @@
 :root {
-  --column-size: var(--size-230);
+  --column-size: var(--size-82-5);
+}
+
+@screen md {
+  :root {
+    --column-size: var(--size-230);
+  }
 }

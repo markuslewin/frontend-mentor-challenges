@@ -5,12 +5,28 @@
   --button-color-background: var(--card-color-display);
   --button-color-foreground: var(--card-color);
 
-  padding: var(--space-12);
-  background: var(--card-color);
-  color: var(--card-color-body);
+  --box-size-padding: var(--space-12);
+  --box-color-background: var(--card-color);
+  --box-color-foreground: var(--card-color-body);
+
+  --flow-space: var(--space-6-25);
+}
+
+.card[data-card-theme="Bright orange"] {
+  --card-color: var(--color-bright-orange);
+}
+
+.card[data-card-theme="Dark cyan"] {
+  --card-color: var(--color-dark-cyan);
+}
+
+.card[data-card-theme="Very dark cyan"] {
+  --card-color: var(--color-very-dark-cyan);
 }
 
 .card h2 {
+  --flow-space: var(--space-8-75);
+
   color: var(--card-color-display);
 }
 

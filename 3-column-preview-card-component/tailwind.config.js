@@ -33,7 +33,7 @@ module.exports = {
       fontSize: pxsToRemScale(40),
       lineHeight: pxsToRemScale(25, 48),
       spacing: pxsToRemScale(25, 35, 88, 171),
-      width: pxsToRemScale(500, 920),
+      width: pxsToRemScale(330, 500, 920),
     },
   },
   // Disables Tailwind's reset etc
@@ -43,6 +43,7 @@ module.exports = {
   plugins: [
     require("tailwindcss-logical"),
     customPropertiesFromTheme({
+      borderWidth: "border",
       colors: "color",
       fontFamily: "font",
       fontSize: "fs",
