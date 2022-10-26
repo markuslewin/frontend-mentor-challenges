@@ -1,6 +1,7 @@
 .box {
   --box-size-border: var(--border-2);
 
+  border-radius: var(--box-border-radius);
   outline: var(--box-size-border) solid transparent;
   outline-offset: calc(var(--box-size-border) * -1);
   background: var(--box-color-background);

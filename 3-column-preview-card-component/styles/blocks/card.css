@@ -5,6 +5,7 @@
   --button-color-background: var(--card-color-display);
   --button-color-foreground: var(--card-color);
 
+  --box-border-radius: var(--card-border-radius);
   --box-size-padding: var(--space-12);
   --box-color-background: var(--card-color);
   --box-color-foreground: var(--card-color-body);

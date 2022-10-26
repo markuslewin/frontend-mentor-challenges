@@ -1,0 +1,24 @@
+.cards {
+  --cards-border-radius: var(--rounded-lg);
+  --cards-first-border-radius: var(--cards-border-radius)
+    var(--cards-border-radius) 0 0;
+  --cards-last-border-radius: 0 0 var(--cards-border-radius)
+    var(--cards-border-radius);
+}
+
+.cards > .card:first-child {
+  --card-border-radius: var(--cards-first-border-radius);
+}
+
+.cards > .card:last-child {
+  --card-border-radius: var(--cards-last-border-radius);
+}
+
+@screen md {
+  .cards {
+    --cards-first-border-radius: var(--cards-border-radius) 0 0
+      var(--cards-border-radius);
+    --cards-last-border-radius: 0 var(--cards-border-radius)
+      var(--cards-border-radius) 0;
+  }
+}

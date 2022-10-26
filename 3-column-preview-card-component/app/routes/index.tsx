@@ -7,7 +7,7 @@ export default function Index() {
         <h1 className="sr-only">3-column preview card component</h1>
         {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
         <ul
-          className="[ switcher ] [ overflow-hidden rounded-lg ]"
+          className="[ cards ] [ switcher ]"
           role="list"
           data-switcher-distribute="evenly"
         >
@@ -36,12 +36,8 @@ export default function Index() {
           ].map((card, index) => {
             const Icon = card.icon;
             return (
-              <li key={index}>
-                <article
-                  className={`[ card ] [ box flow ]`}
-                  data-card-theme={card.theme}
-                  data-flow-split="3"
-                >
+              <li className="card" key={index} data-card-theme={card.theme}>
+                <article className={`box flow`} data-flow-split="3">
                   <Icon aria-hidden="true" />
                   <h2>{card.title}</h2>
                   <p>{card.description}</p>

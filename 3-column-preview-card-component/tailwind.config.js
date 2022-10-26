@@ -43,6 +43,7 @@ module.exports = {
   plugins: [
     require("tailwindcss-logical"),
     customPropertiesFromTheme({
+      borderRadius: "rounded",
       borderWidth: "border",
       colors: "color",
       fontFamily: "font",
