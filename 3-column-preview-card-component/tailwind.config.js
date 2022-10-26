@@ -32,7 +32,7 @@ module.exports = {
     extend: {
       fontSize: pxsToRemScale(40),
       lineHeight: pxsToRemScale(25, 48),
-      spacing: pxsToRemScale(88, 171),
+      spacing: pxsToRemScale(25, 35, 88, 171),
       width: pxsToRemScale(500, 920),
     },
   },

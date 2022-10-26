@@ -1,13 +1,16 @@
 .button {
   --button-color-_background: var(--button-color-background);
   --button-color-_foreground: var(--button-color-foreground);
+  --button-size-border: 2px;
 
-  border: 2px solid var(--button-color-background);
+  border: var(--button-size-border) solid var(--button-color-background);
   display: inline-flex;
-  padding-inline: var(--space-8);
-  padding-block: var(--space-3);
+  padding-inline: calc(var(--space-8) - var(--button-size-border));
+  block-size: var(--size-12);
   border-radius: 9999px;
+  justify-content: center;
   align-items: center;
+  white-space: nowrap;
   text-transform: capitalize;
   text-decoration: none;
   background: var(--button-color-_background);
@@ -15,7 +18,7 @@
 }
 
 .button:hover,
-.button:focus {
+.button:focus-visible {
   --button-color-_background: transparent;
   --button-color-_foreground: var(--button-color-background);
 }

@@ -3,6 +3,10 @@
   flex-direction: column;
 }
 
+.switcher[data-switcher-distribute="evenly"] > * {
+  flex: 1;
+}
+
 @screen md {
   .switcher {
     flex-direction: row;

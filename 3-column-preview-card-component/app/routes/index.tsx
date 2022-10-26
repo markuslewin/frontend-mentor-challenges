@@ -6,7 +6,11 @@ export default function Index() {
       <article className="center">
         <h1 className="sr-only">3-column preview card component</h1>
         {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
-        <ul className="[ switcher ] [ overflow-hidden rounded-lg ]" role="list">
+        <ul
+          className="[ switcher ] [ overflow-hidden rounded-lg ]"
+          role="list"
+          data-switcher-distribute="evenly"
+        >
           {[
             {
               icon: IconSedans,
@@ -34,11 +38,11 @@ export default function Index() {
             return (
               <li key={index}>
                 <article
-                  className={`[ card ] [ flow ] [ ${card.utility} ]`}
+                  className={`[ card ] [ flow ] [ ${card.utility} flow-space-6.25 ]`}
                   data-flow-split="3"
                 >
                   <Icon aria-hidden="true" />
-                  <h2>{card.title}</h2>
+                  <h2 className="flow-space-8.75">{card.title}</h2>
                   <p>{card.description}</p>
                   <p>
                     {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
