@@ -12,7 +12,8 @@
     "dev": "run-p \"dev:*\"",
     "dev:css": "npm run generate:css -- --watch",
     "dev:svgs": "watch \"npm run generate:svgs\" svgs",
-    "dev:remix": "remix dev",
+    "dev:remix": "remix watch",
+    "dev:netlify": "cross-env NODE_ENV=development netlify dev",
     "generate:css": "postcss styles/global.css --dir app/styles",
     "generate:svgs": "svgr --typescript --out-dir app/svgs svgs",
     "start": "remix-serve build"
@@ -20,6 +21,8 @@
   "dependencies": {
     "@fontsource/big-shoulders-display": "4.5.9",
     "@fontsource/lexend-deca": "4.5.11",
+    "@netlify/functions": "^1.3.0",
+    "@remix-run/netlify": "^1.7.4",
     "@remix-run/node": "^1.7.2",
     "@remix-run/react": "^1.7.2",
     "@remix-run/serve": "^1.7.2",
@@ -33,6 +36,7 @@
     "@types/react": "^17.0.24",
     "@types/react-dom": "^17.0.9",
     "autoprefixer": "^10.4.12",
+    "cross-env": "^7.0.3",
     "cssnano": "^5.1.13",
     "eslint": "^8.25.0",
     "eslint-config-prettier": "^8.5.0",
