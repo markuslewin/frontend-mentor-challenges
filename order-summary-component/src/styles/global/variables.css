@@ -13,5 +13,7 @@
   --weight-bold: 700;
   --weight-black: 900;
 
+  /* alias */
+  --background-color: var(--color-pale-blue);
   --column-size: 28.125rem;
 }

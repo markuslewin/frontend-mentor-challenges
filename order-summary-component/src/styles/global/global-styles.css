@@ -1,5 +1,17 @@
 body {
+  --background-image: url("/src/images/pattern-background-mobile.svg");
+
   font-family: var(--font);
+  background-image: var(--background-image);
+  background-color: var(--background-color);
+  background-repeat: no-repeat;
+  background-size: 100%;
+}
+
+@media (min-width: 40em) {
+  body {
+    --background-image: url("/src/images/pattern-background-desktop.svg");
+  }
 }
 
 button {
