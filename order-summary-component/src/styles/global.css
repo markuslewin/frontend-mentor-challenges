@@ -1,1 +1,7 @@
-@import "./global/*.css";
+@import "./global/reset.css";
+@import "./global/fonts.css";
+@import "./global/variables.css";
+@import "./global/global-styles.css";
+
+@import "./compositions/*.css";
+@import "./utilities/*.css";

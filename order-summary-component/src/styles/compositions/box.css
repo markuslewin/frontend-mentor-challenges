@@ -1,0 +1,12 @@
+.box {
+  --box-size-border: 2px;
+
+  padding: var(--box-space, 1em);
+  border-radius: var(--box-radius, 1em);
+  outline: var(--box-size-border) solid transparent;
+  outline-offset: calc(var(--box-size-border) * -1);
+}
+
+.box:focus {
+  outline-color: unset;
+}

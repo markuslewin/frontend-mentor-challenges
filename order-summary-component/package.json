@@ -13,5 +13,8 @@
   "devDependencies": {
     "@parcel/resolver-glob": "^2.8.0",
     "parcel": "^2.8.0"
+  },
+  "dependencies": {
+    "@fontsource/red-hat-display": "^4.5.11"
   }
 }

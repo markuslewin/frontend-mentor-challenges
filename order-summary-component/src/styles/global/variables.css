@@ -1,0 +1,17 @@
+:root {
+  /* primary */
+  --color-pale-blue: hsl(225, 100%, 94%);
+  --color-bright-blue: hsl(245, 75%, 52%);
+  /* neutral */
+  --color-very-pale-blue: hsl(225, 100%, 98%);
+  --color-desaturated-blue: hsl(224, 23%, 55%);
+  --color-dark-blue: hsl(223, 47%, 23%);
+
+  --font: "Red Hat DisplayVariable", sans-serif;
+
+  --weight-medium: 500;
+  --weight-bold: 700;
+  --weight-black: 900;
+
+  --column-size: 28.125rem;
+}
