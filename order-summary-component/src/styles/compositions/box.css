@@ -5,6 +5,8 @@
   border-radius: var(--box-radius, 1em);
   outline: var(--box-size-border) solid transparent;
   outline-offset: calc(var(--box-size-border) * -1);
+  background: var(--box-background, var(--color-layer-1));
+  color: var(--box-foreground);
 }
 
 .box:focus {

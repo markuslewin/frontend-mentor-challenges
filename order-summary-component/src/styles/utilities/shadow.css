@@ -1,0 +1,4 @@
+.shadow-layer-2 {
+  box-shadow: 0 var(--size-200) var(--size-200)
+    hsl(var(--shadow-color-fr, 0 0% 0%) / 0.19);
+}

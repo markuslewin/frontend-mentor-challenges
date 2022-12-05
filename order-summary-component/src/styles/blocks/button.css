@@ -1,0 +1,12 @@
+.button {
+  --box-radius: var(--size-100);
+  --box-space: var(--space-100);
+  --box-background: hsl(var(--color-fr-primary));
+  --box-foreground: var(--color-white);
+
+  --shadow-color-fr: var(--color-fr-primary);
+
+  font-size: var(--fs-75);
+  font-weight: var(--weight-black);
+  line-height: var(--leading-200);
+}

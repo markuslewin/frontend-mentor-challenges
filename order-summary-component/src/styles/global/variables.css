@@ -1,11 +1,13 @@
 :root {
   /* primary */
   --color-pale-blue: hsl(225, 100%, 94%);
-  --color-bright-blue: hsl(245, 75%, 52%);
+  --color-fr-bright-blue: 245 75% 52%;
   /* neutral */
   --color-very-pale-blue: hsl(225, 100%, 98%);
   --color-desaturated-blue: hsl(224, 23%, 55%);
   --color-dark-blue: hsl(223, 47%, 23%);
+  /* other */
+  --color-white: hsl(0, 100%, 100%);
 
   --font: "Red Hat DisplayVariable", sans-serif;
 
@@ -13,7 +15,35 @@
   --weight-bold: 700;
   --weight-black: 900;
 
-  /* alias */
-  --background-color: var(--color-pale-blue);
-  --column-size: 28.125rem;
+  --fs-25: 0.8125rem; /* 13px */
+  --fs-50: 0.875rem; /* 14px */
+  --fs-75: 0.9375rem; /* 15px */
+  --fs-100: 1rem; /* 16px */
+  --fs-300: 1.375rem; /* 22px */
+  --fs-400: 1.75rem; /* 28px */
+
+  --leading-125: 1.0625rem; /* 17px */
+  --leading-175: 1.1875rem; /* 19px */
+  --leading-200: 1.25rem; /* 20px */
+  --leading-225: 1.3125rem; /* 21px */
+  --leading-300: 1.5625rem; /* 25px */
+  --leading-325: 1.625rem; /* 26px */
+  --leading-400: 1.8125rem; /* 29px */
+  --leading-700: 2.3125rem; /* 37px */
+
+  --size-100: 0.6875rem; /* 11px */
+  --size-200: 1.25rem; /* 20px */
+  --size-300: 3rem; /* 48px */
+  --size-700: 28.125rem; /* 450px */
+
+  --space-100: 0.9375rem; /* 15px */
+  --space-150: 1.0625rem; /* 17px */
+  --space-200: 1.25rem; /* 20px */
+  --space-250: 1.5rem; /* 24px */
+  --space-275: 1.5625rem; /* 25px */
+  --space-300: 2rem; /* 32px */
+  --space-350: 2.8125rem; /* 45px */
+  --space-400: 3rem; /* 48px */
+  --space-600: 4.4375rem; /* 71px */
+  --space-700: 6.375rem; /* 102px */
 }

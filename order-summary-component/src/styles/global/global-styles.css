@@ -1,4 +1,9 @@
 body {
+  --background-color: var(--color-pale-blue);
+  --column-size: var(--size-700);
+  --color-layer-1: var(--color-white);
+  --color-fr-primary: var(--color-fr-bright-blue);
+
   --background-image: url("/src/images/pattern-background-mobile.svg");
 
   font-family: var(--font);
