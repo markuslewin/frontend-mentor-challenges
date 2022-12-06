@@ -27,6 +27,8 @@
 
 .card ul:last-child {
   --stack-space: var(--space-300);
+
+  line-height: 0;
 }
 
 @media (min-width: 40em) {

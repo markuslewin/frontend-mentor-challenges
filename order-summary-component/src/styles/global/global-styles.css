@@ -12,6 +12,7 @@ body {
   padding-block: var(--padding-block);
   font-family: var(--font);
   font-weight: var(--weight-medium);
+  line-height: var(--leading-325);
   color: var(--color-desaturated-blue);
   background-image: var(--background-image);
   background-color: var(--background-color);
@@ -22,7 +23,7 @@ body {
 h1 {
   font-size: var(--fs-400);
   font-weight: var(--weight-black);
-  line-height: 1;
+  line-height: var(--leading-700);
   color: var(--color-dark-blue);
 }
 
