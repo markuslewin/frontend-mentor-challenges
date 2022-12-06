@@ -10,3 +10,9 @@
   font-weight: var(--weight-black);
   line-height: var(--leading-200);
 }
+
+.button[data-button-variant="text"] {
+  padding: 0;
+  background: none;
+  color: var(--color-desaturated-blue);
+}
