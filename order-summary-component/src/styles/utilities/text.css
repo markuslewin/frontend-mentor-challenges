@@ -1,6 +1,14 @@
 .text-link {
-  font-size: var(--fs-50);
+  font-size: var(--fs-25);
   font-weight: var(--weight-bold);
+  line-height: var(--leading-125);
   text-decoration: underline;
   color: hsl(var(--color-fr-primary));
+}
+
+@media (min-width: 40em) {
+  .text-link {
+    font-size: var(--fs-50);
+    line-height: var(--leading-175);
+  }
 }

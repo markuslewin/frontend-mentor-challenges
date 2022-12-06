@@ -1,0 +1,3 @@
+.bleed {
+  margin-inline: calc(-1 * var(--bleed-space, 1em));
+}

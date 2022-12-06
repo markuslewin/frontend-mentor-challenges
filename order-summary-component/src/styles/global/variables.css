@@ -38,8 +38,11 @@
   --size-300: 3rem; /* 48px */
   --size-700: 28.125rem; /* 450px */
 
+  --space-25: 0.1875rem; /* 3px */
   --space-50: 0.375rem; /* 6px */
+  --space-75: 0.5rem; /* 8px */
   --space-100: 0.9375rem; /* 15px */
+  --space-125: 1rem; /* 16px */
   --space-150: 1.0625rem; /* 17px */
   --space-200: 1.25rem; /* 20px */
   --space-250: 1.5rem; /* 24px */

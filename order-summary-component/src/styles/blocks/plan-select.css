@@ -1,13 +1,26 @@
 .plan-select {
   --box-background: var(--color-very-pale-blue);
   --box-radius: var(--size-100);
-  --box-space: var(--space-275) var(--space-250);
+  --box-space: var(--space-150) var(--space-125) var(--space-125)
+    var(--space-125);
 
   --cluster-align: center;
   --cluster-space: var(--space-200);
 
-  --stack-space: var(--space-50);
+  --stack-space: var(--space-25);
 
   text-align: start;
-  line-height: var(--leading-225);
+  font-size: var(--fs-50);
+  line-height: var(--leading-175);
+}
+
+@media (min-width: 40em) {
+  .plan-select {
+    --box-space: var(--space-275) var(--space-250);
+
+    --stack-space: var(--space-50);
+
+    font-size: var(--fs-100);
+    line-height: var(--leading-225);
+  }
 }

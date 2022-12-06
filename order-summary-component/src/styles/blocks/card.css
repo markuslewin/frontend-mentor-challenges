@@ -1,11 +1,12 @@
 .card {
   --card-radius: var(--size-200);
 
+  --bleed-space: var(--space-75);
+
   --box-space: 0;
   --box-radius: var(--card-radius);
 
-  --container-space: var(--space-350) var(--space-400) var(--space-400)
-    var(--space-400);
+  --container-space: var(--space-300);
 
   --shadow-color-fr: var(--color-fr-blue);
 
@@ -18,20 +19,36 @@
 }
 
 .card h1 ~ * {
-  --stack-space: var(--space-200);
+  --stack-space: var(--space-250);
 }
 
 .card h1 + * {
-  --stack-space: var(--space-150);
+  --stack-space: var(--space-125);
 }
 
 .card ul:last-child {
-  --stack-space: var(--space-300);
+  --stack-space: var(--space-250);
 
   line-height: 0;
 }
 
 @media (min-width: 40em) {
   .card {
+    --bleed-space: 0;
+
+    --container-space: var(--space-350) var(--space-400) var(--space-400)
+      var(--space-400);
+  }
+
+  .card h1 ~ * {
+    --stack-space: var(--space-200);
+  }
+
+  .card h1 + * {
+    --stack-space: var(--space-150);
+  }
+
+  .card ul:last-child {
+    --stack-space: var(--space-300);
   }
 }

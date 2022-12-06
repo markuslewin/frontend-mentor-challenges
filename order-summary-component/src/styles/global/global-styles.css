@@ -11,8 +11,9 @@ body {
 
   padding-block: var(--padding-block);
   font-family: var(--font);
+  font-size: var(--fs-75);
   font-weight: var(--weight-medium);
-  line-height: var(--leading-325);
+  line-height: var(--leading-300);
   color: var(--color-desaturated-blue);
   background-image: var(--background-image);
   background-color: var(--background-color);
@@ -21,9 +22,9 @@ body {
 }
 
 h1 {
-  font-size: var(--fs-400);
+  font-size: var(--fs-300);
   font-weight: var(--weight-black);
-  line-height: var(--leading-700);
+  line-height: var(--leading-400);
   color: var(--color-dark-blue);
 }
 
@@ -45,5 +46,13 @@ ul[role="list"] {
   body {
     --padding-block: var(--space-700);
     --background-image: url("/src/images/pattern-background-desktop.svg");
+
+    font-size: var(--fs-100);
+    line-height: var(--leading-325);
+  }
+
+  h1 {
+    font-size: var(--fs-400);
+    line-height: var(--leading-700);
   }
 }
