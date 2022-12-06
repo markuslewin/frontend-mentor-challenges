@@ -1,5 +1,10 @@
 .cluster {
   display: flex;
   flex-wrap: wrap;
+  align-items: var(--cluster-align);
   gap: var(--cluster-space, 1em);
+}
+
+.cluster[data-cluster-split="2"] > *:nth-child(3) {
+  margin-inline-start: auto;
 }

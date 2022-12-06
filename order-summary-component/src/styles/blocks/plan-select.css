@@ -1,0 +1,13 @@
+.plan-select {
+  --box-background: var(--color-very-pale-blue);
+  --box-radius: var(--size-100);
+  --box-space: var(--space-275) var(--space-250);
+
+  --cluster-align: center;
+  --cluster-space: var(--space-200);
+
+  --stack-space: var(--space-50);
+
+  text-align: start;
+  line-height: var(--leading-225);
+}

@@ -3,6 +3,6 @@
   flex-direction: column;
 }
 
-.stack > * + * {
+.stack > *:not(.visually-hidden) + * {
   margin-block-start: var(--stack-space, 1em);
 }

@@ -1,0 +1,6 @@
+.text-link {
+  font-size: var(--fs-50);
+  font-weight: var(--weight-bold);
+  text-decoration: underline;
+  color: hsl(var(--color-fr-primary));
+}
