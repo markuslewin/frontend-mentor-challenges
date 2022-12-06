@@ -14,51 +14,53 @@
   </head>
   <body>
     <main class="container">
-      <article class="box stack">
+      <article class="[ card ] [ box stack ] [ shadow-layer-1 ]">
         <img alt="" src="images/illustration-hero.svg" />
-        <h1>Order Summary</h1>
-        <p>
-          You can now listen to millions of songs, audiobooks, and podcasts on
-          any device anywhere you like!
-        </p>
-        <form class="stack">
-          <label class="visually-hidden" aria-hidden="true">
-            Plan
-            <select name="plan" tabindex="-1">
-              <option value="annual">Annual</option>
-            </select>
-          </label>
-          <button
-            class="cluster box"
-            type="button"
-            aria-haspopup="listbox"
-            aria-expanded="false"
-          >
-            <img alt="" src="images/icon-music.svg" />
-            <span class="stack">
-              <strong>Annual Plan</strong>
-              <span>$59.99/year</span>
-            </span>
-            <span aria-hidden="true">Change</span>
-          </button>
-          <ul class="stack" role="list">
-            <li>
-              <button
-                class="[ button ] [ box block ] [ shadow-layer-2 ]"
-                type="submit"
-                name="intent"
-                value="proceed"
-              >
-                Proceed to Payment
-              </button>
-            </li>
-            <li>
-              <button type="submit" name="intent" value="cancel">
-                Cancel Order
-              </button>
-            </li>
-          </ul>
-        </form>
+        <div class="container stack">
+          <h1>Order Summary</h1>
+          <p>
+            You can now listen to millions of songs, audiobooks, and podcasts on
+            any device anywhere you like!
+          </p>
+          <form class="stack">
+            <label class="visually-hidden" aria-hidden="true">
+              Plan
+              <select name="plan" tabindex="-1">
+                <option value="annual">Annual</option>
+              </select>
+            </label>
+            <button
+              class="cluster box"
+              type="button"
+              aria-haspopup="listbox"
+              aria-expanded="false"
+            >
+              <img alt="" src="images/icon-music.svg" />
+              <span class="stack">
+                <strong>Annual Plan</strong>
+                <span>$59.99/year</span>
+              </span>
+              <span aria-hidden="true">Change</span>
+            </button>
+            <ul class="stack" role="list">
+              <li>
+                <button
+                  class="[ button ] [ box block ] [ shadow-layer-2 ]"
+                  type="submit"
+                  name="intent"
+                  value="proceed"
+                >
+                  Proceed to Payment
+                </button>
+              </li>
+              <li>
+                <button type="submit" name="intent" value="cancel">
+                  Cancel Order
+                </button>
+              </li>
+            </ul>
+          </form>
+        </div>
       </article>
     </main>
   </body>

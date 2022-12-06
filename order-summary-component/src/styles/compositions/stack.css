@@ -1,5 +1,8 @@
 .stack {
   display: flex;
   flex-direction: column;
-  gap: var(--stack-space, 1em);
+}
+
+.stack > * + * {
+  margin-block-start: var(--stack-space, 1em);
 }

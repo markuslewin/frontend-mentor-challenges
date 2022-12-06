@@ -8,6 +8,7 @@
   --color-dark-blue: hsl(223, 47%, 23%);
   /* other */
   --color-white: hsl(0, 100%, 100%);
+  --color-fr-blue: 228 87% 39%;
 
   --font: "Red Hat DisplayVariable", sans-serif;
 
@@ -33,6 +34,7 @@
 
   --size-100: 0.6875rem; /* 11px */
   --size-200: 1.25rem; /* 20px */
+  --size-275: 2.5rem; /* 40px */
   --size-300: 3rem; /* 48px */
   --size-700: 28.125rem; /* 450px */
 
