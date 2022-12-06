@@ -7,7 +7,7 @@ body {
   --padding-block: var(--space-600);
   --background-image: url("/src/images/pattern-background-mobile.svg");
 
-  --container-space: var(--space-250);
+  --center-space: var(--space-250);
 
   padding-block: var(--padding-block);
   font-family: var(--font);

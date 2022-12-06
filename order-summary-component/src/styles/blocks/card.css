@@ -4,7 +4,7 @@
   --box-space: 0;
   --box-radius: var(--card-radius);
 
-  --container-space: var(--space-250);
+  --center-space: var(--space-250);
 
   --shadow-color-fr: var(--color-fr-blue);
 
@@ -28,7 +28,7 @@
 
 @media (min-width: 40em) {
   .card {
-    --container-space: var(--space-400);
+    --center-space: var(--space-400);
 
     --stack-space: var(--space-350);
   }
