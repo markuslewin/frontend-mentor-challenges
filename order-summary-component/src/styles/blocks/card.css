@@ -4,11 +4,10 @@
   --box-space: 0;
   --box-radius: var(--card-radius);
 
-  --center-space: var(--space-250);
+  --container-space: var(--space-350) var(--space-400) var(--space-400)
+    var(--space-400);
 
   --shadow-color-fr: var(--color-fr-blue);
-
-  --stack-space: var(--space-300);
 
   text-align: center;
 }
@@ -26,10 +25,11 @@
   --stack-space: var(--space-150);
 }
 
+.card ul:last-child {
+  --stack-space: var(--space-300);
+}
+
 @media (min-width: 40em) {
   .card {
-    --center-space: var(--space-400);
-
-    --stack-space: var(--space-350);
   }
 }
