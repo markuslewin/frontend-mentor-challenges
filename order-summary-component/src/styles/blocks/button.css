@@ -9,8 +9,6 @@
   font-size: var(--fs-75);
   font-weight: var(--weight-black);
   line-height: var(--leading-200);
-  transition-property: background, border, color;
-  transition-duration: var(--transition-duration);
 }
 
 .button:hover,
@@ -22,6 +20,8 @@
   padding: 0;
   background: none;
   color: var(--color-desaturated-blue);
+  transition-property: color;
+  transition-duration: var(--transition-duration);
 }
 
 .button[data-button-variant="text"]:hover,

@@ -15,6 +15,8 @@
   border: var(--box-size-border) solid var(--box-background);
   background-color: var(--box-background, var(--color-layer-1));
   color: var(--box-foreground);
+  transition-property: background, border, color;
+  transition-duration: var(--transition-duration);
 }
 
 .box[data-box-variant="outline"] {
