@@ -1,14 +1,16 @@
 .box {
+  --box-padding: var(--box-space, 1em);
   --box-size-border: 2px;
 
-  padding: var(--box-space, 1em);
+  padding: calc(var(--box-padding) - var(--box-size-border));
   border-radius: var(--box-radius, 1em);
-  outline: var(--box-size-border) solid transparent;
-  outline-offset: calc(var(--box-size-border) * -1);
-  background: var(--box-background, var(--color-layer-1));
+  border: var(--box-size-border) solid var(--box-background);
+  background-color: var(--box-background, var(--color-layer-1));
   color: var(--box-foreground);
 }
 
-.box:focus {
-  outline-color: unset;
+.box[data-box-variant="outline"] {
+  padding: var(--box-padding);
+  outline: var(--box-size-border) solid transparent;
+  outline-offset: calc(var(--box-size-border) * -1);
 }

@@ -9,7 +9,7 @@
   font-size: var(--fs-75);
   font-weight: var(--weight-black);
   line-height: var(--leading-200);
-  transition-property: background, color;
+  transition-property: background, border, color;
   transition-duration: var(--transition-duration);
 }
 
