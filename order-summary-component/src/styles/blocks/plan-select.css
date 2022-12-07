@@ -1,8 +1,8 @@
 .plan-select {
   --box-background: var(--color-very-pale-blue);
   --box-radius: var(--size-100);
-  --box-space: var(--space-150) var(--space-125) var(--space-125)
-    var(--space-125);
+  --box-space: var(--space-125);
+  --box-space-block-start: var(--space-150);
 
   --cluster-align: center;
   --cluster-space: var(--space-200);
@@ -16,7 +16,9 @@
 
 @media (min-width: 40em) {
   .plan-select {
-    --box-space: var(--space-275) var(--space-250);
+    --box-space: var(--space-250);
+    --box-space-block-start: var(--space-275);
+    --box-space-block-end: var(--space-275);
 
     --stack-space: var(--space-50);
 
