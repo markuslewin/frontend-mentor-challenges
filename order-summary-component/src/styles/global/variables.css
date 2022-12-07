@@ -9,6 +9,7 @@
   /* other */
   --color-white: hsl(0, 100%, 100%);
   --color-fr-blue: 228 87% 39%;
+  --color-brighter-blue: hsl(245, 83%, 68%);
 
   --font: "Red Hat DisplayVariable", sans-serif;
 

@@ -3,6 +3,8 @@ body {
   --column-size: var(--size-700);
   --color-layer-1: var(--color-white);
   --color-fr-primary: var(--color-fr-bright-blue);
+  --color-primary-bright: var(--color-brighter-blue);
+  --transition-duration: 150ms;
 
   --padding-block: var(--space-600);
   --background-image: url("/src/images/pattern-background-mobile.svg");

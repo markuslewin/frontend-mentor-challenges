@@ -9,10 +9,22 @@
   font-size: var(--fs-75);
   font-weight: var(--weight-black);
   line-height: var(--leading-200);
+  transition-property: background, color;
+  transition-duration: var(--transition-duration);
+}
+
+.button:hover,
+.button:focus-visible {
+  --box-background: var(--color-primary-bright);
 }
 
 .button[data-button-variant="text"] {
   padding: 0;
   background: none;
   color: var(--color-desaturated-blue);
+}
+
+.button[data-button-variant="text"]:hover,
+.button[data-button-variant="text"]:focus-visible {
+  color: var(--color-dark-blue);
 }

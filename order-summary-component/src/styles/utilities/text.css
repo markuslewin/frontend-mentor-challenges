@@ -4,6 +4,14 @@
   line-height: var(--leading-125);
   text-decoration: underline;
   color: hsl(var(--color-fr-primary));
+  transition-property: text-decoration, color;
+  transition-duration: var(--transition-duration);
+}
+
+button:hover .text-link,
+button:focus-visible .text-link {
+  text-decoration: none;
+  color: var(--color-primary-bright);
 }
 
 @media (min-width: 40em) {
