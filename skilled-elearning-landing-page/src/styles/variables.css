@@ -16,4 +16,11 @@
   --text-heading-s: 1.5rem;
   --text-body-m: 1.125rem;
   --text-body-s: 1rem;
+
+  --leading-heading-xl: 4.375rem;
+  --leading-heading-l: 3.1875rem;
+  --leading-heading-m: 2.5rem;
+  --leading-heading-s: 1.75rem;
+  --leading-body-m: 1.75rem;
+  --leading-body-s: 1.75rem;
 }
