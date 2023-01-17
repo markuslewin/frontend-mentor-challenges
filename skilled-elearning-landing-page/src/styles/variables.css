@@ -9,4 +9,11 @@
   --color-4851ff-f02aa6: linear-gradient(rgb(72 81 255), rgb(240 42 166));
 
   --font: "Plus Jakarta SansVariable", sans-serif;
+
+  --text-heading-xl: 3.5rem;
+  --text-heading-l: 2.5rem;
+  --text-heading-m: 2rem;
+  --text-heading-s: 1.5rem;
+  --text-body-m: 1.125rem;
+  --text-body-s: 1rem;
 }
