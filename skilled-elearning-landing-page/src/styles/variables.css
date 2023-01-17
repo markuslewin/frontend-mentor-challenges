@@ -1,0 +1,10 @@
+:root {
+  --color-666ca3: rgb(102 108 163);
+  --color-13183f: rgb(19 24 63);
+  --color-83869a: rgb(131 134 154);
+  --color-f74780: rgb(247 71 128);
+  --color-ffa7c3: rgb(255 167 195);
+  --color-ffffff: rgb(255 255 255);
+  --color-f02aa6-ff6f48: linear-gradient(rgb(255 111 72), rgb(240 42 166));
+  --color-4851ff-f02aa6: linear-gradient(rgb(72 81 255), rgb(240 42 166));
+}
