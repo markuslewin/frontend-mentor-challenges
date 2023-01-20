@@ -22,6 +22,12 @@ body > footer {
   color: var(--color-ffffff);
 }
 
+ul[role="list"],
+ol[role="list"] {
+  margin: 0;
+  padding: 0;
+}
+
 h1,
 h2,
 h3,
