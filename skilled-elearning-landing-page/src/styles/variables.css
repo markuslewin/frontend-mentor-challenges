@@ -7,6 +7,7 @@
   --color-ffffff: rgb(255 255 255);
   --color-f02aa6-ff6f48: linear-gradient(rgb(255 111 72), rgb(240 42 166));
   --color-4851ff-f02aa6: linear-gradient(rgb(72 81 255), rgb(240 42 166));
+  --color-f0f1ff-ffffff: linear-gradient(rgb(255 255 255), rgb(240 241 255));
 
   --font: "Plus Jakarta SansVariable", sans-serif;
 
