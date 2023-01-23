@@ -54,6 +54,11 @@ a {
   text-decoration: none;
 }
 
+a:hover,
+a:focus-visible {
+  color: var(--color-ffa7c3);
+}
+
 /* tablet */
 @media (min-width: 40em) {
   body {
