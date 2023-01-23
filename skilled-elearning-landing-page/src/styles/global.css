@@ -10,12 +10,7 @@ body {
   color: var(--color-83869a);
 }
 
-body > header {
-  padding-block: var(--space-200);
-}
-
 body > footer {
-  padding-block: var(--space-425);
   background: var(--color-13183f);
   color: var(--color-ffffff);
 }
@@ -64,10 +59,6 @@ a {
   body {
     --center-gutters: var(--space-450);
   }
-
-  body > header {
-    padding-block: var(--space-300);
-  }
 }
 
 /* desktop */
@@ -75,10 +66,6 @@ a {
   body {
     font-size: var(--text-body-m);
     line-height: var(--leading-body-m);
-  }
-
-  body > footer {
-    padding-block: var(--space-400);
   }
 
   h1 {
