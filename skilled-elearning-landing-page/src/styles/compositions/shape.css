@@ -1,0 +1,11 @@
+.shape {
+  border: var(--border-width, 2px) solid var(--shape-background);
+  border-radius: var(--shape-radius);
+  background: var(--shape-background);
+  padding-inline: calc(
+    var(--shape-padding-inline, var(--space-200)) - var(--border-width, 2px)
+  );
+  padding-block: calc(
+    var(--shape-padding-block, var(--space-200)) - var(--border-width, 2px)
+  );
+}

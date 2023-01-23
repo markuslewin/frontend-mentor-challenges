@@ -1,5 +1,6 @@
 body {
   --measure: var(--size-900);
+  --border-width: 2px;
 
   --center-gutters: var(--space-200);
 
@@ -8,6 +9,17 @@ body {
   font-weight: var(--medium);
   line-height: var(--leading-body-s);
   color: var(--color-83869a);
+}
+
+body > header {
+  --cluster-justify: space-between;
+  --cluster-align: center;
+
+  padding-block: var(--space-200);
+}
+
+body > header svg {
+  color: var(--color-13183f);
 }
 
 body > footer {
@@ -63,6 +75,10 @@ a:focus-visible {
 @media (min-width: 40em) {
   body {
     --center-gutters: var(--space-450);
+  }
+
+  body > header {
+    padding-block: var(--space-300);
   }
 }
 

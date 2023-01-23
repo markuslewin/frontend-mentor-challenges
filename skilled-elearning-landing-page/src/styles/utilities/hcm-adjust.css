@@ -1,0 +1,5 @@
+/* Makes sure the color is adjusted in High Contrast Mode. */
+/* Chrome doesn't adjust the color of SVGs by default. */
+.hcm-adjust {
+  forced-color-adjust: auto;
+}
