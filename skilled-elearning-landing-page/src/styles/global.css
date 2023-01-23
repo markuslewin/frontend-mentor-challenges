@@ -1,15 +1,13 @@
 body {
+  --measure: var(--size-900);
+
+  --center-gutters: var(--space-200);
+
   font-family: var(--font);
   font-size: var(--text-body-s);
   font-weight: var(--medium);
   line-height: var(--leading-body-s);
   color: var(--color-83869a);
-}
-
-body > header,
-main,
-body > footer {
-  padding-inline: var(--space-200);
 }
 
 body > header {
@@ -63,10 +61,8 @@ a {
 
 /* tablet */
 @media (min-width: 40em) {
-  body > header,
-  main,
-  body > footer {
-    padding-inline: var(--space-450);
+  body {
+    --center-gutters: var(--space-450);
   }
 
   body > header {

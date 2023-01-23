@@ -1,0 +1,5 @@
+.center {
+  margin-inline: auto;
+  max-inline-size: var(--center-max, var(--measure));
+  padding-inline: var(--center-gutters);
+}
