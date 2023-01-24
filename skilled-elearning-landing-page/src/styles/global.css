@@ -19,6 +19,7 @@ body > header {
 }
 
 body > header svg {
+  block-size: var(--size-150);
   color: var(--color-13183f);
 }
 
@@ -87,6 +88,10 @@ a:focus-visible {
   body {
     font-size: var(--text-body-m);
     line-height: var(--leading-body-m);
+  }
+
+  body > header svg {
+    block-size: var(--size-200);
   }
 
   h1 {

@@ -33,6 +33,8 @@
   --weight-bold: 700;
   --weight-medium: 500;
 
+  --size-150: 1.4375rem; /* 23px */
+  --size-200: 1.8125rem; /* 29px */
   --size-600: 28.5625rem; /* 457px */
   --size-900: 69.375rem; /* 1110px */
 

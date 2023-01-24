@@ -1,8 +1,10 @@
 .button-1 {
   --shape-radius: 9999px;
   --shape-background: var(--color-13183f);
-  --shape-padding-inline: var(--space-400);
-  --shape-padding-block: var(--space-150);
+  --shape-padding-inline: var(--space-300);
+  --shape-padding-block: var(--space-100);
+  font-size: var(--text-body-s);
+  line-height: var(--leading-body-m);
   color: var(--color-ffffff);
 }
 
@@ -10,4 +12,13 @@
 .button-1:focus-visible {
   --shape-background: var(--color-666ca3);
   color: var(--color-ffffff);
+}
+
+/* desktop */
+@media (min-width: 64em) {
+  .button-1 {
+    --shape-padding-inline: var(--space-400);
+    --shape-padding-block: var(--space-150);
+    font-size: var(--text-body-m);
+  }
 }
