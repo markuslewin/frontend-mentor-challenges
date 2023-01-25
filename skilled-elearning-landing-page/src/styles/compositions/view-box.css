@@ -1,0 +1,13 @@
+/* Only the specified part of the element will be in flow */
+.view-box {
+  inline-size: var(--view-box-width);
+  block-size: var(--view-box-height);
+}
+
+.view-box > * {
+  position: relative;
+  left: calc(-1 * var(--view-box-x));
+  top: calc(-1 * var(--view-box-y));
+  margin-inline-end: calc(-1 * var(--view-box-x));
+  margin-block-end: calc(-1 * var(--view-box-y));
+}

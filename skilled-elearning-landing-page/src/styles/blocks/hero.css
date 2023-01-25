@@ -1,0 +1,23 @@
+.hero {
+  padding-block-start: var(--space-700);
+  display: flex;
+  justify-content: space-between;
+}
+
+.hero__text {
+  max-inline-size: var(--size-600);
+}
+
+.hero picture {
+  --view-box-x: 54px;
+  --view-box-y: 398px;
+  --view-box-width: 492px;
+
+  /* image has some whitespace in block direction */
+  margin-block-end: -64px;
+  flex-shrink: 0;
+}
+
+.hero picture img {
+  max-inline-size: none;
+}

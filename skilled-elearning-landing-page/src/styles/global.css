@@ -4,6 +4,8 @@ body {
 
   --center-gutters: var(--space-200);
 
+  /* hide hero image overflow */
+  overflow-x: hidden;
   font-family: var(--font);
   font-size: var(--text-body-s);
   font-weight: var(--medium);
