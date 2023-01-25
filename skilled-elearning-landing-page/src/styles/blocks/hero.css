@@ -5,7 +5,13 @@
 }
 
 .hero__text {
+  --flow-space: var(--space-360);
+
   max-inline-size: var(--size-600);
+}
+
+.hero__text > *:last-child {
+  --flow-space: var(--space-450);
 }
 
 .hero picture {
