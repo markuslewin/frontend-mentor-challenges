@@ -1,0 +1,8 @@
+.stack {
+  isolation: isolate;
+}
+
+.stack [data-stack-level="top"] {
+  position: relative;
+  z-index: 1;
+}
