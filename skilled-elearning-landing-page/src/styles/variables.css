@@ -5,7 +5,16 @@
   --color-f74780: rgb(247 71 128);
   --color-ffa7c3: rgb(255 167 195);
   --color-ffffff: rgb(255 255 255);
-  --color-f02aa6-ff6f48: linear-gradient(rgb(255 111 72), rgb(240 42 166));
+  --color-ff6f48: 255 111 72;
+  --color-f02aa6: 240 42 166;
+  --color-f02aa6-ff6f48: linear-gradient(
+    rgb(var(--color-ff6f48)),
+    rgb(var(--color-f02aa6))
+  );
+  --color-f02aa6-ff6f48-hover: linear-gradient(
+    rgb(var(--color-ff6f48) / 50%),
+    rgb(var(--color-f02aa6) / 50%)
+  );
   --color-4851ff-f02aa6: linear-gradient(rgb(72 81 255), rgb(240 42 166));
   --color-f0f1ff-ffffff: linear-gradient(rgb(255 255 255), rgb(240 241 255));
 

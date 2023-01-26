@@ -1,0 +1,25 @@
+.button-2 {
+  --shape-background: var(--color-f02aa6-ff6f48);
+  --shape-radius: 9999px;
+  --shape-padding-inline: var(--space-435);
+  --shape-padding-block: var(--space-175);
+  display: inline-block;
+  font-size: var(--text-body-s);
+  line-height: var(--leading-body-s);
+  color: var(--color-ffffff);
+}
+
+.button-2:hover,
+.button-2:focus {
+  --shape-background: var(--color-f02aa6-ff6f48-hover);
+  color: var(--color-ffffff);
+}
+
+@media (min-width: 64em) {
+  .button-2 {
+    --shape-padding-inline: var(--space-400);
+    --shape-padding-block: var(--space-225);
+    font-size: var(--text-body-m);
+    line-height: var(--leading-body-m);
+  }
+}

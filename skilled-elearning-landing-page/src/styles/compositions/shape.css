@@ -1,3 +1,4 @@
+/* Carries the shape of the element into High Contrast Mode */
 .shape {
   border: var(--border-width, 2px) solid transparent;
   border-radius: var(--shape-radius);
