@@ -3,6 +3,7 @@
   --shape-background: var(--color-13183f);
   --shape-padding-inline: var(--space-300);
   --shape-padding-block: var(--space-100);
+  display: inline-block;
   font-size: var(--text-body-s);
   line-height: var(--leading-body-m);
   color: var(--color-ffffff);
