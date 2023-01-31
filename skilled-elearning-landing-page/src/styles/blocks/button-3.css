@@ -11,7 +11,7 @@
 
 .button-3:hover,
 .button-3:focus {
-  --shape-background: var(--color-4851ff-f02aa6-hover);
+  --shape-background: var(--color-4851ff-f02aa6-hover), var(--color-ffffff);
   color: var(--color-ffffff);
 }
 

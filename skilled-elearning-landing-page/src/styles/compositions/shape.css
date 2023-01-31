@@ -2,7 +2,8 @@
 .shape {
   border: var(--border-width, 2px) solid transparent;
   border-radius: var(--shape-radius);
-  background: var(--shape-background) border-box;
+  background: var(--shape-background);
+  background-origin: border-box;
   padding-inline: calc(
     var(--shape-padding-inline, var(--space-200)) - var(--border-width, 2px)
   );
