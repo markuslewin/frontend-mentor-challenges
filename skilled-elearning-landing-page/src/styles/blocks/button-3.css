@@ -1,0 +1,25 @@
+.button-3 {
+  --shape-radius: 9999px;
+  --shape-background: var(--color-4851ff-f02aa6);
+  --shape-padding-inline: var(--space-300);
+  --shape-padding-block: var(--space-100);
+  display: inline-block;
+  font-size: var(--text-body-s);
+  line-height: var(--leading-body-m);
+  color: var(--color-ffffff);
+}
+
+.button-3:hover,
+.button-3:focus {
+  --shape-background: var(--color-4851ff-f02aa6-hover);
+  color: var(--color-ffffff);
+}
+
+/* desktop */
+@media (min-width: 64em) {
+  .button-3 {
+    --shape-padding-inline: var(--space-400);
+    --shape-padding-block: var(--space-150);
+    font-size: var(--text-body-m);
+  }
+}
