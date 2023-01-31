@@ -1,8 +1,9 @@
 body {
   --measure: var(--size-900);
   --border-width: 2px;
+  --gutters: var(--space-200);
 
-  --center-gutters: var(--space-200);
+  --center-gutters: var(--gutters);
 
   /* hide hero image overflow */
   overflow-x: hidden;
@@ -26,7 +27,13 @@ body > header svg {
 }
 
 body > footer {
-  background: var(--color-13183f);
+  --center-gutters: 0;
+  --shape-background: var(--color-13183f);
+  --shape-padding-inline: var(--gutters);
+  --shape-padding-block: var(--space-425);
+  --cluster-justify: space-between;
+  --cluster-align: center;
+
   color: var(--color-ffffff);
 }
 
@@ -77,7 +84,7 @@ a:focus-visible {
 /* tablet */
 @media (min-width: 40em) {
   body {
-    --center-gutters: var(--space-450);
+    --gutters: var(--space-450);
   }
 
   body > header {
@@ -94,6 +101,10 @@ a:focus-visible {
 
   body > header svg {
     block-size: var(--size-200);
+  }
+
+  body > footer {
+    --shape-padding-block: var(--space-400);
   }
 
   h1 {
