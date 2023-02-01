@@ -50,6 +50,7 @@
   --weight-bold: 700;
   --weight-medium: 500;
 
+  --size-90: 0.9375rem; /* 15px */
   --size-150: 1.4375rem; /* 23px */
   --size-200: 1.8125rem; /* 29px */
   --size-500: 18.75rem; /* 300px */

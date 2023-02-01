@@ -1,0 +1,9 @@
+.top-overlap {
+  position: relative;
+  padding-block-start: var(--top-overlap-size);
+}
+
+[data-top-overlap-item] {
+  position: absolute;
+  top: 0;
+}

@@ -1,3 +1,16 @@
+.flow {
+  display: flex;
+  flex-direction: column;
+}
+
 .flow > * + * {
   margin-block-start: var(--flow-space, 1em);
+}
+
+.flow[data-flow-split="last"] {
+  block-size: 100%;
+}
+
+.flow[data-flow-split="last"] > :nth-last-child(2) {
+  margin-block-end: auto;
 }

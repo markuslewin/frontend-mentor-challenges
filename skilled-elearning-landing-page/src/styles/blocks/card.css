@@ -1,0 +1,41 @@
+/* todo: paddings */
+.card {
+  --flow-space: var(--space-200);
+  --shape-radius: var(--size-90);
+  --shape-background: var(--color-ffffff);
+  --shape-padding-inline: var(--space-360);
+  --shape-padding-block: var(--space-475);
+  --top-overlap-size: var(--space-300);
+}
+
+.card[data-card-variant="gradient"] {
+  --shape-background: var(--color-f02aa6-ff6f48);
+}
+
+/* todo: move to `shape` */
+.card[data-card-variant="gradient"] h2 {
+  color: var(--color-ffffff);
+}
+
+.card h3 {
+  --flow-space: 0;
+}
+
+.card > :last-child {
+  --flow-space: var(--space-300);
+}
+
+/* tablet */
+@media (min-width: 40em) {
+  .card {
+    --shape-padding-inline: var(--space-400);
+  }
+}
+
+/* desktop */
+@media (min-width: 64em) {
+  .card {
+    --flow-space: var(--space-300);
+    --shape-padding-block: var(--space-500);
+  }
+}
