@@ -1,4 +1,5 @@
 .cards {
+  background: var(--color-f0f1ff-ffffff);
   padding-block-end: var(--space-550);
 }
 
