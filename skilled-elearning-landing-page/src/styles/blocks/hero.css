@@ -50,6 +50,10 @@
 
 /* desktop */
 @media (min-width: 64em) {
+  .hero {
+    padding-block-end: var(--space-625);
+  }
+
   .hero picture {
     --view-box-x: 54px;
     --view-box-y: 398px;

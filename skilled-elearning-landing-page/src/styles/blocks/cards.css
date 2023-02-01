@@ -1,0 +1,15 @@
+.cards {
+  padding-block-end: var(--space-550);
+}
+
+@media (min-width: 40em) {
+  .cards {
+    padding-block-end: var(--space-575);
+  }
+}
+
+@media (min-width: 64em) {
+  .cards {
+    padding-block-end: var(--space-700);
+  }
+}
