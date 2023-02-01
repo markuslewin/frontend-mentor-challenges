@@ -5,6 +5,7 @@
   --color-f74780: rgb(247 71 128);
   --color-ffa7c3: rgb(255 167 195);
   --color-ffffff: rgb(255 255 255);
+  --color-06168d: rgb(6 22 141 / 4.42%); /* not in system */
   --color-ff6f48: 255 111 72;
   --color-f02aa6: 240 42 166;
   --color-f02aa6-ff6f48: linear-gradient(
@@ -52,7 +53,9 @@
 
   --size-90: 0.9375rem; /* 15px */
   --size-150: 1.4375rem; /* 23px */
+  --size-175: 1.5625rem; /* 25px */
   --size-200: 1.8125rem; /* 29px */
+  --size-250: 3.125rem; /* 50px */
   --size-500: 18.75rem; /* 300px */
   --size-600: 28.5625rem; /* 457px */
   --size-900: 69.375rem; /* 1110px */
