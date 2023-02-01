@@ -17,11 +17,11 @@
   );
   --color-4851ff: 72 81 255;
   --color-4851ff-f02aa6: linear-gradient(
-    rgb(var(--color-4851ff)),
+    rgb(var(--color-4851ff)) -50%,
     rgb(var(--color-f02aa6))
   );
   --color-4851ff-f02aa6-hover: linear-gradient(
-    rgb(var(--color-4851ff) / 50%),
+    rgb(var(--color-4851ff) / 50%) -50%,
     rgb(var(--color-f02aa6) / 50%)
   );
   --color-f0f1ff-ffffff: linear-gradient(rgb(255 255 255), rgb(240 241 255));
