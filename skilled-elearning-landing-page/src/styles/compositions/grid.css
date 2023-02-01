@@ -1,0 +1,29 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(min(var(--grid-min, var(--size-500)), 100%), 1fr)
+  );
+  gap: var(--space-200);
+}
+
+/* spread/unpack the items of a container so they participate in grid */
+.grid > [data-grid-spread] {
+  display: contents;
+}
+
+/* tablet */
+@media (min-width: 40em) {
+  .grid {
+    column-gap: var(--space-100);
+    row-gap: var(--space-400);
+  }
+}
+
+/* desktop */
+@media (min-width: 64em) {
+  .grid {
+    column-gap: var(--space-375);
+    row-gap: var(--space-475);
+  }
+}
