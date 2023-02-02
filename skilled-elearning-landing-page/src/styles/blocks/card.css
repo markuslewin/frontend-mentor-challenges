@@ -1,6 +1,7 @@
 /* todo: paddings */
 .card {
   --flow-space: var(--space-200);
+  --icon-size: var(--size-260);
   --shape-radius: var(--size-90);
   --shape-background: var(--color-ffffff);
   --shape-padding-inline: var(--space-360);

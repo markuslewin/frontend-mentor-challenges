@@ -1,0 +1,4 @@
+.icon {
+  inline-size: var(--icon-size, 1em);
+  block-size: var(--icon-size, 1em);
+}
