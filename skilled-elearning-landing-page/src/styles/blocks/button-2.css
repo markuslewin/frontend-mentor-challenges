@@ -1,8 +1,13 @@
 .button-2 {
-  --shape-background: var(--color-f02aa6-ff6f48);
   --shape-radius: 9999px;
+  --shape-background: transparent;
   --shape-padding-inline: var(--space-435);
   --shape-padding-block: var(--space-175);
+  --layered-background-radius: 9999px;
+  --layered-background-bottom: var(--color-f02aa6-ff6f48);
+  --layered-background-top: rgb(255 255 255 / 0%);
+
+  border-radius: 9999px;
   display: inline-block;
   font-size: var(--text-body-s);
   line-height: var(--leading-body-s);
@@ -10,15 +15,21 @@
 }
 
 .button-2:hover,
-.button-2:focus {
-  --shape-background: var(--color-f02aa6-ff6f48-hover), var(--color-ffffff);
+.button-2:focus-visible {
+  --layered-background-top: rgb(255 255 255 / 50%);
+
   color: var(--color-ffffff);
+}
+
+.button-2 > * {
+  display: block;
 }
 
 @media (min-width: 64em) {
   .button-2 {
     --shape-padding-inline: var(--space-400);
     --shape-padding-block: var(--space-225);
+
     font-size: var(--text-body-m);
     line-height: var(--leading-body-m);
   }

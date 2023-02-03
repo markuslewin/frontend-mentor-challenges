@@ -1,0 +1,29 @@
+/*
+  Apply background using pseudo elements.
+  Enables background color on top of background image.
+*/
+.layered-background {
+  position: relative;
+}
+
+.layered-background::before,
+.layered-background::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: var(--layered-background-radius);
+  transition: background var(--transition-duration);
+}
+
+.layered-background::before {
+  background: var(--layered-background-bottom);
+}
+
+.layered-background::after {
+  background: var(--layered-background-top);
+}
+
+.layered-background > * {
+  position: relative;
+  z-index: 1;
+}
