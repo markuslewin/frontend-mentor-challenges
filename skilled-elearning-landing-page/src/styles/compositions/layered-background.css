@@ -12,7 +12,7 @@
   position: absolute;
   inset: 0;
   border-radius: var(--layered-background-radius);
-  transition: background var(--transition-duration);
+  transition: background var(--layered-background-transition-duration);
 }
 
 .layered-background::before {

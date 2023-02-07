@@ -10,5 +10,5 @@
   padding-block: calc(
     var(--shape-padding-block, var(--space-200)) - var(--border-width, 2px)
   );
-  transition: background var(--transition-duration);
+  transition: background var(--shape-transition-duration);
 }

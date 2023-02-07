@@ -2,7 +2,8 @@ body {
   --measure: var(--size-900);
   --border-width: 2px;
   --gutters: var(--space-200);
-  --transition-duration: 150ms;
+  --transition-duration-activate: 150ms;
+  --transition-duration-deactivate: 500ms;
 
   --center-gutters: var(--gutters);
 
@@ -79,12 +80,13 @@ a {
   line-height: var(--leading-body-m);
   color: var(--color-f74780);
   text-decoration: none;
-  transition: color var(--transition-duration);
+  transition: color var(--transition-duration-deactivate);
 }
 
 a:hover,
 a:focus-visible {
   color: var(--color-ffa7c3);
+  transition-duration: var(--transition-duration-activate);
 }
 
 /* tablet */

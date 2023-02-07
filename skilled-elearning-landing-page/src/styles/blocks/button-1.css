@@ -3,6 +3,8 @@
   --shape-background: var(--color-13183f);
   --shape-padding-inline: var(--space-300);
   --shape-padding-block: var(--space-100);
+  --shape-transition-duration: var(--transition-duration-deactivate);
+
   display: inline-block;
   font-size: var(--text-body-s);
   line-height: var(--leading-body-m);
@@ -12,6 +14,8 @@
 .button-1:hover,
 .button-1:focus-visible {
   --shape-background: var(--color-666ca3);
+  --shape-transition-duration: var(--transition-duration-activate);
+
   color: var(--color-ffffff);
 }
 
@@ -20,6 +24,7 @@
   .button-1 {
     --shape-padding-inline: var(--space-400);
     --shape-padding-block: var(--space-150);
+
     font-size: var(--text-body-m);
   }
 }
