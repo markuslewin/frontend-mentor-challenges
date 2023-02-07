@@ -1,4 +1,4 @@
-.card {
+.icon-card {
   --flow-space: var(--space-200);
   --icon-size: var(--size-260);
   --shape-radius: var(--size-70);
@@ -9,44 +9,26 @@
   --top-overlap-size: var(--space-300);
 }
 
-.card[data-card-variant="gradient"] {
-  --shape-background: var(--color-f02aa6-ff6f48);
-  --shape-padding-block-start: var(--space-300);
-}
-
-/* todo: move to `shape` */
-.card[data-card-variant="gradient"] h2 {
-  color: var(--color-ffffff);
-}
-
-.card h3 {
+.icon-card h3 {
   --flow-space: 0;
 }
 
-.card > :last-child {
+.icon-card > :last-child {
   --flow-space: var(--space-300);
 }
 
 /* tablet */
 @media (min-width: 40em) {
-  .card {
+  .icon-card {
     --shape-padding-inline: var(--space-400);
-  }
-
-  .card[data-card-variant="gradient"] {
-    --shape-padding-block-start: var(--space-475);
   }
 }
 
 /* desktop */
 @media (min-width: 64em) {
-  .card {
+  .icon-card {
     --flow-space: var(--space-300);
     --shape-radius: var(--size-90);
-  }
-
-  .card,
-  .card[data-card-variant="gradient"] {
     --shape-padding-block-start: var(--space-500);
     --shape-padding-block-end: var(--space-450);
   }
