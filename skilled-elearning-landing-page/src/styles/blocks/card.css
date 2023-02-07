@@ -5,12 +5,14 @@
   --shape-radius: var(--size-90);
   --shape-background: var(--color-ffffff);
   --shape-padding-inline: var(--space-360);
-  --shape-padding-block: var(--space-475);
+  --shape-padding-block-start: var(--space-475);
+  --shape-padding-block-end: var(--space-400);
   --top-overlap-size: var(--space-300);
 }
 
 .card[data-card-variant="gradient"] {
   --shape-background: var(--color-f02aa6-ff6f48);
+  --shape-padding-block-start: var(--space-300);
 }
 
 /* todo: move to `shape` */
@@ -31,12 +33,21 @@
   .card {
     --shape-padding-inline: var(--space-400);
   }
+
+  .card[data-card-variant="gradient"] {
+    --shape-padding-block-start: var(--space-475);
+  }
 }
 
 /* desktop */
 @media (min-width: 64em) {
   .card {
     --flow-space: var(--space-300);
-    --shape-padding-block: var(--space-500);
+  }
+
+  .card,
+  .card[data-card-variant="gradient"] {
+    --shape-padding-block-start: var(--space-500);
+    --shape-padding-block-end: var(--space-450);
   }
 }

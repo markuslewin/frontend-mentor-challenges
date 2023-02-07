@@ -7,8 +7,13 @@
   padding-inline: calc(
     var(--shape-padding-inline, var(--space-200)) - var(--border-width, 2px)
   );
-  padding-block: calc(
-    var(--shape-padding-block, var(--space-200)) - var(--border-width, 2px)
+  padding-block-start: calc(
+    var(--shape-padding-block-start, var(--shape-padding-block)) -
+      var(--border-width, 2px)
+  );
+  padding-block-end: calc(
+    var(--shape-padding-block-end, var(--shape-padding-block)) -
+      var(--border-width, 2px)
   );
   transition: background var(--shape-transition-duration);
 }
