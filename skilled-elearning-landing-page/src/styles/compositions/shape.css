@@ -4,6 +4,7 @@
   border-radius: var(--shape-radius);
   background: var(--shape-background);
   background-origin: border-box;
+  block-size: var(--shape-block-size);
   padding-inline: calc(
     var(--shape-padding-inline, var(--space-200)) - var(--border-width, 2px)
   );

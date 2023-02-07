@@ -1,7 +1,7 @@
 .gradient-card {
-  --flow-space: var(--space-200); /* todo: remove */
   --shape-radius: var(--size-70);
   --shape-background: var(--color-f02aa6-ff6f48);
+  --shape-block-size: 100%;
   --shape-padding-inline: var(--space-360);
   --shape-padding-block-start: var(--space-300);
   --shape-padding-block-end: var(--space-400);
