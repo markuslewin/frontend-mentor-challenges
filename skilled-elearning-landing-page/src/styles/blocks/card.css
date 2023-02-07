@@ -1,8 +1,7 @@
-/* todo: paddings */
 .card {
   --flow-space: var(--space-200);
   --icon-size: var(--size-260);
-  --shape-radius: var(--size-90);
+  --shape-radius: var(--size-70);
   --shape-background: var(--color-ffffff);
   --shape-padding-inline: var(--space-360);
   --shape-padding-block-start: var(--space-475);
@@ -43,6 +42,7 @@
 @media (min-width: 64em) {
   .card {
     --flow-space: var(--space-300);
+    --shape-radius: var(--size-90);
   }
 
   .card,
