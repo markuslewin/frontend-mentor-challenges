@@ -31,6 +31,10 @@
     max-inline-size: var(--size-600);
   }
 
+  .hero__text p {
+    max-inline-size: var(--size-590);
+  }
+
   .hero picture {
     --view-box-x: 54px;
     --view-box-y: 263px; /* 288 */
@@ -51,12 +55,21 @@
 /* desktop */
 @media (min-width: 64em) {
   .hero {
+    padding-block-start: var(--space-705);
     padding-block-end: var(--space-625);
   }
 
+  .hero__text {
+    --flow-space: var(--space-360);
+  }
+
+  .hero__text > :last-child {
+    --flow-space: var(--space-450);
+  }
+
   .hero picture {
-    --view-box-x: 54px;
-    --view-box-y: 398px;
+    --view-box-x: 53px;
+    --view-box-y: 427px;
     --view-box-width: 492px;
 
     margin-inline-start: 0;

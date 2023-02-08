@@ -11,7 +11,7 @@ body {
   overflow-x: hidden;
   font-family: var(--font);
   font-size: var(--text-body-s);
-  font-weight: var(--medium);
+  font-weight: var(--weight-medium);
   line-height: var(--leading-body-s);
   color: var(--color-83869a);
 }

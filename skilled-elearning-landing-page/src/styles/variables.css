@@ -38,10 +38,12 @@
   --text-body-s: 1rem;
 
   --leading-heading-xl: 4.375rem;
+  --leading-heading-xl: 4.4375rem; /* design deviates from system */
   --leading-heading-l: 3.1875rem;
   --leading-heading-m: 2.5rem;
   --leading-heading-ms: 2rem; /* not in system */
   --leading-heading-s: 1.75rem;
+  --leading-heading-s: 1.875rem; /* design deviates from system */
   --leading-heading-xs: 1.5625rem; /* not in system */
   --leading-body-m: 1.75rem;
   --leading-body-s: 1.75rem;
@@ -59,6 +61,7 @@
   --size-250: 3.125rem; /* 50px */
   --size-260: 3.5rem; /* 56px */
   --size-500: 18.75rem; /* 300px */
+  --size-590: 27.8125rem; /* 445px */
   --size-600: 28.5625rem; /* 457px */
   --size-900: 69.375rem; /* 1110px */
 
@@ -83,6 +86,7 @@
   --space-600: 6.1875rem; /* 99px */
   --space-625: 6.875rem; /* 110px */
   --space-700: 8.75rem; /* 140px */
+  --space-705: 9.25rem; /* 148px */
   --space-740: 10.75rem; /* 172px */
   --space-760: 11.625rem; /* 186px */
   --space-800: 14.125rem; /* 226px */
