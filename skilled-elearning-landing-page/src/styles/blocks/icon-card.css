@@ -6,6 +6,7 @@
   --shape-padding-inline: var(--space-360);
   --shape-padding-block-start: var(--space-475);
   --shape-padding-block-end: var(--space-400);
+  --shadow-value: 0 var(--size-175) var(--size-250) var(--color-06168d);
 }
 
 .icon-card h3 {
