@@ -6,7 +6,6 @@
   --shape-padding-inline: var(--space-360);
   --shape-padding-block-start: var(--space-475);
   --shape-padding-block-end: var(--space-400);
-  --top-overlap-size: var(--space-300);
 }
 
 .icon-card h3 {

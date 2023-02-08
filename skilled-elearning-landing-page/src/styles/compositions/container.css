@@ -1,0 +1,4 @@
+/* Takes up space. */
+.container {
+  padding-block-start: var(--container-padding-block-start);
+}

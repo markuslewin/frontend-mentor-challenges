@@ -5,7 +5,6 @@
   --shape-padding-inline: var(--space-360);
   --shape-padding-block-start: var(--space-300);
   --shape-padding-block-end: var(--space-400);
-  --top-overlap-size: var(--space-300); /* todo: remove */
 }
 
 /* todo: move to `shape` */

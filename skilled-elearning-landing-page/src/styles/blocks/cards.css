@@ -1,10 +1,15 @@
 .cards {
+  --cards-block-start-space: var(--space-300);
+  --top-overlap-size: var(--cards-block-start-space);
+
   background: var(--color-f0f1ff-ffffff);
   padding-block-end: var(--space-550);
 }
 
 @media (min-width: 40em) {
   .cards {
+    --container-padding-block-start: var(--cards-block-start-space);
+
     padding-block-end: var(--space-575);
   }
 }
