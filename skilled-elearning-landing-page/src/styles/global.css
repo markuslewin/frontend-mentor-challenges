@@ -23,11 +23,6 @@ body > header {
   padding-block: var(--space-200);
 }
 
-body > header svg {
-  block-size: var(--size-150);
-  color: var(--color-13183f);
-}
-
 body > footer {
   --center-gutters: 0;
   --shape-background: var(--color-13183f);
@@ -37,10 +32,6 @@ body > footer {
   --cluster-align: center;
 
   color: var(--color-ffffff);
-}
-
-body > footer svg {
-  block-size: var(--size-150);
 }
 
 ul[role="list"],
@@ -107,16 +98,8 @@ a:focus-visible {
     line-height: var(--leading-body-m);
   }
 
-  body > header svg {
-    block-size: var(--size-200);
-  }
-
   body > footer {
     --shape-padding-block: var(--space-400);
-  }
-
-  body > footer svg {
-    block-size: var(--size-200);
   }
 
   h1 {

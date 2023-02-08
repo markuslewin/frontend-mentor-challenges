@@ -1,0 +1,17 @@
+.logo {
+  --fill-color: var(--color-13183f);
+
+  block-size: var(--size-150);
+  forced-color-adjust: auto;
+}
+
+.logo[data-logo-theme="light"] {
+  --fill-color: var(--color-ffffff);
+}
+
+/* desktop */
+@media (min-width: 64em) {
+  .logo {
+    block-size: var(--size-200);
+  }
+}
