@@ -21,6 +21,7 @@ body > header {
   --cluster-align: center;
 
   padding-block: var(--space-200);
+  color: var(--color-13183f);
 }
 
 body > footer {
