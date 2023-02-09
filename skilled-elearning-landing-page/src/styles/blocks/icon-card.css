@@ -13,7 +13,7 @@
   --flow-space: 0;
 }
 
-.icon-card > :last-child {
+.icon-card p:last-child {
   --flow-space: var(--space-300);
 }
 
@@ -21,6 +21,7 @@
 @media (min-width: 40em) {
   .icon-card {
     --shape-padding-inline: var(--space-400);
+    --shape-padding-inline-end: var(--space-280);
   }
 }
 
@@ -29,6 +30,7 @@
   .icon-card {
     --flow-space: var(--space-300);
     --shape-radius: var(--size-90);
+    --shape-padding-inline-end: var(--space-400);
     --shape-padding-block-start: var(--space-500);
     --shape-padding-block-end: var(--space-450);
   }

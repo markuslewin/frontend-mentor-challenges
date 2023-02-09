@@ -5,8 +5,10 @@
   background: var(--shape-background);
   background-origin: border-box;
   block-size: var(--shape-block-size);
-  padding-inline: calc(
-    var(--shape-padding-inline, var(--space-200)) - var(--border-width, 2px)
+  padding-inline: calc(var(--shape-padding-inline) - var(--border-width, 2px));
+  padding-inline-end: calc(
+    var(--shape-padding-inline-end, var(--shape-padding-inline)) -
+      var(--border-width, 2px)
   );
   padding-block-start: calc(
     var(--shape-padding-block-start, var(--shape-padding-block)) -

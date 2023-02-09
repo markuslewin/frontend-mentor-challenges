@@ -22,8 +22,7 @@
 @media (min-width: 40em) {
   .hero {
     flex-direction: row;
-    padding-block-start: var(--space-550);
-    padding-block-end: var(--space-575);
+    padding-block: var(--space-530);
     gap: 0;
   }
 
@@ -37,12 +36,12 @@
 
   .hero picture {
     --view-box-x: 54px;
-    --view-box-y: 263px; /* 288 */
+    --view-box-y: 289px;
     --view-box-width: 303px;
 
     flex-shrink: 0;
     /* slight overlap with hero text */
-    margin-inline-start: -12px;
+    margin-inline-start: -13px;
     /* image has some whitespace in block direction */
     margin-block-end: -64px;
   }
