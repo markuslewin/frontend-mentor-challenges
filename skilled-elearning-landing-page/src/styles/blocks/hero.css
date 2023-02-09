@@ -1,5 +1,6 @@
 .hero {
   padding-block-start: var(--space-300);
+  padding-block-end: var(--space-500);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -16,6 +17,14 @@
 
 .hero picture {
   align-self: center;
+  /* image has some whitespace in block direction */
+  margin-block-end: -88px;
+}
+
+.hero picture,
+.hero img {
+  /* don't resize, images contain text */
+  max-inline-size: none;
 }
 
 /* tablet */
@@ -44,10 +53,6 @@
     margin-inline-start: -13px;
     /* image has some whitespace in block direction */
     margin-block-end: -64px;
-  }
-
-  .hero picture img {
-    max-inline-size: none;
   }
 }
 
