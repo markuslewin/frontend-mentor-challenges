@@ -14,3 +14,9 @@
 # Avoid your project being littered with annoying .DS_Store files!
 .DS_Store
 .prettierignore
+
+# npm
+node_modules
+# astro
+dist
+.netlify
