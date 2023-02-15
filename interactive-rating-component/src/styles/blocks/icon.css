@@ -1,0 +1,8 @@
+.icon {
+  --size-inline: var(--size-12);
+  --size-block: var(--size-12);
+  --shape-padding-inline: 0;
+  --shape-padding-block: 0;
+  --shape-radius: 50%;
+  --shape-background: var(--color-dark-blue);
+}

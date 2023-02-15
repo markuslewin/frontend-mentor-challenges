@@ -1,0 +1,4 @@
+.size {
+  inline-size: var(--size-inline);
+  block-size: var(--size-block);
+}
