@@ -1,0 +1,15 @@
+body {
+  background: var(--color-very-dark-blue);
+  font-family: var(--font);
+  font-size: var(--text-body);
+  font-weight: var(--weight-normal);
+  line-height: var(--leading-body);
+  color: var(--color-light-grey);
+}
+
+h1,
+h2 {
+  font-size: var(--text-heading);
+  line-height: var(--leading-heading);
+  color: var(--color-pure-white);
+}
