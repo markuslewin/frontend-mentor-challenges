@@ -16,6 +16,7 @@
     "astro": "^2.0.11"
   },
   "dependencies": {
-    "@astrojs/netlify": "^2.1.2"
+    "@astrojs/netlify": "^2.1.2",
+    "@fontsource/overpass": "^4.5.11"
   }
 }
