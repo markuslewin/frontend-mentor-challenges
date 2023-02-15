@@ -1,0 +1,6 @@
+.cover {
+  min-block-size: 100vh;
+  padding: var(--cover-padding);
+  display: flex;
+  align-items: center;
+}

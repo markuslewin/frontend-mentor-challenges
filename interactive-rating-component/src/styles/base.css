@@ -1,4 +1,7 @@
 body {
+  --cover-padding: var(--space-6);
+  --center-size: var(--size-103);
+
   background: var(--color-very-dark-blue);
   font-family: var(--font);
   font-size: var(--text-body);
@@ -12,4 +15,11 @@ h2 {
   font-size: var(--text-heading);
   line-height: var(--leading-heading);
   color: var(--color-pure-white);
+}
+
+/* tablet */
+@media (min-width: 40em) {
+  body {
+    --cover-padding: var(--space-8);
+  }
 }
