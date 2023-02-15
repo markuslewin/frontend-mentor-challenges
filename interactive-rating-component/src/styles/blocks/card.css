@@ -1,0 +1,15 @@
+.card {
+  --shape-radius: var(--size-4);
+  --shape-background: var(--color-black-gradient);
+  --shape-padding-inline: var(--space-6);
+  --shape-padding-block: var(--space-6);
+}
+
+/* tablet */
+@media (min-width: 40em) {
+  .card {
+    --shape-radius: var(--size-7);
+    --shape-padding-inline: var(--space-8);
+    --shape-padding-block: var(--space-8);
+  }
+}
