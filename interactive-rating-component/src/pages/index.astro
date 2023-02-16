@@ -13,23 +13,33 @@ import BaseLayout from "../layouts/BaseLayout.astro";
       appreciated to help us improve our offering!
     </p>
     <form class="flow">
-      <fieldset>
-        <legend>Choose a rating:</legend>
-        <label>
-          <input type="radio" name="rating" value="1" />1
-        </label>
-        <label>
-          <input type="radio" name="rating" value="2" />2
-        </label>
-        <label>
-          <input type="radio" name="rating" value="3" />3
-        </label>
-        <label>
-          <input type="radio" name="rating" value="4" />4
-        </label>
-        <label>
-          <input type="radio" name="rating" value="5" />5
-        </label>
+      <fieldset class="[ rating ] [ reset cluster ]">
+        <legend class="visually-hidden">Choose a rating:</legend>
+        {
+          Array(5)
+            .fill(null)
+            .map((_, index) => {
+              const value = index + 1;
+              const id = `rating-value-${value}`;
+              return (
+                <div>
+                  <input
+                    class="visually-hidden"
+                    id={id}
+                    type="radio"
+                    name="rating"
+                    value={value}
+                  />
+                  <label
+                    class="[ rating__value ] [ shape size middle ]"
+                    for={id}
+                  >
+                    {value}
+                  </label>
+                </div>
+              );
+            })
+        }
       </fieldset>
       <button class="[ button card__button ] [ shape size ]">Submit</button>
     </form>

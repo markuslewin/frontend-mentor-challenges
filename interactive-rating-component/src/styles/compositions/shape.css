@@ -1,10 +1,10 @@
 .shape {
-  --border-width: 2px;
+  --shape-border-width: 2px;
 
-  border: var(--border-width) solid transparent;
+  border: var(--shape-border-width) solid var(--shape-border-color, transparent);
   border-radius: var(--shape-radius);
-  padding-inline: calc(var(--shape-padding-inline) - var(--border-width));
-  padding-block: calc(var(--shape-padding-block) - var(--border-width));
+  padding-inline: calc(var(--shape-padding-inline) - var(--shape-border-width));
+  padding-block: calc(var(--shape-padding-block) - var(--shape-border-width));
   background: var(--shape-background);
   background-origin: border-box;
 }
