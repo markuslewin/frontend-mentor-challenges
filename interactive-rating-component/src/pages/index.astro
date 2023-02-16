@@ -3,16 +3,16 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 ---
 
 <BaseLayout>
-  <article class="[ card ] [ shape ]">
+  <article class="[ card ] [ shape flow ]">
     <div class="[ icon ] [ shape size middle ]">
       <img alt="" src="/icon-star.svg" />
     </div>
-    <h1>How did we do?</h1>
-    <p>
+    <h1 class="card__heading">How did we do?</h1>
+    <p class="card__body">
       Please let us know how we did with your support request. All feedback is
       appreciated to help us improve our offering!
     </p>
-    <form>
+    <form class="flow">
       <fieldset>
         <legend>Choose a rating:</legend>
         <label>
@@ -31,7 +31,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
           <input type="radio" name="rating" value="5" />5
         </label>
       </fieldset>
-      <button class="[ button ] [ shape size ]">Submit</button>
+      <button class="[ button card__button ] [ shape size ]">Submit</button>
     </form>
   </article>
 </BaseLayout>

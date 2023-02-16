@@ -3,6 +3,15 @@
   --shape-background: var(--color-black-gradient);
   --shape-padding-inline: var(--space-6);
   --shape-padding-block: var(--space-6);
+  --flow-space: var(--space-6);
+}
+
+.card__heading {
+  --flow-space: var(--space-4);
+}
+
+.card__body {
+  --flow-space: var(--space-2);
 }
 
 /* tablet */
@@ -11,5 +20,13 @@
     --shape-radius: var(--size-7);
     --shape-padding-inline: var(--space-8);
     --shape-padding-block: var(--space-8);
+  }
+
+  .card__heading {
+    --flow-space: var(--space-7);
+  }
+
+  .card__button {
+    --flow-space: var(--space-8);
   }
 }
