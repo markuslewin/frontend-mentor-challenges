@@ -1,0 +1,21 @@
+.button {
+  --shape-background: var(--color-orange);
+  --shape-radius: 9999px;
+  --shape-padding-inline: var(--space-5);
+  --shape-padding-block: var(--space-3);
+  --size-inline: 100%;
+
+  font-size: var(--text-button);
+  font-weight: var(--weight-bold);
+  letter-spacing: var(--tracking-100);
+  line-height: var(--leading-button);
+  text-transform: uppercase;
+  color: var(--color-pure-white);
+}
+
+.button:hover,
+.button:focus-visible {
+  --shape-background: var(--color-pure-white);
+
+  color: var(--color-orange);
+}

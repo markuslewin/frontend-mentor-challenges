@@ -29,6 +29,8 @@
   --weight-normal: 400;
   --weight-bold: 700;
 
+  --tracking-100: 0.125rem; /* 2px */
+
   --size-1: 0.25rem; /* 4px */
   --size-4: 1rem; /* 16px */
   --size-7: 1.75rem; /* 28px */
