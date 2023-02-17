@@ -6,11 +6,26 @@
   --flow-space: var(--space-6);
 }
 
-.card__heading {
+.card[data-card-variant="form"] .card__heading {
   --flow-space: var(--space-4);
 }
 
-.card__body {
+.card[data-card-variant="form"] .card__body {
+  --flow-space: var(--space-2);
+}
+
+.card[data-card-variant="thank-you"] {
+  --shape-padding-block: var(--space-9);
+
+  text-align: center;
+}
+
+.card[data-card-variant="thank-you"] .card__image {
+  --size-inline: var(--size-36);
+  --flow-space: 0;
+}
+
+.card[data-card-variant="thank-you"] .card__body {
   --flow-space: var(--space-2);
 }
 
@@ -22,11 +37,20 @@
     --shape-padding-block: var(--space-8);
   }
 
-  .card__heading {
+  .card[data-card-variant="form"] .card__heading {
     --flow-space: var(--space-7);
   }
 
-  .card__button {
+  .card[data-card-variant="form"] .card__button {
     --flow-space: var(--space-8);
+  }
+
+  .card[data-card-variant="thank-you"] {
+    --shape-padding-block: var(--space-11);
+    --flow-space: var(--space-8);
+  }
+
+  .card[data-card-variant="thank-you"] .card__image {
+    --size-inline: revert;
   }
 }

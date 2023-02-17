@@ -20,7 +20,7 @@
   --text-100: 0.875rem; /* 14px */
 
   --leading-600: 2.6875rem; /* 43px */
-  --leading-500: 1.6875rem; /* 27px */
+  --leading-500: 2.3125rem; /* 37px */
   --leading-400: 1.5rem; /* 24px */
   --leading-300: 1.4375rem; /* 23px */
   --leading-200: 1.375rem; /* 22px */
@@ -39,6 +39,7 @@
   --size-11: 2.75rem; /* 44px */
   --size-12: 3rem; /* 48px */
   --size-13: 3.25rem; /* 52px */
+  --size-36: 9rem; /* 144px */
   --size-103: 25.75rem; /* 412px */
 
   --space-1: 0.25rem; /* 4px */

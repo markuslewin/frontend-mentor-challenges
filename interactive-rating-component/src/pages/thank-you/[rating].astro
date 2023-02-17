@@ -5,12 +5,18 @@ const { rating } = Astro.params;
 ---
 
 <BaseLayout>
-  <article>
-    <h1>Form submitted</h1>
-    <img alt="" src="/illustration-thank-you.svg" />
-    <p>You selected {rating} out of 5</p>
+  <article class="[ card ] [ shape flow ]" data-card-variant="thank-you">
+    <h1 class="visually-hidden">Form submitted</h1>
+    <img
+      class="[ card__image ] [ center size ]"
+      alt=""
+      src="/illustration-thank-you.svg"
+    />
+    <p class="[ highlight ] [ shape center size ]">
+      You selected {rating} out of 5
+    </p>
     <h2>Thank you!</h2>
-    <p>
+    <p class="card__body">
       We appreciate you taking the time to give a rating. If you ever need more
       support, don’t hesitate to get in touch!
     </p>

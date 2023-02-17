@@ -1,0 +1,16 @@
+.highlight {
+  --shape-radius: 9999px;
+  --shape-background: var(--color-dark-blue);
+  --shape-padding-inline: var(--space-3);
+  --shape-padding-block: var(--space-1);
+  --size-inline: fit-content;
+
+  color: var(--color-orange);
+}
+
+/* tablet */
+@media (min-width: 40em) {
+  .highlight {
+    --shape-padding-inline: var(--space-5);
+  }
+}
