@@ -13,6 +13,7 @@ body {
 h1,
 h2 {
   font-size: var(--text-heading);
+  font-weight: var(--weight-bold);
   line-height: var(--leading-heading);
   color: var(--color-pure-white);
 }
