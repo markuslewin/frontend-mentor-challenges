@@ -1,6 +1,6 @@
 .rating {
-  --cluster-justify: space-between;
-  --cluster-space: var(--space-2);
+  --squares-size: var(--size-11);
+  --squares-space: var(--space-2);
 }
 
 .rating__value {
@@ -8,8 +8,8 @@
   --shape-background: var(--color-dark-blue);
   --shape-padding-inline: 0;
   --shape-padding-block: 0;
-  --size-inline: var(--size-11);
-  --size-block: var(--size-11);
+  --size-inline: 100%;
+  --size-block: 100%;
 
   font-size: var(--text-rating);
   font-weight: var(--weight-bold);
@@ -41,8 +41,7 @@
 }
 
 @media (min-width: 40em) {
-  .rating__value {
-    --size-inline: var(--size-13);
-    --size-block: var(--size-13);
+  .rating {
+    --squares-size: var(--size-13);
   }
 }

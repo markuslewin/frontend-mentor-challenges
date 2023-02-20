@@ -1,0 +1,7 @@
+.squares {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, var(--squares-size));
+  grid-auto-rows: var(--squares-size);
+  justify-content: space-between;
+  gap: var(--squares-space);
+}
