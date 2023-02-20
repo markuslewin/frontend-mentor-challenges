@@ -1,8 +1,23 @@
 .icon {
-  --size-inline: var(--size-12);
-  --size-block: var(--size-12);
+  --icon-size: var(--size-10);
+  --icon-image-size: calc(var(--icon-size) / 3);
+
+  --size-inline: var(--icon-size);
+  --size-block: var(--icon-size);
   --shape-padding-inline: 0;
   --shape-padding-block: 0;
   --shape-radius: 50%;
   --shape-background: var(--color-dark-blue);
+}
+
+.icon .icon__image {
+  --size-inline: var(--icon-image-size);
+  --size-block: auto;
+}
+
+/* tablet */
+@media (min-width: 40em) {
+  .icon {
+    --icon-size: var(--size-12);
+  }
 }
