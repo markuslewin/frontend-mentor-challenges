@@ -51,6 +51,6 @@
   }
 
   .card[data-card-variant="thank-you"] .card__image {
-    --size-inline: revert;
+    --size-inline: var(--size-40);
   }
 }
