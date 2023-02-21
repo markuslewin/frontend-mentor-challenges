@@ -17,10 +17,43 @@ export default function Index() {
   let data = useLoaderData<IndexData>();
 
   return (
-    <>
-      Your Result 76 of 100 Great You scored higher than 65% of the people who
-      have taken these tests. Summary Reaction 80 / 100 Memory 92 / 100 Verbal
-      61 / 100 Visual 72 / 100 Continue
-    </>
+    <main>
+      <article>
+        <h1>Your Result</h1>
+        <figure>
+          <p>
+            <strong>76</strong> of 100
+          </p>
+          <figcaption>
+            <p>Great</p>
+          </figcaption>
+        </figure>
+        <p>
+          You scored higher than 65% of the people who have taken these tests.
+        </p>
+        <article>
+          <h2>Summary</h2>
+          <ul>
+            <li>
+              <img alt="" src="/images/icon-reaction.svg" />
+              Reaction <strong>80</strong> / 100
+            </li>
+            <li>
+              <img alt="" src="/images/icon-memory.svg" />
+              Memory <strong>92</strong> / 100
+            </li>
+            <li>
+              <img alt="" src="/images/icon-verbal.svg" />
+              Verbal <strong>61</strong> / 100
+            </li>
+            <li>
+              <img alt="" src="/images/icon-visual.svg" />
+              Visual <strong>72</strong> / 100
+            </li>
+          </ul>
+          <button>Continue</button>
+        </article>
+      </article>
+    </main>
   );
 }
