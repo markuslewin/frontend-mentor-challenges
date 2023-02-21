@@ -96,7 +96,7 @@ function Document({ children }: { children: React.ReactNode }) {
           rel="icon"
           type="image/png"
           sizes="32x32"
-          href="/images/favicon-32x32.png"
+          href="./assets/images/favicon-32x32.png"
         />
         <title>Frontend Mentor | Results summary component</title>
         <Meta />

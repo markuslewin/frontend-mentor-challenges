@@ -1,21 +1,6 @@
-import { LoaderFunction, json } from "@remix-run/node";
-import { useLoaderData, Link } from "@remix-run/react";
+import results from "~/data/data.json";
 
-type IndexData = {
-  // resources: Array<{ name: string; url: string }>;
-  // demos: Array<{ name: string; to: string }>;
-};
-
-export let loader: LoaderFunction = () => {
-  let data: IndexData = {};
-
-  return json(data);
-};
-
-// https://remix.run/guides/routing#index-routes
 export default function Index() {
-  let data = useLoaderData<IndexData>();
-
   return (
     <main>
       <article>
@@ -34,22 +19,12 @@ export default function Index() {
         <article>
           <h2>Summary</h2>
           <ul>
-            <li>
-              <img alt="" src="/images/icon-reaction.svg" />
-              Reaction <strong>80</strong> / 100
-            </li>
-            <li>
-              <img alt="" src="/images/icon-memory.svg" />
-              Memory <strong>92</strong> / 100
-            </li>
-            <li>
-              <img alt="" src="/images/icon-verbal.svg" />
-              Verbal <strong>61</strong> / 100
-            </li>
-            <li>
-              <img alt="" src="/images/icon-visual.svg" />
-              Visual <strong>72</strong> / 100
-            </li>
+            {results.map((result) => (
+              <li>
+                <img alt="" src={result.icon} />
+                {result.category} <strong>{result.score}</strong> / 100
+              </li>
+            ))}
           </ul>
           <button>Continue</button>
         </article>
