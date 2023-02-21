@@ -20,7 +20,7 @@ export default function Index() {
           <h2>Summary</h2>
           <ul>
             {results.map((result) => (
-              <li>
+              <li key={result.category}>
                 <img alt="" src={result.icon} />
                 {result.category} <strong>{result.score}</strong> / 100
               </li>
