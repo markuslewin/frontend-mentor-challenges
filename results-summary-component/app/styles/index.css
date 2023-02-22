@@ -2,3 +2,10 @@
 @import "fonts.css";
 @import "variables.css";
 @import "base.css";
+
+@import "compositions/center.css";
+@import "compositions/columns.css";
+@import "compositions/cover.css";
+@import "compositions/shape.css";
+
+@import "blocks/card.css";

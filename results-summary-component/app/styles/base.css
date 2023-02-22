@@ -8,6 +8,8 @@ body {
   --leading-heading-m: var(--leading-200);
   --leading-body: var(--leading-100);
 
+  --center-size: var(--size-184);
+
   background: var(--color-very-light-blue);
   font-family: var(--font);
   font-size: var(--text-body);

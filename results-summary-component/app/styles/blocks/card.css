@@ -1,0 +1,12 @@
+.card {
+  --columns-number: 1;
+  --shape-radius: var(--size-8);
+  --shape-background: var(--color-white);
+}
+
+/* tablet */
+@media (min-width: 40em) {
+  .card {
+    --columns-number: 2;
+  }
+}
