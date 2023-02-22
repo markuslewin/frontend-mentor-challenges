@@ -10,7 +10,9 @@ export default function Index() {
             <strong>76</strong> of 100
           </p>
           <figcaption>
-            <p>Great</p>
+            <p>
+              <strong>Great</strong>
+            </p>
           </figcaption>
         </figure>
         <p>
