@@ -30,6 +30,7 @@ strong {
 }
 
 button {
+  text-align: center;
   font-size: var(--text-200);
   font-weight: var(--weight-bold);
   line-height: var(--leading-200);

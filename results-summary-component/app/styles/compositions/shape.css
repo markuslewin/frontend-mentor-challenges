@@ -4,6 +4,9 @@
   border-radius: var(--shape-radius);
   border: var(--shape-border-width) solid transparent;
   background: var(--shape-background);
+  background-origin: border-box;
+  padding-inline: calc(var(--shape-padding-inline) - var(--shape-border-width));
+  padding-block: calc(var(--shape-padding-block) - var(--shape-border-width));
 }
 
 /* doesn't affect layout */

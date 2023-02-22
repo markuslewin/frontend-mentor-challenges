@@ -30,7 +30,7 @@ export default function Index() {
               </li>
             ))}
           </ul>
-          <button>Continue</button>
+          <button className="[ button ] [ shape size ]">Continue</button>
         </article>
       </article>
     </main>

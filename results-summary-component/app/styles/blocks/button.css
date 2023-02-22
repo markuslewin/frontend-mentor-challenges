@@ -1,0 +1,14 @@
+.button {
+  --shape-radius: 9999px;
+  --shape-background: var(--color-dark-navy);
+  --shape-padding-inline: var(--space-6);
+  --shape-padding-block: var(--space-4);
+  --size-inline: 100%;
+
+  color: var(--color-white);
+}
+
+.button:hover,
+.button:focus-visible {
+  --shape-background: var(--color-gradient-1);
+}
