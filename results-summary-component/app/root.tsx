@@ -9,19 +9,11 @@ import {
   useCatch,
 } from "@remix-run/react";
 
-// import globalStylesUrl from "~/styles/global.css";
-// import darkStylesUrl from "~/styles/dark.css";
+import stylesUrl from "~/styles/index.css";
 
 // https://remix.run/api/app#links
 export let links: LinksFunction = () => {
-  return [
-    // { rel: "stylesheet", href: globalStylesUrl },
-    // {
-    //   rel: "stylesheet",
-    //   href: darkStylesUrl,
-    //   media: "(prefers-color-scheme: dark)",
-    // },
-  ];
+  return [{ rel: "stylesheet", href: stylesUrl }];
 };
 
 // https://remix.run/api/conventions#default-export
