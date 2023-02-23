@@ -26,17 +26,17 @@ export default function Index() {
             <ul role="list" className="[ card__results ] [ flow reset ]">
               {results.map((result) => (
                 <li
-                  className="[ card__result ] [ cluster shape ]"
+                  className="[ result ] [ cluster shape ]"
                   key={result.category}
                   data-result-category={result.category}
                 >
-                  <span className="[ card__category ] [ cluster ]">
+                  <span className="[ result__category ] [ cluster ]">
                     <img alt="" src={result.icon} />
                     {result.category}
                   </span>{" "}
                   <span>
                     <strong>{result.score}</strong>{" "}
-                    <span className="card__max">/ 100</span>
+                    <span className="result__max">/ 100</span>
                   </span>
                 </li>
               ))}

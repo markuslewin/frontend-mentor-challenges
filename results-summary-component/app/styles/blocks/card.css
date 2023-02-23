@@ -15,45 +15,6 @@
   --flow-space: var(--space-4);
 }
 
-.card .card__result {
-  --cluster-justify: space-between;
-  --cluster-space: var(--space-4);
-  --shape-radius: var(--size-3);
-  --shape-background: var(--result-background);
-  --shape-padding-inline: var(--space-4);
-  --shape-padding-block: var(--space-4);
-}
-
-.card .card__result[data-result-category="Reaction"] {
-  --result-color: var(--color-red);
-  --result-background: var(--color-red-95-white);
-}
-
-.card .card__result[data-result-category="Memory"] {
-  --result-color: var(--color-yellow);
-  --result-background: var(--color-yellow-95-white);
-}
-
-.card .card__result[data-result-category="Verbal"] {
-  --result-color: var(--color-green);
-  --result-background: var(--color-green-95-white);
-}
-
-.card .card__result[data-result-category="Visual"] {
-  --result-color: var(--color-blue);
-  --result-background: var(--color-blue-95-white);
-}
-
-.card .card__category {
-  --cluster-space: var(--space-3);
-
-  color: var(--result-color);
-}
-
-.card .card__max {
-  color: var(--card-color-max);
-}
-
 /* tablet */
 @media (min-width: 40em) {
   .card {
