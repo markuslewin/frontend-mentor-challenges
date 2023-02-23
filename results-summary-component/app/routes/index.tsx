@@ -20,16 +20,28 @@ export default function Index() {
             You scored higher than 65% of the people who have taken these tests.
           </p>
         </article>
-        <article>
+        <article className="[ card__summary ] [ container flow ]">
           <h2>Summary</h2>
-          <ul>
-            {results.map((result) => (
-              <li key={result.category}>
-                <img alt="" src={result.icon} />
-                {result.category} <strong>{result.score}</strong> / 100
-              </li>
-            ))}
-          </ul>
+          <div>
+            <ul role="list" className="[ card__results ] [ flow reset ]">
+              {results.map((result) => (
+                <li
+                  className="[ card__result ] [ cluster shape ]"
+                  key={result.category}
+                  data-result-category={result.category}
+                >
+                  <span className="[ card__category ] [ cluster ]">
+                    <img alt="" src={result.icon} />
+                    {result.category}
+                  </span>{" "}
+                  <span>
+                    <strong>{result.score}</strong>{" "}
+                    <span className="card__max">/ 100</span>
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
           <button className="[ button ] [ shape size ]">Continue</button>
         </article>
       </article>

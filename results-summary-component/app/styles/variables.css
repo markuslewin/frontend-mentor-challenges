@@ -2,10 +2,15 @@
   --color-gradient-1: linear-gradient(hsl(252 100% 67%), hsl(241 81% 54%));
   --color-gradient-2: linear-gradient(hsl(256 71% 46%), hsl(241 71% 46% / 0%));
   --color-yellow: hsl(40 100% 56%);
+  --color-yellow-95-white: hsl(38 100% 98%);
   --color-blue: hsl(234 85% 45%);
+  --color-blue-95-white: hsl(234 71% 97%);
   --color-green: hsl(166 100% 37%);
+  --color-green-95-white: hsl(162 62% 97%);
   --color-red: hsl(0 100% 67%);
+  --color-red-95-white: hsl(0 100% 98%);
   --color-dark-navy: hsl(223 30% 27%);
+  --color-dark-navy-desaturated: hsl(214 13% 62%);
   --color-light-blue: hsl(241 100% 89%);
   --color-very-light-blue: hsl(220 100% 96%);
   --color-white: hsl(0 0% 100%);
