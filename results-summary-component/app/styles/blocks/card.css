@@ -1,7 +1,5 @@
 .card {
   --card-padding: var(--space-8);
-  /* todo: move to `result` */
-  --card-color-max: var(--color-dark-navy-desaturated);
 
   --columns-number: 1;
   --shape-radius: var(--size-8);
@@ -16,19 +14,6 @@
 
   text-align: center;
   color: var(--color-light-blue);
-}
-
-.card .card__dent {
-  --shape-radius: 50%;
-  --shape-background: var(--color-gradient-2);
-  --size-inline: var(--size-35);
-  --size-block: var(--size-35);
-}
-
-.card .card__score {
-  font-size: var(--text-heading-xl);
-  line-height: var(--leading-heading-xl);
-  color: var(--color-white);
 }
 
 .card .card__caption {
@@ -61,11 +46,6 @@
 
   .card .card__result {
     --flow-space: var(--space-9);
-  }
-
-  .card .card__dent {
-    --size-inline: var(--size-50);
-    --size-block: var(--size-50);
   }
 
   .card .card__caption {

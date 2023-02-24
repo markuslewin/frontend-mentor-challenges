@@ -19,7 +19,7 @@
 }
 
 .result__max {
-  color: var(--card-color-max);
+  color: var(--color-dark-navy-desaturated);
 }
 
 .result[data-result-category="Reaction"] {

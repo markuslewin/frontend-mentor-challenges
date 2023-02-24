@@ -7,8 +7,8 @@ export default function Index() {
         <article className="[ card__result ] [ flow shape ]">
           <h1>Your Result</h1>
           <figure className="flow">
-            <p className="[ card__dent ] [ center middle shape size ]">
-              <strong className="card__score">76</strong> of 100
+            <p className="[ dent ] [ center middle shape size ]">
+              <strong className="dent__score">76</strong> of 100
             </p>
             <figcaption className="card__caption">
               <p>

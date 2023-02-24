@@ -1,0 +1,20 @@
+.dent {
+  --shape-radius: 50%;
+  --shape-background: var(--color-gradient-2);
+  --size-inline: var(--size-35);
+  --size-block: var(--size-35);
+}
+
+.dent .dent__score {
+  font-size: var(--text-heading-xl);
+  line-height: var(--leading-heading-xl);
+  color: var(--color-white);
+}
+
+/* tablet */
+@media (min-width: 40em) {
+  .dent {
+    --size-inline: var(--size-50);
+    --size-block: var(--size-50);
+  }
+}
