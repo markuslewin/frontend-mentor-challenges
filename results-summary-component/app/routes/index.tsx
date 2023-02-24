@@ -54,7 +54,9 @@ export default function Index() {
               ))}
             </ul>
           </div>
-          <button className="[ button ] [ shape size ]">Continue</button>
+          <button className="[ button ] [ background shape size ]">
+            Continue
+          </button>
         </article>
       </article>
     </main>

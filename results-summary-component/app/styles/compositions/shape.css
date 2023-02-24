@@ -1,17 +1,21 @@
 .shape {
-  --shape-border-width: 2px;
+  --internal-shape-border-width: var(--shape-border-width, var(--border-width));
 
   border-radius: var(--shape-radius);
-  border: var(--shape-border-width) solid transparent;
+  border: var(--internal-shape-border-width) solid transparent;
   background: var(--shape-background);
   background-origin: border-box;
-  padding-inline: calc(var(--shape-padding-inline) - var(--shape-border-width));
-  padding-block: calc(var(--shape-padding-block) - var(--shape-border-width));
+  padding-inline: calc(
+    var(--shape-padding-inline) - var(--internal-shape-border-width)
+  );
+  padding-block: calc(
+    var(--shape-padding-block) - var(--internal-shape-border-width)
+  );
 }
 
 /* doesn't affect layout */
 .shape[data-shape-float] {
   border: none;
-  outline: var(--shape-border-width) solid transparent;
-  outline-offset: calc(-1 * var(--shape-border-width));
+  outline: var(--internal-shape-border-width) solid transparent;
+  outline-offset: calc(-1 * var(--internal-shape-border-width));
 }

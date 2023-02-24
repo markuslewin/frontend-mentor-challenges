@@ -3,6 +3,7 @@
 @import "variables.css";
 @import "base.css";
 
+@import "compositions/background.css";
 @import "compositions/center.css";
 @import "compositions/cluster.css";
 @import "compositions/columns.css";

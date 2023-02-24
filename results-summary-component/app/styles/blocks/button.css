@@ -1,5 +1,14 @@
 .button {
-  --shape-radius: 9999px;
+  --button-border-width: var(--border-width);
+  --button-radius: 9999px;
+
+  --background-border-width: var(--button-border-width);
+  --background-color: var(--color-gradient-1);
+  --background-radius: var(--button-radius);
+  --background-opacity: 0;
+  --background-transition-duration: var(--transition-duration-deactivate);
+  --shape-border-width: var(--button-border-width);
+  --shape-radius: var(--button-radius);
   --shape-background: var(--color-dark-navy);
   --shape-padding-inline: var(--space-6);
   --shape-padding-block: var(--space-4);
@@ -10,5 +19,6 @@
 
 .button:hover,
 .button:focus-visible {
-  --shape-background: var(--color-gradient-1);
+  --background-opacity: 1;
+  --background-transition-duration: var(--transition-duration-activate);
 }

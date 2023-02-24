@@ -7,6 +7,9 @@ body {
   --leading-heading-l: var(--leading-300);
   --leading-heading-m: var(--leading-200);
   --leading-body: var(--leading-100);
+  --border-width: max(1px, 0.125rem);
+  --transition-duration-activate: 150ms;
+  --transition-duration-deactivate: 500ms;
 
   --center-size: var(--size-184);
 

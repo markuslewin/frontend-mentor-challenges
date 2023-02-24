@@ -1,0 +1,16 @@
+.background {
+  position: relative;
+  isolation: isolate;
+}
+
+.background::before {
+  content: "";
+  position: absolute;
+  inset: calc(-1 * var(--background-border-width));
+  background: var(--background-color);
+  border-radius: var(--background-radius);
+  z-index: -1;
+  opacity: var(--background-opacity);
+  transition-property: opacity;
+  transition-duration: var(--background-transition-duration);
+}
