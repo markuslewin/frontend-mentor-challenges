@@ -13,6 +13,11 @@
   color: var(--result-color);
 }
 
+.result__icon {
+  --size-inline: var(--size-5);
+  --size-block: var(--size-5);
+}
+
 .result__max {
   color: var(--card-color-max);
 }

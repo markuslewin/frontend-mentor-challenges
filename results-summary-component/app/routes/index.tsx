@@ -31,7 +31,11 @@ export default function Index() {
                   data-result-category={result.category}
                 >
                   <span className="[ result__category ] [ cluster ]">
-                    <img alt="" src={result.icon} />
+                    <img
+                      className="[ result__icon ] [ size ]"
+                      alt=""
+                      src={result.icon}
+                    />
                     {result.category}
                   </span>{" "}
                   <span>
