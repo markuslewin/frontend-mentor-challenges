@@ -38,6 +38,8 @@ export default function Index() {
                       className="[ result__icon ] [ size ]"
                       alt=""
                       src={result.icon}
+                      width="20"
+                      height="20"
                     />
                     {result.category}
                   </span>{" "}
