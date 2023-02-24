@@ -1,5 +1,21 @@
 .cover {
   min-block-size: 100vh;
+  padding: var(--cover-padding);
   display: flex;
-  align-items: center;
+  flex-direction: column;
+}
+
+.cover > * {
+  flex-grow: 1;
+}
+
+/* tablet */
+@media (min-width: 40em) {
+  .cover {
+    justify-content: center;
+  }
+
+  .cover > * {
+    flex-grow: 0;
+  }
 }

@@ -1,4 +1,5 @@
 .columns {
   display: grid;
   grid-template-columns: repeat(var(--columns-number), 1fr);
+  grid-template-rows: auto 1fr;
 }

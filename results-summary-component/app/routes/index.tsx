@@ -3,7 +3,10 @@ import results from "~/data/data.json";
 export default function Index() {
   return (
     <main className="cover">
-      <article className="[ card ] [ center columns shape ]" data-shape-float>
+      <article
+        className="[ card ] [ center columns shape size ]"
+        data-shape-float
+      >
         <article className="[ card__result ] [ flow shape ]">
           <h1>Your Result</h1>
           <figure className="flow">

@@ -2,12 +2,14 @@
   --card-padding: var(--space-8);
 
   --columns-number: 1;
-  --shape-radius: var(--size-8);
+  --shape-radius: 0;
   --shape-background: var(--color-white);
+  --size-inline: 100%;
 }
 
 .card .card__result {
   --flow-space: var(--space-6);
+  --shape-radius: 0 0 var(--size-8) var(--size-8);
   --shape-background: var(--color-gradient-1);
   --shape-padding-inline: var(--card-padding);
   --shape-padding-block: var(--card-padding);
@@ -42,10 +44,12 @@
     --card-padding: var(--space-10);
 
     --columns-number: 2;
+    --shape-radius: var(--size-8);
   }
 
   .card .card__result {
     --flow-space: var(--space-9);
+    --shape-radius: var(--size-8);
   }
 
   .card .card__caption {
