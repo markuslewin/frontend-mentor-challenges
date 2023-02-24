@@ -4,19 +4,19 @@ export default function Index() {
   return (
     <main className="cover">
       <article className="[ card ] [ center columns shape ]" data-shape-float>
-        <article>
+        <article className="[ card__result ] [ flow shape ]">
           <h1>Your Result</h1>
-          <figure>
-            <p>
-              <strong>76</strong> of 100
+          <figure className="flow">
+            <p className="[ card__dent ] [ center middle shape size ]">
+              <strong className="card__score">76</strong> of 100
             </p>
-            <figcaption>
+            <figcaption className="card__caption">
               <p>
                 <strong>Great</strong>
               </p>
             </figcaption>
           </figure>
-          <p>
+          <p className="[ card__description ] [ center ]">
             You scored higher than 65% of the people who have taken these tests.
           </p>
         </article>

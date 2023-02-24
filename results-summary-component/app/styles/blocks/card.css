@@ -1,4 +1,6 @@
 .card {
+  --card-padding: var(--space-8);
+  /* todo: move to `result` */
   --card-color-max: var(--color-dark-navy-desaturated);
 
   --columns-number: 1;
@@ -6,8 +8,42 @@
   --shape-background: var(--color-white);
 }
 
+.card .card__result {
+  --flow-space: var(--space-6);
+  --shape-background: var(--color-gradient-1);
+  --shape-padding-inline: var(--card-padding);
+  --shape-padding-block: var(--card-padding);
+
+  text-align: center;
+  color: var(--color-light-blue);
+}
+
+.card .card__dent {
+  --shape-radius: 50%;
+  --shape-background: var(--color-gradient-2);
+  --size-inline: var(--size-35);
+  --size-block: var(--size-35);
+}
+
+.card .card__score {
+  font-size: var(--text-heading-xl);
+  line-height: var(--leading-heading-xl);
+  color: var(--color-white);
+}
+
+.card .card__caption {
+  font-size: var(--text-heading-l);
+  line-height: var(--leading-heading-l);
+  color: var(--color-white);
+}
+
+.card .card__description {
+  --center-size: var(--size-65);
+  --flow-space: var(--space-2);
+}
+
 .card .card__summary {
-  --container-padding: var(--space-8);
+  --container-padding: var(--card-padding);
   --flow-space: var(--space-7);
 }
 
@@ -18,10 +54,25 @@
 /* tablet */
 @media (min-width: 40em) {
   .card {
+    --card-padding: var(--space-10);
+
     --columns-number: 2;
   }
 
-  .card .card__summary {
-    --container-padding: var(--space-10);
+  .card .card__result {
+    --flow-space: var(--space-9);
+  }
+
+  .card .card__dent {
+    --size-inline: var(--size-50);
+    --size-block: var(--size-50);
+  }
+
+  .card .card__caption {
+    --flow-space: var(--space-6);
+  }
+
+  .card .card__description {
+    --flow-space: var(--space-4);
   }
 }

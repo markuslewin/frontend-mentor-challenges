@@ -1,10 +1,10 @@
 body {
-  --text-heading-xl: var(--text-500);
-  --text-heading-l: var(--text-400);
+  --text-heading-xl: var(--text-450);
+  --text-heading-l: var(--text-300);
   --text-heading-m: var(--text-200);
   --text-body: var(--text-100);
   --leading-heading-xl: var(--leading-500);
-  --leading-heading-l: var(--leading-400);
+  --leading-heading-l: var(--leading-300);
   --leading-heading-m: var(--leading-200);
   --leading-body: var(--leading-100);
 
@@ -39,8 +39,11 @@ button {
 /* tablet */
 @media (min-width: 40em) {
   body {
+    --text-heading-xl: var(--text-500);
+    --text-heading-l: var(--text-400);
     --text-heading-m: var(--text-300);
     --text-body: var(--text-200);
+    --leading-heading-l: var(--leading-400);
     --leading-heading-m: var(--leading-300);
     --leading-body: var(--leading-200);
   }
