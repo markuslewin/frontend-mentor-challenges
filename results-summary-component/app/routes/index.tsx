@@ -23,7 +23,10 @@ export default function Index() {
             You scored higher than 65% of the people who have taken these tests.
           </p>
         </article>
-        <article className="[ card__summary ] [ container flow ]">
+        <article
+          className="[ card__summary ] [ container flow ]"
+          data-flow-split="last"
+        >
           <h2>Summary</h2>
           <div>
             <ul role="list" className="[ card__results ] [ flow reset ]">
