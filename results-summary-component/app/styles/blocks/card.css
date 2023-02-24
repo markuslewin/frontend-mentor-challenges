@@ -2,6 +2,7 @@
   --card-padding: var(--space-8);
 
   --columns-number: 1;
+  --shadow-value: var(--shadow);
   --shape-radius: 0;
   --shape-background: var(--color-white);
   --size-inline: 100%;

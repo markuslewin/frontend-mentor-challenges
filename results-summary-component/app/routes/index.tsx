@@ -4,7 +4,7 @@ export default function Index() {
   return (
     <main className="cover">
       <article
-        className="[ card ] [ center columns shape size ]"
+        className="[ card ] [ center columns shadow shape size ]"
         data-shape-float
       >
         <article className="[ card__result ] [ flow shape ]">
