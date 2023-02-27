@@ -5,17 +5,18 @@
   "description": "![Design preview for the Results summary component coding challenge](./design/desktop-preview.jpg)",
   "scripts": {
     "build": "remix build",
-    "dev": "remix dev",
-    "postinstall": "remix setup node",
-    "start": "remix-serve build"
+    "dev": "remix watch",
+    "dev:netlify": "cross-env NODE_ENV=development netlify dev",
+    "postinstall": "remix setup node"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@netlify/functions": "^1.4.0",
+    "@remix-run/netlify": "^1.13.0",
     "@remix-run/node": "^1.13.0",
     "@remix-run/react": "^1.13.0",
-    "@remix-run/serve": "^1.13.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "remix": "^1.13.0"
@@ -24,6 +25,7 @@
     "@remix-run/dev": "^1.13.0",
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.11",
+    "cross-env": "^7.0.3",
     "typescript": "^4.9.5"
   },
   "sideEffects": false

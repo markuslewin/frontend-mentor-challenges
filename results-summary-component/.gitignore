@@ -20,5 +20,8 @@
 
 # remix
 /.cache
-/build
 /public/build
+
+# netlify
+/.netlify
+/netlify/functions/server/build
