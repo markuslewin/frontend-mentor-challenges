@@ -2,6 +2,7 @@
 .view-box {
   inline-size: var(--view-box-width);
   block-size: var(--view-box-height);
+  contain: layout;
 }
 
 .view-box > * {
