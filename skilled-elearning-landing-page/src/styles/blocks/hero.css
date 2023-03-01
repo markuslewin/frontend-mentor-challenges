@@ -16,7 +16,11 @@
 }
 
 .hero picture {
-  align-self: center;
+  --view-box-x: 46px;
+  --view-box-y: 20px;
+  --view-box-width: 341px;
+
+  margin-inline: auto;
   /* image has some whitespace in block direction */
   margin-block-end: -88px;
 }
@@ -49,6 +53,7 @@
     --view-box-width: 303px;
 
     flex-shrink: 0;
+    margin-inline: 0;
     /* slight overlap with hero text */
     margin-inline-start: -13px;
     /* image has some whitespace in block direction */
