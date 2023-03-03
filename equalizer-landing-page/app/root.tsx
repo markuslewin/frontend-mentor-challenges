@@ -39,6 +39,7 @@ function Document({ children }: { children: React.ReactNode }) {
           sizes="32x32"
           href="./assets/favicon-32x32.png"
         ></link>
+        <Links />
         <title>Frontend Mentor | Equalizer landing page</title>
       </head>
       <body>
