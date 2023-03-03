@@ -1,0 +1,80 @@
+:root {
+  --color-66e2dc: hsl(177 68% 64%);
+  --color-fa7453: hsl(12 94% 65%);
+  --color-ffb964: hsl(33 100% 70%);
+  --color-fcfaf9: hsl(20 33% 98%);
+  --color-191826: hsl(244 23% 12%);
+
+  --font: "IBM Plex Sans", cursive;
+
+  --text-800: 5.5rem; /* 88px */
+  --text-700: 4.0625rem; /* 65px */
+  --text-600: 4rem; /* 64px */
+  --text-500: 2.5rem; /* 40px */
+  --text-400: 2rem; /* 32px */
+  --text-300: 1.25rem; /* 20px */
+  --text-200: 1.125rem; /* 18px */
+  --text-100: 1rem; /* 16px */
+
+  --leading-900: 5.5rem; /* 88px */
+  --leading-800: 4rem; /* 64px */
+  --leading-700: 3.25rem; /* 52px */
+  --leading-600: 3rem; /* 48px */
+  --leading-500: 2.5rem; /* 40px */
+  --leading-400: 2.125rem; /* 34px */
+  --leading-300: 2rem; /* 32px */
+  --leading-200: 1.75rem; /* 28px */
+  --leading-100: 1.625rem; /* 26px */
+
+  --weight-regular: 400;
+  --weight-bold: 700;
+
+  --tracking-100: -0.01125rem; /* -0.18px */
+  --tracking-200: -0.0125rem; /* -0.2px */
+  --tracking-300: -0.028125rem; /* -0.45px */
+  --tracking-400: -0.045625rem; /* -0.73px */
+  --tracking-500: -0.0625rem; /* -1px */
+
+  --size-5: 1.25rem; /* 20px */
+  --size-8: 2rem; /* 32px */
+  --size-52: 13rem; /* 208px */
+  --size-66: 16.5rem; /* 264px */
+  --size-67: 16.75rem; /* 268px */
+  --size-68: 17rem; /* 272px */
+  --size-70: 17.5rem; /* 280px */
+  --size-78: 19.5rem; /* 312px */
+  --size-99: 24.75rem; /* 396px */
+  --size-100: 25rem; /* 400px */
+  --size-111: 27.75rem; /* 444px */
+  --size-112: 28rem; /* 448px */
+  --size-277: 69.25rem; /* 1108px */
+  --size-278: 69.5rem; /* 1112px */
+
+  --space-3: 0.75rem; /* 12px */
+  --space-4: 1rem; /* 16px */
+  --space-5: 1.25rem; /* 20px */
+  --space-6: 1.5rem; /* 24px */
+  --space-7: 1.75rem; /* 28px */
+  --space-8: 2rem; /* 32px */
+  --space-9: 2.25rem; /* 36px */
+  --space-10: 2.5rem; /* 40px */
+  --space-11: 2.75rem; /* 44px */
+  --space-12: 3rem; /* 48px */
+  --space-13: 3.25rem; /* 52px */
+  --space-14: 3.5rem; /* 56px */
+  --space-15: 3.75rem; /* 60px */
+  --space-16: 4rem; /* 64px */
+  --space-17: 4.25rem; /* 68px */
+  --space-21: 5.25rem; /* 84px */
+  --space-22: 5.5rem; /* 88px */
+  --space-23: 5.75rem; /* 92px */
+  --space-24: 6rem; /* 96px */
+  --space-25: 6.25rem; /* 100px */
+  --space-26: 6.5rem; /* 104px */
+  --space-27: 6.75rem; /* 108px */
+  --space-28: 7rem; /* 112px */
+  --space-29: 7.5rem; /* 116px */
+  --space-34: 8.5rem; /* 136px */
+  --space-35: 8.75rem; /* 140px */
+  --space-53: 13.25rem; /* 212px */
+}
