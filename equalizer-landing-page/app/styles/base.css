@@ -1,0 +1,65 @@
+body {
+  --text-h1: var(--text-500);
+  --leading-h1: var(--leading-600);
+  --tracking-h1: var(--tracking-300);
+  --text-h2: var(--text-400);
+  --leading-h2: var(--leading-500);
+  --text-body-1: var(--text-100);
+  --leading-body-1: var(--leading-100);
+  --text-body-2: var(--text-100);
+  --leading-body-2: var(--leading-100);
+
+  font-family: var(--font);
+  font-size: var(--text-body-1);
+  font-weight: var(--weight-regular);
+  line-height: var(--leading-body-1);
+  background: var(--color-fcfaf9);
+  color: var(--color-191826);
+}
+
+h1 {
+  font-size: var(--text-h1);
+  font-kerning: var(--tracking-h1);
+  line-height: var(--leading-h1);
+  font-weight: var(--weight-bold);
+}
+
+h2 {
+  font-size: var(--text-h2);
+  line-height: var(--leading-h2);
+  font-weight: var(--weight-bold);
+}
+
+strong {
+  font-weight: var(--weight-bold);
+}
+
+a {
+  font-weight: var(--weight-bold);
+  text-decoration: none;
+  color: inherit;
+}
+
+/* tablet */
+@media (min-width: 40em) {
+  body {
+    --text-h1: var(--text-600);
+    --leading-h1: var(--leading-800);
+    --tracking-h1: var(--tracking-400);
+    --text-body-1: var(--text-200);
+    --leading-body-1: var(--leading-200);
+  }
+}
+
+/* desktop */
+@media (min-width: 64em) {
+  body {
+    --text-h1: var(--text-800);
+    --leading-h1: var(--leading-900);
+    --tracking-h1: var(--tracking-500);
+    --text-h2: var(--text-500);
+    --leading-h2: var(--leading-700);
+    --text-body-1: var(--text-300);
+    --leading-body-1: var(--leading-400);
+  }
+}

@@ -5,7 +5,7 @@
   --color-fcfaf9: hsl(20 33% 98%);
   --color-191826: hsl(244 23% 12%);
 
-  --font: "IBM Plex Sans", cursive;
+  --font: "IBM Plex Sans", sans-serif;
 
   --text-800: 5.5rem; /* 88px */
   --text-700: 4.0625rem; /* 65px */
