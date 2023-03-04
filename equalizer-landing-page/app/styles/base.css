@@ -8,12 +8,15 @@ body {
   --leading-body-1: var(--leading-100);
   --text-body-2: var(--text-100);
   --leading-body-2: var(--leading-100);
+  --background-image: url("assets/bg-main-mobile.png");
+  /* todo */
+  --background-position: ;
 
   font-family: var(--font);
   font-size: var(--text-body-1);
   font-weight: var(--weight-regular);
   line-height: var(--leading-body-1);
-  background: var(--color-fcfaf9);
+  background: var(--background-image) no-repeat, var(--color-fcfaf9);
   color: var(--color-191826);
 }
 
@@ -48,6 +51,7 @@ a {
     --tracking-h1: var(--tracking-400);
     --text-body-1: var(--text-200);
     --leading-body-1: var(--leading-200);
+    --background-image: url("assets/bg-main-tablet.png");
   }
 }
 
@@ -61,5 +65,6 @@ a {
     --leading-h2: var(--leading-700);
     --text-body-1: var(--text-300);
     --leading-body-1: var(--leading-400);
+    --background-image: url("assets/bg-main-desktop.png");
   }
 }
