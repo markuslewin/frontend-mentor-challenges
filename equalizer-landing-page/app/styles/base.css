@@ -8,6 +8,10 @@ body {
   --leading-body-1: var(--leading-100);
   --text-body-2: var(--text-100);
   --leading-body-2: var(--leading-100);
+  --gutter: var(--space-6);
+
+  --center-size: var(--size-278);
+  --center-gutter: var(--gutter);
 
   font-family: var(--font);
   font-size: var(--text-body-1);
@@ -48,6 +52,8 @@ a {
     --tracking-h1: var(--tracking-400);
     --text-body-1: var(--text-200);
     --leading-body-1: var(--leading-200);
+
+    --center-gutter: var(--space-10);
   }
 }
 

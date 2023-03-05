@@ -1,0 +1,10 @@
+.showcase {
+  --center-gutter: 0;
+}
+
+/* tablet */
+@media (min-width: 40em) {
+  .showcase {
+    --center-gutter: var(--gutter);
+  }
+}

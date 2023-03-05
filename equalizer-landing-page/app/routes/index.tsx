@@ -2,10 +2,12 @@ export default function Index() {
   return (
     <>
       <header>
-        <img alt="equalizer" width="147" height="33" src="assets/logo.svg" />
+        <div className="center">
+          <img alt="equalizer" width="147" height="33" src="assets/logo.svg" />
+        </div>
       </header>
       <main>
-        <article>
+        <article className="center">
           <h1>We make your music sound extraordinary.</h1>
           <p>
             A system audio equalizer specifically designed for Android and iOS.
@@ -14,7 +16,7 @@ export default function Index() {
             control, reverb, and more!
           </p>
         </article>
-        <article>
+        <article className="[ showcase ] [ center ]">
           <img
             alt="the equalizer user interface"
             src="assets/illustration-app.png"
@@ -52,31 +54,33 @@ export default function Index() {
         </article>
       </main>
       <footer>
-        <img alt="equalizer" width="147" height="33" src="assets/logo.svg" />
-        <p>All rights reserved © Equalizer 2021</p>
-        <p>
-          Have any problems? Contact us via social media or email us at{" "}
-          <a href="mailto:equalizer@example.com">equalizer@example.com</a>
-        </p>
-        <p>Social media links:</p>
-        <ul>
-          {[
-            { name: "facebook" },
-            { name: "instagram" },
-            { name: "twitter", height: 17 },
-          ].map((site, index) => (
-            <li key={index}>
-              <a href="#">
-                <img
-                  alt={site.name}
-                  width="20"
-                  height={site.height ?? 20}
-                  src={`assets/icon-${site.name}.svg`}
-                />
-              </a>
-            </li>
-          ))}
-        </ul>
+        <div className="center">
+          <img alt="equalizer" width="147" height="33" src="assets/logo.svg" />
+          <p>All rights reserved © Equalizer 2021</p>
+          <p>
+            Have any problems? Contact us via social media or email us at{" "}
+            <a href="mailto:equalizer@example.com">equalizer@example.com</a>
+          </p>
+          <p>Social media links:</p>
+          <ul>
+            {[
+              { name: "facebook" },
+              { name: "instagram" },
+              { name: "twitter", height: 17 },
+            ].map((site, index) => (
+              <li key={index}>
+                <a href="#">
+                  <img
+                    alt={site.name}
+                    width="20"
+                    height={site.height ?? 20}
+                    src={`assets/icon-${site.name}.svg`}
+                  />
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
       </footer>
     </>
   );
