@@ -1,0 +1,26 @@
+.button {
+  --cluster-justify: center;
+  --cluster-align: center;
+  --cluster-space: var(--space-2);
+  /* todo: block/inline padding */
+  --shape-padding: var(--space-4);
+  --shape-background: var(--color-191826);
+
+  color: var(--color-fcfaf9);
+}
+
+.button:hover,
+.button:focus-visible {
+  --shape-background: var(--color-66e2dc);
+}
+
+.button[data-button-theme="light"] {
+  --shape-background: var(--color-fcfaf9);
+
+  color: var(--color-191826);
+}
+
+.button[data-button-theme="light"]:hover,
+.button[data-button-theme="light"]:focus-visible {
+  --shape-background: var(--color-ffb964);
+}

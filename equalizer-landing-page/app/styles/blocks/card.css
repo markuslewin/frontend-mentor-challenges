@@ -1,0 +1,49 @@
+/*
+  mobile / tablet
+  12
+  36
+  32
+  16
+
+  desktop
+  22
+  39
+  46
+  16
+*/
+
+.card {
+  --flow-space: var(--space-8);
+  --shape-radius: var(--size-3);
+  --shape-padding: var(--space-12);
+  --shape-background: var(--color-fa7453);
+
+  color: var(--color-fcfaf9);
+}
+
+.card__description {
+  --flow-space: var(--space-3);
+}
+
+.card__price {
+  --flow-space: var(--space-9);
+}
+
+.card__downloads > * {
+  --flow-space: var(--space-4);
+}
+
+/* desktop */
+@media (min-width: 64em) {
+  .card {
+    --flow-space: var(--space-11);
+  }
+
+  .card__description {
+    --flow-space: var(--space-5);
+  }
+
+  .card__price {
+    --flow-space: var(--space-10);
+  }
+}

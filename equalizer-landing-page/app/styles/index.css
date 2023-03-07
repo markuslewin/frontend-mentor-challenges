@@ -4,10 +4,17 @@
 @import "base.css";
 
 @import "compositions/center.css";
+@import "compositions/cluster.css";
 @import "compositions/container.css";
 @import "compositions/flow.css";
+@import "compositions/reset.css";
+@import "compositions/shape.css";
 @import "compositions/size.css";
+@import "compositions/visually-hidden.css";
 
+@import "blocks/button.css";
+@import "blocks/card.css";
 @import "blocks/intro.css";
 @import "blocks/logo.css";
+@import "blocks/price.css";
 @import "blocks/showcase.css";

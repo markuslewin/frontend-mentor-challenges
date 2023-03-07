@@ -1,0 +1,8 @@
+.shape {
+  --shape-border-size: 2px;
+
+  border: var(--shape-border-size) solid transparent;
+  border-radius: var(--shape-radius);
+  padding: calc(var(--shape-padding) - var(--shape-border-size));
+  background: var(--shape-background);
+}

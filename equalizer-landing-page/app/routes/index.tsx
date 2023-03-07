@@ -31,24 +31,33 @@ export default function Index() {
             alt="the equalizer user interface"
             src="assets/illustration-app.png"
           />
-          <article>
+          <article className="[ card ] [ flow shape ]">
             <h2>Premium EQ</h2>
-            <p>
+            <p className="card__description">
               Get expert-level control with a robust equalizer, volume mixer,
               and spatial audio. Take your listening experience to a whole new
               level and access all our incredible features!
             </p>
-            <p>
-              <strong>$4</strong> / month
+            <p className="[ price card__price ] [ cluster ]">
+              <strong className="price__value">$4</strong> / month
             </p>
-            <h3>Download links</h3>
-            <ul>
+            <h3 className="visually-hidden">Download links</h3>
+            <ul className="[ card__downloads ] [ flow reset ]" role="list">
               {[
                 { icon: "apple", width: 18, label: "iOS Download" },
-                { icon: "android", width: 17, label: "Android Download" },
+                {
+                  icon: "android",
+                  width: 17,
+                  label: "Android Download",
+                  theme: "light",
+                },
               ].map((download, index) => (
                 <li key={index}>
-                  <a href="#">
+                  <a
+                    className="[ button ] [ cluster shape ]"
+                    href="#"
+                    data-button-theme={download.theme}
+                  >
                     <img
                       alt=""
                       width={download.width}
