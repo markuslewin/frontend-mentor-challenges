@@ -1,3 +1,4 @@
 .container {
+  padding-inline-end: var(--container-padding-inline-end);
   padding-block: var(--container-padding-block);
 }

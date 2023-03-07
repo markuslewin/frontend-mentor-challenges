@@ -1,0 +1,19 @@
+.intro {
+  --flow-space: var(--space-5);
+}
+
+/* tablet */
+@media (min-width: 40em) {
+  .intro {
+    --container-padding-inline-end: var(--space-42);
+    --flow-space: var(--space-7);
+  }
+}
+
+/* desktop */
+@media (min-width: 64em) {
+  .intro {
+    --container-padding-inline-end: var(--space-60);
+    --flow-space: var(--space-10);
+  }
+}

@@ -2,25 +2,29 @@ export default function Index() {
   return (
     <>
       <header>
-        <div className="center container">
-          <img
-            className="[ logo ] [ size ]"
-            alt="equalizer"
-            width="147"
-            height="33"
-            src="assets/logo.svg"
-          />
+        <div className="center">
+          <div className="container">
+            <img
+              className="[ logo ] [ size ]"
+              alt="equalizer"
+              width="147"
+              height="33"
+              src="assets/logo.svg"
+            />
+          </div>
         </div>
       </header>
       <main>
-        <article className="center">
-          <h1>We make your music sound extraordinary.</h1>
-          <p>
-            A system audio equalizer specifically designed for Android and iOS.
-            Freely tune the way your music sounds with a professional grade
-            parametric EQ & volume mixer. Control bass, mids, treble, gain
-            control, reverb, and more!
-          </p>
+        <article className="[ intro ] [ center ]">
+          <div className="container flow">
+            <h1>We make your music sound extraordinary.</h1>
+            <p>
+              A system audio equalizer specifically designed for Android and
+              iOS. Freely tune the way your music sounds with a professional
+              grade parametric EQ & volume mixer. Control bass, mids, treble,
+              gain control, reverb, and more!
+            </p>
+          </div>
         </article>
         <article className="[ showcase ] [ center ]">
           <img

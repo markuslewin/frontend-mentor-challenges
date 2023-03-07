@@ -42,7 +42,7 @@ function Document({ children }: { children: React.ReactNode }) {
         <Links />
         <title>Frontend Mentor | Equalizer landing page</title>
       </head>
-      <body>
+      <body className="flow">
         {children}
         <ScrollRestoration />
         <Scripts />
