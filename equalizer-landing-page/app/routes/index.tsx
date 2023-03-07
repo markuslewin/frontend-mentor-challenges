@@ -2,8 +2,14 @@ export default function Index() {
   return (
     <>
       <header>
-        <div className="center">
-          <img alt="equalizer" width="147" height="33" src="assets/logo.svg" />
+        <div className="center container">
+          <img
+            className="[ logo ] [ size ]"
+            alt="equalizer"
+            width="147"
+            height="33"
+            src="assets/logo.svg"
+          />
         </div>
       </header>
       <main>
@@ -55,7 +61,13 @@ export default function Index() {
       </main>
       <footer>
         <div className="center">
-          <img alt="equalizer" width="147" height="33" src="assets/logo.svg" />
+          <img
+            className="[ logo ] [ size ]"
+            alt="equalizer"
+            width="147"
+            height="33"
+            src="assets/logo.svg"
+          />
           <p>All rights reserved © Equalizer 2021</p>
           <p>
             Have any problems? Contact us via social media or email us at{" "}

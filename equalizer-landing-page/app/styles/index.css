@@ -4,5 +4,8 @@
 @import "base.css";
 
 @import "compositions/center.css";
+@import "compositions/container.css";
+@import "compositions/size.css";
 
+@import "blocks/logo.css";
 @import "blocks/showcase.css";

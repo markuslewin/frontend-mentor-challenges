@@ -21,6 +21,11 @@ body {
   color: var(--color-191826);
 }
 
+header {
+  --container-padding-block: var(--space-10);
+  --logo-size: var(--size-8);
+}
+
 h1 {
   font-size: var(--text-h1);
   font-kerning: var(--tracking-h1);
@@ -54,6 +59,10 @@ a {
     --leading-body-1: var(--leading-200);
 
     --center-gutter: var(--space-10);
+  }
+
+  header {
+    --container-padding-block: var(--space-15);
   }
 }
 
