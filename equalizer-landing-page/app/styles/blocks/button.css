@@ -2,6 +2,7 @@
   --cluster-justify: center;
   --cluster-align: center;
   --cluster-space: var(--space-2);
+  --shape-radius: var(--size-3);
   /* todo: block/inline padding */
   --shape-padding: var(--space-4);
   --shape-background: var(--color-191826);
