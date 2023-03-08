@@ -1,10 +1,32 @@
 .showcase {
   --center-gutter: 0;
+  --deck-space: var(--space-12);
+  --deck-card-1-size: var(--size-52);
+}
+
+.showcase > * {
+  --center-size: var(--size-228);
 }
 
 /* tablet */
 @media (min-width: 40em) {
   .showcase {
     --center-gutter: var(--gutter);
+    --deck-top: var(--space-72);
+    --deck-card-1-size: var(--size-67);
+    --deck-card-2-size: var(--size-100);
+  }
+
+  .showcase > * {
+    --center-gutter: var(--space-16);
+  }
+}
+
+/* desktop */
+@media (min-width: 64em) {
+  .showcase {
+    --deck-top: var(--space-76);
+    --deck-card-1-size: var(--size-78);
+    --deck-card-2-size: var(--size-112);
   }
 }

@@ -1,17 +1,3 @@
-/*
-  mobile / tablet
-  12
-  36
-  32
-  16
-
-  desktop
-  22
-  39
-  46
-  16
-*/
-
 .card {
   --flow-space: var(--space-8);
   --shape-radius: var(--size-3);
