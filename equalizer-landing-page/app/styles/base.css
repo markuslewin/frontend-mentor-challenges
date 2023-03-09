@@ -38,6 +38,9 @@ footer {
   --container-padding-block-start: var(--space-8);
   --logo-size: var(--size-8);
   --footer-layout-gap: var(--space-8);
+
+  font-size: var(--text-body-2);
+  line-height: var(--leading-body-2);
 }
 
 h1 {
