@@ -14,7 +14,7 @@ export default function Index() {
           </div>
         </div>
       </header>
-      <main>
+      <main className="flow">
         <article className="[ intro ] [ center ]">
           <div className="container flow">
             <h1>We make your music sound extraordinary.</h1>

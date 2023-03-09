@@ -30,6 +30,10 @@ main {
   --flow-space: var(--space-6);
 }
 
+main > * {
+  --flow-space: var(--space-17);
+}
+
 h1 {
   font-size: var(--text-h1);
   font-kerning: var(--tracking-h1);
@@ -72,6 +76,10 @@ a {
   main {
     --flow-space: var(--space-8);
   }
+
+  main > * {
+    --flow-space: var(--space-28);
+  }
 }
 
 /* desktop */
@@ -88,5 +96,9 @@ a {
 
   main {
     --flow-space: var(--space-16);
+  }
+
+  main > * {
+    --flow-space: var(--space-27);
   }
 }
