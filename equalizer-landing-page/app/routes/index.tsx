@@ -75,38 +75,43 @@ export default function Index() {
         </article>
       </main>
       <footer>
-        <div className="center">
+        <div className="center footer-layout">
           <img
             className="[ logo ] [ size ]"
             alt="equalizer"
             width="147"
             height="33"
             src="assets/logo.svg"
+            data-footer-layout-item="logo"
           />
-          <p>All rights reserved © Equalizer 2021</p>
-          <p>
-            Have any problems? Contact us via social media or email us at{" "}
-            <a href="mailto:equalizer@example.com">equalizer@example.com</a>
-          </p>
-          <p>Social media links:</p>
-          <ul>
-            {[
-              { name: "facebook" },
-              { name: "instagram" },
-              { name: "twitter", height: 17 },
-            ].map((site, index) => (
-              <li key={index}>
-                <a href="#">
-                  <img
-                    alt={site.name}
-                    width="20"
-                    height={site.height ?? 20}
-                    src={`assets/icon-${site.name}.svg`}
-                  />
-                </a>
-              </li>
-            ))}
-          </ul>
+          <div data-footer-layout-item="text">
+            <p>All rights reserved © Equalizer 2021</p>
+            <p>
+              Have any problems? Contact us via social media or email us at{" "}
+              <a href="mailto:equalizer@example.com">equalizer@example.com</a>
+            </p>
+          </div>
+          <div className="container" data-footer-layout-item="socials">
+            <p className="visually-hidden">Social media links:</p>
+            <ul className="[ socials ] [ cluster reset ]" role="list">
+              {[
+                { name: "facebook" },
+                { name: "instagram" },
+                { name: "twitter", height: 17 },
+              ].map((site, index) => (
+                <li key={index}>
+                  <a href="#">
+                    <img
+                      alt={site.name}
+                      width="20"
+                      height={site.height ?? 20}
+                      src={`assets/icon-${site.name}.svg`}
+                    />
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </footer>
     </>

@@ -1,5 +1,6 @@
 ul.reset {
   /* todo: clashes with `flow` */
+  margin-block-start: var(--flow-space, 0);
   margin-block-end: 0;
   padding: 0;
 }

@@ -11,6 +11,7 @@
 @import "compositions/reset.css";
 @import "compositions/shape.css";
 @import "compositions/size.css";
+@import "compositions/footer-layout.css";
 @import "compositions/visually-hidden.css";
 
 @import "blocks/button.css";
@@ -19,3 +20,4 @@
 @import "blocks/logo.css";
 @import "blocks/price.css";
 @import "blocks/showcase.css";
+@import "blocks/socials.css";
