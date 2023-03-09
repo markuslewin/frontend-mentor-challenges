@@ -1,3 +1,4 @@
 .socials {
   --cluster-space: var(--space-5);
+  --cluster-align: center;
 }

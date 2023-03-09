@@ -1,0 +1,8 @@
+.icon {
+  --size-inline: var(--size-5);
+}
+
+.icon:hover,
+.icon:focus-visible {
+  color: var(--color-fa7453);
+}
