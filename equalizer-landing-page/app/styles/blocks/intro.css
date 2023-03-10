@@ -2,11 +2,21 @@
   --flow-space: var(--space-5);
 }
 
+.intro [data-intro-decoration] {
+  --flow-space: 0px;
+}
+
 /* tablet */
 @media (min-width: 40em) {
   .intro {
     --container-padding-inline-end: var(--space-42);
     --flow-space: var(--space-7);
+  }
+
+  .intro [data-intro-decoration] {
+    --position-y: calc(-1 * var(--space-54));
+    --position-inline-end: calc(-1 * var(--space-19));
+    --size-block: var(--size-100);
   }
 }
 
@@ -15,5 +25,11 @@
   .intro {
     --container-padding-inline-end: var(--space-60);
     --flow-space: var(--space-10);
+  }
+
+  .intro [data-intro-decoration] {
+    --position-y: calc(-1 * var(--space-64));
+    --position-inline-end: calc(-1 * var(--space-41));
+    --size-block: var(--size-117);
   }
 }

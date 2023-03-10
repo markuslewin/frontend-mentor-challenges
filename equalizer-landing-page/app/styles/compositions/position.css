@@ -1,10 +1,12 @@
 .position {
   position: relative;
+  contain: layout;
 }
 
 .position [data-position-target] {
   position: absolute;
   top: var(--position-y);
+  inset-inline-end: var(--position-inline-end);
 }
 
 .position [data-position-target="behind"] {

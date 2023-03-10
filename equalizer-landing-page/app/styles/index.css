@@ -15,6 +15,7 @@
 @import "compositions/shape.css";
 @import "compositions/size.css";
 @import "compositions/visually-hidden.css";
+@import "compositions/display.css";
 
 @import "blocks/button.css";
 @import "blocks/card.css";

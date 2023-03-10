@@ -51,6 +51,7 @@
   --size-100: 25rem; /* 400px */
   --size-111: 27.75rem; /* 444px */
   --size-112: 28rem; /* 448px */
+  --size-117: 29.25rem; /* 468px */
   --size-150: 37.5rem; /* 600px */
   --size-228: 57rem; /* 912px */
   --size-277: 69.25rem; /* 1108px */
@@ -72,6 +73,7 @@
   --space-15: 3.75rem; /* 60px */
   --space-16: 4rem; /* 64px */
   --space-17: 4.25rem; /* 68px */
+  --space-19: 4.75rem; /* 76px */
   --space-20: 5rem; /* 80px */
   --space-21: 5.25rem; /* 84px */
   --space-22: 5.5rem; /* 88px */
@@ -84,9 +86,12 @@
   --space-29: 7.5rem; /* 116px */
   --space-34: 8.5rem; /* 136px */
   --space-35: 8.75rem; /* 140px */
+  --space-41: 10.25rem; /* 164px */
   --space-42: 10.5rem; /* 168px */
   --space-53: 13.25rem; /* 212px */
+  --space-54: 13.5rem; /* 216px */
   --space-60: 15rem; /* 240px */
+  --space-64: 16rem; /* 256px */
   --space-72: 18rem; /* 288px */
   --space-76: 19rem; /* 304px */
 }

@@ -19,7 +19,7 @@ export default function Index() {
       </header>
       <main className="flow">
         <article className="[ intro ] [ center ]">
-          <div className="container flow">
+          <div className="container flow position">
             <h1>We make your music sound extraordinary.</h1>
             <p>
               A system audio equalizer specifically designed for Android and
@@ -27,6 +27,14 @@ export default function Index() {
               grade parametric EQ & volume mixer. Control bass, mids, treble,
               gain control, reverb, and more!
             </p>
+            <img
+              className="display size"
+              data-intro-decoration
+              data-position-target="behind"
+              data-display="tablet"
+              alt=""
+              src="/assets/bg-pattern-1.svg"
+            />
           </div>
         </article>
         <article className="[ showcase ] [ center position ]">
