@@ -11,7 +11,7 @@
 }
 
 .showcase [data-showcase-background] {
-  --position-y: var(--space-25);
+  --position-block-start: var(--space-25);
   --shape-radius: var(--size-3);
   --shape-background: var(--color-191826);
   --size-inline: calc(100% - (var(--showcase-gutter) * 2));
@@ -33,7 +33,7 @@
   }
 
   .showcase [data-showcase-background] {
-    --position-y: var(--space-35);
+    --position-block-start: var(--space-35);
   }
 }
 
@@ -46,6 +46,6 @@
   }
 
   .showcase [data-showcase-background] {
-    --position-y: var(--space-53);
+    --position-block-start: var(--space-53);
   }
 }

@@ -5,7 +5,7 @@
 
 .position [data-position-target] {
   position: absolute;
-  top: var(--position-y);
+  inset-block-start: var(--position-block-start);
   inset-inline-end: var(--position-inline-end);
 }
 

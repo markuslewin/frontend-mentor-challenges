@@ -14,7 +14,7 @@
   }
 
   .intro [data-intro-decoration] {
-    --position-y: calc(-1 * var(--space-54));
+    --position-block-start: calc(-1 * var(--space-54));
     --position-inline-end: calc(-1 * var(--space-19));
     --size-block: var(--size-100);
   }
@@ -28,7 +28,7 @@
   }
 
   .intro [data-intro-decoration] {
-    --position-y: calc(-1 * var(--space-64));
+    --position-block-start: calc(-1 * var(--space-64));
     --position-inline-end: calc(-1 * var(--space-41));
     --size-block: var(--size-117);
   }
