@@ -29,7 +29,7 @@ export default function Index() {
             </p>
           </div>
         </article>
-        <article className="[ showcase ] [ center ]">
+        <article className="[ showcase ] [ center position ]">
           <div className="deck center">
             <img
               alt="the equalizer user interface"
@@ -94,6 +94,11 @@ export default function Index() {
               </ul>
             </article>
           </div>
+          <div
+            className="shape size"
+            data-position-target="behind"
+            data-showcase-background
+          ></div>
         </article>
       </main>
       <footer className="container">

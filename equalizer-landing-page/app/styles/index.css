@@ -9,10 +9,11 @@
 @import "compositions/deck.css";
 @import "compositions/fill.css";
 @import "compositions/flow.css";
+@import "compositions/footer-layout.css";
+@import "compositions/position.css";
 @import "compositions/reset.css";
 @import "compositions/shape.css";
 @import "compositions/size.css";
-@import "compositions/footer-layout.css";
 @import "compositions/visually-hidden.css";
 
 @import "blocks/button.css";

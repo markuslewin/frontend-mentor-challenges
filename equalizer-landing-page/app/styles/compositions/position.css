@@ -1,0 +1,12 @@
+.position {
+  position: relative;
+}
+
+.position [data-position-target] {
+  position: absolute;
+  top: var(--position-y);
+}
+
+.position [data-position-target="behind"] {
+  z-index: -1;
+}
