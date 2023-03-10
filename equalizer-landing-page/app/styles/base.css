@@ -35,12 +35,18 @@ main > * {
 }
 
 footer {
-  --container-padding-block-start: var(--space-8);
+  --container-padding-block: var(--space-20);
+  --container-padding-block-start: var(--space-16);
   --logo-size: var(--size-8);
   --footer-layout-gap: var(--space-8);
 
   font-size: var(--text-body-2);
   line-height: var(--leading-body-2);
+}
+
+footer > * {
+  --container-padding-block: 0;
+  --container-padding-block-start: var(--space-8);
 }
 
 h1 {
@@ -91,8 +97,13 @@ a {
   }
 
   footer {
-    --container-padding-block-start: 0;
+    --container-padding-block: var(--space-21);
+    --container-padding-block-start: var(--space-22);
     --footer-layout-text-size: var(--size-92);
+  }
+
+  footer > * {
+    --container-padding-block-start: 0;
   }
 }
 
@@ -117,6 +128,8 @@ a {
   }
 
   footer {
+    --container-padding-block: var(--space-23);
+    --container-padding-block-start: var(--space-22);
     --footer-layout-gap: var(--space-34);
   }
 }

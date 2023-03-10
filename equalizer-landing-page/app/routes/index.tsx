@@ -74,7 +74,7 @@ export default function Index() {
           </div>
         </article>
       </main>
-      <footer>
+      <footer className="container">
         <div className="center footer-layout">
           <img
             className="[ logo ] [ size ]"
