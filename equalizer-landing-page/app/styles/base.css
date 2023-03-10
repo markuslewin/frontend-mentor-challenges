@@ -12,6 +12,7 @@ body {
 
   --center-size: var(--size-278);
   --center-gutter: var(--gutter);
+  --fill-color: currentColor;
 
   font-family: var(--font);
   font-size: var(--text-body-1);
