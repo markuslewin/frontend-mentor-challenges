@@ -6,6 +6,7 @@
   /* todo: block/inline padding */
   --shape-padding: var(--space-4);
   --shape-background: var(--color-191826);
+  --size-block: var(--size-5);
 
   color: var(--color-fcfaf9);
 }
