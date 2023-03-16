@@ -103,10 +103,20 @@ export default function Index() {
             </article>
           </div>
           <div
-            className="shape size"
+            className="position shape size"
             data-position-target="behind"
+            data-position-overflow="hidden"
             data-showcase-background
-          ></div>
+          >
+            <img
+              className="size"
+              data-showcase-background-decoration
+              data-position-origin="center"
+              data-position-target
+              alt=""
+              src="/assets/bg-pattern-2.svg"
+            />
+          </div>
         </article>
       </main>
       <footer className="container">

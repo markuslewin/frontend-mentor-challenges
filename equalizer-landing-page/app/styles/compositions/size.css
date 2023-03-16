@@ -2,4 +2,6 @@
   display: block;
   inline-size: var(--size-inline);
   block-size: var(--size-block);
+  max-inline-size: none;
+  max-block-size: none;
 }

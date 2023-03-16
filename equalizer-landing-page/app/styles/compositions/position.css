@@ -3,6 +3,10 @@
   contain: layout;
 }
 
+.position[data-position-overflow="hidden"] {
+  contain: paint;
+}
+
 .position [data-position-target] {
   position: absolute;
   inset-block-start: var(--position-block-start);
@@ -11,4 +15,13 @@
 
 .position [data-position-target="behind"] {
   z-index: -1;
+}
+
+/* todo: calc(var(--position-offset-block) - 50%)? */
+.position [data-position-origin="center"] {
+  inset-inline-start: 50%;
+  transform: translate(
+    calc(var(--position-offset-inline) - 50%),
+    var(--position-offset-block)
+  );
 }
