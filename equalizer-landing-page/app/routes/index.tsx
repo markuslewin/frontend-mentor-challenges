@@ -31,6 +31,7 @@ export default function Index() {
               className="display size"
               data-intro-decoration
               data-position-target="behind"
+              data-position-origin="end"
               data-display="tablet"
               alt=""
               src="/assets/bg-pattern-1.svg"
@@ -104,6 +105,7 @@ export default function Index() {
           </div>
           <div
             className="position shape size"
+            data-position-origin="center"
             data-position-target="behind"
             data-position-overflow="hidden"
             data-showcase-background

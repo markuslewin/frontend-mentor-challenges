@@ -1,27 +1,35 @@
 .position {
   position: relative;
-  contain: layout;
+  contain: var(--position-contain, layout);
 }
 
 .position[data-position-overflow="hidden"] {
-  contain: paint;
+  --position-contain: paint;
 }
 
 .position [data-position-target] {
+  --internal-position-offset-inline: calc(
+    var(--position-offset-inline) +
+      var(--internal-position-offset-inline-addend, 0px)
+  );
+
   position: absolute;
-  inset-block-start: var(--position-block-start);
-  inset-inline-end: var(--position-inline-end);
+  inset-inline: var(--position-inset-inline, 0px auto);
+  inset-block: 0px auto;
+  transform: translateX(var(--internal-position-offset-inline))
+    translateY(var(--position-offset-block));
+  z-index: var(--position-z);
+}
+
+.position [data-position-origin="center"] {
+  --internal-position-offset-inline-addend: -50%;
+  --position-inset-inline: 50% auto;
+}
+
+.position [data-position-origin="end"] {
+  --position-inset-inline: auto 0px;
 }
 
 .position [data-position-target="behind"] {
-  z-index: -1;
-}
-
-/* todo: calc(var(--position-offset-block) - 50%)? */
-.position [data-position-origin="center"] {
-  inset-inline-start: 50%;
-  transform: translate(
-    calc(var(--position-offset-inline) - 50%),
-    var(--position-offset-block)
-  );
+  --position-z: -1;
 }
