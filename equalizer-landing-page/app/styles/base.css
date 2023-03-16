@@ -9,6 +9,11 @@ body {
   --text-body-2: var(--text-100);
   --leading-body-2: var(--leading-100);
   --gutter: var(--space-6);
+  --background-image: url("/assets/bg-main-mobile.png");
+  /* todo */
+  --background-size: ;
+  --background-offset-x: var(--space-28);
+  --background-offset-y: calc(-1 * var(--space-63));
 
   --center-size: var(--size-278);
   --center-gutter: var(--gutter);
@@ -18,7 +23,9 @@ body {
   font-size: var(--text-body-1);
   font-weight: var(--weight-regular);
   line-height: var(--leading-body-1);
-  background: var(--color-fcfaf9);
+  background: no-repeat var(--background-image)
+    calc(50% + var(--background-offset-x)) var(--background-offset-y)
+    var(--color-fcfaf9);
   color: var(--color-191826);
 }
 
@@ -81,6 +88,9 @@ a {
     --tracking-h1: var(--tracking-400);
     --text-body-1: var(--text-200);
     --leading-body-1: var(--leading-200);
+    --background-image: url("/assets/bg-main-tablet.png");
+    --background-offset-x: calc(-1 * var(--space-40));
+    --background-offset-y: calc(-1 * var(--space-65));
 
     --center-gutter: var(--space-10);
   }
@@ -118,6 +128,9 @@ a {
     --leading-h2: var(--leading-700);
     --text-body-1: var(--text-300);
     --leading-body-1: var(--leading-400);
+    --background-image: url("/assets/bg-main-desktop.png");
+    --background-offset-x: calc(-1 * var(--space-16));
+    --background-offset-y: calc(-1 * var(--space-60));
   }
 
   main {

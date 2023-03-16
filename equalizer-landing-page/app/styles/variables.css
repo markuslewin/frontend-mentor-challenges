@@ -86,12 +86,15 @@
   --space-29: 7.5rem; /* 116px */
   --space-34: 8.5rem; /* 136px */
   --space-35: 8.75rem; /* 140px */
+  --space-40: 10rem; /* 160px */
   --space-41: 10.25rem; /* 164px */
   --space-42: 10.5rem; /* 168px */
   --space-53: 13.25rem; /* 212px */
   --space-54: 13.5rem; /* 216px */
   --space-60: 15rem; /* 240px */
+  --space-63: 15.75rem; /* 252px */
   --space-64: 16rem; /* 256px */
+  --space-65: 16.25rem; /* 260px */
   --space-72: 18rem; /* 288px */
   --space-76: 19rem; /* 304px */
 }
