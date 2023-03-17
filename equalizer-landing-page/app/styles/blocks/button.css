@@ -8,6 +8,9 @@
   --shape-background: var(--color-191826);
   --size-block: var(--size-5);
 
+  font-size: var(--text-200);
+  line-height: var(--leading-300);
+  letter-spacing: var(--tracking-100);
   color: var(--color-fcfaf9);
 }
 

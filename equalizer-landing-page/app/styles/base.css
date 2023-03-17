@@ -58,7 +58,7 @@ footer > * {
 
 h1 {
   font-size: var(--text-h1);
-  font-kerning: var(--tracking-h1);
+  letter-spacing: var(--tracking-h1);
   line-height: var(--leading-h1);
   font-weight: var(--weight-bold);
 }
@@ -87,12 +87,11 @@ a {
     --tracking-h1: var(--tracking-400);
     --text-body-1: var(--text-200);
     --leading-body-1: var(--leading-200);
+    --gutter: var(--space-10);
     --background-image: url("/assets/bg-main-tablet.png");
     --background-size: var(--size-277);
     --background-offset-x: calc(-1 * var(--space-40));
     --background-offset-y: calc(-1 * var(--space-65));
-
-    --center-gutter: var(--space-10);
   }
 
   header {

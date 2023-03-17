@@ -1,9 +1,14 @@
 .price {
   --cluster-space: var(--space-4);
   --cluster-align: center;
+
+  font-size: var(--text-300);
+  line-height: var(--leading-300);
+  letter-spacing: var(--tracking-200);
 }
 
 .price__value {
   font-size: var(--text-700);
   line-height: var(--leading-700);
+  letter-spacing: normal;
 }
