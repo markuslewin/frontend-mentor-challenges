@@ -10,8 +10,7 @@ body {
   --leading-body-2: var(--leading-100);
   --gutter: var(--space-6);
   --background-image: url("/assets/bg-main-mobile.png");
-  /* todo */
-  --background-size: ;
+  --background-size: var(--size-195);
   --background-offset-x: var(--space-28);
   --background-offset-y: calc(-1 * var(--space-63));
 
@@ -24,8 +23,8 @@ body {
   font-weight: var(--weight-regular);
   line-height: var(--leading-body-1);
   background: no-repeat var(--background-image)
-    calc(50% + var(--background-offset-x)) var(--background-offset-y)
-    var(--color-fcfaf9);
+    calc(50% + var(--background-offset-x)) var(--background-offset-y) / auto
+    var(--background-size) var(--color-fcfaf9);
   color: var(--color-191826);
 }
 
@@ -89,6 +88,7 @@ a {
     --text-body-1: var(--text-200);
     --leading-body-1: var(--leading-200);
     --background-image: url("/assets/bg-main-tablet.png");
+    --background-size: var(--size-277);
     --background-offset-x: calc(-1 * var(--space-40));
     --background-offset-y: calc(-1 * var(--space-65));
 
@@ -129,6 +129,7 @@ a {
     --text-body-1: var(--text-300);
     --leading-body-1: var(--leading-400);
     --background-image: url("/assets/bg-main-desktop.png");
+    --background-size: var(--size-524);
     --background-offset-x: calc(-1 * var(--space-16));
     --background-offset-y: calc(-1 * var(--space-60));
   }
