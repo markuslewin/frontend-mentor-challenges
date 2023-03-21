@@ -5,4 +5,5 @@
   border-radius: var(--shape-radius);
   padding: calc(var(--shape-padding) - var(--shape-border-size));
   background: var(--shape-background);
+  transition: background var(--shape-transition-duration);
 }

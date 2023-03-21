@@ -13,6 +13,8 @@ body {
   --background-size: var(--size-195);
   --background-offset-x: var(--space-28);
   --background-offset-y: calc(-1 * var(--space-63));
+  --transition-duration-activate: 150ms;
+  --transition-duration-deactivate: 500ms;
 
   --center-size: var(--size-278);
   --center-gutter: var(--gutter);

@@ -1,8 +1,13 @@
 .icon {
   --size-inline: var(--size-5);
+
+  transition: color
+    var(--icon-transition-duration, var(--transition-duration-deactivate));
 }
 
 .icon:hover,
 .icon:focus-visible {
+  --icon-transition-duration: var(--transition-duration-activate);
+
   color: var(--color-fa7453);
 }

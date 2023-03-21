@@ -6,6 +6,7 @@
   /* todo: block/inline padding */
   --shape-padding: var(--space-4);
   --shape-background: var(--color-191826);
+  --shape-transition-duration: var(--transition-duration-deactivate);
   --size-block: var(--size-5);
 
   font-size: var(--text-200);
@@ -17,6 +18,7 @@
 .button:hover,
 .button:focus-visible {
   --shape-background: var(--color-66e2dc);
+  --shape-transition-duration: var(--transition-duration-activate);
 }
 
 .button[data-button-theme="light"] {
