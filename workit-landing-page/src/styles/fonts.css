@@ -1,0 +1,15 @@
+@font-face {
+  font-family: "Fraunces";
+  font-display: swap;
+  font-weight: 100 900;
+  src: url("../assets/fonts/fraunces/Fraunces-VariableFont_SOFT,WONK,opsz,wght.ttf")
+    format("truetype");
+}
+
+@font-face {
+  font-family: "Manrope";
+  font-display: swap;
+  font-weight: 200 800;
+  src: url("../assets/fonts/manrope/Manrope-VariableFont_wght.ttf")
+    format("truetype");
+}

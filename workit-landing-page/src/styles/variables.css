@@ -5,8 +5,8 @@
   --color-fcf8ff: hsl(276 100% 99%);
   --color-ffffff: hsl(0 0% 100%);
 
-  --font-fraunces: "Fraunces";
-  --font-manrope: "Manrope";
+  --font-fraunces: "Fraunces", serif;
+  --font-manrope: "Manrope", sans-serif;
 
   --text-50: 1rem; /* 16px */
   --text-100: 1.125rem; /* 18px */
