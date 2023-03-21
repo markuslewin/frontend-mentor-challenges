@@ -44,8 +44,8 @@ function Document({ children }: { children: React.ReactNode }) {
       </head>
       <body className="flow">
         {children}
-        <ScrollRestoration />
-        <Scripts />
+        {/* <ScrollRestoration /> */}
+        {/* <Scripts /> */}
         {process.env.NODE_ENV === "development" && <LiveReload />}
       </body>
     </html>
