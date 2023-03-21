@@ -1,31 +1,30 @@
 .position {
   position: relative;
-  contain: var(--position-contain, layout);
+}
+
+.position[data-position-origin="center"] {
+  --position-justify: center;
+}
+
+.position[data-position-origin="end"] {
+  --position-justify: end;
 }
 
 .position[data-position-overflow="hidden"] {
   --position-contain: paint;
 }
 
-.position [data-position-target] {
+.position [data-position-underlay] {
   position: absolute;
-  margin: var(--position-margin, 0);
-  inset-inline: var(--position-inset-inline, 0px auto);
-  inset-block: 0px auto;
+  inset: 0;
+  display: flex;
+  align-items: start;
+  justify-content: var(--position-justify);
+  contain: var(--position-contain, layout);
+  z-index: -1;
+}
+
+.position [data-position-target] {
   transform: translateX(var(--position-offset-inline))
     translateY(var(--position-offset-block));
-  z-index: var(--position-z);
-}
-
-.position [data-position-origin="center"] {
-  --position-margin: auto;
-  --position-inset-inline: -9999px;
-}
-
-.position [data-position-origin="end"] {
-  --position-inset-inline: auto 0px;
-}
-
-.position [data-position-target="behind"] {
-  --position-z: -1;
 }

@@ -19,7 +19,7 @@ export default function Index() {
       </header>
       <main className="flow">
         <article className="[ intro ] [ center ]">
-          <div className="container flow position">
+          <div className="container flow position" data-position-origin="end">
             <h1>We make your music sound extraordinary.</h1>
             <p>
               A system audio equalizer specifically designed for Android and
@@ -27,18 +27,21 @@ export default function Index() {
               grade parametric EQ & volume mixer. Control bass, mids, treble,
               gain control, reverb, and more!
             </p>
-            <img
-              className="display size"
-              data-intro-decoration
-              data-position-target="behind"
-              data-position-origin="end"
-              data-display="tablet"
-              alt=""
-              src="/assets/bg-pattern-1.svg"
-            />
+            <div data-intro-decoration data-position-underlay>
+              <img
+                className="display size"
+                data-position-target
+                data-display="tablet"
+                alt=""
+                src="/assets/bg-pattern-1.svg"
+              />
+            </div>
           </div>
         </article>
-        <article className="[ showcase ] [ center position ]">
+        <article
+          className="[ showcase ] [ center position ]"
+          data-position-origin="center"
+        >
           <div className="deck center">
             <img
               alt="the equalizer user interface"
@@ -103,21 +106,24 @@ export default function Index() {
               </ul>
             </article>
           </div>
-          <div
-            className="position shape size"
-            data-position-origin="center"
-            data-position-target="behind"
-            data-position-overflow="hidden"
-            data-showcase-background
-          >
-            <img
-              className="size"
-              data-showcase-background-decoration
-              data-position-origin="center"
+          <div data-position-underlay>
+            <div
+              className="position shape size"
+              data-showcase-background
               data-position-target
-              alt=""
-              src="/assets/bg-pattern-2.svg"
-            />
+              data-position-origin="center"
+              data-position-overflow="hidden"
+            >
+              <div data-position-underlay>
+                <img
+                  className="size"
+                  data-showcase-background-decoration
+                  data-position-target
+                  alt=""
+                  src="/assets/bg-pattern-2.svg"
+                />
+              </div>
+            </div>
           </div>
         </article>
       </main>
