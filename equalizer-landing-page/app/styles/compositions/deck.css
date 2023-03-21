@@ -9,6 +9,7 @@
 
 .deck > :first-child {
   inline-size: var(--deck-card-1-size);
+  block-size: auto;
 }
 
 /* tablet */

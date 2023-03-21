@@ -34,6 +34,8 @@ export default function Index() {
                 data-display="tablet"
                 alt=""
                 src="/assets/bg-pattern-1.svg"
+                width="312"
+                height="468"
               />
             </div>
           </div>
@@ -46,6 +48,8 @@ export default function Index() {
             <img
               alt="the equalizer user interface"
               src="assets/illustration-app.png"
+              width="624"
+              height="1284"
             />
             <article className="[ card ] [ flow shape ]">
               <h2>Premium EQ</h2>
@@ -121,6 +125,8 @@ export default function Index() {
                   data-position-target
                   alt=""
                   src="/assets/bg-pattern-2.svg"
+                  width="312"
+                  height="468"
                 />
               </div>
             </div>
