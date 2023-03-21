@@ -1,9 +1,9 @@
 :root {
-  --color-24053e: hsl(273 85% 13%);
-  --color-44ffa1: hsl(150 100% 63%);
-  --color-584d62: hsl(271 12% 34%);
-  --color-fcf8ff: hsl(276 100% 99%);
-  --color-ffffff: hsl(0 0% 100%);
+  --color-dark-purple: hsl(273 85% 13%);
+  --color-eucaplyptus: hsl(150 100% 63%);
+  --color-davy\'s-grey: hsl(271 12% 34%);
+  --color-ghost-white: hsl(276 100% 99%);
+  --color-white: hsl(0 0% 100%);
 
   --font-fraunces: "Fraunces", serif;
   --font-manrope: "Manrope", sans-serif;
@@ -24,6 +24,7 @@
   --leading-200: 2rem; /* 32px */
   --leading-300: 2.25rem; /* 36px */
   --leading-400: 2.5rem; /* 40px */
+  --leading-450: 3rem; /* 48px */
   --leading-500: 3.125rem; /* 50px */
   --leading-600: 3.5rem; /* 56px */
   --leading-700: 3.75rem; /* 60px */

@@ -1,0 +1,85 @@
+body {
+  --font-heading: var(--font-fraunces);
+  --weight-heading: var(--weight-semi-bold);
+  --text-heading-l: var(--text-400);
+  --leading-heading-l: var(--leading-500);
+  --text-heading-m: var(--text-300);
+  --leading-heading-m: var(--leading-450);
+  --text-heading-s: var(--text-250);
+  --leading-heading-s: var(--leading-300);
+  --font-body: var(--font-manrope);
+  --text-body: var(--text-50);
+  --leading-body: var(--leading-100);
+  --weight-body: var(--weight-regular);
+  --text-link: var(--text-50);
+  --leading-link: var(--leading-200);
+  --weight-link: var(--weight-bold);
+  --tracking-link: var(--tracking-100);
+
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  font-weight: var(--weight-body);
+  line-height: var(--leading-body);
+  background: var(--color-white);
+  color: var(--color-davy\'s-grey);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-heading);
+  font-weight: var(--weight-heading);
+  color: var(--color-dark-purple);
+}
+
+h1 {
+  font-size: var(--text-heading-l);
+  line-height: var(--leading-heading-l);
+}
+
+h2 {
+  font-size: var(--text-heading-m);
+  line-height: var(--leading-heading-m);
+}
+
+h3 {
+  font-size: var(--text-heading-s);
+  line-height: var(--leading-heading-s);
+}
+
+a {
+  font-size: var(--text-link);
+  font-weight: var(--weight-link);
+  letter-spacing: var(--tracking-link);
+  line-height: var(--leading-link);
+  color: inherit;
+}
+
+/* tablet */
+@media (min-width: 40em) {
+  body {
+    --text-heading-l: var(--text-500);
+    --leading-heading-l: var(--leading-700);
+    --text-heading-m: var(--text-350);
+    --leading-heading-m: var(--leading-600);
+  }
+}
+
+/* desktop */
+@media (min-width: 64em) {
+  body {
+    --text-heading-l: var(--text-550);
+    --leading-heading-l: var(--leading-900);
+    --text-heading-m: var(--text-450);
+    --leading-heading-m: var(--leading-800);
+    --text-heading-s: var(--text-300);
+    --leading-heading-s: var(--leading-400);
+    --text-body: var(--text-100);
+    --leading-body: var(--leading-200);
+    --text-link: var(--text-100);
+    --tracking-link: var(--tracking-200);
+  }
+}
