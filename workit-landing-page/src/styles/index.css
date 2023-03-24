@@ -2,3 +2,12 @@
 @import "fonts";
 @import "variables";
 @import "base";
+
+@import "compositions/block";
+@import "compositions/center";
+@import "compositions/cluster";
+@import "compositions/fill";
+@import "compositions/size";
+@import "compositions/underline";
+
+@import "blocks/logo";

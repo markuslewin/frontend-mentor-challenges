@@ -1,0 +1,5 @@
+.underline {
+  text-decoration: none;
+  white-space: nowrap;
+  border-bottom: var(--underline-size) solid var(--underline-color);
+}
