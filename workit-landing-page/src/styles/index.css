@@ -10,4 +10,5 @@
 @import "compositions/size";
 @import "compositions/underline";
 
+@import "blocks/hero";
 @import "blocks/logo";

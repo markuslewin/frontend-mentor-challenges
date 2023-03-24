@@ -1,0 +1,30 @@
+.hero {
+  --center-gutter: var(--space-gutter);
+  --underline-color: var(--color-hero-accent);
+
+  text-align: center;
+  background: var(--color-hero);
+}
+
+.hero h1,
+.hero h2,
+.hero h3,
+.hero h4,
+.hero h5,
+.hero h6 {
+  color: var(--color-white);
+}
+
+/* tablet */
+@media (min-width: 40em) {
+  .hero {
+    --center-size: var(--size-143);
+  }
+}
+
+/* desktop */
+@media (min-width: 64em) {
+  .hero {
+    --center-size: var(--size-159);
+  }
+}
