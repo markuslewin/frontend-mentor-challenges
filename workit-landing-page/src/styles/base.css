@@ -1,5 +1,6 @@
 body {
   --font-heading: var(--font-fraunces);
+  --variation-heading: var(--variation-fraunces);
   --weight-heading: var(--weight-semi-bold);
   --text-heading-l: var(--text-400);
   --leading-heading-l: var(--leading-500);
@@ -63,6 +64,7 @@ h4,
 h5,
 h6 {
   font-family: var(--font-heading);
+  font-variation-settings: var(--variation-heading);
   font-weight: var(--weight-heading);
   color: var(--color-dark-purple);
 }

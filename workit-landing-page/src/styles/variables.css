@@ -8,6 +8,8 @@
   --font-fraunces: "Fraunces", serif;
   --font-manrope: "Manrope", sans-serif;
 
+  --variation-fraunces: "opsz" 144;
+
   --text-50: 1rem; /* 16px */
   --text-100: 1.125rem; /* 18px */
   --text-150: 1.25rem; /* 20px */
