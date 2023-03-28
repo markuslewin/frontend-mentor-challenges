@@ -1,0 +1,11 @@
+.shape {
+  --internal-shape-thickness: var(--shape-thickness, var(--size-0-5));
+
+  border: var(--internal-shape-thickness) solid var(--shape-color, transparent);
+  padding-inline: calc(
+    var(--shape-padding-inline) - var(--internal-shape-thickness)
+  );
+  padding-block: calc(
+    var(--shape-padding-block) - var(--internal-shape-thickness)
+  );
+}
