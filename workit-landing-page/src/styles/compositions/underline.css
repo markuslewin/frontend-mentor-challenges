@@ -9,3 +9,11 @@
   background-position-y: calc(50% + 0.5em + 1px);
   background-size: auto var(--underline-size);
 }
+
+@media (forced-colors: active) {
+  .underline {
+    --underline-color: currentColor;
+
+    forced-color-adjust: none;
+  }
+}
