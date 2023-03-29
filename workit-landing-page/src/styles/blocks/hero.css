@@ -1,9 +1,13 @@
 .hero {
+  --hero-stage: var(--space-35);
+  --hero-pull: var(--space-23);
+
   --center-gutter: var(--space-gutter);
+  --color-background: var(--color-hero);
+  --color-foreground: var(--color-white);
   --underline-color: var(--color-hero-accent);
 
   text-align: center;
-  background: var(--color-hero);
 }
 
 .hero h1,
@@ -12,12 +16,23 @@
 .hero h4,
 .hero h5,
 .hero h6 {
-  color: var(--color-white);
+  color: inherit;
+}
+
+.hero [data-hero-stage] {
+  padding-block-end: var(--hero-stage);
+}
+
+.hero [data-hero-pull] {
+  margin-block-end: calc(-1 * var(--hero-pull));
 }
 
 /* tablet */
 @media (min-width: 40em) {
   .hero {
+    --hero-stage: var(--space-42);
+    --hero-pull: var(--space-37);
+
     --center-size: var(--size-143);
   }
 }
@@ -25,6 +40,9 @@
 /* desktop */
 @media (min-width: 64em) {
   .hero {
+    --hero-stage: var(--space-65);
+    --hero-pull: var(--space-69);
+
     --center-size: var(--size-159);
   }
 }
