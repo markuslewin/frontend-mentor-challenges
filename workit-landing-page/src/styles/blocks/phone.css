@@ -1,0 +1,21 @@
+.phone {
+  --center-size: var(--size-80);
+  --center-gutter: var(--space-4);
+
+  box-sizing: border-box;
+  inline-size: 100%;
+}
+
+/* tablet */
+@media (min-width: 40em) {
+  .phone {
+    --center-size: var(--size-129);
+  }
+}
+
+/* desktop */
+@media (min-width: 64em) {
+  .phone {
+    --center-size: var(--size-192);
+  }
+}
