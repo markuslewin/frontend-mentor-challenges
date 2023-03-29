@@ -5,6 +5,7 @@
   --center-gutter: var(--space-gutter);
   --color-background: var(--color-hero);
   --color-foreground: var(--color-white);
+  --flow-space: var(--space-10);
   --underline-color: var(--color-hero-accent);
 
   text-align: center;

@@ -9,6 +9,7 @@
 @import "compositions/color";
 @import "compositions/fill";
 @import "compositions/flow-underline";
+@import "compositions/flow";
 @import "compositions/shape";
 @import "compositions/size";
 @import "compositions/underline";
