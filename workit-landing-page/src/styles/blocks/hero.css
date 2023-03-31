@@ -22,6 +22,7 @@
 }
 
 .hero [data-hero-stage] {
+  padding-block-start: var(--space-8);
   padding-block-end: var(--hero-stage);
 }
 
@@ -30,14 +31,19 @@
 }
 
 .hero [data-hero-content] {
+  --center-size: var(--size-116);
   --center-gutter: 0;
 }
 
 .hero [data-hero-decoration-1] {
+  --position-offset-x: calc(-1 * var(--space-57));
+  --position-offset-y: calc(-1 * var(--space-13));
   --size-block: var(--size-79);
 }
 
 .hero [data-hero-decoration-2] {
+  --position-offset-x: var(--space-23);
+  --position-offset-y: var(--space-32);
   --size-block: var(--size-45);
 }
 
@@ -48,8 +54,8 @@
     --hero-pull: var(--space-37);
   }
 
-  .hero [data-hero-content] {
-    --center-size: var(--size-143);
+  .hero [data-hero-stage] {
+    padding-block-start: var(--space-6);
   }
 }
 

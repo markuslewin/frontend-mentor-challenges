@@ -7,6 +7,7 @@
 @import "compositions/center";
 @import "compositions/cluster";
 @import "compositions/color";
+@import "compositions/display";
 @import "compositions/fill";
 @import "compositions/flow-underline";
 @import "compositions/flow";
