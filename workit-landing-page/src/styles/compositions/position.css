@@ -1,0 +1,22 @@
+.position {
+  position: relative;
+  isolation: isolate;
+}
+
+.position [data-position-canvas] {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  contain: layout;
+  display: flex;
+  justify-content: var(--position-justify);
+  align-items: start;
+}
+
+.position [data-position-canvas][data-position-origin="end"] {
+  --position-justify: end;
+}
+
+.position [data-position-target] {
+  transform: translate(var(--position-offset-x), var(--position-offset-y));
+}

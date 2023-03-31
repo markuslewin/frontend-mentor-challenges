@@ -10,6 +10,7 @@
 @import "compositions/fill";
 @import "compositions/flow-underline";
 @import "compositions/flow";
+@import "compositions/position";
 @import "compositions/shape";
 @import "compositions/size";
 @import "compositions/underline";
