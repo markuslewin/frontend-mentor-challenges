@@ -1,0 +1,10 @@
+.columns {
+  display: grid;
+  gap: var(--columns-space);
+}
+
+@media (min-width: 64em) {
+  .columns {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}

@@ -7,17 +7,21 @@
 @import "compositions/center";
 @import "compositions/cluster";
 @import "compositions/color";
+@import "compositions/columns";
 @import "compositions/display";
 @import "compositions/fill";
 @import "compositions/flow-underline";
 @import "compositions/flow";
+@import "compositions/numbered";
 @import "compositions/position";
 @import "compositions/shape";
 @import "compositions/size";
 @import "compositions/underline";
+@import "compositions/visually-hidden";
 
 @import "blocks/button";
 @import "blocks/curve";
+@import "blocks/features";
 @import "blocks/hero";
 @import "blocks/logo";
 @import "blocks/phone";

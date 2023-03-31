@@ -23,6 +23,8 @@ body {
   --transition-duration-activate: 150ms;
   --transition-duration-deactivate: 500ms;
 
+  --center-size: var(--size-column);
+  --center-gutter: var(--space-gutter);
   --underline-size: var(--size-0-75);
 
   font-family: var(--font-body);
