@@ -1,3 +1,7 @@
+.feature {
+  --flow-space: var(--space-4);
+}
+
 .feature [data-feature-content] {
   margin-block-start: var(--space-6);
 }
@@ -22,6 +26,8 @@
 /* desktop */
 @media (min-width: 64em) {
   .feature {
+    --flow-space: var(--space-7);
+
     display: revert;
     grid-template-columns: revert;
   }

@@ -2,7 +2,6 @@
   --features-size-circle: var(--size-12);
 
   --columns-space: var(--space-10);
-  --flow-space: var(--space-4);
 
   text-align: center;
 }
@@ -42,7 +41,6 @@
 
     --center-size: var(--size-column);
     --columns-space: var(--space-7);
-    --flow-space: var(--space-7);
 
     text-align: center;
   }
