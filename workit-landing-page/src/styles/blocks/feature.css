@@ -1,0 +1,36 @@
+.feature [data-feature-content] {
+  margin-block-start: var(--space-6);
+}
+
+/* tablet */
+@media (min-width: 40em) {
+  .feature {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: var(--space-8);
+  }
+
+  .feature::before {
+    margin-block-start: var(--space-11);
+  }
+
+  .feature [data-feature-content] {
+    margin-block-start: revert;
+  }
+}
+
+/* desktop */
+@media (min-width: 64em) {
+  .feature {
+    display: revert;
+    grid-template-columns: revert;
+  }
+
+  .feature::before {
+    margin: revert;
+  }
+
+  .feature [data-feature-content] {
+    margin-block-start: var(--space-14);
+  }
+}
