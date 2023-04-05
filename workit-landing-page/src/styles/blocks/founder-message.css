@@ -2,6 +2,7 @@
   --founder-message-size-image: var(--size-70);
   --founder-message-overlap-block: var(--size-14);
 
+  margin-block-start: var(--space-25);
   display: grid;
   grid-template-rows: auto var(--founder-message-overlap-block) auto;
   justify-items: center;
@@ -50,5 +51,7 @@
     --founder-message-size-image: var(--size-119);
     --founder-message-overlap-inline: var(--size-24);
     --founder-message-overlap-block: var(--size-76);
+
+    margin-block-start: var(--space-28);
   }
 }
