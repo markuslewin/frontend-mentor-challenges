@@ -19,6 +19,11 @@
   --flow-space: var(--space-6);
 }
 
+.card [data-position-canvas] {
+  align-items: end;
+}
+
+/* tablet */
 @media (min-width: 40em) {
   .card {
     --flow-space: var(--space-6);
@@ -29,12 +34,24 @@
   .card .button {
     --flow-space: revert;
   }
+
+  .card [data-card-decoration] {
+    --position-offset-x: calc(-1 * var(--space-2));
+    --position-offset-y: var(--space-27);
+    --size-block: var(--size-53);
+  }
 }
 
+/* desktop */
 @media (min-width: 64em) {
   .card {
     --flow-space: var(--space-8);
     --shape-padding-inline: var(--space-16);
     --shape-padding-block: var(--space-16);
+  }
+
+  .card [data-card-decoration] {
+    --position-offset-x: calc(-1 * var(--space-17));
+    --position-offset-y: var(--space-16);
   }
 }
