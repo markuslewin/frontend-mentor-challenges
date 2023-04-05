@@ -50,6 +50,10 @@
     --shape-padding-block: var(--space-16);
   }
 
+  .card .button {
+    --shape-padding-inline: var(--space-6);
+  }
+
   .card [data-card-decoration] {
     --position-offset-x: calc(-1 * var(--space-17));
     --position-offset-y: var(--space-16);

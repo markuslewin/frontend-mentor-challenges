@@ -1,8 +1,8 @@
 .button {
   --color-background: var(--color-eucaplyptus);
   --color-foreground: var(--color-dark-purple);
-  --shape-padding-block: var(--space-4);
-  --shape-padding-inline: var(--space-8);
+  --shape-padding-block: var(--space-3);
+  --shape-padding-inline: var(--space-6);
   --shape-thickness: var(--size-0-5);
   --shape-color: var(--color-eucaplyptus);
 
@@ -19,6 +19,14 @@
 .button:focus-visible {
   --button-transition-duration: var(--transition-duration-activate);
 
-  --color-background: var(--color-dark-purple);
+  --color-background: transparent;
   --color-foreground: var(--color-eucaplyptus);
+}
+
+/* desktop */
+@media (min-width: 64em) {
+  .button {
+    --shape-padding-block: var(--space-4);
+    --shape-padding-inline: var(--space-8);
+  }
 }
