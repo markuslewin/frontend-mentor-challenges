@@ -2,5 +2,6 @@
   box-sizing: content-box;
   margin-inline: auto;
   max-inline-size: var(--center-size);
+  display: block;
   padding-inline: var(--center-gutter);
 }
