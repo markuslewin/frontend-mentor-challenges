@@ -1,0 +1,4 @@
+.heading[data-heading-style="M"] {
+  font-size: var(--text-heading-m);
+  line-height: var(--leading-heading-m);
+}

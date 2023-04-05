@@ -12,6 +12,7 @@
 @import "compositions/fill";
 @import "compositions/flow-underline";
 @import "compositions/flow";
+@import "compositions/heading";
 @import "compositions/numbered";
 @import "compositions/position";
 @import "compositions/shape";
