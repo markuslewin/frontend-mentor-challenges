@@ -1,0 +1,47 @@
+.founder-message {
+  --founder-message-size-image: var(--size-70);
+  --founder-message-overlap-block: var(--size-14);
+
+  text-align: center;
+}
+
+.founder-message [data-founder-message-image] {
+  display: inline-block;
+  margin-block-end: calc(-1 * var(--founder-message-overlap-block));
+  inline-size: var(--founder-message-size-image);
+}
+
+/* tablet */
+@media (min-width: 40em) {
+  .founder-message {
+    --founder-message-overlap-inline: var(--size-26);
+    --founder-message-overlap-block: var(--size-32);
+
+    display: grid;
+    grid-template-columns: auto var(--founder-message-overlap-inline) 1fr;
+    grid-template-rows:
+      calc(
+        var(--founder-message-size-image) - var(--founder-message-overlap-block)
+      )
+      auto;
+    text-align: start;
+  }
+
+  .founder-message [data-founder-message-image] {
+    margin-block-end: revert;
+    grid-area: 1 / 1 / 3 / 3;
+  }
+
+  .founder-message [data-founder-message-card] {
+    grid-area: 2 / 2 / -1 / -1;
+  }
+}
+
+/* desktop */
+@media (min-width: 64em) {
+  .founder-message {
+    --founder-message-size-image: var(--size-119);
+    --founder-message-overlap-inline: var(--size-24);
+    --founder-message-overlap-block: var(--size-76);
+  }
+}

@@ -23,6 +23,7 @@
 @import "blocks/curve";
 @import "blocks/feature";
 @import "blocks/features";
+@import "blocks/founder-message";
 @import "blocks/hero";
 @import "blocks/logo";
 @import "blocks/phone";
