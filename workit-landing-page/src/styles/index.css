@@ -20,6 +20,7 @@
 @import "compositions/visually-hidden";
 
 @import "blocks/button";
+@import "blocks/card";
 @import "blocks/curve";
 @import "blocks/feature";
 @import "blocks/features";

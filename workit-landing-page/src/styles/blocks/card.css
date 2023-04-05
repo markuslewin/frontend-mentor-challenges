@@ -1,0 +1,40 @@
+.card {
+  --color-background: var(--color-dark-purple);
+  --color-foreground: var(--color-white);
+  --flow-space: var(--space-4);
+  --shape-padding-inline: var(--space-8);
+  --shape-padding-block: var(--space-8);
+}
+
+.card h1,
+.card h2,
+.card h3,
+.card h4,
+.card h5,
+.card h6 {
+  color: inherit;
+}
+
+.card .button {
+  --flow-space: var(--space-6);
+}
+
+@media (min-width: 40em) {
+  .card {
+    --flow-space: var(--space-6);
+    --shape-padding-inline: var(--space-14);
+    --shape-padding-block: var(--space-14);
+  }
+
+  .card .button {
+    --flow-space: revert;
+  }
+}
+
+@media (min-width: 64em) {
+  .card {
+    --flow-space: var(--space-8);
+    --shape-padding-inline: var(--space-16);
+    --shape-padding-block: var(--space-16);
+  }
+}
