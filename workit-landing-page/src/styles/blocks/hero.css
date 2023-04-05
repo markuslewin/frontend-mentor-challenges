@@ -9,6 +9,7 @@
   --flow-space: var(--space-10);
   --underline-color: var(--color-hero-accent);
 
+  background: var(--color-features);
   text-align: center;
 }
 

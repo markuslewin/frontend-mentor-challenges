@@ -18,6 +18,7 @@ body {
   --tracking-link: var(--tracking-100);
   --color-hero: var(--color-dark-purple);
   --color-hero-accent: var(--color-eucaplyptus);
+  --color-features: var(--color-ghost-white);
   --size-column: var(--size-279);
   --space-gutter: var(--space-4);
   --transition-duration-activate: 150ms;

@@ -1,4 +1,6 @@
 .curve {
+  --fill-color: var(--curve-color);
+
   display: block;
   inline-size: 100%;
   max-block-size: var(--size-17);

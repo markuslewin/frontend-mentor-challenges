@@ -1,7 +1,9 @@
 .features {
   --features-size-circle: var(--size-12);
 
+  --color-background: var(--color-features);
   --columns-space: var(--space-10);
+  --curve-color: var(--color-features);
 
   text-align: center;
 }
