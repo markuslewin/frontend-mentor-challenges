@@ -59,10 +59,6 @@ header a:focus-visible {
   transition-duration: var(--transition-duration-activate);
 }
 
-main {
-  --flow-space: var(--space-16);
-}
-
 h1,
 h2,
 h3,
@@ -107,10 +103,6 @@ a {
     --leading-heading-m: var(--leading-600);
     --space-gutter: var(--space-10);
   }
-
-  main {
-    --flow-space: var(--space-14);
-  }
 }
 
 /* desktop */
@@ -130,9 +122,5 @@ a {
 
   header {
     --block-space: var(--space-14);
-  }
-
-  main {
-    --flow-space: var(--space-23);
   }
 }

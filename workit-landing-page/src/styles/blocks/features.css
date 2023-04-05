@@ -12,6 +12,10 @@
   list-style: none;
 }
 
+.features [data-features-content] {
+  padding-block: var(--space-16) var(--space-14);
+}
+
 .features [data-features-number]::before {
   font: var(--weight-heading) var(--text-150) / var(--leading-300)
     var(--font-heading);
@@ -32,6 +36,10 @@
 
     text-align: left;
   }
+
+  .features [data-features-content] {
+    padding-block: var(--space-14) var(--space-17);
+  }
 }
 
 /* desktop */
@@ -43,6 +51,10 @@
     --columns-space: var(--space-7);
 
     text-align: center;
+  }
+
+  .features [data-features-content] {
+    padding-block: var(--space-23) var(--space-26);
   }
 
   .features [data-features-number]::before {
