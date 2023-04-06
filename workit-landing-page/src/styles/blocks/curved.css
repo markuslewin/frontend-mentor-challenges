@@ -8,8 +8,8 @@
   z-index: -1;
 }
 
-.curved [data-curved-curve],
-.curved [data-curved-border] {
+.curved .curved-curve,
+.curved .curved-border {
   --fill-color: var(--curved-color);
 
   display: block;
@@ -17,7 +17,7 @@
   max-block-size: var(--size-17);
 }
 
-.curved [data-curved-border] {
+.curved .curved-border {
   --fill-color: currentColor;
 
   display: none;
@@ -29,11 +29,11 @@
 }
 
 @media (forced-colors: active) {
-  .curved [data-curved-curve] {
+  .curved .curved-curve {
     --fill-color: Canvas;
   }
 
-  .curved [data-curved-border] {
+  .curved .curved-border {
     display: block;
   }
 }
