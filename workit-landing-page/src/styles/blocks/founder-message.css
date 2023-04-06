@@ -11,6 +11,7 @@
 
 .founder-message [data-founder-message-image] {
   inline-size: var(--founder-message-size-image);
+  block-size: auto;
   grid-column: 1;
   grid-row: 1 / 3;
 }

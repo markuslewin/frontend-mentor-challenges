@@ -38,6 +38,7 @@
   .card [data-card-decoration] {
     --position-offset-x: calc(-1 * var(--space-2));
     --position-offset-y: var(--space-27);
+    --size-inline: auto;
     --size-block: var(--size-53);
   }
 }
