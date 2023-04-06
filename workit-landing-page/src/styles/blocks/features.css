@@ -3,6 +3,7 @@
 
   --color-background: var(--color-features);
   --columns-space: var(--space-10);
+  /* todo: `curved-color` */
   --curve-color: var(--color-features);
 
   text-align: center;
