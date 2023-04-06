@@ -1,5 +1,5 @@
 .phone {
-  --center-size: var(--size-80);
+  --center-size: var(--size-87);
   --center-gutter: var(--space-4);
 
   box-sizing: border-box;
@@ -9,13 +9,13 @@
 /* tablet */
 @media (min-width: 40em) {
   .phone {
-    --center-size: var(--size-129);
+    --center-size: var(--size-136);
   }
 }
 
 /* desktop */
 @media (min-width: 64em) {
   .phone {
-    --center-size: var(--size-192);
+    --center-size: var(--size-199);
   }
 }

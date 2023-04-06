@@ -68,6 +68,10 @@
     --hero-pull: var(--space-69);
   }
 
+  .hero [data-hero-stage] {
+    padding-block-start: 0;
+  }
+
   .hero [data-hero-content] {
     --center-size: var(--size-159);
   }

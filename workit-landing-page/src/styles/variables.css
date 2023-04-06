@@ -57,12 +57,15 @@
   --size-76: 19rem; /* 304px */
   --size-79: 19.75rem; /* 316px */
   --size-80: 20rem; /* 320px */
+  --size-87: 21.75rem; /* 348px */
   --size-116: 29rem; /* 464px */
   --size-119: 29.75rem; /* 476px */
   --size-129: 32.25rem; /* 516px */
+  --size-136: 34rem; /* 544px */
   --size-143: 35.75rem; /* 572px */
   --size-159: 39.75rem; /* 636px */
   --size-192: 48rem; /* 768px */
+  --size-199: 49.75rem; /* 796px */
   --size-279: 69.75rem; /* 1116px */
 
   --space-1: 0.25rem; /* 4px */
