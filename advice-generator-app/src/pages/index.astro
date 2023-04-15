@@ -1,40 +1,82 @@
+---
+const { slip } = {
+  slip: {
+    slip_id: "117",
+    advice:
+      "It is easy to sit up and take notice, what's difficult is getting up and taking action.",
+  },
+};
+---
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- displays site properly based on user's device -->
-
     <link
       rel="icon"
       type="image/png"
       sizes="32x32"
-      href="./images/favicon-32x32.png"
+      href="/images/favicon-32x32.png"
     />
-
     <title>Frontend Mentor | Advice generator app</title>
-
-    <!-- Feel free to remove these styles or customise in your own stylesheet 👍 -->
-    <style>
-      .attribution {
-        font-size: 11px;
-        text-align: center;
-      }
-      .attribution a {
-        color: hsl(228, 45%, 44%);
-      }
-    </style>
   </head>
   <body>
-    Advice #<!-- Advice ID goes here -->
-
-    "<!-- Advice text goes here -->"
-
-    <div class="attribution">
-      Challenge by <a
-        href="https://www.frontendmentor.io?ref=challenge"
-        target="_blank">Frontend Mentor</a
-      >. Coded by <a href="#">Your Name Here</a>.
-    </div>
+    <main>
+      <article>
+        <article>
+          <h1>Advice #{slip.slip_id}</h1>
+          <blockquote>"{slip.advice}"</blockquote>
+          <svg
+            aria-hidden="true"
+            width="295"
+            height="16"
+            xmlns="http://www.w3.org/2000/svg"
+            ><g fill="none" fill-rule="evenodd"
+              ><path fill="#4F5D74" d="M0 8h122v1H0zM173 8h122v1H173z"></path><g
+                transform="translate(138)"
+                fill="#CEE3E9"
+                ><rect width="6" height="16" rx="3"></rect><rect
+                  x="14"
+                  width="6"
+                  height="16"
+                  rx="3"></rect></g
+              ></g
+            ></svg
+          >
+          <svg
+            aria-hidden="true"
+            width="444"
+            height="16"
+            xmlns="http://www.w3.org/2000/svg"
+            ><g fill="none" fill-rule="evenodd"
+              ><path fill="#4F5D74" d="M0 8h196v1H0zM248 8h196v1H248z"></path><g
+                transform="translate(212)"
+                fill="#CEE3E9"
+                ><rect width="6" height="16" rx="3"></rect><rect
+                  x="14"
+                  width="6"
+                  height="16"
+                  rx="3"></rect></g
+              ></g
+            ></svg
+          >
+        </article>
+        <footer>
+          <button>
+            <svg
+              aria-hidden="true"
+              width="24"
+              height="24"
+              xmlns="http://www.w3.org/2000/svg"
+              ><path
+                d="M20 0H4a4.005 4.005 0 0 0-4 4v16a4.005 4.005 0 0 0 4 4h16a4.005 4.005 0 0 0 4-4V4a4.005 4.005 0 0 0-4-4ZM7.5 18a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm0-9a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm4.5 4.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm4.5 4.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm0-9a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Z"
+                fill="#202733"></path></svg
+            >
+            <span>Generate a new piece of advice</span>
+          </button>
+        </footer>
+      </article>
+    </main>
   </body>
 </html>
