@@ -25,15 +25,17 @@ const { slip } = {
     <title>Frontend Mentor | Advice generator app</title>
   </head>
   <body>
-    <main>
-      <article>
-        <article>
-          <h1>Advice #{slip.slip_id}</h1>
-          <blockquote>"{slip.advice}"</blockquote>
+    <main class="min-h-screen grid place-items-center p-4">
+      <article class="max-w-135 text-center">
+        <article
+          class="bg-dark-grayish-blue pt-10 px-8 pb-16 md:pb-18 -mb-8 rounded-xl md:rounded-2xl shadow-layer shadow-black"
+        >
+          <h1 class="mb-6">Advice #{slip.slip_id}</h1>
+          <blockquote class="mb-6 md:mb-10">“{slip.advice}”</blockquote>
           <svg
+            class="md:hidden w-full h-4"
             aria-hidden="true"
-            width="295"
-            height="16"
+            viewBox="0 0 295 16"
             xmlns="http://www.w3.org/2000/svg"
             ><g fill="none" fill-rule="evenodd"
               ><path fill="#4F5D74" d="M0 8h122v1H0zM173 8h122v1H173z"></path><g
@@ -48,9 +50,9 @@ const { slip } = {
             ></svg
           >
           <svg
+            class="hidden md:block w-full"
             aria-hidden="true"
-            width="444"
-            height="16"
+            viewBox="0 0 444 16"
             xmlns="http://www.w3.org/2000/svg"
             ><g fill="none" fill-rule="evenodd"
               ><path fill="#4F5D74" d="M0 8h196v1H0zM248 8h196v1H248z"></path><g
@@ -66,17 +68,19 @@ const { slip } = {
           >
         </article>
         <footer>
-          <button>
+          <button
+            class="bg-neon-green rounded-full p-5 transition-shadow hover:shadow-glow focus-visible:shadow-glow hover:shadow-neon-green focus-visible:shadow-neon-green"
+          >
             <svg
+              class="w-6"
               aria-hidden="true"
-              width="24"
-              height="24"
+              viewBox="0 0 24 24"
               xmlns="http://www.w3.org/2000/svg"
               ><path
                 d="M20 0H4a4.005 4.005 0 0 0-4 4v16a4.005 4.005 0 0 0 4 4h16a4.005 4.005 0 0 0 4-4V4a4.005 4.005 0 0 0-4-4ZM7.5 18a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm0-9a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm4.5 4.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm4.5 4.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm0-9a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Z"
                 fill="#202733"></path></svg
             >
-            <span>Generate a new piece of advice</span>
+            <span class="sr-only">Generate a new piece of advice</span>
           </button>
         </footer>
       </article>

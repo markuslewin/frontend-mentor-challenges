@@ -1,4 +1,5 @@
 const rem = (px) => `${px / 16}rem`;
+const step = (px) => (px / 4).toString();
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -27,13 +28,25 @@ module.exports = {
       "quote-desktop": rem(38),
     },
     colors: {
-      "dark-blue": "hsl(218, 23%, 16%)",
-      "dark-grayish-blue": "hsl(217, 19%, 24%)",
-      "grayish-blue": "hsl(217, 19%, 38%)",
-      "light-cyan": "hsl(193, 38%, 86%)",
-      "neon-green": "hsl(150, 100%, 66%)",
+      "dark-blue": "hsl(218 23% 16%)",
+      "dark-grayish-blue": "hsl(217 19% 24%)",
+      "grayish-blue": "hsl(217 19% 38%)",
+      "light-cyan": "hsl(193 38% 86%)",
+      "neon-green": "hsl(150 100% 66%)",
+      black: "hsl(0 0% 0% / 10%)",
     },
-    extend: {},
+    boxShadow: {
+      layer: `${rem(30)} ${rem(50)} ${rem(80)}`,
+      glow: `0 0 ${rem(40)}`,
+    },
+    extend: {
+      maxWidth: {
+        [step(540)]: rem(540),
+      },
+      padding: {
+        [step(72)]: rem(72),
+      },
+    },
   },
   plugins: [],
 };
