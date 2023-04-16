@@ -1,0 +1,17 @@
+body {
+  @apply bg-dark-blue text-light-cyan text-quote-mobile leading-quote-mobile font-extra-bold font-font tracking-quote-mobile;
+}
+
+h1 {
+  @apply text-neon-green text-heading-mobile leading-heading-mobile tracking-heading-mobile;
+}
+
+@media screen(md) {
+  body {
+    @apply text-quote-desktop leading-quote-desktop tracking-quote-desktop;
+  }
+
+  h1 {
+    @apply text-heading-desktop leading-heading-desktop tracking-heading-desktop;
+  }
+}
