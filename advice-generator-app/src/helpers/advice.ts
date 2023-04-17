@@ -1,5 +1,5 @@
-export const getAdvice = async () => {
-  const response = await fetch("https://api.adviceslip.com/advice");
+export const getAdvice = async (init?: Parameters<typeof fetch>[1]) => {
+  const response = await fetch("https://api.adviceslip.com/advice", init);
   const adviceObject = (await response.json()) as unknown;
   if (
     !(

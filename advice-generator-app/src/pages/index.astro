@@ -99,36 +99,18 @@ if (searchParams.has("new")) {
   </body>
 </html>
 <script>
-  import { createFetcher, isAbortedFetch } from "../helpers/fetcher";
+  import { getAdvice } from "../helpers/advice";
 
   [...document.querySelectorAll("[data-generator]")].forEach((generator) => {
     generator.addEventListener("submit", async (event) => {
       event.preventDefault();
 
       try {
-        const response = await fetcher.fetch(
-          "https://api.adviceslip.com/advice"
-        );
-        const adviceObject = (await response.json()) as unknown;
-        if (
-          !(
-            typeof adviceObject === "object" &&
-            adviceObject !== null &&
-            "slip" in adviceObject &&
-            typeof adviceObject.slip === "object" &&
-            adviceObject.slip !== null &&
-            "id" in adviceObject.slip &&
-            typeof adviceObject.slip.id === "number" &&
-            "advice" in adviceObject.slip &&
-            typeof adviceObject.slip.advice === "string"
-          )
-        ) {
-          throw new Error("Unexpected shape of response");
+        if (controller !== undefined) {
+          controller.abort();
         }
-
-        const {
-          slip: { advice, id },
-        } = adviceObject;
+        controller = new AbortController();
+        const adviceObject = await getAdvice({ signal: controller.signal });
 
         if (!(event.target instanceof Element)) {
           return;
@@ -136,16 +118,16 @@ if (searchParams.has("new")) {
 
         [...event.target.querySelectorAll("[data-generator-id]")].forEach(
           (idEl) => {
-            idEl.textContent = id.toString();
+            idEl.textContent = adviceObject.slip.id.toString();
           }
         );
         [...event.target.querySelectorAll("[data-generator-advice]")].forEach(
           (adviceEl) => {
-            adviceEl.textContent = advice;
+            adviceEl.textContent = adviceObject.slip.advice;
           }
         );
       } catch (e) {
-        if (isAbortedFetch(e)) {
+        if (e instanceof DOMException && e.name === "AbortError") {
           return;
         }
         throw e;
@@ -153,5 +135,5 @@ if (searchParams.has("new")) {
     });
   });
 
-  const fetcher = createFetcher();
+  let controller: AbortController | undefined;
 </script>
