@@ -4,7 +4,7 @@ import "../styles/base.css";
 
 const { slip } = {
   slip: {
-    slip_id: "117",
+    id: "117",
     advice:
       "It is easy to sit up and take notice, what's difficult is getting up and taking action.",
   },
@@ -27,63 +27,124 @@ const { slip } = {
   <body>
     <main class="min-h-screen grid place-items-center p-4">
       <article class="max-w-135 text-center">
-        <article
-          class="bg-dark-grayish-blue pt-10 px-8 pb-16 md:pb-18 -mb-8 rounded-xl md:rounded-2xl shadow-layer shadow-black forced-colors:border-2"
-        >
-          <h1 class="mb-6">Advice #{slip.slip_id}</h1>
-          <blockquote class="mb-6 md:mb-10">“{slip.advice}”</blockquote>
-          <svg
-            class="md:hidden w-full h-4 forced-colors:bucket"
-            aria-hidden="true"
-            viewBox="0 0 295 16"
-            xmlns="http://www.w3.org/2000/svg"
-            ><g fill="none" fill-rule="evenodd"
-              ><path fill="#4F5D74" d="M0 8h122v1H0zM173 8h122v1H173z"></path><g
-                transform="translate(138)"
-                fill="#CEE3E9"
-                ><rect width="6" height="16" rx="3"></rect><rect
-                  x="14"
-                  width="6"
-                  height="16"
-                  rx="3"></rect></g
-              ></g
-            ></svg
+        <form data-generator>
+          <article
+            class="bg-dark-grayish-blue pt-10 px-8 pb-16 md:pb-18 -mb-8 rounded-xl md:rounded-2xl shadow-layer shadow-black forced-colors:border-2"
           >
-          <svg
-            class="hidden md:block w-full h-4 forced-colors:bucket"
-            aria-hidden="true"
-            viewBox="0 0 444 16"
-            xmlns="http://www.w3.org/2000/svg"
-            ><g fill="none" fill-rule="evenodd"
-              ><path fill="#4F5D74" d="M0 8h196v1H0zM248 8h196v1H248z"></path><g
-                transform="translate(212)"
-                fill="#CEE3E9"
-                ><rect width="6" height="16" rx="3"></rect><rect
-                  x="14"
-                  width="6"
-                  height="16"
-                  rx="3"></rect></g
-              ></g
-            ></svg
-          >
-        </article>
-        <footer>
-          <button
-            class="bg-neon-green rounded-full p-5 transition-shadow hover:shadow-glow focus-visible:shadow-glow hover:shadow-neon-green focus-visible:shadow-neon-green forced-colors:border-2"
-          >
+            <h1 class="mb-6">
+              Advice #<span data-generator-id>{slip.id}</span>
+            </h1>
+            <blockquote class="mb-6 md:mb-10">
+              “<span data-generator-advice>{slip.advice}</span>”
+            </blockquote>
             <svg
-              class="w-6 forced-colors:bucket"
+              class="md:hidden w-full h-4 forced-colors:bucket"
               aria-hidden="true"
-              viewBox="0 0 24 24"
+              viewBox="0 0 295 16"
               xmlns="http://www.w3.org/2000/svg"
-              ><path
-                d="M20 0H4a4.005 4.005 0 0 0-4 4v16a4.005 4.005 0 0 0 4 4h16a4.005 4.005 0 0 0 4-4V4a4.005 4.005 0 0 0-4-4ZM7.5 18a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm0-9a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm4.5 4.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm4.5 4.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm0-9a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Z"
-                fill="#202733"></path></svg
+              ><g fill="none" fill-rule="evenodd"
+                ><path fill="#4F5D74" d="M0 8h122v1H0zM173 8h122v1H173z"
+                ></path><g transform="translate(138)" fill="#CEE3E9"
+                  ><rect width="6" height="16" rx="3"></rect><rect
+                    x="14"
+                    width="6"
+                    height="16"
+                    rx="3"></rect></g
+                ></g
+              ></svg
             >
-            <span class="sr-only">Generate a new piece of advice</span>
-          </button>
-        </footer>
+            <svg
+              class="hidden md:block w-full h-4 forced-colors:bucket"
+              aria-hidden="true"
+              viewBox="0 0 444 16"
+              xmlns="http://www.w3.org/2000/svg"
+              ><g fill="none" fill-rule="evenodd"
+                ><path fill="#4F5D74" d="M0 8h196v1H0zM248 8h196v1H248z"
+                ></path><g transform="translate(212)" fill="#CEE3E9"
+                  ><rect width="6" height="16" rx="3"></rect><rect
+                    x="14"
+                    width="6"
+                    height="16"
+                    rx="3"></rect></g
+                ></g
+              ></svg
+            >
+          </article>
+          <footer>
+            <button
+              class="bg-neon-green rounded-full p-5 transition-shadow hover:shadow-glow focus-visible:shadow-glow hover:shadow-neon-green focus-visible:shadow-neon-green forced-colors:border-2"
+            >
+              <svg
+                class="w-6 forced-colors:bucket"
+                aria-hidden="true"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+                ><path
+                  d="M20 0H4a4.005 4.005 0 0 0-4 4v16a4.005 4.005 0 0 0 4 4h16a4.005 4.005 0 0 0 4-4V4a4.005 4.005 0 0 0-4-4ZM7.5 18a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm0-9a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm4.5 4.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm4.5 4.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm0-9a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Z"
+                  fill="#202733"></path></svg
+              >
+              <span class="sr-only">Generate a new piece of advice</span>
+            </button>
+          </footer>
+        </form>
       </article>
     </main>
   </body>
 </html>
+<script>
+  import { createFetcher, isAbortedFetch } from "../helpers/fetcher";
+
+  [...document.querySelectorAll("[data-generator]")].forEach((generator) => {
+    generator.addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      try {
+        const response = await fetcher.fetch(
+          "https://api.adviceslip.com/advice"
+        );
+        const adviceObject = (await response.json()) as unknown;
+        if (
+          !(
+            typeof adviceObject === "object" &&
+            adviceObject !== null &&
+            "slip" in adviceObject &&
+            typeof adviceObject.slip === "object" &&
+            adviceObject.slip !== null &&
+            "id" in adviceObject.slip &&
+            typeof adviceObject.slip.id === "number" &&
+            "advice" in adviceObject.slip &&
+            typeof adviceObject.slip.advice === "string"
+          )
+        ) {
+          throw new Error("Unexpected shape of response");
+        }
+
+        const {
+          slip: { advice, id },
+        } = adviceObject;
+
+        if (!(event.target instanceof Element)) {
+          return;
+        }
+
+        [...event.target.querySelectorAll("[data-generator-id]")].forEach(
+          (idEl) => {
+            idEl.textContent = id.toString();
+          }
+        );
+        [...event.target.querySelectorAll("[data-generator-advice]")].forEach(
+          (adviceEl) => {
+            adviceEl.textContent = advice;
+          }
+        );
+      } catch (e) {
+        if (isAbortedFetch(e)) {
+          return;
+        }
+        throw e;
+      }
+    });
+  });
+
+  const fetcher = createFetcher();
+</script>
