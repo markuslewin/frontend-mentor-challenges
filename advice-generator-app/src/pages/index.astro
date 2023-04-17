@@ -28,12 +28,12 @@ const { slip } = {
     <main class="min-h-screen grid place-items-center p-4">
       <article class="max-w-135 text-center">
         <article
-          class="bg-dark-grayish-blue pt-10 px-8 pb-16 md:pb-18 -mb-8 rounded-xl md:rounded-2xl shadow-layer shadow-black"
+          class="bg-dark-grayish-blue pt-10 px-8 pb-16 md:pb-18 -mb-8 rounded-xl md:rounded-2xl shadow-layer shadow-black forced-colors:border-2"
         >
           <h1 class="mb-6">Advice #{slip.slip_id}</h1>
           <blockquote class="mb-6 md:mb-10">“{slip.advice}”</blockquote>
           <svg
-            class="md:hidden w-full h-4"
+            class="md:hidden w-full h-4 forced-colors:bucket"
             aria-hidden="true"
             viewBox="0 0 295 16"
             xmlns="http://www.w3.org/2000/svg"
@@ -50,7 +50,7 @@ const { slip } = {
             ></svg
           >
           <svg
-            class="hidden md:block w-full"
+            class="hidden md:block w-full h-4 forced-colors:bucket"
             aria-hidden="true"
             viewBox="0 0 444 16"
             xmlns="http://www.w3.org/2000/svg"
@@ -69,10 +69,10 @@ const { slip } = {
         </article>
         <footer>
           <button
-            class="bg-neon-green rounded-full p-5 transition-shadow hover:shadow-glow focus-visible:shadow-glow hover:shadow-neon-green focus-visible:shadow-neon-green"
+            class="bg-neon-green rounded-full p-5 transition-shadow hover:shadow-glow focus-visible:shadow-glow hover:shadow-neon-green focus-visible:shadow-neon-green forced-colors:border-2"
           >
             <svg
-              class="w-6"
+              class="w-6 forced-colors:bucket"
               aria-hidden="true"
               viewBox="0 0 24 24"
               xmlns="http://www.w3.org/2000/svg"

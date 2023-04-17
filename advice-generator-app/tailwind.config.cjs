@@ -1,3 +1,5 @@
+let plugin = require("tailwindcss/plugin");
+
 const rem = (px) => `${px / 16}rem`;
 const step = (px) => (px / 4).toString();
 
@@ -48,5 +50,9 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    plugin(function ({ addVariant }) {
+      addVariant("forced-colors", "@media (forced-colors: active)");
+    }),
+  ],
 };

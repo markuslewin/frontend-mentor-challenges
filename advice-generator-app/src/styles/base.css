@@ -1,3 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  .bucket * {
+    fill: currentColor;
+  }
+}
+
 body {
   @apply bg-dark-blue text-light-cyan text-quote-mobile leading-quote-mobile font-extra-bold font-font tracking-quote-mobile;
 }
