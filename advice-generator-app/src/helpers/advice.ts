@@ -1,5 +1,8 @@
 export const getAdvice = async (init?: Parameters<typeof fetch>[1]) => {
-  const response = await fetch("https://api.adviceslip.com/advice", init);
+  const response = await fetch("https://api.adviceslip.com/advice", {
+    cache: "no-store",
+    ...init,
+  });
   const adviceObject = (await response.json()) as unknown;
   if (
     !(
