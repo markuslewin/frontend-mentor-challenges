@@ -17,3 +17,6 @@
 
 # npm
 node_modules
+
+# cypress
+cypress/videos
