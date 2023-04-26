@@ -6,10 +6,10 @@ describe("advice", () => {
   });
 
   it("matches the design initially", () => {
-    cy.findByRole("heading", { name: "Advice #117" });
-    cy.findByText(
-      "It is easy to sit up and take notice, what's difficult is getting up and taking action."
-    );
+    cy.fixture("initial-slip").then((slip) => {
+      cy.findByRole("heading", { name: new RegExp(slip.id.toString()) });
+      cy.findByText(slip.advice);
+    });
   });
 
   it("generates new advice on button click", () => {
