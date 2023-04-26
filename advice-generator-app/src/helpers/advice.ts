@@ -1,5 +1,7 @@
+import { env } from "./env";
+
 export const getAdvice = async (init?: Parameters<typeof fetch>[1]) => {
-  const response = await fetch("https://api.adviceslip.com/advice", {
+  const response = await fetch(env.PUBLIC_ADVICE_KEY, {
     cache: "no-store",
     ...init,
   });

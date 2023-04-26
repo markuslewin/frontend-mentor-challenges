@@ -14,7 +14,7 @@ describe("advice", () => {
 
   it("generates new advice on button click", () => {
     const slip = buildSlip();
-    cy.intercept("GET", "https://api.adviceslip.com/advice", {
+    cy.intercept("GET", Cypress.env("PUBLIC_ADVICE_API"), {
       statusCode: 200,
       body: {
         slip,
