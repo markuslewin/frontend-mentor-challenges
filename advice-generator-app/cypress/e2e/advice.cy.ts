@@ -1,3 +1,5 @@
+import { faker } from "@faker-js/faker";
+
 describe("advice", () => {
   beforeEach(() => {
     cy.visit("/");
@@ -11,21 +13,24 @@ describe("advice", () => {
   });
 
   it("generates new advice on button click", () => {
-    const id = 123;
-    const advice = "some advice";
-
+    const slip = buildSlip();
     cy.intercept("GET", "https://api.adviceslip.com/advice", {
       statusCode: 200,
       body: {
-        slip: {
-          id,
-          advice,
-        },
+        slip,
       },
     });
 
     cy.findByRole("button", { name: /new/i }).click();
-    cy.findByRole("heading", { name: new RegExp(id.toString()) });
-    cy.findByText(advice);
+
+    cy.findByRole("heading", { name: new RegExp(slip.id.toString()) });
+    cy.findByText(slip.advice);
   });
 });
+
+function buildSlip() {
+  return {
+    id: faker.datatype.number(),
+    advice: faker.lorem.paragraph(),
+  };
+}
