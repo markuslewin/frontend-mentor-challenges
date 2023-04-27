@@ -24,3 +24,7 @@ cypress/videos
 
 # environment variables
 .env
+
+# output
+.netlify
+dist
