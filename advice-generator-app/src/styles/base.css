@@ -13,7 +13,7 @@ body {
 }
 
 h1 {
-  @apply text-neon-green text-heading-mobile leading-heading-mobile tracking-heading-mobile;
+  @apply text-neon-green uppercase text-heading-mobile leading-heading-mobile tracking-heading-mobile;
 }
 
 @media screen(md) {

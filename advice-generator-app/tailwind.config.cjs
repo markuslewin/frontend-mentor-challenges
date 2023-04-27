@@ -47,6 +47,7 @@ module.exports = {
       },
       padding: {
         [step(72)]: rem(72),
+        [step(120)]: rem(120),
       },
     },
   },
