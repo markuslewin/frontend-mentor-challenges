@@ -16,6 +16,8 @@ module.exports = {
       "#D9B8FF": "hsl(268 100% 86%)",
       "#FAFAFA": "hsl(0 0% 98%)",
       "#FFFFFF": "hsl(0 0% 100%)",
+      "#71C0D4": "hsl(192 54% 64%)",
+      "#B18BDD": "hsl(267 54% 71%)",
     },
     fontFamily: {
       base: "Red Hat DisplayVariable, sans-serif",
