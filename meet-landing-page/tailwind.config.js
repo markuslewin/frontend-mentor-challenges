@@ -1,4 +1,7 @@
+let plugin = require("tailwindcss/plugin");
+
 const rem = (px) => `${px / 16}rem`;
+const step = (px) => px / 4;
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -12,6 +15,7 @@ module.exports = {
       "#8FE3F9": "hsl(192 90% 77%)",
       "#D9B8FF": "hsl(268 100% 86%)",
       "#FAFAFA": "hsl(0 0% 98%)",
+      "#FFFFFF": "hsl(0 0% 100%)",
     },
     fontFamily: {
       base: "Red Hat DisplayVariable, sans-serif",
@@ -89,8 +93,35 @@ module.exports = {
         },
       ],
     },
-    extend: {},
+    backgroundImage: {
+      // "hero-left": "url('/src/assets/desktop/image-hero-left.png')",
+      // "hero-right": "url('/src/assets/desktop/image-hero-right.png')",
+      hero: "url('/src/assets/tablet/image-hero.png')",
+      footer: "url('/src/assets/mobile/image-footer.jpg')",
+      "footer-tablet": "url('/src/assets/tablet/image-footer.jpg')",
+      "footer-desktop": "url('/src/assets/desktop/image-footer.jpg')",
+    },
+    extend: {
+      backgroundSize: {
+        [step(152)]: `auto ${rem(152)}`,
+        [step(304)]: `auto ${rem(304)}`,
+      },
+      margin: {
+        [step(60)]: rem(60),
+      },
+      maxWidth: {
+        [step(540)]: rem(540),
+      },
+      padding: {
+        [step(200)]: rem(200),
+        [step(376)]: rem(376),
+      },
+    },
   },
   variants: {},
-  plugins: [],
+  plugins: [
+    plugin(function ({ addVariant }) {
+      addVariant("forced-colors", "@media (forced-colors: active)");
+    }),
+  ],
 };

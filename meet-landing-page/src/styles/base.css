@@ -4,43 +4,53 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  @apply bg-#FAFAFA text-#87879D font-base text-center text-body-mobile;
-}
-
-h1,
-h2 {
-  @apply text-#28283D;
-}
-
-h1 {
-  @apply text-h1-mobile;
-}
-
-h2 {
-  @apply text-h2-mobile;
-}
-
-a {
-  @apply text-widget;
-}
-
-@screen md {
+@layer base {
   body {
-    @apply text-body;
+    @apply bg-#FAFAFA text-#87879D font-base text-center text-body-mobile;
+  }
+
+  h1,
+  h2 {
+    @apply text-#28283D;
   }
 
   h1 {
-    @apply text-h1-tablet;
+    @apply text-h1-mobile;
   }
 
   h2 {
-    @apply text-h2;
+    @apply text-h2-mobile;
+  }
+
+  a {
+    @apply text-widget;
+  }
+
+  @screen md {
+    body {
+      @apply text-body;
+    }
+
+    h1 {
+      @apply text-h1-tablet;
+    }
+
+    h2 {
+      @apply text-h2;
+    }
+  }
+
+  @screen lg {
+    h1 {
+      @apply text-h1;
+    }
   }
 }
 
-@screen lg {
-  h1 {
-    @apply text-h1;
+@layer utilities {
+  .bg-hero-left-right {
+    background-image: url("/src/assets/desktop/image-hero-left.png"),
+      url("/src/assets/desktop/image-hero-right.png");
+    background-position: calc(50% - 35rem) top, calc(50% + 35rem) 3.5rem;
   }
 }
