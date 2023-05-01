@@ -108,11 +108,17 @@ module.exports = {
         [step(152)]: `auto ${rem(152)}`,
         [step(304)]: `auto ${rem(304)}`,
       },
+      height: {
+        [step(140)]: rem(140),
+      },
       margin: {
         [step(60)]: rem(60),
+        [step(68)]: rem(68),
+        [step(116)]: rem(116),
       },
       maxWidth: {
         [step(540)]: rem(540),
+        [step(1112)]: rem(1112),
       },
       padding: {
         [step(200)]: rem(200),
