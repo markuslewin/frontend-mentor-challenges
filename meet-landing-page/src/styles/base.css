@@ -3,3 +3,44 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body {
+  @apply bg-#FAFAFA text-#87879D font-base text-center text-body-mobile;
+}
+
+h1,
+h2 {
+  @apply text-#28283D;
+}
+
+h1 {
+  @apply text-h1-mobile;
+}
+
+h2 {
+  @apply text-h2-mobile;
+}
+
+a {
+  @apply text-widget;
+}
+
+@screen md {
+  body {
+    @apply text-body;
+  }
+
+  h1 {
+    @apply text-h1-tablet;
+  }
+
+  h2 {
+    @apply text-h2;
+  }
+}
+
+@screen lg {
+  h1 {
+    @apply text-h1;
+  }
+}
