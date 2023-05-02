@@ -8,6 +8,7 @@ module.exports = {
   content: ["./src/*.{html,js}"],
   theme: {
     colors: {
+      inherit: "inherit",
       "#4D96A9": "hsl(192 37% 48%)",
       "#855FB1": "hsl(268 34% 53%)",
       "#28283D": "hsl(240 21% 20%)",
@@ -114,13 +115,23 @@ module.exports = {
       margin: {
         [step(60)]: rem(60),
         [step(68)]: rem(68),
+        [step(72)]: rem(72),
         [step(116)]: rem(116),
       },
       maxWidth: {
+        [step(352)]: rem(352),
         [step(540)]: rem(540),
         [step(1112)]: rem(1112),
       },
+      opacity: {
+        "10-45": 0.1045,
+      },
       padding: {
+        [step(68)]: rem(68),
+        [step(72)]: rem(72),
+        [step(92)]: rem(92),
+        [step(104)]: rem(104),
+        [step(116)]: rem(116),
         [step(200)]: rem(200),
         [step(376)]: rem(376),
       },
