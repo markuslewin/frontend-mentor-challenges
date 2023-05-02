@@ -119,8 +119,12 @@ module.exports = {
         [step(116)]: rem(116),
       },
       maxWidth: {
-        [step(352)]: rem(352),
+        [step(280)]: rem(280),
+        [step(340)]: rem(340),
+        [step(348)]: rem(348),
+        [step(456)]: rem(456),
         [step(540)]: rem(540),
+        [step(572)]: rem(572),
         [step(1112)]: rem(1112),
       },
       opacity: {
