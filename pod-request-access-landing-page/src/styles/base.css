@@ -1,0 +1,39 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-#121725 text-center font-chivo text-body text-#C2CBE5 md:text-start md:text-body-tablet;
+  }
+
+  svg {
+    @apply max-w-full;
+  }
+
+  h1 {
+    @apply text-title uppercase text-#54E6AF md:text-title-tablet lg:text-title-desktop;
+  }
+
+  h1 em {
+    @apply not-italic text-#FFFFFF;
+  }
+
+  input,
+  button {
+    @apply text-widget;
+  }
+
+  button[type="submit"] {
+    @apply rounded-full bg-#54E6AF px-7 py-2 text-center text-#121725 shadow-glow shadow-#54E6AF/50 transition-colors lg:shadow-glow-desktop lg:shadow-#54E6AF/10;
+  }
+
+  button[type="submit"]:hover,
+  button[type="submit"]:focus-visible {
+    @apply bg-#B3FFE2;
+  }
+
+  input[type="email"] {
+    @apply rounded-full bg-#2C344B px-8 py-2 text-#FFFFFF;
+  }
+}

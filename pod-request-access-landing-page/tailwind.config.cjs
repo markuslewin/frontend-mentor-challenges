@@ -1,4 +1,8 @@
 const rem = (px) => `${px / 16}rem`;
+const scale = (px) => {
+  const step = Math.round(px / 4);
+  return { [step]: rem(step * 4) };
+};
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -11,6 +15,12 @@ module.exports = {
       "#FFFFFF": "hsl(0 0% 100%)",
       "#5A668A": "hsl(225 21% 45%)",
       "#C2CBE5": "hsl(225 40% 83%)",
+      // not in figma
+      "#B3FFE2": "hsl(157 100% 85%)",
+    },
+    boxShadow: {
+      glow: `0 ${rem(25)} ${rem(20)} ${rem(-20)}`,
+      "glow-desktop": `0 ${rem(2)} ${rem(4)} 0`,
     },
     fontFamily: {
       chivo: "'Chivo Variable', sans-serif",
