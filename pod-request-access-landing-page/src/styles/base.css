@@ -25,7 +25,7 @@
   }
 
   button[type="submit"] {
-    @apply rounded-full bg-#54E6AF px-7 py-2 text-center text-#121725 shadow-glow shadow-#54E6AF/50 transition-colors lg:shadow-glow-desktop lg:shadow-#54E6AF/10;
+    @apply rounded-full bg-#54E6AF px-7 py-2 text-center text-#121725 shadow-glow shadow-#54E6AF/50 transition-colors forced-colors:border-2 lg:shadow-glow-desktop lg:shadow-#54E6AF/10;
   }
 
   button[type="submit"]:hover,
@@ -34,6 +34,12 @@
   }
 
   input[type="email"] {
-    @apply rounded-full bg-#2C344B px-8 py-2 text-#FFFFFF;
+    @apply rounded-full bg-#2C344B px-8 py-2 text-#FFFFFF forced-colors:border-2;
+  }
+}
+
+@layer utilities {
+  .bucket * {
+    fill: currentColor;
   }
 }

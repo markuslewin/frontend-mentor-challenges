@@ -1,3 +1,5 @@
+const plugin = require("tailwindcss/plugin");
+
 const rem = (px) => `${px / 16}rem`;
 const scale = (px) => {
   const step = Math.round(px / 4);
@@ -79,9 +81,25 @@ module.exports = {
     extend: {
       padding: {
         ...scale(50),
+        ...scale(88),
+        ...scale(93),
         ...scale(102),
+      },
+      margin: {
+        ...scale(93),
+        ...scale(103),
+        ...scale(152),
+      },
+      maxWidth: {
+        ...scale(635),
+        ...scale(723),
+        ...scale(1110),
       },
     },
   },
-  plugins: [],
+  plugins: [
+    plugin(function ({ addVariant }) {
+      addVariant("forced-colors", "@media (forced-colors: active)");
+    }),
+  ],
 };
