@@ -76,7 +76,12 @@ module.exports = {
         },
       ],
     },
-    extend: {},
+    extend: {
+      padding: {
+        ...scale(50),
+        ...scale(102),
+      },
+    },
   },
   plugins: [],
 };
