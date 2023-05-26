@@ -4,7 +4,7 @@
 
 @layer base {
   body {
-    @apply bg-#121725 text-center font-chivo text-body text-#C2CBE5 md:text-start md:text-body-tablet;
+    @apply min-h-screen bg-#121725 text-center font-chivo text-body text-#C2CBE5 md:text-start md:text-body-tablet;
   }
 
   svg {

@@ -84,6 +84,7 @@ module.exports = {
         ...scale(88),
         ...scale(93),
         ...scale(102),
+        ...scale(132),
       },
       margin: {
         ...scale(93),
