@@ -61,13 +61,23 @@ import "../styles/base.css";
           </p>
           <h2 class="sr-only">Request access</h2>
           <form class="mt-8 md:mt-10">
-            <label>
-              <span class="sr-only"
-                >Write an email address to request access</span
+            <div
+              class="flex flex-col gap-4 md:max-w-107 md:flex-row md:rounded-full md:bg-#2C344B md:py-1 md:pl-8 md:pr-1 md:forced-colors:border-2"
+            >
+              <label class="sr-only" for="request-email">
+                Write an email address to request access
+              </label>
+              <input
+                class="md:outline-no rounded-full bg-#2C344B px-8 py-2 text-#FFFFFF placeholder:text-#FFFFFF/50 forced-colors:border-2 md:flex-shrink-0 md:flex-grow md:rounded-none md:bg-transparent md:px-0 md:py-0 md:forced-colors:border-none"
+                type="email"
+                placeholder="Email address"
+                name="email"
+                id="request-email"
+              />
+              <button class="md:flex-shrink-0" type="submit"
+                >Request access</button
               >
-              <input type="email" placeholder="Email address" name="email" />
-            </label>
-            <button type="submit">Request access</button>
+            </div>
           </form>
           <h2 class="sr-only" id="supported-platforms">Supported platforms</h2>
           <ul

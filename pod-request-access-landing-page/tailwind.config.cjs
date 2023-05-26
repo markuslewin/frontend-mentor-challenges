@@ -19,6 +19,7 @@ module.exports = {
       "#C2CBE5": "hsl(225 40% 83%)",
       // not in figma
       "#B3FFE2": "hsl(157 100% 85%)",
+      transparent: "transparent",
     },
     boxShadow: {
       glow: `0 ${rem(25)} ${rem(20)} ${rem(-20)}`,
@@ -92,6 +93,7 @@ module.exports = {
         ...scale(152),
       },
       maxWidth: {
+        ...scale(427),
         ...scale(635),
         ...scale(723),
         ...scale(1110),
