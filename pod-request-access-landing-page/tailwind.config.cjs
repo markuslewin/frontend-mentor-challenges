@@ -94,6 +94,7 @@ module.exports = {
       },
       maxWidth: {
         ...scale(427),
+        ...scale(445),
         ...scale(635),
         ...scale(723),
         ...scale(1110),
