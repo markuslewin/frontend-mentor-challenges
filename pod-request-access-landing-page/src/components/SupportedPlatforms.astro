@@ -1,0 +1,68 @@
+---
+interface Props {
+  id: string;
+  breakpoint?: "tablet";
+}
+
+const { id, breakpoint } = Astro.props;
+---
+
+<div
+  class="data-[breakpoint=tablet]:hidden md:hidden md:data-[breakpoint=tablet]:block"
+  data-breakpoint={breakpoint}
+>
+  <h2 class="sr-only" id={id}>Supported platforms</h2>
+  <ul
+    class="mt-12 flex flex-wrap items-center justify-center gap-6 text-#5A668A md:mt-23 md:justify-start md:gap-10"
+    role="list"
+    aria-labelledby={id}
+  >
+    {
+      [
+        {
+          id: "spotify",
+          logo: "logo-spotify",
+          name: "Spotify",
+          width: 96,
+          height: 29,
+        },
+        {
+          id: "apple-podcast",
+          logo: "logo-apple-podcast",
+          name: "Apple Podcast",
+          width: 78,
+          height: 29,
+        },
+        {
+          id: "google-podcasts",
+          logo: "logo-google-podcasts",
+          name: "Google Podcasts",
+          width: 125,
+          height: 18,
+        },
+        {
+          id: "pocket-casts",
+          logo: "logo-pocket-casts",
+          name: "Pocket Casts",
+          width: 129,
+          height: 26,
+        },
+      ].map((platform) => {
+        return (
+          <li>
+            <svg
+              class="data-[id=apple-podcast]:h-[1.0625rem] data-[id=google-podcasts]:h-[0.6875rem] data-[id=pocket-casts]:h-[0.9375rem] data-[id=spotify]:h-[1.0625rem] md:data-[id=apple-podcast]:h-[1.8125rem] md:data-[id=google-podcasts]:h-[1.0625rem] md:data-[id=pocket-casts]:h-[1.625rem] md:data-[id=spotify]:h-[1.8125rem]"
+              aria-hidden="true"
+              focusable="false"
+              viewBox={`0 0 ${platform.width} ${platform.height}`}
+              data-id={platform.id}
+            >
+              <use href={`#${platform.logo}`} />
+            </svg>
+            <span class="sr-only">{platform.name}</span>
+          </li>
+        );
+      })
+    }
+  </ul>
+</div>
