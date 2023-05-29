@@ -88,24 +88,28 @@ import "../styles/base.css";
             {
               [
                 {
+                  id: "spotify",
                   logo: "logo-spotify",
                   name: "Spotify",
                   width: 96,
                   height: 29,
                 },
                 {
+                  id: "apple-podcast",
                   logo: "logo-apple-podcast",
                   name: "Apple Podcast",
                   width: 78,
                   height: 29,
                 },
                 {
+                  id: "google-podcasts",
                   logo: "logo-google-podcasts",
                   name: "Google Podcasts",
                   width: 125,
                   height: 18,
                 },
                 {
+                  id: "pocket-casts",
                   logo: "logo-pocket-casts",
                   name: "Pocket Casts",
                   width: 129,
@@ -115,10 +119,11 @@ import "../styles/base.css";
                 return (
                   <li>
                     <svg
-                      class="h-4 md:h-7"
+                      class="data-[id=apple-podcast]:h-[1.0625rem] data-[id=google-podcasts]:h-[0.6875rem] data-[id=pocket-casts]:h-[0.9375rem] data-[id=spotify]:h-[1.0625rem] md:data-[id=apple-podcast]:h-[1.8125rem] md:data-[id=google-podcasts]:h-[1.0625rem] md:data-[id=pocket-casts]:h-[1.625rem] md:data-[id=spotify]:h-[1.8125rem]"
                       aria-hidden="true"
                       focusable="false"
                       viewBox={`0 0 ${platform.width} ${platform.height}`}
+                      data-id={platform.id}
                     >
                       <use href={`#${platform.logo}`} />
                     </svg>
