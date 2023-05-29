@@ -18,11 +18,13 @@ import SupportedPlatforms from "../components/SupportedPlatforms.astro";
 
     <title>Frontend Mentor | Pod request access landing page</title>
   </head>
-  <body class="md:pb-64 lg:pb-32">
+  <body>
     <div
       class="relative min-h-screen px-6 py-16 md:min-h-full md:px-10 md:pb-0 md:pt-13 lg:pt-26"
     >
-      <div class="absolute inset-0 -z-10 overflow-hidden">
+      <div
+        class="absolute left-0 top-0 -z-10 box-content h-full w-full overflow-hidden md:pb-72 lg:pb-32"
+      >
         <picture class="h-full md:mx-auto md:flex md:max-w-278 md:justify-end">
           <source
             srcset="./assets/desktop/image-host.jpg"
@@ -38,6 +40,13 @@ import SupportedPlatforms from "../components/SupportedPlatforms.astro";
             src="./assets/mobile/image-host.jpg"
           />
         </picture>
+        <div class="hidden md:mx-auto md:flex md:max-w-278 lg:justify-end">
+          <img
+            class="relative md:left-8 md:top-38 lg:-right-40 lg:-top-13 lg:left-auto"
+            alt=""
+            src="./assets/desktop/bg-pattern-dots.svg"
+          />
+        </div>
       </div>
       <header class="mx-auto max-w-278">
         <svg

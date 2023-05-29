@@ -92,6 +92,10 @@ module.exports = {
         ...scale(103),
         ...scale(152),
       },
+      spacing: {
+        ...scale(52),
+        ...scale(153),
+      },
       maxWidth: {
         ...scale(427),
         ...scale(445),
