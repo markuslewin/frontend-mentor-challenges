@@ -19,6 +19,7 @@ module.exports = {
       "#C2CBE5": "hsl(225 40% 83%)",
       // not in figma
       "#B3FFE2": "hsl(157 100% 85%)",
+      "#FB3E3E": "hsl(0 96% 61%)",
       transparent: "transparent",
     },
     boxShadow: {
@@ -102,6 +103,9 @@ module.exports = {
         ...scale(635),
         ...scale(723),
         ...scale(1110),
+      },
+      minHeight: {
+        ...scale(14),
       },
     },
   },

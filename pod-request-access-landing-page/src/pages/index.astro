@@ -2,6 +2,24 @@
 import "@fontsource-variable/chivo";
 import "../styles/base.css";
 import SupportedPlatforms from "../components/SupportedPlatforms.astro";
+
+let error = "";
+if (Astro.request.method === "POST") {
+  const data = await Astro.request.formData();
+  const email = data.get("email");
+  if (typeof email !== "string") {
+    // todo
+  } else if (!email) {
+    error = "Oops! Please add your email";
+  } else if (
+    // from `zod`
+    !/^([A-Z0-9_+-]+\.?)*[A-Z0-9_+-]@([A-Z0-9][A-Z0-9\-]*\.)+[A-Z]{2,}$/i.test(
+      email
+    )
+  ) {
+    error = "Oops! Please check your email";
+  }
+}
 ---
 
 <html lang="en">
@@ -71,7 +89,7 @@ import SupportedPlatforms from "../components/SupportedPlatforms.astro";
           </p>
           <SupportedPlatforms id="supported-platforms" />
           <h2 class="sr-only">Request access</h2>
-          <form class="mt-8 md:mt-10">
+          <form method="post" class="mt-8 md:mt-10" novalidate>
             <div
               class="flex flex-col gap-4 md:max-w-107 md:flex-row md:rounded-full md:bg-#2C344B md:py-1 md:pl-8 md:pr-1 md:forced-colors:border-2"
             >
@@ -81,14 +99,23 @@ import SupportedPlatforms from "../components/SupportedPlatforms.astro";
               <input
                 class="md:outline-no rounded-full bg-#2C344B px-8 py-2 text-#FFFFFF placeholder:text-#FFFFFF/50 forced-colors:border-2 md:flex-shrink-0 md:flex-grow md:rounded-none md:bg-transparent md:px-0 md:py-0 md:forced-colors:border-none"
                 type="email"
+                autocomplete="email"
                 placeholder="Email address"
                 name="email"
                 id="request-email"
+                aria-invalid={!!error}
+                aria-describedby="email-description"
               />
               <button class="md:flex-shrink-0" type="submit"
                 >Request access</button
               >
             </div>
+            <p
+              class="mt-2 min-h-4 text-feedback text-#FB3E3E md:ml-8"
+              id="email-description"
+            >
+              {error}
+            </p>
           </form>
           <SupportedPlatforms
             id="supported-platforms-tablet"

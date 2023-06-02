@@ -19,7 +19,7 @@ test.describe("enhanced", () => {
     const input = page.getByLabel("email");
     await expect(input).toBeEmpty();
 
-    page.getByRole("button", { name: /request access/i }).click();
+    await page.getByRole("button", { name: /request access/i }).click();
 
     await expect(page.getByText(messages.empty)).toBeAttached();
     await expect(input).toHaveAttribute("aria-invalid", "true");
@@ -31,8 +31,8 @@ test.describe("enhanced", () => {
   }) => {
     const input = page.getByLabel("email");
 
-    input.fill(invalidEmail);
-    input.press("Enter");
+    await input.fill(invalidEmail);
+    await input.press("Enter");
 
     await expect(page.getByText(messages.notFormattedCorrectly)).toBeAttached();
     await expect(input).toHaveAttribute("aria-invalid", "true");
@@ -51,7 +51,7 @@ test.describe("no javascript", () => {
     const input = page.getByLabel("email");
     await expect(input).toBeEmpty();
 
-    page.getByRole("button", { name: /request access/i }).click();
+    await page.getByRole("button", { name: /request access/i }).click();
 
     await expect(page.getByText(messages.empty)).toBeAttached();
     await expect(input).toHaveAttribute("aria-invalid", "true");
@@ -62,8 +62,8 @@ test.describe("no javascript", () => {
   }) => {
     const input = page.getByLabel("email");
 
-    input.fill(invalidEmail);
-    input.press("Enter");
+    await input.fill(invalidEmail);
+    await input.press("Enter");
 
     await expect(page.getByText(messages.notFormattedCorrectly)).toBeAttached();
     await expect(input).toHaveAttribute("aria-invalid", "true");
