@@ -10,43 +10,19 @@ const messages = {
   notFormattedCorrectly: "Oops! Please check your email",
 };
 
-test.describe("enhanced", () => {
-  test("has title", async ({ page }) => {
-    await expect(page).toHaveTitle(/pod request access landing page/i);
-  });
-
-  test("displays the correct error message when empty", async ({ page }) => {
-    const input = page.getByLabel("email");
-    await expect(input).toBeEmpty();
-
-    await page.getByRole("button", { name: /request access/i }).click();
-
-    await expect(page.getByText(messages.empty)).toBeAttached();
-    await expect(input).toHaveAttribute("aria-invalid", "true");
-    await expect(input).toBeFocused();
-  });
-
-  test("displays the correct error message when not formatted correctly", async ({
-    page,
-  }) => {
-    const input = page.getByLabel("email");
-
-    await input.fill(invalidEmail);
-    await input.press("Enter");
-
-    await expect(page.getByText(messages.notFormattedCorrectly)).toBeAttached();
-    await expect(input).toHaveAttribute("aria-invalid", "true");
-    await expect(input).toBeFocused();
-  });
-});
-
-test.describe("no javascript", () => {
+test.describe("base", () => {
   test.use({ javaScriptEnabled: false });
 
   test("has title", async ({ page }) => {
     await expect(page).toHaveTitle(/pod request access landing page/i);
   });
 
+  test("doesn't focus input on initial load", async ({ page }) => {
+    const input = page.getByLabel("email");
+
+    await expect(input).not.toBeFocused();
+  });
+
   test("displays the correct error message when empty", async ({ page }) => {
     const input = page.getByLabel("email");
     await expect(input).toBeEmpty();
@@ -54,7 +30,9 @@ test.describe("no javascript", () => {
     await page.getByRole("button", { name: /request access/i }).click();
 
     await expect(page.getByText(messages.empty)).toBeAttached();
+    await expect(input).toBeEmpty();
     await expect(input).toHaveAttribute("aria-invalid", "true");
+    await expect(input).toBeFocused();
   });
 
   test("displays the correct error message when not formatted correctly", async ({
@@ -66,6 +44,10 @@ test.describe("no javascript", () => {
     await input.press("Enter");
 
     await expect(page.getByText(messages.notFormattedCorrectly)).toBeAttached();
+    await expect(input).toHaveValue(invalidEmail);
     await expect(input).toHaveAttribute("aria-invalid", "true");
+    await expect(input).toBeFocused();
   });
 });
+
+test.describe("enhancements", () => {});

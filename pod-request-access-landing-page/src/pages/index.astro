@@ -3,21 +3,28 @@ import "@fontsource-variable/chivo";
 import "../styles/base.css";
 import SupportedPlatforms from "../components/SupportedPlatforms.astro";
 
-let error = "";
+const response = {
+  email: "",
+  error: "",
+};
 if (Astro.request.method === "POST") {
   const data = await Astro.request.formData();
   const email = data.get("email");
   if (typeof email !== "string") {
     // todo
   } else if (!email) {
-    error = "Oops! Please add your email";
+    response.email = email;
+    response.error = "Oops! Please add your email";
   } else if (
     // from `zod`
     !/^([A-Z0-9_+-]+\.?)*[A-Z0-9_+-]@([A-Z0-9][A-Z0-9\-]*\.)+[A-Z]{2,}$/i.test(
       email
     )
   ) {
-    error = "Oops! Please check your email";
+    response.email = email;
+    response.error = "Oops! Please check your email";
+  } else {
+    // todo: persist
   }
 }
 ---
@@ -103,7 +110,9 @@ if (Astro.request.method === "POST") {
                 placeholder="Email address"
                 name="email"
                 id="request-email"
-                aria-invalid={!!error}
+                value={response.email}
+                autofocus={!!response.error}
+                aria-invalid={!!response.error}
                 aria-describedby="email-description"
               />
               <button class="md:flex-shrink-0" type="submit"
@@ -114,7 +123,7 @@ if (Astro.request.method === "POST") {
               class="mt-2 min-h-4 text-feedback text-#FB3E3E md:ml-8"
               id="email-description"
             >
-              {error}
+              {response.error}
             </p>
           </form>
           <SupportedPlatforms
