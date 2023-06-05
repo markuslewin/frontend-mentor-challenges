@@ -3,9 +3,10 @@ import "@fontsource-variable/chivo";
 import "../styles/base.css";
 import SupportedPlatforms from "../components/SupportedPlatforms.astro";
 
-const response = {
+const form = {
   email: "",
   error: "",
+  isTouched: Astro.request.method === "POST",
 };
 if (Astro.request.method === "POST") {
   const data = await Astro.request.formData();
@@ -13,16 +14,16 @@ if (Astro.request.method === "POST") {
   if (typeof email !== "string") {
     // todo
   } else if (!email) {
-    response.email = email;
-    response.error = "Oops! Please add your email";
+    form.email = email;
+    form.error = "Oops! Please add your email";
   } else if (
     // from `zod`
     !/^([A-Z0-9_+-]+\.?)*[A-Z0-9_+-]@([A-Z0-9][A-Z0-9\-]*\.)+[A-Z]{2,}$/i.test(
       email
     )
   ) {
-    response.email = email;
-    response.error = "Oops! Please check your email";
+    form.email = email;
+    form.error = "Oops! Please check your email";
   } else {
     // todo: persist
   }
@@ -110,10 +111,12 @@ if (Astro.request.method === "POST") {
                 placeholder="Email address"
                 name="email"
                 id="request-email"
-                value={response.email}
-                autofocus={!!response.error}
-                aria-invalid={!!response.error}
+                value={form.email}
+                autofocus={!!form.error}
+                required
+                aria-invalid={!!form.error}
                 aria-describedby="email-description"
+                data-is-touched={form.isTouched}
               />
               <button class="md:flex-shrink-0" type="submit"
                 >Request access</button
@@ -123,7 +126,7 @@ if (Astro.request.method === "POST") {
               class="mt-2 min-h-4 text-feedback text-#FB3E3E md:ml-8"
               id="email-description"
             >
-              {response.error}
+              {form.error}
             </p>
           </form>
           <SupportedPlatforms
@@ -303,3 +306,54 @@ if (Astro.request.method === "POST") {
     </svg>
   </body>
 </html>
+
+<script>
+  import { parseEmail } from "../helpers/parseEmail";
+
+  const form = document.querySelector("form[novalidate]") as HTMLFormElement;
+  const input = form.querySelector("input[name=email]") as HTMLInputElement;
+  const feedback = document.getElementById(
+    input.getAttribute("aria-describedby")
+  ) as HTMLElement;
+
+  function render(error: string) {
+    if (error) {
+      input.setAttribute("aria-invalid", "true");
+      feedback.textContent = error;
+    } else {
+      input.setAttribute("aria-invalid", "false");
+      feedback.textContent = "";
+    }
+  }
+
+  form.addEventListener("submit", function (event) {
+    const formData = new FormData(this);
+    const email = formData.get("email");
+    if (typeof email !== "string") {
+      return;
+    }
+    const { error } = parseEmail(email);
+    if (error) {
+      render(error);
+      const focusTarget = this.querySelector("[aria-invalid=true]");
+      if (focusTarget instanceof HTMLElement) {
+        focusTarget.focus();
+      }
+      event.preventDefault();
+    }
+  });
+
+  input.addEventListener("blur", function () {
+    this.dataset.isTouched = "true";
+    const { error } = parseEmail(this.value);
+    render(error);
+  });
+
+  input.addEventListener("input", function () {
+    if (!("isTouched" in this.dataset)) {
+      return;
+    }
+    const { error } = parseEmail(this.value);
+    render(error);
+  });
+</script>

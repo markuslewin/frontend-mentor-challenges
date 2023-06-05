@@ -4,7 +4,8 @@ test.beforeEach(async ({ page }) => {
   await page.goto("/");
 });
 
-const invalidEmail = "abc";
+const validEmail = "john@mail.com";
+const invalidEmail = "john#mail.com";
 const messages = {
   empty: "Oops! Please add your email",
   notFormattedCorrectly: "Oops! Please check your email",
@@ -50,4 +51,25 @@ test.describe("base", () => {
   });
 });
 
-test.describe("enhancements", () => {});
+test.describe("enhancements", () => {
+  test("shows feedback as user types", async ({ page }) => {
+    const input = page.getByLabel("email");
+    const feedback = page.locator("#email-description");
+
+    await input.fill(invalidEmail);
+
+    await expect(feedback).toBeEmpty();
+
+    await input.press("Tab");
+
+    await expect(feedback).not.toBeEmpty();
+
+    await input.fill(invalidEmail);
+
+    await expect(feedback).not.toBeEmpty();
+
+    await input.fill(validEmail);
+
+    await expect(feedback).toBeEmpty();
+  });
+});
