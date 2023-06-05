@@ -27,7 +27,7 @@
   }
 
   button[type="submit"] {
-    @apply rounded-full bg-#54E6AF px-7 py-2 text-center capitalize text-#121725 shadow-glow shadow-#54E6AF/50 transition-colors hover:bg-#B3FFE2 focus-visible:bg-#B3FFE2 forced-colors:border-2 lg:shadow-glow-desktop lg:shadow-#54E6AF/10;
+    @apply rounded-full bg-#54E6AF px-7 py-2 text-center capitalize text-#121725 transition-colors hover:bg-#B3FFE2 focus-visible:bg-#B3FFE2 forced-colors:border-2;
   }
 }
 
