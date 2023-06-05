@@ -2,30 +2,27 @@
 import "@fontsource-variable/chivo";
 import "../styles/base.css";
 import SupportedPlatforms from "../components/SupportedPlatforms.astro";
+import { parseEmail } from "../helpers/parseEmail";
 
 const form = {
   email: "",
   error: "",
-  isTouched: Astro.request.method === "POST",
+  isTouched: false,
 };
 if (Astro.request.method === "POST") {
   const data = await Astro.request.formData();
   const email = data.get("email");
   if (typeof email !== "string") {
     // todo
-  } else if (!email) {
-    form.email = email;
-    form.error = "Oops! Please add your email";
-  } else if (
-    // from `zod`
-    !/^([A-Z0-9_+-]+\.?)*[A-Z0-9_+-]@([A-Z0-9][A-Z0-9\-]*\.)+[A-Z]{2,}$/i.test(
-      email
-    )
-  ) {
-    form.email = email;
-    form.error = "Oops! Please check your email";
   } else {
-    // todo: persist
+    const { error, value } = parseEmail(email);
+    if (error) {
+      form.email = value;
+      form.error = error;
+    } else {
+      // todo: persist
+    }
+    form.isTouched = true;
   }
 }
 ---
