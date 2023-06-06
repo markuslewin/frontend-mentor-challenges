@@ -96,6 +96,7 @@ module.exports = {
       spacing: {
         ...scale(52),
         ...scale(153),
+        ...scale(165),
       },
       maxWidth: {
         ...scale(427),
