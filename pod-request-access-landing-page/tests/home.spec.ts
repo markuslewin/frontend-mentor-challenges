@@ -72,4 +72,25 @@ test.describe("enhancements", () => {
 
     await expect(feedback).toBeEmpty();
   });
+
+  test("shows live feedback after submit", async ({ page }) => {
+    const input = page.getByLabel("email");
+    const feedback = page.locator("#email-description");
+
+    await input.fill(invalidEmail);
+
+    await expect(feedback).toBeEmpty();
+
+    await input.press("Enter");
+
+    await expect(feedback).not.toBeEmpty();
+
+    await input.fill(invalidEmail);
+
+    await expect(feedback).not.toBeEmpty();
+
+    await input.fill(validEmail);
+
+    await expect(feedback).toBeEmpty();
+  });
 });

@@ -332,6 +332,9 @@ if (Astro.request.method === "POST") {
     const { error } = parseEmail(email);
     if (error) {
       render(error);
+      this.querySelectorAll("input").forEach((input) => {
+        input.dataset.isTouched = "true";
+      });
       const focusTarget = this.querySelector("[aria-invalid=true]");
       if (focusTarget instanceof HTMLElement) {
         focusTarget.focus();
