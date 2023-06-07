@@ -1,0 +1,31 @@
+:root {
+  /* primary */
+  --color-red: hsl(0 78% 62%);
+  --color-cyan: hsl(180 62% 55%);
+  --color-orange: hsl(34 97% 64%);
+  --color-blue: hsl(212 86% 64%);
+  /* neutral */
+  --color-very-dark-blue: hsl(234 12% 34%);
+  --color-grayish-blue: hsl(229 6% 66%);
+  --color-very-light-gray: hsl(0 0% 98%);
+
+  --font: "Poppins", sans-serif;
+
+  --tracking-heading: 0.010625rem;
+  --tracking-heading-desktop: 0.015625rem;
+  --tracking-body: 0.00625rem;
+  --tracking-card-body: 0.005625rem;
+
+  --weight-extra-light: 200;
+  --weight-regular: 400;
+  --weight-semi-bold: 600;
+
+  --text-heading: var(--weight-extra-light) 1.5rem / 2.25rem var(--font);
+  --text-heading-desktop: var(--weight-extra-light) 2.25rem / 3.375rem
+    var(--font);
+  --text-body: var(--weight-regular) 0.9375rem / 1.5625rem var(--font);
+  --text-card-heading: var(--weight-semi-bold) 1.25rem / 1.875rem var(--font);
+  --text-card-body: var(--weight-regular) 0.8125rem / 1.4375rem var(--font);
+
+  --shadow: 0 0.9375rem 1.875rem -0.6875rem hsl(213 47% 67% / 50%);
+}
