@@ -27,6 +27,4 @@
   --text-body: var(--weight-regular) 0.9375rem / 1.5625rem var(--font);
   --text-card-heading: var(--weight-semi-bold) 1.25rem / 1.875rem var(--font);
   --text-card-body: var(--weight-regular) 0.8125rem / 1.4375rem var(--font);
-
-  --shadow: 0 0.9375rem 1.875rem -0.6875rem hsl(213 47% 67% / 50%);
 }

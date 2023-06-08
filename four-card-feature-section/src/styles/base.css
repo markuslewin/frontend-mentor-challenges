@@ -1,9 +1,19 @@
 body {
+  padding: 5.3125rem 2rem;
   font: var(--text-body);
   letter-spacing: var(--tracking-body);
   text-align: center;
   background: hsl(0 0% 98%);
   color: hsl(var(--color-base-very-dark-blue) / 50%);
+}
+
+main {
+  margin-inline: auto;
+  max-width: 69.375rem;
+}
+
+main .cards {
+  margin-top: 4.75rem;
 }
 
 h1,
@@ -23,6 +33,14 @@ h1 em {
 }
 
 @media (min-width: 64em) {
+  body {
+    padding-block: 5rem;
+  }
+
+  main .cards {
+    margin-top: 4rem;
+  }
+
   h1 {
     font: var(--text-heading-desktop);
     letter-spacing: var(--tracking-heading-desktop);

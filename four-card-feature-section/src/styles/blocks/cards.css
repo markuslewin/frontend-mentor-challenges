@@ -1,0 +1,33 @@
+.cards {
+  display: grid;
+  gap: 1.5rem;
+}
+
+/* desktop */
+@media (min-width: 64em) {
+  .cards {
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-areas:
+      ". b ."
+      "a b d"
+      "a c d"
+      ". c .";
+    gap: 1.875rem;
+  }
+
+  .cards > :nth-child(1) {
+    grid-area: a;
+  }
+
+  .cards > :nth-child(2) {
+    grid-area: b;
+  }
+
+  .cards > :nth-child(3) {
+    grid-area: c;
+  }
+
+  .cards > :nth-child(4) {
+    grid-area: d;
+  }
+}
