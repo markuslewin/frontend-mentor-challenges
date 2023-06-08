@@ -58,3 +58,9 @@
     width: 4rem;
   }
 }
+
+@media (forced-colors: active) {
+  .card {
+    border: 2px solid;
+  }
+}
