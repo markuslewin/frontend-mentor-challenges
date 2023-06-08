@@ -1,4 +1,5 @@
 ---
+import { Image } from "@astrojs/image/components";
 import "../styles/index.css";
 ---
 
@@ -54,7 +55,13 @@ import "../styles/index.css";
               <article class="card" data-tool={tool.name}>
                 <h2>{tool.name}</h2>
                 <p>{tool.description}</p>
-                <img alt="" src={tool.icon} />
+                <Image
+                  alt=""
+                  src={tool.icon}
+                  width={64}
+                  height={64}
+                  format="svg"
+                />
               </article>
             );
           })

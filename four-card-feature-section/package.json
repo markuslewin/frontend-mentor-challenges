@@ -13,7 +13,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@astrojs/image": "^0.17.0",
     "@fontsource/poppins": "^5.0.2",
-    "astro": "^2.6.1"
+    "astro": "^2.6.1",
+    "sharp": "^0.32.1"
   }
 }
