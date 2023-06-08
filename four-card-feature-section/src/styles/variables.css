@@ -5,6 +5,7 @@
   --color-orange: hsl(34 97% 64%);
   --color-blue: hsl(212 86% 64%);
   /* neutral */
+  --color-base-very-dark-blue: 234 12% 34%;
   --color-very-dark-blue: hsl(234 12% 34%);
   --color-grayish-blue: hsl(229 6% 66%);
   --color-very-light-gray: hsl(0 0% 98%);
