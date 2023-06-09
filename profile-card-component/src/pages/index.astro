@@ -18,21 +18,28 @@ import "../styles/index.css";
   </head>
   <body>
     <main>
-      <article>
-        <h1>Victor Crest, 26</h1>
-        <Image
-          alt="Victor Crest"
-          src="/images/image-victor.jpg"
-          format="jpg"
-          width={96}
-          height={96}
-        />
-        <p>London</p>
-        <h2 id="heading-statistics">Statistics</h2>
-        <ul aria-labelledby="heading-statistics">
-          <li>80K Followers</li>
-          <li>803K Likes</li>
-          <li>1.4K Photos</li>
+      <article class="card">
+        <div class="info">
+          <h1>
+            Victor Crest<span class="sr-only">,</span>
+            <span class="text-regular text-dark-grayish-blue">26</span>
+          </h1>
+          <div class="avatar">
+            <Image
+              alt="Victor Crest"
+              src="/images/image-victor.jpg"
+              format="jpg"
+              width={96}
+              height={96}
+            />
+          </div>
+          <p>London</p>
+        </div>
+        <h2 class="sr-only" id="heading-stats">Statistics</h2>
+        <ul class="stats" role="list" aria-labelledby="heading-stats">
+          <li><strong>80K</strong> Followers</li>
+          <li><strong>803K</strong> Likes</li>
+          <li><strong>1.4K</strong> Photos</li>
         </ul>
       </article>
     </main>

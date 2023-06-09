@@ -1,0 +1,16 @@
+.stats {
+  font: var(--text-noun);
+  letter-spacing: var(--tracking-noun);
+  border-top: 1px solid hsl(228 9% 92%);
+  padding: 1.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  gap: 1rem;
+}
+
+.stats strong {
+  letter-spacing: normal;
+  display: block;
+  margin-bottom: 0.5625rem;
+}

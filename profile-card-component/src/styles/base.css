@@ -1,0 +1,27 @@
+body {
+  font: var(--text-body);
+  text-align: center;
+  background: var(--color-dark-cyan);
+  color: var(--color-dark-grayish-blue);
+}
+
+main {
+  min-height: 100vh;
+  padding: 1.5rem;
+  display: grid;
+  place-items: center;
+}
+
+h1 {
+  font: var(--text-strong);
+  color: var(--color-very-dark-desaturated-blue);
+}
+
+article {
+  background: hsl(0 0% 100%);
+}
+
+strong {
+  font: var(--text-strong);
+  color: var(--color-very-dark-desaturated-blue);
+}

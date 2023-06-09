@@ -1,0 +1,7 @@
+.text-regular {
+  font-weight: var(--weight-regular);
+}
+
+.text-dark-grayish-blue {
+  color: var(--color-dark-grayish-blue);
+}
