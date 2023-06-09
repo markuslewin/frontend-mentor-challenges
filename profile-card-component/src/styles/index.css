@@ -5,6 +5,8 @@
 @import "blocks/avatar.css";
 @import "blocks/card.css";
 @import "blocks/info.css";
+@import "blocks/pattern.css";
 @import "blocks/stats.css";
 @import "utilities/sr-only.css";
 @import "utilities/text.css";
+@import "utilities/underlay.css";

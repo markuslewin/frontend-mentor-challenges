@@ -1,0 +1,17 @@
+.underlay {
+  position: relative;
+  isolation: isolate;
+}
+
+.underlay [data-underlay] {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: var(--underlay-radius);
+  background: linear-gradient(
+    to bottom,
+    transparent var(--underlay-radius),
+    var(--underlay-color) var(--underlay-radius)
+  );
+  overflow: hidden;
+}

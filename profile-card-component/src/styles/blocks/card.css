@@ -1,5 +1,9 @@
 .card {
+  --underlay-radius: 0.9375rem;
+  --underlay-color: hsl(0 0% 100%);
+
   width: 100%;
   max-width: 21.875rem;
-  border-radius: 0.9375rem;
+  padding-top: 5.4375rem;
+  background: transparent;
 }
