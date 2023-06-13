@@ -17,3 +17,10 @@
   border-top-right-radius: var(--card-radius);
   margin-bottom: -3.3125rem;
 }
+
+@media (forced-colors: active) {
+  .card {
+    border: 2px solid;
+    border-radius: var(--card-radius);
+  }
+}
