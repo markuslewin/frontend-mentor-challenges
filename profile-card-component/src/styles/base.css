@@ -1,7 +1,17 @@
 body {
+  --circle-size: 38.875rem;
+  --circle-top-x: calc(50% - 18rem);
+  --circle-top-y: calc(50% - 23.6875rem);
+  --circle-bottom-x: calc(50% + 18rem);
+  --circle-bottom-y: calc(50% + 20.875rem);
+
   font: var(--text-body);
   text-align: center;
-  background: var(--color-dark-cyan);
+  background: url("/images/bg-pattern-top.svg") var(--circle-top-x)
+      var(--circle-top-y) / var(--circle-size) no-repeat,
+    url("/images/bg-pattern-bottom.svg") var(--circle-bottom-x)
+      var(--circle-bottom-y) / var(--circle-size) no-repeat,
+    var(--color-dark-cyan);
   color: var(--color-dark-grayish-blue);
 }
 
@@ -24,4 +34,15 @@ article {
 strong {
   font: var(--text-strong);
   color: var(--color-very-dark-desaturated-blue);
+}
+
+/* tablet */
+@media (min-width: 40em) {
+  body {
+    --circle-size: 61.125rem;
+    --circle-top-x: calc(50% - 32.25rem);
+    --circle-top-y: calc(50% - 23.8125rem);
+    --circle-bottom-x: calc(50% + 28.875rem);
+    --circle-bottom-y: calc(50% + 31.5rem);
+  }
 }
