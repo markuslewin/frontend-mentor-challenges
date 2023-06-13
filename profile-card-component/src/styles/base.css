@@ -22,13 +22,17 @@ main {
   place-items: center;
 }
 
+article {
+  background: hsl(0 0% 100%);
+}
+
+ul {
+  margin: 0;
+}
+
 h1 {
   font: var(--text-strong);
   color: var(--color-very-dark-desaturated-blue);
-}
-
-article {
-  background: hsl(0 0% 100%);
 }
 
 strong {

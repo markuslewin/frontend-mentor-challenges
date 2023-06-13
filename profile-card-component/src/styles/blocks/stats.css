@@ -2,11 +2,14 @@
   font: var(--text-noun);
   letter-spacing: var(--tracking-noun);
   border-top: 1px solid hsl(228 9% 92%);
-  padding: 1.5rem;
+  padding: 1.5rem 2rem 1.6875rem;
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-around;
   gap: 1rem;
+}
+
+.stats > * {
+  flex: 1;
 }
 
 .stats strong {
