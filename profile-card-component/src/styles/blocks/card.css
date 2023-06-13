@@ -1,5 +1,19 @@
 .card {
+  --card-radius: 0.9375rem;
+
   width: 100%;
   max-width: 21.875rem;
-  border-radius: 0.9375rem;
+  border-bottom-left-radius: var(--card-radius);
+  border-bottom-right-radius: var(--card-radius);
+  background: linear-gradient(
+    to bottom,
+    transparent var(--card-radius),
+    hsl(0 0% 100%) var(--card-radius)
+  );
+}
+
+.card .pattern {
+  border-top-left-radius: var(--card-radius);
+  border-top-right-radius: var(--card-radius);
+  margin-bottom: -3.3125rem;
 }
