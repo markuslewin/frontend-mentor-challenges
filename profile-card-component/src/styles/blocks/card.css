@@ -1,5 +1,6 @@
 .card {
   --card-radius: 0.9375rem;
+  --card-background: hsl(0 0% 100%);
 
   width: 100%;
   max-width: 21.875rem;
@@ -8,7 +9,7 @@
   background: linear-gradient(
     to bottom,
     transparent var(--card-radius),
-    hsl(0 0% 100%) var(--card-radius)
+    var(--card-background) var(--card-radius)
   );
   box-shadow: 0 3.125rem 6.25rem -1.25rem hsl(197 85% 20% / 50.48%);
 }
@@ -23,5 +24,6 @@
   .card {
     border: 2px solid;
     border-radius: var(--card-radius);
+    background: var(--card-background);
   }
 }
