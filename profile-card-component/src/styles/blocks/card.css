@@ -10,6 +10,7 @@
     transparent var(--card-radius),
     hsl(0 0% 100%) var(--card-radius)
   );
+  box-shadow: 0 3.125rem 6.25rem -1.25rem hsl(197 85% 20% / 50.48%);
 }
 
 .card .pattern {
