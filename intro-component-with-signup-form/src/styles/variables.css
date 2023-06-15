@@ -1,0 +1,31 @@
+:root {
+  /* primary */
+  --color-red: hsl(0, 100%, 74%);
+  --color-green: hsl(154, 59%, 51%);
+  /* accent */
+  --color-blue: hsl(248, 32%, 49%);
+  /* neutral */
+  --color-dark-blue: hsl(249, 10%, 26%);
+  --color-grayish-blue: hsl(246, 25%, 77%);
+
+  --font: "Poppins", sans-serif;
+
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semi-bold: 600;
+  --weight-bold: 700;
+
+  --tracking-heading: -0.018125rem;
+  --tracking-heading-desktop: -0.0325rem;
+  --tracking-pricing: 0.016875rem;
+  --tracking-input: 0.015625rem;
+  --tracking-button: 0.0625rem;
+
+  --text-heading: var(--weight-bold) 1.75rem / 2.25rem var(--font);
+  --text-heading-desktop: var(--weight-bold) 3.125rem / 3.4375rem var(--font);
+  --text-body: var(--weight-medium) 1rem / 1.625rem var(--font);
+  --text-pricing: var(--weight-regular) 0.9375rem / 1.625rem var(--font);
+  --text-input: var(--weight-semi-bold) 0.875rem / 1.625rem var(--font);
+  --text-button: var(--weight-semi-bold) 0.9375rem / 1.625rem var(--font);
+  --text-small: var(--weight-medium) 0.6875rem / 1.3125rem var(--font);
+}
