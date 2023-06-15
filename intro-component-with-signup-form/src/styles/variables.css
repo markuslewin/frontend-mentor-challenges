@@ -1,12 +1,18 @@
 :root {
   /* primary */
-  --color-red: hsl(0, 100%, 74%);
-  --color-green: hsl(154, 59%, 51%);
+  --color-red: hsl(0 100% 74%);
+  --color-green: hsl(154 59% 51%);
   /* accent */
-  --color-blue: hsl(248, 32%, 49%);
+  --color-blue: hsl(248 32% 49%);
   /* neutral */
-  --color-dark-blue: hsl(249, 10%, 26%);
-  --color-grayish-blue: hsl(246, 25%, 77%);
+  --color-base-dark-blue: 249 10% 26%;
+  --color-dark-blue: hsl(var(--color-base-dark-blue));
+  --color-grayish-blue: hsl(246 25% 77%);
+  /* not in style guide */
+  --color-white: hsl(0 0% 100%);
+  --color-base-black: 0 0% 0%;
+  --color-black: hsl(var(--color-base-black));
+  --color-light-green: hsl(154 65% 68%);
 
   --font: "Poppins", sans-serif;
 

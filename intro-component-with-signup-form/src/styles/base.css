@@ -1,0 +1,122 @@
+body {
+  font: var(--text-body);
+  background: var(--color-red);
+  color: var(--color-white);
+}
+
+form {
+  border-radius: 0.625rem;
+  padding: 1.5rem;
+  background: var(--color-white);
+  color: var(--color-dark-blue);
+  box-shadow: 0 0.5rem hsl(var(--color-base-black) / 14.69%);
+}
+
+form > * {
+  display: block;
+}
+
+form > * + * {
+  margin-top: 1rem;
+}
+
+form input[type="text"],
+form input[type="email"],
+form input[type="password"],
+form button {
+  width: 100%;
+}
+
+form small {
+  color: var(--color-grayish-blue);
+}
+
+form a {
+  color: var(--color-red);
+}
+
+h1 {
+  font: var(--text-heading);
+  letter-spacing: var(--tracking-heading);
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+  font: var(--text-input);
+  letter-spacing: var(--tracking-input);
+  border: 1px solid hsl(0 0% 87%);
+  border-radius: 0.3125rem;
+  padding: 0.875rem 1.150625rem;
+  background: var(--color-white);
+  color: var(--color-dark-blue);
+}
+
+input::placeholder {
+  color: hsl(var(--color-base-dark-blue) / 75%);
+}
+
+button {
+  font: var(--text-button);
+  letter-spacing: var(--tracking-button);
+  text-transform: uppercase;
+  border: 1px solid transparent;
+  border-radius: 0.3125rem;
+  padding: 0.875rem 1.150625rem;
+  background: var(--color-green);
+  color: var(--color-white);
+  box-shadow: inset 0 -0.25rem hsl(var(--color-base-black) / 9.09%);
+  /* from tailwind */
+  transition: background-color cubic-bezier(0.4, 0, 0.2, 1) 150ms;
+}
+
+button:hover,
+button:focus-visible {
+  background: var(--color-light-green);
+}
+
+button + * {
+  margin-top: 0.5rem;
+}
+
+strong {
+  font-weight: var(--weight-bold);
+}
+
+small {
+  font: var(--text-small);
+  padding-inline: 1rem;
+}
+
+a {
+  font-weight: var(--weight-bold);
+  text-decoration: none;
+}
+
+/* tablet */
+@media (min-width: 40em) {
+  h1 {
+    font: var(--text-heading-desktop);
+    letter-spacing: var(--tracking-heading-desktop);
+  }
+
+  form {
+    padding: 2.5rem;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="password"] {
+    padding-inline: 1.9375rem;
+  }
+
+  button {
+    padding-inline: 1.9375rem;
+  }
+}
+
+@media (forced-colors: active) {
+  form {
+    border: 1px solid;
+  }
+}
