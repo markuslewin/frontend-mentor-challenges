@@ -2,8 +2,16 @@ body {
   --background-image: url("/images/bg-intro-mobile.png");
 
   font: var(--text-body);
+  padding: 5.5rem 1.5rem 4.25rem;
   background: var(--background-image) center / cover no-repeat var(--color-red);
   color: var(--color-white);
+}
+
+main {
+  display: grid;
+  gap: 4rem;
+  max-width: 69.375rem;
+  margin-inline: auto;
 }
 
 form {
@@ -99,6 +107,8 @@ a {
 @media (min-width: 40em) {
   body {
     --background-image: url("/images/bg-intro-desktop.png");
+
+    padding-block: 7.5625rem;
   }
 
   h1 {
@@ -118,6 +128,15 @@ a {
 
   button {
     padding-inline: 1.9375rem;
+  }
+}
+
+/* desktop */
+@media (min-width: 64em) {
+  main {
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 2.8125rem;
   }
 }
 
