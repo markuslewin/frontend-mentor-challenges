@@ -26,8 +26,12 @@ form > * {
   display: block;
 }
 
-form > * + * {
+form > * {
   margin-top: 1rem;
+}
+
+form > input:first-of-type {
+  margin-top: 0;
 }
 
 form input[type="text"],
@@ -85,7 +89,7 @@ button:focus-visible {
   background: var(--color-light-green);
 }
 
-button + * {
+button + small {
   margin-top: 0.5rem;
 }
 
