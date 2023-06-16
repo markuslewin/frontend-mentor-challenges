@@ -1,6 +1,8 @@
 body {
+  --background-image: url("/images/bg-intro-mobile.png");
+
   font: var(--text-body);
-  background: var(--color-red);
+  background: var(--background-image) center / cover no-repeat var(--color-red);
   color: var(--color-white);
 }
 
@@ -95,6 +97,10 @@ a {
 
 /* tablet */
 @media (min-width: 40em) {
+  body {
+    --background-image: url("/images/bg-intro-desktop.png");
+  }
+
   h1 {
     font: var(--text-heading-desktop);
     letter-spacing: var(--tracking-heading-desktop);
