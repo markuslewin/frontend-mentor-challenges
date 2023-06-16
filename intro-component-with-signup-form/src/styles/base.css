@@ -2,6 +2,7 @@ body {
   --background-image: url("/images/bg-intro-mobile.png");
 
   font: var(--text-body);
+  text-align: center;
   padding: 5.5rem 1.5rem 4.25rem;
   background: var(--background-image) center / cover no-repeat var(--color-red);
   color: var(--color-white);
@@ -52,6 +53,10 @@ form a {
 h1 {
   font: var(--text-heading);
   letter-spacing: var(--tracking-heading);
+}
+
+h1 + * {
+  margin-top: 1.5rem;
 }
 
 input[type="text"],
@@ -118,6 +123,10 @@ a {
   h1 {
     font: var(--text-heading-desktop);
     letter-spacing: var(--tracking-heading-desktop);
+  }
+
+  h1 + * {
+    margin-top: 2rem;
   }
 
   form {

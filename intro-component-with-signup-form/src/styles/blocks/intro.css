@@ -1,0 +1,6 @@
+/* desktop */
+@media (min-width: 64em) {
+  .intro {
+    text-align: start;
+  }
+}
