@@ -23,10 +23,6 @@ if (Astro.request.method === "POST") {
 }
 ---
 
-<script>
-  // todo: client-side validation
-</script>
-
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -55,7 +51,7 @@ if (Astro.request.method === "POST") {
         <p class="pricing">
           <strong>Try it free 7 days</strong> then $20/mo. thereafter
         </p>
-        <form method="post" novalidate>
+        <form id="register-form" method="post" novalidate>
           <label class="sr-only" for="first-name">First Name</label>
           <input
             id="first-name"
@@ -124,3 +120,55 @@ if (Astro.request.method === "POST") {
     </main>
   </body>
 </html>
+
+<script>
+  import { getElementById } from "../helpers/dom";
+  import { parseRegisterForm } from "../helpers/validation";
+
+  const dom = {
+    form: getElementById("register-form", HTMLFormElement),
+    fields: {
+      "first-name": {
+        input: getElementById("first-name", HTMLInputElement),
+        description: getElementById("first-name-error", HTMLElement),
+      },
+      "last-name": {
+        input: getElementById("last-name", HTMLInputElement),
+        description: getElementById("last-name-error", HTMLElement),
+      },
+      "email-address": {
+        input: getElementById("email-address", HTMLInputElement),
+        description: getElementById("email-address-error", HTMLElement),
+      },
+      password: {
+        input: getElementById("password", HTMLInputElement),
+        description: getElementById("password-error", HTMLElement),
+      },
+    },
+  };
+
+  dom.form.addEventListener("submit", function (e) {
+    const { errors } = parseRegisterForm(new FormData(dom.form));
+
+    if (errors) {
+      Object.entries(dom.fields).forEach(([name, field]) => {
+        const error = errors[name as keyof (typeof dom)["fields"]];
+        setError(field, error);
+      });
+      e.preventDefault();
+    }
+  });
+
+  const setError = (
+    field: (typeof dom)["fields"][keyof (typeof dom)["fields"]],
+    error: string | undefined
+  ) => {
+    if (error) {
+      field.input.setAttribute("aria-invalid", "true");
+      field.description.textContent = error;
+    } else {
+      field.input.setAttribute("aria-invalid", "false");
+      field.description.textContent = "";
+    }
+  };
+</script>
