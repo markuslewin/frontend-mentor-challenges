@@ -6,7 +6,9 @@ export const parseRegisterForm = (formData: FormData) => {
   const emailAddress = getEntryValueString(formData.get("email-address"));
   const password = getEntryValueString(formData.get("password"));
 
-  const errors: Record<string, string> = {};
+  const errors: {
+    [K in "first-name" | "last-name" | "email-address" | "password"]?: string;
+  } = {};
   if (!firstName) {
     errors["first-name"] = "First Name cannot be empty";
   }
