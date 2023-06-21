@@ -8,13 +8,13 @@ let errors, payload;
 if (Astro.request.method === "POST") {
   const formData = await Astro.request.formData();
 
-  const result = parseRegisterForm(formData);
-  if (result.values) {
+  const submission = parseRegisterForm(formData);
+  if (submission.intent === "submit" && submission.value) {
     // todo: persist
     return Astro.redirect("/");
   }
 
-  errors = result.errors;
+  errors = submission.error;
   payload = {
     "first-name": getEntryValueString(formData.get("first-name")),
     "last-name": getEntryValueString(formData.get("last-name")),
@@ -23,10 +23,6 @@ if (Astro.request.method === "POST") {
   };
 }
 ---
-
-<script>
-  // todo: client-side validation
-</script>
 
 <html lang="en">
   <head>
@@ -51,12 +47,12 @@ if (Astro.request.method === "POST") {
           invaluable.
         </p>
       </div>
-      <div>
+      <div class="register">
         <h2 class="sr-only">Claim your free trial</h2>
         <p class="pricing">
           <strong>Try it free 7 days</strong> then $20/mo. thereafter
         </p>
-        <RegisterForm payload={payload} errors={errors} />
+        <RegisterForm client:load payload={payload} errors={errors} />
       </div>
     </main>
   </body>

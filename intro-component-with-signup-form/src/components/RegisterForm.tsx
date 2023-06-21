@@ -1,69 +1,98 @@
+import { useForm } from "@conform-to/react";
+import { useId } from "preact/hooks";
+import { parseRegisterForm } from "../helpers/validation";
+
 export const RegisterForm = ({ payload, errors }: Props) => {
+  const id = useId();
+  const [
+    form,
+    {
+      "first-name": firstName,
+      "last-name": lastName,
+      "email-address": emailAddress,
+      password,
+    },
+  ] = useForm({
+    id,
+    lastSubmission:
+      !payload && !errors
+        ? null
+        : {
+            payload: payload ?? {},
+            error: errors ?? {},
+            intent: "submit",
+          },
+    shouldValidate: "onBlur",
+    onValidate({ formData }) {
+      return parseRegisterForm(formData);
+    },
+  });
+
   return (
-    <form method="post" noValidate>
-      <label class="sr-only" for="first-name">
+    <form method="post" {...form.props}>
+      <label class="sr-only" for={firstName.id}>
         First Name
       </label>
       <input
-        id="first-name"
+        id={firstName.id}
         type="text"
-        name="first-name"
+        name={firstName.name}
         autocomplete="given-name"
         required
         placeholder="First Name"
-        value={payload?.["first-name"]}
-        autofocus={!!errors?.["first-name"]}
-        aria-describedby="first-name-error"
-        aria-invalid={!!errors?.["first-name"]}
+        defaultValue={firstName.defaultValue}
+        autofocus={!!firstName.error}
+        aria-describedby={firstName.errorId}
+        aria-invalid={!!firstName.error}
       />
-      <p id="first-name-error">{errors?.["first-name"]}</p>
-      <label class="sr-only" for="last-name">
+      <p id={firstName.errorId}>{firstName.error}</p>
+      <label class="sr-only" for={lastName.id}>
         Last Name
       </label>
       <input
-        id="last-name"
+        id={lastName.id}
         type="text"
-        name="last-name"
+        name={lastName.name}
         autocomplete="family-name"
         required
         placeholder="Last Name"
-        value={payload?.["last-name"]}
-        autofocus={!!errors?.["last-name"]}
-        aria-describedby="last-name-error"
-        aria-invalid={!!errors?.["last-name"]}
+        defaultValue={lastName.defaultValue}
+        autofocus={!!lastName.error}
+        aria-describedby={lastName.errorId}
+        aria-invalid={!!lastName.error}
       />
-      <p id="last-name-error">{errors?.["last-name"]}</p>
-      <label class="sr-only" for="email-address">
+      <p id={lastName.errorId}>{lastName.error}</p>
+      <label class="sr-only" for={emailAddress.id}>
         Email Address
       </label>
       <input
-        id="email-address"
+        id={emailAddress.id}
         type="email"
-        name="email-address"
+        name={emailAddress.name}
         autocomplete="email"
         required
         placeholder="Email Address"
-        value={payload?.["email-address"]}
-        autofocus={!!errors?.["email-address"]}
-        aria-describedby="email-address-error"
-        aria-invalid={!!errors?.["email-address"]}
+        defaultValue={emailAddress.defaultValue}
+        autofocus={!!emailAddress.error}
+        aria-describedby={emailAddress.errorId}
+        aria-invalid={!!emailAddress.error}
       />
-      <p id="email-address-error">{errors?.["email-address"]}</p>
-      <label class="sr-only" for="password">
+      <p id={emailAddress.errorId}>{emailAddress.error}</p>
+      <label class="sr-only" for={password.id}>
         Password
       </label>
       <input
-        id="password"
+        id={password.id}
         type="password"
-        name="password"
+        name={password.name}
         autocomplete="new-password"
         required
         placeholder="Password"
-        autofocus={!!errors?.["password"]}
-        aria-describedby="password-error"
-        aria-invalid={!!errors?.["password"]}
+        autofocus={!!password.error}
+        aria-describedby={password.errorId}
+        aria-invalid={!!password.error}
       />
-      <p id="password-error">{errors?.["password"]}</p>
+      <p id={password.errorId}>{password.error}</p>
       <button type="submit" aria-describedby="agreement">
         Claim your free trial
       </button>

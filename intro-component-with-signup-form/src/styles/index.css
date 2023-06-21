@@ -4,4 +4,5 @@
 @import "base.css";
 @import "blocks/intro.css";
 @import "blocks/pricing.css";
+@import "blocks/register.css";
 @import "utilities/sr-only.css";

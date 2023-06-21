@@ -9,11 +9,16 @@
     "build": "astro build",
     "preview": "astro preview"
   },
+  "overrides": {
+    "react": "npm:@preact/compat@latest",
+    "react-dom": "npm:@preact/compat@latest"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@astrojs/preact": "^2.2.1",
+    "@conform-to/react": "^0.7.1",
     "@fontsource/poppins": "^5.0.3",
     "astro": "^2.6.4",
     "preact": "^10.15.1"

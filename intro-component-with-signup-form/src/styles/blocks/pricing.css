@@ -7,10 +7,6 @@
   box-shadow: 0 0.5rem hsl(var(--color-base-black) / 14.69%);
 }
 
-.pricing + * {
-  margin-top: 1.5rem;
-}
-
 /* tablet */
 @media (min-width: 40em) {
   .pricing {
