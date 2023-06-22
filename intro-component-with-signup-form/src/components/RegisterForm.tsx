@@ -1,8 +1,8 @@
-import { useForm } from "@conform-to/react";
+import { Submission, useForm } from "@conform-to/react";
 import { useId } from "preact/hooks";
 import { parseRegisterForm } from "../helpers/validation";
 
-export const RegisterForm = ({ payload, errors }: Props) => {
+export const RegisterForm = ({ lastSubmission }: Props) => {
   const id = useId();
   const [
     form,
@@ -14,14 +14,7 @@ export const RegisterForm = ({ payload, errors }: Props) => {
     },
   ] = useForm({
     id,
-    lastSubmission:
-      !payload && !errors
-        ? null
-        : {
-            payload: payload ?? {},
-            error: errors ?? {},
-            intent: "submit",
-          },
+    lastSubmission,
     shouldValidate: "onBlur",
     onValidate({ formData }) {
       return parseRegisterForm(formData);
@@ -105,16 +98,5 @@ export const RegisterForm = ({ payload, errors }: Props) => {
 };
 
 type Props = {
-  payload:
-    | {
-        [F in Exclude<Fields, "password">]?: string;
-      }
-    | undefined;
-  errors:
-    | {
-        [F in Fields]?: string;
-      }
-    | undefined;
+  lastSubmission: Submission | null;
 };
-
-type Fields = "first-name" | "last-name" | "email-address" | "password";

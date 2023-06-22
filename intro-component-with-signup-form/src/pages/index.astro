@@ -1,10 +1,12 @@
 ---
 import "../styles/index.css";
-import { getEntryValueString } from "../helpers/form-data";
 import { parseRegisterForm } from "../helpers/validation";
 import { RegisterForm } from "../components/RegisterForm";
+import type { Submission } from "@conform-to/react";
 
-let errors, payload;
+// note: using `conform-to/react` with `astro` is probably a bad idea, since Conform sometimes expects a Remix-like `action`
+
+let lastSubmission: Submission | null = null;
 if (Astro.request.method === "POST") {
   const formData = await Astro.request.formData();
 
@@ -14,12 +16,14 @@ if (Astro.request.method === "POST") {
     return Astro.redirect("/");
   }
 
-  errors = submission.error;
-  payload = {
-    "first-name": getEntryValueString(formData.get("first-name")),
-    "last-name": getEntryValueString(formData.get("last-name")),
-    "email-address": getEntryValueString(formData.get("email-address")),
-    // no password
+  lastSubmission = {
+    ...submission,
+    payload: {
+      "first-name": submission.payload["first-name"],
+      "last-name": submission.payload["last-name"],
+      "email-address": submission.payload["email-address"],
+      // no password
+    },
   };
 }
 ---
@@ -52,7 +56,7 @@ if (Astro.request.method === "POST") {
         <p class="pricing">
           <strong>Try it free 7 days</strong> then $20/mo. thereafter
         </p>
-        <RegisterForm client:load payload={payload} errors={errors} />
+        <RegisterForm client:load lastSubmission={lastSubmission} />
       </div>
     </main>
   </body>
