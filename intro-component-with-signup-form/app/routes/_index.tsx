@@ -20,8 +20,6 @@ export const action = async ({ request }: ActionArgs) => {
     });
   }
 
-  console.log("success!");
-
   // todo: persist
   return redirect("/");
 };
