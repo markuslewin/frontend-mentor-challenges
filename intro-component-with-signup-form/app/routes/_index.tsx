@@ -1,7 +1,7 @@
 import { Form, useActionData } from "@remix-run/react";
 import { type ActionArgs, json, redirect } from "@remix-run/node";
 import { useId } from "react";
-import { useForm } from "@conform-to/react";
+import { conform, useForm } from "@conform-to/react";
 import { parseRegisterForm } from "~/helpers/validation";
 
 export const action = async ({ request }: ActionArgs) => {
@@ -40,6 +40,20 @@ export default function Index() {
     lastSubmission,
     shouldValidate: "onBlur",
     shouldRevalidate: "onInput",
+    constraint: {
+      "first-name": {
+        required: true,
+      },
+      "last-name": {
+        required: true,
+      },
+      "email-address": {
+        required: true,
+      },
+      password: {
+        required: true,
+      },
+    },
     onValidate({ formData }) {
       return parseRegisterForm(formData);
     },
@@ -65,63 +79,45 @@ export default function Index() {
             First Name
           </label>
           <input
-            id={firstName.id}
-            type="text"
-            name={firstName.name}
+            {...conform.input(firstName, {
+              type: "text",
+              ariaAttributes: true,
+            })}
             autoComplete="given-name"
-            required
             placeholder="First Name"
-            defaultValue={firstName.defaultValue}
-            autoFocus={!!firstName.error}
-            aria-describedby={firstName.errorId}
-            aria-invalid={!!firstName.error}
           />
           <p id={firstName.errorId}>{firstName.error}</p>
           <label className="sr-only" htmlFor={lastName.id}>
             Last Name
           </label>
           <input
-            id={lastName.id}
-            type="text"
-            name={lastName.name}
+            {...conform.input(lastName, { type: "text", ariaAttributes: true })}
             autoComplete="family-name"
-            required
             placeholder="Last Name"
-            defaultValue={lastName.defaultValue}
-            autoFocus={!!lastName.error}
-            aria-describedby={lastName.errorId}
-            aria-invalid={!!lastName.error}
           />
           <p id={lastName.errorId}>{lastName.error}</p>
           <label className="sr-only" htmlFor={emailAddress.id}>
             Email Address
           </label>
           <input
-            id={emailAddress.id}
-            type="email"
-            name={emailAddress.name}
+            {...conform.input(emailAddress, {
+              type: "text",
+              ariaAttributes: true,
+            })}
             autoComplete="email"
-            required
             placeholder="Email Address"
-            defaultValue={emailAddress.defaultValue}
-            autoFocus={!!emailAddress.error}
-            aria-describedby={emailAddress.errorId}
-            aria-invalid={!!emailAddress.error}
           />
           <p id={emailAddress.errorId}>{emailAddress.error}</p>
           <label className="sr-only" htmlFor={password.id}>
             Password
           </label>
           <input
-            id={password.id}
-            type="password"
-            name={password.name}
+            {...conform.input(password, {
+              type: "password",
+              ariaAttributes: true,
+            })}
             autoComplete="new-password"
-            required
             placeholder="Password"
-            autoFocus={!!password.error}
-            aria-describedby={password.errorId}
-            aria-invalid={!!password.error}
           />
           <p id={password.errorId}>{password.error}</p>
           <button type="submit" aria-describedby="agreement">
