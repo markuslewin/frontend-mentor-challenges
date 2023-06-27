@@ -34,4 +34,6 @@
   --text-input: var(--weight-semi-bold) 0.875rem / 1.625rem var(--font);
   --text-button: var(--weight-semi-bold) 0.9375rem / 1.625rem var(--font);
   --text-small: var(--weight-medium) 0.6875rem / 1.3125rem var(--font);
+  --text-small-desktop: var(--weight-medium) 0.6875rem / 1.625rem var(--font);
+  --text-error: italic var(--weight-medium) 0.6875rem / 1.0625rem var(--font);
 }
