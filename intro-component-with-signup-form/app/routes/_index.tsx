@@ -3,6 +3,7 @@ import { type ActionArgs, json, redirect } from "@remix-run/node";
 import { useId } from "react";
 import { conform, useForm } from "@conform-to/react";
 import { parseRegisterForm } from "~/helpers/validation";
+import { ErrorIcon } from "~/components/Icon";
 
 export const action = async ({ request }: ActionArgs) => {
   const formData = await request.formData();
@@ -82,47 +83,74 @@ export default function Index() {
           <label className="sr-only" htmlFor={firstName.id}>
             First Name
           </label>
-          <input
-            {...conform.input(firstName, {
-              type: "text",
-              ariaAttributes: true,
-            })}
-            autoComplete="given-name"
-            placeholder="First Name"
-          />
+          <div
+            className="[ field ] [ mt-0 ]"
+            data-invalid={firstName.error ? true : undefined}
+          >
+            <input
+              {...conform.input(firstName, {
+                type: "text",
+                ariaAttributes: true,
+              })}
+              autoComplete="given-name"
+              placeholder="First Name"
+            />
+            <ErrorIcon />
+          </div>
           <p id={firstName.errorId}>{firstName.error}</p>
           <label className="sr-only" htmlFor={lastName.id}>
             Last Name
           </label>
-          <input
-            {...conform.input(lastName, { type: "text", ariaAttributes: true })}
-            autoComplete="family-name"
-            placeholder="Last Name"
-          />
+          <div
+            className="field"
+            data-invalid={lastName.error ? true : undefined}
+          >
+            <input
+              {...conform.input(lastName, {
+                type: "text",
+                ariaAttributes: true,
+              })}
+              autoComplete="family-name"
+              placeholder="Last Name"
+            />
+            <ErrorIcon />
+          </div>
           <p id={lastName.errorId}>{lastName.error}</p>
           <label className="sr-only" htmlFor={emailAddress.id}>
             Email Address
           </label>
-          <input
-            {...conform.input(emailAddress, {
-              type: "text",
-              ariaAttributes: true,
-            })}
-            autoComplete="email"
-            placeholder="Email Address"
-          />
+          <div
+            className="field"
+            data-invalid={emailAddress.error ? true : undefined}
+          >
+            <input
+              {...conform.input(emailAddress, {
+                type: "text",
+                ariaAttributes: true,
+              })}
+              autoComplete="email"
+              placeholder="Email Address"
+            />
+            <ErrorIcon />
+          </div>
           <p id={emailAddress.errorId}>{emailAddress.error}</p>
           <label className="sr-only" htmlFor={password.id}>
             Password
           </label>
-          <input
-            {...conform.input(password, {
-              type: "password",
-              ariaAttributes: true,
-            })}
-            autoComplete="new-password"
-            placeholder="Password"
-          />
+          <div
+            className="field"
+            data-invalid={password.error ? true : undefined}
+          >
+            <input
+              {...conform.input(password, {
+                type: "password",
+                ariaAttributes: true,
+              })}
+              autoComplete="new-password"
+              placeholder="Password"
+            />
+            <ErrorIcon />
+          </div>
           <p id={password.errorId}>{password.error}</p>
           <button type="submit" aria-describedby="agreement">
             Claim your free trial

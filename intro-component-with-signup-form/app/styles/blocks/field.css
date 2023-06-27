@@ -1,0 +1,39 @@
+.field {
+  position: relative;
+}
+
+.field input[type="text"],
+.field input[type="email"],
+.field input[type="password"] {
+  padding-right: 4.0625rem;
+}
+
+.field[data-invalid="true"] .field__icon {
+  display: block;
+}
+
+.field + p[id] {
+  font: var(--text-error);
+  text-align: end;
+  margin-top: 0.375rem;
+  color: var(--color-red);
+}
+
+.field__icon {
+  display: none;
+  position: absolute;
+  inset: 0 1.6875rem 0 auto;
+  margin-block: auto;
+  width: 1.5rem;
+  color: var(--color-red);
+  forced-color-adjust: auto;
+  pointer-events: none;
+}
+
+.field__icon circle {
+  fill: currentColor;
+}
+
+.field__icon rect {
+  fill: Field;
+}
