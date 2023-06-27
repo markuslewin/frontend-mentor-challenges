@@ -54,6 +54,10 @@ export default function Index() {
         required: true,
       },
     },
+    onSubmit() {
+      // todo: send to server
+      location.reload();
+    },
     onValidate({ formData }) {
       return parseRegisterForm(formData);
     },
