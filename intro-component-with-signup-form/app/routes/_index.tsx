@@ -80,78 +80,59 @@ export default function Index() {
           <strong>Try it free 7 days</strong> then $20/mo. thereafter
         </p>
         <Form method="post" {...form.props}>
-          <label className="sr-only" htmlFor={firstName.id}>
-            First Name
-          </label>
-          <div
-            className="[ field ] [ mt-0 ]"
-            data-invalid={firstName.error ? true : undefined}
-          >
-            <input
-              {...conform.input(firstName, {
-                type: "text",
-                ariaAttributes: true,
-              })}
-              autoComplete="given-name"
-              placeholder="First Name"
-            />
-            <ErrorIcon />
-          </div>
-          <p id={firstName.errorId}>{firstName.error}</p>
-          <label className="sr-only" htmlFor={lastName.id}>
-            Last Name
-          </label>
-          <div
-            className="field"
-            data-invalid={lastName.error ? true : undefined}
-          >
-            <input
-              {...conform.input(lastName, {
-                type: "text",
-                ariaAttributes: true,
-              })}
-              autoComplete="family-name"
-              placeholder="Last Name"
-            />
-            <ErrorIcon />
-          </div>
-          <p id={lastName.errorId}>{lastName.error}</p>
-          <label className="sr-only" htmlFor={emailAddress.id}>
-            Email Address
-          </label>
-          <div
-            className="field"
-            data-invalid={emailAddress.error ? true : undefined}
-          >
-            <input
-              {...conform.input(emailAddress, {
-                type: "text",
-                ariaAttributes: true,
-              })}
-              autoComplete="email"
-              placeholder="Email Address"
-            />
-            <ErrorIcon />
-          </div>
-          <p id={emailAddress.errorId}>{emailAddress.error}</p>
-          <label className="sr-only" htmlFor={password.id}>
-            Password
-          </label>
-          <div
-            className="field"
-            data-invalid={password.error ? true : undefined}
-          >
-            <input
-              {...conform.input(password, {
-                type: "password",
-                ariaAttributes: true,
-              })}
-              autoComplete="new-password"
-              placeholder="Password"
-            />
-            <ErrorIcon />
-          </div>
-          <p id={password.errorId}>{password.error}</p>
+          {[
+            {
+              label: "First Name",
+              placeholder: "First Name",
+              autoComplete: "given-name",
+              type: "text",
+              config: firstName,
+            },
+            {
+              label: "Last Name",
+              placeholder: "Last Name",
+              autoComplete: "family-name",
+              type: "text",
+              config: lastName,
+            },
+            {
+              label: "Email Address",
+              placeholder: "Email Address",
+              autoComplete: "email",
+              type: "text",
+              config: emailAddress,
+            },
+            {
+              label: "Password",
+              placeholder: "Password",
+              autoComplete: "new-password",
+              type: "password",
+              config: password,
+            },
+          ].map((field, i) => {
+            return (
+              <div key={i}>
+                <label className="sr-only" htmlFor={field.config.id}>
+                  {field.label}
+                </label>
+                <div
+                  className="field"
+                  data-invalid={field.config.error ? true : undefined}
+                >
+                  <input
+                    {...conform.input(field.config, {
+                      type: field.type,
+                      ariaAttributes: true,
+                    })}
+                    autoComplete={field.autoComplete}
+                    placeholder={field.placeholder}
+                  />
+                  <ErrorIcon />
+                </div>
+                <p id={field.config.errorId}>{field.config.error}</p>
+              </div>
+            );
+          })}
           <button type="submit" aria-describedby="agreement">
             Claim your free trial
           </button>

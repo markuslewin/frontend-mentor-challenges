@@ -28,7 +28,7 @@ form > * {
   display: block;
 }
 
-form > * {
+form > * + * {
   margin-top: 1rem;
 }
 
@@ -139,7 +139,7 @@ a {
     padding: 2.5rem;
   }
 
-  form > * {
+  form > * + * {
     margin-top: 1.25rem;
   }
 
