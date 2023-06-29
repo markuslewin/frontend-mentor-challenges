@@ -20,20 +20,29 @@
 }
 
 .field__icon {
+  --icon-background: var(--color-red);
+  --icon-foreground: var(--color-white);
+
   display: none;
   position: absolute;
   inset: 0 1.6875rem 0 auto;
   margin-block: auto;
   width: 1.5rem;
-  color: var(--color-red);
   forced-color-adjust: auto;
   pointer-events: none;
 }
 
 .field__icon circle {
-  fill: currentColor;
+  fill: var(--icon-background);
 }
 
 .field__icon rect {
-  fill: Field;
+  fill: var(--icon-foreground);
+}
+
+@media (forced-colors: active) {
+  .field__icon {
+    --icon-background: FieldText;
+    --icon-foreground: Field;
+  }
 }
