@@ -57,7 +57,8 @@ h1 + * {
 }
 
 input::placeholder {
-  color: hsl(var(--color-base-dark-blue) / 75%);
+  color: var(--color-dark-blue);
+  opacity: 75%;
 }
 
 input[type="text"],
@@ -65,11 +66,20 @@ input[type="email"],
 input[type="password"] {
   font: var(--text-input);
   letter-spacing: var(--tracking-input);
+  outline: none;
   border: 1px solid hsl(0 0% 87%);
   border-radius: 0.3125rem;
   padding: 0.875rem 1.150625rem;
   background: var(--color-white);
   color: var(--color-dark-blue);
+  caret-color: var(--color-blue);
+  transition: border-color cubic-bezier(0.4, 0, 0.2, 1) 150ms;
+}
+
+input[type="text"]:focus-visible,
+input[type="email"]:focus-visible,
+input[type="password"]:focus-visible {
+  border-color: var(--color-blue);
 }
 
 input[aria-invalid="true"] {
@@ -170,5 +180,11 @@ a {
 @media (forced-colors: active) {
   form {
     border: 1px solid;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="password"] {
+    outline: revert;
   }
 }

@@ -2,9 +2,9 @@
   position: relative;
 }
 
-.field input[type="text"],
-.field input[type="email"],
-.field input[type="password"] {
+.field[data-invalid="true"] input[type="text"],
+.field[data-invalid="true"] input[type="email"],
+.field[data-invalid="true"] input[type="password"] {
   padding-right: 4.0625rem;
 }
 

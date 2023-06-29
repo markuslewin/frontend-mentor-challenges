@@ -2,7 +2,7 @@
   font: var(--text-pricing);
   letter-spacing: var(--tracking-pricing);
   border-radius: 0.625rem;
-  padding: 1.125rem 1.5rem;
+  padding: 1.125rem 3rem;
   background: var(--color-blue);
   box-shadow: 0 0.5rem hsl(var(--color-base-black) / 14.69%);
 }
