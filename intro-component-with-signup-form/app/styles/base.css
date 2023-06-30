@@ -84,6 +84,7 @@ input[type="password"]:focus-visible {
 
 input[aria-invalid="true"] {
   border: 2px solid var(--color-red);
+  padding-block: 0.8125rem;
   color: var(--color-red);
 }
 
@@ -131,8 +132,6 @@ a {
 @media (min-width: 40em) {
   body {
     --background-image: url("/images/bg-intro-desktop.png");
-
-    padding-block: 7.5625rem;
   }
 
   h1 {
@@ -169,6 +168,10 @@ a {
 
 /* desktop */
 @media (min-width: 64em) {
+  body {
+    padding-block: 1.5rem;
+  }
+
   main {
     grid-template-columns: minmax(auto, 32.8125rem) auto;
     align-items: center;
