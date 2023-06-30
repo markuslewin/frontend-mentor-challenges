@@ -21,3 +21,7 @@ node_modules
 /.cache
 /build
 /public/build
+
+# netlify
+.netlify
+public/_redirects

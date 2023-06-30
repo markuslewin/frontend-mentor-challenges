@@ -5,9 +5,10 @@
   "main": "index.js",
   "scripts": {
     "build": "remix build",
+    "predev": "rimraf ./public/_redirects",
     "dev": "remix dev",
     "postinstall": "remix setup node",
-    "start": "remix-serve build"
+    "start": "netlify serve"
   },
   "keywords": [],
   "author": "",
@@ -15,6 +16,7 @@
   "dependencies": {
     "@conform-to/react": "^0.7.1",
     "@fontsource/poppins": "^5.0.3",
+    "@remix-run/netlify": "^1.18.0",
     "@remix-run/react": "^1.17.1",
     "@remix-run/serve": "^1.17.1",
     "react": "^18.2.0",
