@@ -36,4 +36,7 @@
   --text-small: var(--weight-medium) 0.6875rem / 1.3125rem var(--font);
   --text-small-desktop: var(--weight-medium) 0.6875rem / 1.625rem var(--font);
   --text-error: italic var(--weight-medium) 0.6875rem / 1.0625rem var(--font);
+
+  /* from tailwind */
+  --transition: cubic-bezier(0.4, 0, 0.2, 1) 150ms;
 }
