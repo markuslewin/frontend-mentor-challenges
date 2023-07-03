@@ -17,6 +17,15 @@ export default function App() {
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="32x32"
+          href="/images/favicon-32x32.png"
+        />
+        <title>
+          Frontend Mentor | Huddle landing page with single introductory section
+        </title>
         <Meta />
         <Links />
       </head>
