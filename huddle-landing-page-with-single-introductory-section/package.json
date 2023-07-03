@@ -12,6 +12,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@fontsource-variable/open-sans": "^5.0.4",
+    "@fontsource/poppins": "^5.0.3",
     "@netlify/functions": "^1.6.0",
     "@remix-run/netlify": "^1.18.1",
     "@remix-run/node": "^1.18.1",
