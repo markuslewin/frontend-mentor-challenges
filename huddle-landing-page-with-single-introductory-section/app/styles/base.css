@@ -1,2 +1,39 @@
 body {
+  --background: url("/images/bg-mobile.svg") no-repeat top / contain;
+
+  font: var(--text-body);
+  text-align: center;
+  background: var(--background) var(--color-violet);
+  color: var(--color-white);
+}
+
+h1 {
+  font: var(--text-heading);
+}
+
+a {
+  font: var(--text-button);
+}
+
+/* tablet */
+@media (min-width: 40em) {
+  body {
+    --background: url("/images/bg-desktop.svg") no-repeat center / cover;
+
+    font: var(--text-body-desktop);
+  }
+
+  h1 {
+    font: var(--text-heading-desktop);
+  }
+
+  a {
+    font: var(--text-button-desktop);
+  }
+}
+
+@media (min-width: 60em) {
+  body {
+    text-align: start;
+  }
 }

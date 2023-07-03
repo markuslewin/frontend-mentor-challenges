@@ -1,6 +1,9 @@
 :root {
+  /* primary */
   --color-violet: hsl(257 40% 49%);
   --color-soft-magenta: hsl(300 69% 71%);
+  /* neutral */
+  --color-white: hsl(0 0% 100%);
 
   --font-poppins: "Poppins", sans-serif;
   --font-open-sans: "Open Sans Variable", sans-serif;
