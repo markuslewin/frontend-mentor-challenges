@@ -1,0 +1,33 @@
+.button {
+  font: var(--text-button);
+  text-decoration: none;
+  display: inline-block;
+  border-radius: 9999px;
+  padding: 0.6875rem;
+  background: var(--color-white);
+  color: var(--color-violet);
+  box-shadow: 0.0625rem 0.1875rem 0.3125rem hsl(0 0% 0% / 26.9%);
+  transition: var(--transition);
+  transition-property: background-color, color;
+}
+
+.button:hover,
+.button:focus-visible {
+  background: var(--color-soft-magenta);
+  color: var(--color-white);
+}
+
+/* tablet */
+@media (min-width: 40em) {
+  .button {
+    font: var(--text-button-desktop);
+    padding: 0.9375rem;
+    box-shadow: 0.125rem 0.25rem 0.5625rem 0.1875rem hsl(0 0% 0% / 25.86%);
+  }
+}
+
+@media (forced-colors: active) {
+  .button {
+    border: 2px solid;
+  }
+}

@@ -1,3 +1,5 @@
+import { Facebook, Instagram, Twitter } from "../components/icon";
+
 export default function Index() {
   return (
     <>
@@ -13,27 +15,29 @@ export default function Index() {
           engage in genuine discussion.
         </p>
         <p>
-          <a href="#">Register</a>
+          <a className="button" href="#">
+            Register
+          </a>
         </p>
       </main>
       <footer>
-        <h2 id="socials-heading">Social media links</h2>
-        <ul aria-describedby="socials-heading">
-          <li>
-            <a href="#">
-              <img alt="facebook" src="/images/favicon-32x32.png" />
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              <img alt="twitter" src="/images/favicon-32x32.png" />
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              <img alt="instagram" src="/images/favicon-32x32.png" />
-            </a>
-          </li>
+        <h2 id="socials-heading" className="sr-only">
+          Social media links
+        </h2>
+        <ul role="list" aria-describedby="socials-heading">
+          {[
+            { name: "facebook", icon: <Facebook /> },
+            { name: "twitter", icon: <Twitter /> },
+            { name: "instagram", icon: <Instagram /> },
+          ].map((site, i) => {
+            return (
+              <li key={i}>
+                <a className="icon" href="#" data-site={site.name}>
+                  {site.icon} <span className="sr-only">{site.name}</span>
+                </a>
+              </li>
+            );
+          })}
         </ul>
       </footer>
     </>

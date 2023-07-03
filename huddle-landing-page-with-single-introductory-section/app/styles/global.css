@@ -2,5 +2,7 @@
 @import "fonts.css";
 @import "variables.css";
 @import "base.css";
+@import "blocks/button.css";
+@import "blocks/icon.css";
 
 @tailwind utilities;

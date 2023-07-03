@@ -11,8 +11,18 @@ h1 {
   font: var(--text-heading);
 }
 
+ul[role="list"],
+ol[role="list"] {
+  padding: 0;
+}
+
 a {
-  font: var(--text-button);
+  color: inherit;
+}
+
+a:hover,
+a:focus-visible {
+  color: var(--color-pink);
 }
 
 /* tablet */
@@ -26,13 +36,10 @@ a {
   h1 {
     font: var(--text-heading-desktop);
   }
-
-  a {
-    font: var(--text-button-desktop);
-  }
 }
 
-@media (min-width: 60em) {
+/* desktop */
+@media (min-width: 64em) {
   body {
     text-align: start;
   }

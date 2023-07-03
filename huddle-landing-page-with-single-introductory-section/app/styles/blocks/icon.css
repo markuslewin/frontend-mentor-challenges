@@ -1,0 +1,40 @@
+.icon {
+  --icon-size: 1.75rem;
+  --icon-size-facebook: 0.83125rem;
+  --icon-size-twitter: 0.75rem;
+  --icon-size-instagram: 0.82375rem;
+
+  display: inline-grid;
+  place-items: center;
+  width: var(--icon-size);
+  height: var(--icon-size);
+  border: 1px solid;
+  border-radius: 50%;
+  transition: color var(--transition);
+}
+
+.icon svg * {
+  fill: currentColor;
+}
+
+.icon[data-site="facebook"] svg {
+  height: var(--icon-size-facebook);
+}
+
+.icon[data-site="twitter"] svg {
+  width: var(--icon-size-twitter);
+}
+
+.icon[data-site="instagram"] svg {
+  height: var(--icon-size-instagram);
+}
+
+/* tablet */
+@media (min-width: 40em) {
+  .icon {
+    --icon-size: 2.5rem;
+    --icon-size-facebook: 1.1875rem;
+    --icon-size-twitter: 1.125rem;
+    --icon-size-instagram: 1.17625rem;
+  }
+}
