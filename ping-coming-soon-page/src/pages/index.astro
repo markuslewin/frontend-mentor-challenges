@@ -1,34 +1,56 @@
+---
+import Facebook from "../components/Facebook.astro";
+import Instagram from "../components/Instagram.astro";
+import Twitter from "../components/Twitter.astro";
+---
+
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- displays site properly based on user's device -->
-
-  <link rel="icon" type="image/png" sizes="32x32" href="./images/favicon-32x32.png">
-  
-  <title>Frontend Mentor | Ping coming soon page</title>
-
-  <!-- Feel free to remove these styles or customise in your own stylesheet 👍 -->
-  <style>
-    .attribution { font-size: 11px; text-align: center; }
-    .attribution a { color: hsl(228, 45%, 44%); }
-  </style>
-</head>
-<body>
-
-  We are launching soon!
-
-  Subscribe and get notified
-
-  Notify Me
-
-  &copy; Copyright Ping. All rights reserved.
-
-  <footer>
-    <p class="attribution">
-      Challenge by <a href="https://www.frontendmentor.io?ref=challenge" target="_blank">Frontend Mentor</a>. 
-      Coded by <a href="#">Your Name Here</a>.
-    </p>
-  </footer>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <!-- displays site properly based on user's device -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="icon"
+      type="image/svg"
+      sizes="32x32"
+      href="/images/favicon-32x32.png"
+    />
+    <title>Frontend Mentor | Ping coming soon page</title>
+  </head>
+  <body>
+    <header>
+      <img alt="ping" src="/images/logo.svg" width="86" height="26" />
+    </header>
+    <main>
+      <h1>We are launching soon!</h1>
+      <p>Subscribe and get notified</p>
+      <form>
+        <label for="email">Write your email to get notified</label>
+        <input id="email" type="email" />
+        <button type="submit">Notify Me</button>
+      </form>
+      <img alt="the ping dashboard" src="/images/illustration-dashboard.png" />
+    </main>
+    <footer>
+      <ul>
+        {
+          [
+            { name: "facebook", icon: <Facebook /> },
+            { name: "twitter", icon: <Twitter /> },
+            { name: "instagram", icon: <Instagram /> },
+          ].map((site) => {
+            return (
+              <li>
+                <a href="#">
+                  {site.icon} <span>{site.name}</span>
+                </a>
+              </li>
+            );
+          })
+        }
+      </ul>
+      <span aria-hidden="true">&copy;</span> Copyright Ping. All rights reserved.
+    </footer>
+  </body>
 </html>
