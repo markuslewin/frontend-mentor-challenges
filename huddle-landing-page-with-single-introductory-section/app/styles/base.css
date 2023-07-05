@@ -3,6 +3,11 @@ body {
 
   font: var(--text-body);
   text-align: center;
+  display: grid;
+  grid-template-columns: minmax(auto, 80rem);
+  grid-template-rows: auto 1fr auto;
+  justify-content: center;
+  align-content: start;
   padding: 2.5rem;
   padding-block-start: 2rem;
   background: var(--background) var(--color-violet);
@@ -49,8 +54,10 @@ a:focus-visible {
 /* desktop */
 @media (min-width: 64em) {
   body {
-    padding-block-start: 3.375rem;
     text-align: start;
+    grid-template-rows: none;
+    align-content: space-between;
+    padding-block-start: 3.375rem;
   }
 
   main {

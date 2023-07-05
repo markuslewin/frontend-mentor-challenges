@@ -4,10 +4,10 @@ import { Huddle } from "../components/logo";
 export default function Index() {
   return (
     <>
-      <header className="center">
+      <header>
         <Huddle /> <span className="sr-only">Huddle</span>
       </header>
-      <main className="[ center ] [ mt-14 md:mt-20 ]">
+      <main className="mt-14 md:mt-20">
         <img
           className="mx-auto"
           alt=""
@@ -27,7 +27,7 @@ export default function Index() {
           </p>
         </div>
       </main>
-      <footer className="[ center ] [ mt-16 md:mt-7 ]">
+      <footer className="mt-16 md:mt-7">
         <h2 id="socials-heading" className="sr-only">
           Social media links
         </h2>
