@@ -37,8 +37,7 @@ a:focus-visible {
   color: var(--color-pink);
 }
 
-/* tablet */
-@media (min-width: 40em) {
+@screen md {
   body {
     --background: url("/images/bg-desktop.svg") no-repeat center / cover;
 
@@ -51,8 +50,7 @@ a:focus-visible {
   }
 }
 
-/* desktop */
-@media (min-width: 64em) {
+@screen lg {
   body {
     text-align: start;
     grid-template-rows: none;

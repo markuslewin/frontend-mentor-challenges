@@ -4,8 +4,7 @@
   transform: translateX(-0.375rem);
 }
 
-/* tablet */
-@media (min-width: 40em) {
+@screen md {
   .logo {
     height: 2rem;
     height: 3.25rem;

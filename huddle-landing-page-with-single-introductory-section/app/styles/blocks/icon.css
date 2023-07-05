@@ -29,8 +29,7 @@
   height: var(--icon-size-instagram);
 }
 
-/* tablet */
-@media (min-width: 40em) {
+@screen md {
   .icon {
     --icon-size: 2.5rem;
     --icon-size-facebook: 1.1875rem;

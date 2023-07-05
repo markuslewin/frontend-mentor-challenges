@@ -19,8 +19,7 @@
   color: var(--color-white);
 }
 
-/* tablet */
-@media (min-width: 40em) {
+@screen md {
   .button {
     font: var(--text-button-desktop);
     padding: 0.9375rem;
