@@ -52,11 +52,11 @@ a:focus-visible {
 
   main {
     display: grid;
-    grid-template-columns: 1fr minmax(auto, 32.5rem);
+    grid-template-columns: 1fr 32.5rem;
     gap: 3.75rem;
   }
 
-  main > :first-child {
+  main > img {
     align-self: center;
   }
 }
