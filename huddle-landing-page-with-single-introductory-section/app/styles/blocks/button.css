@@ -1,7 +1,9 @@
 .button {
   font: var(--text-button);
+  text-align: center;
   text-decoration: none;
   display: inline-block;
+  min-width: min(12.5rem, 100%);
   border-radius: 9999px;
   padding: 0.6875rem;
   background: var(--color-white);

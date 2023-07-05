@@ -1,0 +1,10 @@
+.logo {
+  height: 1.1875rem;
+}
+
+/* tablet */
+@media (min-width: 40em) {
+  .logo {
+    height: 2rem;
+  }
+}

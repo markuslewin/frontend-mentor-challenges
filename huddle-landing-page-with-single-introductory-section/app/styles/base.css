@@ -3,8 +3,13 @@ body {
 
   font: var(--text-body);
   text-align: center;
+  padding: 2.5rem;
   background: var(--background) var(--color-violet);
   color: var(--color-white);
+}
+
+header {
+  text-align: start;
 }
 
 h1 {
@@ -31,6 +36,7 @@ a:focus-visible {
     --background: url("/images/bg-desktop.svg") no-repeat center / cover;
 
     font: var(--text-body-desktop);
+    padding-top: 4rem;
   }
 
   h1 {
@@ -42,5 +48,15 @@ a:focus-visible {
 @media (min-width: 64em) {
   body {
     text-align: start;
+  }
+
+  main {
+    display: grid;
+    grid-template-columns: 1fr minmax(auto, 32.5rem);
+    gap: 3.75rem;
+  }
+
+  main > :first-child {
+    align-self: center;
   }
 }

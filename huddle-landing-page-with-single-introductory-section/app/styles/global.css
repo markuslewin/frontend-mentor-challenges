@@ -2,7 +2,9 @@
 @import "fonts.css";
 @import "variables.css";
 @import "base.css";
+@import "compositions/center.css";
 @import "blocks/button.css";
 @import "blocks/icon.css";
+@import "blocks/logo.css";
 
 @tailwind utilities;
