@@ -9,9 +9,11 @@ export default function Index() {
       </header>
       <main className="mt-14 md:mt-20">
         <img
-          className="mx-auto"
+          className="mx-auto h-auto"
           alt=""
           src="/images/illustration-mockups.svg"
+          width={709}
+          height={506}
         />
         <div className="mt-16 lg:mt-8">
           <h1>Build The Community Your Fans Will Love</h1>
