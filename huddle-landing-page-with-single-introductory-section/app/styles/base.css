@@ -39,8 +39,6 @@ a:focus-visible {
 
 @screen tablet {
   body {
-    --background: url("/images/bg-desktop.svg") no-repeat center / cover;
-
     font: var(--text-body-desktop);
     padding-top: 4rem;
   }
@@ -52,6 +50,8 @@ a:focus-visible {
 
 @screen desktop {
   body {
+    --background: url("/images/bg-desktop.svg") no-repeat center / cover;
+
     text-align: start;
     grid-template-rows: none;
     align-content: space-between;
