@@ -4,7 +4,7 @@ import {
   LiveReload,
   Meta,
   Outlet,
-  Scripts,
+  // Scripts,
   ScrollRestoration,
 } from "@remix-run/react";
 import styles from "~/styles/global.css";

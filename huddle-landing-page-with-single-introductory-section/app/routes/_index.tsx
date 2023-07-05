@@ -7,7 +7,7 @@ export default function Index() {
       <header>
         <Huddle /> <span className="sr-only">Huddle</span>
       </header>
-      <main className="mt-14 md:mt-20">
+      <main className="mt-14 tablet:mt-20">
         <img
           className="mx-auto h-auto"
           alt=""
@@ -15,9 +15,9 @@ export default function Index() {
           width={709}
           height={506}
         />
-        <div className="mt-16 lg:mt-8">
+        <div className="mt-16 desktop:mt-8">
           <h1>Build The Community Your Fans Will Love</h1>
-          <p className="mt-4 md:mt-6">
+          <p className="mt-4 tablet:mt-6">
             Huddle re-imagines the way we build communities. You have a voice,
             but so does your audience. Create connections with your users as you
             engage in genuine discussion.
@@ -29,12 +29,12 @@ export default function Index() {
           </p>
         </div>
       </main>
-      <footer className="mt-16 md:mt-7">
+      <footer className="mt-16 tablet:mt-7">
         <h2 id="socials-heading" className="sr-only">
           Social media links
         </h2>
         <ul
-          className="flex flex-wrap justify-center gap-3 md:gap-4 lg:justify-end"
+          className="flex flex-wrap justify-center gap-3 tablet:gap-4 desktop:justify-end"
           role="list"
           aria-describedby="socials-heading"
         >
