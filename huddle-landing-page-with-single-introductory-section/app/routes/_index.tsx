@@ -7,13 +7,13 @@ export default function Index() {
       <header className="center">
         <Huddle /> <span className="sr-only">Huddle</span>
       </header>
-      <main className="[ center ] [ mt-16 md:mt-28 ]">
+      <main className="[ center ] [ mt-14 md:mt-20 ]">
         <img
           className="mx-auto"
           alt=""
           src="/images/illustration-mockups.svg"
         />
-        <div className="mt-16">
+        <div className="mt-16 md:mt-8">
           <h1>Build The Community Your Fans Will Love</h1>
           <p className="mt-4 md:mt-6">
             Huddle re-imagines the way we build communities. You have a voice,

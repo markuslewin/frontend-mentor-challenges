@@ -4,6 +4,7 @@ body {
   font: var(--text-body);
   text-align: center;
   padding: 2.5rem;
+  padding-block-start: 2rem;
   background: var(--background) var(--color-violet);
   color: var(--color-white);
 }
@@ -18,6 +19,7 @@ h1 {
 
 ul[role="list"],
 ol[role="list"] {
+  margin: 0;
   padding: 0;
 }
 
@@ -47,6 +49,7 @@ a:focus-visible {
 /* desktop */
 @media (min-width: 64em) {
   body {
+    padding-block-start: 3.375rem;
     text-align: start;
   }
 
