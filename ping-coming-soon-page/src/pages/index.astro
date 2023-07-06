@@ -23,11 +23,17 @@ import Twitter from "../components/Twitter.astro";
       <img alt="ping" src="/images/logo.svg" width="86" height="26" />
     </header>
     <main>
-      <h1>We are launching soon!</h1>
+      <h1>We are launching <strong>soon!</strong></h1>
       <p>Subscribe and get notified</p>
       <form>
         <label for="email">Write your email to get notified</label>
-        <input id="email" type="email" />
+        <input
+          id="email"
+          type="email"
+          placeholder="Your email address..."
+          aria-describedby="email-error"
+        />
+        <p id="email-error">Please provide a valid email address</p>
         <button type="submit">Notify Me</button>
       </form>
       <img alt="the ping dashboard" src="/images/illustration-dashboard.png" />
@@ -92,6 +98,62 @@ import Twitter from "../components/Twitter.astro";
     --text-copyright: var(--weight-light) 0.625rem / 0.75rem var(--font);
     --text-copyright-desktop: var(--weight-light) 0.75rem / 0.9375rem
       var(--font);
+  }
+
+  body {
+    font: var(--text-body);
+    text-align: center;
+  }
+
+  footer {
+    font: var(--text-copyright);
+  }
+
+  h1 {
+    font: var(--text-heading);
+  }
+
+  strong {
+    font-weight: var(--weight-bold);
+  }
+
+  input {
+    font: var(--text-input);
+  }
+
+  input + p[id] {
+    font: var(--text-feedback);
+  }
+
+  button {
+    font: var(--text-button);
+  }
+
+  @screen md {
+    body {
+      font: var(--text-body-desktop);
+    }
+
+    footer {
+      font: var(--text-copyright-desktop);
+    }
+
+    h1 {
+      font: var(--text-heading-desktop);
+    }
+
+    input {
+      font: var(--text-input-desktop);
+    }
+
+    input + p[id] {
+      font: var(--text-feedback-desktop);
+      text-align: start;
+    }
+
+    button {
+      font: var(--text-button-desktop);
+    }
   }
 
   @tailwind utilities;
