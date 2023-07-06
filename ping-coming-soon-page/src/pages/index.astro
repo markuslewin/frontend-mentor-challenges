@@ -53,8 +53,8 @@ import "@fontsource-variable/libre-franklin";
           ].map((site) => {
             return (
               <li>
-                <a href="#">
-                  {site.icon} <span>{site.name}</span>
+                <a class="icon" href="#" data-site={site.name}>
+                  {site.icon} <span class="sr-only">{site.name}</span>
                 </a>
               </li>
             );
@@ -167,6 +167,42 @@ import "@fontsource-variable/libre-franklin";
   button:hover,
   button:focus-visible {
     background: var(--color-button-focus);
+  }
+
+  .icon {
+    display: inline-grid;
+    place-items: center;
+    border: 1px solid
+      var(--icon-color-border, hsl(var(--color-base-blue) / 15%));
+    border-radius: 50%;
+    width: 1.9375rem;
+    height: 1.9375rem;
+    background: var(--icon-color-background, var(--color-white));
+    color: var(--icon-color-foreground, var(--color-blue));
+    transition: var(--transition);
+    transition-property: background-color, color;
+  }
+
+  .icon:hover,
+  .icon:focus-visible {
+    --icon-color-background: var(--color-blue);
+    --icon-color-foreground: var(--color-white);
+  }
+
+  .icon[data-site="facebook"] svg {
+    height: 0.9375rem;
+  }
+
+  .icon[data-site="twitter"] svg {
+    height: 0.9rem;
+  }
+
+  .icon[data-site="instagram"] svg {
+    height: 1.1rem;
+  }
+
+  .icon svg {
+    fill: currentColor;
   }
 
   @screen md {
