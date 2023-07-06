@@ -29,7 +29,9 @@ import "@fontsource-variable/libre-franklin";
       <h1>We are launching <strong>soon!</strong></h1>
       <p>Subscribe and get notified</p>
       <form>
-        <label for="email">Write your email to get notified</label>
+        <label class="sr-only" for="email"
+          >Write your email to get notified</label
+        >
         <input
           id="email"
           type="email"
@@ -67,7 +69,8 @@ import "@fontsource-variable/libre-franklin";
 <style is:global>
   :root {
     /* primary */
-    --color-blue: hsl(223 87% 63%);
+    --color-base-blue: 223 87% 63%;
+    --color-blue: hsl(var(--color-base-blue));
     /* secondary */
     --color-pale-blue: hsl(223 100% 88%);
     --color-light-red: hsl(354 100% 66%);
@@ -77,6 +80,7 @@ import "@fontsource-variable/libre-franklin";
     /* other */
     --color-white: hsl(0 0% 100%);
     --color-input-placeholder: hsl(223 59% 83%);
+    --color-button-focus: hsl(223 87% 70%);
 
     --font: "Libre Franklin Variable", sans-serif;
 
@@ -101,6 +105,9 @@ import "@fontsource-variable/libre-franklin";
     --text-copyright: var(--weight-light) 0.625rem / 0.75rem var(--font);
     --text-copyright-desktop: var(--weight-light) 0.75rem / 0.9375rem
       var(--font);
+
+    /* from tailwind */
+    --transition: cubic-bezier(0.4, 0, 0.2, 1) 150ms;
   }
 
   body {
@@ -126,8 +133,11 @@ import "@fontsource-variable/libre-franklin";
   }
 
   input {
-    border: 1px solid var(--color-pale-blue);
     font: var(--text-input);
+    border: 1px solid var(--color-pale-blue);
+    border-radius: 9999px;
+    padding: 0.5625rem 1.9375rem;
+    transition: border-color var(--transition);
   }
 
   input::placeholder {
@@ -145,8 +155,18 @@ import "@fontsource-variable/libre-franklin";
 
   button {
     font: var(--text-button);
+    border: 1px solid transparent;
+    border-radius: 9999px;
+    padding: 0.6875rem 1.9375rem;
     background: var(--color-blue);
     color: var(--color-white);
+    box-shadow: 0 0.3125rem 0.625rem 0.125rem hsl(var(--color-base-blue) / 23%);
+    transition: background-color var(--transition);
+  }
+
+  button:hover,
+  button:focus-visible {
+    background: var(--color-button-focus);
   }
 
   @screen md {
