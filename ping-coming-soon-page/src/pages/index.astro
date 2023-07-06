@@ -2,6 +2,9 @@
 import Facebook from "../components/Facebook.astro";
 import Instagram from "../components/Instagram.astro";
 import Twitter from "../components/Twitter.astro";
+// stylesheet dependencies are imported here, since `astro dev` injects them in the wrong order if they're imported in `<style>`, messing up specificity
+import "../styles/reset.css";
+import "@fontsource-variable/libre-franklin";
 ---
 
 <!DOCTYPE html>
@@ -62,9 +65,6 @@ import Twitter from "../components/Twitter.astro";
 </html>
 
 <style is:global>
-  @import "../styles/reset.css";
-  @import "@fontsource-variable/libre-franklin";
-
   :root {
     /* primary */
     --color-blue: hsl(223 87% 63%);
