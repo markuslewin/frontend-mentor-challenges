@@ -23,12 +23,18 @@ import "@fontsource-variable/libre-franklin";
   </head>
   <body>
     <header>
-      <img alt="ping" src="/images/logo.svg" width="86" height="26" />
+      <img
+        class="[ logo ] [ mx-auto ]"
+        alt="ping"
+        src="/images/logo.svg"
+        width="86"
+        height="26"
+      />
     </header>
-    <main>
+    <main class="mt-8 tablet:mt-10">
       <h1>We are launching <strong>soon!</strong></h1>
-      <p>Subscribe and get notified</p>
-      <form>
+      <p class="mt-4">Subscribe and get notified</p>
+      <form class="mt-8 tablet:mt-10">
         <label class="sr-only" for="email"
           >Write your email to get notified</label
         >
@@ -38,13 +44,19 @@ import "@fontsource-variable/libre-franklin";
           placeholder="Your email address..."
           aria-describedby="email-error"
         />
-        <p id="email-error">Please provide a valid email address</p>
-        <button type="submit">Notify Me</button>
+        <p id="email-error" class="mt-1 tablet:mt-2">
+          Please provide a valid email address
+        </p>
+        <button class="mt-5" type="submit">Notify Me</button>
       </form>
-      <img alt="the ping dashboard" src="/images/illustration-dashboard.png" />
+      <img
+        class="mt-20 tablet:mt-24"
+        alt="the ping dashboard"
+        src="/images/illustration-dashboard.png"
+      />
     </main>
-    <footer>
-      <ul>
+    <footer class="mt-32 tablet:mt-20">
+      <ul class="flex flex-wrap justify-center gap-3" role="list">
         {
           [
             { name: "facebook", icon: <Facebook /> },
@@ -61,7 +73,9 @@ import "@fontsource-variable/libre-franklin";
           })
         }
       </ul>
-      <span aria-hidden="true">&copy;</span> Copyright Ping. All rights reserved.
+      <p class="mt-7 tablet:mt-6">
+        <span aria-hidden="true">&copy;</span> Copyright Ping. All rights reserved.
+      </p>
     </footer>
   </body>
 </html>
@@ -113,6 +127,11 @@ import "@fontsource-variable/libre-franklin";
   body {
     font: var(--text-body);
     text-align: center;
+    display: grid;
+    grid-template-columns: minmax(auto, 40rem);
+    grid-template-rows: auto 1fr auto;
+    justify-content: center;
+    padding: 5rem 1.75rem 2.5rem;
     background: var(--color-white);
     color: var(--color-very-dark-blue);
   }
@@ -125,6 +144,11 @@ import "@fontsource-variable/libre-franklin";
   h1 {
     font: var(--text-heading);
     color: var(--color-gray);
+  }
+
+  ul {
+    margin: 0;
+    padding: 0;
   }
 
   strong {
@@ -169,6 +193,11 @@ import "@fontsource-variable/libre-franklin";
     background: var(--color-button-focus);
   }
 
+  .logo {
+    width: auto;
+    height: 1rem;
+  }
+
   .icon {
     display: inline-grid;
     place-items: center;
@@ -205,9 +234,10 @@ import "@fontsource-variable/libre-franklin";
     fill: currentColor;
   }
 
-  @screen md {
+  @screen tablet {
     body {
       font: var(--text-body-desktop);
+      padding-bottom: 3rem;
     }
 
     footer {
@@ -220,6 +250,7 @@ import "@fontsource-variable/libre-franklin";
 
     input {
       font: var(--text-input-desktop);
+      padding: 1.0625rem 1.8125rem;
     }
 
     input + p[id] {
@@ -229,6 +260,18 @@ import "@fontsource-variable/libre-franklin";
 
     button {
       font: var(--text-button-desktop);
+      padding: 1.0625rem 1.8125rem;
+    }
+
+    .logo {
+      height: 1.6rem;
+    }
+  }
+
+  @screen desktop {
+    body {
+      grid-template-rows: none;
+      align-content: space-between;
     }
   }
 
