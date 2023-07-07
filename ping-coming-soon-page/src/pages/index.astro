@@ -5,6 +5,32 @@ import Twitter from "../components/Twitter.astro";
 // stylesheet dependencies are imported here, since `astro dev` injects them in the wrong order if they're imported in `<style />`, messing up specificity
 import "../styles/reset.css";
 import "@fontsource-variable/libre-franklin";
+
+let error: string | undefined;
+let payload: string | undefined;
+if (Astro.request.method === "POST") {
+  const formData = await Astro.request.formData();
+  const email = ((value) => {
+    return typeof value === "string" ? value : "";
+  })(formData.get("email"));
+
+  if (!email) {
+    error = "Whoops! It looks like you forgot to add your email";
+  } else if (
+    // from `zod`
+    !/^([A-Z0-9_+-]+\.?)*[A-Z0-9_+-]@([A-Z0-9][A-Z0-9\-]*\.)+[A-Z]{2,}$/i.test(
+      email
+    )
+  ) {
+    error = "Please provide a valid email address";
+  }
+
+  if (!error) {
+    // todo: persist `email`
+    return Astro.redirect("/");
+  }
+  payload = email;
+}
 ---
 
 <!DOCTYPE html>
@@ -34,18 +60,24 @@ import "@fontsource-variable/libre-franklin";
     <main class="mt-8 tablet:mt-10">
       <h1>We are launching <strong>soon!</strong></h1>
       <p class="mt-4">Subscribe and get notified</p>
-      <form class="[ form ] [ mt-8 tablet:mt-10 ]">
+      <form class="[ form ] [ mt-8 tablet:mt-10 ]" method="post" novalidate>
         <label class="sr-only" for="email"
           >Write your email to get notified</label
         >
         <input
           id="email"
           type="email"
+          name="email"
+          autocomplete="email"
           placeholder="Your email address..."
+          required
+          value={payload}
+          autofocus={!!error}
+          aria-invalid={!!error}
           aria-describedby="email-error"
         />
         <p id="email-error" class="mt-1 tablet:mt-2">
-          Please provide a valid email address
+          {error}
         </p>
         <button class="mt-3 desktop:mt-0" type="submit">Notify Me</button>
       </form>
