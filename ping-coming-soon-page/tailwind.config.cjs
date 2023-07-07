@@ -6,7 +6,11 @@ module.exports = {
       tablet: "40em",
       desktop: "64em",
     },
-    extend: {},
+    extend: {
+      aria: {
+        invalid: 'invalid="true"',
+      },
+    },
   },
   plugins: [],
 };

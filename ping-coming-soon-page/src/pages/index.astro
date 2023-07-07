@@ -65,6 +65,7 @@ if (Astro.request.method === "POST") {
           >Write your email to get notified</label
         >
         <input
+          class="peer"
           id="email"
           type="email"
           name="email"
@@ -79,7 +80,10 @@ if (Astro.request.method === "POST") {
         <p id="email-error" class="mt-1 tablet:mt-2">
           {error}
         </p>
-        <button class="mt-3 desktop:mt-0" type="submit">Notify Me</button>
+        <button
+          class="mt-3 peer-aria-invalid:mt-5 desktop:mt-0 desktop:peer-aria-invalid:mt-0"
+          type="submit">Notify Me</button
+        >
       </form>
       <img
         class="mt-20 tablet:mt-24"
