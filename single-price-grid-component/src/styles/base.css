@@ -34,7 +34,7 @@ ul {
 .card {
   --card-radius: 0.3125rem;
 
-  border-radius: var(--card-radius);
+  border-radius: var(--card-radius) var(--card-radius) 0 0;
   box-shadow: 0 0.9375rem 1.875rem hsl(212 100% 33% / 15%);
 }
 
@@ -69,8 +69,6 @@ ul {
 .why-us {
   font: var(--text-why-us);
   letter-spacing: var(--tracking-why-us);
-  border-bottom-left-radius: var(--card-radius);
-  border-bottom-right-radius: var(--card-radius);
   padding: 1.5rem;
   background: var(--color-light-cyan);
   color: var(--color-white);
@@ -170,11 +168,15 @@ ul {
     grid-template-columns: repeat(2, 1fr);
   }
 
+  .card {
+    border-radius: var(--card-radius);
+  }
+
   .sign-up {
-    border-bottom-left-radius: var(--card-radius);
+    border-radius: 0 0 0 var(--card-radius);
   }
 
   .why-us {
-    border-bottom-left-radius: 0;
+    border-radius: 0 0 var(--card-radius) 0;
   }
 }
