@@ -13,14 +13,45 @@ h2 {
   letter-spacing: var(--tracking-h2);
 }
 
+ul {
+  margin: 0;
+  padding: 0;
+}
+
+.center {
+  margin-inline: auto;
+  max-inline-size: 39.6875rem;
+}
+
+.cover {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 4.5rem 2rem 3.875rem;
+}
+
+.card {
+  border-radius: 0.3125rem;
+}
+
+.intro {
+  padding: 1.75rem 1.5rem 2rem;
+}
+
 .sign-up {
   font: var(--text-body-regular);
   letter-spacing: var(--tracking-body-regular);
+  padding: 1.5rem;
+}
+
+.sign-up .button {
+  width: 100%;
 }
 
 .why-us {
-  font: var(--text-body-small);
-  letter-spacing: var(--tracking-body-small);
+  font: var(--text-why-us);
+  letter-spacing: var(--tracking-why-us);
+  padding: 1.5rem;
 }
 
 .guarantee {
@@ -36,6 +67,39 @@ h2 {
 .button {
   font: var(--text-button);
   letter-spacing: var(--tracking-button);
+  text-align: center;
+  display: inline-block;
+  border-radius: 0.3125rem;
+  padding: 0.9375rem 1rem 0.875rem;
+}
+
+@media (forced-colors: active) {
+  .switcher > :last-child {
+    border-block-start: 2px solid;
+  }
+
+  .card {
+    border: 2px solid transparent;
+  }
+
+  .card > * + * {
+    border-block-start: 2px solid;
+  }
+
+  .button {
+    border: 2px solid transparent;
+  }
+}
+
+@media (forced-colors: active) and screen(desktop) {
+  .switcher > :first-child {
+    border-inline-end: 1px solid;
+  }
+
+  .switcher > :last-child {
+    border-block-start: none;
+    border-inline-start: 1px solid;
+  }
 }
 
 @screen tablet {
@@ -49,8 +113,31 @@ h2 {
     letter-spacing: var(--tracking-h1-desktop);
   }
 
+  .card {
+    border-radius: 0.5rem;
+  }
+
+  .intro {
+    padding: 2.5rem;
+  }
+
+  .sign-up {
+    padding: 2.5rem;
+  }
+
+  .why-us {
+    padding: 2.5rem;
+  }
+
   .guarantee {
     font: var(--text-guarantee-desktop);
     letter-spacing: var(--tracking-guarantee-desktop);
+  }
+}
+
+@screen desktop {
+  .switcher {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
   }
 }

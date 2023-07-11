@@ -16,36 +16,42 @@ import "../styles/global.css";
     <title>Frontend Mentor | Single Price Grid Component</title>
   </head>
   <body>
-    <main>
-      <article>
-        <h1>Join our community</h1>
-        <p>
-          <strong class="guarantee"
-            >30-day, hassle-free money back guarantee</strong
-          >
-        </p>
-        <p>
-          Gain access to our full library of tutorials along with expert code
-          reviews. Perfect for any developers who are serious about honing their
-          skills.
-        </p>
-        <div class="sign-up">
-          <h2>Monthly Subscription</h2>
-          <p><strong class="price">&dollar;29</strong> per month</p>
-          <p>Full access for less than &dollar;1 a day</p>
-          <a class="button" href="#">Sign Up</a>
+    <main class="cover">
+      <article class="[ card ] [ center ]">
+        <div class="intro">
+          <h1>Join our community</h1>
+          <p class="mt-6">
+            <strong class="guarantee"
+              >30-day, hassle-free money back guarantee</strong
+            >
+          </p>
+          <p class="mt-3 tablet:mt-4">
+            Gain access to our full library of tutorials along with expert code
+            reviews. Perfect for any developers who are serious about honing
+            their skills.
+          </p>
         </div>
-        <div class="why-us">
-          <h2>Why Us</h2>
-          <ul>
-            <li>Tutorials by industry experts</li>
-            <li>Peer &amp; expert code review</li>
-            <li>Coding exercises</li>
-            <li>Access to our GitHub repos</li>
-            <li>Community forum</li>
-            <li>Flashcard decks</li>
-            <li>New videos every week</li>
-          </ul>
+        <div class="switcher">
+          <div class="sign-up">
+            <h2>Monthly Subscription</h2>
+            <p class="mt-5 flex items-center gap-3">
+              <strong class="price">&dollar;29</strong> per month
+            </p>
+            <p class="mt-1">Full access for less than &dollar;1 a day</p>
+            <a class="[ button ] [ mt-7 ]" href="#">Sign Up</a>
+          </div>
+          <div class="why-us">
+            <h2>Why Us</h2>
+            <ul role="list" class="mt-5">
+              <li>Tutorials by industry experts</li>
+              <li>Peer &amp; expert code review</li>
+              <li>Coding exercises</li>
+              <li>Access to our GitHub repos</li>
+              <li>Community forum</li>
+              <li>Flashcard decks</li>
+              <li>New videos every week</li>
+            </ul>
+          </div>
         </div>
       </article>
     </main>

@@ -23,6 +23,7 @@
   --tracking-guarantee-desktop: -0.01375rem;
   --tracking-price: -0.025rem;
   --tracking-button: -0.0125rem;
+  --tracking-why-us: -0.010625rem;
 
   --text-h1: var(--weight-bold) 1.25rem / 1.4375rem var(--font);
   --text-h1-desktop: var(--weight-bold) 1.5rem / 1.75rem var(--font);
@@ -33,6 +34,7 @@
   --text-guarantee-desktop: var(--weight-bold) 1.125rem / 1.3125rem var(--font);
   --text-price: var(--weight-bold) 2rem / 2.3125rem var(--font);
   --text-button: var(--weight-bold) 1rem / 1.1875rem var(--font);
+  --text-why-us: var(--weight-regular) 0.875rem / 1.25rem var(--font);
 
   /* from tailwind */
   --transition: cubic-bezier(0.4, 0, 0.2, 1) 150ms;
