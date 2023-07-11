@@ -1,0 +1,56 @@
+body {
+  font: var(--text-body-small);
+  letter-spacing: var(--tracking-body-small);
+}
+
+h1 {
+  font: var(--text-h1);
+  letter-spacing: var(--tracking-h1);
+}
+
+h2 {
+  font: var(--text-h2);
+  letter-spacing: var(--tracking-h2);
+}
+
+.sign-up {
+  font: var(--text-body-regular);
+  letter-spacing: var(--tracking-body-regular);
+}
+
+.why-us {
+  font: var(--text-body-small);
+  letter-spacing: var(--tracking-body-small);
+}
+
+.guarantee {
+  font: var(--text-guarantee);
+  letter-spacing: var(--tracking-guarantee);
+}
+
+.price {
+  font: var(--text-price);
+  letter-spacing: var(--tracking-price);
+}
+
+.button {
+  font: var(--text-button);
+  letter-spacing: var(--tracking-button);
+}
+
+@screen tablet {
+  body {
+    font: var(--text-body-regular);
+    letter-spacing: var(--tracking-body-regular);
+  }
+
+  h1 {
+    font: var(--text-h1-desktop);
+    letter-spacing: var(--tracking-h1-desktop);
+  }
+
+  .guarantee {
+    font: var(--text-guarantee-desktop);
+    letter-spacing: var(--tracking-guarantee-desktop);
+  }
+}

@@ -5,6 +5,9 @@
   /* neutral */
   --color-light-gray: hsl(204 43% 93%);
   --color-grayish-blue: hsl(218 22% 67%);
+  /* other */
+  --color-base-white: 0 0% 100%;
+  --color-white: hsl(var(--color-base-white));
 
   --weight-regular: 400;
   --weight-bold: 700;
