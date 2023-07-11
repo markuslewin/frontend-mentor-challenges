@@ -1,0 +1,36 @@
+:root {
+  /* primary */
+  --color-cyan: hsl(179 62% 43%);
+  --color-bright-yellow: hsl(71 73% 54%);
+  /* neutral */
+  --color-light-gray: hsl(204 43% 93%);
+  --color-grayish-blue: hsl(218 22% 67%);
+
+  --weight-regular: 400;
+  --weight-bold: 700;
+
+  --font: "Karla Variable", sans-serif;
+
+  --tracking-h1: -0.015625rem;
+  --tracking-h1-desktop: -0.01875rem;
+  --tracking-h2: -0.01375rem;
+  --tracking-body-small: -0.010625rem;
+  --tracking-body-regular: -0.0125rem;
+  --tracking-guarantee: -0.011875rem;
+  --tracking-guarantee-desktop: -0.01375rem;
+  --tracking-price: -0.025rem;
+  --tracking-button: -0.0125rem;
+
+  --text-h1: var(--weight-bold) 1.25rem / 1.4375rem var(--font);
+  --text-h1-desktop: var(--weight-bold) 1.5rem / 1.75rem var(--font);
+  --text-h2: var(--weight-bold) 1.125rem / 1.3125rem var(--font);
+  --text-body-small: var(--weight-regular) 0.875rem / 1.625rem var(--font);
+  --text-body-regular: var(--weight-regular) 1rem / 1.625rem var(--font);
+  --text-guarantee: var(--weight-bold) 0.9375rem / 1.25rem var(--font);
+  --text-guarantee-desktop: var(--weight-bold) 1.125rem / 1.3125rem var(--font);
+  --text-price: var(--weight-bold) 2rem / 2.3125rem var(--font);
+  --text-button: var(--weight-bold) 1rem / 1.1875rem var(--font);
+
+  /* from tailwind */
+  --transition: cubic-bezier(0.4, 0, 0.2, 1) 150ms;
+}
