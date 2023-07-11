@@ -81,6 +81,10 @@ ul {
   letter-spacing: var(--tracking-guarantee);
 }
 
+.guarantee strong {
+  font-weight: inherit;
+}
+
 .price {
   font: var(--text-price);
   letter-spacing: var(--tracking-price);
