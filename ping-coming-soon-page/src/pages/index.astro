@@ -99,7 +99,7 @@ if (Astro.request.method === "POST") {
         </div>
       </div>
     </main>
-    <footer class="[ center ] [ mt-32 tablet:mt-20 ]">
+    <footer class="[ center ] [ mt-20 ]">
       <ul class="flex flex-wrap justify-center gap-3" role="list">
         {
           [
@@ -204,6 +204,7 @@ if (Astro.request.method === "POST") {
 
   input {
     font: var(--text-input);
+    min-width: 12.5rem;
     border: 1px solid var(--color-pale-blue);
     border-radius: 9999px;
     padding: 0.5625rem 1.9375rem;
@@ -295,7 +296,7 @@ if (Astro.request.method === "POST") {
     box-sizing: content-box;
     max-inline-size: 40rem;
     margin-inline: auto;
-    padding-inline: 1.75rem;
+    padding-inline: 3rem;
   }
 
   @screen tablet {
@@ -361,6 +362,10 @@ if (Astro.request.method === "POST") {
 
     .form > button {
       grid-area: button;
+    }
+
+    .dashboard {
+      max-width: 100%;
     }
   }
 
