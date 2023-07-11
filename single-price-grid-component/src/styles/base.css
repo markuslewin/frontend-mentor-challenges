@@ -1,6 +1,7 @@
 body {
   font: var(--text-body-small);
   letter-spacing: var(--tracking-body-small);
+  background: var(--color-light-gray);
 }
 
 h1 {
@@ -31,17 +32,34 @@ ul {
 }
 
 .card {
-  border-radius: 0.3125rem;
+  --card-radius: 0.3125rem;
+
+  border-radius: var(--card-radius);
+  box-shadow: 0 0.9375rem 1.875rem hsl(212 100% 33% / 15%);
 }
 
 .intro {
+  border-top-left-radius: var(--card-radius);
+  border-top-right-radius: var(--card-radius);
   padding: 1.75rem 1.5rem 2rem;
+  background: var(--color-white);
+  color: var(--color-grayish-blue);
+}
+
+.intro h1 {
+  color: var(--color-cyan);
+}
+
+.intro .guarantee {
+  color: var(--color-bright-yellow);
 }
 
 .sign-up {
   font: var(--text-body-regular);
   letter-spacing: var(--tracking-body-regular);
   padding: 1.5rem;
+  background: var(--color-cyan);
+  color: var(--color-white);
 }
 
 .sign-up .button {
@@ -51,7 +69,11 @@ ul {
 .why-us {
   font: var(--text-why-us);
   letter-spacing: var(--tracking-why-us);
+  border-bottom-left-radius: var(--card-radius);
+  border-bottom-right-radius: var(--card-radius);
   padding: 1.5rem;
+  background: var(--color-light-cyan);
+  color: var(--color-white);
 }
 
 .guarantee {
@@ -68,9 +90,12 @@ ul {
   font: var(--text-button);
   letter-spacing: var(--tracking-button);
   text-align: center;
+  text-decoration: none;
   display: inline-block;
   border-radius: 0.3125rem;
   padding: 0.9375rem 1rem 0.875rem;
+  background: var(--color-bright-yellow);
+  color: var(--color-white);
 }
 
 @media (forced-colors: active) {
@@ -114,7 +139,7 @@ ul {
   }
 
   .card {
-    border-radius: 0.5rem;
+    --card-radius: 0.5rem;
   }
 
   .intro {
@@ -139,5 +164,13 @@ ul {
   .switcher {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
+  }
+
+  .sign-up {
+    border-bottom-left-radius: var(--card-radius);
+  }
+
+  .why-us {
+    border-bottom-left-radius: 0;
   }
 }
