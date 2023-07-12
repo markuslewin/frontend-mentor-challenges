@@ -1,6 +1,11 @@
 body {
   font: var(--text-body);
   letter-spacing: var(--tracking-body);
+  text-align: center;
+  display: grid;
+  grid-template-columns: minmax(auto, 69.375rem);
+  place-content: center;
+  padding: 5.125rem 1.5rem 6.1875rem;
 }
 
 h1 {
@@ -13,19 +18,83 @@ blockquote {
   letter-spacing: var(--tracking-quote);
 }
 
+ul {
+  margin: 0;
+  padding: 0;
+}
+
 .reviews {
   font: var(--text-widget);
   letter-spacing: normal;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 2.5rem;
 }
 
 .testimonials {
   font: var(--text-widget);
   letter-spacing: normal;
+  text-align: start;
+}
+
+.review {
+  display: grid;
+  justify-items: center;
+  gap: 1rem;
+  border-radius: 0.5rem;
+  padding: 1rem 1.5rem;
+}
+
+.stars {
+  display: flex;
+  gap: 0.5rem;
 }
 
 @screen tablet {
   h1 {
     font: var(--text-heading-desktop);
     letter-spacing: var(--tracking-heading-desktop);
+  }
+}
+
+@screen desktop {
+  body {
+    text-align: start;
+  }
+
+  .hero {
+    display: grid;
+    grid-template-columns: minmax(auto, 27.8125rem) minmax(auto, 33.75rem);
+    justify-content: space-between;
+    gap: 1.5rem;
+  }
+
+  .reviews {
+    margin-top: 1.75rem;
+    align-items: center;
+  }
+
+  .review {
+    grid-template-columns: auto auto;
+    justify-content: start;
+    align-items: center;
+    gap: 2rem;
+    min-width: min(27.8125rem, 100%);
+    padding: 1.25rem 2rem;
+  }
+
+  .review:first-child {
+    align-self: start;
+  }
+
+  .review:last-child {
+    align-self: end;
+  }
+}
+
+@media (forced-colors: active) {
+  .review {
+    border: 2px solid;
   }
 }
