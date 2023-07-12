@@ -1,0 +1,26 @@
+:root {
+  /* primary */
+  --color-very-dark-magenta: hsl(300 43% 22%);
+  --color-soft-pink: hsl(333 80% 67%);
+  /* neutral */
+  --color-dark-grayish-magenta: hsl(303 10% 53%);
+  --color-light-grayish-magenta: hsl(300 24% 96%);
+  --color-white: hsl(0 0% 100%);
+
+  --weight-regular: 400;
+  --weight-medium: 400;
+  --weight-bold: 400;
+
+  --font: "League Spartan Variable", sans-serif;
+
+  --tracking-heading: -0.089375rem;
+  --tracking-heading-desktop: -0.125rem;
+  --tracking-body: -0.039375rem;
+  --tracking-quote: -0.01875rem;
+
+  --text-heading: var(--weight-bold) 2.5rem / 2rem var(--font);
+  --text-heading-desktop: var(--weight-bold) 3.5rem / 3rem var(--font);
+  --text-body: var(--weight-medium) 1.1875rem / 1.5625rem var(--font);
+  --text-widget: var(--weight-bold) 1.0625rem / 1rem var(--font);
+  --text-quote: var(--weight-medium) 1.0625rem / 1.375rem var(--font);
+}
