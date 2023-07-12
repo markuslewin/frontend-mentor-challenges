@@ -1,0 +1,31 @@
+body {
+  font: var(--text-body);
+  letter-spacing: var(--tracking-body);
+}
+
+h1 {
+  font: var(--text-heading);
+  letter-spacing: var(--tracking-heading);
+}
+
+blockquote {
+  font: var(--text-quote);
+  letter-spacing: var(--tracking-quote);
+}
+
+.reviews {
+  font: var(--text-widget);
+  letter-spacing: normal;
+}
+
+.testimonials {
+  font: var(--text-widget);
+  letter-spacing: normal;
+}
+
+@screen tablet {
+  h1 {
+    font: var(--text-heading-desktop);
+    letter-spacing: var(--tracking-heading-desktop);
+  }
+}
