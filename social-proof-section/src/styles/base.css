@@ -6,7 +6,9 @@ body {
   grid-template-columns: minmax(auto, 69.375rem);
   place-content: center;
   padding: 5.125rem 1.5rem 6.1875rem;
-  background: var(--color-white);
+  background: url("/images/bg-pattern-top-mobile.svg") top left / 100% no-repeat,
+    url("/images/bg-pattern-bottom-mobile.svg") bottom right / 100% no-repeat,
+    var(--color-white);
   color: var(--color-dark-grayish-magenta);
 }
 
@@ -85,6 +87,13 @@ strong {
 }
 
 @screen tablet {
+  body {
+    background: url("/images/bg-pattern-top-desktop.svg") top left / 40%
+        no-repeat,
+      url("/images/bg-pattern-bottom-desktop.svg") bottom right / 75% no-repeat,
+      var(--color-white);
+  }
+
   h1 {
     font: var(--text-heading-desktop);
     letter-spacing: var(--tracking-heading-desktop);
