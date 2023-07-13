@@ -80,13 +80,20 @@ import "../styles/global.css";
             },
           ].map((testimonial) => {
             return (
-              <li>
+              <li class="testimonial">
                 <figure>
-                  <figcaption>
-                    <img alt={testimonial.name} src={testimonial.avatar} />{" "}
-                    {testimonial.name}, Verified Buyer
+                  <figcaption class="flex gap-6">
+                    <img
+                      class="avatar"
+                      alt={testimonial.name}
+                      src={testimonial.avatar}
+                    />
+                    <p class="flex flex-col gap-1">
+                      <strong>{testimonial.name}</strong>
+                      <span class="sr-only">, </span>Verified Buyer
+                    </p>
                   </figcaption>
-                  <blockquote>
+                  <blockquote class="mt-8">
                     <p>{testimonial.quote}</p>
                   </blockquote>
                 </figure>

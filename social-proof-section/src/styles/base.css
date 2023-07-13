@@ -23,6 +23,10 @@ ul {
   padding: 0;
 }
 
+strong {
+  font-weight: var(--weight-bold);
+}
+
 .reviews {
   font: var(--text-widget);
   letter-spacing: normal;
@@ -33,9 +37,12 @@ ul {
 }
 
 .testimonials {
-  font: var(--text-widget);
+  font: var(--text-testimonial);
   letter-spacing: normal;
   text-align: start;
+  display: grid;
+  gap: 1rem;
+  margin-top: 3rem;
 }
 
 .review {
@@ -46,15 +53,30 @@ ul {
   padding: 1rem 1.5rem;
 }
 
+.testimonial {
+  border-radius: 0.5rem;
+  padding: 2.5rem 2rem 2.25rem;
+}
+
 .stars {
   display: flex;
   gap: 0.5rem;
+}
+
+.avatar {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
 }
 
 @screen tablet {
   h1 {
     font: var(--text-heading-desktop);
     letter-spacing: var(--tracking-heading-desktop);
+  }
+
+  .testimonials {
+    margin-top: 4.5rem;
   }
 }
 
@@ -91,10 +113,37 @@ ul {
   .review:last-child {
     align-self: end;
   }
+
+  .testimonials {
+    grid-template-areas:
+      "a . ."
+      "a b ."
+      "a b c"
+      ". b c"
+      ". . c";
+    grid-template-rows: 1rem 1rem 1fr 1rem 1rem;
+    gap: 0 2rem;
+  }
+
+  .testimonials > :nth-child(1) {
+    grid-area: a;
+  }
+
+  .testimonials > :nth-child(2) {
+    grid-area: b;
+  }
+
+  .testimonials > :nth-child(3) {
+    grid-area: c;
+  }
 }
 
 @media (forced-colors: active) {
   .review {
+    border: 2px solid;
+  }
+
+  .testimonial {
     border: 2px solid;
   }
 }
