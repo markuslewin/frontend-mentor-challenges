@@ -6,11 +6,14 @@ body {
   grid-template-columns: minmax(auto, 69.375rem);
   place-content: center;
   padding: 5.125rem 1.5rem 6.1875rem;
+  background: var(--color-white);
+  color: var(--color-dark-grayish-magenta);
 }
 
 h1 {
   font: var(--text-heading);
   letter-spacing: var(--tracking-heading);
+  color: var(--color-very-dark-magenta);
 }
 
 blockquote {
@@ -51,11 +54,23 @@ strong {
   gap: 1rem;
   border-radius: 0.5rem;
   padding: 1rem 1.5rem;
+  background: var(--color-light-grayish-magenta);
+  color: var(--color-very-dark-magenta);
 }
 
 .testimonial {
   border-radius: 0.5rem;
   padding: 2.5rem 2rem 2.25rem;
+  background: var(--color-very-dark-magenta);
+  color: var(--color-soft-pink);
+}
+
+.testimonial strong {
+  color: var(--color-white);
+}
+
+.testimonial blockquote {
+  color: var(--color-white);
 }
 
 .stars {
