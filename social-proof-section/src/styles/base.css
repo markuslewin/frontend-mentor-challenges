@@ -97,6 +97,7 @@ strong {
         no-repeat,
       url("/images/bg-pattern-bottom-desktop.svg") bottom right / 75% no-repeat,
       var(--color-white);
+    padding-top: 7.375rem;
   }
 
   h1 {
@@ -150,8 +151,9 @@ strong {
       "a b c"
       ". b c"
       ". . c";
+    grid-template-columns: repeat(3, 1fr);
     grid-template-rows: 1rem 1rem 1fr 1rem 1rem;
-    gap: 0 2rem;
+    gap: 0 1.875rem;
   }
 
   .testimonials > :nth-child(1) {
