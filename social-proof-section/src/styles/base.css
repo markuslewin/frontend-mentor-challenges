@@ -80,6 +80,11 @@ strong {
   gap: 0.5rem;
 }
 
+.star {
+  height: 1rem;
+  width: auto;
+}
+
 .avatar {
   width: 2.5rem;
   height: 2.5rem;

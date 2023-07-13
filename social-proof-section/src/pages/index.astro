@@ -41,7 +41,15 @@ import "../styles/global.css";
                       {Array(5)
                         .fill(null)
                         .map(() => {
-                          return <img alt="" src="/images/icon-star.svg" />;
+                          return (
+                            <img
+                              class="star"
+                              alt=""
+                              src="/images/icon-star.svg"
+                              width="17"
+                              height="16"
+                            />
+                          );
                         })}{" "}
                     </div>
                     {review}
@@ -87,6 +95,8 @@ import "../styles/global.css";
                       class="avatar"
                       alt={testimonial.name}
                       src={testimonial.avatar}
+                      width="80"
+                      height="80"
                     />
                     <p class="flex flex-col gap-1">
                       <strong>{testimonial.name}</strong>
