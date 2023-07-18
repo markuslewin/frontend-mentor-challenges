@@ -1,0 +1,20 @@
+:root {
+  --color-very-dark-grayish-blue: hsl(217 19% 35%);
+  --color-desaturated-dark-blue: hsl(214 17% 51%);
+  --color-grayish-blue: hsl(212 23% 69%);
+  --color-light-grayish-blue: hsl(210 46% 95%);
+
+  --weight-medium: 500;
+  --weight-bold: 700;
+
+  --font: "Manrope Variable", sans-serif;
+
+  --text-heading: var(--weight-bold) 1rem / 1.5rem var(--font);
+  --text-heading-desktop: var(--weight-bold) 1.25rem / 1.75rem var(--font);
+  --text-body: var(--weight-medium) 0.8125rem / 1.25rem var(--font);
+
+  --tracking-heading: 0.125rem;
+  --tracking-heading-desktop: 0.015625rem;
+  --tracking-body: 0.0075rem;
+  --tracking-share: 0.3125rem;
+}
