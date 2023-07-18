@@ -13,5 +13,8 @@
     "@astrojs/tailwind": "^4.0.0",
     "astro": "^2.8.4",
     "tailwindcss": "^3.3.3"
+  },
+  "devDependencies": {
+    "modern-css-reset": "^1.4.0"
   }
 }
