@@ -13,7 +13,7 @@
   --text-heading-desktop: var(--weight-bold) 1.25rem / 1.75rem var(--font);
   --text-body: var(--weight-medium) 0.8125rem / 1.25rem var(--font);
 
-  --tracking-heading: 0.125rem;
+  --tracking-heading: 0.0125rem;
   --tracking-heading-desktop: 0.015625rem;
   --tracking-body: 0.0075rem;
   --tracking-share: 0.3125rem;

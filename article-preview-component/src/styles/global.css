@@ -2,4 +2,6 @@
 @import "fonts";
 @import "variables";
 
+@import "base";
+
 @tailwind utilities;
