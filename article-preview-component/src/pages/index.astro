@@ -17,60 +17,87 @@ import "../styles/global.css";
   </head>
   <body>
     <main>
-      <article>
+      <article class="card">
         <img alt="" src="/images/drawers.jpg" />
-        <h1>
-          Shift the overall look and feel by adding these wonderful touches to
-          furniture in your home
-        </h1>
-        <p>
-          Ever been in a room and felt like something was missing? Perhaps it
-          felt slightly bare and uninviting. I’ve got some simple tips to help
-          you make any room feel complete.
-        </p>
-        <footer>
-          <img alt="michelle" src="/images/avatar-michelle.jpg" />
-          <p><strong>Michelle Appleton</strong></p>
-          <p>28 Jun 2020</p>
-          <p id="share-desc" class="share">Share</p>
-          <ul aria-describedby="share-desc">
-            {
-              [
-                {
-                  name: "facebook",
-                  image: "/images/icon-facebook.svg",
-                  width: 20,
-                  height: 20,
-                },
-                {
-                  name: "twitter",
-                  image: "/images/icon-twitter.svg",
-                  width: 20,
-                  height: 17,
-                },
-                {
-                  name: "pinterest",
-                  image: "/images/icon-pinterest.svg",
-                  width: 20,
-                  height: 20,
-                },
-              ].map((site) => {
-                return (
-                  <li>
-                    <a href="#">
-                      <img
-                        alt={site.name}
-                        src={site.image}
-                        width={site.width}
-                        height={site.height}
-                      />
-                    </a>
-                  </li>
-                );
-              })
-            }
-          </ul>
-        </footer>
+        <div>
+          <div class="p-8 pt-9 pb-0">
+            <h1>
+              Shift the overall look and feel by adding these wonderful touches
+              to furniture in your home
+            </h1>
+            <p class="mt-3">
+              Ever been in a room and felt like something was missing? Perhaps
+              it felt slightly bare and uninviting. I’ve got some simple tips to
+              help you make any room feel complete.
+            </p>
+          </div>
+          <footer class="mt-5">
+            <div
+              class="flex flex-wrap justify-between items-center gap-4 px-8 pt-3 pb-5"
+            >
+              <div class="flex gap-4">
+                <img
+                  class="rounded-full w-10 h-10"
+                  alt="michelle"
+                  src="/images/avatar-michelle.jpg"
+                />
+                <div>
+                  <p><strong>Michelle Appleton</strong></p>
+                  <p>28 Jun 2020</p>
+                </div>
+              </div>
+            </div>
+            <div
+              class="flex flex-wrap justify-between items-center gap-4 px-8 py-4"
+            >
+              <div class="flex flex-wrap items-center gap-5">
+                <p id="share-desc" class="share">Share</p>
+                <ul
+                  class="flex items-center gap-4"
+                  role="list"
+                  aria-describedby="share-desc"
+                >
+                  {
+                    [
+                      {
+                        name: "facebook",
+                        image: "/images/icon-facebook.svg",
+                        width: 20,
+                        height: 20,
+                      },
+                      {
+                        name: "twitter",
+                        image: "/images/icon-twitter.svg",
+                        width: 20,
+                        height: 17,
+                      },
+                      {
+                        name: "pinterest",
+                        image: "/images/icon-pinterest.svg",
+                        width: 20,
+                        height: 20,
+                      },
+                    ].map((site) => {
+                      return (
+                        <li>
+                          <a href="#">
+                            <img
+                              class="w-5"
+                              alt={site.name}
+                              src={site.image}
+                              width={site.width}
+                              height={site.height}
+                            />
+                          </a>
+                        </li>
+                      );
+                    })
+                  }
+                </ul>
+              </div>
+            </div>
+          </footer>
+        </div>
       </article>
     </main>
   </body>

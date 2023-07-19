@@ -1,11 +1,43 @@
 body {
   font: var(--text-body);
   letter-spacing: var(--tracking-body);
+  padding: 1.5rem;
+}
+
+main {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: minmax(auto, 45.625rem);
+  place-content: center;
 }
 
 h1 {
   font: var(--text-heading);
   letter-spacing: var(--tracking-heading);
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+}
+
+strong {
+  font-weight: var(--weight-bold);
+}
+
+.card {
+  --card-radius: 0.625rem;
+
+  display: grid;
+  grid-template-rows: 12.5rem auto;
+  border-radius: var(--card-radius);
+}
+
+.card > img:first-child {
+  width: 100%;
+  height: 100%;
+  border-radius: var(--card-radius) var(--card-radius) 0 0;
+  object-fit: cover;
 }
 
 .share {
@@ -17,5 +49,20 @@ h1 {
   h1 {
     font: var(--text-heading-desktop);
     letter-spacing: var(--tracking-heading-desktop);
+  }
+
+  .card {
+    grid-template-columns: 17.8125rem 1fr;
+    grid-template-rows: none;
+  }
+
+  .card > img:first-child {
+    border-radius: var(--card-radius) 0 0 var(--card-radius);
+  }
+}
+
+@media (forced-colors: active) {
+  .card {
+    border: 2px solid;
   }
 }
