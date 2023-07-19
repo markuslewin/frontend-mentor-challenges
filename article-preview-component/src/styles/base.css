@@ -2,6 +2,7 @@ body {
   font: var(--text-body);
   letter-spacing: var(--tracking-body);
   padding: 1.5rem;
+  background: var(--color-light-grayish-blue);
 }
 
 main {
@@ -31,6 +32,18 @@ strong {
   display: grid;
   grid-template-rows: 12.5rem auto;
   border-radius: var(--card-radius);
+  background: var(--color-white);
+  color: var(--color-desaturated-dark-blue);
+  box-shadow: 0 2.5rem 2.5rem -0.625rem hsl(210 29% 84% / 50%);
+}
+
+.card h1,
+.card strong {
+  color: var(--color-very-dark-grayish-blue);
+}
+
+.card footer {
+  color: var(--color-grayish-blue);
 }
 
 .card > img:first-child {
@@ -43,6 +56,9 @@ strong {
 .share {
   letter-spacing: var(--tracking-share);
   text-transform: uppercase;
+  border-radius: 0 0 var(--card-radius) var(--card-radius);
+  background: var(--color-very-dark-grayish-blue);
+  color: var(--color-grayish-blue);
 }
 
 @screen tablet {
@@ -58,6 +74,10 @@ strong {
 
   .card > img:first-child {
     border-radius: var(--card-radius) 0 0 var(--card-radius);
+  }
+
+  .share {
+    border-radius: 0 0 var(--card-radius) 0;
   }
 }
 

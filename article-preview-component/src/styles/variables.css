@@ -3,6 +3,7 @@
   --color-desaturated-dark-blue: hsl(214 17% 51%);
   --color-grayish-blue: hsl(212 23% 69%);
   --color-light-grayish-blue: hsl(210 46% 95%);
+  --color-white: hsl(0 0% 100%);
 
   --weight-medium: 500;
   --weight-bold: 700;
