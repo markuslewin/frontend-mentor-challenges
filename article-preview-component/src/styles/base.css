@@ -1,7 +1,6 @@
 body {
   font: var(--text-body);
   letter-spacing: var(--tracking-body);
-  padding: 1.5rem;
   background: var(--color-light-grayish-blue);
 }
 
@@ -10,6 +9,7 @@ main {
   display: grid;
   grid-template-columns: minmax(auto, 45.625rem);
   place-content: center;
+  padding: 1.5rem;
 }
 
 h1 {
@@ -53,12 +53,44 @@ strong {
   object-fit: cover;
 }
 
-.share {
+[data-share-popover] {
+  --popover-color: var(--color-very-dark-grayish-blue);
+
   letter-spacing: var(--tracking-share);
   text-transform: uppercase;
   border-radius: 0 0 var(--card-radius) var(--card-radius);
-  background: var(--color-very-dark-grayish-blue);
+  background: var(--popover-color);
   color: var(--color-grayish-blue);
+}
+
+[data-share-button] {
+  background: var(--color-light-grayish-blue);
+}
+
+[data-share-widget][data-expanded] {
+  position: relative;
+}
+
+[data-share-widget][data-expanded] [data-share-popover] {
+  visibility: hidden;
+  position: absolute;
+  inset: 0;
+}
+
+[data-share-widget][data-expanded="true"] > :first-child {
+  padding-bottom: 0.75rem;
+}
+
+[data-share-widget][data-expanded="true"] [data-share-popover] {
+  visibility: visible;
+}
+
+[data-share-widget][data-expanded="true"] [data-share-button] {
+  background: var(--color-desaturated-dark-blue);
+}
+
+[data-share-widget][data-expanded="true"] [data-share-button] svg * {
+  fill: var(--color-white);
 }
 
 @screen tablet {
@@ -76,7 +108,33 @@ strong {
     border-radius: var(--card-radius) 0 0 var(--card-radius);
   }
 
-  .share {
+  [data-share-widget][data-expanded] [data-share-popover] {
+    border-radius: 0.625rem;
+    inset: auto 3rem 0 auto;
+    padding: 1.125rem 2.25rem;
+    transform: translate(50%, calc(-100% - 1.75rem));
+  }
+
+  [data-share-widget][data-expanded] [data-share-popover]::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translate(-50%, calc(100% - 1px));
+    border: 0.75rem solid transparent;
+    border-top-color: var(--popover-color);
+    border-bottom: 0;
+  }
+
+  [data-share-widget][data-expanded="true"] > :first-child {
+    padding-bottom: 1.25rem;
+  }
+
+  [data-share-widget][data-expanded="true"] [data-share-popover] {
+    visibility: visible;
+  }
+
+  [data-share-popover] {
     border-radius: 0 0 var(--card-radius) 0;
   }
 }

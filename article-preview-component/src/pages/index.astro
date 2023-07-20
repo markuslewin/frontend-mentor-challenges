@@ -1,5 +1,6 @@
 ---
 import "../styles/global.css";
+import ShareIcon from "../components/icon-share.html";
 ---
 
 <html lang="en">
@@ -31,10 +32,8 @@ import "../styles/global.css";
               help you make any room feel complete.
             </p>
           </div>
-          <footer class="mt-5">
-            <div
-              class="flex flex-wrap justify-between items-center gap-4 px-8 pt-3 pb-5"
-            >
+          <footer class="mt-5" data-share-widget>
+            <div class="flex justify-between items-center gap-4 px-8 pt-3 pb-5">
               <div class="flex gap-4">
                 <img
                   class="rounded-full w-10 h-10"
@@ -46,59 +45,105 @@ import "../styles/global.css";
                   <p>28 Jun 2020</p>
                 </div>
               </div>
+              <div data-share-button-container></div>
             </div>
             <div
-              class="[ share ] [ flex flex-wrap justify-between items-center gap-4 px-8 py-4 ]"
+              class="flex items-center gap-5 py-4 pr-20 pl-8"
+              data-share-popover
             >
-              <div class="flex flex-wrap items-center gap-5">
-                <p id="share-desc">Share</p>
-                <ul
-                  class="flex items-center gap-4"
-                  role="list"
-                  aria-describedby="share-desc"
-                >
-                  {
-                    [
-                      {
-                        name: "facebook",
-                        image: "/images/icon-facebook.svg",
-                        width: 20,
-                        height: 20,
-                      },
-                      {
-                        name: "twitter",
-                        image: "/images/icon-twitter.svg",
-                        width: 20,
-                        height: 17,
-                      },
-                      {
-                        name: "pinterest",
-                        image: "/images/icon-pinterest.svg",
-                        width: 20,
-                        height: 20,
-                      },
-                    ].map((site) => {
-                      return (
-                        <li>
-                          <a href="#">
-                            <img
-                              class="w-5 h-auto"
-                              alt={site.name}
-                              src={site.image}
-                              width={site.width}
-                              height={site.height}
-                            />
-                          </a>
-                        </li>
-                      );
-                    })
-                  }
-                </ul>
-              </div>
+              <p id="share-desc">Share</p>
+              <ul
+                class="flex items-center gap-4"
+                role="list"
+                aria-describedby="share-desc"
+              >
+                {
+                  [
+                    {
+                      name: "facebook",
+                      image: "/images/icon-facebook.svg",
+                      width: 20,
+                      height: 20,
+                    },
+                    {
+                      name: "twitter",
+                      image: "/images/icon-twitter.svg",
+                      width: 20,
+                      height: 17,
+                    },
+                    {
+                      name: "pinterest",
+                      image: "/images/icon-pinterest.svg",
+                      width: 20,
+                      height: 20,
+                    },
+                  ].map((site) => {
+                    return (
+                      <li>
+                        <a href="#">
+                          <img
+                            class="w-5 h-auto"
+                            alt={site.name}
+                            src={site.image}
+                            width={site.width}
+                            height={site.height}
+                          />
+                        </a>
+                      </li>
+                    );
+                  })
+                }
+              </ul>
             </div>
           </footer>
         </div>
       </article>
     </main>
   </body>
+  <template id="share-button">
+    <button
+      class="inline-grid place-content-center w-8 h-8 border-none rounded-full relative z-10"
+      data-share-button><ShareIcon /><span class="sr-only">share</span></button
+    >
+  </template>
 </html>
+
+<script>
+  (() => {
+    const template = document.getElementById(
+      "share-button"
+    ) as HTMLTemplateElement;
+    const node = template.content.firstElementChild!.cloneNode(true);
+    document.querySelector("[data-share-button-container]")!.append(node);
+
+    const widget = document.querySelector("[data-share-widget]") as HTMLElement;
+    const button = document.querySelector(
+      "[data-share-button]"
+    ) as HTMLButtonElement;
+
+    const setExpanded = (expanded: boolean) => {
+      const value = expanded.toString();
+
+      widget.dataset.expanded = value;
+      button.setAttribute("aria-expanded", value);
+    };
+
+    button.addEventListener("click", () => {
+      const expanded = button.getAttribute("aria-expanded") === "true";
+      setExpanded(!expanded);
+    });
+
+    // widget.addEventListener("focusout", (e) => {
+    //   if (!(e.relatedTarget instanceof Node)) {
+    //     setExpanded(false);
+    //     return;
+    //   }
+    //   if (!widget.contains(e.relatedTarget)) {
+    //     setExpanded(false);
+    //     return;
+    //   }
+    // });
+
+    setExpanded(false);
+  })();
+</script>
