@@ -109,21 +109,10 @@ strong {
   }
 
   [data-share-widget][data-expanded] [data-share-popover] {
+    inset: revert;
+    width: max-content;
     border-radius: 0.625rem;
-    inset: auto 3rem 0 auto;
     padding: 1.125rem 2.25rem;
-    transform: translate(50%, calc(-100% - 1.75rem));
-  }
-
-  [data-share-widget][data-expanded] [data-share-popover]::after {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translate(-50%, calc(100% - 1px));
-    border: 0.75rem solid transparent;
-    border-top-color: var(--popover-color);
-    border-bottom: 0;
   }
 
   [data-share-widget][data-expanded="true"] > :first-child {

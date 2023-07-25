@@ -109,41 +109,57 @@ import ShareIcon from "../components/icon-share.html";
 </html>
 
 <script>
-  (() => {
-    const template = document.getElementById(
-      "share-button"
-    ) as HTMLTemplateElement;
-    const node = template.content.firstElementChild!.cloneNode(true);
-    document.querySelector("[data-share-button-container]")!.append(node);
+  import { computePosition, autoUpdate, shift } from "@floating-ui/dom";
 
-    const widget = document.querySelector("[data-share-widget]") as HTMLElement;
-    const button = document.querySelector(
-      "[data-share-button]"
-    ) as HTMLButtonElement;
+  const template = document.getElementById(
+    "share-button"
+  ) as HTMLTemplateElement;
+  const node = template.content.firstElementChild!.cloneNode(true);
+  document.querySelector("[data-share-button-container]")!.append(node);
 
-    const setExpanded = (expanded: boolean) => {
-      const value = expanded.toString();
+  const widget = document.querySelector("[data-share-widget]") as HTMLElement;
+  const button = document.querySelector(
+    "[data-share-button]"
+  ) as HTMLButtonElement;
+  const popover = document.querySelector("[data-share-popover]") as HTMLElement;
 
-      widget.dataset.expanded = value;
-      button.setAttribute("aria-expanded", value);
-    };
+  const setExpanded = (expanded: boolean) => {
+    const value = expanded.toString();
 
-    button.addEventListener("click", () => {
-      const expanded = button.getAttribute("aria-expanded") === "true";
-      setExpanded(!expanded);
+    widget.dataset.expanded = value;
+    button.setAttribute("aria-expanded", value);
+  };
+
+  button.addEventListener("click", () => {
+    const expanded = button.getAttribute("aria-expanded") === "true";
+    setExpanded(!expanded);
+  });
+
+  // widget.addEventListener("focusout", (e) => {
+  //   if (!(e.relatedTarget instanceof Node)) {
+  //     setExpanded(false);
+  //     return;
+  //   }
+  //   if (!widget.contains(e.relatedTarget)) {
+  //     setExpanded(false);
+  //     return;
+  //   }
+  // });
+
+  setExpanded(false);
+
+  function updatePosition() {
+    computePosition(button, popover, {
+      placement: "top",
+      middleware: [shift()],
+    }).then(({ x, y }) => {
+      Object.assign(popover.style, {
+        left: `${x}px`,
+        top: `${y}px`,
+      });
     });
+  }
 
-    // widget.addEventListener("focusout", (e) => {
-    //   if (!(e.relatedTarget instanceof Node)) {
-    //     setExpanded(false);
-    //     return;
-    //   }
-    //   if (!widget.contains(e.relatedTarget)) {
-    //     setExpanded(false);
-    //     return;
-    //   }
-    // });
-
-    setExpanded(false);
-  })();
+  const cleanup = autoUpdate(button, popover, updatePosition);
+  // todo: cleanup()
 </script>
