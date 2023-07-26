@@ -109,9 +109,10 @@ import ShareIcon from "../components/icon-share.html";
 </html>
 
 <script>
-  import { computePosition, autoUpdate, shift } from "@floating-ui/dom";
+  import { computePosition, shift } from "@floating-ui/dom";
   import { screens } from "../utils/screens";
   import { useMediaQuery } from "../utils/media-queries";
+  import { myAutoUpdate } from "../utils/floating";
 
   const template = document.getElementById(
     "share-button"
@@ -126,6 +127,18 @@ import ShareIcon from "../components/icon-share.html";
   const popover = document.querySelector("[data-share-popover]") as HTMLElement;
 
   const tabletMq = matchMedia(`(min-width: ${screens.tablet})`);
+
+  const updatePosition = () => {
+    computePosition(button, popover, {
+      placement: "top",
+      middleware: [shift()],
+    }).then(({ x, y }) => {
+      Object.assign(popover.style, {
+        left: `${x}px`,
+        top: `${y}px`,
+      });
+    });
+  };
 
   let cleanup: (() => void) | undefined;
   const tabletChange = useMediaQuery(tabletMq, (matches) => {
@@ -164,27 +177,4 @@ import ShareIcon from "../components/icon-share.html";
   // });
 
   setExpanded(false);
-
-  function updatePosition() {
-    computePosition(button, popover, {
-      placement: "top",
-      middleware: [shift()],
-    }).then(({ x, y }) => {
-      Object.assign(popover.style, {
-        left: `${x}px`,
-        top: `${y}px`,
-      });
-    });
-  }
-
-  const myAutoUpdate: typeof autoUpdate = (reference, floating, ...args) => {
-    const cleanup = autoUpdate(reference, floating, ...args);
-    return () => {
-      cleanup();
-      Object.assign(floating.style, {
-        left: null,
-        top: null,
-      });
-    };
-  };
 </script>
