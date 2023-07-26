@@ -110,7 +110,7 @@ import ShareIcon from "../components/icon-share.html";
 </html>
 
 <script>
-  import { computePosition, shift, arrow, offset } from "@floating-ui/dom";
+  import { computePosition, shift, arrow } from "@floating-ui/dom";
   import { screens } from "../utils/screens";
   import { useMediaQuery } from "../utils/media-queries";
   import { myAutoUpdate } from "../utils/floating";
@@ -135,18 +135,18 @@ import ShareIcon from "../components/icon-share.html";
   const updatePosition = () => {
     computePosition(button, popover, {
       placement: "top",
-      middleware: [shift(), offset(28), arrow({ element: arrowEl })],
+      middleware: [shift(), arrow({ element: arrowEl })],
     }).then(({ x, y, middlewareData }) => {
       Object.assign(popover.style, {
         left: `${x}px`,
-        top: `${y}px`,
+        top: `calc(${y}px - 1.75rem)`,
       });
 
       if (middlewareData.arrow) {
         const { x: arrowX, y: arrowY } = middlewareData.arrow;
         Object.assign(arrowEl.style, {
           left: arrowX != null ? `${arrowX}px` : "",
-          top: arrowY != null ? `${arrowY}px` : "",
+          top: arrowY != null ? `calc(${arrowY}px - 1.75rem)` : "",
         });
       }
     });
