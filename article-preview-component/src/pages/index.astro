@@ -111,6 +111,7 @@ import ShareIcon from "../components/icon-share.html";
 <script>
   import { computePosition, autoUpdate, shift } from "@floating-ui/dom";
   import { screens } from "../utils/screens";
+  import { useMediaQuery } from "../utils/media-queries";
 
   const template = document.getElementById(
     "share-button"
@@ -127,24 +128,21 @@ import ShareIcon from "../components/icon-share.html";
   const tabletMq = matchMedia(`(min-width: ${screens.tablet})`);
 
   let cleanup: (() => void) | undefined;
-  function handleTabletChange(e: MediaQueryListEvent) {
+  const tabletChange = useMediaQuery(tabletMq, (matches) => {
     cleanup?.();
-    if (e.matches) {
+    if (matches) {
       cleanup = myAutoUpdate(button, popover, updatePosition);
     }
-  }
+  });
 
   const setExpanded = (value: boolean) => {
     widget.dataset.expanded = value.toString();
     button.setAttribute("aria-expanded", value.toString());
 
     if (value) {
-      if (tabletMq.matches) {
-        cleanup = myAutoUpdate(button, popover, updatePosition);
-      }
-      tabletMq.addEventListener("change", handleTabletChange);
+      tabletChange.setup();
     } else {
-      tabletMq.removeEventListener("change", handleTabletChange);
+      tabletChange.cleanup();
       cleanup?.();
     }
   };
