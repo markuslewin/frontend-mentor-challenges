@@ -125,15 +125,12 @@ import ShareIcon from "../components/icon-share.html";
   const popover = document.querySelector("[data-share-popover]") as HTMLElement;
 
   const tabletMq = matchMedia(`(min-width: ${screens.tablet})`);
+
   let cleanup: (() => void) | undefined;
   function handleTabletChange(e: MediaQueryListEvent) {
     cleanup?.();
-    Object.assign(popover.style, {
-      left: null,
-      top: null,
-    });
     if (e.matches) {
-      cleanup = autoUpdate(button, popover, updatePosition);
+      cleanup = myAutoUpdate(button, popover, updatePosition);
     }
   }
 
@@ -141,19 +138,14 @@ import ShareIcon from "../components/icon-share.html";
     widget.dataset.expanded = value.toString();
     button.setAttribute("aria-expanded", value.toString());
 
-    if (tabletMq.matches && value) {
-      cleanup = autoUpdate(button, popover, updatePosition);
-    }
-
     if (value) {
+      if (tabletMq.matches) {
+        cleanup = myAutoUpdate(button, popover, updatePosition);
+      }
       tabletMq.addEventListener("change", handleTabletChange);
     } else {
       tabletMq.removeEventListener("change", handleTabletChange);
       cleanup?.();
-      Object.assign(popover.style, {
-        left: null,
-        top: null,
-      });
     }
   };
 
@@ -186,4 +178,15 @@ import ShareIcon from "../components/icon-share.html";
       });
     });
   }
+
+  const myAutoUpdate: typeof autoUpdate = (reference, floating, ...args) => {
+    const cleanup = autoUpdate(reference, floating, ...args);
+    return () => {
+      cleanup();
+      Object.assign(floating.style, {
+        left: null,
+        top: null,
+      });
+    };
+  };
 </script>
