@@ -94,6 +94,7 @@ import ShareIcon from "../components/icon-share.html";
                   })
                 }
               </ul>
+              <div data-share-popover-arrow></div>
             </div>
           </footer>
         </div>
@@ -109,7 +110,7 @@ import ShareIcon from "../components/icon-share.html";
 </html>
 
 <script>
-  import { computePosition, shift } from "@floating-ui/dom";
+  import { computePosition, shift, arrow, offset } from "@floating-ui/dom";
   import { screens } from "../utils/screens";
   import { useMediaQuery } from "../utils/media-queries";
   import { myAutoUpdate } from "../utils/floating";
@@ -125,18 +126,29 @@ import ShareIcon from "../components/icon-share.html";
     "[data-share-button]"
   ) as HTMLButtonElement;
   const popover = document.querySelector("[data-share-popover]") as HTMLElement;
+  const arrowEl = document.querySelector(
+    "[data-share-popover-arrow]"
+  ) as HTMLElement;
 
   const tabletMq = matchMedia(`(min-width: ${screens.tablet})`);
 
   const updatePosition = () => {
     computePosition(button, popover, {
       placement: "top",
-      middleware: [shift()],
-    }).then(({ x, y }) => {
+      middleware: [shift(), offset(28), arrow({ element: arrowEl })],
+    }).then(({ x, y, middlewareData }) => {
       Object.assign(popover.style, {
         left: `${x}px`,
         top: `${y}px`,
       });
+
+      if (middlewareData.arrow) {
+        const { x: arrowX, y: arrowY } = middlewareData.arrow;
+        Object.assign(arrowEl.style, {
+          left: arrowX != null ? `${arrowX}px` : "",
+          top: arrowY != null ? `${arrowY}px` : "",
+        });
+      }
     });
   };
 

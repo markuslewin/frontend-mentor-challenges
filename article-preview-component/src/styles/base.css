@@ -126,6 +126,17 @@ strong {
   [data-share-popover] {
     border-radius: 0 0 var(--card-radius) 0;
   }
+
+  [data-share-popover-arrow] {
+    --arrow-size: 1.0625rem;
+
+    position: absolute;
+    bottom: calc(-1 * var(--arrow-size) / 2);
+    width: var(--arrow-size);
+    height: var(--arrow-size);
+    transform: rotate(45deg);
+    background: var(--popover-color);
+  }
 }
 
 @media (forced-colors: active) {
