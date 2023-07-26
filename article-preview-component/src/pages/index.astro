@@ -110,6 +110,7 @@ import ShareIcon from "../components/icon-share.html";
 
 <script>
   import { computePosition, autoUpdate, shift } from "@floating-ui/dom";
+  import { screens } from "../utils/screens";
 
   const template = document.getElementById(
     "share-button"
@@ -148,6 +149,23 @@ import ShareIcon from "../components/icon-share.html";
 
   setExpanded(false);
 
+  const tabletMq = matchMedia(`(min-width: ${screens.tablet})`);
+
+  let cleanup: (() => void) | undefined;
+  if (tabletMq.matches) {
+    cleanup = autoUpdate(button, popover, updatePosition);
+  }
+  tabletMq.addEventListener("change", (e) => {
+    cleanup?.();
+    Object.assign(popover.style, {
+      left: null,
+      top: null,
+    });
+    if (e.matches) {
+      cleanup = autoUpdate(button, popover, updatePosition);
+    }
+  });
+
   function updatePosition() {
     computePosition(button, popover, {
       placement: "top",
@@ -159,7 +177,4 @@ import ShareIcon from "../components/icon-share.html";
       });
     });
   }
-
-  const cleanup = autoUpdate(button, popover, updatePosition);
-  // todo: cleanup()
 </script>
