@@ -125,6 +125,7 @@ strong {
 
   [data-share-popover] {
     border-radius: 0 0 var(--card-radius) 0;
+    filter: drop-shadow(0 0.625rem 0.625rem hsl(210 29% 84% / 50%));
   }
 
   [data-share-popover-arrow] {
