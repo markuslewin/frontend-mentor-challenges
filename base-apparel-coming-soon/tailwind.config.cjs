@@ -20,6 +20,9 @@ module.exports = {
     fontFamily: {
       josefin: "Josefin Sans Variable, sans-serif",
     },
+    lineHeight: {
+      "heading-strong-desktop": "4.4375rem",
+    },
     fontWeight: {
       light: 300,
       regular: 400,
@@ -65,6 +68,20 @@ module.exports = {
       ],
       "input-desktop": [
         "1rem",
+        {
+          fontWeight: theme("fontWeight.regular"),
+          lineHeight: "1.75rem",
+        },
+      ],
+      error: [
+        "0.8125rem",
+        {
+          fontWeight: theme("fontWeight.regular"),
+          lineHeight: "0.8125rem",
+        },
+      ],
+      "error-desktop": [
+        "0.8125rem",
         {
           fontWeight: theme("fontWeight.regular"),
           lineHeight: "1.75rem",

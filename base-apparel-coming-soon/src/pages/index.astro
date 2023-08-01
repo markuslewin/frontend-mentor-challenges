@@ -16,10 +16,15 @@ import { screens } from "../utils/screens";
     />
     <title>Frontend Mentor | Base Apparel coming soon page</title>
   </head>
-  <body>
+  <body class="font-josefin text-body tablet:text-body-desktop">
     <header><img alt="base apparel" src="/images/logo.svg" /></header>
     <main>
-      <h1>We're coming soon</h1>
+      <h1 class="text-heading uppercase tablet:text-heading-desktop">
+        We're <strong
+          class="font-semi-bold tablet:leading-heading-strong-desktop"
+          >coming soon</strong
+        >
+      </h1>
       <p>
         Hello fellow shoppers! We're currently building our new fashion store.
         Add your email below to stay up-to-date with announcements and our
@@ -31,6 +36,7 @@ import { screens } from "../utils/screens";
         <!-- todo: autofocus -->
         <div>
           <input
+            class="text-input tablet:text-input-desktop"
             id="email"
             type="email"
             autocomplete="email"
@@ -41,7 +47,9 @@ import { screens } from "../utils/screens";
             aria-describedby="email-error"
           />
           <img alt="" src="/images/icon-error.svg" />
-          <p id="email-error">Please provide a valid email</p>
+          <p class="text-error tablet:text-error-desktop" id="email-error">
+            Please provide a valid email
+          </p>
           <button type="submit">
             <img alt="submit" src="/images/icon-arrow.svg" />
           </button>
