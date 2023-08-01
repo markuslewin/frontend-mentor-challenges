@@ -1,44 +1,67 @@
 ---
+import { screens } from "../utils/screens";
 ---
 
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- displays site properly based on user's device -->
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link
       rel="icon"
       type="image/png"
       sizes="32x32"
       href="./images/favicon-32x32.png"
     />
-
     <title>Frontend Mentor | Base Apparel coming soon page</title>
-
-    <!-- Feel free to remove these styles or customise in your own stylesheet 👍 -->
-    <style>
-      .attribution {
-        font-size: 11px;
-        text-align: center;
-      }
-      .attribution a {
-        color: hsl(228, 45%, 44%);
-      }
-    </style>
   </head>
   <body>
-    We're coming soon Hello fellow shoppers! We're currently building our new
-    fashion store. Add your email below to stay up-to-date with announcements
-    and our launch deals. Email Address
-
-    <footer>
-      <p class="attribution">
-        Challenge by <a
-          href="https://www.frontendmentor.io?ref=challenge"
-          target="_blank">Frontend Mentor</a
-        >. Coded by <a href="#">Your Name Here</a>.
+    <header><img alt="base apparel" src="/images/logo.svg" /></header>
+    <main>
+      <h1>We're coming soon</h1>
+      <p>
+        Hello fellow shoppers! We're currently building our new fashion store.
+        Add your email below to stay up-to-date with announcements and our
+        launch deals.
       </p>
-    </footer>
+      <form novalidate>
+        <label for="email">Email Address</label>
+        <!-- todo: value -->
+        <!-- todo: autofocus -->
+        <div>
+          <input
+            id="email"
+            type="email"
+            autocomplete="email"
+            name="email"
+            placeholder="Email Address"
+            required
+            aria-invalid="true"
+            aria-describedby="email-error"
+          />
+          <img alt="" src="/images/icon-error.svg" />
+          <p id="email-error">Please provide a valid email</p>
+          <button type="submit">
+            <img alt="submit" src="/images/icon-arrow.svg" />
+          </button>
+        </div>
+      </form>
+    </main>
+    <aside>
+      <picture>
+        <source
+          media={`(min-width: ${screens.tablet})`}
+          width="610"
+          height="800"
+          srcset="/images/hero-desktop.jpg"
+        />
+        <img
+          alt="woman wearing base apparel products"
+          width="375"
+          height="250"
+          src="/images/hero-mobile.jpg"
+        />
+      </picture>
+    </aside>
   </body>
 </html>
