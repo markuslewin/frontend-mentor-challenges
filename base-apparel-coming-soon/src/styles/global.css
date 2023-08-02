@@ -1,0 +1,29 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  @screen desktop {
+    .layout {
+      display: grid;
+      grid-template-columns:
+        1fr minmax(0, 27.8125rem) minmax(0, 13.75rem) minmax(0, 27.8125rem)
+        1fr;
+      grid-template-areas:
+        ". header . image image"
+        ". main . image image";
+    }
+
+    .layout > header {
+      grid-area: header;
+    }
+
+    .layout > main {
+      grid-area: main;
+    }
+
+    .layout > aside {
+      grid-area: image;
+    }
+  }
+}

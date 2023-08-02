@@ -1,5 +1,6 @@
 ---
 import "@fontsource-variable/josefin-sans";
+import "../styles/global.css";
 import { screens } from "../utils/screens";
 ---
 
@@ -16,61 +17,66 @@ import { screens } from "../utils/screens";
     />
     <title>Frontend Mentor | Base Apparel coming soon page</title>
   </head>
-  <body class="font-josefin text-body tablet:text-body-desktop">
-    <header><img alt="base apparel" src="/images/logo.svg" /></header>
-    <main>
-      <h1 class="text-heading uppercase tablet:text-heading-desktop">
-        We're <strong
-          class="font-semi-bold tablet:leading-heading-strong-desktop"
-          >coming soon</strong
-        >
-      </h1>
-      <p>
-        Hello fellow shoppers! We're currently building our new fashion store.
-        Add your email below to stay up-to-date with announcements and our
-        launch deals.
-      </p>
-      <form novalidate>
-        <label for="email">Email Address</label>
-        <!-- todo: value -->
-        <!-- todo: autofocus -->
-        <div>
-          <input
-            class="text-input tablet:text-input-desktop"
-            id="email"
-            type="email"
-            autocomplete="email"
-            name="email"
-            placeholder="Email Address"
-            required
-            aria-invalid="true"
-            aria-describedby="email-error"
+  <body
+    class="grid min-h-screen grid-cols-single font-josefin text-body tablet:text-body-desktop desktop:place-content-center"
+  >
+    <div class="layout">
+      <header><img alt="base apparel" src="/images/logo.svg" /></header>
+      <aside class="desktop:relative">
+        <picture>
+          <source
+            media={`(min-width: ${screens.desktop})`}
+            width="610"
+            height="800"
+            srcset="/images/hero-desktop.jpg"
           />
-          <img alt="" src="/images/icon-error.svg" />
-          <p class="text-error tablet:text-error-desktop" id="email-error">
-            Please provide a valid email
-          </p>
-          <button type="submit">
-            <img alt="submit" src="/images/icon-arrow.svg" />
-          </button>
-        </div>
-      </form>
-    </main>
-    <aside>
-      <picture>
-        <source
-          media={`(min-width: ${screens.tablet})`}
-          width="610"
-          height="800"
-          srcset="/images/hero-desktop.jpg"
-        />
-        <img
-          alt="woman wearing base apparel products"
-          width="375"
-          height="250"
-          src="/images/hero-mobile.jpg"
-        />
-      </picture>
-    </aside>
+          <img
+            class="w-full object-cover desktop:absolute desktop:left-0 desktop:top-0 desktop:h-full desktop:w-full"
+            alt="woman wearing base apparel products"
+            width="375"
+            height="250"
+            src="/images/hero-mobile.jpg"
+          />
+        </picture>
+      </aside>
+      <main>
+        <h1 class="text-heading uppercase tablet:text-heading-desktop">
+          We're <strong
+            class="font-semi-bold tablet:leading-heading-strong-desktop"
+            >coming soon</strong
+          >
+        </h1>
+        <p>
+          Hello fellow shoppers! We're currently building our new fashion store.
+          Add your email below to stay up-to-date with announcements and our
+          launch deals.
+        </p>
+        <form novalidate>
+          <label for="email">Email Address</label>
+          <!-- todo: value -->
+          <!-- todo: autofocus -->
+          <div>
+            <input
+              class="text-input tablet:text-input-desktop"
+              id="email"
+              type="email"
+              autocomplete="email"
+              name="email"
+              placeholder="Email Address"
+              required
+              aria-invalid="true"
+              aria-describedby="email-error"
+            />
+            <img alt="" src="/images/icon-error.svg" />
+            <p class="text-error tablet:text-error-desktop" id="email-error">
+              Please provide a valid email
+            </p>
+            <button type="submit">
+              <img alt="submit" src="/images/icon-arrow.svg" />
+            </button>
+          </div>
+        </form>
+      </main>
+    </div>
   </body>
 </html>

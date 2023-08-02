@@ -17,6 +17,9 @@ module.exports = {
       "gradient-2-from": "hsl(0 80% 86%)",
       "gradient-2-to": "hsl(0 74% 74%)",
     },
+    gridTemplateColumns: {
+      single: "minmax(0, 90rem)",
+    },
     fontFamily: {
       josefin: "Josefin Sans Variable, sans-serif",
     },
