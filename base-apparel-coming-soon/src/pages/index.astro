@@ -21,7 +21,9 @@ import { screens } from "../utils/screens";
     class="grid min-h-screen grid-cols-single font-josefin text-body tablet:text-body-desktop desktop:place-content-center"
   >
     <div class="layout">
-      <header><img alt="base apparel" src="/images/logo.svg" /></header>
+      <header class="p-8 desktop:p-0 desktop:pt-16">
+        <img class="h-5 tablet:h-8" alt="base apparel" src="/images/logo.svg" />
+      </header>
       <aside class="desktop:relative">
         <picture>
           <source
@@ -39,19 +41,19 @@ import { screens } from "../utils/screens";
           />
         </picture>
       </aside>
-      <main>
+      <main class="px-8 py-16 desktop:mt-32 desktop:p-0 desktop:pb-20">
         <h1 class="text-heading uppercase tablet:text-heading-desktop">
           We're <strong
             class="font-semi-bold tablet:leading-heading-strong-desktop"
             >coming soon</strong
           >
         </h1>
-        <p>
+        <p class="mt-4 tablet:mt-8">
           Hello fellow shoppers! We're currently building our new fashion store.
           Add your email below to stay up-to-date with announcements and our
           launch deals.
         </p>
-        <form novalidate>
+        <form class="mt-8 tablet:mt-10" novalidate>
           <label for="email">Email Address</label>
           <!-- todo: value -->
           <!-- todo: autofocus -->
