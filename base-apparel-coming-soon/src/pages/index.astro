@@ -65,7 +65,7 @@ import { screens } from "../utils/screens";
           <!-- todo: autofocus -->
           <div class="submit-input">
             <input
-              class="rounded-full border-1 border-desaturated-red/50 bg-transparent p-3 px-6 text-input text-dark-grayish-red placeholder:text-desaturated-red/50 aria-invalid:border-2 aria-invalid:border-soft-red tablet:p-4 tablet:px-8 tablet:text-input-desktop"
+              class="peer rounded-full border-1 border-desaturated-red/50 bg-transparent p-3 px-6 pr-20 text-input text-dark-grayish-red placeholder:text-desaturated-red/50 aria-invalid:border-2 aria-invalid:border-soft-red aria-invalid:pr-24 tablet:p-4 tablet:px-8 tablet:pr-28 tablet:text-input-desktop tablet:aria-invalid:pr-40"
               id="email"
               type="email"
               autocomplete="email"
@@ -76,7 +76,7 @@ import { screens } from "../utils/screens";
               aria-describedby="email-error"
             />
             <img
-              class="w-6 self-center"
+              class="hidden w-6 self-center peer-aria-invalid:block"
               alt=""
               width="24"
               height="24"
@@ -106,3 +106,14 @@ import { screens } from "../utils/screens";
     </div>
   </body>
 </html>
+
+<script>
+  const input = document.getElementById("email") as HTMLInputElement;
+  const form = document.getElementsByTagName("FORM")[0] as HTMLButtonElement;
+
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const current = input.getAttribute("aria-invalid") === "true";
+    input.setAttribute("aria-invalid", (!current).toString());
+  });
+</script>
