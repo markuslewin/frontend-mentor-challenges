@@ -18,7 +18,7 @@ import { screens } from "../utils/screens";
     <title>Frontend Mentor | Base Apparel coming soon page</title>
   </head>
   <body
-    class="grid min-h-screen grid-cols-single font-josefin text-body tablet:text-body-desktop desktop:place-content-center"
+    class="grid min-h-screen grid-cols-single bg-gradient-to-br from-gradient-1-from to-gradient-1-to font-josefin text-body text-desaturated-red tablet:text-body-desktop desktop:place-content-center"
   >
     <div class="layout">
       <header class="p-8 desktop:p-0 desktop:pt-16">
@@ -50,7 +50,7 @@ import { screens } from "../utils/screens";
       <main class="px-8 py-16 desktop:mt-32 desktop:p-0 desktop:pb-20">
         <h1 class="text-heading uppercase tablet:text-heading-desktop">
           We're <strong
-            class="font-semi-bold tablet:leading-heading-strong-desktop"
+            class="font-semi-bold text-dark-grayish-red tablet:leading-heading-strong-desktop"
             >coming soon</strong
           >
         </h1>
@@ -65,7 +65,7 @@ import { screens } from "../utils/screens";
           <!-- todo: autofocus -->
           <div class="submit-input">
             <input
-              class="rounded-full border-1 p-3 px-6 text-input tablet:p-4 tablet:px-8 tablet:text-input-desktop"
+              class="rounded-full border-1 border-desaturated-red/50 p-3 px-6 text-input text-dark-grayish-red placeholder:text-desaturated-red/50 aria-invalid:border-2 aria-invalid:border-soft-red tablet:p-4 tablet:px-8 tablet:text-input-desktop"
               id="email"
               type="email"
               autocomplete="email"
@@ -83,13 +83,13 @@ import { screens } from "../utils/screens";
               src="/images/icon-error.svg"
             />
             <p
-              class="pl-6 text-error tablet:pl-8 tablet:text-error-desktop"
+              class="pl-6 text-error text-soft-red tablet:pl-8 tablet:text-error-desktop"
               id="email-error"
             >
               Please provide a valid email
             </p>
             <button
-              class="inline-grid place-content-center rounded-full p-4 px-7 forced-colors:border-1 tablet:p-5 tablet:px-12"
+              class="relative isolate inline-grid place-content-center rounded-full bg-gradient-to-br from-gradient-2-from to-gradient-2-to p-4 px-7 before:absolute before:inset-0 before:-z-10 before:rounded-full before:opacity-50 before:transition-colors hover:before:bg-white focus-visible:before:bg-white forced-colors:border-1 tablet:p-5 tablet:px-12"
               type="submit"
             >
               <img

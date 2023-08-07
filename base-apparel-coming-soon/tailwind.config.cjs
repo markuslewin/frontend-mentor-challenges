@@ -17,12 +17,11 @@ module.exports = {
       "gradient-1-to": "hsl(0 100% 98%)",
       "gradient-2-from": "hsl(0 80% 86%)",
       "gradient-2-to": "hsl(0 74% 74%)",
+      // other
+      white: "hsl(0 0% 100%)",
     },
     gridTemplateColumns: {
       single: "minmax(0, 90rem)",
-    },
-    borderWidth: {
-      1: "1px",
     },
     fontFamily: {
       josefin: "Josefin Sans Variable, sans-serif",
@@ -95,7 +94,14 @@ module.exports = {
         },
       ],
     }),
-    extend: {},
+    extend: {
+      aria: {
+        invalid: 'invalid="true"',
+      },
+      borderWidth: {
+        1: "1px",
+      },
+    },
   },
   plugins: [
     plugin(function ({ addVariant }) {
