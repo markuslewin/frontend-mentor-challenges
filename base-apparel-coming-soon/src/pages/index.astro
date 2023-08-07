@@ -54,12 +54,12 @@ import { screens } from "../utils/screens";
           launch deals.
         </p>
         <form class="mt-8 tablet:mt-10" novalidate>
-          <label for="email">Email Address</label>
+          <label class="sr-only" for="email">Email Address</label>
           <!-- todo: value -->
           <!-- todo: autofocus -->
-          <div>
+          <div class="submit-input">
             <input
-              class="text-input tablet:text-input-desktop"
+              class="rounded-full border-1 p-3 px-6 text-input tablet:p-4 tablet:px-8 tablet:text-input-desktop"
               id="email"
               type="email"
               autocomplete="email"
@@ -69,11 +69,17 @@ import { screens } from "../utils/screens";
               aria-invalid="true"
               aria-describedby="email-error"
             />
-            <img alt="" src="/images/icon-error.svg" />
-            <p class="text-error tablet:text-error-desktop" id="email-error">
+            <img class="self-center" alt="" src="/images/icon-error.svg" />
+            <p
+              class="pl-6 text-error tablet:pl-8 tablet:text-error-desktop"
+              id="email-error"
+            >
               Please provide a valid email
             </p>
-            <button type="submit">
+            <button
+              class="inline-grid place-content-center rounded-full p-4 px-7 forced-colors:border-1 tablet:p-5 tablet:px-12"
+              type="submit"
+            >
               <img alt="submit" src="/images/icon-arrow.svg" />
             </button>
           </div>

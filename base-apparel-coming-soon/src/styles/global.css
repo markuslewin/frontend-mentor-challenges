@@ -3,6 +3,38 @@
 @tailwind utilities;
 
 @layer components {
+  .submit-input {
+    display: grid;
+    grid-template-columns: 1fr repeat(2, max-content);
+    gap: 0.5rem;
+  }
+
+  .submit-input > input {
+    grid-column: 1 / -1;
+    grid-row: 1;
+  }
+
+  .submit-input > img {
+    grid-column: 2 / 3;
+    grid-row: 1;
+  }
+
+  .submit-input > button {
+    grid-column: 3;
+    grid-row: 1;
+  }
+
+  .submit-input > p[id$="error"] {
+    grid-column: 1 / -1;
+    grid-row: 2;
+  }
+
+  @screen tablet {
+    .submit-input {
+      gap: 0.25rem 1rem;
+    }
+  }
+
   @screen desktop {
     .layout {
       display: grid;

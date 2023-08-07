@@ -1,3 +1,4 @@
+const plugin = require("tailwindcss/plugin");
 const { screens } = require("./src/utils/screens");
 
 /** @type {import('tailwindcss').Config} */
@@ -19,6 +20,9 @@ module.exports = {
     },
     gridTemplateColumns: {
       single: "minmax(0, 90rem)",
+    },
+    borderWidth: {
+      1: "1px",
     },
     fontFamily: {
       josefin: "Josefin Sans Variable, sans-serif",
@@ -93,5 +97,9 @@ module.exports = {
     }),
     extend: {},
   },
-  plugins: [],
+  plugins: [
+    plugin(function ({ addVariant }) {
+      addVariant("forced-colors", "@media (forced-colors: active)");
+    }),
+  ],
 };
