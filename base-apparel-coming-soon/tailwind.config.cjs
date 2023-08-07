@@ -19,6 +19,7 @@ module.exports = {
       "gradient-2-to": "hsl(0 74% 74%)",
       // other
       white: "hsl(0 0% 100%)",
+      transparent: "transparent",
     },
     gridTemplateColumns: {
       single: "minmax(0, 90rem)",

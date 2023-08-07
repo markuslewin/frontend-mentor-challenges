@@ -2,6 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  body {
+    background: var(--background-pattern),
+      linear-gradient(to bottom right, hsl(0 0% 100%), hsl(0 100% 98%));
+  }
+
+  @screen desktop {
+    body {
+      --background-pattern: url("/images/bg-pattern-desktop.svg") center / cover;
+    }
+  }
+}
+
 @layer components {
   .submit-input {
     display: grid;
