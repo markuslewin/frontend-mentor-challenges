@@ -52,8 +52,11 @@
     .layout {
       display: grid;
       grid-template-columns:
-        1fr minmax(0, 27.8125rem) minmax(0, 13.75rem) minmax(0, 27.8125rem)
-        1fr;
+        minmax(2.5rem, 1fr) minmax(0, 27.8125rem) minmax(0, 13.75rem) minmax(
+          0,
+          27.8125rem
+        )
+        minmax(2.5rem, 1fr);
       grid-template-areas:
         ". header . image image"
         ". main . image image";
