@@ -2,6 +2,68 @@
 @import "@fontsource/roboto/400.css";
 @import "@fontsource/roboto/700.css";
 
+:root {
+  /* primary */
+  --color-tomato: hsl(4 100% 67%);
+  /* neutral */
+  --color-dark-slate-grey: hsl(234 29% 20%);
+  --color-charcoal-grey: hsl(235 18% 26%);
+  --color-grey: hsl(231 7% 60%);
+  --color-white: hsl(0 0% 100%);
+  /* other */
+  --color-border: hsl(243 28% 13% / 25%);
+}
+
 body {
   font-family: "Roboto", sans-serif;
+  padding: 2.5rem;
+  background: var(--color-charcoal-grey);
+  color: var(--color-dark-slate-grey);
+}
+
+h1 {
+  font-size: 3.5rem;
+  line-height: 1;
+}
+
+label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+input {
+  width: 100%;
+  border-radius: 0.5rem;
+  border: 1px solid var(--color-border);
+  padding: 1rem 1.5rem;
+}
+
+button {
+  width: 100%;
+  border-radius: 0.5rem;
+  border: none;
+  padding: 1rem 1.5rem;
+  background: var(--color-dark-slate-grey);
+  color: var(--color-white);
+}
+
+.center {
+  margin-inline: auto;
+  max-width: 31.5rem;
+}
+
+.surface {
+  border-radius: 2.25rem;
+  padding: 4rem;
+  background: var(--color-white);
+  box-shadow: 0 0.9375rem 3.75rem hsl(0 0% 0% / 25%);
+}
+
+.flow > * + * {
+  margin-top: 1.5em;
+}
+
+.mt-2 {
+  margin-top: 0.5rem;
 }
