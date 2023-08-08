@@ -10,6 +10,8 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^2.10.3"
+    "@fontsource/roboto": "^5.0.8",
+    "astro": "^2.10.3",
+    "modern-css-reset": "^1.4.0"
   }
 }
