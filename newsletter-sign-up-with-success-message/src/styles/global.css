@@ -4,7 +4,8 @@
 
 :root {
   /* primary */
-  --color-tomato: hsl(4 100% 67%);
+  --color-base-tomato: 4 100% 67%;
+  --color-tomato: hsl(var(--color-base-tomato));
   /* neutral */
   --color-dark-slate-grey: hsl(234 29% 20%);
   --color-charcoal-grey: hsl(235 18% 26%);
@@ -40,12 +41,23 @@ input {
 }
 
 button {
+  font-weight: 700;
   width: 100%;
   border-radius: 0.5rem;
   border: none;
   padding: 1rem 1.5rem;
   background: var(--color-dark-slate-grey);
   color: var(--color-white);
+}
+
+button:hover,
+button:focus-visible {
+  background: linear-gradient(
+    to bottom left,
+    hsl(14 100% 61%),
+    hsl(346 100% 66%)
+  );
+  box-shadow: 0 1rem 2rem hsl(var(--color-base-tomato) / 50%);
 }
 
 .center {
