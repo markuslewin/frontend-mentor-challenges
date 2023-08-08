@@ -2,6 +2,31 @@
 import "@fontsource-variable/josefin-sans";
 import "../styles/global.css";
 import { screens } from "../utils/screens";
+
+let payload = "";
+let error = "";
+if (Astro.request.method === "POST") {
+  const formData = await Astro.request.formData();
+  const email = ((value) => {
+    return typeof value === "string" ? value : "";
+  })(formData.get("email"));
+
+  if (
+    // from `zod`
+    !/^([A-Z0-9_+-]+\.?)*[A-Z0-9_+-]@([A-Z0-9][A-Z0-9\-]*\.)+[A-Z]{2,}$/i.test(
+      email
+    )
+  ) {
+    error = "Please provide a valid email";
+  }
+
+  if (!error) {
+    // todo: persist `email`
+    return Astro.redirect("/");
+  }
+
+  payload = email;
+}
 ---
 
 <html lang="en">
@@ -59,10 +84,8 @@ import { screens } from "../utils/screens";
           Add your email below to stay up-to-date with announcements and our
           launch deals.
         </p>
-        <form class="mt-8 tablet:mt-10" novalidate>
+        <form class="mt-8 tablet:mt-10" method="post" novalidate>
           <label class="sr-only" for="email">Email Address</label>
-          <!-- todo: value -->
-          <!-- todo: autofocus -->
           <div class="submit-input">
             <input
               class="peer rounded-full border-1 border-desaturated-red/50 bg-transparent p-3 px-6 pr-20 text-input text-dark-grayish-red placeholder:text-desaturated-red/50 aria-invalid:border-2 aria-invalid:border-soft-red aria-invalid:pr-24 tablet:p-4 tablet:px-8 tablet:pr-28 tablet:text-input-desktop tablet:aria-invalid:pr-40"
@@ -72,7 +95,9 @@ import { screens } from "../utils/screens";
               name="email"
               placeholder="Email Address"
               required
-              aria-invalid="true"
+              value={payload}
+              autofocus={!!error}
+              aria-invalid={!!error}
               aria-describedby="email-error"
             />
             <img
@@ -86,7 +111,7 @@ import { screens } from "../utils/screens";
               class="pl-6 text-start text-error text-soft-red tablet:pl-8 tablet:text-error-desktop"
               id="email-error"
             >
-              Please provide a valid email
+              {error}
             </p>
             <button
               class="relative isolate inline-grid place-content-center rounded-full bg-gradient-to-br from-gradient-2-from to-gradient-2-to p-4 px-7 shadow-xl shadow-desaturated-red before:absolute before:inset-0 before:-z-10 before:rounded-full before:opacity-50 before:transition-colors hover:before:bg-white focus-visible:before:bg-white forced-colors:border-1 tablet:p-5 tablet:px-12"
@@ -106,14 +131,3 @@ import { screens } from "../utils/screens";
     </div>
   </body>
 </html>
-
-<script>
-  const input = document.getElementById("email") as HTMLInputElement;
-  const form = document.getElementsByTagName("FORM")[0] as HTMLButtonElement;
-
-  form.addEventListener("submit", (event) => {
-    event.preventDefault();
-    const current = input.getAttribute("aria-invalid") === "true";
-    input.setAttribute("aria-invalid", (!current).toString());
-  });
-</script>
