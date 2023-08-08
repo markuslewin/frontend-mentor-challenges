@@ -41,23 +41,40 @@ input {
 }
 
 button {
+  --button-radius: 0.5rem;
+
   font-weight: 700;
+  position: relative;
+  isolation: isolate;
   width: 100%;
-  border-radius: 0.5rem;
+  border-radius: var(--button-radius);
   border: none;
   padding: 1rem 1.5rem;
   background: var(--color-dark-slate-grey);
   color: var(--color-white);
 }
 
-button:hover,
-button:focus-visible {
+button::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: var(--button-radius);
   background: linear-gradient(
     to bottom left,
     hsl(14 100% 61%),
     hsl(346 100% 66%)
   );
   box-shadow: 0 1rem 2rem hsl(var(--color-base-tomato) / 50%);
+  transition-property: opacity, box-shadow;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+  opacity: 0;
+}
+
+button:hover::before,
+button:focus-visible::before {
+  opacity: 1;
 }
 
 .center {
