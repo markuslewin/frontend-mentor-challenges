@@ -22,10 +22,20 @@ import "../styles/global.css";
       <article class="surface center flow">
         <h1>Stay updated!</h1>
         <p>Join 60,000+ product managers receiving monthly updates on:</p>
-        <ul>
-          <li>Product discovery and building what matters</li>
-          <li>Measuring to ensure updates are a success</li>
-          <li>And much more!</li>
+        <ul class="flow flow-space-2">
+          {
+            [
+              "Product discovery and building what matters",
+              "Measuring to ensure updates are a success",
+              "And much more!",
+            ].map((text) => {
+              return (
+                <li>
+                  <img alt="" src="/assets/images/icon-list.svg" /> {text}
+                </li>
+              );
+            })
+          }
         </ul>
         <form class="flow">
           <label for="email">Email address</label>

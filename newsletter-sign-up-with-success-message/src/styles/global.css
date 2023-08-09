@@ -27,6 +27,21 @@ h1 {
   line-height: 1;
 }
 
+ul {
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+li > img:first-child {
+  width: 1.25rem;
+}
+
 label {
   display: block;
   font-size: 0.75rem;
@@ -90,7 +105,11 @@ button:focus-visible::before {
 }
 
 .flow > * + * {
-  margin-top: 1.5em;
+  margin-top: var(--flow-space, 1.5em);
+}
+
+.flow-space-2 > * {
+  --flow-space: 0.5rem;
 }
 
 .mt-2 {
