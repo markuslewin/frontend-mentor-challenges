@@ -14,7 +14,9 @@ import "../styles/global.css";
     />
     <title>Frontend Mentor | Body Mass Index Calculator</title>
   </head>
-  <body class="bg-pure-white font-inter text-body-m text-dark-electric-blue">
+  <body
+    class="bg-pure-white py-8 pb-24 font-inter text-body-m text-dark-electric-blue desktop:py-20 desktop:pb-32"
+  >
     <header class="content-box mx-auto max-w-inner px-6 tablet:px-10">
       <img
         class="mx-auto desktop:ml-0"
@@ -22,15 +24,15 @@ import "../styles/global.css";
         src="/assets/images/logo.svg"
       />
     </header>
-    <main>
+    <main class="mt-6 tablet:mt-10 desktop:mt-7">
       <div
         class="content-box mx-auto max-w-inner px-6 tablet:px-10 desktop:grid desktop:grid-cols-2"
       >
-        <div class="text-center desktop:text-start">
+        <div class="mt-20 text-center desktop:text-start">
           <h1 class="text-heading-l text-gunmetal desktop:text-heading-xl">
             Body Mass Index Calculator
           </h1>
-          <p>
+          <p class="mt-6 desktop:mt-9">
             Better understand your weight in relation to your height using our
             body mass index (BM) calculator. While BMI is not the sole
             determinant of a healthy weight, it offers a valuable starting point
@@ -38,7 +40,7 @@ import "../styles/global.css";
           </p>
         </div>
         <section
-          class="bg-pure-white text-gunmetal"
+          class="mt-12 bg-pure-white text-gunmetal tablet:mt-10 desktop:mt-0"
           aria-labelledby="calculator"
         >
           <h2 class="text-heading-m text-gunmetal" id="calculator">
@@ -91,14 +93,14 @@ import "../styles/global.css";
         </section>
       </div>
       <div
-        class="content-box mx-auto max-w-inner tablet:grid tablet:grid-cols-2"
+        class="content-box mx-auto mt-20 max-w-inner tablet:mt-24 tablet:grid tablet:grid-cols-2 tablet:items-center desktop:mt-44 desktop:items-end"
       >
         <img alt="" src="/assets/images/image-man-eating.webp" />
-        <div class="px-6 tablet:px-0">
+        <div class="mt-12 px-6 tablet:mt-0 tablet:px-0 desktop:mb-10">
           <h2 class="text-heading-l-m text-gunmetal desktop:text-heading-l">
             What your BMI result means
           </h2>
-          <p>
+          <p class="mt-8 desktop:mt-9">
             A BMI range of 18.5 to 24.9 is considered a 'healthy weight.'
             Maintaining a healthy weight may lower your chances of experiencing
             health issues later on, such as obesity and type 2 diabetes. Aim for
@@ -109,46 +111,54 @@ import "../styles/global.css";
           </p>
         </div>
       </div>
-      <div class="content-box mx-auto max-w-outer">
+      <div
+        class="content-box mx-auto mt-20 max-w-outer rounded-9 bg-gradient-to-br from-gradient-1-from to-gradient-1-to py-14 tablet:mt-24 tablet:py-16 desktop:py-20 desktop:pb-24"
+      >
         <div class="content-box mx-auto max-w-inner px-6 tablet:px-10">
-          <h2 class="sr-only text-gunmetal">Ways to maintain a healthy BMI</h2>
-          {
-            [
-              {
-                icon: "/assets/images/icon-eating.svg",
-                heading: "Healthy eating",
-                text: "Healthy eating promotes weight control, disease prevention, better digestion, immunity, mental clarity, and mood.",
-              },
-              {
-                icon: "/assets/images/icon-exercise.svg",
-                heading: "Regular exercise",
-                text: "Exercise improves fitness, aids weight control, elevates mood, and reduces disease risk, fostering wellness and longevity.",
-              },
-              {
-                icon: "/assets/images/icon-sleep.svg",
-                heading: "Adequate sleep",
-                text: "Sleep enhances mental clarity, emotional stability, and physical wellness, promoting overall restoration and rejuvenation.",
-              },
-            ].map((way) => {
-              return (
-                <article class="tablet:flex tablet:items-center desktop:block">
-                  <img class="shrink-0" alt="" src={way.icon} />
-                  <div>
-                    <h3 class="text-heading-m text-gunmetal">{way.heading}</h3>
-                    <p>{way.text}</p>
-                  </div>
-                </article>
-              );
-            })
-          }
+          <h2 class="sr-only">Ways to maintain a healthy BMI</h2>
+          <div class="flex flex-col gap-10 desktop:flex-row desktop:gap-8">
+            {
+              [
+                {
+                  icon: "/assets/images/icon-eating.svg",
+                  heading: "Healthy eating",
+                  text: "Healthy eating promotes weight control, disease prevention, better digestion, immunity, mental clarity, and mood.",
+                },
+                {
+                  icon: "/assets/images/icon-exercise.svg",
+                  heading: "Regular exercise",
+                  text: "Exercise improves fitness, aids weight control, elevates mood, and reduces disease risk, fostering wellness and longevity.",
+                },
+                {
+                  icon: "/assets/images/icon-sleep.svg",
+                  heading: "Adequate sleep",
+                  text: "Sleep enhances mental clarity, emotional stability, and physical wellness, promoting overall restoration and rejuvenation.",
+                },
+              ].map((way) => {
+                return (
+                  <article class="tablet:flex tablet:items-center tablet:gap-10 desktop:block">
+                    <img class="shrink-0" alt="" src={way.icon} />
+                    <div>
+                      <h3 class="mt-8 text-heading-m text-gunmetal tablet:mt-0 desktop:mt-11">
+                        {way.heading}
+                      </h3>
+                      <p class="mt-6">{way.text}</p>
+                    </div>
+                  </article>
+                );
+              })
+            }
+          </div>
         </div>
       </div>
-      <div class="content-box mx-auto max-w-inner px-6 tablet:px-10">
+      <div
+        class="content-box mx-auto mt-20 max-w-inner px-6 tablet:mt-24 tablet:px-10 desktop:mt-32"
+      >
         <div class="text-center desktop:text-start">
           <h2 class="text-heading-l-m text-gunmetal desktop:text-heading-l">
             Limitations of BMI
           </h2>
-          <p>
+          <p class="mt-8 desktop:mt-9">
             Although BMI is often a practical indicator of healthy weight, it is
             not suited for every person. Specific groups should carefully
             consider their BMI outcomes, and in certain cases, the measurement
@@ -189,12 +199,17 @@ import "../styles/global.css";
             },
           ].map((limitation) => {
             return (
-              <article data-limitation={limitation.id}>
-                <img alt="" src={limitation.icon} />
-                <h3 class="text-heading-s text-gunmetal">
-                  {limitation.heading}
-                </h3>
-                <p>{limitation.text}</p>
+              <article
+                class="mt-1 rounded-4 bg-pure-white p-6 shadow-limitation"
+                data-limitation={limitation.id}
+              >
+                <div class="flex items-center gap-4">
+                  <img alt="" src={limitation.icon} />
+                  <h3 class="text-heading-s text-gunmetal">
+                    {limitation.heading}
+                  </h3>
+                </div>
+                <p class="mt-4">{limitation.text}</p>
               </article>
             );
           })

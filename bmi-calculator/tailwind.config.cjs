@@ -21,6 +21,8 @@ module.exports = {
       "dark-electric-blue": "hsl(215 17% 45%)",
       borders: "hsl(200 24% 88%)",
       "pure-white": "hsl(0 0% 100%)",
+      "gradient-1-from": "hsl(184 95% 92% / 0%)",
+      "gradient-1-to": "hsl(216 95% 92%)",
     },
     fontFamily: {
       inter: '"Inter Variable", sans-serif',
@@ -28,6 +30,13 @@ module.exports = {
     fontWeight: {
       regular: 400,
       "semi-bold": 600,
+    },
+    boxShadow: {
+      limitation: `${rem(16)} ${rem(32)} ${rem(56)} hsl(211 40% 69% / 25%)`,
+    },
+    borderRadius: {
+      4: rem(16),
+      9: rem(36),
     },
     fontSize: ({ theme }) => ({
       "heading-xl": [
