@@ -9,11 +9,11 @@ module.exports = {
       desktop: "64em",
     },
     colors: {
-      "color-blue": "hsl(227 92% 58%)",
-      "color-gunmetal": "hsl(215 31% 21%)",
-      "color-dark-electric-blue": "hsl(215 17% 45%)",
-      "color-borders": "hsl(200 24% 88%)",
-      "color-pure-white": "hsl(0 0% 100%)",
+      blue: "hsl(227 92% 58%)",
+      gunmetal: "hsl(215 31% 21%)",
+      "dark-electric-blue": "hsl(215 17% 45%)",
+      borders: "hsl(200 24% 88%)",
+      "pure-white": "hsl(0 0% 100%)",
     },
     fontFamily: {
       inter: '"Inter Variable", sans-serif',

@@ -14,18 +14,22 @@ import "../styles/global.css";
     />
     <title>Frontend Mentor | Body Mass Index Calculator</title>
   </head>
-  <body>
+  <body class="bg-pure-white font-inter text-body-m text-dark-electric-blue">
     <header><img alt="BMI calculator" src="/assets/images/logo.svg" /></header>
     <main>
-      <h1>Body Mass Index Calculator</h1>
+      <h1 class="text-heading-l text-gunmetal desktop:text-heading-xl">
+        Body Mass Index Calculator
+      </h1>
       <p>
         Better understand your weight in relation to your height using our body
         mass index (BM) calculator. While BMI is not the sole determinant of a
         healthy weight, it offers a valuable starting point to evaluate your
         overall health and well-being.
       </p>
-      <section aria-labelledby="calculator">
-        <h2 id="calculator">Enter your details below</h2>
+      <section class="bg-pure-white text-gunmetal" aria-labelledby="calculator">
+        <h2 class="text-heading-m text-gunmetal" id="calculator">
+          Enter your details below
+        </h2>
         <form>
           <fieldset>
             <legend>Units</legend>
@@ -48,25 +52,33 @@ import "../styles/global.css";
             <label for="units-imperial">Imperial</label>
           </fieldset>
           <fieldset>
-            <legend>Height</legend>
+            <legend class="text-dark-electric-blue">Height</legend>
             <input id="height-cm" type="number" required />
             <label for="height-cm">Centimeters</label>
           </fieldset>
           <fieldset>
-            <legend>Weight</legend>
+            <legend class="text-dark-electric-blue">Weight</legend>
             <input id="weight-kg" type="number" required />
             <label for="weight-kg">Kilograms</label>
           </fieldset>
           <button type="submit">Submit</button>
         </form>
-        <h3>Your BMI is... <strong>23.4</strong></h3>
-        <p>
-          Your BMI suggests you're <span>a healthy weight</span>. Your ideal
-          weight is between <strong>63.3kgs - 85.2kgs</strong>.
-        </p>
+        <div class="bg-blue text-body-s text-pure-white">
+          <h3 class="text-body-m-bold">
+            Your BMI is... <strong class="text-heading-l">23.4</strong>
+          </h3>
+          <p>
+            Your BMI suggests you're <span>a healthy weight</span>. Your ideal
+            weight is between <strong class="font-semi-bold"
+              >63.3kgs - 85.2kgs</strong
+            >.
+          </p>
+        </div>
       </section>
       <img alt="" src="/assets/images/image-man-eating.webp" />
-      <h2>What your BMI result means</h2>
+      <h2 class="text-heading-l-m text-gunmetal desktop:text-heading-l">
+        What your BMI result means
+      </h2>
       <p>
         A BMI range of 18.5 to 24.9 is considered a 'healthy weight.'
         Maintaining a healthy weight may lower your chances of experiencing
@@ -75,7 +87,7 @@ import "../styles/global.css";
         fruits and vegetables. Additionally, strive for regular physical
         activity, ideally about 30 minutes daily for five days a week.
       </p>
-      <h2>Ways to maintain a healthy BMI</h2>
+      <h2 class="text-gunmetal">Ways to maintain a healthy BMI</h2>
       {
         [
           {
@@ -97,13 +109,15 @@ import "../styles/global.css";
           return (
             <article>
               <img alt="" src={way.icon} />
-              <h3>{way.heading}</h3>
+              <h3 class="text-heading-m text-gunmetal">{way.heading}</h3>
               <p>{way.text}</p>
             </article>
           );
         })
       }
-      <h2>Limitations of BMI</h2>
+      <h2 class="text-heading-l-m text-gunmetal desktop:text-heading-l">
+        Limitations of BMI
+      </h2>
       <p>
         Although BMI is often a practical indicator of healthy weight, it is not
         suited for every person. Specific groups should carefully consider their
@@ -146,7 +160,7 @@ import "../styles/global.css";
           return (
             <article data-limitation={limitation.id}>
               <img alt="" src={limitation.icon} />
-              <h3>{limitation.heading}</h3>
+              <h3 class="text-heading-s text-gunmetal">{limitation.heading}</h3>
               <p>{limitation.text}</p>
             </article>
           );
