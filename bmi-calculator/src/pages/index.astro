@@ -17,77 +17,89 @@ import "../styles/global.css";
   <body class="bg-pure-white font-inter text-body-m text-dark-electric-blue">
     <header><img alt="BMI calculator" src="/assets/images/logo.svg" /></header>
     <main>
-      <h1 class="text-heading-l text-gunmetal desktop:text-heading-xl">
-        Body Mass Index Calculator
-      </h1>
-      <p>
-        Better understand your weight in relation to your height using our body
-        mass index (BM) calculator. While BMI is not the sole determinant of a
-        healthy weight, it offers a valuable starting point to evaluate your
-        overall health and well-being.
-      </p>
-      <section class="bg-pure-white text-gunmetal" aria-labelledby="calculator">
-        <h2 class="text-heading-m text-gunmetal" id="calculator">
-          Enter your details below
-        </h2>
-        <form>
-          <fieldset>
-            <legend>Units</legend>
-            <input
-              id="units-metric"
-              type="radio"
-              name="units"
-              value="metric"
-              required
-              checked
-            />
-            <label for="units-metric">Metric</label>
-            <input
-              id="units-imperial"
-              type="radio"
-              name="units"
-              value="imperial"
-              required
-            />
-            <label for="units-imperial">Imperial</label>
-          </fieldset>
-          <fieldset>
-            <legend class="text-dark-electric-blue">Height</legend>
-            <input id="height-cm" type="number" required />
-            <label for="height-cm">Centimeters</label>
-          </fieldset>
-          <fieldset>
-            <legend class="text-dark-electric-blue">Weight</legend>
-            <input id="weight-kg" type="number" required />
-            <label for="weight-kg">Kilograms</label>
-          </fieldset>
-          <button type="submit">Submit</button>
-        </form>
-        <div class="bg-blue text-body-s text-pure-white">
-          <h3 class="text-body-m-bold">
-            Your BMI is... <strong class="text-heading-l">23.4</strong>
-          </h3>
+      <div class="desktop:grid desktop:grid-cols-2">
+        <div class="text-center desktop:text-start">
+          <h1 class="text-heading-l text-gunmetal desktop:text-heading-xl">
+            Body Mass Index Calculator
+          </h1>
           <p>
-            Your BMI suggests you're <span>a healthy weight</span>. Your ideal
-            weight is between <strong class="font-semi-bold"
-              >63.3kgs - 85.2kgs</strong
-            >.
+            Better understand your weight in relation to your height using our
+            body mass index (BM) calculator. While BMI is not the sole
+            determinant of a healthy weight, it offers a valuable starting point
+            to evaluate your overall health and well-being.
           </p>
         </div>
-      </section>
-      <img alt="" src="/assets/images/image-man-eating.webp" />
-      <h2 class="text-heading-l-m text-gunmetal desktop:text-heading-l">
-        What your BMI result means
-      </h2>
-      <p>
-        A BMI range of 18.5 to 24.9 is considered a 'healthy weight.'
-        Maintaining a healthy weight may lower your chances of experiencing
-        health issues later on, such as obesity and type 2 diabetes. Aim for a
-        nutritious diet with reduced fat and sugar content, incorporating ample
-        fruits and vegetables. Additionally, strive for regular physical
-        activity, ideally about 30 minutes daily for five days a week.
-      </p>
-      <h2 class="text-gunmetal">Ways to maintain a healthy BMI</h2>
+        <section
+          class="bg-pure-white text-gunmetal"
+          aria-labelledby="calculator"
+        >
+          <h2 class="text-heading-m text-gunmetal" id="calculator">
+            Enter your details below
+          </h2>
+          <form>
+            <fieldset>
+              <legend>Units</legend>
+              <input
+                id="units-metric"
+                type="radio"
+                name="units"
+                value="metric"
+                required
+                checked
+              />
+              <label for="units-metric">Metric</label>
+              <input
+                id="units-imperial"
+                type="radio"
+                name="units"
+                value="imperial"
+                required
+              />
+              <label for="units-imperial">Imperial</label>
+            </fieldset>
+            <fieldset>
+              <legend class="text-dark-electric-blue">Height</legend>
+              <input id="height-cm" type="number" required />
+              <label for="height-cm">Centimeters</label>
+            </fieldset>
+            <fieldset>
+              <legend class="text-dark-electric-blue">Weight</legend>
+              <input id="weight-kg" type="number" required />
+              <label for="weight-kg">Kilograms</label>
+            </fieldset>
+            <button class="sr-only" type="submit">Submit</button>
+          </form>
+          <div class="bg-blue text-body-s text-pure-white">
+            <h3 class="text-body-m-bold">
+              Your BMI is... <strong class="text-heading-l">23.4</strong>
+            </h3>
+            <p>
+              Your BMI suggests you're <span>a healthy weight</span>. Your ideal
+              weight is between <strong class="font-semi-bold"
+                >63.3kgs - 85.2kgs</strong
+              >.
+            </p>
+          </div>
+        </section>
+      </div>
+      <div class="tablet:grid tablet:grid-cols-2">
+        <img alt="" src="/assets/images/image-man-eating.webp" />
+        <div>
+          <h2 class="text-heading-l-m text-gunmetal desktop:text-heading-l">
+            What your BMI result means
+          </h2>
+          <p>
+            A BMI range of 18.5 to 24.9 is considered a 'healthy weight.'
+            Maintaining a healthy weight may lower your chances of experiencing
+            health issues later on, such as obesity and type 2 diabetes. Aim for
+            a nutritious diet with reduced fat and sugar content, incorporating
+            ample fruits and vegetables. Additionally, strive for regular
+            physical activity, ideally about 30 minutes daily for five days a
+            week.
+          </p>
+        </div>
+      </div>
+      <h2 class="sr-only text-gunmetal">Ways to maintain a healthy BMI</h2>
       {
         [
           {
@@ -107,23 +119,27 @@ import "../styles/global.css";
           },
         ].map((way) => {
           return (
-            <article>
-              <img alt="" src={way.icon} />
-              <h3 class="text-heading-m text-gunmetal">{way.heading}</h3>
-              <p>{way.text}</p>
+            <article class="tablet:flex tablet:items-center desktop:block">
+              <img class="shrink-0" alt="" src={way.icon} />
+              <div>
+                <h3 class="text-heading-m text-gunmetal">{way.heading}</h3>
+                <p>{way.text}</p>
+              </div>
             </article>
           );
         })
       }
-      <h2 class="text-heading-l-m text-gunmetal desktop:text-heading-l">
-        Limitations of BMI
-      </h2>
-      <p>
-        Although BMI is often a practical indicator of healthy weight, it is not
-        suited for every person. Specific groups should carefully consider their
-        BMI outcomes, and in certain cases, the measurement may not be
-        beneficial to use.
-      </p>
+      <div class="text-center desktop:text-start">
+        <h2 class="text-heading-l-m text-gunmetal desktop:text-heading-l">
+          Limitations of BMI
+        </h2>
+        <p>
+          Although BMI is often a practical indicator of healthy weight, it is
+          not suited for every person. Specific groups should carefully consider
+          their BMI outcomes, and in certain cases, the measurement may not be
+          beneficial to use.
+        </p>
+      </div>
       {
         [
           {
