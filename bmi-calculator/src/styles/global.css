@@ -2,7 +2,3 @@
 @import "@fontsource-variable/inter";
 
 @tailwind utilities;
-
-body {
-  font-family: "Inter Variable", sans-serif;
-}
