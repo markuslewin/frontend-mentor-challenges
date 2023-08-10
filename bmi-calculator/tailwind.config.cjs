@@ -8,6 +8,10 @@ module.exports = {
       tablet: "40em",
       desktop: "64em",
     },
+    maxWidth: {
+      outer: rem(1392),
+      inner: rem(1160),
+    },
     colors: {
       blue: "hsl(227 92% 58%)",
       gunmetal: "hsl(215 31% 21%)",

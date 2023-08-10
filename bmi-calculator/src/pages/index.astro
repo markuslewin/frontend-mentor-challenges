@@ -15,9 +15,17 @@ import "../styles/global.css";
     <title>Frontend Mentor | Body Mass Index Calculator</title>
   </head>
   <body class="bg-pure-white font-inter text-body-m text-dark-electric-blue">
-    <header><img alt="BMI calculator" src="/assets/images/logo.svg" /></header>
+    <header class="content-box mx-auto max-w-inner px-6 tablet:px-10">
+      <img
+        class="mx-auto desktop:ml-0"
+        alt="BMI calculator"
+        src="/assets/images/logo.svg"
+      />
+    </header>
     <main>
-      <div class="desktop:grid desktop:grid-cols-2">
+      <div
+        class="content-box mx-auto max-w-inner px-6 tablet:px-10 desktop:grid desktop:grid-cols-2"
+      >
         <div class="text-center desktop:text-start">
           <h1 class="text-heading-l text-gunmetal desktop:text-heading-xl">
             Body Mass Index Calculator
@@ -82,9 +90,11 @@ import "../styles/global.css";
           </div>
         </section>
       </div>
-      <div class="tablet:grid tablet:grid-cols-2">
+      <div
+        class="content-box mx-auto max-w-inner tablet:grid tablet:grid-cols-2"
+      >
         <img alt="" src="/assets/images/image-man-eating.webp" />
-        <div>
+        <div class="px-6 tablet:px-0">
           <h2 class="text-heading-l-m text-gunmetal desktop:text-heading-l">
             What your BMI result means
           </h2>
@@ -99,89 +109,97 @@ import "../styles/global.css";
           </p>
         </div>
       </div>
-      <h2 class="sr-only text-gunmetal">Ways to maintain a healthy BMI</h2>
-      {
-        [
+      <div class="content-box mx-auto max-w-outer">
+        <div class="content-box mx-auto max-w-inner px-6 tablet:px-10">
+          <h2 class="sr-only text-gunmetal">Ways to maintain a healthy BMI</h2>
           {
-            icon: "/assets/images/icon-eating.svg",
-            heading: "Healthy eating",
-            text: "Healthy eating promotes weight control, disease prevention, better digestion, immunity, mental clarity, and mood.",
-          },
-          {
-            icon: "/assets/images/icon-exercise.svg",
-            heading: "Regular exercise",
-            text: "Exercise improves fitness, aids weight control, elevates mood, and reduces disease risk, fostering wellness and longevity.",
-          },
-          {
-            icon: "/assets/images/icon-sleep.svg",
-            heading: "Adequate sleep",
-            text: "Sleep enhances mental clarity, emotional stability, and physical wellness, promoting overall restoration and rejuvenation.",
-          },
-        ].map((way) => {
-          return (
-            <article class="tablet:flex tablet:items-center desktop:block">
-              <img class="shrink-0" alt="" src={way.icon} />
-              <div>
-                <h3 class="text-heading-m text-gunmetal">{way.heading}</h3>
-                <p>{way.text}</p>
-              </div>
-            </article>
-          );
-        })
-      }
-      <div class="text-center desktop:text-start">
-        <h2 class="text-heading-l-m text-gunmetal desktop:text-heading-l">
-          Limitations of BMI
-        </h2>
-        <p>
-          Although BMI is often a practical indicator of healthy weight, it is
-          not suited for every person. Specific groups should carefully consider
-          their BMI outcomes, and in certain cases, the measurement may not be
-          beneficial to use.
-        </p>
+            [
+              {
+                icon: "/assets/images/icon-eating.svg",
+                heading: "Healthy eating",
+                text: "Healthy eating promotes weight control, disease prevention, better digestion, immunity, mental clarity, and mood.",
+              },
+              {
+                icon: "/assets/images/icon-exercise.svg",
+                heading: "Regular exercise",
+                text: "Exercise improves fitness, aids weight control, elevates mood, and reduces disease risk, fostering wellness and longevity.",
+              },
+              {
+                icon: "/assets/images/icon-sleep.svg",
+                heading: "Adequate sleep",
+                text: "Sleep enhances mental clarity, emotional stability, and physical wellness, promoting overall restoration and rejuvenation.",
+              },
+            ].map((way) => {
+              return (
+                <article class="tablet:flex tablet:items-center desktop:block">
+                  <img class="shrink-0" alt="" src={way.icon} />
+                  <div>
+                    <h3 class="text-heading-m text-gunmetal">{way.heading}</h3>
+                    <p>{way.text}</p>
+                  </div>
+                </article>
+              );
+            })
+          }
+        </div>
       </div>
-      {
-        [
-          {
-            id: "gender",
-            icon: "/assets/images/icon-gender.svg",
-            heading: "Gender",
-            text: "The development and body fat composition of girls and boys vary with age. Consequently, a child's age and gender are considered when evaluating their BMI.",
-          },
-          {
-            id: "age",
-            icon: "/assets/images/icon-age.svg",
-            heading: "Age",
-            text: "In aging individuals, increased body fat and muscle loss may cause BMI to underestimate body fat content.",
-          },
-          {
-            id: "muscle",
-            icon: "/assets/images/icon-muscle.svg",
-            heading: "Muscle",
-            text: "BMI may misclassify muscular individuals as overweight or obese, as it doesn't differentiate muscle from fat.",
-          },
-          {
-            id: "pregnancy",
-            icon: "/assets/images/icon-pregnancy.svg",
-            heading: "Pregnancy",
-            text: "Expectant mothers experience weight gain due to their growing baby. Maintaining a healthy pre-pregnancy BMI is advisable to minimise health risks for both mother and child.",
-          },
-          {
-            id: "race",
-            icon: "/assets/images/icon-race.svg",
-            heading: "Race",
-            text: "Certain health concerns may affect individuals of some Black and Asian origins at lower BMIs than others. To learn more, it is advised to discuss this with your GP or practice nurse.",
-          },
-        ].map((limitation) => {
-          return (
-            <article data-limitation={limitation.id}>
-              <img alt="" src={limitation.icon} />
-              <h3 class="text-heading-s text-gunmetal">{limitation.heading}</h3>
-              <p>{limitation.text}</p>
-            </article>
-          );
-        })
-      }
+      <div class="content-box mx-auto max-w-inner px-6 tablet:px-10">
+        <div class="text-center desktop:text-start">
+          <h2 class="text-heading-l-m text-gunmetal desktop:text-heading-l">
+            Limitations of BMI
+          </h2>
+          <p>
+            Although BMI is often a practical indicator of healthy weight, it is
+            not suited for every person. Specific groups should carefully
+            consider their BMI outcomes, and in certain cases, the measurement
+            may not be beneficial to use.
+          </p>
+        </div>
+        {
+          [
+            {
+              id: "gender",
+              icon: "/assets/images/icon-gender.svg",
+              heading: "Gender",
+              text: "The development and body fat composition of girls and boys vary with age. Consequently, a child's age and gender are considered when evaluating their BMI.",
+            },
+            {
+              id: "age",
+              icon: "/assets/images/icon-age.svg",
+              heading: "Age",
+              text: "In aging individuals, increased body fat and muscle loss may cause BMI to underestimate body fat content.",
+            },
+            {
+              id: "muscle",
+              icon: "/assets/images/icon-muscle.svg",
+              heading: "Muscle",
+              text: "BMI may misclassify muscular individuals as overweight or obese, as it doesn't differentiate muscle from fat.",
+            },
+            {
+              id: "pregnancy",
+              icon: "/assets/images/icon-pregnancy.svg",
+              heading: "Pregnancy",
+              text: "Expectant mothers experience weight gain due to their growing baby. Maintaining a healthy pre-pregnancy BMI is advisable to minimise health risks for both mother and child.",
+            },
+            {
+              id: "race",
+              icon: "/assets/images/icon-race.svg",
+              heading: "Race",
+              text: "Certain health concerns may affect individuals of some Black and Asian origins at lower BMIs than others. To learn more, it is advised to discuss this with your GP or practice nurse.",
+            },
+          ].map((limitation) => {
+            return (
+              <article data-limitation={limitation.id}>
+                <img alt="" src={limitation.icon} />
+                <h3 class="text-heading-s text-gunmetal">
+                  {limitation.heading}
+                </h3>
+                <p>{limitation.text}</p>
+              </article>
+            );
+          })
+        }
+      </div>
     </main>
   </body>
 </html>
