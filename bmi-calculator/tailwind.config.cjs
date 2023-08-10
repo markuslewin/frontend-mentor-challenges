@@ -3,6 +3,9 @@ const rem = (px) => `${px / 16}rem`;
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ["./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}"],
+  corePlugins: {
+    preflight: false,
+  },
   theme: {
     screens: {
       tablet: "40em",
