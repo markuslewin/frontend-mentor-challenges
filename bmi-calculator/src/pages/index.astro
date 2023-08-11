@@ -42,15 +42,15 @@ import TextField from "../components/text-field.astro";
           </p>
         </div>
         <section
-          class="mt-12 bg-pure-white text-gunmetal tablet:mt-10 desktop:mt-0"
+          class="mt-12 rounded-4 bg-pure-white p-6 text-gunmetal shadow-layer-1 tablet:mt-10 tablet:p-8 desktop:mt-0"
           aria-labelledby="calculator"
         >
           <h2 class="text-heading-m text-gunmetal" id="calculator">
             Enter your details below
           </h2>
-          <form>
-            <fieldset>
-              <legend>Units</legend>
+          <form class="mt-6 tablet:mt-8">
+            <fieldset class="m-0 grid grid-cols-2 gap-6 border-none p-0">
+              <legend class="sr-only">Units</legend>
               <RadioButton
                 label="Metric"
                 name="units"
@@ -65,21 +65,29 @@ import TextField from "../components/text-field.astro";
                 required
               />
             </fieldset>
-            <fieldset>
-              <legend class="text-dark-electric-blue">Height</legend>
-              <TextField label="cm" name="height" required />
-            </fieldset>
-            <fieldset>
-              <legend class="text-dark-electric-blue">Weight</legend>
-              <TextField label="kg" name="weight" required />
-            </fieldset>
+            <div
+              class="tablet:mt-8 tablet:grid tablet:grid-cols-2 tablet:gap-6"
+            >
+              <fieldset class="m-0 mt-6 border-none p-0 tablet:mt-0">
+                <legend class="mb-2 text-dark-electric-blue">Height</legend>
+                <TextField label="cm" name="height" required />
+              </fieldset>
+              <fieldset class="m-0 mt-4 border-none p-0 tablet:mt-0">
+                <legend class="mb-2 text-dark-electric-blue">Weight</legend>
+                <TextField label="kg" name="weight" required />
+              </fieldset>
+            </div>
             <button class="sr-only" type="submit">Submit</button>
           </form>
-          <div class="bg-blue text-body-s text-pure-white">
+          <div
+            class="mt-6 rounded-4 bg-blue p-8 text-body-s text-pure-white tablet:mt-8 tablet:grid tablet:grid-cols-2 tablet:items-center tablet:gap-6"
+          >
             <h3 class="text-body-m-bold">
-              Your BMI is... <strong class="text-heading-l">23.4</strong>
+              Your BMI is... <strong class="mt-2 block text-heading-l"
+                >23.4</strong
+              >
             </h3>
-            <p>
+            <p class="mt-6 tablet:mt-0">
               Your BMI suggests you're <span>a healthy weight</span>. Your ideal
               weight is between <strong class="font-semi-bold"
                 >63.3kgs - 85.2kgs</strong
@@ -196,7 +204,7 @@ import TextField from "../components/text-field.astro";
           ].map((limitation) => {
             return (
               <article
-                class="mt-1 rounded-4 bg-pure-white p-6 shadow-limitation"
+                class="mt-1 rounded-4 bg-pure-white p-6 shadow-layer-1"
                 data-limitation={limitation.id}
               >
                 <div class="flex items-center gap-4">

@@ -42,7 +42,7 @@ module.exports = {
       "semi-bold": 600,
     },
     boxShadow: {
-      limitation: `${rem(16)} ${rem(32)} ${rem(56)} hsl(211 40% 69% / 25%)`,
+      "layer-1": `${rem(16)} ${rem(32)} ${rem(56)} hsl(211 40% 69% / 25%)`,
     },
     borderRadius: {
       3: rem(12),

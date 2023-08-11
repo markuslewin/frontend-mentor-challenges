@@ -6,7 +6,7 @@ const id = `${inputProps.name}-${inputProps.value}`;
 <label class="inline-flex items-center gap-4 text-body-m-bold" for={id}>
   <input class="peer sr-only" id={id} type="radio" {...inputProps} />
   <span
-    class="inline-grid h-8 w-8 place-content-center rounded-full border-1 border-solid border-borders before:block before:h-4 before:w-4 before:rounded-full before:content-[''] peer-checked:border-transparent peer-checked:bg-blue/15 peer-checked:before:bg-blue peer-hover:border-blue peer-focus-visible:outline peer-focus-visible:outline-2 peer-checked:forced-colors:before:bg-highlight"
+    class="inline-grid h-8 w-8 shrink-0 place-content-center rounded-full border-1 border-solid border-borders before:block before:h-4 before:w-4 before:rounded-full before:content-[''] peer-checked:border-transparent peer-checked:bg-blue/15 peer-checked:before:bg-blue peer-hover:border-blue peer-focus-visible:outline peer-focus-visible:outline-2 peer-checked:forced-colors:before:bg-highlight"
   >
   </span>
   {label}
