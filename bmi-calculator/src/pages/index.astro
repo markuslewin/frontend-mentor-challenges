@@ -1,6 +1,7 @@
 ---
 import "../styles/global.css";
 import RadioButton from "../components/radio-button.astro";
+import TextField from "../components/text-field.astro";
 ---
 
 <html lang="en">
@@ -66,13 +67,11 @@ import RadioButton from "../components/radio-button.astro";
             </fieldset>
             <fieldset>
               <legend class="text-dark-electric-blue">Height</legend>
-              <input id="height-cm" type="number" required />
-              <label for="height-cm">Centimeters</label>
+              <TextField label="cm" name="height" required />
             </fieldset>
             <fieldset>
               <legend class="text-dark-electric-blue">Weight</legend>
-              <input id="weight-kg" type="number" required />
-              <label for="weight-kg">Kilograms</label>
+              <TextField label="kg" name="weight" required />
             </fieldset>
             <button class="sr-only" type="submit">Submit</button>
           </form>

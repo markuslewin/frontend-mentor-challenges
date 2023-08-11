@@ -30,6 +30,7 @@ module.exports = {
       "gradient-1-from": "hsl(184 95% 92% / 0%)",
       "gradient-1-to": "hsl(216 95% 92%)",
       // other
+      inherit: "inherit",
       transparent: "transparent",
       highlight: "Highlight",
     },
@@ -44,6 +45,7 @@ module.exports = {
       limitation: `${rem(16)} ${rem(32)} ${rem(56)} hsl(211 40% 69% / 25%)`,
     },
     borderRadius: {
+      3: rem(12),
       4: rem(16),
       9: rem(36),
       full: defaultTheme.borderRadius.full,
