@@ -1,5 +1,6 @@
 ---
 import "../styles/global.css";
+import RadioButton from "../components/radio-button.astro";
 ---
 
 <html lang="en">
@@ -49,23 +50,19 @@ import "../styles/global.css";
           <form>
             <fieldset>
               <legend>Units</legend>
-              <input
-                id="units-metric"
-                type="radio"
+              <RadioButton
+                label="Metric"
                 name="units"
                 value="metric"
                 required
                 checked
               />
-              <label for="units-metric">Metric</label>
-              <input
-                id="units-imperial"
-                type="radio"
+              <RadioButton
+                label="Imperial"
                 name="units"
                 value="imperial"
                 required
               />
-              <label for="units-imperial">Imperial</label>
             </fieldset>
             <fieldset>
               <legend class="text-dark-electric-blue">Height</legend>

@@ -1,3 +1,6 @@
+const plugin = require("tailwindcss/plugin");
+const defaultTheme = require("tailwindcss/defaultTheme");
+
 const rem = (px) => `${px / 16}rem`;
 
 /** @type {import('tailwindcss').Config} */
@@ -15,6 +18,9 @@ module.exports = {
       outer: rem(1392),
       inner: rem(1160),
     },
+    borderWidth: {
+      1: "1px",
+    },
     colors: {
       blue: "hsl(227 92% 58%)",
       gunmetal: "hsl(215 31% 21%)",
@@ -23,6 +29,9 @@ module.exports = {
       "pure-white": "hsl(0 0% 100%)",
       "gradient-1-from": "hsl(184 95% 92% / 0%)",
       "gradient-1-to": "hsl(216 95% 92%)",
+      // other
+      transparent: "transparent",
+      highlight: "Highlight",
     },
     fontFamily: {
       inter: '"Inter Variable", sans-serif',
@@ -37,6 +46,7 @@ module.exports = {
     borderRadius: {
       4: rem(16),
       9: rem(36),
+      full: defaultTheme.borderRadius.full,
     },
     fontSize: ({ theme }) => ({
       "heading-xl": [
@@ -102,7 +112,15 @@ module.exports = {
         },
       ],
     }),
-    extend: {},
+    extend: {
+      opacity: {
+        15: "0.15",
+      },
+    },
   },
-  plugins: [],
+  plugins: [
+    plugin(function ({ addVariant }) {
+      addVariant("forced-colors", "@media (forced-colors: active)");
+    }),
+  ],
 };
