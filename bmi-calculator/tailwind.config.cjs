@@ -17,6 +17,7 @@ module.exports = {
     maxWidth: {
       outer: rem(1392),
       inner: rem(1160),
+      "hero-decoration": rem(978),
     },
     borderWidth: {
       1: "1px",
@@ -115,6 +116,10 @@ module.exports = {
       ],
     }),
     extend: {
+      height: {
+        "hero-decoration": rem(640),
+        "hero-decoration-desktop": rem(737),
+      },
       opacity: {
         15: "0.15",
       },

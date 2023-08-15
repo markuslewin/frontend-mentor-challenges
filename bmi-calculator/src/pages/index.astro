@@ -17,14 +17,18 @@ import TextField from "../components/text-field.astro";
     <title>Frontend Mentor | Body Mass Index Calculator</title>
   </head>
   <body
-    class="bg-pure-white py-8 pb-24 font-inter text-body-m text-dark-electric-blue desktop:py-20 desktop:pb-32"
+    class="bg-pure-white pb-24 font-inter text-body-m text-dark-electric-blue desktop:pb-32"
   >
-    <header class="content-box mx-auto max-w-inner px-6 tablet:px-10">
-      <img
-        class="mx-auto desktop:ml-0"
-        alt="BMI calculator"
-        src="/assets/images/logo.svg"
-      />
+    <header
+      class="content-box relative mx-auto max-w-outer pt-8 before:absolute before:top-0 before:-z-10 before:block before:h-hero-decoration before:w-full before:rounded-b-9 before:bg-gradient-to-br before:from-gradient-1-from before:to-gradient-1-to before:content-[''] desktop:pt-20 desktop:before:h-hero-decoration-desktop desktop:before:max-w-hero-decoration"
+    >
+      <div class="content-box mx-auto max-w-inner px-6 tablet:px-10">
+        <img
+          class="mx-auto desktop:ml-0"
+          alt="BMI calculator"
+          src="/assets/images/logo.svg"
+        />
+      </div>
     </header>
     <main class="mt-6 tablet:mt-10 desktop:mt-7">
       <div
