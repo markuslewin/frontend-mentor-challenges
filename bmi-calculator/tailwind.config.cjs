@@ -18,7 +18,9 @@ module.exports = {
       outer: rem(1392),
       inner: rem(1160),
       "hero-decoration": rem(978),
-      "hero-text": rem(465),
+      "section-text": rem(465),
+      none: "none",
+      full: "100%",
     },
     borderWidth: {
       1: "1px",

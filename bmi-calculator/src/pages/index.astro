@@ -35,7 +35,7 @@ import TextField from "../components/text-field.astro";
         class="mx-auto box-content max-w-inner px-6 tablet:px-10 desktop:grid desktop:grid-cols-2 desktop:gap-8"
       >
         <div
-          class="mt-20 text-center desktop:max-w-hero-text desktop:text-start"
+          class="mt-20 text-center desktop:max-w-section-text desktop:text-start"
         >
           <h1 class="text-heading-l text-gunmetal desktop:text-heading-xl">
             Body Mass Index Calculator
@@ -103,10 +103,16 @@ import TextField from "../components/text-field.astro";
         </section>
       </div>
       <div
-        class="mx-auto mt-20 box-content max-w-inner tablet:mt-24 tablet:grid tablet:grid-cols-2 tablet:items-center desktop:mt-44 desktop:items-end"
+        class="mx-auto mt-20 box-content max-w-inner tablet:mt-24 tablet:grid tablet:grid-cols-2 tablet:items-center tablet:gap-6 tablet:overflow-x-hidden tablet:px-10 desktop:mt-44 desktop:items-end desktop:gap-8 desktop:overflow-x-visible"
       >
-        <img alt="" src="/assets/images/image-man-eating.webp" />
-        <div class="mt-12 px-6 tablet:mt-0 tablet:px-0 desktop:mb-10">
+        <img
+          class="tablet:relative tablet:right-12 tablet:w-96 tablet:max-w-none tablet:justify-self-end desktop:static desktop:w-auto desktop:max-w-full desktop:justify-self-auto"
+          alt=""
+          src="/assets/images/image-man-eating.webp"
+        />
+        <div
+          class="mt-12 px-6 tablet:mt-0 tablet:px-0 desktop:mb-10 desktop:max-w-section-text desktop:justify-self-end"
+        >
           <h2 class="text-heading-l-m text-gunmetal desktop:text-heading-l">
             What your BMI result means
           </h2>
