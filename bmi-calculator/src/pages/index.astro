@@ -172,10 +172,10 @@ import TextField from "../components/text-field.astro";
         </div>
       </div>
       <div
-        class="mx-auto mt-20 box-content grid max-w-inner gap-4 px-6 tablet:mt-24 tablet:grid-cols-4 tablet:gap-6 tablet:gap-x-4 tablet:px-10 desktop:mt-32"
+        class="mx-auto mt-20 box-content grid max-w-inner gap-4 px-6 tablet:mt-24 tablet:grid-cols-4 tablet:gap-6 tablet:gap-x-4 tablet:px-10 desktop:mt-32 desktop:grid-cols-6 desktop:gap-8"
       >
         <div
-          class="mb-10 text-center tablet:col-span-4 tablet:mb-8 desktop:text-start"
+          class="mb-10 text-center tablet:col-span-4 tablet:mb-8 desktop:col-span-3 desktop:text-start"
         >
           <h2 class="text-heading-l-m text-gunmetal desktop:text-heading-l">
             Limitations of BMI
@@ -222,7 +222,7 @@ import TextField from "../components/text-field.astro";
           ].map((limitation) => {
             return (
               <article
-                class="rounded-4 bg-pure-white p-6 shadow-layer-1 tablet:data-[limitation=age]:col-span-2 tablet:data-[limitation=gender]:col-span-2 tablet:data-[limitation=muscle]:col-span-2 tablet:data-[limitation=pregnancy]:col-span-2 tablet:data-[limitation=race]:col-span-2 tablet:data-[limitation=race]:col-start-2"
+                class="rounded-4 bg-pure-white p-6 shadow-layer-1 tablet:data-[limitation=age]:col-span-2 tablet:data-[limitation=gender]:col-span-2 tablet:data-[limitation=muscle]:col-span-2 tablet:data-[limitation=pregnancy]:col-span-2 tablet:data-[limitation=race]:col-span-2 tablet:data-[limitation=race]:col-start-2 desktop:col-span-2 desktop:p-8 desktop:data-[limitation=gender]:col-span-3 desktop:data-[limitation=age]:col-start-3 desktop:data-[limitation=gender]:col-start-4 desktop:data-[limitation=muscle]:col-start-5 desktop:data-[limitation=pregnancy]:col-start-2 desktop:data-[limitation=race]:col-start-4 desktop:data-[limitation=gender]:mr-24 desktop:data-[limitation=gender]:max-w-[calc((100%-4rem)/3*2+2rem)] desktop:data-[limitation=gender]:justify-self-end"
                 data-limitation={limitation.id}
               >
                 <div class="flex items-center gap-4">
