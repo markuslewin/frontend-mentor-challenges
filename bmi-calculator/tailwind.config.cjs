@@ -55,6 +55,7 @@ module.exports = {
       4: rem(16),
       9: rem(36),
       full: defaultTheme.borderRadius.full,
+      result: rem(900),
     },
     fontSize: ({ theme }) => ({
       "heading-xl": [
