@@ -20,7 +20,7 @@ import TextField from "../components/text-field.astro";
     class="bg-pure-white pb-24 font-inter text-body-m text-dark-electric-blue desktop:pb-32"
   >
     <header
-      class="relative mx-auto box-content max-w-outer pt-8 before:absolute before:top-0 before:-z-10 before:block before:h-hero-decoration before:w-full before:rounded-b-9 before:bg-gradient-to-br before:from-gradient-1-from before:to-gradient-1-to before:content-[''] desktop:pt-20 desktop:before:h-hero-decoration-desktop desktop:before:max-w-hero-decoration"
+      class="relative mx-auto box-content max-w-outer pt-8 before:absolute before:top-0 before:-z-10 before:block before:h-hero-decoration before:w-full before:rounded-b-9 before:bg-gradient-to-br before:from-gradient-1-from before:to-gradient-1-to before:content-[''] forced-colors:before:border-1 forced-colors:before:border-solid desktop:pt-20 desktop:before:h-hero-decoration-desktop desktop:before:max-w-hero-decoration"
     >
       <div class="mx-auto box-content max-w-inner px-6 tablet:px-10">
         <img
@@ -48,7 +48,7 @@ import TextField from "../components/text-field.astro";
           </p>
         </div>
         <section
-          class="mt-12 rounded-4 bg-pure-white p-6 text-gunmetal shadow-layer-1 tablet:mt-10 tablet:p-8 desktop:mt-0"
+          class="mt-12 rounded-4 bg-pure-white p-6 text-gunmetal shadow-layer-1 forced-colors:border-1 forced-colors:border-solid tablet:mt-10 tablet:p-8 desktop:mt-0"
           aria-labelledby="calculator"
         >
           <h2 class="text-heading-m text-gunmetal" id="calculator">
@@ -86,7 +86,7 @@ import TextField from "../components/text-field.astro";
             <button class="sr-only" type="submit">Submit</button>
           </form>
           <div
-            class="mt-6 rounded-4 bg-gradient-to-r from-blue to-gradient-result-to p-8 text-body-s text-pure-white tablet:relative tablet:isolate tablet:mt-8 tablet:grid tablet:grid-cols-2 tablet:items-center tablet:gap-6 tablet:bg-none tablet:before:absolute tablet:before:inset-0 tablet:before:-z-10 tablet:before:block tablet:before:rounded-4 tablet:before:bg-gradient-to-r tablet:before:from-blue tablet:before:via-gradient-result-via tablet:before:via-50% tablet:before:to-transparent tablet:before:to-50% tablet:before:content-[''] tablet:after:absolute tablet:after:inset-0 tablet:after:-z-10 tablet:after:block tablet:after:rounded-full tablet:after:bg-gradient-to-r tablet:after:from-transparent tablet:after:from-50% tablet:after:via-gradient-result-via tablet:after:via-50% tablet:after:to-gradient-result-to tablet:after:content-['']"
+            class="mt-6 rounded-4 bg-gradient-to-r from-blue to-gradient-result-to p-8 text-body-s text-pure-white forced-colors:border-1 forced-colors:border-solid tablet:relative tablet:isolate tablet:mt-8 tablet:grid tablet:grid-cols-2 tablet:items-center tablet:gap-6 tablet:bg-none tablet:before:absolute tablet:before:inset-0 tablet:before:-z-10 tablet:before:block tablet:before:rounded-4 tablet:before:bg-gradient-to-r tablet:before:from-blue tablet:before:via-gradient-result-via tablet:before:via-50% tablet:before:to-transparent tablet:before:to-50% tablet:before:content-[''] tablet:after:absolute tablet:after:inset-0 tablet:after:-z-10 tablet:after:block tablet:after:rounded-full tablet:after:bg-gradient-to-r tablet:after:from-transparent tablet:after:from-50% tablet:after:via-gradient-result-via tablet:after:via-50% tablet:after:to-gradient-result-to tablet:after:content-['']"
           >
             <h3 class="text-body-m-bold">
               Your BMI is... <strong class="mt-2 block text-heading-l"
@@ -132,7 +132,7 @@ import TextField from "../components/text-field.astro";
         </div>
       </div>
       <div
-        class="mx-auto mt-20 box-content max-w-outer bg-gradient-to-br from-gradient-1-from to-gradient-1-to py-14 tablet:mt-24 tablet:py-16 desktop:rounded-9 desktop:py-20 desktop:pb-24"
+        class="mx-auto mt-20 box-content max-w-outer bg-gradient-to-br from-gradient-1-from to-gradient-1-to py-14 forced-colors:border-1 forced-colors:border-solid tablet:mt-24 tablet:py-16 desktop:rounded-9 desktop:py-20 desktop:pb-24"
       >
         <div class="mx-auto box-content max-w-inner px-6 tablet:px-10">
           <h2 class="sr-only">Ways to maintain a healthy BMI</h2>
@@ -222,7 +222,7 @@ import TextField from "../components/text-field.astro";
           ].map((limitation) => {
             return (
               <article
-                class="rounded-4 bg-pure-white p-6 shadow-layer-1 tablet:data-[limitation=age]:col-span-2 tablet:data-[limitation=gender]:col-span-2 tablet:data-[limitation=muscle]:col-span-2 tablet:data-[limitation=pregnancy]:col-span-2 tablet:data-[limitation=race]:col-span-2 tablet:data-[limitation=race]:col-start-2 desktop:col-span-2 desktop:p-8 desktop:data-[limitation=gender]:col-span-3 desktop:data-[limitation=age]:col-start-3 desktop:data-[limitation=gender]:col-start-4 desktop:data-[limitation=muscle]:col-start-5 desktop:data-[limitation=pregnancy]:col-start-2 desktop:data-[limitation=race]:col-start-4 desktop:data-[limitation=gender]:mr-24 desktop:data-[limitation=gender]:max-w-[calc((100%-4rem)/3*2+2rem)] desktop:data-[limitation=gender]:justify-self-end"
+                class="rounded-4 bg-pure-white p-6 shadow-layer-1 forced-colors:border-1 forced-colors:border-solid tablet:data-[limitation=age]:col-span-2 tablet:data-[limitation=gender]:col-span-2 tablet:data-[limitation=muscle]:col-span-2 tablet:data-[limitation=pregnancy]:col-span-2 tablet:data-[limitation=race]:col-span-2 tablet:data-[limitation=race]:col-start-2 desktop:col-span-2 desktop:p-8 desktop:data-[limitation=gender]:col-span-3 desktop:data-[limitation=age]:col-start-3 desktop:data-[limitation=gender]:col-start-4 desktop:data-[limitation=muscle]:col-start-5 desktop:data-[limitation=pregnancy]:col-start-2 desktop:data-[limitation=race]:col-start-4 desktop:data-[limitation=gender]:mr-24 desktop:data-[limitation=gender]:max-w-[calc((100%-4rem)/3*2+2rem)] desktop:data-[limitation=gender]:justify-self-end"
                 data-limitation={limitation.id}
               >
                 <div class="flex items-center gap-4">
