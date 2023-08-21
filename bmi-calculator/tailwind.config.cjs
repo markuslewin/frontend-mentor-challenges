@@ -33,7 +33,6 @@ module.exports = {
       "pure-white": "hsl(0 0% 100%)",
       "gradient-1-from": "hsl(184 95% 92% / 0%)",
       "gradient-1-to": "hsl(216 95% 92%)",
-      "gradient-result-via": "hsl(227 95% 63%)",
       "gradient-result-to": "hsl(227 100% 67%)",
       // other
       inherit: "inherit",
