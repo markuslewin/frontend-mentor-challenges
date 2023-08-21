@@ -1,7 +1,8 @@
 ---
 import "../styles/global.css";
+import MetricControls from "../components/metric-controls.astro";
 import RadioButton from "../components/radio-button.astro";
-import TextField from "../components/text-field.astro";
+// import TextField from "../components/text-field.astro";
 ---
 
 <html lang="en">
@@ -72,18 +73,7 @@ import TextField from "../components/text-field.astro";
               />
             </fieldset>
             <div data-form-controls>
-              <div
-                class="tablet:mt-8 tablet:grid tablet:grid-cols-2 tablet:gap-6"
-              >
-                <fieldset class="m-0 mt-6 border-none p-0 tablet:mt-0">
-                  <legend class="mb-2 text-dark-electric-blue">Height</legend>
-                  <TextField label="cm" name="height" required />
-                </fieldset>
-                <fieldset class="m-0 mt-4 border-none p-0 tablet:mt-0">
-                  <legend class="mb-2 text-dark-electric-blue">Weight</legend>
-                  <TextField label="kg" name="weight" required />
-                </fieldset>
-              </div>
+              <MetricControls />
             </div>
             <button class="sr-only" type="submit">Submit</button>
           </form>
@@ -241,16 +231,7 @@ import TextField from "../components/text-field.astro";
       </div>
     </main>
     <template id="controls-metric">
-      <div class="tablet:mt-8 tablet:grid tablet:grid-cols-2 tablet:gap-6">
-        <fieldset class="m-0 mt-6 border-none p-0 tablet:mt-0">
-          <legend class="mb-2 text-dark-electric-blue">Height</legend>
-          <TextField label="cm" name="height" required />
-        </fieldset>
-        <fieldset class="m-0 mt-4 border-none p-0 tablet:mt-0">
-          <legend class="mb-2 text-dark-electric-blue">Weight</legend>
-          <TextField label="kg" name="weight" required />
-        </fieldset>
-      </div>
+      <MetricControls />
     </template>
     <template id="controls-imperial">
       <input name="imperial-field" />
