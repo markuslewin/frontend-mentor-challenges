@@ -2,7 +2,7 @@
 import "../styles/global.css";
 import MetricControls from "../components/metric-controls.astro";
 import RadioButton from "../components/radio-button.astro";
-// import TextField from "../components/text-field.astro";
+import TextField from "../components/text-field.astro";
 ---
 
 <html lang="en">
@@ -234,7 +234,22 @@ import RadioButton from "../components/radio-button.astro";
       <MetricControls />
     </template>
     <template id="controls-imperial">
-      <input name="imperial-field" />
+      <div class="tablet:mt-8">
+        <fieldset
+          class="m-0 mt-6 grid grid-cols-2 gap-4 border-none p-0 tablet:mt-0 tablet:gap-6"
+        >
+          <legend class="mb-2 text-dark-electric-blue">Height</legend>
+          <TextField label="ft" name="height-ft" required />
+          <TextField label="in" name="height-in" required />
+        </fieldset>
+        <fieldset
+          class="m-0 mt-4 grid grid-cols-2 gap-4 border-none p-0 tablet:mt-6 tablet:gap-6"
+        >
+          <legend class="mb-2 text-dark-electric-blue">Weight</legend>
+          <TextField label="st" name="weight-st" required />
+          <TextField label="lbs" name="weight-lbs" required />
+        </fieldset>
+      </div>
     </template>
   </body>
 </html>
