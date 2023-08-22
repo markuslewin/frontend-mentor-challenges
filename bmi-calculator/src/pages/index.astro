@@ -290,34 +290,132 @@ import TextField from "../components/text-field.astro";
   });
 
   form.addEventListener("submit", (e) => {
-    // todo: remove
     e.preventDefault();
-    if (e.target instanceof HTMLFormElement) {
-      const formData = new FormData(e.target);
 
-      // todo: remove
-      const data = Object.fromEntries(formData);
-      console.log({ data });
+    if (!(e.target instanceof HTMLFormElement)) {
+      return;
+    }
 
-      const height = parseInt(formData.get("height-cm") as string, 10) / 100;
-      const weight = parseInt(formData.get("weight-kg") as string, 10);
+    const formData = new FormData(e.target);
+    const parseResult = parseFormData(formData);
+    if (typeof parseResult.error === "string") {
+      throw new Error(parseResult.error);
+    }
 
-      const bmi = getBmi(height, weight);
-      const classification = getClassification(bmi);
-      const idealWeight = getIdealWeight(height);
+    const result = getResult(parseResult.data);
 
-      resultBmi.textContent = bmi.toFixed(1);
-      resultClassification.textContent = classification;
-      resultIdeal.textContent = `${idealWeight.lowest.toFixed(
+    resultBmi.textContent = result.bmi.toFixed(1);
+    resultClassification.textContent = result.classification;
+    if (result.units === "metric") {
+      resultIdeal.textContent = `${result.idealWeight.lowest.toFixed(
         1
-      )}kgs - ${idealWeight.highest.toFixed(1)}kgs`;
-
-      e.preventDefault();
+      )}kgs - ${result.idealWeight.highest.toFixed(1)}kgs`;
+    } else {
+      resultIdeal.textContent = `${Math.floor(
+        result.idealWeight.lowest / 14
+      )}st ${Math.floor(result.idealWeight.lowest % 14)}lbs - ${Math.floor(
+        result.idealWeight.highest / 14
+      )}st ${Math.floor(result.idealWeight.highest % 14)}lbs`;
     }
   });
 
-  const getBmi = (height: number, weight: number) => {
-    return weight / height ** 2;
+  const parseFormData = (formData: FormData) => {
+    const units = formData.get("units");
+    if (units !== "metric" && units !== "imperial") {
+      return { error: "Invalid unit" };
+    }
+
+    if (units === "metric") {
+      const rawHeight = formData.get("height-cm");
+      if (typeof rawHeight !== "string") {
+        return { error: "Invalid height" };
+      }
+      const height = parseInt(rawHeight, 10);
+      if (isNaN(height)) {
+        return { error: "Invalid height" };
+      }
+
+      const rawWeight = formData.get("weight-kg");
+      if (typeof rawWeight !== "string") {
+        return { error: "Invalid weight" };
+      }
+      const weight = parseInt(rawWeight, 10);
+      if (isNaN(weight)) {
+        return { error: "Invalid weight" };
+      }
+
+      return { data: { units, cm: height, kg: weight } } as const;
+    } else {
+      const rawFt = formData.get("height-ft");
+      if (typeof rawFt !== "string") {
+        return { error: "Invalid height" };
+      }
+      const ft = parseInt(rawFt, 10);
+      if (isNaN(ft)) {
+        return { error: "Invalid height" };
+      }
+
+      const rawIn = formData.get("height-in");
+      if (typeof rawIn !== "string") {
+        return { error: "Invalid height" };
+      }
+      const _in = parseInt(rawIn, 10);
+      if (isNaN(_in)) {
+        return { error: "Invalid height" };
+      }
+
+      const rawSt = formData.get("weight-st");
+      if (typeof rawSt !== "string") {
+        return { error: "Invalid weight" };
+      }
+      const st = parseInt(rawSt, 10);
+      if (isNaN(st)) {
+        return { error: "Invalid weight" };
+      }
+
+      const rawLbs = formData.get("weight-lbs");
+      if (typeof rawLbs !== "string") {
+        return { error: "Invalid weight" };
+      }
+      const lbs = parseInt(rawLbs, 10);
+      if (isNaN(lbs)) {
+        return { error: "Invalid weight" };
+      }
+
+      return { data: { units, ft, in: _in, st, lbs } } as const;
+    }
+  };
+
+  const getResult = (data: ParseData) => {
+    const units = data.units;
+
+    let bmi, idealWeight;
+    if (units === "metric") {
+      const m = data.cm / 100;
+      const kg = data.kg;
+      bmi = getBmiMetric(m, kg);
+      idealWeight = getIdealWeightMetric(m);
+    } else {
+      const _in = data.ft * 12 + data.in;
+      const lbs = data.st * 14 + data.lbs;
+      bmi = getBmiImperial(_in, lbs);
+      idealWeight = getIdealWeightImperial(_in);
+    }
+
+    const classification = getClassification(bmi);
+
+    return { units, bmi, classification, idealWeight };
+  };
+
+  type ParseData<T = ReturnType<typeof parseFormData>["data"]> =
+    T extends undefined ? never : T;
+
+  const getBmiMetric = (m: number, kg: number) => {
+    return kg / m ** 2;
+  };
+
+  const getBmiImperial = (_in: number, lbs: number) => {
+    return (703 * lbs) / _in ** 2;
   };
 
   const getClassification = (bmi: number) => {
@@ -332,9 +430,19 @@ import TextField from "../components/text-field.astro";
     }
   };
 
-  const getIdealWeight = (height: number) => {
-    const lowest = 18.5 * height ** 2;
-    const highest = 25 * height ** 2;
+  const getIdealWeightMetric = (m: number) => {
+    const lowest = 18.5 * m ** 2;
+    const highest = 25 * m ** 2;
+
+    return {
+      lowest,
+      highest,
+    };
+  };
+
+  const getIdealWeightImperial = (_in: number) => {
+    const lowest = (18.5 / 703) * _in ** 2;
+    const highest = (25 / 703) * _in ** 2;
 
     return {
       lowest,
