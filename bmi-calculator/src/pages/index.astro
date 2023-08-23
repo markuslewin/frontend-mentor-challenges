@@ -75,7 +75,7 @@ import TextField from "../components/text-field.astro";
             <div data-form-controls>
               <MetricControls />
             </div>
-            <button class="sr-only" type="submit">Submit</button>
+            <button class="hidden" type="submit"></button>
           </form>
           <div
             id="calculator-result"
@@ -89,7 +89,9 @@ import TextField from "../components/text-field.astro";
               Enter your height and weight and you'll see your BMI result here
             </p>
             <h3
-              class="hidden text-body-m-bold group-data-[has-result=true]:block"
+              class="hidden text-body-m-bold outline-0 group-data-[has-result=true]:block"
+              data-result-heading
+              tabindex="-1"
             >
               Your BMI is... <strong
                 class="mt-2 block text-heading-l desktop:text-heading-xl"
@@ -282,6 +284,9 @@ import TextField from "../components/text-field.astro";
   const resultIdeal = resultEl.querySelector(
     "[data-result-ideal]"
   ) as HTMLElement;
+  const resultHeading = resultEl.querySelector(
+    "[data-result-heading]"
+  ) as HTMLElement;
 
   const metricTemplate = document.getElementById(
     "controls-metric"
@@ -330,5 +335,6 @@ import TextField from "../components/text-field.astro";
       )}st ${Math.floor(result.idealWeight.highest % 14)}lbs`;
     }
     resultEl.dataset.hasResult = "true";
+    resultHeading.focus();
   });
 </script>
