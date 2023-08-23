@@ -303,42 +303,54 @@ import TextField from "../components/text-field.astro";
 <script>
   import { getResult, parseFormData } from "../utils/form";
 
-  const form = document.getElementById("calculator-form") as HTMLFormElement;
-  const controlsContainer = form.querySelector(
-    "[data-form-controls]"
-  ) as HTMLElement;
+  const $ = {
+    form: ((el) => {
+      const controls = el.querySelector("[data-form-controls]") as HTMLElement;
 
-  const resultEl = document.getElementById("calculator-result") as HTMLElement;
-  const resultBmi = resultEl.querySelector("[data-result-bmi]") as HTMLElement;
-  const resultClassification = resultEl.querySelector(
-    "[data-result-classification]"
-  ) as HTMLElement;
-  const resultIdeal = resultEl.querySelector(
-    "[data-result-ideal]"
-  ) as HTMLElement;
-  const resultHeading = resultEl.querySelector(
-    "[data-result-heading]"
-  ) as HTMLElement;
+      return { el, controls };
+    })(document.getElementById("calculator-form") as HTMLFormElement),
+    result: ((el) => {
+      const bmi = el.querySelector("[data-result-bmi]") as HTMLElement;
+      const classification = el.querySelector(
+        "[data-result-classification]"
+      ) as HTMLElement;
+      const ideal = el.querySelector("[data-result-ideal]") as HTMLElement;
+      const heading = el.querySelector("[data-result-heading]") as HTMLElement;
 
-  const metricTemplate = document.getElementById(
-    "controls-metric"
-  ) as HTMLTemplateElement;
-  const imperialTemplate = document.getElementById(
-    "controls-imperial"
-  ) as HTMLTemplateElement;
+      return {
+        el,
+        heading,
+        bmi,
+        classification,
+        ideal,
+      };
+    })(document.getElementById("calculator-result") as HTMLElement),
+    template: {
+      controls: {
+        metric: document.getElementById(
+          "controls-metric"
+        ) as HTMLTemplateElement,
+        imperial: document.getElementById(
+          "controls-imperial"
+        ) as HTMLTemplateElement,
+      },
+    },
+  };
 
-  form.addEventListener("change", (e) => {
+  $.form.el.addEventListener("change", (e) => {
     if (e.target instanceof HTMLInputElement && e.target.name === "units") {
       const template =
-        e.target.value === "metric" ? metricTemplate : imperialTemplate;
+        e.target.value === "metric"
+          ? $.template.controls.metric
+          : $.template.controls.imperial;
       const controls = template.content.cloneNode(true);
 
-      controlsContainer.textContent = "";
-      controlsContainer.append(controls);
+      $.form.controls.textContent = "";
+      $.form.controls.append(controls);
     }
   });
 
-  form.addEventListener("submit", (e) => {
+  $.form.el.addEventListener("submit", (e) => {
     e.preventDefault();
 
     if (!(e.target instanceof HTMLFormElement)) {
@@ -353,20 +365,20 @@ import TextField from "../components/text-field.astro";
 
     const result = getResult(parseResult.data);
 
-    resultBmi.textContent = result.bmi.toFixed(1);
-    resultClassification.textContent = result.classification;
+    $.result.bmi.textContent = result.bmi.toFixed(1);
+    $.result.classification.textContent = result.classification;
     if (result.units === "metric") {
-      resultIdeal.textContent = `${result.idealWeight.lowest.toFixed(
+      $.result.ideal.textContent = `${result.idealWeight.lowest.toFixed(
         1
       )}kgs - ${result.idealWeight.highest.toFixed(1)}kgs`;
     } else {
-      resultIdeal.textContent = `${Math.floor(
+      $.result.ideal.textContent = `${Math.floor(
         result.idealWeight.lowest / 14
       )}st ${Math.floor(result.idealWeight.lowest % 14)}lbs - ${Math.floor(
         result.idealWeight.highest / 14
       )}st ${Math.floor(result.idealWeight.highest % 14)}lbs`;
     }
-    resultEl.dataset.hasResult = "true";
-    resultHeading.focus();
+    $.result.el.dataset.hasResult = "true";
+    $.result.heading.focus();
   });
 </script>
