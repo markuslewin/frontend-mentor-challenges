@@ -25,9 +25,11 @@ import TextField from "../components/text-field.astro";
     >
       <div class="mx-auto box-content max-w-inner px-6 tablet:px-10">
         <img
-          class="mx-auto desktop:ml-0"
+          class="mx-auto h-10 w-auto desktop:ml-0 desktop:h-16"
           alt="BMI calculator"
           src="/assets/images/logo.svg"
+          width="64"
+          height="64"
         />
       </div>
     </header>
@@ -115,9 +117,11 @@ import TextField from "../components/text-field.astro";
           class="tablet:flex tablet:justify-end tablet:overflow-x-hidden desktop:block desktop:overflow-x-visible"
         >
           <img
-            class="tablet:relative tablet:right-12 tablet:w-96 tablet:max-w-none desktop:static desktop:w-auto desktop:max-w-full desktop:justify-self-auto"
+            class="h-auto tablet:relative tablet:right-12 tablet:w-96 tablet:max-w-none desktop:static desktop:w-auto desktop:max-w-full desktop:justify-self-auto"
             alt=""
             src="/assets/images/image-man-eating.webp"
+            width="1128"
+            height="1066"
           />
         </div>
         <div
@@ -128,9 +132,11 @@ import TextField from "../components/text-field.astro";
           >
             What your BMI result means
             <img
-              class="absolute -top-9 right-7 hidden h-curved-line-left -translate-y-full desktop:block"
+              class="absolute -top-9 right-7 hidden h-curved-line-left w-auto -translate-y-full desktop:block"
               alt=""
               src="/assets/images/pattern-curved-line-left.svg"
+              width="85"
+              height="200"
             />
           </h2>
           <p class="mt-8 desktop:mt-9">
@@ -170,7 +176,13 @@ import TextField from "../components/text-field.astro";
               ].map((way) => {
                 return (
                   <article class="flex-1 tablet:flex tablet:items-center tablet:gap-10 desktop:block">
-                    <img class="shrink-0" alt="" src={way.icon} />
+                    <img
+                      class="h-16 w-auto shrink-0"
+                      alt=""
+                      src={way.icon}
+                      width="64"
+                      height="64"
+                    />
                     <div>
                       <h3 class="mt-8 text-heading-m text-gunmetal tablet:mt-0 desktop:mt-11">
                         {way.heading}
@@ -200,9 +212,11 @@ import TextField from "../components/text-field.astro";
             may not be beneficial to use.
           </p>
           <img
-            class="h-curved-line-right absolute -bottom-16 left-40 hidden translate-y-full desktop:block"
+            class="absolute -bottom-16 left-40 hidden h-curved-line-right w-auto translate-y-full desktop:block"
             alt=""
             src="/assets/images/pattern-curved-line-right.svg"
+            width="94"
+            height="122"
           />
         </div>
         {
@@ -244,7 +258,13 @@ import TextField from "../components/text-field.astro";
                 data-limitation={limitation.id}
               >
                 <div class="flex items-center gap-4">
-                  <img alt="" src={limitation.icon} />
+                  <img
+                    class="h-8 w-auto"
+                    alt=""
+                    src={limitation.icon}
+                    width="32"
+                    height="32"
+                  />
                   <h3 class="text-heading-s text-gunmetal">
                     {limitation.heading}
                   </h3>
