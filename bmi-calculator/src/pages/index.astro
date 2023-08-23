@@ -123,8 +123,15 @@ import TextField from "../components/text-field.astro";
         <div
           class="mt-12 px-6 tablet:mt-0 tablet:px-0 tablet:pr-10 desktop:mb-10 desktop:max-w-section-text desktop:justify-self-end desktop:px-0"
         >
-          <h2 class="text-heading-l-m text-gunmetal desktop:text-heading-l">
+          <h2
+            class="relative text-heading-l-m text-gunmetal desktop:text-heading-l"
+          >
             What your BMI result means
+            <img
+              class="absolute -top-9 right-7 hidden h-curved-line-left -translate-y-full desktop:block"
+              alt=""
+              src="/assets/images/pattern-curved-line-left.svg"
+            />
           </h2>
           <p class="mt-8 desktop:mt-9">
             A BMI range of 18.5 to 24.9 is considered a 'healthy weight.'
@@ -181,7 +188,7 @@ import TextField from "../components/text-field.astro";
         class="mx-auto mt-20 box-content grid max-w-inner gap-4 px-6 tablet:mt-24 tablet:grid-cols-4 tablet:gap-6 tablet:gap-x-4 tablet:px-10 desktop:mt-32 desktop:grid-cols-6 desktop:gap-8"
       >
         <div
-          class="mb-10 text-center tablet:col-span-4 tablet:mb-8 desktop:col-span-3 desktop:text-start"
+          class="relative mb-10 text-center tablet:col-span-4 tablet:mb-8 desktop:col-span-3 desktop:text-start"
         >
           <h2 class="text-heading-l-m text-gunmetal desktop:text-heading-l">
             Limitations of BMI
@@ -192,6 +199,11 @@ import TextField from "../components/text-field.astro";
             consider their BMI outcomes, and in certain cases, the measurement
             may not be beneficial to use.
           </p>
+          <img
+            class="h-curved-line-right absolute -bottom-16 left-40 hidden translate-y-full desktop:block"
+            alt=""
+            src="/assets/images/pattern-curved-line-right.svg"
+          />
         </div>
         {
           [

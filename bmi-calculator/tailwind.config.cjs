@@ -124,6 +124,8 @@ module.exports = {
       height: {
         "hero-decoration": rem(640),
         "hero-decoration-desktop": rem(737),
+        "curved-line-left": rem(200),
+        "curved-line-right": rem(122),
       },
       opacity: {
         15: "0.15",
