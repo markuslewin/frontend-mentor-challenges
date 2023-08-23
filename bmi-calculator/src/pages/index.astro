@@ -345,6 +345,7 @@ import TextField from "../components/text-field.astro";
           : $.template.controls.imperial;
       const controls = template.content.cloneNode(true);
 
+      $.result.el.dataset.hasResult = "false";
       $.form.controls.textContent = "";
       $.form.controls.append(controls);
     }
