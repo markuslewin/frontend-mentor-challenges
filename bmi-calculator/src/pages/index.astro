@@ -78,21 +78,30 @@ import TextField from "../components/text-field.astro";
             <button class="sr-only" type="submit">Submit</button>
           </form>
           <div
-            class="mt-6 rounded-4 bg-gradient-to-r from-blue to-gradient-result-to p-8 text-body-s text-pure-white forced-colors:border-1 forced-colors:border-solid tablet:mt-8 tablet:grid tablet:grid-cols-2 tablet:items-center tablet:gap-6 tablet:rounded-result tablet:rounded-e-full"
+            id="calculator-result"
+            class="group mt-6 rounded-4 bg-gradient-to-r from-blue to-gradient-result-to p-8 text-body-s text-pure-white forced-colors:border-1 forced-colors:border-solid tablet:mt-8 tablet:grid-cols-2 tablet:items-center tablet:gap-6 tablet:rounded-result tablet:rounded-e-full tablet:data-[has-result=true]:grid"
+            data-has-result="false"
           >
-            <h3 class="text-body-m-bold">
+            <h3 class="text-heading-m group-data-[has-result=true]:hidden">
+              Welcome!
+            </h3>
+            <p class="mt-4 group-data-[has-result=true]:hidden">
+              Enter your height and weight and you'll see your BMI result here
+            </p>
+            <h3
+              class="hidden text-body-m-bold group-data-[has-result=true]:block"
+            >
               Your BMI is... <strong
                 class="mt-2 block text-heading-l desktop:text-heading-xl"
-                data-form-result-bmi>23.4</strong
-              >
+                data-result-bmi></strong>
             </h3>
-            <p class="mt-6 tablet:mt-0">
-              Your BMI suggests you're <span data-form-result-classification
-                >a healthy weight</span
-              >. Your ideal weight is between <strong
+            <p
+              class="mt-6 hidden group-data-[has-result=true]:block tablet:mt-0"
+            >
+              Your BMI suggests you're <span data-result-classification></span>.
+              Your ideal weight is between <strong
                 class="font-semi-bold"
-                data-form-result-ideal>63.3kgs - 85.2kgs</strong
-              >.
+                data-result-ideal></strong>.
             </p>
           </div>
         </section>
@@ -264,15 +273,16 @@ import TextField from "../components/text-field.astro";
   const controlsContainer = form.querySelector(
     "[data-form-controls]"
   ) as HTMLElement;
-  const resultBmi = document.querySelector(
-    "[data-form-result-bmi]"
+
+  const resultEl = document.getElementById("calculator-result") as HTMLElement;
+  const resultBmi = resultEl.querySelector("[data-result-bmi]") as HTMLElement;
+  const resultClassification = resultEl.querySelector(
+    "[data-result-classification]"
   ) as HTMLElement;
-  const resultClassification = document.querySelector(
-    "[data-form-result-classification]"
+  const resultIdeal = resultEl.querySelector(
+    "[data-result-ideal]"
   ) as HTMLElement;
-  const resultIdeal = document.querySelector(
-    "[data-form-result-ideal]"
-  ) as HTMLElement;
+
   const metricTemplate = document.getElementById(
     "controls-metric"
   ) as HTMLTemplateElement;
@@ -319,5 +329,6 @@ import TextField from "../components/text-field.astro";
         result.idealWeight.highest / 14
       )}st ${Math.floor(result.idealWeight.highest % 14)}lbs`;
     }
+    resultEl.dataset.hasResult = "true";
   });
 </script>
