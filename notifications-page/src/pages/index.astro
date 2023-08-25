@@ -1,48 +1,169 @@
 ---
+import { notifications } from "../data/notifications";
 ---
 
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- displays site properly based on user's device -->
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link
       rel="icon"
       type="image/png"
       sizes="32x32"
-      href="./assets/images/favicon-32x32.png"
+      href="/assets/images/favicon-32x32.png"
     />
-
     <title>Frontend Mentor | Notifications page</title>
-
-    <!-- Feel free to remove these styles or customise in your own stylesheet 👍 -->
-    <style>
-      .attribution {
-        font-size: 11px;
-        text-align: center;
-      }
-      .attribution a {
-        color: hsl(228, 45%, 44%);
-      }
-    </style>
   </head>
   <body>
-    Notifications 3 Mark all as read Mark Webber reacted to your recent post My
-    first tournament today! 1m ago Angela Gray followed you 5m ago Jacob
-    Thompson has joined your group Chess Club 1 day ago Rizky Hasanuddin sent
-    you a private message 5 days ago Hello, thanks for setting up the Chess
-    Club. I've been a member for a few weeks now and I'm already having lots of
-    fun and improving my game. Kimberly Smith commented on your picture 1 week
-    ago Nathan Peterson reacted to your recent post 5 end-game strategies to
-    increase your win rate 2 weeks ago Anna Kim left the group Chess Club 2
-    weeks ago
-
-    <div class="attribution">
-      Challenge by <a
-        href="https://www.frontendmentor.io?ref=challenge"
-        target="_blank">Frontend Mentor</a
-      >. Coded by <a href="#">Your Name Here</a>.
-    </div>
+    <main>
+      <article>
+        <header>
+          <h1 id="notifications-heading">
+            Notifications <span>(</span><span>3</span><span> unread)</span>
+          </h1>
+          <form>
+            <button type="submit">Mark all as read</button>
+          </form>
+        </header>
+        <ol aria-describedby="notifications-heading">
+          {
+            notifications.map((notification) => {
+              return (
+                <li
+                  data-type={notification.type}
+                  data-is-read={notification.isRead}
+                >
+                  {!notification.isRead ? <p>Unread notification:</p> : null}
+                  {notification.type === "reacted" ? (
+                    <>
+                      <img
+                        alt=""
+                        src={notification.user.avatar}
+                        width="90"
+                        height="90"
+                      />
+                      <p>
+                        <a href="#">{notification.user.name}</a> reacted to your
+                        recent post <a href="#">{notification.post}</a>
+                      </p>
+                      <p>
+                        <time datetime={notification.time.datetime}>
+                          {notification.time.formatted}
+                        </time>
+                      </p>
+                    </>
+                  ) : notification.type === "followed" ? (
+                    <>
+                      <img
+                        alt=""
+                        src={notification.user.avatar}
+                        width="90"
+                        height="90"
+                      />
+                      <p>
+                        <a href="#">{notification.user.name}</a> followed you
+                      </p>
+                      <p>
+                        <time datetime={notification.time.datetime}>
+                          {notification.time.formatted}
+                        </time>
+                      </p>
+                    </>
+                  ) : notification.type === "joined" ? (
+                    <>
+                      <img
+                        alt=""
+                        src={notification.user.avatar}
+                        width="90"
+                        height="90"
+                      />
+                      <p>
+                        <a href="#">{notification.user.name}</a> has joined your
+                        group <a href="#">{notification.group}</a>
+                      </p>
+                      <p>
+                        <time datetime={notification.time.datetime}>
+                          {notification.time.formatted}
+                        </time>
+                      </p>
+                    </>
+                  ) : notification.type === "messaged" ? (
+                    <>
+                      <img
+                        alt=""
+                        src={notification.user.avatar}
+                        width="90"
+                        height="90"
+                      />
+                      <p>
+                        <a href="#">{notification.user.name}</a> sent you a
+                        private message
+                      </p>
+                      <p>
+                        <time datetime={notification.time.datetime}>
+                          {notification.time.formatted}
+                        </time>
+                      </p>
+                      <blockquote>{notification.message}</blockquote>
+                    </>
+                  ) : notification.type === "commented" ? (
+                    <>
+                      <img
+                        alt=""
+                        src={notification.user.avatar}
+                        width="90"
+                        height="90"
+                      />
+                      <p>
+                        <a href="#">{notification.user.name}</a> commented on
+                        your picture
+                      </p>
+                      <p>
+                        <time datetime={notification.time.datetime}>
+                          {notification.time.formatted}
+                        </time>
+                      </p>
+                      <a href="#">
+                        <img
+                          alt="The picture commented on"
+                          src="/assets/images/image-chess.webp"
+                        />
+                      </a>
+                    </>
+                  ) : notification.type === "left" ? (
+                    <>
+                      <img
+                        alt=""
+                        src={notification.user.avatar}
+                        width="90"
+                        height="90"
+                      />
+                      <p>
+                        <a href="#">{notification.user.name}</a> left the group{" "}
+                        <a href="#">Chess Club</a>
+                      </p>
+                      <p>
+                        <time datetime={notification.time.datetime}>
+                          {notification.time.formatted}
+                        </time>
+                      </p>
+                    </>
+                  ) : (
+                    (() => {
+                      throw new Error(
+                        `Notification type not implemented: ${JSON.stringify(
+                          notification
+                        )}`
+                      );
+                    })()
+                  )}
+                </li>
+              );
+            })
+          }
+        </ol>
+      </article>
+    </main>
   </body>
 </html>
