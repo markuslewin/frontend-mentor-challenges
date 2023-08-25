@@ -1,4 +1,5 @@
 ---
+import "@fontsource-variable/plus-jakarta-sans";
 import { notifications } from "../data/notifications";
 ---
 
@@ -26,7 +27,7 @@ import { notifications } from "../data/notifications";
             <button type="submit">Mark all as read</button>
           </form>
         </header>
-        <ol aria-describedby="notifications-heading">
+        <ol role="list" aria-describedby="notifications-heading">
           {
             notifications.map((notification) => {
               return (
