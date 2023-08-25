@@ -33,130 +33,145 @@ import { notifications } from "../data/notifications";
             notifications.map((notification) => {
               return (
                 <li
-                  class="rounded-lg"
+                  class="rounded-lg grid grid-cols-[max-content_1fr] gap-3 tablet:gap-5 p-4 tablet:p-5 data-[is-read=false]:bg-very-light-grayish-blue"
                   data-type={notification.type}
-                  data-is-read={notification.isRead}
+                  data-is-read={notification.isRead.toString()}
                 >
                   {!notification.isRead ? <p class="sr-only">Unread notification:</p> : null}
                   {notification.type === "reacted" ? (
                     <>
                       <img
-                      class="h-10 w-auto tablet:h-11"
+                        class="h-10 w-auto tablet:h-11"
                         alt=""
                         src={notification.user.avatar}
                         width="90"
                         height="90"
                       />
-                      <p>
-                        <a class="text-very-dark-blue" href="#">{notification.user.name}</a> reacted to your
-                        recent post <a class="text-dark-grayish-blue" href="#">{notification.post}</a>
-                      </p>
-                      <p class="text-grayish-blue">
-                        <time datetime={notification.time.datetime}>
-                          {notification.time.formatted}
-                        </time>
-                      </p>
+                      <div>
+                        <p class="dot">
+                          <a class="text-very-dark-blue" href="#">{notification.user.name}</a> reacted to your
+                          recent post <a class="text-dark-grayish-blue" href="#">{notification.post}</a>
+                        </p>
+                        <p class="text-grayish-blue mt-[0.1875rem]">
+                          <time datetime={notification.time.datetime}>
+                            {notification.time.formatted}
+                          </time>
+                        </p>
+                      </div>
                     </>
                   ) : notification.type === "followed" ? (
                     <>
                       <img
-                      class="h-10 w-auto tablet:h-11"
+                        class="h-10 w-auto tablet:h-11"
                         alt=""
                         src={notification.user.avatar}
                         width="90"
                         height="90"
                       />
-                      <p>
-                        <a class="text-very-dark-blue" href="#">{notification.user.name}</a> followed you
-                      </p>
-                      <p class="text-grayish-blue">
-                        <time datetime={notification.time.datetime}>
-                          {notification.time.formatted}
-                        </time>
-                      </p>
+                      <div>
+                        <p class="dot">
+                          <a class="text-very-dark-blue" href="#">{notification.user.name}</a> followed you
+                        </p>
+                        <p class="text-grayish-blue mt-[0.1875rem]">
+                          <time datetime={notification.time.datetime}>
+                            {notification.time.formatted}
+                          </time>
+                        </p>
+                      </div>
                     </>
                   ) : notification.type === "joined" ? (
                     <>
                       <img
-                      class="h-10 w-auto tablet:h-11"
+                        class="h-10 w-auto tablet:h-11"
                         alt=""
                         src={notification.user.avatar}
                         width="90"
                         height="90"
                       />
-                      <p>
-                        <a class="text-very-dark-blue" href="#">{notification.user.name}</a> has joined your
-                        group <a href="#">{notification.group}</a>
-                      </p>
-                      <p class="text-grayish-blue">
-                        <time datetime={notification.time.datetime}>
-                          {notification.time.formatted}
-                        </time>
-                      </p>
+                      <div>
+                        <p class="dot">
+                          <a class="text-very-dark-blue" href="#">{notification.user.name}</a> has joined your
+                          group <a href="#">{notification.group}</a>
+                        </p>
+                        <p class="text-grayish-blue mt-[0.1875rem]">
+                          <time datetime={notification.time.datetime}>
+                            {notification.time.formatted}
+                          </time>
+                        </p>
+                      </div>
                     </>
                   ) : notification.type === "messaged" ? (
                     <>
                       <img
-                      class="h-10 w-auto tablet:h-11"
+                        class="h-10 w-auto tablet:h-11"
                         alt=""
                         src={notification.user.avatar}
                         width="90"
                         height="90"
                       />
-                      <p>
-                        <a class="text-very-dark-blue" href="#">{notification.user.name}</a> sent you a
-                        private message
-                      </p>
-                      <p class="text-grayish-blue">
-                        <time datetime={notification.time.datetime}>
-                          {notification.time.formatted}
-                        </time>
-                      </p>
-                      <blockquote>{notification.message}</blockquote>
+                      <div>
+                        <p class="dot">
+                          <a class="text-very-dark-blue" href="#">{notification.user.name}</a> sent you a
+                          private message
+                        </p>
+                        <p class="text-grayish-blue mt-[0.1875rem]">
+                          <time datetime={notification.time.datetime}>
+                            {notification.time.formatted}
+                          </time>
+                        </p>
+                        <blockquote class="mt-3 border-[1px] border-light-grayish-blue-2 p-4 tablet:p-5 rounded-[0.3125rem]">{notification.message}</blockquote>
+                      </div>
                     </>
                   ) : notification.type === "commented" ? (
                     <>
                       <img
-                      class="h-10 w-auto tablet:h-11"
+                        class="h-10 w-auto tablet:h-11"
                         alt=""
                         src={notification.user.avatar}
                         width="90"
                         height="90"
                       />
-                      <p>
-                        <a class="text-very-dark-blue" href="#">{notification.user.name}</a> commented on
-                        your picture
-                      </p>
-                      <p class="text-grayish-blue">
-                        <time datetime={notification.time.datetime}>
-                          {notification.time.formatted}
-                        </time>
-                      </p>
-                      <a href="#">
-                        <img
-                          alt="The picture commented on"
-                          src="/assets/images/image-chess.webp"
-                        />
-                      </a>
+                      <div class="grid grid-cols-[1fr_max-content] gap-4">
+                        <div>
+                          <p class="dot">
+                            <a class="text-very-dark-blue" href="#">{notification.user.name}</a> commented on
+                            your picture
+                          </p>
+                          <p class="text-grayish-blue mt-[0.1875rem]">
+                            <time datetime={notification.time.datetime}>
+                              {notification.time.formatted}
+                            </time>
+                          </p>
+                        </div>
+                        <a href="#">
+                          <img
+                            class="h-10 w-auto tablet:h-11"
+                            alt="The picture commented on"
+                            src="/assets/images/image-chess.webp"
+                          />
+                        </a>
+                      </div>
                     </>
                   ) : notification.type === "left" ? (
                     <>
                       <img
-                      class="h-10 w-auto tablet:h-11"
+                        class="h-10 w-auto tablet:h-11"
                         alt=""
                         src={notification.user.avatar}
                         width="90"
                         height="90"
                       />
-                      <p>
-                        <a class="text-very-dark-blue" href="#">{notification.user.name}</a> left the group{" "}
-                        <a href="#">Chess Club</a>
-                      </p>
-                      <p class="text-grayish-blue">
-                        <time datetime={notification.time.datetime}>
-                          {notification.time.formatted}
-                        </time>
-                      </p>
+                      <div>
+                        <p class="dot">
+                          <a class="text-very-dark-blue" href="#">{notification.user.name}</a> left the group{" "}
+                          <a href="#">Chess Club</a>
+                        </p>
+                        <p class="text-grayish-blue mt-[0.1875rem]">
+                          <time datetime={notification.time.datetime}>
+                            {notification.time.formatted}
+                          </time>
+                        </p>
+                      </div>
                     </>
                   ) : (
                     (() => {
