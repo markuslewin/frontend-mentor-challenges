@@ -4,7 +4,7 @@
 
 @layer base {
   body {
-    @apply font-body text-body text-dark-grayish-blue font-medium;
+    @apply font-body text-body text-dark-grayish-blue font-medium bg-very-light-grayish-blue;
   }
 
   h1,

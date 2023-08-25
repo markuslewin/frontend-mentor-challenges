@@ -10,6 +10,12 @@ module.exports = {
       tablet: "40em",
       desktop: "64em",
     },
+    maxWidth: {
+      notifications: rem(730),
+    },
+    boxShadow: {
+      notifications: `0 ${rem(20)} ${rem(60)} hsl(225 40% 47% / 5%)`,
+    },
     colors: {
       // primary
       red: "hsl(1 90% 64%)",

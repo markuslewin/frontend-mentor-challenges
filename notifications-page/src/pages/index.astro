@@ -18,28 +18,30 @@ import { notifications } from "../data/notifications";
     <title>Frontend Mentor | Notifications page</title>
   </head>
   <body>
-    <main>
-      <article>
-        <header>
-          <h1 class="text-header tablet:text-header-desktop" id="notifications-heading">
-            Notifications <span>(</span><span>3</span><span> unread)</span>
+    <main class="min-h-screen desktop:p-16 grid desktop:items-center">
+      <article class="bg-white desktop:max-w-notifications mx-auto box-content desktop:rounded-2xl desktop:shadow-notifications py-6 p-4 tablet:p-8">
+        <header class="flex justify-between items-center gap-4">
+          <h1 class="flex gap-2 items-center text-header tablet:text-header-desktop" id="notifications-heading">
+            Notifications <span class="sr-only">(</span><span class="bg-blue text-white text-body rounded-md p-[0.6875rem] pb-[0.1875rem] pt-[0.125rem] desktop:text-body-desktop">3</span><span class="sr-only"> unread)</span>
           </h1>
           <form>
             <button type="submit">Mark all as read</button>
           </form>
         </header>
-        <ol role="list" aria-describedby="notifications-heading">
+        <ol class="mt-6 tablet:mt-8 space-y-2" role="list" aria-describedby="notifications-heading">
           {
             notifications.map((notification) => {
               return (
                 <li
+                  class="rounded-lg"
                   data-type={notification.type}
                   data-is-read={notification.isRead}
                 >
-                  {!notification.isRead ? <p>Unread notification:</p> : null}
+                  {!notification.isRead ? <p class="sr-only">Unread notification:</p> : null}
                   {notification.type === "reacted" ? (
                     <>
                       <img
+                      class="h-10 w-auto tablet:h-11"
                         alt=""
                         src={notification.user.avatar}
                         width="90"
@@ -58,6 +60,7 @@ import { notifications } from "../data/notifications";
                   ) : notification.type === "followed" ? (
                     <>
                       <img
+                      class="h-10 w-auto tablet:h-11"
                         alt=""
                         src={notification.user.avatar}
                         width="90"
@@ -75,6 +78,7 @@ import { notifications } from "../data/notifications";
                   ) : notification.type === "joined" ? (
                     <>
                       <img
+                      class="h-10 w-auto tablet:h-11"
                         alt=""
                         src={notification.user.avatar}
                         width="90"
@@ -93,6 +97,7 @@ import { notifications } from "../data/notifications";
                   ) : notification.type === "messaged" ? (
                     <>
                       <img
+                      class="h-10 w-auto tablet:h-11"
                         alt=""
                         src={notification.user.avatar}
                         width="90"
@@ -112,6 +117,7 @@ import { notifications } from "../data/notifications";
                   ) : notification.type === "commented" ? (
                     <>
                       <img
+                      class="h-10 w-auto tablet:h-11"
                         alt=""
                         src={notification.user.avatar}
                         width="90"
@@ -136,6 +142,7 @@ import { notifications } from "../data/notifications";
                   ) : notification.type === "left" ? (
                     <>
                       <img
+                      class="h-10 w-auto tablet:h-11"
                         alt=""
                         src={notification.user.avatar}
                         width="90"
