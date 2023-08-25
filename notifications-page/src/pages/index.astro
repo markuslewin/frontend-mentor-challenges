@@ -1,5 +1,6 @@
 ---
 import "@fontsource-variable/plus-jakarta-sans";
+import '../styles/global.css';
 import { notifications } from "../data/notifications";
 ---
 
@@ -20,7 +21,7 @@ import { notifications } from "../data/notifications";
     <main>
       <article>
         <header>
-          <h1 id="notifications-heading">
+          <h1 class="text-header tablet:text-header-desktop" id="notifications-heading">
             Notifications <span>(</span><span>3</span><span> unread)</span>
           </h1>
           <form>
@@ -45,10 +46,10 @@ import { notifications } from "../data/notifications";
                         height="90"
                       />
                       <p>
-                        <a href="#">{notification.user.name}</a> reacted to your
-                        recent post <a href="#">{notification.post}</a>
+                        <a class="text-very-dark-blue" href="#">{notification.user.name}</a> reacted to your
+                        recent post <a class="text-dark-grayish-blue" href="#">{notification.post}</a>
                       </p>
-                      <p>
+                      <p class="text-grayish-blue">
                         <time datetime={notification.time.datetime}>
                           {notification.time.formatted}
                         </time>
@@ -63,9 +64,9 @@ import { notifications } from "../data/notifications";
                         height="90"
                       />
                       <p>
-                        <a href="#">{notification.user.name}</a> followed you
+                        <a class="text-very-dark-blue" href="#">{notification.user.name}</a> followed you
                       </p>
-                      <p>
+                      <p class="text-grayish-blue">
                         <time datetime={notification.time.datetime}>
                           {notification.time.formatted}
                         </time>
@@ -80,10 +81,10 @@ import { notifications } from "../data/notifications";
                         height="90"
                       />
                       <p>
-                        <a href="#">{notification.user.name}</a> has joined your
+                        <a class="text-very-dark-blue" href="#">{notification.user.name}</a> has joined your
                         group <a href="#">{notification.group}</a>
                       </p>
-                      <p>
+                      <p class="text-grayish-blue">
                         <time datetime={notification.time.datetime}>
                           {notification.time.formatted}
                         </time>
@@ -98,10 +99,10 @@ import { notifications } from "../data/notifications";
                         height="90"
                       />
                       <p>
-                        <a href="#">{notification.user.name}</a> sent you a
+                        <a class="text-very-dark-blue" href="#">{notification.user.name}</a> sent you a
                         private message
                       </p>
-                      <p>
+                      <p class="text-grayish-blue">
                         <time datetime={notification.time.datetime}>
                           {notification.time.formatted}
                         </time>
@@ -117,10 +118,10 @@ import { notifications } from "../data/notifications";
                         height="90"
                       />
                       <p>
-                        <a href="#">{notification.user.name}</a> commented on
+                        <a class="text-very-dark-blue" href="#">{notification.user.name}</a> commented on
                         your picture
                       </p>
-                      <p>
+                      <p class="text-grayish-blue">
                         <time datetime={notification.time.datetime}>
                           {notification.time.formatted}
                         </time>
@@ -141,10 +142,10 @@ import { notifications } from "../data/notifications";
                         height="90"
                       />
                       <p>
-                        <a href="#">{notification.user.name}</a> left the group{" "}
+                        <a class="text-very-dark-blue" href="#">{notification.user.name}</a> left the group{" "}
                         <a href="#">Chess Club</a>
                       </p>
-                      <p>
+                      <p class="text-grayish-blue">
                         <time datetime={notification.time.datetime}>
                           {notification.time.formatted}
                         </time>

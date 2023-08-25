@@ -28,24 +28,12 @@ module.exports = {
       medium: 500,
       "extra-bold": 800,
     },
-    fontSize: ({ theme }) => ({
-      body: [
-        rem(14),
-        { fontWeight: theme("fontWeight.medium"), lineHeight: rem(18) },
-      ],
-      "body-desktop": [
-        rem(16),
-        { fontWeight: theme("fontWeight.medium"), lineHeight: rem(20) },
-      ],
-      header: [
-        rem(20),
-        { fontWeight: theme("fontWeight.extra-bold"), lineHeight: rem(25) },
-      ],
-      "header-desktop": [
-        rem(24),
-        { fontWeight: theme("fontWeight.extra-bold"), lineHeight: rem(30) },
-      ],
-    }),
+    fontSize: {
+      body: [rem(14), { lineHeight: rem(18) }],
+      "body-desktop": [rem(16), { lineHeight: rem(20) }],
+      header: [rem(20), { lineHeight: rem(25) }],
+      "header-desktop": [rem(24), { lineHeight: rem(30) }],
+    },
     extend: {},
   },
   plugins: [

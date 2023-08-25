@@ -1,0 +1,35 @@
+@tailwind base;
+@tailwind utilities;
+@tailwind components;
+
+@layer base {
+  body {
+    @apply font-body text-body text-dark-grayish-blue font-medium;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply text-very-dark-blue font-extra-bold;
+  }
+
+  a {
+    @apply font-extra-bold text-blue transition;
+  }
+
+  button:focus-visible,
+  button:hover,
+  a:focus-visible,
+  a:hover {
+    @apply text-blue;
+  }
+
+  @screen tablet {
+    body {
+      @apply text-body-desktop;
+    }
+  }
+}
