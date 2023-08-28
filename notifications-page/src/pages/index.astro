@@ -1,6 +1,6 @@
 ---
 import "@fontsource-variable/plus-jakarta-sans";
-import '../styles/global.css';
+import "../styles/global.css";
 import { notifications } from "../data/notifications";
 ---
 
@@ -19,16 +19,28 @@ import { notifications } from "../data/notifications";
   </head>
   <body>
     <main class="min-h-screen desktop:p-16 grid desktop:items-center">
-      <article class="bg-white desktop:max-w-notifications mx-auto box-content desktop:rounded-2xl desktop:shadow-notifications py-6 p-4 tablet:p-8">
+      <article
+        class="bg-white desktop:max-w-notifications mx-auto box-content desktop:rounded-2xl desktop:shadow-notifications py-6 p-4 tablet:p-8"
+      >
         <header class="flex justify-between items-center gap-4">
-          <h1 class="flex gap-2 items-center text-header tablet:text-header-desktop" id="notifications-heading">
-            Notifications <span class="sr-only">(</span><span class="bg-blue text-white text-body rounded-md p-[0.6875rem] pb-[0.1875rem] pt-[0.125rem] desktop:text-body-desktop">3</span><span class="sr-only"> unread)</span>
+          <h1
+            class="flex gap-2 items-center text-header tablet:text-header-desktop"
+            id="notifications-heading"
+          >
+            Notifications <span class="sr-only">(</span><span
+              class="bg-blue text-white text-body rounded-md p-[0.6875rem] pb-[0.1875rem] pt-[0.125rem] desktop:text-body-desktop"
+              >3</span
+            ><span class="sr-only"> unread)</span>
           </h1>
           <form>
             <button type="submit">Mark all as read</button>
           </form>
         </header>
-        <ol class="mt-6 tablet:mt-8 space-y-2" role="list" aria-describedby="notifications-heading">
+        <ol
+          class="mt-6 tablet:mt-8 space-y-2"
+          role="list"
+          aria-describedby="notifications-heading"
+        >
           {
             notifications.map((notification) => {
               return (
@@ -37,7 +49,9 @@ import { notifications } from "../data/notifications";
                   data-type={notification.type}
                   data-is-read={notification.isRead.toString()}
                 >
-                  {!notification.isRead ? <p class="sr-only">Unread notification:</p> : null}
+                  {!notification.isRead ? (
+                    <p class="sr-only">Unread notification:</p>
+                  ) : null}
                   {notification.type === "reacted" ? (
                     <>
                       <img
@@ -49,8 +63,13 @@ import { notifications } from "../data/notifications";
                       />
                       <div>
                         <p class="dot">
-                          <a class="text-very-dark-blue" href="#">{notification.user.name}</a> reacted to your
-                          recent post <a class="text-dark-grayish-blue" href="#">{notification.post}</a>
+                          <a class="text-very-dark-blue" href="#">
+                            {notification.user.name}
+                          </a>{" "}
+                          reacted to your recent post{" "}
+                          <a class="text-dark-grayish-blue" href="#">
+                            {notification.post}
+                          </a>
                         </p>
                         <p class="text-grayish-blue mt-[0.1875rem]">
                           <time datetime={notification.time.datetime}>
@@ -70,7 +89,10 @@ import { notifications } from "../data/notifications";
                       />
                       <div>
                         <p class="dot">
-                          <a class="text-very-dark-blue" href="#">{notification.user.name}</a> followed you
+                          <a class="text-very-dark-blue" href="#">
+                            {notification.user.name}
+                          </a>{" "}
+                          followed you
                         </p>
                         <p class="text-grayish-blue mt-[0.1875rem]">
                           <time datetime={notification.time.datetime}>
@@ -90,8 +112,11 @@ import { notifications } from "../data/notifications";
                       />
                       <div>
                         <p class="dot">
-                          <a class="text-very-dark-blue" href="#">{notification.user.name}</a> has joined your
-                          group <a href="#">{notification.group}</a>
+                          <a class="text-very-dark-blue" href="#">
+                            {notification.user.name}
+                          </a>{" "}
+                          has joined your group{" "}
+                          <a href="#">{notification.group}</a>
                         </p>
                         <p class="text-grayish-blue mt-[0.1875rem]">
                           <time datetime={notification.time.datetime}>
@@ -111,15 +136,19 @@ import { notifications } from "../data/notifications";
                       />
                       <div>
                         <p class="dot">
-                          <a class="text-very-dark-blue" href="#">{notification.user.name}</a> sent you a
-                          private message
+                          <a class="text-very-dark-blue" href="#">
+                            {notification.user.name}
+                          </a>{" "}
+                          sent you a private message
                         </p>
                         <p class="text-grayish-blue mt-[0.1875rem]">
                           <time datetime={notification.time.datetime}>
                             {notification.time.formatted}
                           </time>
                         </p>
-                        <blockquote class="mt-3 border-[1px] border-light-grayish-blue-2 p-4 tablet:p-5 rounded-[0.3125rem]">{notification.message}</blockquote>
+                        <blockquote class="mt-3 border-[1px] border-light-grayish-blue-2 p-4 tablet:p-5 rounded-[0.3125rem]">
+                          {notification.message}
+                        </blockquote>
                       </div>
                     </>
                   ) : notification.type === "commented" ? (
@@ -134,8 +163,10 @@ import { notifications } from "../data/notifications";
                       <div class="grid grid-cols-[1fr_max-content] gap-4">
                         <div>
                           <p class="dot">
-                            <a class="text-very-dark-blue" href="#">{notification.user.name}</a> commented on
-                            your picture
+                            <a class="text-very-dark-blue" href="#">
+                              {notification.user.name}
+                            </a>{" "}
+                            commented on your picture
                           </p>
                           <p class="text-grayish-blue mt-[0.1875rem]">
                             <time datetime={notification.time.datetime}>
@@ -163,8 +194,10 @@ import { notifications } from "../data/notifications";
                       />
                       <div>
                         <p class="dot">
-                          <a class="text-very-dark-blue" href="#">{notification.user.name}</a> left the group{" "}
-                          <a href="#">Chess Club</a>
+                          <a class="text-very-dark-blue" href="#">
+                            {notification.user.name}
+                          </a>{" "}
+                          left the group <a href="#">Chess Club</a>
                         </p>
                         <p class="text-grayish-blue mt-[0.1875rem]">
                           <time datetime={notification.time.datetime}>
