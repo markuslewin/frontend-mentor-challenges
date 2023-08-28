@@ -146,9 +146,14 @@ import { notifications } from "../data/notifications";
                             {notification.time.formatted}
                           </time>
                         </p>
-                        <blockquote class="mt-3 border-[1px] border-light-grayish-blue-2 p-4 tablet:p-5 rounded-[0.3125rem]">
-                          {notification.message}
-                        </blockquote>
+                        <a
+                          class="group font-medium text-dark-grayish-blue hocus:text-dark-grayish-blue"
+                          href="#"
+                        >
+                          <blockquote class="mt-3 border-[1px] border-light-grayish-blue-2 p-4 tablet:p-5 rounded-[0.3125rem] group-hover:bg-light-grayish-blue-1 group-focus-visible:bg-light-grayish-blue-1 transition">
+                            {notification.message}
+                          </blockquote>
+                        </a>
                       </div>
                     </>
                   ) : notification.type === "commented" ? (
