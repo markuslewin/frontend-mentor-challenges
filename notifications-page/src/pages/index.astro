@@ -1,7 +1,15 @@
 ---
 import "@fontsource-variable/plus-jakarta-sans";
 import "../styles/global.css";
-import { notifications } from "../data/notifications";
+import * as data from "../data/notifications";
+
+// todo: persist `isRead: true`
+const notifications =
+  Astro.request.method === "POST"
+    ? data.notifications.map((notification) => {
+        return { ...notification, isRead: true };
+      })
+    : data.notifications;
 ---
 
 <html lang="en">
@@ -32,7 +40,7 @@ import { notifications } from "../data/notifications";
               >3</span
             ><span class="sr-only"> unread)</span>
           </h1>
-          <form>
+          <form method="post">
             <button type="submit">Mark all as read</button>
           </form>
         </header>
