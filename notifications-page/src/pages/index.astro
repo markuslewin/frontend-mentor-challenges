@@ -37,10 +37,10 @@ const notifications =
           >
             Notifications <span class="sr-only">(</span><span
               class="rounded-md bg-blue p-[0.6875rem] pb-[0.1875rem] pt-[0.125rem] text-body text-white desktop:text-body-desktop"
-              >3</span
+              data-unread-number>3</span
             ><span class="sr-only"> unread)</span>
           </h1>
-          <form method="post">
+          <form method="post" data-mark-as-read>
             <button type="submit">Mark all as read</button>
           </form>
         </header>
@@ -237,3 +237,23 @@ const notifications =
     </main>
   </body>
 </html>
+
+<script>
+  const $ = {
+    form: document.querySelector("[data-mark-as-read]") as HTMLFormElement,
+    unreadNumber: document.querySelector("[data-unread-number]") as HTMLElement,
+    notifications: document.querySelectorAll(
+      "[data-is-read]"
+    ) as NodeListOf<HTMLElement>,
+  };
+
+  $.form.addEventListener("submit", (e) => {
+    // todo: persist `isRead: true`
+    $.unreadNumber.textContent = "0";
+    for (const notification of $.notifications) {
+      notification.dataset.isRead = "true";
+    }
+
+    e.preventDefault();
+  });
+</script>
