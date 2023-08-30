@@ -4,12 +4,13 @@ import "../styles/global.css";
 import * as data from "../data/notifications";
 
 // todo: persist `isRead: true`
-const notifications =
-  Astro.request.method === "POST"
-    ? data.notifications.map((notification) => {
-        return { ...notification, isRead: true };
-      })
-    : data.notifications;
+const markedAllAsRead = Astro.request.method === "POST";
+
+const notifications = markedAllAsRead
+  ? data.notifications.map((notification) => {
+      return { ...notification, isRead: true };
+    })
+  : data.notifications;
 const unreadNumber = notifications.filter((notification) => {
   return !notification.isRead;
 }).length;
@@ -35,8 +36,11 @@ const unreadNumber = notifications.filter((notification) => {
       >
         <header class="flex flex-wrap items-center justify-between gap-4">
           <h1
-            class="flex items-center gap-2 text-header tablet:text-header-desktop"
+            class="flex items-center gap-2 text-header outline-0 tablet:text-header-desktop"
             id="notifications-heading"
+            tabindex="-1"
+            autofocus={markedAllAsRead}
+            data-unread-heading
           >
             Notifications <span class="sr-only">(</span><span
               class="rounded-md bg-blue p-[0.6875rem] pb-[0.1875rem] pt-[0.125rem] text-body text-white forced-colors:border-1 desktop:text-body-desktop"
@@ -56,13 +60,13 @@ const unreadNumber = notifications.filter((notification) => {
             notifications.map((notification) => {
               return (
                 <li
-                  class="grid grid-cols-[max-content_1fr] gap-3 rounded-lg p-4 data-[is-read=false]:bg-very-light-grayish-blue forced-colors:data-[is-read=false]:border-1 tablet:gap-5 tablet:p-5"
+                  class="group grid grid-cols-[max-content_1fr] gap-3 rounded-lg p-4 data-[is-read=false]:bg-very-light-grayish-blue forced-colors:data-[is-read=false]:border-1 tablet:gap-5 tablet:p-5"
                   data-type={notification.type}
                   data-is-read={notification.isRead.toString()}
                 >
-                  {!notification.isRead ? (
-                    <p class="sr-only">Unread notification:</p>
-                  ) : null}
+                  <p class="sr-only group-data-[is-read=true]:hidden">
+                    Unread notification:
+                  </p>
                   {notification.type === "reacted" ? (
                     <>
                       <img
@@ -246,6 +250,9 @@ const unreadNumber = notifications.filter((notification) => {
 <script>
   const $ = {
     form: document.querySelector("[data-mark-as-read]") as HTMLFormElement,
+    unreadHeading: document.querySelector(
+      "[data-unread-heading]"
+    ) as HTMLElement,
     unreadNumber: document.querySelector("[data-unread-number]") as HTMLElement,
     notifications: document.querySelectorAll(
       "[data-is-read]"
@@ -258,6 +265,7 @@ const unreadNumber = notifications.filter((notification) => {
     for (const notification of $.notifications) {
       notification.dataset.isRead = "true";
     }
+    $.unreadHeading.focus();
 
     e.preventDefault();
   });
