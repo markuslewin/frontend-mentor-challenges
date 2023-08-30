@@ -10,6 +10,9 @@ const notifications =
         return { ...notification, isRead: true };
       })
     : data.notifications;
+const unreadNumber = notifications.filter((notification) => {
+  return !notification.isRead;
+}).length;
 ---
 
 <html lang="en">
@@ -37,7 +40,7 @@ const notifications =
           >
             Notifications <span class="sr-only">(</span><span
               class="rounded-md bg-blue p-[0.6875rem] pb-[0.1875rem] pt-[0.125rem] text-body text-white desktop:text-body-desktop"
-              data-unread-number>3</span
+              data-unread-number>{unreadNumber}</span
             ><span class="sr-only"> unread)</span>
           </h1>
           <form method="post" data-mark-as-read>
