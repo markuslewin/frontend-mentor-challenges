@@ -40,7 +40,11 @@ module.exports = {
       header: [rem(20), { lineHeight: rem(25) }],
       "header-desktop": [rem(24), { lineHeight: rem(30) }],
     },
-    extend: {},
+    extend: {
+      borderWidth: {
+        1: "1px",
+      },
+    },
   },
   plugins: [
     plugin(function ({ addVariant }) {

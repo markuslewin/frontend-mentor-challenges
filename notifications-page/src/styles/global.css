@@ -4,7 +4,7 @@
 
 @layer base {
   body {
-    @apply font-body text-body text-dark-grayish-blue font-medium bg-very-light-grayish-blue;
+    @apply bg-very-light-grayish-blue font-body text-body font-medium text-dark-grayish-blue;
   }
 
   h1,
@@ -13,7 +13,7 @@
   h4,
   h5,
   h6 {
-    @apply text-very-dark-blue font-extra-bold;
+    @apply font-extra-bold text-very-dark-blue;
   }
 
   a {
@@ -45,5 +45,11 @@
     width: 0.5rem;
     height: 0.5rem;
     border-radius: 50%;
+  }
+
+  @media (forced-colors: active) {
+    [data-is-read="false"] .dot::after {
+      background: CanvasText;
+    }
   }
 }
