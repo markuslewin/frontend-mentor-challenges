@@ -1,0 +1,28 @@
+@import "modern-css-reset";
+
+:root {
+  --color-black: hsl(0 0% 1%);
+  --color-light-cream: hsl(30 100% 97%);
+
+  --weight-bold: 700;
+
+  --font: "Plus Jakarta Sans Variable", sans-serif;
+
+  --text-heading-s: var(--weight-bold) 1.5rem / 1.875rem var(--font);
+  --text-heading-s-desktop: var(--weight-bold) 2rem / 2.5rem var(--font);
+}
+
+.color-base {
+  background: var(--color-light-cream);
+  color: var(--color-black);
+}
+
+.heading-s {
+  font: var(--text-heading-s);
+}
+
+@media (min-width: 40em) {
+  .heading-s {
+    font: var(--text-heading-s-desktop);
+  }
+}

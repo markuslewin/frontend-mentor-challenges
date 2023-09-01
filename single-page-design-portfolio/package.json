@@ -10,6 +10,8 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^3.0.3"
+    "@fontsource-variable/plus-jakarta-sans": "^5.0.9",
+    "astro": "^3.0.3",
+    "modern-css-reset": "^1.4.0"
   }
 }
