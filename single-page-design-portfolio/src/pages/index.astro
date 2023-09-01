@@ -18,47 +18,63 @@ import { slides } from "../data/slides";
   </head>
   <body class="color-base">
     <main>
-      <h1 class="heading-s" id="my-work-heading">My Work</h1>
-      <section aria-labelledby="my-work-heading" aria-roledescription="Slider">
-        <div id="slider-controls" hidden>
-          <p id="slider-controls-label">Slider controls</p>
-          <ul aria-labelledby="slider-controls-label">
-            <li>
-              <button type="button">
-                <img alt="Previous slide" src="/assets/icon-arrow-left.svg" />
-              </button>
-            </li>
-            <li>
-              <button type="button">
-                <img alt="Next slide" src="/assets/icon-arrow-right.svg" />
-              </button>
-            </li>
+      <div class="[ my-work ] [ center ]">
+        <h1 class="[ my-work__heading heading-s ]" id="my-work-heading">
+          My Work
+        </h1>
+        <section
+          class="[ my-work__slider slider ]"
+          aria-labelledby="my-work-heading"
+          aria-roledescription="Slider"
+        >
+          <div id="slider-controls" hidden>
+            <p id="slider-controls-label">Slider controls</p>
+            <ul aria-labelledby="slider-controls-label">
+              <li>
+                <button type="button">
+                  <img alt="Previous slide" src="/assets/icon-arrow-left.svg" />
+                </button>
+              </li>
+              <li>
+                <button type="button">
+                  <img alt="Next slide" src="/assets/icon-arrow-right.svg" />
+                </button>
+              </li>
+            </ul>
+          </div>
+          <ul
+            class="slider__content"
+            tabindex="0"
+            role="list"
+            aria-labelledby="my-work-heading"
+          >
+            {
+              slides.map((slide) => {
+                return (
+                  <li>
+                    <figure>
+                      <img
+                        class="slider__slide-img"
+                        alt={slide.alt}
+                        src={slide.src}
+                        width={slide.width}
+                        height={slide.height}
+                      />
+                      <figcaption class="[ slider__slide-caption ] [ visually-hidden ]">
+                        {slide.caption}
+                      </figcaption>
+                    </figure>
+                  </li>
+                );
+              })
+            }
           </ul>
-        </div>
-        <ul tabindex="0" aria-labelledby="my-work-heading">
-          {
-            slides.map((slide) => {
-              return (
-                <li>
-                  <figure>
-                    <img
-                      alt={slide.alt}
-                      src={slide.src}
-                      width={slide.width}
-                      height={slide.height}
-                    />
-                    <figcaption>{slide.caption}</figcaption>
-                  </figure>
-                </li>
-              );
-            })
-          }
-        </ul>
-      </section>
+        </section>
+      </div>
     </main>
 
     <!-- Free Consultation Design solutions made easy With over ten years of
-    experience in various design disciplines, I’m your one-stop shop for your
+      experience in various design disciplines, I’m your one-stop shop for your
     design needs. Graphic Design UI/UX Apps Photography Illustrations Motion
     Graphics I’m Amy, and I’d love to work on your next project I love working
     with others to create beautiful design solutions. I’ve designed everything

@@ -12,6 +12,23 @@
   --text-heading-s-desktop: var(--weight-bold) 2rem / 2.5rem var(--font);
 }
 
+ul {
+  margin: 0;
+  padding: 0;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
 .color-base {
   background: var(--color-light-cream);
   color: var(--color-black);
@@ -21,8 +38,70 @@
   font: var(--text-heading-s);
 }
 
+.center {
+  box-sizing: content-box;
+  margin-inline: auto;
+  max-inline-size: 69.375rem;
+  padding-inline: 1rem;
+}
+
+.my-work {
+  padding-block: 6.25rem;
+}
+
+.my-work__heading {
+  text-align: center;
+}
+
+.my-work__slider {
+  margin-top: 2rem;
+}
+
+.slider {
+  --slider-slide-width: 16.875rem;
+  --slider-slide-gap: 0.9375rem;
+
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+.slider__content {
+  display: flex;
+  gap: var(--slider-slide-gap);
+  overflow-x: scroll;
+}
+
+.slider__content > * {
+  flex: 0 0 var(--slider-slide-width);
+}
+
+.slider__slide-img {
+  height: auto;
+}
+
+.slider__slide-caption {
+  /*
+    Triggers body overflow even though they're `visually-hidden`, so we position
+    them relative to the viewport instead.
+  */
+  position: fixed;
+}
+
 @media (min-width: 40em) {
   .heading-s {
     font: var(--text-heading-s-desktop);
+  }
+
+  .my-work {
+    padding-block: 5.5rem;
+  }
+
+  .my-work__slider {
+    margin-top: 3.5rem;
+  }
+
+  .slider {
+    --slider-slide-width: 33.75rem;
+    --slider-slide-gap: 1.875rem;
   }
 }
