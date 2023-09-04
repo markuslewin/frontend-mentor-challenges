@@ -68,11 +68,14 @@ ul {
 .slider__content {
   display: flex;
   gap: var(--slider-slide-gap);
-  overflow-x: scroll;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
 }
 
 .slider__content > * {
   flex: 0 0 var(--slider-slide-width);
+  scroll-snap-stop: always;
+  scroll-snap-align: center;
 }
 
 .slider__slide-img {
