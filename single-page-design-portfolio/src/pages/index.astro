@@ -45,33 +45,34 @@ import { slides } from "../data/slides";
               </li>
             </ul>
           </div>
-          <ul
-            class="slider__content"
+          <div
+            class="slider__scroll"
             tabindex="0"
-            role="list"
             aria-labelledby="my-work-heading"
           >
-            {
-              slides.map((slide) => {
-                return (
-                  <li>
-                    <figure>
-                      <img
-                        class="slider__slide-img"
-                        alt={slide.alt}
-                        src={slide.src}
-                        width={slide.width}
-                        height={slide.height}
-                      />
-                      <figcaption class="[ slider__slide-caption ] [ visually-hidden ]">
-                        {slide.caption}
-                      </figcaption>
-                    </figure>
-                  </li>
-                );
-              })
-            }
-          </ul>
+            <ul class="[ slider__content ] [ center ]" role="list">
+              {
+                slides.map((slide) => {
+                  return (
+                    <li>
+                      <figure>
+                        <img
+                          class="slider__slide-img"
+                          alt={slide.alt}
+                          src={slide.src}
+                          width={slide.width}
+                          height={slide.height}
+                        />
+                        <figcaption class="[ slider__slide-caption ] [ visually-hidden ]">
+                          {slide.caption}
+                        </figcaption>
+                      </figure>
+                    </li>
+                  );
+                })
+              }
+            </ul>
+          </div>
         </section>
       </div>
     </main>

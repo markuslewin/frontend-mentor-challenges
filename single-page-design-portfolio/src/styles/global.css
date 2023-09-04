@@ -10,6 +10,8 @@
 
   --text-heading-s: var(--weight-bold) 1.5rem / 1.875rem var(--font);
   --text-heading-s-desktop: var(--weight-bold) 2rem / 2.5rem var(--font);
+
+  --page-max-width: 69.375rem;
 }
 
 ul {
@@ -41,7 +43,7 @@ ul {
 .center {
   box-sizing: content-box;
   margin-inline: auto;
-  max-inline-size: 69.375rem;
+  max-inline-size: var(--page-max-width);
   padding-inline: 1rem;
 }
 
@@ -65,11 +67,19 @@ ul {
   flex-direction: column-reverse;
 }
 
+.slider__scroll {
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+}
+
 .slider__content {
   display: flex;
   gap: var(--slider-slide-gap);
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
+}
+
+.slider__content::after {
+  content: "";
+  flex: 0 0 calc((100vw - var(--page-max-width)) / 2 - var(--slider-slide-gap));
 }
 
 .slider__content > * {
