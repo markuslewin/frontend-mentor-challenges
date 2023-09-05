@@ -101,6 +101,11 @@ ul {
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   scroll-behavior: smooth;
+  scrollbar-width: none;
+}
+
+.slider__scroll::-webkit-scrollbar {
+  height: 0px;
 }
 
 .slider__content {
