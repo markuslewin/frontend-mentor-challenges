@@ -128,7 +128,9 @@ ul {
 }
 
 .slider__slide-img {
+  width: 100%;
   height: auto;
+  border-radius: 0.625rem;
 }
 
 .slider__slide-caption {
