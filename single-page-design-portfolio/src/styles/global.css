@@ -13,6 +13,7 @@
   --text-heading-s-desktop: var(--weight-bold) 2rem / 2.5rem var(--font);
 
   --page-max-width: 69.375rem;
+  --page-padding: 1rem;
 }
 
 ul {
@@ -45,7 +46,7 @@ ul {
   box-sizing: content-box;
   margin-inline: auto;
   max-inline-size: var(--page-max-width);
-  padding-inline: 1rem;
+  padding-inline: var(--page-padding);
 }
 
 .my-work {
@@ -104,18 +105,21 @@ ul {
 
 .slider__content {
   display: flex;
-  gap: var(--slider-slide-gap);
 }
 
 .slider__content::after {
   content: "";
-  flex: 0 0 calc((100vw - var(--page-max-width)) / 2 - var(--slider-slide-gap));
+  flex: 0 0 max((100vw - var(--page-max-width)) / 2, var(--page-padding));
 }
 
 .slider__content > * {
   flex: 0 0 var(--slider-slide-width);
   scroll-snap-stop: always;
   scroll-snap-align: center;
+}
+
+.slider__content > * + * {
+  margin-left: var(--slider-slide-gap);
 }
 
 .slider__slide-img {
