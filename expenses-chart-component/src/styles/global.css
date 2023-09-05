@@ -1,0 +1,20 @@
+:root {
+  /* primary */
+  --color-soft-red: hsl(10 79% 65%);
+  --color-cyan: hsl(186 34% 60%);
+  /* neutral */
+  --color-dark-brown: hsl(25 47% 15%);
+  --color-medium-brown: hsl(28 10% 53%);
+  --color-cream: hsl(27 66% 92%);
+  --color-very-pale-orange: hsl(33 100% 98%);
+
+  --weight-regular: 400;
+  --weight-bold: 700;
+
+  --font: "DM Sans", sans-serif;
+
+  --text-heading-xl: var(--weight-bold) 3rem / 3.875rem var(--font);
+  --text-heading-l: var(--weight-bold) 2rem / 2.625rem var(--font);
+  --text-body: var(--weight-regular) 1.125rem / 1.4375rem var(--font);
+  --text-mini-caption: var(--weight-regular) 0.9375rem / 1.25rem var(--font);
+}
