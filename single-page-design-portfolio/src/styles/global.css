@@ -3,6 +3,7 @@
 :root {
   --color-black: hsl(0 0% 1%);
   --color-light-cream: hsl(30 100% 97%);
+  --color-galactic-blue: hsl(252 66% 62%);
 
   --weight-bold: 700;
 
@@ -67,9 +68,38 @@ ul {
   flex-direction: column-reverse;
 }
 
+.slider__controls {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.slider__control {
+  width: 4rem;
+  height: 4rem;
+  border: 1px solid transparent;
+  border-radius: 50%;
+  display: inline-grid;
+  place-content: center;
+  background: var(--color-black);
+  transition: background-color 200ms;
+}
+
+.slider__control:hover,
+.slider__control:focus-visible {
+  background: var(--color-galactic-blue);
+}
+
+.slider__control img {
+  width: auto;
+  height: 1rem;
+}
+
 .slider__scroll {
   overflow-x: auto;
   scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
 }
 
 .slider__content {
@@ -116,5 +146,9 @@ ul {
   .slider {
     --slider-slide-width: 33.75rem;
     --slider-slide-gap: 1.875rem;
+  }
+
+  .slider__controls {
+    margin-top: 3.5rem;
   }
 }

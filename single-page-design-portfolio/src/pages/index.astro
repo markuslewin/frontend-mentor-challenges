@@ -31,16 +31,32 @@ import { slides } from "../data/slides";
           aria-roledescription="Slider"
         >
           <div id="slider-controls" hidden>
-            <p id="slider-controls-label">Slider controls</p>
-            <ul aria-labelledby="slider-controls-label">
+            <p class="visually-hidden" id="slider-controls-label">
+              Slider controls
+            </p>
+            <ul
+              class="slider__controls"
+              role="list"
+              aria-labelledby="slider-controls-label"
+            >
               <li>
-                <button type="button">
-                  <img alt="Previous slide" src="/assets/icon-arrow-left.svg" />
+                <button class="slider__control" type="button" data-slider-prev>
+                  <img
+                    alt="Previous slide"
+                    src="/assets/icon-arrow-left.svg"
+                    width="15"
+                    height="16"
+                  />
                 </button>
               </li>
               <li>
-                <button type="button">
-                  <img alt="Next slide" src="/assets/icon-arrow-right.svg" />
+                <button class="slider__control" type="button" data-slider-next>
+                  <img
+                    alt="Next slide"
+                    src="/assets/icon-arrow-right.svg"
+                    width="15"
+                    height="16"
+                  />
                 </button>
               </li>
             </ul>
@@ -49,12 +65,13 @@ import { slides } from "../data/slides";
             class="slider__scroll"
             tabindex="0"
             aria-labelledby="my-work-heading"
+            data-slider-scroll
           >
             <ul class="[ slider__content ] [ center ]" role="list">
               {
                 slides.map((slide) => {
                   return (
-                    <li>
+                    <li data-slider-item>
                       <figure>
                         <img
                           class="slider__slide-img"
@@ -89,3 +106,37 @@ import { slides } from "../data/slides";
     there. Free Consultation Free Consultation -->
   </body>
 </html>
+
+<script>
+  const $ = {
+    sliderControls: document.getElementById("slider-controls") as HTMLElement,
+    prevBtn: document.querySelector("[data-slider-prev]") as HTMLButtonElement,
+    nextBtn: document.querySelector("[data-slider-next]") as HTMLButtonElement,
+    scrollContainer: document.querySelector(
+      "[data-slider-scroll]"
+    ) as HTMLElement,
+    scrollItems: [
+      ...document.querySelectorAll<HTMLElement>("[data-slider-item]"),
+    ],
+  };
+
+  $.sliderControls.hidden = false;
+
+  $.prevBtn.addEventListener("click", () => {
+    const middle =
+      $.scrollContainer.scrollLeft + $.scrollContainer.clientWidth / 2;
+    const $next = $.scrollItems.findLast(($item) => {
+      return $item.offsetLeft + $item.offsetWidth < middle;
+    });
+    $next?.scrollIntoView({ inline: "center" });
+  });
+
+  $.nextBtn.addEventListener("click", () => {
+    const middle =
+      $.scrollContainer.scrollLeft + $.scrollContainer.clientWidth / 2;
+    const $next = $.scrollItems.find(($item) => {
+      return $item.offsetLeft > middle;
+    });
+    $next?.scrollIntoView({ inline: "center" });
+  });
+</script>
