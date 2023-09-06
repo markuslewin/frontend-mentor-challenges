@@ -2,6 +2,32 @@
 import "@fontsource/dm-sans/400.css";
 import "@fontsource/dm-sans/700.css";
 import "../styles/global.css";
+import data from "../data/data.json";
+
+function getLongName(shortName: string) {
+  if (shortName === "mon") {
+    return "Monday";
+  }
+  if (shortName === "tue") {
+    return "Tuesday";
+  }
+  if (shortName === "wed") {
+    return "Wednesday";
+  }
+  if (shortName === "thu") {
+    return "Thursday";
+  }
+  if (shortName === "fri") {
+    return "Friday";
+  }
+  if (shortName === "sat") {
+    return "Saturday";
+  }
+  if (shortName === "sun") {
+    return "Sunday";
+  }
+  throw new Error(`Could not find long name for short name '${shortName}'`);
+}
 ---
 
 <html lang="en">
@@ -9,36 +35,50 @@ import "../styles/global.css";
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- displays site properly based on user's device -->
-
     <link
       rel="icon"
       type="image/png"
       sizes="32x32"
       href="./images/favicon-32x32.png"
     />
-
     <title>Frontend Mentor | Expenses chart component</title>
-
-    <!-- Feel free to remove these styles or customise in your own stylesheet 👍 -->
-    <style>
-      .attribution {
-        font-size: 11px;
-        text-align: center;
-      }
-      .attribution a {
-        color: hsl(228, 45%, 44%);
-      }
-    </style>
   </head>
   <body>
-    My balance $921.48 Spending - Last 7 days mon tue wed thu fri sat sun Total
-    this month $478.33 +2.4% from last month
-
-    <div class="attribution">
-      Challenge by <a
-        href="https://www.frontendmentor.io?ref=challenge"
-        target="_blank">Frontend Mentor</a
-      >. Coded by <a href="#">Your Name Here</a>.
-    </div>
+    <main>
+      <h1 class="visually-hidden">Expenses</h1>
+      <article>
+        <header>
+          <h2>My balance</h2>
+          <p>$921.48</p>
+          <img alt="" src="/images/logo.svg" />
+        </header>
+        <h2>Spending - Last 7 days</h2>
+        <div>
+          <ol>
+            {
+              data.map((dayData) => {
+                const longName = getLongName(dayData.day);
+                return (
+                  <li tabindex="0">
+                    <span>{longName}: </span>
+                    {dayData.amount}
+                  </li>
+                );
+              })
+            }
+          </ol>
+          <div aria-hidden="true">
+            {
+              data.map((dayData) => {
+                return <p>{dayData.day}</p>;
+              })
+            }
+          </div>
+        </div>
+        <h2>Total this month</h2>
+        <p>$478.33</p>
+        <p><b>+2.4%</b> from last month</p>
+      </article>
+    </main>
   </body>
 </html>
