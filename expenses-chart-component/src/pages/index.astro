@@ -70,12 +70,12 @@ function getLongName(shortName: string) {
                 data.map((dayData) => {
                   const longName = getLongName(dayData.day);
                   return (
-                    <li
-                      class="[ spending__amount ] [ box ] [ theme--dark-brown ]"
-                      tabindex="0"
-                    >
-                      <span class="visually-hidden">{longName}: </span>
-                      {`$${dayData.amount}`}
+                    <li class="day" tabindex="0">
+                      <div class="[ spending__amount day__tooltip ] [ box ] [ theme--dark-brown ]">
+                        <span class="visually-hidden">{longName}: </span>
+                        {`$${dayData.amount}`}
+                      </div>
+                      <div class="[ day__bar ] [ mt-1 tablet:mt-2 ]" />
                     </li>
                   );
                 })
