@@ -223,6 +223,9 @@ strong {
 
 .day {
   outline: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
 }
 
 .day[data-today="true"] {
@@ -243,6 +246,8 @@ strong {
 }
 
 .day__tooltip {
+  position: relative;
+  z-index: 1;
   opacity: var(--day-tooltip, 0);
   transition: opacity var(--transition);
 }
@@ -251,6 +256,7 @@ strong {
   margin-inline: auto;
   width: 0;
   border-top: 9.375rem solid;
+  border-top: calc(var(--day-amount) / max(var(--day-amounts)) * 9.375rem) solid;
   border-left: var(--bar-width, 2.0625rem) solid;
   border-radius: 0.1875rem;
   color: var(--day-bar-color, var(--color-soft-red));
