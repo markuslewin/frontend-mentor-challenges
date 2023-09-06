@@ -44,12 +44,14 @@ function getLongName(shortName: string) {
     <title>Frontend Mentor | Expenses chart component</title>
   </head>
   <body>
-    <main>
+    <main class="cover">
       <h1 class="visually-hidden">Expenses</h1>
       <article>
-        <header class="theme--soft-red">
-          <h2 class="header__heading">My balance</h2>
-          <p class="header__balance"><strong>$921.48</strong></p>
+        <header class="[ box repel ] [ theme--soft-red ]">
+          <div>
+            <h2 class="header__heading">My balance</h2>
+            <p class="header__balance"><strong>$921.48</strong></p>
+          </div>
           <img
             class="header__logo"
             alt=""
@@ -58,17 +60,20 @@ function getLongName(shortName: string) {
             height="48"
           />
         </header>
-        <div class="theme--very-pale-orange">
+        <div class="[ box ] [ mt-4 tablet:mt-6 theme--very-pale-orange ]">
           <h2 class="[ spending__heading ] [ color--dark-brown ]">
             Spending - Last 7 days
           </h2>
-          <div>
-            <ol role="list">
+          <div class="mt-3 tablet:mt-5">
+            <ol class="grid" role="list">
               {
                 data.map((dayData) => {
                   const longName = getLongName(dayData.day);
                   return (
-                    <li class="theme--dark-brown" tabindex="0">
+                    <li
+                      class="[ spending__amount ] [ box ] [ theme--dark-brown ]"
+                      tabindex="0"
+                    >
                       <span class="visually-hidden">{longName}: </span>
                       {`$${dayData.amount}`}
                     </li>
@@ -76,7 +81,10 @@ function getLongName(shortName: string) {
                 })
               }
             </ol>
-            <div class="spending__caption" aria-hidden="true">
+            <div
+              class="[ spending__caption ] [ grid ] [ mt-3 tablet:mt-2 ]"
+              aria-hidden="true"
+            >
               {
                 data.map((dayData) => {
                   return <p>{dayData.day}</p>;
@@ -84,11 +92,18 @@ function getLongName(shortName: string) {
               }
             </div>
           </div>
-          <h2 class="total__heading">Total this month</h2>
-          <p class="[ total__sum ] [ color--dark-brown ]">
-            <strong>$478.33</strong>
-          </p>
-          <p><b class="color--dark-brown">+2.4%</b> from last month</p>
+          <div class="[ divider ] [ color--cream mt-6 tablet:mt-8 ]"></div>
+          <h2 class="[ total__heading ] [ mt-6 tablet:mt-8 ]">
+            Total this month
+          </h2>
+          <div class="[ repel ] [ mt-1 tablet:mt-0 ]">
+            <p class="[ total__sum ] [ color--dark-brown ]">
+              <strong>$478.33</strong>
+            </p>
+            <p class="text-end">
+              <b class="block color--dark-brown">+2.4%</b> from last month
+            </p>
+          </div>
         </div>
       </article>
     </main>
