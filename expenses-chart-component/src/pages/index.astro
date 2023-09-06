@@ -47,37 +47,49 @@ function getLongName(shortName: string) {
     <main>
       <h1 class="visually-hidden">Expenses</h1>
       <article>
-        <header>
-          <h2>My balance</h2>
-          <p>$921.48</p>
-          <img alt="" src="/images/logo.svg" />
+        <header class="theme--soft-red">
+          <h2 class="header__heading">My balance</h2>
+          <p class="header__balance"><strong>$921.48</strong></p>
+          <img
+            class="header__logo"
+            alt=""
+            src="/images/logo.svg"
+            width="72"
+            height="48"
+          />
         </header>
-        <h2>Spending - Last 7 days</h2>
-        <div>
-          <ol>
-            {
-              data.map((dayData) => {
-                const longName = getLongName(dayData.day);
-                return (
-                  <li tabindex="0">
-                    <span>{longName}: </span>
-                    {dayData.amount}
-                  </li>
-                );
-              })
-            }
-          </ol>
-          <div aria-hidden="true">
-            {
-              data.map((dayData) => {
-                return <p>{dayData.day}</p>;
-              })
-            }
+        <div class="theme--very-pale-orange">
+          <h2 class="[ spending__heading ] [ color--dark-brown ]">
+            Spending - Last 7 days
+          </h2>
+          <div>
+            <ol role="list">
+              {
+                data.map((dayData) => {
+                  const longName = getLongName(dayData.day);
+                  return (
+                    <li class="theme--dark-brown" tabindex="0">
+                      <span class="visually-hidden">{longName}: </span>
+                      {`$${dayData.amount}`}
+                    </li>
+                  );
+                })
+              }
+            </ol>
+            <div class="spending__caption" aria-hidden="true">
+              {
+                data.map((dayData) => {
+                  return <p>{dayData.day}</p>;
+                })
+              }
+            </div>
           </div>
+          <h2 class="total__heading">Total this month</h2>
+          <p class="[ total__sum ] [ color--dark-brown ]">
+            <strong>$478.33</strong>
+          </p>
+          <p><b class="color--dark-brown">+2.4%</b> from last month</p>
         </div>
-        <h2>Total this month</h2>
-        <p>$478.33</p>
-        <p><b>+2.4%</b> from last month</p>
       </article>
     </main>
   </body>

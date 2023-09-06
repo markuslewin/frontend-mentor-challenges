@@ -1,3 +1,7 @@
+@import "modern-css-reset";
+
+/* variables */
+
 :root {
   /* primary */
   --color-soft-red: hsl(10 79% 65%);
@@ -17,4 +21,123 @@
   --text-heading-l: var(--weight-bold) 2rem / 2.625rem var(--font);
   --text-body: var(--weight-regular) 1.125rem / 1.4375rem var(--font);
   --text-mini-caption: var(--weight-regular) 0.9375rem / 1.25rem var(--font);
+}
+
+/* base */
+
+body {
+  background: var(--color-cream);
+  font: var(--text-mini-caption);
+}
+
+ol {
+  margin: 0;
+  padding: 0;
+}
+
+b,
+strong {
+  font-weight: var(--weight-bold);
+}
+
+/* tablet */
+@media (min-width: 40em) {
+  body {
+    font: var(--text-body);
+  }
+}
+
+/* utilities */
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.theme--soft-red {
+  background: var(--color-soft-red);
+  color: white;
+}
+
+.theme--very-pale-orange {
+  background: var(--color-very-pale-orange);
+  color: var(--color-medium-brown);
+}
+
+.theme--dark-brown {
+  background: var(--color-dark-brown);
+  color: var(--color-very-pale-orange);
+}
+
+.color--dark-brown {
+  color: var(--color-dark-brown);
+}
+
+/* blocks */
+
+.header__heading {
+  font: var(--text-mini-caption);
+}
+
+.header__balance {
+  font: var(--weight-bold) 1.5rem / 1.9375rem var(--font);
+}
+
+.header__logo {
+  width: auto;
+  height: 2.5rem;
+}
+
+.spending__heading {
+  font: var(--weight-bold) 1.5rem / 1.9375rem var(--font);
+}
+
+.spending__caption {
+  font: var(--weight-regular) 0.75rem / 1rem var(--font);
+}
+
+.total__heading {
+  font: var(--text-mini-caption);
+}
+
+.total__sum {
+  font: var(--weight-bold) 1.875rem / 2.4375rem var(--font);
+}
+
+/* tablet */
+@media (min-width: 40em) {
+  .header__heading {
+    font: var(--text-body);
+  }
+
+  .header__balance {
+    font: var(--text-heading-l);
+  }
+
+  .header__logo {
+    height: 3rem;
+  }
+
+  .spending__heading {
+    font: var(--text-heading-l);
+  }
+
+  .spending__caption {
+    font: var(--text-mini-caption);
+  }
+
+  .total__heading {
+    font: var(--text-body);
+  }
+
+  .total__sum {
+    font: var(--text-heading-xl);
+  }
 }
