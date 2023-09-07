@@ -168,6 +168,10 @@ strong {
   margin-top: 1.5rem;
 }
 
+.mt-13 {
+  margin-top: 3.25rem;
+}
+
 @media (min-width: 40em) {
   .tablet\:mt-0 {
     margin-top: 0rem;
@@ -187,6 +191,10 @@ strong {
 
   .tablet\:mt-8 {
     margin-top: 2rem;
+  }
+
+  .tablet\:mt-17 {
+    margin-top: 4.25rem;
   }
 }
 
@@ -229,6 +237,7 @@ strong {
 .day {
   outline: none;
   width: 100%;
+  max-width: 2.0625rem;
   display: flex;
   flex-direction: column;
   justify-content: end;
@@ -265,6 +274,7 @@ strong {
   position: absolute;
   top: -0.25rem;
   left: 50%;
+  z-index: 1;
   opacity: var(--day-tooltip, 0);
   transform: translate(-50%, -100%);
   transition: opacity var(--transition);
@@ -298,6 +308,10 @@ strong {
 
   .total__sum {
     font: var(--text-heading-xl);
+  }
+
+  .day {
+    max-width: none;
   }
 
   .day__bar {
