@@ -86,11 +86,12 @@ function getLongName(shortName: string) {
                       tabindex="0"
                       data-day
                     >
-                      <div class="[ spending__amount day__tooltip ] [ box ] [ theme--dark-brown ]">
-                        <span class="visually-hidden">{longName}: </span>
-                        {`$${dayData.amount}`}
+                      <div class="[ day__bar ] [ box ]">
+                        <div class="[ spending__amount day__tooltip ] [ box ] [ theme--dark-brown ]">
+                          <span class="visually-hidden">{longName}: </span>
+                          {`$${dayData.amount}`}
+                        </div>
                       </div>
-                      <div class="[ day__bar ] [ mt-1 tablet:mt-2 ]" />
                     </li>
                   );
                 })

@@ -79,6 +79,7 @@ strong {
   grid-template-columns: repeat(7, minmax(0, 1fr));
   justify-content: space-between;
   justify-items: center;
+  gap: var(--grid-gap, 0.75rem);
 }
 
 .repel {
@@ -91,7 +92,7 @@ strong {
 
 @media (forced-colors: active) {
   .box {
-    border: 2px solid transparent;
+    border: medium solid transparent;
   }
 }
 
@@ -99,6 +100,10 @@ strong {
   .box {
     --box-radius: 1.25rem;
     --box-padding: 2rem 2.5rem;
+  }
+
+  .grid {
+    --grid-gap: 1.125rem;
   }
 }
 
@@ -223,6 +228,7 @@ strong {
 
 .day {
   outline: none;
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: end;
@@ -245,22 +251,23 @@ strong {
   --day-bar-color: hsl(186 49% 80%);
 }
 
-.day__tooltip {
+.day__bar {
+  --box-radius: 0.1875rem;
+  --box-padding: 0px;
+
   position: relative;
-  z-index: 1;
-  opacity: var(--day-tooltip, 0);
-  transition: opacity var(--transition);
+  height: calc(var(--day-amount) / max(var(--day-amounts)) * 9.375rem);
+  background: var(--day-bar-color, var(--color-soft-red));
+  transition: background-color var(--transition);
 }
 
-.day__bar {
-  margin-inline: auto;
-  width: 0;
-  border-top: 9.375rem solid;
-  border-top: calc(var(--day-amount) / max(var(--day-amounts)) * 9.375rem) solid;
-  border-left: var(--bar-width, 2.0625rem) solid;
-  border-radius: 0.1875rem;
-  color: var(--day-bar-color, var(--color-soft-red));
-  transition: color var(--transition);
+.day__tooltip {
+  position: absolute;
+  top: -0.25rem;
+  left: 50%;
+  opacity: var(--day-tooltip, 0);
+  transform: translate(-50%, -100%);
+  transition: opacity var(--transition);
 }
 
 /* tablet */
@@ -294,8 +301,10 @@ strong {
   }
 
   .day__bar {
-    --bar-width: 3.125rem;
-
     border-radius: 0.3125rem;
+  }
+
+  .day__tooltip {
+    top: -0.5rem;
   }
 }
