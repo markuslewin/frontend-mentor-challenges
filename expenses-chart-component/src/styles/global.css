@@ -228,7 +228,7 @@ strong {
   justify-content: end;
 }
 
-.day[data-today="true"] {
+.day[aria-current="date"] {
   --day-bar-color: var(--color-cyan);
 }
 
@@ -240,8 +240,8 @@ strong {
 }
 
 /* todo: :focus? */
-.day[data-today="true"]:hover,
-.day[data-today="true"]:focus-visible {
+.day[aria-current="date"]:hover,
+.day[aria-current="date"]:focus-visible {
   --day-bar-color: hsl(186 49% 80%);
 }
 

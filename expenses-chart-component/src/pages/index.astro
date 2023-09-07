@@ -133,6 +133,6 @@ function getLongName(shortName: string) {
   const today = new Date().getDay();
   const $day = $.days[(today + 6) % 7];
   if ($day instanceof HTMLElement) {
-    $day.dataset.today = "true";
+    $day.ariaCurrent = "date";
   }
 </script>
