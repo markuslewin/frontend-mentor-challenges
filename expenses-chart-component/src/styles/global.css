@@ -82,6 +82,10 @@ strong {
   gap: var(--grid-gap, 0.75rem);
 }
 
+.grid--items-end {
+  align-items: end;
+}
+
 .repel {
   display: flex;
   justify-content: space-between;
@@ -234,41 +238,34 @@ strong {
   font: var(--weight-bold) 1.875rem / 2.4375rem var(--font);
 }
 
-.day {
-  outline: none;
-  width: 100%;
-  max-width: 2.0625rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: end;
-}
-
-.day[aria-current="date"] {
-  --day-bar-color: var(--color-cyan);
-}
-
-.day:hover,
-.day:focus {
-  --day-tooltip: 1;
-  --day-bar-color: hsl(10 100% 76%);
-}
-
-.day[aria-current="date"]:hover,
-.day[aria-current="date"]:focus {
-  --day-bar-color: hsl(186 49% 80%);
-}
-
-.day__bar {
+.bar {
   --box-radius: 0.1875rem;
   --box-padding: 0px;
 
   position: relative;
+  width: 100%;
+  max-width: 2.0625rem;
   height: calc(var(--day-amount) / max(var(--day-amounts)) * 9.375rem);
   background: var(--day-bar-color, var(--color-soft-red));
   transition: background-color var(--transition);
 }
 
-.day__tooltip {
+.bar[aria-current="date"] {
+  --day-bar-color: var(--color-cyan);
+}
+
+.bar:hover,
+.bar:focus {
+  --day-tooltip: 1;
+  --day-bar-color: hsl(10 100% 76%);
+}
+
+.bar[aria-current="date"]:hover,
+.bar[aria-current="date"]:focus {
+  --day-bar-color: hsl(186 49% 80%);
+}
+
+.bar__tooltip {
   position: absolute;
   top: -0.25rem;
   left: 50%;
@@ -308,15 +305,12 @@ strong {
     font: var(--text-heading-xl);
   }
 
-  .day {
+  .bar {
     max-width: none;
-  }
-
-  .day__bar {
     border-radius: 0.3125rem;
   }
 
-  .day__tooltip {
+  .bar__tooltip {
     top: -0.5rem;
   }
 }

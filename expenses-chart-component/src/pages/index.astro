@@ -66,7 +66,7 @@ function getLongName(shortName: string) {
           </h2>
           <div class="mt-13 tablet:mt-17">
             <ol
-              class="grid"
+              class="grid grid--items-end"
               style={{
                 "--day-amounts": data
                   .map((dayData) => {
@@ -82,16 +82,14 @@ function getLongName(shortName: string) {
                   const longName = getLongName(dayData.day);
                   return (
                     <li
-                      class="day"
+                      class="[ bar ] [ box ]"
                       style={{ "--day-amount": dayData.amount }}
                       tabindex="0"
                       data-day
                     >
-                      <div class="[ day__bar ] [ box ]">
-                        <div class="[ spending__amount day__tooltip ] [ box ] [ theme--dark-brown ]">
-                          <span class="visually-hidden">{longName}: </span>
-                          {`$${dayData.amount}`}
-                        </div>
+                      <div class="[ spending__amount bar__tooltip ] [ box ] [ theme--dark-brown ]">
+                        <span class="visually-hidden">{longName}: </span>
+                        {`$${dayData.amount}`}
                       </div>
                     </li>
                   );
