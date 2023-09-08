@@ -247,16 +247,14 @@ strong {
   --day-bar-color: var(--color-cyan);
 }
 
-/* todo: :focus? */
 .day:hover,
-.day:focus-visible {
+.day:focus {
   --day-tooltip: 1;
   --day-bar-color: hsl(10 100% 76%);
 }
 
-/* todo: :focus? */
 .day[aria-current="date"]:hover,
-.day[aria-current="date"]:focus-visible {
+.day[aria-current="date"]:focus {
   --day-bar-color: hsl(186 49% 80%);
 }
 
