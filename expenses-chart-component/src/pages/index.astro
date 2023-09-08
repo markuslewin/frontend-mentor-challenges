@@ -75,6 +75,7 @@ function getLongName(shortName: string) {
                   .join(", "),
               }}
               role="list"
+              data-days
             >
               {
                 data.map((dayData) => {
@@ -128,12 +129,46 @@ function getLongName(shortName: string) {
 
 <script>
   const $ = {
-    days: [...document.querySelectorAll("[data-day]")],
+    daysContainer: document.querySelector("[data-days]") as HTMLElement,
+    days: [...document.querySelectorAll("[data-day]")] as HTMLElement[],
   };
 
+  // highlight today
   const today = new Date().getDay();
   const $day = $.days[(today + 6) % 7];
-  if ($day instanceof HTMLElement) {
+  if ($day) {
     $day.ariaCurrent = "date";
   }
+
+  // roving tabindex
+  $.days.forEach(($day, i) => {
+    $day.setAttribute("tabindex", i === 0 ? "0" : "-1");
+  });
+  $.daysContainer.addEventListener("keyup", (e) => {
+    if (e.target instanceof HTMLElement && "day" in e.target.dataset) {
+      if (e.key === "ArrowRight" || e.key === "ArrowDown") {
+        const $next = e.target.nextElementSibling;
+        if ($next instanceof HTMLElement) {
+          $next.setAttribute("tabindex", "0");
+          $next.focus();
+          e.target.setAttribute("tabindex", "-1");
+        }
+      } else if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
+        const $next = e.target.previousElementSibling;
+        if ($next instanceof HTMLElement) {
+          $next.setAttribute("tabindex", "0");
+          $next.focus();
+          e.target.setAttribute("tabindex", "-1");
+        }
+      }
+    }
+  });
+  $.daysContainer.addEventListener("keydown", (e) => {
+    if (e.target instanceof HTMLElement && "day" in e.target.dataset) {
+      if (e.key === "ArrowUp" || e.key === "ArrowDown") {
+        // don't scroll page
+        e.preventDefault();
+      }
+    }
+  });
 </script>
