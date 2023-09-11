@@ -5,39 +5,184 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- displays site properly based on user's device -->
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link
       rel="icon"
       type="image/png"
       sizes="32x32"
-      href="./images/favicon-32x32.png"
+      href="/images/favicon-32x32.png"
     />
-
     <title>Frontend Mentor | Intro section with dropdown navigation</title>
-
-    <!-- Feel free to remove these styles or customise in your own stylesheet 👍 -->
-    <style>
-      .attribution {
-        font-size: 11px;
-        text-align: center;
-      }
-      .attribution a {
-        color: hsl(228, 45%, 44%);
-      }
-    </style>
   </head>
   <body>
-    Features Company Careers About Login Register Make remote work Get your team
-    in sync, no matter your location. Streamline processes, create team rituals,
-    and watch productivity soar. Learn more
-
-    <div class="attribution">
-      Challenge by <a
-        href="https://www.frontendmentor.io?ref=challenge"
-        target="_blank">Frontend Mentor</a
-      >. Coded by <a href="#">Your Name Here</a>.
-    </div>
+    <header>
+      <img alt="Snap" src="/images/logo.svg" width="84" height="27" />
+      <!-- todo: navigation menu pattern -->
+      <!-- todo: progressive enhancement? -->
+      <nav>
+        <button type="button">
+          <img
+            alt="Open menu"
+            src="/images/icon-menu.svg"
+            width="32"
+            height="18"
+          />
+          <img
+            alt="Close menu"
+            src="/images/icon-close-menu.svg"
+            width="26"
+            height="26"
+          />
+        </button>
+        <ul role="list">
+          <li>
+            <button type="button" id="features-btn">
+              Features
+              <img alt="" src="/images/icon-arrow-up.svg" />
+              <img alt="" src="/images/icon-arrow-down.svg" />
+            </button>
+            <ul role="list" aria-labelledby="features-btn">
+              <li>
+                <a href="#">
+                  <img
+                    alt=""
+                    src="/images/icon-todo.svg"
+                    width="14"
+                    height="16"
+                  />
+                   Todo List
+                </a>
+              </li>
+              <li>
+                <a href="#">
+                  <img
+                    alt=""
+                    src="/images/icon-calendar.svg"
+                    width="16"
+                    height="16"
+                  /> Calendar
+                </a>
+              </li>
+              <li>
+                <a href="#">
+                  <img
+                    alt=""
+                    src="/images/icon-reminders.svg"
+                    width="13"
+                    height="17"
+                  /> Reminders
+                </a>
+              </li>
+              <li>
+                <a href="#">
+                  <img
+                    alt=""
+                    src="/images/icon-planning.svg"
+                    width="16"
+                    height="16"
+                  /> Planning
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <button type="button" id="company-btn">
+              Company
+              <img alt="" src="/images/icon-arrow-up.svg" />
+              <img alt="" src="/images/icon-arrow-down.svg" />
+            </button>
+            <ul role="list" aria-labelledby="company-btn">
+              <li>
+                <a href="#">History</a>
+              </li>
+              <li>
+                <a href="#">Our Team</a>
+              </li>
+              <li>
+                <a href="#">Blog</a>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <a href="#">Careers</a>
+          </li>
+          <li>
+            <a href="#">About</a>
+          </li>
+        </ul>
+      </nav>
+      <ul role="list">
+        <li>
+          <a href="#">Login</a>
+        </li>
+        <li>
+          <a href="#">Register</a>
+        </li>
+      </ul>
+    </header>
+    <main>
+      <div>
+        <div>
+          <h1>Make remote work</h1>
+          <p>
+            Get your team in sync, no matter your location. Streamline
+            processes, create team rituals, and watch productivity soar.
+          </p>
+          <p>
+            <a href="#">Learn more</a>
+          </p>
+          <h2 class="sr-only" id="clients-heading">Our clients</h2>
+          <ul role="list" aria-labelledby="clients-heading">
+            <li>
+              <img
+                alt="Databiz"
+                src="/images/client-databiz.svg"
+                width="114"
+                height="20"
+              />
+            </li>
+            <li>
+              <img
+                alt="Audiophile"
+                src="/images/client-audiophile.svg"
+                width="73"
+                height="36"
+              />
+            </li>
+            <li>
+              <img
+                alt="Meet"
+                src="/images/client-meet.svg"
+                width="90"
+                height="20"
+              />
+            </li>
+            <li>
+              <img
+                alt="Maker"
+                src="/images/client-maker.svg"
+                width="83"
+                height="24"
+              />
+            </li>
+          </ul>
+        </div>
+        <picture>
+          <source
+            media="(min-width: 64em)"
+            srcset="/images/image-hero-desktop.png"
+            width="960"
+            height="1280"
+          />
+          <img
+            alt=""
+            src="/images/image-hero-mobile.png"
+            width="750"
+            height="564"
+          />
+        </picture>
+      </div>
+    </main>
   </body>
 </html>
