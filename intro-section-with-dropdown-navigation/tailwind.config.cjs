@@ -1,13 +1,12 @@
+const { screens } = require("./src/utils/screens");
+
 const rem = (px) => `${px / 16}rem`;
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ["./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}"],
   theme: {
-    screen: {
-      tablet: "40em",
-      desktop: "64em",
-    },
+    screens,
     colors: {
       "almost-white": "hsl(0 0% 98%)",
       "medium-gray": "hsl(0 0% 41%)",
