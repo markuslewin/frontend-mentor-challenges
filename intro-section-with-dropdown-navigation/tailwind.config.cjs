@@ -22,6 +22,14 @@ module.exports = {
     },
     fontSize: ({ theme }) => ({
       "heading-l": [
+        rem(36),
+        {
+          fontWeight: theme("fontWeight.bold"),
+          letterSpacing: rem(-0.5),
+          lineHeight: rem(42),
+        },
+      ],
+      "heading-l-desktop": [
         rem(80),
         {
           fontWeight: theme("fontWeight.bold"),
@@ -30,6 +38,13 @@ module.exports = {
         },
       ],
       "body-m": [
+        rem(16),
+        {
+          fontWeight: theme("fontWeight.medium"),
+          lineHeight: rem(26),
+        },
+      ],
+      "body-m-desktop": [
         rem(18),
         {
           fontWeight: theme("fontWeight.medium"),
@@ -44,6 +59,14 @@ module.exports = {
         },
       ],
       button: [
+        rem(16),
+        {
+          fontWeight: theme("fontWeight.bold"),
+          letterSpacing: rem(-0.22),
+          lineHeight: rem(26),
+        },
+      ],
+      "button-desktop": [
         rem(18),
         {
           fontWeight: theme("fontWeight.bold"),
@@ -56,6 +79,13 @@ module.exports = {
         {
           fontWeight: theme("fontWeight.medium"),
           lineHeight: rem(26),
+        },
+      ],
+      "nav-desktop": [
+        rem(14),
+        {
+          fontWeight: theme("fontWeight.medium"),
+          lineHeight: rem(16),
         },
       ],
     }),
