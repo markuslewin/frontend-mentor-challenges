@@ -8,9 +8,13 @@ module.exports = {
   theme: {
     screens,
     colors: {
+      "pure-white": "hsl(0 0% 100%)",
       "almost-white": "hsl(0 0% 98%)",
       "medium-gray": "hsl(0 0% 41%)",
       "almost-black": "hsl(0 0% 8%)",
+    },
+    boxShadow: {
+      "layer-1": `0 ${rem(10)} ${rem(40)} hsl(0 0% 0% / 14.91%)`,
     },
     fontFamily: {
       base: "'Epilogue Variable', sans-serif",

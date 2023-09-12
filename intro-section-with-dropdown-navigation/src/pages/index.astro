@@ -18,15 +18,15 @@ import { screens } from "../utils/screens";
     <title>Frontend Mentor | Intro section with dropdown navigation</title>
   </head>
   <body
-    class="bg-almost-white font-base text-body-m text-medium-gray tablet:text-body-m-desktop"
+    class="bg-pure-white font-base text-body-m text-medium-gray tablet:text-body-m-desktop desktop:bg-almost-white"
   >
     <header
-      class="mx-auto mt-4 box-content flex max-w-7xl flex-wrap items-center justify-between gap-4 px-4 text-body-s tablet:mt-5 tablet:px-10"
+      class="mx-auto mt-4 box-content max-w-7xl px-4 text-body-s tablet:mt-5 tablet:px-10 desktop:flex desktop:flex-wrap desktop:items-center desktop:gap-4 desktop:gap-x-16"
     >
-      <div class="flex flex-wrap items-center gap-4 gap-x-16">
-        <img alt="Snap" src="/images/logo.svg" width="84" height="27" />
-        <!-- todo: navigation menu pattern -->
-        <!-- todo: progressive enhancement? -->
+      <img alt="Snap" src="/images/logo.svg" width="84" height="27" />
+      <div
+        class="py-20 desktop:flex desktop:grow desktop:flex-wrap desktop:items-center desktop:justify-between desktop:gap-4 desktop:py-0"
+      >
         <nav class="text-nav desktop:text-nav-desktop">
           <!-- <button type="button">
             <img
@@ -42,25 +42,37 @@ import { screens } from "../utils/screens";
               height="26"
             />
           </button> -->
-          <ul class="flex flex-wrap items-center gap-4 gap-x-10" role="list">
+          <ul
+            class="flex flex-col gap-4 desktop:flex-row desktop:flex-wrap desktop:items-center desktop:gap-x-10"
+            role="list"
+          >
             <li>
-              <button type="button" id="features-btn">
+              <button
+                class="group inline-flex items-center gap-4 aria-disabled:cursor-default"
+                type="button"
+                id="features-btn"
+                aria-expanded="true"
+                aria-disabled="true"
+              >
                 Features
                 <img
-                  class="inline-block"
-                  alt=""
-                  src="/images/icon-arrow-up.svg"
-                />
-                <img
-                  class="inline-block"
+                  class="transition-transform group-aria-expanded:rotate-180"
                   alt=""
                   src="/images/icon-arrow-down.svg"
                 />
               </button>
-              <!-- <ul role="list" aria-labelledby="features-btn">
+              <ul
+                class="desktop:bg-pure-white desktop:shadow-layer-1 my-6 space-y-4 desktop:absolute"
+                role="list"
+                aria-labelledby="features-btn"
+              >
                 <li>
-                  <a href="#">
+                  <a
+                    class="inline-grid grid-cols-[2.75rem_1fr] items-center gap-4"
+                    href="#"
+                  >
                     <img
+                      class="justify-self-end"
                       alt=""
                       src="/images/icon-todo.svg"
                       width="14"
@@ -70,8 +82,12 @@ import { screens } from "../utils/screens";
                   </a>
                 </li>
                 <li>
-                  <a href="#">
+                  <a
+                    class="inline-grid grid-cols-[2.75rem_1fr] items-center gap-4"
+                    href="#"
+                  >
                     <img
+                      class="justify-self-end"
                       alt=""
                       src="/images/icon-calendar.svg"
                       width="16"
@@ -80,8 +96,12 @@ import { screens } from "../utils/screens";
                   </a>
                 </li>
                 <li>
-                  <a href="#">
+                  <a
+                    class="inline-grid grid-cols-[2.75rem_1fr] items-center gap-4"
+                    href="#"
+                  >
                     <img
+                      class="justify-self-end"
                       alt=""
                       src="/images/icon-reminders.svg"
                       width="13"
@@ -90,8 +110,12 @@ import { screens } from "../utils/screens";
                   </a>
                 </li>
                 <li>
-                  <a href="#">
+                  <a
+                    class="inline-grid grid-cols-[2.75rem_1fr] items-center gap-4"
+                    href="#"
+                  >
                     <img
+                      class="justify-self-end"
                       alt=""
                       src="/images/icon-planning.svg"
                       width="16"
@@ -99,23 +123,28 @@ import { screens } from "../utils/screens";
                     /> Planning
                   </a>
                 </li>
-              </ul> -->
+              </ul>
             </li>
             <li>
-              <button type="button" id="company-btn">
+              <button
+                class="group inline-flex items-center gap-4 aria-expanded:cursor-default"
+                type="button"
+                id="company-btn"
+                aria-expanded="true"
+                aria-disabled="true"
+              >
                 Company
                 <img
-                  class="inline-block"
-                  alt=""
-                  src="/images/icon-arrow-up.svg"
-                />
-                <img
-                  class="inline-block"
+                  class="transition-transform group-aria-expanded:rotate-180"
                   alt=""
                   src="/images/icon-arrow-down.svg"
                 />
               </button>
-              <!-- <ul role="list" aria-labelledby="company-btn">
+              <ul
+                class="desktop:bg-pure-white desktop:shadow-layer-1 my-6 space-y-4 pl-6 desktop:absolute"
+                role="list"
+                aria-labelledby="company-btn"
+              >
                 <li>
                   <a href="#">History</a>
                 </li>
@@ -125,7 +154,7 @@ import { screens } from "../utils/screens";
                 <li>
                   <a href="#">Blog</a>
                 </li>
-              </ul> -->
+              </ul>
             </li>
             <li>
               <a href="#">Careers</a>
@@ -135,15 +164,21 @@ import { screens } from "../utils/screens";
             </li>
           </ul>
         </nav>
+        <ul
+          class="mt-8 flex flex-col gap-4 text-center desktop:mt-0 desktop:flex-row desktop:flex-wrap desktop:items-center desktop:gap-x-10"
+          role="list"
+        >
+          <li>
+            <a href="#">Login</a>
+          </li>
+          <li>
+            <a
+              class="block rounded-[0.875rem] border-[1.5px] px-4 py-3"
+              href="#">Register</a
+            >
+          </li>
+        </ul>
       </div>
-      <ul class="flex flex-wrap items-center gap-4 gap-x-10" role="list">
-        <li>
-          <a href="#">Login</a>
-        </li>
-        <li>
-          <a href="#">Register</a>
-        </li>
-      </ul>
     </header>
     <main class="mt-6 text-center tablet:mt-16 desktop:text-start">
       <div
