@@ -48,7 +48,7 @@ import { screens } from "../utils/screens";
           >
             <li class="whitespace-nowrap desktop:relative">
               <button
-                class="group peer inline-flex items-center gap-4 aria-disabled:cursor-default"
+                class="hocus:text-almost-black group peer inline-flex items-center gap-4 transition-colors aria-disabled:cursor-default"
                 type="button"
                 id="features-btn"
                 aria-expanded="true"
@@ -56,20 +56,28 @@ import { screens } from "../utils/screens";
                 data-dropdown-trigger
               >
                 Features
-                <img
+                <svg
                   class="transition-transform group-aria-expanded:rotate-180"
-                  alt=""
-                  src="/images/icon-arrow-down.svg"
-                />
+                  width="10"
+                  height="6"
+                  aria-hidden="true"
+                  focusable="false"
+                  xmlns="http://www.w3.org/2000/svg"
+                  ><path
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    fill="none"
+                    d="m1 1 4 4 4-4"></path></svg
+                >
               </button>
               <ul
-                class="my-6 hidden space-y-4 pl-6 peer-aria-expanded:block desktop:absolute desktop:right-0 desktop:my-0 desktop:mt-5 desktop:rounded-[0.625rem] desktop:bg-pure-white desktop:p-6 desktop:shadow-layer-1"
+                class="mb-2 mt-6 hidden space-y-4 pl-6 peer-aria-expanded:block desktop:absolute desktop:right-0 desktop:my-0 desktop:mt-5 desktop:rounded-[0.625rem] desktop:bg-pure-white desktop:p-6 desktop:shadow-layer-1"
                 role="list"
                 aria-labelledby="features-btn"
               >
                 <li class="flex">
                   <a
-                    class="inline-grid grid-cols-[1.25rem_1fr] items-center gap-4 desktop:grid-cols-[1rem_1fr]"
+                    class="hocus:text-almost-black inline-grid grid-cols-[1.25rem_1fr] items-center gap-4 transition-colors desktop:grid-cols-[1rem_1fr]"
                     href="#"
                   >
                     <img
@@ -84,7 +92,7 @@ import { screens } from "../utils/screens";
                 </li>
                 <li class="flex">
                   <a
-                    class="inline-grid grid-cols-[1.25rem_1fr] items-center gap-4 desktop:grid-cols-[1rem_1fr]"
+                    class="hocus:text-almost-black inline-grid grid-cols-[1.25rem_1fr] items-center gap-4 transition-colors desktop:grid-cols-[1rem_1fr]"
                     href="#"
                   >
                     <img
@@ -98,7 +106,7 @@ import { screens } from "../utils/screens";
                 </li>
                 <li class="flex">
                   <a
-                    class="inline-grid grid-cols-[1.25rem_1fr] items-center gap-4 desktop:grid-cols-[1rem_1fr]"
+                    class="hocus:text-almost-black inline-grid grid-cols-[1.25rem_1fr] items-center gap-4 transition-colors desktop:grid-cols-[1rem_1fr]"
                     href="#"
                   >
                     <img
@@ -112,7 +120,7 @@ import { screens } from "../utils/screens";
                 </li>
                 <li class="flex">
                   <a
-                    class="inline-grid grid-cols-[1.25rem_1fr] items-center gap-4 desktop:grid-cols-[1rem_1fr]"
+                    class="hocus:text-almost-black inline-grid grid-cols-[1.25rem_1fr] items-center gap-4 transition-colors desktop:grid-cols-[1rem_1fr]"
                     href="#"
                   >
                     <img
@@ -128,7 +136,7 @@ import { screens } from "../utils/screens";
             </li>
             <li class="whitespace-nowrap desktop:relative">
               <button
-                class="group peer inline-flex items-center gap-4 aria-disabled:cursor-default"
+                class="hocus:text-almost-black group peer inline-flex items-center gap-4 transition-colors aria-disabled:cursor-default"
                 type="button"
                 id="company-btn"
                 aria-expanded="true"
@@ -136,33 +144,51 @@ import { screens } from "../utils/screens";
                 data-dropdown-trigger
               >
                 Company
-                <img
+                <svg
                   class="transition-transform group-aria-expanded:rotate-180"
-                  alt=""
-                  src="/images/icon-arrow-down.svg"
-                />
+                  width="10"
+                  height="6"
+                  aria-hidden="true"
+                  focusable="false"
+                  xmlns="http://www.w3.org/2000/svg"
+                  ><path
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    fill="none"
+                    d="m1 1 4 4 4-4"></path></svg
+                >
               </button>
               <ul
-                class="my-6 hidden space-y-4 pl-6 peer-aria-expanded:block desktop:absolute desktop:left-0 desktop:my-0 desktop:mt-5 desktop:rounded-[0.625rem] desktop:bg-pure-white desktop:p-6 desktop:shadow-layer-1"
+                class="mb-2 mt-6 hidden space-y-4 pl-6 peer-aria-expanded:block desktop:absolute desktop:left-0 desktop:my-0 desktop:mt-5 desktop:rounded-[0.625rem] desktop:bg-pure-white desktop:p-6 desktop:shadow-layer-1"
                 role="list"
                 aria-labelledby="company-btn"
               >
                 <li>
-                  <a href="#">History</a>
+                  <a class="hocus:text-almost-black transition-colors" href="#"
+                    >History</a
+                  >
                 </li>
                 <li>
-                  <a href="#">Our Team</a>
+                  <a class="hocus:text-almost-black transition-colors" href="#">
+                    Our Team
+                  </a>
                 </li>
                 <li>
-                  <a href="#">Blog</a>
+                  <a class="hocus:text-almost-black transition-colors" href="#">
+                    Blog
+                  </a>
                 </li>
               </ul>
             </li>
             <li>
-              <a href="#">Careers</a>
+              <a class="hocus:text-almost-black transition-colors" href="#">
+                Careers
+              </a>
             </li>
             <li>
-              <a href="#">About</a>
+              <a class="hocus:text-almost-black transition-colors" href="#">
+                About
+              </a>
             </li>
           </ul>
         </nav>
@@ -171,11 +197,13 @@ import { screens } from "../utils/screens";
           role="list"
         >
           <li>
-            <a href="#">Login</a>
+            <a class="hocus:text-almost-black transition-colors" href="#"
+              >Login</a
+            >
           </li>
           <li>
             <a
-              class="block rounded-[0.875rem] border-[1.5px] px-4 py-3"
+              class="hocus:text-almost-black block rounded-[0.875rem] border-[1.5px] px-4 py-3 transition-colors"
               href="#">Register</a
             >
           </li>

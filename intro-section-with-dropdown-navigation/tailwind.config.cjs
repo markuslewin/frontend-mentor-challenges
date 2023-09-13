@@ -1,3 +1,4 @@
+const plugin = require("tailwindcss/plugin");
 const { screens } = require("./src/utils/screens");
 
 const rem = (px) => `${px / 16}rem`;
@@ -94,5 +95,10 @@ module.exports = {
     }),
     extend: {},
   },
-  plugins: [],
+  plugins: [
+    plugin(function ({ addVariant }) {
+      addVariant("hocus", ["&:hover", "&:focus-visible"]);
+      addVariant("forced-colors", "@media (forced-colors: active)");
+    }),
+  ],
 };
