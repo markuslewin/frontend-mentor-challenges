@@ -48,11 +48,12 @@ import { screens } from "../utils/screens";
           >
             <li class="whitespace-nowrap desktop:relative">
               <button
-                class="group inline-flex items-center gap-4 aria-disabled:cursor-default"
+                class="group peer inline-flex items-center gap-4 aria-disabled:cursor-default"
                 type="button"
                 id="features-btn"
                 aria-expanded="true"
                 aria-disabled="true"
+                data-dropdown-trigger
               >
                 Features
                 <img
@@ -62,7 +63,7 @@ import { screens } from "../utils/screens";
                 />
               </button>
               <ul
-                class="my-6 space-y-4 pl-6 desktop:absolute desktop:right-0 desktop:my-0 desktop:mt-5 desktop:rounded-[0.625rem] desktop:bg-pure-white desktop:p-6 desktop:shadow-layer-1"
+                class="my-6 hidden space-y-4 pl-6 peer-aria-expanded:block desktop:absolute desktop:right-0 desktop:my-0 desktop:mt-5 desktop:rounded-[0.625rem] desktop:bg-pure-white desktop:p-6 desktop:shadow-layer-1"
                 role="list"
                 aria-labelledby="features-btn"
               >
@@ -127,11 +128,12 @@ import { screens } from "../utils/screens";
             </li>
             <li class="whitespace-nowrap desktop:relative">
               <button
-                class="group inline-flex items-center gap-4 aria-expanded:cursor-default"
+                class="group peer inline-flex items-center gap-4 aria-disabled:cursor-default"
                 type="button"
                 id="company-btn"
                 aria-expanded="true"
                 aria-disabled="true"
+                data-dropdown-trigger
               >
                 Company
                 <img
@@ -141,7 +143,7 @@ import { screens } from "../utils/screens";
                 />
               </button>
               <ul
-                class="my-6 space-y-4 pl-6 desktop:absolute desktop:left-0 desktop:my-0 desktop:mt-5 desktop:rounded-[0.625rem] desktop:bg-pure-white desktop:p-6 desktop:shadow-layer-1"
+                class="my-6 hidden space-y-4 pl-6 peer-aria-expanded:block desktop:absolute desktop:left-0 desktop:my-0 desktop:mt-5 desktop:rounded-[0.625rem] desktop:bg-pure-white desktop:p-6 desktop:shadow-layer-1"
                 role="list"
                 aria-labelledby="company-btn"
               >
@@ -261,3 +263,22 @@ import { screens } from "../utils/screens";
     </main>
   </body>
 </html>
+
+<script>
+  const $ = {
+    dropdownTriggers: [
+      ...document.querySelectorAll("[data-dropdown-trigger]"),
+    ] as HTMLButtonElement[],
+  };
+
+  $.dropdownTriggers.forEach((trigger) => {
+    trigger.addEventListener("click", (e) => {
+      if (e.target instanceof Element) {
+        const expanded = e.target.getAttribute("aria-expanded") === "true";
+        e.target.setAttribute("aria-expanded", String(!expanded));
+      }
+    });
+    trigger.setAttribute("aria-disabled", "false");
+    trigger.setAttribute("aria-expanded", "false");
+  });
+</script>
