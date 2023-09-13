@@ -46,7 +46,7 @@ import { screens } from "../utils/screens";
             class="flex flex-col gap-4 desktop:flex-row desktop:flex-wrap desktop:items-center desktop:gap-x-10"
             role="list"
           >
-            <li>
+            <li class="whitespace-nowrap desktop:relative">
               <button
                 class="group inline-flex items-center gap-4 aria-disabled:cursor-default"
                 type="button"
@@ -62,17 +62,17 @@ import { screens } from "../utils/screens";
                 />
               </button>
               <ul
-                class="desktop:bg-pure-white desktop:shadow-layer-1 my-6 space-y-4 desktop:absolute"
+                class="my-6 space-y-4 pl-6 desktop:absolute desktop:right-0 desktop:my-0 desktop:mt-5 desktop:rounded-[0.625rem] desktop:bg-pure-white desktop:p-6 desktop:shadow-layer-1"
                 role="list"
                 aria-labelledby="features-btn"
               >
-                <li>
+                <li class="flex">
                   <a
-                    class="inline-grid grid-cols-[2.75rem_1fr] items-center gap-4"
+                    class="inline-grid grid-cols-[1.25rem_1fr] items-center gap-4 desktop:grid-cols-[1rem_1fr]"
                     href="#"
                   >
                     <img
-                      class="justify-self-end"
+                      class="justify-self-center"
                       alt=""
                       src="/images/icon-todo.svg"
                       width="14"
@@ -81,13 +81,13 @@ import { screens } from "../utils/screens";
                      Todo List
                   </a>
                 </li>
-                <li>
+                <li class="flex">
                   <a
-                    class="inline-grid grid-cols-[2.75rem_1fr] items-center gap-4"
+                    class="inline-grid grid-cols-[1.25rem_1fr] items-center gap-4 desktop:grid-cols-[1rem_1fr]"
                     href="#"
                   >
                     <img
-                      class="justify-self-end"
+                      class="justify-self-center"
                       alt=""
                       src="/images/icon-calendar.svg"
                       width="16"
@@ -95,13 +95,13 @@ import { screens } from "../utils/screens";
                     /> Calendar
                   </a>
                 </li>
-                <li>
+                <li class="flex">
                   <a
-                    class="inline-grid grid-cols-[2.75rem_1fr] items-center gap-4"
+                    class="inline-grid grid-cols-[1.25rem_1fr] items-center gap-4 desktop:grid-cols-[1rem_1fr]"
                     href="#"
                   >
                     <img
-                      class="justify-self-end"
+                      class="justify-self-center"
                       alt=""
                       src="/images/icon-reminders.svg"
                       width="13"
@@ -109,13 +109,13 @@ import { screens } from "../utils/screens";
                     /> Reminders
                   </a>
                 </li>
-                <li>
+                <li class="flex">
                   <a
-                    class="inline-grid grid-cols-[2.75rem_1fr] items-center gap-4"
+                    class="inline-grid grid-cols-[1.25rem_1fr] items-center gap-4 desktop:grid-cols-[1rem_1fr]"
                     href="#"
                   >
                     <img
-                      class="justify-self-end"
+                      class="justify-self-center"
                       alt=""
                       src="/images/icon-planning.svg"
                       width="16"
@@ -125,7 +125,7 @@ import { screens } from "../utils/screens";
                 </li>
               </ul>
             </li>
-            <li>
+            <li class="whitespace-nowrap desktop:relative">
               <button
                 class="group inline-flex items-center gap-4 aria-expanded:cursor-default"
                 type="button"
@@ -141,7 +141,7 @@ import { screens } from "../utils/screens";
                 />
               </button>
               <ul
-                class="desktop:bg-pure-white desktop:shadow-layer-1 my-6 space-y-4 pl-6 desktop:absolute"
+                class="my-6 space-y-4 pl-6 desktop:absolute desktop:left-0 desktop:my-0 desktop:mt-5 desktop:rounded-[0.625rem] desktop:bg-pure-white desktop:p-6 desktop:shadow-layer-1"
                 role="list"
                 aria-labelledby="company-btn"
               >
