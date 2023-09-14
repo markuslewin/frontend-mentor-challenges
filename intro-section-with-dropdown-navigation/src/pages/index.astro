@@ -18,15 +18,15 @@ import { screens } from "../utils/screens";
     <title>Frontend Mentor | Intro section with dropdown navigation</title>
   </head>
   <body
-    class="bg-pure-white font-base text-body-m text-medium-gray tablet:text-body-m-desktop desktop:bg-almost-white"
+    class="relative min-h-screen bg-pure-white font-base text-body-m text-medium-gray tablet:text-body-m-desktop desktop:bg-almost-white"
   >
     <header
-      class="mx-auto mt-4 box-content max-w-7xl px-4 text-body-s tablet:mt-5 tablet:px-10 desktop:flex desktop:flex-wrap desktop:items-center desktop:gap-4 desktop:gap-x-16"
+      class="mx-auto box-content max-w-7xl px-4 pt-4 text-body-s tablet:px-10 tablet:pt-5 desktop:flex desktop:flex-wrap desktop:items-center desktop:gap-4 desktop:gap-x-16"
     >
       <img alt="Snap" src="/images/logo.svg" width="84" height="27" />
       <nav class="desktop:grow">
         <button
-          class="group peer absolute right-2 top-[0.125rem] inline-grid h-12 w-12 place-content-center tablet:right-10 tablet:top-[0.375rem] desktop:hidden"
+          class="group peer absolute right-2 top-[0.125rem] z-50 inline-grid h-12 w-12 place-content-center tablet:right-10 tablet:top-[0.375rem] desktop:hidden"
           type="button"
           aria-expanded="true"
           aria-disabled="true"
@@ -48,7 +48,11 @@ import { screens } from "../utils/screens";
           />
         </button>
         <div
-          class="py-20 max-desktop:hidden max-desktop:peer-aria-expanded:block desktop:flex desktop:flex-wrap desktop:items-center desktop:justify-between desktop:gap-4 desktop:py-0"
+          class="absolute inset-0 hidden bg-almost-black/75 max-desktop:peer-aria-expanded:block"
+        >
+        </div>
+        <div
+          class="py-20 max-desktop:absolute max-desktop:right-0 max-desktop:top-0 max-desktop:hidden max-desktop:h-full max-desktop:w-full max-desktop:max-w-[15rem] max-desktop:overflow-y-auto max-desktop:bg-pure-white max-desktop:px-6 max-desktop:peer-aria-expanded:block tablet:max-desktop:max-w-[18rem] tablet:max-desktop:px-10 desktop:flex desktop:flex-wrap desktop:items-center desktop:justify-between desktop:gap-4 desktop:py-0"
         >
           <ul
             class="flex flex-col gap-4 text-nav desktop:flex-row desktop:flex-wrap desktop:items-center desktop:gap-x-10 desktop:text-nav-desktop"
