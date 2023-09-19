@@ -26,7 +26,7 @@ import { screens } from "../utils/screens";
       <img alt="Snap" src="/images/logo.svg" width="84" height="27" />
       <nav class="desktop:grow">
         <button
-          class="group peer absolute right-2 top-[0.125rem] z-50 inline-grid h-12 w-12 place-content-center tablet:right-10 tablet:top-[0.375rem] desktop:hidden"
+          class="js:inline-grid js:desktop:hidden group peer absolute right-2 top-[0.125rem] z-50 hidden h-12 w-12 place-content-center tablet:right-10 tablet:top-[0.375rem] desktop:hidden"
           type="button"
           aria-expanded="true"
           aria-disabled="true"
@@ -48,11 +48,11 @@ import { screens } from "../utils/screens";
           />
         </button>
         <div
-          class="absolute inset-0 hidden bg-almost-black/75 max-desktop:peer-aria-expanded:block"
+          class="max-desktop:js:peer-aria-expanded:block absolute inset-0 hidden bg-almost-black/75"
         >
         </div>
         <div
-          class="py-20 max-desktop:absolute max-desktop:right-0 max-desktop:top-0 max-desktop:hidden max-desktop:h-full max-desktop:w-full max-desktop:max-w-[15rem] max-desktop:overflow-y-auto max-desktop:bg-pure-white max-desktop:px-6 max-desktop:peer-aria-expanded:block tablet:max-desktop:max-w-[18rem] tablet:max-desktop:px-10 desktop:flex desktop:flex-wrap desktop:items-center desktop:justify-between desktop:gap-4 desktop:py-0"
+          class="js:max-desktop:absolute py-20 max-desktop:right-0 max-desktop:top-0 max-desktop:hidden max-desktop:h-full max-desktop:w-full max-desktop:max-w-[15rem] max-desktop:overflow-y-auto max-desktop:bg-pure-white max-desktop:px-6 max-desktop:peer-aria-expanded:block tablet:max-desktop:max-w-[18rem] tablet:max-desktop:px-10 desktop:flex desktop:flex-wrap desktop:items-center desktop:justify-between desktop:gap-4 desktop:py-0"
         >
           <ul
             class="flex flex-col gap-4 text-nav desktop:flex-row desktop:flex-wrap desktop:items-center desktop:gap-x-10 desktop:text-nav-desktop"
@@ -306,6 +306,7 @@ import { screens } from "../utils/screens";
 
 <script>
   const $ = {
+    body: document.body,
     menuTrigger: document.querySelector(
       "[data-menu-trigger]",
     ) as HTMLButtonElement,
@@ -334,4 +335,6 @@ import { screens } from "../utils/screens";
     trigger.setAttribute("aria-disabled", "false");
     trigger.setAttribute("aria-expanded", "false");
   });
+
+  $.body.dataset.js = "true";
 </script>

@@ -97,6 +97,7 @@ module.exports = {
   },
   plugins: [
     plugin(function ({ addVariant }) {
+      addVariant("js", '[data-js="true"] &');
       addVariant("hocus", ["&:hover", "&:focus-visible"]);
       addVariant("forced-colors", "@media (forced-colors: active)");
     }),
