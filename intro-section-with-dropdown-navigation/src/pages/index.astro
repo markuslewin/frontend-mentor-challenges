@@ -228,7 +228,7 @@ import { screens } from "../utils/screens";
         </div>
       </nav>
     </header>
-    <main class="mt-6 text-center tablet:mt-16 desktop:text-start">
+    <main class="mt-6 pb-24 text-center tablet:mt-16 desktop:text-start">
       <div
         class="mx-auto box-content flex max-w-[73.75rem] flex-col-reverse desktop:grid desktop:grid-cols-2 desktop:items-center desktop:justify-items-end desktop:gap-8 desktop:px-10"
       >
@@ -260,7 +260,7 @@ import { screens } from "../utils/screens";
           >
             <li>
               <img
-                class="h-5 w-auto"
+                class="h-[0.875rem] w-auto tablet:h-5"
                 alt="Databiz"
                 src="/images/client-databiz.svg"
                 width="114"
@@ -269,7 +269,7 @@ import { screens } from "../utils/screens";
             </li>
             <li>
               <img
-                class="h-9 w-auto"
+                class="h-[1.625rem] w-auto tablet:h-9"
                 alt="Audiophile"
                 src="/images/client-audiophile.svg"
                 width="73"
@@ -278,7 +278,7 @@ import { screens } from "../utils/screens";
             </li>
             <li>
               <img
-                class="h-5 w-auto"
+                class="h-[0.875rem] w-auto tablet:h-5"
                 alt="Meet"
                 src="/images/client-meet.svg"
                 width="90"
@@ -287,7 +287,7 @@ import { screens } from "../utils/screens";
             </li>
             <li>
               <img
-                class="h-6 w-auto"
+                class="h-[1.0625rem] w-auto tablet:h-6"
                 alt="Maker"
                 src="/images/client-maker.svg"
                 width="83"
@@ -360,20 +360,20 @@ import { screens } from "../utils/screens";
   $.menuTrigger.setAttribute("aria-expanded", "false");
 
   // close submenus on nav blur
-  // $.nav.addEventListener("focusout", (e) => {
-  //   if (
-  //     !(e.currentTarget instanceof Node) ||
-  //     !(e.relatedTarget instanceof Node || e.relatedTarget === null)
-  //   ) {
-  //     return;
-  //   }
+  $.nav.addEventListener("focusout", (e) => {
+    if (
+      !(e.currentTarget instanceof Node) ||
+      !(e.relatedTarget instanceof Node || e.relatedTarget === null)
+    ) {
+      return;
+    }
 
-  //   if (!e.currentTarget.contains(e.relatedTarget)) {
-  //     $.dropdownTriggers.forEach(($trigger) => {
-  //       $trigger.setAttribute("aria-expanded", "false");
-  //     });
-  //   }
-  // });
+    if (!e.currentTarget.contains(e.relatedTarget)) {
+      $.dropdownTriggers.forEach(($trigger) => {
+        $trigger.setAttribute("aria-expanded", "false");
+      });
+    }
+  });
 
   $.dropdownTriggers.forEach(($trigger) => {
     const $controls = $trigger.nextSibling;
