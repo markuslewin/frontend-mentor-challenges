@@ -26,7 +26,7 @@ import { screens } from "../utils/screens";
       <img alt="Snap" src="/images/logo.svg" width="84" height="27" />
       <nav class="desktop:grow">
         <button
-          class="js:inline-grid js:desktop:hidden group peer absolute right-2 top-[0.125rem] z-50 hidden h-12 w-12 place-content-center tablet:right-10 tablet:top-[0.375rem] desktop:hidden"
+          class="group peer absolute right-2 top-[0.125rem] z-50 hidden h-12 w-12 place-content-center js:inline-grid tablet:right-10 tablet:top-[0.375rem] desktop:hidden js:desktop:hidden"
           type="button"
           aria-expanded="true"
           aria-disabled="true"
@@ -48,15 +48,16 @@ import { screens } from "../utils/screens";
           />
         </button>
         <div
-          class="max-desktop:js:peer-aria-expanded:block absolute inset-0 hidden bg-almost-black/75"
+          class="absolute inset-0 hidden bg-almost-black/75 max-desktop:js:peer-aria-expanded:block"
         >
         </div>
         <div
-          class="js:max-desktop:absolute py-20 max-desktop:right-0 max-desktop:top-0 max-desktop:hidden max-desktop:h-full max-desktop:w-full max-desktop:max-w-[15rem] max-desktop:overflow-y-auto max-desktop:bg-pure-white max-desktop:px-6 max-desktop:peer-aria-expanded:block tablet:max-desktop:max-w-[18rem] tablet:max-desktop:px-10 desktop:flex desktop:flex-wrap desktop:items-center desktop:justify-between desktop:gap-4 desktop:py-0"
+          class="py-20 max-desktop:right-0 max-desktop:top-0 max-desktop:hidden max-desktop:h-full max-desktop:w-full max-desktop:max-w-[15rem] max-desktop:overflow-y-auto max-desktop:bg-pure-white max-desktop:px-6 max-desktop:peer-aria-expanded:block js:max-desktop:absolute tablet:max-desktop:max-w-[18rem] tablet:max-desktop:px-10 desktop:flex desktop:flex-wrap desktop:items-center desktop:justify-between desktop:gap-4 desktop:py-0"
         >
           <ul
             class="flex flex-col gap-4 text-nav desktop:flex-row desktop:flex-wrap desktop:items-center desktop:gap-x-10 desktop:text-nav-desktop"
             role="list"
+            data-nav
           >
             <li class="whitespace-nowrap desktop:relative">
               <button
@@ -307,6 +308,7 @@ import { screens } from "../utils/screens";
 <script>
   const $ = {
     body: document.body,
+    nav: document.querySelector("[data-nav]") as HTMLElement,
     menuTrigger: document.querySelector(
       "[data-menu-trigger]",
     ) as HTMLButtonElement,
@@ -321,19 +323,64 @@ import { screens } from "../utils/screens";
       e.currentTarget.setAttribute("aria-expanded", String(!expanded));
     }
   });
+  // enhance noscript version
   $.menuTrigger.setAttribute("aria-disabled", "false");
   $.menuTrigger.setAttribute("aria-expanded", "false");
 
-  $.dropdownTriggers.forEach((trigger) => {
-    trigger.addEventListener("click", (e) => {
+  // close submenus on nav blur
+  $.nav.addEventListener("focusout", (e) => {
+    if (
+      !(e.currentTarget instanceof Node) ||
+      !(e.relatedTarget instanceof Node || e.relatedTarget === null)
+    ) {
+      return;
+    }
+    if (!e.currentTarget.contains(e.relatedTarget)) {
+      $.dropdownTriggers.forEach(($trigger) => {
+        $trigger.setAttribute("aria-expanded", "false");
+      });
+    }
+  });
+
+  $.dropdownTriggers.forEach(($trigger) => {
+    const $controls = $trigger.nextSibling;
+    if (!$controls) {
+      console.error("Couldn't find controlled element of", $trigger);
+      return;
+    }
+
+    // toggle submenu of clicked trigger
+    $trigger.addEventListener("click", (e) => {
       if (e.currentTarget instanceof Element) {
         const expanded =
           e.currentTarget.getAttribute("aria-expanded") === "true";
+
+        $.dropdownTriggers.forEach(($trigger) => {
+          $trigger.setAttribute("aria-expanded", "false");
+        });
         e.currentTarget.setAttribute("aria-expanded", String(!expanded));
       }
     });
-    trigger.setAttribute("aria-disabled", "false");
-    trigger.setAttribute("aria-expanded", "false");
+    // close submenu on escape
+    $trigger.addEventListener("keyup", (e) => {
+      if (
+        e.currentTarget instanceof Element &&
+        e instanceof KeyboardEvent &&
+        e.key === "Escape"
+      ) {
+        e.currentTarget.setAttribute("aria-expanded", "false");
+      }
+    });
+    // close submenu on escape
+    $controls.addEventListener("keyup", (e) => {
+      if (e instanceof KeyboardEvent && e.key === "Escape") {
+        $trigger.setAttribute("aria-expanded", "false");
+        $trigger.focus();
+      }
+    });
+    // enhance noscript version
+    $trigger.setAttribute("aria-disabled", "false");
+    $trigger.setAttribute("aria-expanded", "false");
   });
 
   $.body.dataset.js = "true";
