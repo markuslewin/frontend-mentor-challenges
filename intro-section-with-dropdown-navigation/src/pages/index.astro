@@ -330,11 +330,9 @@ import { screens } from "../utils/screens";
   };
 
   // toggle navigation menu
-  $.menuTrigger.addEventListener("click", (e) => {
-    if (e.currentTarget instanceof Element) {
-      const expanded = e.currentTarget.getAttribute("aria-expanded") === "true";
-      e.currentTarget.setAttribute("aria-expanded", String(!expanded));
-    }
+  $.menuTrigger.addEventListener("click", function () {
+    const expanded = this.getAttribute("aria-expanded") === "true";
+    this.setAttribute("aria-expanded", String(!expanded));
   });
   // close menu if user clicks outside of it
   document.addEventListener("click", (e) => {
@@ -360,15 +358,12 @@ import { screens } from "../utils/screens";
   $.menuTrigger.setAttribute("aria-expanded", "false");
 
   // close submenus on nav blur
-  $.nav.addEventListener("focusout", (e) => {
-    if (
-      !(e.currentTarget instanceof Node) ||
-      !(e.relatedTarget instanceof Node || e.relatedTarget === null)
-    ) {
+  $.nav.addEventListener("focusout", function (e) {
+    if (!(e.relatedTarget instanceof Node || e.relatedTarget === null)) {
       return;
     }
 
-    if (!e.currentTarget.contains(e.relatedTarget)) {
+    if (!this.contains(e.relatedTarget)) {
       $.dropdownTriggers.forEach(($trigger) => {
         $trigger.setAttribute("aria-expanded", "false");
       });
@@ -383,25 +378,18 @@ import { screens } from "../utils/screens";
     }
 
     // toggle submenu of clicked trigger
-    $trigger.addEventListener("click", (e) => {
-      if (e.currentTarget instanceof Element) {
-        const expanded =
-          e.currentTarget.getAttribute("aria-expanded") === "true";
+    $trigger.addEventListener("click", function () {
+      const expanded = this.getAttribute("aria-expanded") === "true";
 
-        $.dropdownTriggers.forEach(($trigger) => {
-          $trigger.setAttribute("aria-expanded", "false");
-        });
-        e.currentTarget.setAttribute("aria-expanded", String(!expanded));
-      }
+      $.dropdownTriggers.forEach(($trigger) => {
+        $trigger.setAttribute("aria-expanded", "false");
+      });
+      this.setAttribute("aria-expanded", String(!expanded));
     });
     // close submenu on escape
-    $trigger.addEventListener("keyup", (e) => {
-      if (
-        e.currentTarget instanceof Element &&
-        e instanceof KeyboardEvent &&
-        e.key === "Escape"
-      ) {
-        e.currentTarget.setAttribute("aria-expanded", "false");
+    $trigger.addEventListener("keyup", function (e) {
+      if (e instanceof KeyboardEvent && e.key === "Escape") {
+        this.setAttribute("aria-expanded", "false");
       }
     });
     // close submenu on escape
