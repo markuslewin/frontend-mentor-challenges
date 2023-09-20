@@ -53,6 +53,7 @@ import { screens } from "../utils/screens";
         </div>
         <div
           class="py-20 max-desktop:right-0 max-desktop:top-0 max-desktop:hidden max-desktop:h-full max-desktop:w-full max-desktop:max-w-[15rem] max-desktop:overflow-y-auto max-desktop:bg-pure-white max-desktop:px-6 max-desktop:peer-aria-expanded:block js:max-desktop:absolute tablet:max-desktop:max-w-[18rem] tablet:max-desktop:px-10 desktop:flex desktop:flex-wrap desktop:items-center desktop:justify-between desktop:gap-4 desktop:py-0"
+          data-menu
         >
           <ul
             class="flex flex-col gap-4 text-nav desktop:flex-row desktop:flex-wrap desktop:items-center desktop:gap-x-10 desktop:text-nav-desktop"
@@ -308,19 +309,40 @@ import { screens } from "../utils/screens";
 <script>
   const $ = {
     body: document.body,
-    nav: document.querySelector("[data-nav]") as HTMLElement,
     menuTrigger: document.querySelector(
       "[data-menu-trigger]",
     ) as HTMLButtonElement,
+    menu: document.querySelector("[data-menu]") as HTMLElement,
+    nav: document.querySelector("[data-nav]") as HTMLElement,
     dropdownTriggers: [
       ...document.querySelectorAll("[data-dropdown-trigger]"),
     ] as HTMLButtonElement[],
   };
 
+  // toggle navigation menu
   $.menuTrigger.addEventListener("click", (e) => {
     if (e.currentTarget instanceof Element) {
       const expanded = e.currentTarget.getAttribute("aria-expanded") === "true";
       e.currentTarget.setAttribute("aria-expanded", String(!expanded));
+    }
+  });
+  // close menu if user clicks outside of it
+  document.addEventListener("click", (e) => {
+    if (!(e.target instanceof Node)) {
+      return;
+    }
+
+    if (!$.menuTrigger.contains(e.target) && !$.menu.contains(e.target)) {
+      $.menuTrigger.setAttribute("aria-expanded", "false");
+    }
+  });
+  // close menu if element outside of it is focused
+  document.addEventListener("focusin", () => {
+    if (
+      !$.menuTrigger.contains(document.activeElement) &&
+      !$.menu.contains(document.activeElement)
+    ) {
+      $.menuTrigger.setAttribute("aria-expanded", "false");
     }
   });
   // enhance noscript version
@@ -335,6 +357,7 @@ import { screens } from "../utils/screens";
     ) {
       return;
     }
+
     if (!e.currentTarget.contains(e.relatedTarget)) {
       $.dropdownTriggers.forEach(($trigger) => {
         $trigger.setAttribute("aria-expanded", "false");
