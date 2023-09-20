@@ -21,7 +21,7 @@ import { screens } from "../utils/screens";
     class="relative min-h-screen bg-pure-white font-base text-body-m text-medium-gray tablet:text-body-m-desktop desktop:bg-almost-white"
   >
     <header
-      class="mx-auto box-content max-w-7xl px-4 pt-4 text-body-s tablet:px-10 tablet:pt-5 desktop:flex desktop:flex-wrap desktop:items-center desktop:gap-4 desktop:gap-x-16"
+      class="mx-auto box-content max-w-[85rem] px-4 pt-4 text-body-s tablet:px-10 tablet:pt-5 desktop:flex desktop:flex-wrap desktop:items-center desktop:gap-4 desktop:gap-x-16"
     >
       <img alt="Snap" src="/images/logo.svg" width="84" height="27" />
       <nav class="desktop:grow">
@@ -216,7 +216,7 @@ import { screens } from "../utils/screens";
             </li>
             <li>
               <a
-                class="block rounded-[0.875rem] border-[1.5px] px-4 py-3 transition-colors hocus:text-almost-black"
+                class="block rounded-[0.875rem] border-[1.5px] px-[1.375rem] py-3 transition-colors hocus:text-almost-black"
                 href="#">Register</a
               >
             </li>
@@ -226,11 +226,13 @@ import { screens } from "../utils/screens";
     </header>
     <main class="mt-6 text-center tablet:mt-16 desktop:text-start">
       <div
-        class="mx-auto box-content flex max-w-5xl flex-col-reverse desktop:grid desktop:grid-cols-2"
+        class="mx-auto box-content flex max-w-[73.75rem] flex-col-reverse desktop:grid desktop:grid-cols-2 desktop:items-center desktop:justify-items-end desktop:gap-8 desktop:px-10"
       >
-        <div class="mt-12 px-4 desktop:mt-28 desktop:px-0">
+        <div
+          class="mt-12 px-4 desktop:mt-28 desktop:max-w-[33.75rem] desktop:px-0"
+        >
           <h1
-            class="text-heading-l text-almost-black tablet:text-heading-l-desktop"
+            class="text-heading-l text-almost-black tablet:text-heading-l-desktop desktop:max-w-[32.5rem]"
           >
             Make remote work
           </h1>
@@ -240,7 +242,7 @@ import { screens } from "../utils/screens";
           </p>
           <p class="mt-6 tablet:mt-12">
             <a
-              class="bg-almost-black text-button text-almost-white tablet:text-button-desktop"
+              class="inline-block rounded-[0.9375rem] bg-almost-black px-[1.375rem] pb-[0.625rem] pt-3 text-button text-almost-white tablet:px-[1.875rem] tablet:pb-[0.8125rem] tablet:pt-[0.9375rem] tablet:text-button-desktop"
               href="#"
             >
               Learn more
@@ -286,7 +288,7 @@ import { screens } from "../utils/screens";
             </li>
           </ul>
         </div>
-        <picture>
+        <picture class="desktop:max-w-[30rem]">
           <source
             media=`(min-width: ${screens.desktop})`
             srcset="/images/image-hero-desktop.png"
