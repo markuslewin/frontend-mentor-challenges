@@ -357,9 +357,9 @@ import { screens } from "../utils/screens";
   $.menuTrigger.setAttribute("aria-disabled", "false");
   $.menuTrigger.setAttribute("aria-expanded", "false");
 
-  // close submenus on nav blur
+  // close submenus when user focus element outside of nav
   $.nav.addEventListener("focusout", function (e) {
-    if (!(e.relatedTarget instanceof Node || e.relatedTarget === null)) {
+    if (!(e.relatedTarget instanceof Node)) {
       return;
     }
 
@@ -397,6 +397,16 @@ import { screens } from "../utils/screens";
       if (e instanceof KeyboardEvent && e.key === "Escape") {
         $trigger.setAttribute("aria-expanded", "false");
         $trigger.focus();
+      }
+    });
+    // close submenu on click outside
+    document.addEventListener("click", (e) => {
+      if (!(e.target instanceof Node) && !(e.target === null)) {
+        return;
+      }
+
+      if (!$trigger.contains(e.target) && !$controls.contains(e.target)) {
+        $trigger.setAttribute("aria-expanded", "false");
       }
     });
     // enhance noscript version
