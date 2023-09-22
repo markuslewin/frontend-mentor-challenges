@@ -1,0 +1,95 @@
+---
+import ArrowLeftIcon from "./IconArrowLeft.astro";
+import ArrowRightIcon from "./IconArrowRight.astro";
+
+interface Props {
+  href: string;
+  direction?: "reverse";
+}
+
+const { href, direction } = Astro.props;
+---
+
+<a href={href} data-direction={direction}>
+  <span class="arrow" data-side="start">
+    <ArrowLeftIcon />
+  </span>
+  <span class="name">
+    <slot />
+  </span>
+  <span class="arrow" data-side="end">
+    <ArrowRightIcon />
+  </span>
+</a>
+
+<style>
+  a {
+    @apply transition-colors;
+
+    --button-start-arrow: none;
+    --button-end-arrow: inline-grid;
+
+    font: 800 1.25rem / 1.5rem var(--font-display);
+    letter-spacing: 0.2275rem;
+    text-transform: uppercase;
+    display: inline-grid;
+    grid-template-columns: max-content max-content;
+    background: var(--color-almost-black);
+    color: var(--color-white);
+  }
+
+  a[data-direction="reverse"] {
+    --button-start-arrow: inline-grid;
+    --button-end-arrow: none;
+  }
+
+  a:focus-visible,
+  a:hover {
+    background: var(--color-gold);
+    color: var(--color-white);
+  }
+
+  a:focus-visible .arrow,
+  a:hover .arrow {
+    background: var(--color-almost-black);
+    color: var(--color-white);
+  }
+
+  .arrow {
+    @apply transition-colors;
+
+    display: var(--arrow-display);
+    place-content: center;
+    padding-inline: 1.5rem;
+    background: var(--color-gold);
+    color: var(--color-white);
+  }
+
+  .arrow[data-side="start"] {
+    display: var(--button-start-arrow);
+  }
+
+  .arrow[data-side="end"] {
+    display: var(--button-end-arrow);
+  }
+
+  .name {
+    padding: 1.5rem 2rem;
+  }
+
+  @media (forced-colors: active) {
+    a {
+      --button-border: thin solid;
+
+      border: var(--button-border);
+    }
+
+    .arrow[data-side="start"] {
+      border-inline-end: var(--button-border);
+    }
+
+    .arrow[data-side="end"] {
+      border-inline-start: var(--button-border);
+    }
+  }
+</style>
