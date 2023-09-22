@@ -1,0 +1,47 @@
+---
+import FacebookIcon from "../components/IconFacebook.astro";
+import InstagramIcon from "../components/IconInstagram.astro";
+import TwitterIcon from "../components/IconTwitter.astro";
+
+const socials = [
+  {
+    name: "Modern Art Gallery on Facebook",
+    href: "https://www.facebook.com/",
+    icon: FacebookIcon,
+  },
+  {
+    name: "Modern Art Gallery on Instagram",
+    href: "https://www.instagram.com/",
+    icon: InstagramIcon,
+  },
+  {
+    name: "Modern Art Gallery on Twitter",
+    href: "https://twitter.com/",
+    icon: TwitterIcon,
+  },
+];
+---
+
+<footer>
+  <a href="/">Modern Art Gallery</a>
+  <p>
+    The Modern Art Gallery is free to all visitors and open seven days a week
+    from <time datetime="08:00">8am</time> to <time datetime="21:00">9pm</time>.
+    Find us at 99 King Street, Newport, USA.
+  </p>
+  <ul>
+    {
+      socials.map((social) => {
+        // todo: viewBox, currentColor?
+        return (
+          <li>
+            <a href={social.href}>
+              <social.icon />
+              <span class="sr-only">{social.name}</span>
+            </a>
+          </li>
+        );
+      })
+    }
+  </ul>
+</footer>
