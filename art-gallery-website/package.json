@@ -11,6 +11,8 @@
   },
   "dependencies": {
     "@astrojs/tailwind": "^5.0.0",
+    "@fontsource-variable/big-shoulders-display": "^5.0.12",
+    "@fontsource-variable/outfit": "^5.0.8",
     "astro": "^3.1.1",
     "tailwindcss": "^3.3.3"
   }
