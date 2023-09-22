@@ -10,12 +10,11 @@ import Picture from "../components/Picture.astro";
   </header>
   <main>
     <!-- todo: non-decorative? -->
-    <!-- todo: picture -->
     <!-- todo: enhance with leaflet -->
     <div>
       <h1>Our location</h1>
       <p>
-        <strong>99 King Street</strong><br />
+        <strong class="location__street">99 King Street</strong><br />
          Newport<br />
          RI 02840<br />
          United States of America
@@ -32,3 +31,29 @@ import Picture from "../components/Picture.astro";
   </main>
   <Footer />
 </Base>
+
+<style>
+  h1 {
+    font: var(--weight-black) 3.125rem / 2.8125rem var(--font-display);
+  }
+
+  .location__street {
+    font: var(--weight-black) 2rem / 2rem var(--font-display);
+  }
+
+  @screen tablet {
+    h1 {
+      font: var(--weight-black) 3.4375rem / 3.125rem var(--font-display);
+    }
+  }
+
+  @screen desktop {
+    h1 {
+      font: var(--text-heading-l);
+    }
+
+    .location__street {
+      font: var(--text-heading-s);
+    }
+  }
+</style>

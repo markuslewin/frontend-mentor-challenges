@@ -17,3 +17,13 @@
   --text-body-m: var(--weight-light) 1.375rem / 2rem var(--font-body);
   --text-body-s: var(--weight-light) 1.125rem / 1.75rem var(--font-body);
 }
+
+body {
+  font: var(--text-body-s);
+}
+
+@screen desktop {
+  body {
+    font: var(--text-body-m);
+  }
+}

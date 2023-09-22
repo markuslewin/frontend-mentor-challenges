@@ -4,7 +4,7 @@ import Footer from "../components/Footer.astro";
 import Picture from "../components/Picture.astro";
 ---
 
-<!-- for all images: --><!-- todo: alt/figure -->
+<!-- todo: alt/figure for all images -->
 <Base>
   <main>
     <h1>Modern Art Gallery</h1>
@@ -33,3 +33,29 @@ import Picture from "../components/Picture.astro";
   </main>
   <Footer />
 </Base>
+
+<style>
+  h1 {
+    font: var(--weight-black) 3.75rem / 3.4375rem var(--font-display);
+  }
+
+  h2 {
+    font: var(--weight-black) 3.125rem / 2.8125rem var(--font-display);
+  }
+
+  @screen tablet {
+    h1 {
+      font: var(--weight-black) 4.375rem / 4.0625rem var(--font-display);
+    }
+  }
+
+  @screen desktop {
+    h1 {
+      font: var(--text-heading-xl);
+    }
+
+    h2 {
+      font: var(--text-heading-m);
+    }
+  }
+</style>

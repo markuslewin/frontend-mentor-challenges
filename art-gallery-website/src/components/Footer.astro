@@ -2,6 +2,7 @@
 import FacebookIcon from "../components/IconFacebook.astro";
 import InstagramIcon from "../components/IconInstagram.astro";
 import TwitterIcon from "../components/IconTwitter.astro";
+import LogoIcon from "./IconLogo.astro";
 
 const socials = [
   {
@@ -23,7 +24,10 @@ const socials = [
 ---
 
 <footer>
-  <a href="/">Modern Art Gallery</a>
+  <p>
+    <LogoIcon />
+    <span class="sr-only">Modern Art Gallery</span>
+  </p>
   <p>
     The Modern Art Gallery is free to all visitors and open seven days a week
     from <time datetime="08:00">8am</time> to <time datetime="21:00">9pm</time>.
@@ -45,3 +49,15 @@ const socials = [
     }
   </ul>
 </footer>
+
+<style>
+  footer {
+    font: var(--weight-light) 1rem / 1.625rem var(--font-body);
+  }
+
+  @screen desktop {
+    footer {
+      font: var(--text-body-s);
+    }
+  }
+</style>
