@@ -1,0 +1,73 @@
+---
+import { getImage } from "astro:assets";
+import { screens } from "../utils/screens";
+import type { GetImageResult } from "astro";
+
+interface Props {
+  alt: string;
+  name: string;
+  extension: "jpg" | "png";
+}
+
+const [mobile1x, mobile2x, tablet1x, tablet2x, desktop1x, desktop2x] =
+  (await Promise.all([
+    getImage({
+      src: import(
+        `../images/mobile/${Astro.props.name}.${Astro.props.extension}`
+      ),
+    }),
+    getImage({
+      src: import(
+        `../images/mobile/${Astro.props.name}@2x.${Astro.props.extension}`
+      ),
+    }),
+    getImage({
+      src: import(
+        `../images/tablet/${Astro.props.name}.${Astro.props.extension}`
+      ),
+    }),
+    getImage({
+      src: import(
+        `../images/tablet/${Astro.props.name}@2x.${Astro.props.extension}`
+      ),
+    }),
+    getImage({
+      src: import(
+        `../images/desktop/${Astro.props.name}.${Astro.props.extension}`
+      ),
+    }),
+    getImage({
+      src: import(
+        `../images/desktop/${Astro.props.name}@2x.${Astro.props.extension}`
+      ),
+    }),
+  ])) as [
+    GetImageResult,
+    GetImageResult,
+    GetImageResult,
+    GetImageResult,
+    GetImageResult,
+    GetImageResult,
+  ];
+---
+
+<picture>
+  <source
+    media={`(min-width: ${screens.desktop})`}
+    width={desktop1x.attributes.width}
+    height={desktop1x.attributes.height}
+    srcset=`${desktop1x.src}, ${desktop2x.src} 2x`
+  />
+  <source
+    media={`(min-width: ${screens.tablet})`}
+    width={tablet1x.attributes.width}
+    height={tablet1x.attributes.height}
+    srcset=`${tablet1x.src}, ${tablet2x.src} 2x`
+  />
+  <img
+    {...mobile1x.attributes}
+    alt={Astro.props.alt}
+    srcset={`${mobile1x.src}, ${mobile2x.src} 2x`}
+    src={mobile1x.src}
+  />
+</picture>

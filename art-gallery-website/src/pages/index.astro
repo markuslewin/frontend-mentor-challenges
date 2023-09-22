@@ -1,13 +1,14 @@
 ---
 import Base from "../layouts/Base.astro";
 import Footer from "../components/Footer.astro";
+import Picture from "../components/Picture.astro";
 ---
 
-<!-- for all images: --><!-- todo: alt/figure --><!-- todo: picture + srcset (2x, media) -->
+<!-- for all images: --><!-- todo: alt/figure -->
 <Base>
   <main>
     <h1>Modern Art Gallery</h1>
-    <img src="/assets/mobile/image-hero.jpg" />
+    <Picture alt="" name="image-hero" extension="jpg" />
     <p>
       The arts in the collection of the Modern Art Gallery all started from a
       spark of inspiration. Will these pieces inspire you? Visit us and find
@@ -21,9 +22,9 @@ import Footer from "../components/Footer.astro";
       Wander through our distinct collections and find new insights about our
       artists. Dive into the details of their creative process.
     </p>
-    <img src="/assets/mobile/image-grid-1.jpg" />
-    <img src="/assets/mobile/image-grid-2.jpg" />
-    <img src="/assets/mobile/image-grid-3.jpg" />
+    <Picture alt="" name="image-grid-1" extension="jpg" />
+    <Picture alt="" name="image-grid-2" extension="jpg" />
+    <Picture alt="" name="image-grid-3" extension="jpg" />
     <h2>Come &amp; be inspired</h2>
     <p>
       We’re excited to welcome you to our gallery and see how our collections
