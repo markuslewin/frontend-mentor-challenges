@@ -9,39 +9,41 @@ import Button from "../components/Button.astro";
   <header>
     <Button href="/" direction="reverse">Back to Home</Button>
   </header>
-  <main>
+  <main class="location">
     <!-- todo: non-decorative? -->
     <!-- todo: enhance with leaflet -->
-    <div>
-      <h1>Our location</h1>
-      <p>
-        <strong class="street">99 King Street</strong><br />
-         Newport<br />
-         RI 02840<br />
-         United States of America
-      </p>
-      <p>
-        Our newly opened gallery is located near the Edward King House on 99
-        King Street, the Modern Art Gallery is free to all visitors and open
-        seven days a week from <time datetime="08:00">8am</time> to <time
-          datetime="21:00">9pm</time
-        >.
-      </p>
+    <div class="location__text">
+      <h1 class="location__heading">Our location</h1>
+      <div class="location__info">
+        <p>
+          <strong class="location__street">99 King Street</strong><br />
+           Newport<br />
+           RI 02840<br />
+           United States of America
+        </p>
+        <p>
+          Our newly opened gallery is located near the Edward King House on 99
+          King Street, the Modern Art Gallery is free to all visitors and open
+          seven days a week from <time datetime="08:00">8am</time> to <time
+            datetime="21:00">9pm</time
+          >.
+        </p>
+      </div>
     </div>
-    <Picture alt="" name="image-map" extension="png" />
+    <div class="location__map">
+      <Picture alt="" name="image-map" extension="png" />
+    </div>
   </main>
   <Footer theme="gold" />
 </Base>
 
 <style>
-  h1 {
-    font: var(--weight-black) 3.125rem / 2.8125rem var(--font-display);
+  header {
+    position: absolute;
   }
 
-  .street {
-    font: var(--weight-black) 2rem / 2rem var(--font-display);
-    text-transform: uppercase;
-    color: var(--color-gold);
+  h1 {
+    font: var(--weight-black) 3.125rem / 2.8125rem var(--font-display);
   }
 
   @screen tablet {
@@ -54,9 +56,75 @@ import Button from "../components/Button.astro";
     h1 {
       font: var(--text-heading-l);
     }
+  }
 
-    .street {
+  .location {
+    display: grid;
+  }
+
+  .location__text {
+    box-sizing: content-box;
+    margin-inline: auto;
+    max-width: 69.375rem;
+    padding: 3rem 1rem 3.5rem;
+  }
+
+  .location__info {
+    margin-top: 3rem;
+  }
+
+  .location__info > * + * {
+    margin-top: 1.25rem;
+  }
+
+  .location__street {
+    font: var(--weight-black) 2rem / 2rem var(--font-display);
+    text-transform: uppercase;
+    display: inline-block;
+    margin-bottom: 1.25rem;
+    color: var(--color-gold);
+  }
+
+  .location__map {
+    order: -1;
+  }
+
+  @screen tablet {
+    .location__text {
+      padding-inline: 2.5rem;
+      display: grid;
+      grid-template-columns: 1fr 6.75rem 1fr;
+      gap: 0.75rem;
+    }
+
+    .location__heading {
+      width: min-content;
+    }
+
+    .location__info {
+      grid-column: span 2;
+      margin-top: 0;
+    }
+  }
+
+  @screen desktop {
+    .location__text {
+      padding-block: 6.5rem 8rem;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.875rem;
+    }
+
+    .location__info {
+      grid-column: 2;
+    }
+
+    .location__info > * + * {
+      margin-top: 2rem;
+    }
+
+    .location__street {
       font: var(--text-heading-s);
+      margin-bottom: 1.5rem;
     }
   }
 </style>
