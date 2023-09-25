@@ -68,6 +68,18 @@ const socials = [
     color: var(--color-almost-black);
   }
 
+  footer[data-theme="gold"] a:focus-visible,
+  footer[data-theme="gold"] a:hover {
+    color: var(--color-white);
+  }
+
+  a:focus-visible,
+  a:hover {
+    @apply transition-colors;
+
+    color: var(--color-gold);
+  }
+
   @screen desktop {
     footer {
       font: var(--text-body-s);
