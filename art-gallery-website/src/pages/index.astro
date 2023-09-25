@@ -26,20 +26,28 @@ import Button from "../components/Button.astro";
         </div>
       </div>
     </div>
-    <h2>Your day at the gallery</h2>
-    <p>
-      Wander through our distinct collections and find new insights about our
-      artists. Dive into the details of their creative process.
-    </p>
-    <Picture alt="" name="image-grid-1" extension="jpg" />
-    <Picture alt="" name="image-grid-2" extension="jpg" />
-    <Picture alt="" name="image-grid-3" extension="jpg" />
-    <div class="inspired">
-      <h2>Come &amp; be inspired</h2>
-      <p>
-        We’re excited to welcome you to our gallery and see how our collections
-        influence you.
-      </p>
+    <div class="gallery">
+      <div class="day">
+        <h2 class="day__heading">Your day at the gallery</h2>
+        <p class="day__body">
+          Wander through our distinct collections and find new insights about
+          our artists. Dive into the details of their creative process.
+        </p>
+      </div>
+      <div class="gallery__image-1">
+        <Picture alt="" name="image-grid-1" extension="jpg" />
+      </div>
+      <div class="gallery__image-2">
+        <Picture alt="" name="image-grid-2" extension="jpg" />
+      </div>
+      <Picture alt="" name="image-grid-3" extension="jpg" />
+      <div class="inspired">
+        <h2>Come &amp; be inspired</h2>
+        <p class="inspired__body">
+          We’re excited to welcome you to our gallery and see how our
+          collections influence you.
+        </p>
+      </div>
     </div>
   </main>
   <Footer />
@@ -163,12 +171,118 @@ import Button from "../components/Button.astro";
     }
   }
 
+  .gallery {
+    box-sizing: content-box;
+    max-width: 69.375rem;
+    margin-block: 7.5rem;
+    margin-inline: auto;
+    padding-inline: 1rem;
+    display: grid;
+    gap: 1rem;
+  }
+
+  .gallery__image-1 {
+    order: -1;
+  }
+
+  .gallery__image-2 {
+    margin-top: 1rem;
+  }
+
+  @screen tablet {
+    .gallery {
+      padding-inline: 2.5rem;
+      grid-template-columns: 1fr 6.75rem 1fr;
+      gap: 0.75rem;
+    }
+
+    .gallery__image-1 {
+      order: 0;
+      grid-column: span 2;
+    }
+
+    .gallery__image-2 {
+      grid-column: span 2;
+      grid-row: span 2;
+      margin-top: 0;
+    }
+  }
+
+  @screen desktop {
+    .gallery {
+      margin-block: 11.25rem;
+      grid-template-columns: 1fr 10rem 1fr;
+      gap: 1.875rem;
+    }
+  }
+
+  .day {
+    padding-right: 3.625rem;
+  }
+
+  .day__heading {
+    margin-top: 0.5625rem;
+  }
+
+  .day__body {
+    margin-top: 1.3125rem;
+  }
+
+  @screen tablet {
+    .day {
+      padding-block: 2.25rem;
+    }
+
+    .day__heading {
+      margin-top: 0;
+    }
+
+    .day__body {
+      margin-top: 1.5rem;
+    }
+  }
+
+  @screen desktop {
+    .day {
+      box-sizing: content-box;
+      max-width: 21.875rem;
+      padding-block: 3.75rem;
+    }
+
+    .day__body {
+      margin-top: 2rem;
+    }
+  }
+
   .inspired {
+    padding: 3rem 1.5rem;
     background: var(--color-almost-black);
     color: var(--color-white);
   }
 
   .inspired h2 {
     color: inherit;
+  }
+
+  .inspired__body {
+    margin-top: 1.5rem;
+  }
+
+  @screen tablet {
+    .inspired {
+      padding-inline: 1.75rem;
+      display: grid;
+      align-content: center;
+    }
+  }
+
+  @screen desktop {
+    .inspired {
+      padding: 4rem 3rem;
+    }
+
+    .inspired__body {
+      margin-top: 2rem;
+    }
   }
 </style>
