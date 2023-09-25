@@ -30,30 +30,32 @@ const socials = [
 ---
 
 <footer data-theme={theme}>
-  <p>
-    <LogoIcon />
-    <span class="sr-only">Modern Art Gallery</span>
-  </p>
-  <p>
-    The Modern Art Gallery is free to all visitors and open seven days a week
-    from <time datetime="08:00">8am</time> to <time datetime="21:00">9pm</time>.
-    Find us at 99 King Street, Newport, USA.
-  </p>
-  <ul>
-    {
-      socials.map((social) => {
-        // todo: viewBox, currentColor?
-        return (
-          <li>
-            <a href={social.href}>
-              <social.icon />
-              <span class="sr-only">{social.name}</span>
-            </a>
-          </li>
-        );
-      })
-    }
-  </ul>
+  <div class="footer__content">
+    <p>
+      <LogoIcon />
+      <span class="sr-only">Modern Art Gallery</span>
+    </p>
+    <p class="footer__body">
+      The Modern Art Gallery is free to all visitors and open seven days a week
+      from <time datetime="08:00">8am</time> to <time datetime="21:00">9pm</time
+      >. Find us at 99 King Street, Newport, USA.
+    </p>
+    <ul class="footer__socials" role="list">
+      {
+        socials.map((social) => {
+          // todo: viewBox?
+          return (
+            <li>
+              <a href={social.href}>
+                <social.icon />
+                <span class="sr-only">{social.name}</span>
+              </a>
+            </li>
+          );
+        })
+      }
+    </ul>
+  </div>
 </footer>
 
 <style>
@@ -73,6 +75,12 @@ const socials = [
     color: var(--color-white);
   }
 
+  @screen desktop {
+    footer {
+      font: var(--text-body-s);
+    }
+  }
+
   a:focus-visible,
   a:hover {
     @apply transition-colors;
@@ -80,9 +88,41 @@ const socials = [
     color: var(--color-gold);
   }
 
+  .footer__content {
+    box-sizing: content-box;
+    max-inline-size: 69.375rem;
+    margin-inline: auto;
+    padding: 3rem 2rem;
+    display: grid;
+    gap: 2.375rem;
+  }
+
+  .footer__socials {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1.25rem;
+  }
+
+  @screen tablet {
+    .footer__content {
+      padding: 3.5rem 2.5rem;
+      grid-template-columns: max-content 1fr minmax(auto, 26.875rem) 2fr max-content;
+      align-items: start;
+    }
+
+    .footer__body {
+      grid-column: 3;
+    }
+
+    .footer__socials {
+      grid-column: 5;
+    }
+  }
+
   @screen desktop {
-    footer {
-      font: var(--text-body-s);
+    .footer__content {
+      padding-block: 5rem;
     }
   }
 </style>
