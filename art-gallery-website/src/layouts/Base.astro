@@ -4,6 +4,12 @@ import "@fontsource-variable/big-shoulders-display";
 // Supports weights 100-900
 import "@fontsource-variable/outfit";
 import "../styles/global.css";
+
+interface Props {
+  theme?: "almost-black";
+}
+
+const { theme } = Astro.props;
 ---
 
 <html lang="en">
@@ -18,7 +24,7 @@ import "../styles/global.css";
     />
     <title>Frontend Mentor | Art gallery website</title>
   </head>
-  <body>
+  <body data-theme={theme}>
     <slot />
   </body>
 </html>

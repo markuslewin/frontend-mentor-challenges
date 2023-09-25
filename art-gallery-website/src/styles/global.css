@@ -20,6 +20,32 @@
 
 body {
   font: var(--text-body-s);
+  background: var(--color-white);
+  color: var(--color-dark-grey);
+}
+
+body[data-theme="almost-black"] {
+  background: var(--color-almost-black);
+  color: var(--color-white);
+}
+
+body[data-theme="almost-black"] h1,
+body[data-theme="almost-black"] h2,
+body[data-theme="almost-black"] h3,
+body[data-theme="almost-black"] h4,
+body[data-theme="almost-black"] h5,
+body[data-theme="almost-black"] h6 {
+  color: inherit;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  text-transform: uppercase;
+  color: var(--color-almost-black);
 }
 
 @screen desktop {

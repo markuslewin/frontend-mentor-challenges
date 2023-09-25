@@ -5,7 +5,7 @@ import Picture from "../components/Picture.astro";
 import Button from "../components/Button.astro";
 ---
 
-<Base>
+<Base theme="almost-black">
   <header>
     <Button href="/" direction="reverse">Back to Home</Button>
   </header>
@@ -15,7 +15,7 @@ import Button from "../components/Button.astro";
     <div>
       <h1>Our location</h1>
       <p>
-        <strong class="location__street">99 King Street</strong><br />
+        <strong class="street">99 King Street</strong><br />
          Newport<br />
          RI 02840<br />
          United States of America
@@ -30,7 +30,7 @@ import Button from "../components/Button.astro";
     </div>
     <Picture alt="" name="image-map" extension="png" />
   </main>
-  <Footer />
+  <Footer theme="gold" />
 </Base>
 
 <style>
@@ -38,8 +38,10 @@ import Button from "../components/Button.astro";
     font: var(--weight-black) 3.125rem / 2.8125rem var(--font-display);
   }
 
-  .location__street {
+  .street {
     font: var(--weight-black) 2rem / 2rem var(--font-display);
+    text-transform: uppercase;
+    color: var(--color-gold);
   }
 
   @screen tablet {
@@ -53,7 +55,7 @@ import Button from "../components/Button.astro";
       font: var(--text-heading-l);
     }
 
-    .location__street {
+    .street {
       font: var(--text-heading-s);
     }
   }

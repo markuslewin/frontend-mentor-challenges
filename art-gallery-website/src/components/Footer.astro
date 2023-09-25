@@ -4,6 +4,12 @@ import InstagramIcon from "../components/IconInstagram.astro";
 import TwitterIcon from "../components/IconTwitter.astro";
 import LogoIcon from "./IconLogo.astro";
 
+interface Props {
+  theme?: "gold";
+}
+
+const { theme } = Astro.props;
+
 const socials = [
   {
     name: "Modern Art Gallery on Facebook",
@@ -23,7 +29,7 @@ const socials = [
 ];
 ---
 
-<footer>
+<footer data-theme={theme}>
   <p>
     <LogoIcon />
     <span class="sr-only">Modern Art Gallery</span>
@@ -53,6 +59,13 @@ const socials = [
 <style>
   footer {
     font: var(--weight-light) 1rem / 1.625rem var(--font-body);
+    background: var(--color-almost-black);
+    color: var(--color-white);
+  }
+
+  footer[data-theme="gold"] {
+    background: var(--color-gold);
+    color: var(--color-almost-black);
   }
 
   @screen desktop {
