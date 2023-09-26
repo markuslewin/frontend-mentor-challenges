@@ -46,10 +46,9 @@ import Button from "../components/Button.astro";
   const $map = document.querySelector("[data-map]") as HTMLElement;
   const $leaflet = $map.querySelector("[data-map-leaflet]") as HTMLElement;
 
-  const map = L.map($leaflet, { zoomControl: false }).setView(
-    [51.505, -0.09],
-    13
-  );
+  const location: L.LatLngExpression = [41.480328081772356, -71.31095835420759];
+
+  const map = L.map($leaflet, { zoomControl: false }).setView(location, 15);
 
   L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
     maxZoom: 19,
@@ -58,6 +57,14 @@ import Button from "../components/Button.astro";
   }).addTo(map);
 
   L.control.zoom({ position: "bottomleft" }).addTo(map);
+
+  const icon = L.icon({
+    iconUrl: "/assets/icon-location.svg",
+    iconSize: [66, 88], // size of the icon
+    iconAnchor: [33, 88], // point of the icon which will correspond to marker's location
+  });
+
+  L.marker(location, { icon }).addTo(map);
 
   $map.dataset.enhanced = "true";
 </script>
