@@ -11,7 +11,9 @@ import Button from "../components/Button.astro";
     <div class="hero">
       <div class="hero__content">
         <div class="hero__text">
-          <h1>Modern Art Gallery</h1>
+          <h1>
+            <span>Modern Art Gallery</span>
+          </h1>
           <p>
             The arts in the collection of the Modern Art Gallery all started
             from a spark of inspiration. Will these pieces inspire you? Visit us
@@ -139,6 +141,7 @@ import Button from "../components/Button.astro";
     }
 
     .hero__text {
+      isolation: isolate;
       grid-column: 2;
       grid-row: 1;
       place-self: start end;
@@ -156,12 +159,30 @@ import Button from "../components/Button.astro";
     }
 
     .hero h1 {
+      /*
+        Assume the size of the hero image is static, and that it's centered.
+        The color should switch at the edge of the image, which'll be at
+        `<half of container> - <half of image>`.
+      */
+      --hero-heading-switch: calc(50% - 33.75rem / 2);
+
       position: absolute;
-      left: 2.5rem;
+      z-index: -1;
+      left: 0;
+      width: 100%;
+      padding-left: 2.5rem;
+      background-image: linear-gradient(
+        to right,
+        var(--color-white) var(--hero-heading-switch),
+        var(--color-almost-black) var(--hero-heading-switch)
+      );
+      background-clip: text;
+      color: transparent;
+    }
+
+    .hero h1 span {
+      display: inline-block;
       max-width: min(28.125rem, 50%);
-      color: var(--color-white);
-      /* todo: effect is not blend mode */
-      mix-blend-mode: difference;
     }
 
     .hero__image {
