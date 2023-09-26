@@ -39,7 +39,18 @@ import Button from "../components/Button.astro";
 
 <style>
   header {
+    box-sizing: content-box;
     position: absolute;
+    left: 0;
+    right: 0;
+    margin-inline: auto;
+    max-width: 69.375rem;
+  }
+
+  @screen tablet {
+    header {
+      padding-inline: 2.5rem;
+    }
   }
 
   h1 {
