@@ -1,4 +1,5 @@
 ---
+import "leaflet/dist/leaflet.css";
 import Base from "../layouts/Base.astro";
 import Footer from "../components/Footer.astro";
 import Picture from "../components/Picture.astro";
@@ -11,7 +12,6 @@ import Button from "../components/Button.astro";
   </header>
   <main class="location">
     <!-- todo: non-decorative? -->
-    <!-- todo: enhance with leaflet -->
     <div class="location__text">
       <h1 class="location__heading">Our location</h1>
       <div class="location__info">
@@ -30,12 +30,37 @@ import Button from "../components/Button.astro";
         </p>
       </div>
     </div>
-    <div class="location__map">
-      <Picture alt="" name="image-map" extension="png" />
+    <div class="location__map map" data-map>
+      <div class="map__leaflet" data-map-leaflet></div>
+      <div class="map__image">
+        <Picture alt="" name="image-map" extension="png" />
+      </div>
     </div>
   </main>
   <Footer theme="gold" />
 </Base>
+
+<script>
+  import L from "leaflet";
+
+  const $map = document.querySelector("[data-map]") as HTMLElement;
+  const $leaflet = $map.querySelector("[data-map-leaflet]") as HTMLElement;
+
+  const map = L.map($leaflet, { zoomControl: false }).setView(
+    [51.505, -0.09],
+    13
+  );
+
+  L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    maxZoom: 19,
+    attribution:
+      '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+  }).addTo(map);
+
+  L.control.zoom({ position: "bottomleft" }).addTo(map);
+
+  $map.dataset.enhanced = "true";
+</script>
 
 <style>
   header {
@@ -43,6 +68,7 @@ import Button from "../components/Button.astro";
     position: absolute;
     left: 0;
     right: 0;
+    z-index: 1;
     margin-inline: auto;
     max-width: 69.375rem;
   }
@@ -98,6 +124,32 @@ import Button from "../components/Button.astro";
 
   .location__map {
     order: -1;
+  }
+
+  .map {
+    position: relative;
+    isolation: isolate;
+  }
+
+  .map[data-enhanced="true"] {
+    --map-image-display: none;
+  }
+
+  .map__leaflet {
+    isolation: isolate;
+    height: 34.375rem;
+  }
+
+  .map__image {
+    position: absolute;
+    inset: 0;
+    display: var(--map-image-display);
+  }
+
+  @screen tablet {
+    .map__leaflet {
+      height: 37.5rem;
+    }
   }
 
   @screen tablet {
