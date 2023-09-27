@@ -24,7 +24,7 @@ import Button from "../components/Button.astro";
           </p>
         </div>
         <div class="hero__image">
-          <Picture alt="" name="image-hero" extension="jpg" />
+          <Picture class="hero__img" alt="" name="image-hero" extension="jpg" />
         </div>
       </div>
     </div>
@@ -97,6 +97,10 @@ import Button from "../components/Button.astro";
 
   .hero__image {
     order: -1;
+  }
+
+  .hero__img {
+    background: hsl(200 6% 91%);
   }
 
   @screen tablet {
@@ -189,6 +193,10 @@ import Button from "../components/Button.astro";
       grid-column: 1 / -1;
       grid-row: 1;
       place-self: stretch center;
+    }
+
+    .hero__img {
+      width: 33.75rem;
     }
   }
 

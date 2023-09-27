@@ -7,6 +7,7 @@ interface Props {
   alt: string;
   name: string;
   extension: "jpg" | "png";
+  class?: string;
 }
 
 const [mobile1x, mobile2x, tablet1x, tablet2x, desktop1x, desktop2x] =
@@ -66,6 +67,7 @@ const [mobile1x, mobile2x, tablet1x, tablet2x, desktop1x, desktop2x] =
   />
   <img
     {...mobile1x.attributes}
+    class={Astro.props.class}
     alt={Astro.props.alt}
     srcset={`${mobile1x.src}, ${mobile2x.src} 2x`}
     src={mobile1x.src}
