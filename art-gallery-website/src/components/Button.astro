@@ -24,8 +24,6 @@ const { href, direction } = Astro.props;
 
 <style>
   a {
-    @apply transition-colors;
-
     --button-start-arrow: none;
     --button-end-arrow: inline-grid;
 
@@ -34,8 +32,6 @@ const { href, direction } = Astro.props;
     text-transform: uppercase;
     display: inline-grid;
     grid-template-columns: max-content max-content;
-    background: var(--color-almost-black);
-    color: var(--color-white);
   }
 
   a[data-direction="reverse"] {
@@ -43,8 +39,8 @@ const { href, direction } = Astro.props;
     --button-end-arrow: none;
   }
 
-  a:focus-visible,
-  a:hover {
+  a:focus-visible .name,
+  a:hover .name {
     background: var(--color-gold);
     color: var(--color-white);
   }
@@ -74,7 +70,11 @@ const { href, direction } = Astro.props;
   }
 
   .name {
+    @apply transition-colors;
+
     padding: 1.5rem 2rem;
+    background: var(--color-almost-black);
+    color: var(--color-white);
   }
 
   @media (forced-colors: active) {
