@@ -11,7 +11,6 @@ import Button from "../components/Button.astro";
     <Button href="/" direction="reverse">Back to Home</Button>
   </header>
   <main class="location">
-    <!-- todo: non-decorative? -->
     <div class="location__text">
       <h1 class="location__heading">Our location</h1>
       <div class="location__info">
@@ -31,7 +30,10 @@ import Button from "../components/Button.astro";
       </div>
     </div>
     <div class="location__map map" data-map>
-      <div class="map__leaflet" data-map-leaflet></div>
+      <section aria-labelledby="map-heading">
+        <h2 class="sr-only" id="map-heading">Interactive map</h2>
+        <div class="map__leaflet" data-map-leaflet></div>
+      </section>
       <div class="map__image">
         <Picture alt="" name="image-map" extension="png" />
       </div>
@@ -64,7 +66,7 @@ import Button from "../components/Button.astro";
     iconAnchor: [33, 88], // point of the icon which will correspond to marker's location
   });
 
-  L.marker(location, { icon }).addTo(map);
+  L.marker(location, { alt: "Modern Art Gallery", icon }).addTo(map);
 
   $map.dataset.enhanced = "true";
 </script>
