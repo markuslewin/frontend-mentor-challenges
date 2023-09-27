@@ -20,6 +20,9 @@
 
 body {
   font: var(--text-body-s);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
   background: var(--color-white);
   color: var(--color-dark-grey);
 }
@@ -36,6 +39,10 @@ body[data-theme="almost-black"] h4,
 body[data-theme="almost-black"] h5,
 body[data-theme="almost-black"] h6 {
   color: inherit;
+}
+
+body > footer {
+  flex-grow: 1;
 }
 
 h1,
