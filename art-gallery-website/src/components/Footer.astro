@@ -32,7 +32,7 @@ const socials = [
 <footer data-theme={theme}>
   <div class="footer__content">
     <p>
-      <LogoIcon />
+      <LogoIcon class="footer__logo" />
       <span class="sr-only">Modern Art Gallery</span>
     </p>
     <p class="footer__body">
@@ -43,11 +43,10 @@ const socials = [
     <ul class="footer__socials" role="list">
       {
         socials.map((social) => {
-          // todo: viewBox?
           return (
             <li>
               <a href={social.href}>
-                <social.icon />
+                <social.icon class="footer__social-icon" />
                 <span class="sr-only">{social.name}</span>
               </a>
             </li>
@@ -97,11 +96,25 @@ const socials = [
     gap: 2.375rem;
   }
 
+  .footer__logo {
+    height: 2.5rem;
+  }
+
+  @screen desktop {
+    .footer__logo {
+      height: 3.625rem;
+    }
+  }
+
   .footer__socials {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
     gap: 1.25rem;
+  }
+
+  .footer__social-icon {
+    width: 1.25rem;
   }
 
   @screen tablet {

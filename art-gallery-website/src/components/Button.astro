@@ -12,13 +12,13 @@ const { href, direction } = Astro.props;
 
 <a href={href} data-direction={direction}>
   <span class="arrow" data-side="start">
-    <ArrowLeftIcon />
+    <ArrowLeftIcon class="arrow__icon" />
   </span>
   <span class="name">
     <slot />
   </span>
   <span class="arrow" data-side="end">
-    <ArrowRightIcon />
+    <ArrowRightIcon class="arrow__icon" />
   </span>
 </a>
 
@@ -67,6 +67,10 @@ const { href, direction } = Astro.props;
 
   .arrow[data-side="end"] {
     display: var(--button-end-arrow);
+  }
+
+  .arrow__icon {
+    height: 1.5rem;
   }
 
   .name {
