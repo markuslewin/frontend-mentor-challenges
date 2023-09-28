@@ -73,7 +73,7 @@ const details = [
             </button>
           </form>
         </header>
-        <div>
+        <div class="search">
           <h2 class="sr-only">Search</h2>
           <form>
             <!-- todo: `type="text"` for custom styling? -->
@@ -87,17 +87,17 @@ const details = [
               aria-describedby="search-error"
             />
             <!-- todo: enhance with aria-live="polite" -->
-            <p id="search-error">No results</p>
+            <p class="search__error" id="search-error">No results</p>
             <button class="search__button" type="submit">Search</button>
           </form>
         </div>
-        <div>
+        <div class="result">
           <!-- todo: check for optional fields -->
           <h2 class="sr-only">Search result</h2>
           <h3 class="result__name">{user.name}</h3>
           <p class="result__login">@{user.login}</p>
           <!-- todo: format -->
-          <p>Joined {user.created_at}</p>
+          <p class="result__joined">Joined {user.created_at}</p>
           <!-- todo: move around for layout? -->
           <img alt="" src={user.avatar_url} />
           <p>{user.bio}</p>

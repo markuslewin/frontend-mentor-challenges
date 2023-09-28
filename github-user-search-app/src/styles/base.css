@@ -4,6 +4,16 @@
 
 body {
   font: var(--weight-regular) 0.8125rem / 1.5625rem var(--font);
+  background: var(--color-f6f8ff);
+  color: var(--color-4b6a9b);
+}
+
+input {
+  caret-color: var(--color-0079ff);
+}
+
+::placeholder {
+  color: var(--color-4b6a9b);
 }
 
 /* tablet */

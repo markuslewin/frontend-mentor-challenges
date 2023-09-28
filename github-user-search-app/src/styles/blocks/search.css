@@ -1,5 +1,21 @@
+.search {
+  background: var(--color-fefefe);
+}
+
+.search__error {
+  font-weight: var(--weight-bold);
+  color: hsl(0 91% 62%);
+}
+
 .search__button {
   font: var(--weight-regular) 0.875rem / 1.3125rem var(--font);
+  background: var(--color-0079ff);
+  color: var(--color-ffffff);
+}
+
+.search__button:hover,
+.search__button:focus-visible {
+  background: hsl(212 100% 69%);
 }
 
 @media (min-width: 40em) {

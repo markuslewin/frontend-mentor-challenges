@@ -1,17 +1,30 @@
+.result {
+  background: var(--color-fefefe);
+}
+
 .result__name {
   font: var(--weight-bold) 1rem / 1.5rem var(--font);
+  color: var(--color-2b3442);
 }
 
 .result__login {
   font: var(--weight-regular) 0.8125rem / 1.1875rem var(--font);
+  color: var(--color-0079ff);
+}
+
+.result__joined {
+  color: var(--color-697c9a);
 }
 
 .result__stats {
   font: var(--weight-bold) 1rem / 1.5rem var(--font);
+  background: var(--color-f6f8ff);
+  color: var(--color-2b3442);
 }
 
 .result__key {
   font: var(--weight-regular) 0.6875rem / 1rem var(--font);
+  color: var(--color-4b6a9b);
 }
 
 /* tablet */
