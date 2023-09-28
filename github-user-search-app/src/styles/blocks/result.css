@@ -1,0 +1,34 @@
+.result__name {
+  font: var(--weight-bold) 1rem / 1.5rem var(--font);
+}
+
+.result__login {
+  font: var(--weight-regular) 0.8125rem / 1.1875rem var(--font);
+}
+
+.result__stats {
+  font: var(--weight-bold) 1rem / 1.5rem var(--font);
+}
+
+.result__key {
+  font: var(--weight-regular) 0.6875rem / 1rem var(--font);
+}
+
+/* tablet */
+@media (min-width: 40em) {
+  .result__name {
+    font: var(--text-h1);
+  }
+
+  .result__login {
+    font: var(--text-h3);
+  }
+
+  .result__stats {
+    font: var(--text-h2);
+  }
+
+  .result__key {
+    font: var(--text-h4);
+  }
+}

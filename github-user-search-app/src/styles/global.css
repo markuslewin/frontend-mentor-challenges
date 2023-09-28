@@ -1,2 +1,10 @@
 @import "fonts";
+@import "reset";
 @import "variables";
+@import "base";
+
+@import "utilities/sr-only";
+
+@import "blocks/header";
+@import "blocks/result";
+@import "blocks/search";

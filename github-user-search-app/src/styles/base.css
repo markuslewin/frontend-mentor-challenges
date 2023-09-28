@@ -1,0 +1,14 @@
+:root {
+  color-scheme: light dark;
+}
+
+body {
+  font: var(--weight-regular) 0.8125rem / 1.5625rem var(--font);
+}
+
+/* tablet */
+@media (min-width: 40em) {
+  body {
+    font: var(--text-body);
+  }
+}

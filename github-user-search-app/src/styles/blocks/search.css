@@ -1,0 +1,9 @@
+.search__button {
+  font: var(--weight-regular) 0.875rem / 1.3125rem var(--font);
+}
+
+@media (min-width: 40em) {
+  .search__button {
+    font: var(--text-h3);
+  }
+}

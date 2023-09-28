@@ -1,0 +1,9 @@
+.header__title {
+  font: var(--text-h1);
+}
+
+.header__toggle {
+  font: var(--text-h4);
+  letter-spacing: 0.15625rem;
+  text-transform: uppercase;
+}
