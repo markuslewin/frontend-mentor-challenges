@@ -1,5 +1,50 @@
 ---
+// todo: fetch initial data from api
+import userData from "../data/user.json";
 
+const user = {
+  ...userData,
+  bio: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio. Quisque volutpat mattis eros.",
+};
+
+const stats = [
+  {
+    key: "Repos",
+    value: user.public_repos,
+  },
+  {
+    key: "Followers",
+    value: user.followers,
+  },
+  {
+    key: "Following",
+    value: user.following,
+  },
+];
+
+const details = [
+  {
+    key: "Location",
+    icon: "/assets/icon-location.svg",
+    value: user.location,
+  },
+  {
+    key: "Twitter",
+    icon: "/assets/icon-twitter.svg",
+    value: user.twitter_username,
+  },
+  {
+    key: "Blog",
+    icon: "/assets/icon-website.svg",
+    value: user.blog,
+    href: user.blog,
+  },
+  {
+    key: "Company",
+    icon: "/assets/icon-company.svg",
+    value: user.company,
+  },
+];
 ---
 
 <html lang="en">
@@ -15,7 +60,85 @@
     <title>Frontend Mentor | GitHub user search app</title>
   </head>
   <body>
-    devfinder Light Dark Search GitHub username... Search Joined Repos Followers
-    Following
+    <main>
+      <article>
+        <header>
+          <h1>devfinder</h1>
+          <!-- todo: "change to ..." name, toggle button? -->
+          <form>
+            <button type="submit">
+              Light <img alt="" src="/assets/icon-sun.svg" />
+               Dark <img alt="" src="/assets/icon-moon.svg" />
+            </button>
+          </form>
+        </header>
+        <div>
+          <h2 class="sr-only">Search</h2>
+          <form>
+            <!-- todo: `type="text"` for custom styling? -->
+            <label for="search-input">GitHub username</label>
+            <img alt="" src="/assets/icon-search.svg" />
+            <input
+              id="search-input"
+              type="search"
+              placeholder="Search GitHub username..."
+              required
+              aria-describedby="search-error"
+            />
+            <!-- todo: enhance with aria-live="polite" -->
+            <p id="search-error">No results</p>
+            <button type="submit">Search</button>
+          </form>
+        </div>
+        <div>
+          <!-- todo: check for optional fields -->
+          <h2 class="sr-only">Search result</h2>
+          <h3>{user.name}</h3>
+          <p>@{user.login}</p>
+          <!-- todo: format -->
+          <p>Joined {user.created_at}</p>
+          <!-- todo: move around for layout? -->
+          <img alt="" src={user.avatar_url} />
+          <p>{user.bio}</p>
+          <h4 class="sr-only" id="statistics-heading">Statistics</h4>
+          <ul role="list" aria-labelledby="statistics-heading">
+            {
+              stats.map((entry) => {
+                return (
+                  <li>
+                    <span>
+                      {entry.key}
+                      <span class="sr-only">: </span>
+                    </span>
+                    <span>{entry.value}</span>
+                  </li>
+                );
+              })
+            }
+          </ul>
+          <h4 class="sr-only" id="details-heading">Details</h4>
+          <ul role="list" aria-labelledby="details-heading">
+            {
+              details.map((detail) => {
+                return (
+                  <li>
+                    <img alt={`${detail.key}:`} src={detail.icon} />{" "}
+                    {detail.value ? (
+                      detail.href ? (
+                        <a href={detail.href}>{detail.value}</a>
+                      ) : (
+                        detail.value
+                      )
+                    ) : (
+                      "Not Available"
+                    )}
+                  </li>
+                );
+              })
+            }
+          </ul>
+        </div>
+      </article>
+    </main>
   </body>
 </html>
