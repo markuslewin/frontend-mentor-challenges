@@ -1,10 +1,10 @@
 .result {
-  background: var(--color-fefefe);
+  background: var(--color-result-background, var(--color-fefefe));
 }
 
 .result__name {
   font: var(--weight-bold) 1rem / 1.5rem var(--font);
-  color: var(--color-2b3442);
+  color: var(--color-result-name-text, var(--color-2b3442));
 }
 
 .result__login {
@@ -13,18 +13,18 @@
 }
 
 .result__joined {
-  color: var(--color-697c9a);
+  color: var(--color-result-joined-text, var(--color-697c9a));
 }
 
 .result__stats {
   font: var(--weight-bold) 1rem / 1.5rem var(--font);
-  background: var(--color-f6f8ff);
-  color: var(--color-2b3442);
+  background: var(--color-result-stats-background, var(--color-f6f8ff));
+  color: var(--color-result-stats-text, var(--color-2b3442));
 }
 
 .result__key {
   font: var(--weight-regular) 0.6875rem / 1rem var(--font);
-  color: var(--color-4b6a9b);
+  color: var(--color-result-key-text, var(--color-4b6a9b));
 }
 
 /* tablet */

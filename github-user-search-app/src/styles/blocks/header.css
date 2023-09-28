@@ -1,6 +1,6 @@
 .header__title {
   font: var(--text-h1);
-  color: hsl(220 18% 16%);
+  color: var(--color-header-title-text, hsl(220 18% 16%));
 }
 
 .header__toggle {
@@ -8,10 +8,10 @@
   font-weight: var(--weight-bold);
   letter-spacing: 0.15625rem;
   text-transform: uppercase;
-  color: var(--color-4b6a9b);
+  color: var(--color-header-toggle-text, var(--color-4b6a9b));
 }
 
 .header__toggle:hover,
 .header__toggle:focus-visible {
-  color: hsl(220 18% 16%);
+  color: var(--color-header-toggle-text-focus, hsl(220 18% 16%));
 }

@@ -1,5 +1,5 @@
 .search {
-  background: var(--color-fefefe);
+  background: var(--color-search-background, var(--color-fefefe));
 }
 
 .search__error {
