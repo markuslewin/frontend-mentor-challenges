@@ -1,0 +1,10 @@
+.region {
+  padding-block: 2rem;
+}
+
+/* tablet */
+@media (min-width: 40em) {
+  .region {
+    padding-block: 8.75rem;
+  }
+}

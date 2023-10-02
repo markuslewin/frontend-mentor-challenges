@@ -1,5 +1,23 @@
 .result {
+  display: grid;
+  grid-template-areas:
+    "avatar profile"
+    "more more";
+  grid-template-columns: max-content 1fr;
+  align-items: center;
   background: var(--color-result-background, var(--color-fefefe));
+}
+
+.result__profile {
+  grid-area: profile;
+}
+
+.result__more {
+  grid-area: more;
+}
+
+.result__avatar {
+  grid-area: avatar;
 }
 
 .result__name {
@@ -18,13 +36,22 @@
 
 .result__stats {
   font: var(--weight-bold) 1rem / 1.5rem var(--font);
+  text-align: center;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   background: var(--color-result-stats-background, var(--color-f6f8ff));
   color: var(--color-result-stats-text, var(--color-2b3442));
 }
 
 .result__key {
   font: var(--weight-regular) 0.6875rem / 1rem var(--font);
+  display: block;
   color: var(--color-result-key-text, var(--color-4b6a9b));
+}
+
+.result__detail {
+  display: flex;
+  align-items: center;
 }
 
 /* tablet */
@@ -39,9 +66,44 @@
 
   .result__stats {
     font: var(--text-h2);
+    text-align: start;
   }
 
   .result__key {
     font: var(--text-h4);
+  }
+
+  .result__details {
+    display: grid;
+    grid-template-areas:
+      "location twitter"
+      "blog company";
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .result__details > [data-id="location"] {
+    grid-area: location;
+  }
+
+  .result__details > [data-id="twitter"] {
+    grid-area: twitter;
+  }
+
+  .result__details > [data-id="blog"] {
+    grid-area: blog;
+  }
+
+  .result__details > [data-id="company"] {
+    grid-area: company;
+  }
+}
+
+/* desktop */
+@media (min-width: 64em) {
+  .result {
+    grid-template-areas:
+      "avatar profile"
+      "avatar more";
+    align-items: start;
   }
 }

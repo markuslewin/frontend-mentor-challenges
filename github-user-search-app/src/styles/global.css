@@ -8,3 +8,6 @@
 @import "blocks/header";
 @import "blocks/result";
 @import "blocks/search";
+
+@import "compositions/center";
+@import "compositions/region";

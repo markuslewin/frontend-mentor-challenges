@@ -1,3 +1,11 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
 .header__title {
   font: var(--text-h1);
   color: var(--color-header-title-text, hsl(220 18% 16%));

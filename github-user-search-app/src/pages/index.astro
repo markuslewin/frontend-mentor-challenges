@@ -25,22 +25,26 @@ const stats = [
 
 const details = [
   {
+    id: "location",
     key: "Location",
     icon: "/assets/icon-location.svg",
     value: user.location,
   },
   {
-    key: "Twitter",
-    icon: "/assets/icon-twitter.svg",
-    value: user.twitter_username,
-  },
-  {
+    id: "blog",
     key: "Blog",
     icon: "/assets/icon-website.svg",
     value: user.blog,
     href: user.blog,
   },
   {
+    id: "twitter",
+    key: "Twitter",
+    icon: "/assets/icon-twitter.svg",
+    value: user.twitter_username,
+  },
+  {
+    id: "company",
     key: "Company",
     icon: "/assets/icon-company.svg",
     value: user.company,
@@ -61,87 +65,100 @@ const details = [
     <title>Frontend Mentor | GitHub user search app</title>
   </head>
   <body>
-    <header>
-      <p class="header__title">devfinder</p>
-      <!-- todo: "change to ..." name, toggle button? -->
-      <form>
-        <button class="header__toggle" type="submit">
-          Light <img alt="" src="/assets/icon-sun.svg" />
-           Dark <img alt="" src="/assets/icon-moon.svg" />
-        </button>
-      </form>
-    </header>
-    <main>
-      <div class="search">
-        <h1 class="sr-only">Search a GitHub user</h1>
+    <div class="center region">
+      <header class="header">
+        <p class="header__title">devfinder</p>
+        <!-- todo: "change to ..." name, toggle button? -->
         <form>
-          <!-- todo: `type="text"` for custom styling? -->
-          <label class="sr-only" for="search-input">GitHub username</label>
-          <img alt="" src="/assets/icon-search.svg" />
-          <input
-            id="search-input"
-            type="search"
-            placeholder="Search GitHub username..."
-            required
-            aria-describedby="search-error"
-          />
-          <!-- todo: enhance with aria-live="polite" -->
-          <p class="search__error" id="search-error">No results</p>
-          <button class="search__button" type="submit">Search</button>
+          <button class="header__toggle" type="submit">
+            Light <img alt="" src="/assets/icon-sun.svg" />
+             Dark <img alt="" src="/assets/icon-moon.svg" />
+          </button>
         </form>
-      </div>
-      <div class="result">
-        <!-- todo: check for optional fields -->
-        <h2 class="sr-only">Result</h2>
-        <h3 class="result__name">{user.name}</h3>
-        <p class="result__login">@{user.login}</p>
-        <!-- todo: format -->
-        <p class="result__joined">Joined {user.created_at}</p>
-        <!-- todo: move around for layout? -->
-        <img alt="" src={user.avatar_url} />
-        <p>{user.bio}</p>
-        <h4 class="sr-only" id="statistics-heading">Statistics</h4>
-        <ul
-          class="result__stats"
-          role="list"
-          aria-labelledby="statistics-heading"
-        >
-          {
-            stats.map((entry) => {
-              return (
-                <li>
-                  <span class="result__key">
-                    {entry.key}
-                    <span class="sr-only">: </span>
-                  </span>
-                  {entry.value}
-                </li>
-              );
-            })
-          }
-        </ul>
-        <h4 class="sr-only" id="details-heading">Details</h4>
-        <ul role="list" aria-labelledby="details-heading">
-          {
-            details.map((detail) => {
-              return (
-                <li>
-                  <img alt={`${detail.key}:`} src={detail.icon} />{" "}
-                  {detail.value ? (
-                    detail.href ? (
-                      <a href={detail.href}>{detail.value}</a>
-                    ) : (
-                      detail.value
-                    )
-                  ) : (
-                    "Not Available"
-                  )}
-                </li>
-              );
-            })
-          }
-        </ul>
-      </div>
-    </main>
+      </header>
+      <main>
+        <div class="search">
+          <h1 class="sr-only">Search a GitHub user</h1>
+          <form class="search__control">
+            <!-- todo: `type="text"` for custom styling? -->
+            <label class="search__icon" for="search-input">
+              <span class="sr-only">GitHub username</span>
+              <img alt="" src="/assets/icon-search.svg" />
+            </label>
+            <input
+              class="search__input"
+              id="search-input"
+              type="search"
+              placeholder="Search GitHub username..."
+              required
+              aria-describedby="search-error"
+            />
+            <!-- todo: enhance with aria-live="polite" -->
+            <p class="search__error" id="search-error">No results</p>
+            <button class="search__button" type="submit">Search</button>
+          </form>
+        </div>
+        <div class="result">
+          <!-- todo: check for optional fields -->
+          <h2 class="sr-only">Result</h2>
+          <div class="result__profile">
+            <h3 class="result__name">{user.name}</h3>
+            <p class="result__login">@{user.login}</p>
+            <!-- todo: format -->
+            <p class="result__joined">Joined {user.created_at}</p>
+          </div>
+          <!-- todo: `width`/`height`? -->
+          <img class="result__avatar" alt="" src={user.avatar_url} />
+          <div class="result__more">
+            <p>{user.bio}</p>
+            <h4 class="sr-only" id="statistics-heading">Statistics</h4>
+            <ul
+              class="result__stats"
+              role="list"
+              aria-labelledby="statistics-heading"
+            >
+              {
+                stats.map((entry) => {
+                  return (
+                    <li>
+                      <span class="result__key">
+                        {entry.key}
+                        <span class="sr-only">: </span>
+                      </span>
+                      {entry.value}
+                    </li>
+                  );
+                })
+              }
+            </ul>
+            <h4 class="sr-only" id="details-heading">Details</h4>
+            <ul
+              class="result__details"
+              role="list"
+              aria-labelledby="details-heading"
+            >
+              {
+                details.map((detail) => {
+                  return (
+                    <li class="result__detail" data-id={detail.id}>
+                      <img alt={`${detail.key}:`} src={detail.icon} />{" "}
+                      {detail.value ? (
+                        detail.href ? (
+                          <a href={detail.href}>{detail.value}</a>
+                        ) : (
+                          detail.value
+                        )
+                      ) : (
+                        "Not Available"
+                      )}
+                    </li>
+                  );
+                })
+              }
+            </ul>
+          </div>
+        </div>
+      </main>
+    </div>
   </body>
 </html>

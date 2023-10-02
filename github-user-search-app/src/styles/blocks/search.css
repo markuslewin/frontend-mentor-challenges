@@ -2,13 +2,31 @@
   background: var(--color-search-background, var(--color-fefefe));
 }
 
+.search__control {
+  display: grid;
+  grid-template-areas: "icon text error button";
+  grid-template-columns: max-content 1fr max-content max-content;
+}
+
+.search__icon {
+  grid-area: icon;
+}
+
+.search__input {
+  grid-column: 1 / -1;
+  grid-row: 1;
+  order: -1;
+}
+
 .search__error {
   font-weight: var(--weight-bold);
+  grid-area: error;
   color: hsl(0 91% 62%);
 }
 
 .search__button {
   font: var(--weight-regular) 0.875rem / 1.3125rem var(--font);
+  grid-area: button;
   background: var(--color-0079ff);
   color: var(--color-ffffff);
 }
@@ -18,6 +36,7 @@
   background: hsl(212 100% 69%);
 }
 
+/* tablet */
 @media (min-width: 40em) {
   .search__button {
     font: var(--text-h3);

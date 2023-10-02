@@ -8,6 +8,11 @@ body {
   color: var(--color-body-text, var(--color-4b6a9b));
 }
 
+ul[role="list"],
+ol[role="list"] {
+  padding: 0;
+}
+
 input {
   caret-color: var(--color-0079ff);
 }
