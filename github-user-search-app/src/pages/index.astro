@@ -1,55 +1,79 @@
 ---
 import "../styles/global.css";
-// todo: fetch initial data from api
-import userData from "../data/user.json";
+import { getUser, parse } from "../data/user";
 
-const user = {
-  ...userData,
-  bio: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio. Quisque volutpat mattis eros.",
-};
+let username = "octocat";
+let error: string | undefined;
+if (Astro.request.method === "POST") {
+  const formData = await Astro.request.formData();
+  const result = parse(formData);
+  if (typeof result.error === "string") {
+    error = result.error;
+  } else {
+    username = result.data.username;
+  }
+}
 
-const stats = [
-  {
-    key: "Repos",
-    value: user.public_repos,
-  },
-  {
-    key: "Followers",
-    value: user.followers,
-  },
-  {
-    key: "Following",
-    value: user.following,
-  },
-];
+const response = await getUser(username);
+let user = response.data;
+error = response.error?.message;
+// todo: Move to template
+let stats: {
+  key: string;
+  value: number;
+}[] = [];
+// todo: Move to template
+let details: {
+  id: string;
+  key: string;
+  icon: string;
+  value: string | null | undefined;
+  href?: string | null;
+}[] = [];
+if (user) {
+  stats = [
+    {
+      key: "Repos",
+      value: user.public_repos,
+    },
+    {
+      key: "Followers",
+      value: user.followers,
+    },
+    {
+      key: "Following",
+      value: user.following,
+    },
+  ];
 
-const details = [
-  {
-    id: "location",
-    key: "Location",
-    icon: "/assets/icon-location.svg",
-    value: user.location,
-  },
-  {
-    id: "blog",
-    key: "Blog",
-    icon: "/assets/icon-website.svg",
-    value: user.blog,
-    href: user.blog,
-  },
-  {
-    id: "twitter",
-    key: "Twitter",
-    icon: "/assets/icon-twitter.svg",
-    value: user.twitter_username,
-  },
-  {
-    id: "company",
-    key: "Company",
-    icon: "/assets/icon-company.svg",
-    value: user.company,
-  },
-];
+  details = [
+    {
+      id: "location",
+      key: "Location",
+      icon: "/assets/icon-location.svg",
+      value: user.location,
+    },
+    {
+      id: "blog",
+      key: "Blog",
+      icon: "/assets/icon-website.svg",
+      value: user.blog,
+      href: user.blog,
+    },
+    {
+      id: "twitter",
+      key: "Twitter",
+      icon: "/assets/icon-twitter.svg",
+      value: user.twitter_username,
+    },
+    {
+      id: "company",
+      key: "Company",
+      icon: "/assets/icon-company.svg",
+      value: user.company,
+    },
+  ];
+}
 ---
 
 <html lang="en">
@@ -79,9 +103,10 @@ const details = [
       <main>
         <div class="search">
           <h1 class="sr-only">Search a GitHub user</h1>
-          <form class="search__control">
+          <form class="search__control" method="post" data-search>
             <!-- todo: `type="text"` for custom styling? -->
             <label class="search__icon" for="search-input">
+              <!-- todo: sr-only -> alt -->
               <span class="sr-only">GitHub username</span>
               <img alt="" src="/assets/icon-search.svg" />
             </label>
@@ -89,75 +114,80 @@ const details = [
               class="search__input"
               id="search-input"
               type="search"
+              name="username"
               placeholder="Search GitHub username..."
               required
               aria-describedby="search-error"
             />
             <!-- todo: enhance with aria-live="polite" -->
-            <p class="search__error" id="search-error">No results</p>
+            <p class="search__error" id="search-error">{error}</p>
             <button class="search__button" type="submit">Search</button>
           </form>
         </div>
-        <div class="result">
-          <!-- todo: check for optional fields -->
-          <h2 class="sr-only">Result</h2>
-          <div class="result__profile">
-            <h3 class="result__name">{user.name}</h3>
-            <p class="result__login">@{user.login}</p>
-            <!-- todo: format -->
-            <p class="result__joined">Joined {user.created_at}</p>
-          </div>
-          <!-- todo: `width`/`height`? -->
-          <img class="result__avatar" alt="" src={user.avatar_url} />
-          <div class="result__more">
-            <p>{user.bio}</p>
-            <h4 class="sr-only" id="statistics-heading">Statistics</h4>
-            <ul
-              class="result__stats"
-              role="list"
-              aria-labelledby="statistics-heading"
-            >
-              {
-                stats.map((entry) => {
-                  return (
-                    <li>
-                      <span class="result__key">
-                        {entry.key}
-                        <span class="sr-only">: </span>
-                      </span>
-                      {entry.value}
-                    </li>
-                  );
-                })
-              }
-            </ul>
-            <h4 class="sr-only" id="details-heading">Details</h4>
-            <ul
-              class="result__details"
-              role="list"
-              aria-labelledby="details-heading"
-            >
-              {
-                details.map((detail) => {
-                  return (
-                    <li class="result__detail" data-id={detail.id}>
-                      <img alt={`${detail.key}:`} src={detail.icon} />{" "}
-                      {detail.value ? (
-                        detail.href ? (
-                          <a href={detail.href}>{detail.value}</a>
+        {
+          user && (
+            // todo: check for optional fields
+            // todo: format `created_at`
+            // todo: `width`/`height` for `avatar_url`?
+            <div class="result">
+              <h2 class="sr-only">Result</h2>
+              <div class="result__profile">
+                <h3 class="result__name">{user.name}</h3>
+                <p class="result__login">@{user.login}</p>
+                <p class="result__joined">Joined {user.created_at}</p>
+              </div>
+              <img class="result__avatar" alt="" src={user.avatar_url} />
+              <div class="result__more">
+                <p>{user.bio}</p>
+                <h4 class="sr-only" id="statistics-heading">
+                  Statistics
+                </h4>
+                <ul
+                  class="result__stats"
+                  role="list"
+                  aria-labelledby="statistics-heading"
+                >
+                  {stats.map((entry) => {
+                    return (
+                      <li>
+                        <span class="result__key">
+                          {entry.key}
+                          <span class="sr-only">: </span>
+                        </span>
+                        {entry.value}
+                      </li>
+                    );
+                  })}
+                </ul>
+                <h4 class="sr-only" id="details-heading">
+                  Details
+                </h4>
+                <ul
+                  class="result__details"
+                  role="list"
+                  aria-labelledby="details-heading"
+                >
+                  {details.map((detail) => {
+                    return (
+                      <li class="result__detail" data-id={detail.id}>
+                        <img alt={`${detail.key}:`} src={detail.icon} />{" "}
+                        {detail.value ? (
+                          detail.href ? (
+                            <a href={detail.href}>{detail.value}</a>
+                          ) : (
+                            detail.value
+                          )
                         ) : (
-                          detail.value
-                        )
-                      ) : (
-                        "Not Available"
-                      )}
-                    </li>
-                  );
-                })
-              }
-            </ul>
-          </div>
-        </div>
+                          "Not Available"
+                        )}
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+            </div>
+          )
+        }
       </main>
     </div>
   </body>

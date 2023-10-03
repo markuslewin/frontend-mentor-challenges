@@ -18,6 +18,7 @@
 
 .result__avatar {
   grid-area: avatar;
+  width: 4.375rem;
 }
 
 .result__name {
@@ -62,6 +63,10 @@
 
   .result__login {
     font: var(--text-h3);
+  }
+
+  .result__avatar {
+    width: 7.3125rem;
   }
 
   .result__stats {
