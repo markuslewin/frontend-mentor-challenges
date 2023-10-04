@@ -1,6 +1,10 @@
 ---
 import "../styles/global.css";
+import IconCompany from "../components/IconCompany.html";
+import IconLocation from "../components/IconLocation.html";
 import IconSearch from "../components/IconSearch.html";
+import IconTwitter from "../components/IconTwitter.html";
+import IconWebsite from "../components/IconWebsite.html";
 import { getUser, parse } from "../data/user";
 
 let username = "octocat";
@@ -27,7 +31,7 @@ let stats: {
 let details: {
   id: string;
   key: string;
-  icon: string;
+  icon: typeof IconCompany;
   value: string | null | undefined;
   href?: string | null;
 }[] = [];
@@ -51,27 +55,35 @@ if (user) {
     {
       id: "location",
       key: "Location",
-      icon: "/assets/icon-location.svg",
+      icon: IconLocation,
       value: user.location,
     },
     {
       id: "blog",
       key: "Blog",
-      icon: "/assets/icon-website.svg",
+      icon: IconWebsite,
       value: user.blog,
       href: user.blog,
     },
     {
       id: "twitter",
       key: "Twitter",
-      icon: "/assets/icon-twitter.svg",
+      icon: IconTwitter,
       value: user.twitter_username,
+      href: user.twitter_username
+        ? `https://twitter.com/${user.twitter_username}`
+        : null,
     },
     {
       id: "company",
       key: "Company",
-      icon: "/assets/icon-company.svg",
+      icon: IconCompany,
       value: user.company,
+      href: user.company
+        ? `https://github.com/${
+            user.company.startsWith("@") ? user.company.slice(1) : user.company
+          }`
+        : null,
     },
   ];
 }
@@ -171,8 +183,15 @@ if (user) {
                 >
                   {details.map((detail) => {
                     return (
-                      <li class="result__detail" data-id={detail.id}>
-                        <img alt={`${detail.key}:`} src={detail.icon} />{" "}
+                      <li
+                        class="result__detail"
+                        data-id={detail.id}
+                        data-availability={
+                          detail.value ? "available" : "unavailable"
+                        }
+                      >
+                        <detail.icon />
+                        <span class="sr-only">{detail.key}:</span>{" "}
                         {detail.value ? (
                           detail.href ? (
                             <a href={detail.href}>{detail.value}</a>

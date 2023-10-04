@@ -1,6 +1,7 @@
 .icon {
   display: block;
-  height: var(--icon-size);
+  width: var(--icon-width);
+  height: var(--icon-height);
 }
 
 .icon * {

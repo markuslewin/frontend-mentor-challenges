@@ -10,7 +10,7 @@
 }
 
 .search__icon {
-  --icon-size: 1.25rem;
+  --icon-height: 1.25rem;
 
   grid-area: icon;
   margin-left: 1rem;
@@ -55,7 +55,7 @@
 /* tablet */
 @media (min-width: 40em) {
   .search__icon {
-    --icon-size: 1.5rem;
+    --icon-height: 1.5rem;
 
     margin-left: 2rem;
   }
