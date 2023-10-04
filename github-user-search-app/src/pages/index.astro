@@ -116,7 +116,12 @@ if (user) {
       <main>
         <div class="search">
           <h1 class="sr-only">Search a GitHub user</h1>
-          <form class="search__control" method="post" data-search>
+          <form
+            class="search__control"
+            method="post"
+            data-search
+            data-has-error={`${!!error}`}
+          >
             <label class="search__icon" for="search-input">
               <!-- todo: sr-only -> alt -->
               <span class="sr-only">GitHub username</span>

@@ -13,6 +13,7 @@ const octokit = new Octokit();
 const getUser = async (username: string) => {
   // todo: Remove
   if (import.meta.env.DEV) {
+    // return { error: { message: "No results" } };
     const user = {
       ...userData,
       bio: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio. Quisque volutpat mattis eros.",
@@ -26,10 +27,12 @@ const getUser = async (username: string) => {
     });
     return { data: response.data };
   } catch (error) {
-    if (error instanceof RequestError) {
-      return { error };
-    }
-    throw error;
+    // todo: Handle error
+    // if (error instanceof RequestError) {
+    //   return { error };
+    // }
+    // throw error;
+    return { error: { message: "No results" } };
   }
 };
 
