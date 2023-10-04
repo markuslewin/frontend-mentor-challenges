@@ -8,8 +8,9 @@ body {
   color: var(--color-body-text, var(--color-4b6a9b));
 }
 
-ul[role="list"],
-ol[role="list"] {
+[role="list"],
+[role="list"] {
+  margin: 0;
   padding: 0;
 }
 
@@ -39,6 +40,7 @@ input {
     --color-search-background: var(--color-1e2a47);
     --color-search-shadow: transparent;
     --color-result-background: var(--color-1e2a47);
+    --color-result-shadow: transparent;
     --color-result-name-text: var(--color-ffffff);
     --color-result-joined-text: var(--color-ffffff);
     --color-result-stats-background: var(--color-141d2f);
