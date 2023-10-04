@@ -4,9 +4,10 @@ import IconWebsite from "./IconWebsite";
 import IconLocation from "./IconLocation";
 import IconSearch from "./IconSearch";
 import { useState } from "preact/hooks";
+import type { User } from "../data/user";
 
 interface Props {
-  user?: any;
+  user?: User | undefined;
   error?: string | undefined;
 }
 

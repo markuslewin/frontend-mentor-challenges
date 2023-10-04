@@ -36,4 +36,9 @@ const getUser = async (username: string) => {
   }
 };
 
+type User = Awaited<
+  ReturnType<typeof octokit.rest.users.getByUsername>
+>["data"];
+
 export { parse, getUser };
+export type { User };
