@@ -1,21 +1,33 @@
 .search {
-  background: var(--color-search-background, var(--color-fefefe));
+  margin-top: 2.25rem;
 }
 
 .search__control {
   display: grid;
   grid-template-areas: "icon text error button";
   grid-template-columns: max-content 1fr max-content max-content;
+  align-items: center;
 }
 
 .search__icon {
+  --icon-size: 1.25rem;
+
   grid-area: icon;
+  margin-left: 1rem;
+  color: var(--color-0079ff);
 }
 
 .search__input {
   grid-column: 1 / -1;
   grid-row: 1;
   order: -1;
+  border: none;
+  border-radius: 0.9375rem;
+  padding-block: 1.125rem;
+  padding-inline: 2.8125rem 6.125rem;
+  background: var(--color-search-background, var(--color-fefefe));
+  box-shadow: 0 1rem 1.875rem -0.625rem var(--color-search-shadow, hsl(227 46%
+          51% / 20%));
 }
 
 .search__error {
@@ -27,6 +39,10 @@
 .search__button {
   font: var(--weight-regular) 0.875rem / 1.3125rem var(--font);
   grid-area: button;
+  margin-right: 0.4375rem;
+  border: none;
+  border-radius: 0.625rem;
+  padding: 0.8125rem 1rem;
   background: var(--color-0079ff);
   color: var(--color-ffffff);
 }
@@ -38,7 +54,20 @@
 
 /* tablet */
 @media (min-width: 40em) {
+  .search__icon {
+    --icon-size: 1.5rem;
+
+    margin-left: 2rem;
+  }
+
+  .search__input {
+    padding-block: 1.375rem;
+    padding-inline: 5rem 8rem;
+  }
+
   .search__button {
     font: var(--text-h3);
+    margin-right: 0.625rem;
+    padding: 0.8125rem 1.5rem;
   }
 }

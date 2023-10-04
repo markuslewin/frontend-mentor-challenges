@@ -1,4 +1,5 @@
 .result {
+  margin-top: 1rem;
   display: grid;
   grid-template-areas:
     "avatar profile"
@@ -100,6 +101,13 @@
 
   .result__details > [data-id="company"] {
     grid-area: company;
+  }
+}
+
+/* tablet */
+@media (min-width: 40em) {
+  .result {
+    margin-top: 1.5rem;
   }
 }
 

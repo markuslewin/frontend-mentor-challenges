@@ -3,11 +3,13 @@
 @import "variables";
 @import "base";
 
-@import "utilities/sr-only";
-
 @import "blocks/header";
+@import "blocks/icon";
 @import "blocks/result";
 @import "blocks/search";
 
 @import "compositions/center";
 @import "compositions/region";
+
+@import "utilities/shape";
+@import "utilities/sr-only";

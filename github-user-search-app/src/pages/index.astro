@@ -1,5 +1,6 @@
 ---
 import "../styles/global.css";
+import IconSearch from "../components/IconSearch.html";
 import { getUser, parse } from "../data/user";
 
 let username = "octocat";
@@ -93,7 +94,7 @@ if (user) {
       <header class="header">
         <p class="header__title">devfinder</p>
         <!-- todo: "change to ..." name, toggle button? -->
-        <form>
+        <form hidden>
           <button class="header__toggle" type="submit">
             Light <img alt="" src="/assets/icon-sun.svg" />
              Dark <img alt="" src="/assets/icon-moon.svg" />
@@ -104,24 +105,25 @@ if (user) {
         <div class="search">
           <h1 class="sr-only">Search a GitHub user</h1>
           <form class="search__control" method="post" data-search>
-            <!-- todo: `type="text"` for custom styling? -->
             <label class="search__icon" for="search-input">
               <!-- todo: sr-only -> alt -->
               <span class="sr-only">GitHub username</span>
-              <img alt="" src="/assets/icon-search.svg" />
+              <IconSearch />
             </label>
             <input
-              class="search__input"
+              class="[ search__input ] [ shape ]"
               id="search-input"
-              type="search"
+              type="text"
               name="username"
-              placeholder="Search GitHub username..."
+              placeholder="Search GitHub username…"
               required
               aria-describedby="search-error"
             />
             <!-- todo: enhance with aria-live="polite" -->
             <p class="search__error" id="search-error">{error}</p>
-            <button class="search__button" type="submit">Search</button>
+            <button class="[ search__button ] [ shape ]" type="submit"
+              >Search</button
+            >
           </form>
         </div>
         {

@@ -1,0 +1,8 @@
+.icon {
+  display: block;
+  height: var(--icon-size);
+}
+
+.icon * {
+  fill: currentColor;
+}

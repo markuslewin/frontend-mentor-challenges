@@ -37,6 +37,7 @@ input {
     --color-header-toggle-text: var(--color-ffffff);
     --color-header-toggle-text-focus: hsl(222 44% 70%);
     --color-search-background: var(--color-1e2a47);
+    --color-search-shadow: transparent;
     --color-result-background: var(--color-1e2a47);
     --color-result-name-text: var(--color-ffffff);
     --color-result-joined-text: var(--color-ffffff);
