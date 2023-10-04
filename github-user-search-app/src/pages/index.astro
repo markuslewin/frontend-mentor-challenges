@@ -140,7 +140,6 @@ if (user) {
         </div>
         {
           user && (
-            // todo: format `created_at`
             // todo: `width`/`height` for `avatar_url`?
             <div class="result">
               <h2 class="sr-only">Result</h2>
@@ -149,7 +148,14 @@ if (user) {
                   {user.name ? user.name : user.login}
                 </h3>
                 <p class="result__login">@{user.login}</p>
-                <p class="result__joined">Joined {user.created_at}</p>
+                <p class="result__joined">
+                  Joined{" "}
+                  {Intl.DateTimeFormat("en-GB", {
+                    year: "numeric",
+                    month: "short",
+                    day: "numeric",
+                  }).format(new Date(user.created_at))}
+                </p>
               </div>
               <img class="result__avatar" alt="" src={user.avatar_url} />
               <div class="result__more">
