@@ -32,6 +32,8 @@
   background: var(--color-search-background, var(--color-fefefe));
   box-shadow: 0 1rem 1.875rem -0.625rem var(--color-search-shadow, hsl(227 46%
           51% / 20%));
+  transition: all var(--transition);
+  transition-property: background-color, box-shadow;
 }
 
 .search__error {
@@ -50,6 +52,7 @@
   padding: 0.8125rem 1rem;
   background: var(--color-0079ff);
   color: var(--color-ffffff);
+  transition: background-color var(--transition);
 }
 
 .search__button:hover,

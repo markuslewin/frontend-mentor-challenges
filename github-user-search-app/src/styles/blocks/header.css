@@ -9,6 +9,7 @@
 .header__title {
   font: var(--text-h1);
   color: var(--color-header-title-text, hsl(220 18% 16%));
+  transition: color var(--transition);
 }
 
 .header__toggle {
@@ -22,6 +23,7 @@
   padding: 0;
   background: transparent;
   color: var(--color-header-toggle-text, var(--color-4b6a9b));
+  transition: color var(--transition);
 }
 
 .header__toggle:hover,

@@ -1,6 +1,9 @@
 @use "./abstracts/mixins" as *;
 
 :root {
+  // from tailwind
+  --transition: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+
   color-scheme: light;
 }
 
@@ -8,6 +11,8 @@ body {
   font: var(--weight-regular) 0.8125rem / 1.5625rem var(--font);
   background: var(--color-body-background, var(--color-f6f8ff));
   color: var(--color-body-text, var(--color-4b6a9b));
+  transition: all var(--transition);
+  transition-property: background-color, color;
 }
 
 [role="list"],
@@ -22,6 +27,7 @@ input {
 
 ::placeholder {
   color: var(--color-placeholder, var(--color-4b6a9b));
+  transition: color var(--transition);
 }
 
 /* tablet */
@@ -32,7 +38,6 @@ input {
 }
 
 @include dark-scheme-active() {
-  color-scheme: dark;
   --color-body-background: var(--color-141d2f);
   --color-body-text: var(--color-ffffff);
   --color-placeholder: var(--color-ffffff);
@@ -48,4 +53,6 @@ input {
   --color-result-stats-background: var(--color-141d2f);
   --color-result-stats-text: var(--color-ffffff);
   --color-result-key-text: var(--color-ffffff);
+
+  color-scheme: dark;
 }

@@ -12,6 +12,8 @@
   background: var(--color-result-background, var(--color-fefefe));
   box-shadow: 0 1rem 1.875rem -0.625rem var(--color-result-shadow, hsl(227 46%
           51% / 20%));
+  transition: all var(--transition);
+  transition-property: background-color, box-shadow;
 }
 
 .result [data-availability="unavailable"] {
@@ -36,6 +38,7 @@
   font: var(--weight-bold) 1rem / 1.5rem var(--font);
   outline: none;
   color: var(--color-result-name-text, var(--color-2b3442));
+  transition: color var(--transition);
 }
 
 .result__login {
@@ -46,6 +49,7 @@
 .result__joined {
   margin-top: 0.375rem;
   color: var(--color-result-joined-text, var(--color-697c9a));
+  transition: color var(--transition);
 }
 
 .result__stats {
@@ -59,6 +63,8 @@
   gap: 1rem;
   background: var(--color-result-stats-background, var(--color-f6f8ff));
   color: var(--color-result-stats-text, var(--color-2b3442));
+  transition: all var(--transition);
+  transition-property: background-color, color;
 }
 
 .result__key {
@@ -66,6 +72,7 @@
   margin-bottom: 0.5rem;
   display: block;
   color: var(--color-result-key-text, var(--color-4b6a9b));
+  transition: color var(--transition);
 }
 
 .result__details {
