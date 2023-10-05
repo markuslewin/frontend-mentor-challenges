@@ -2,6 +2,8 @@
 import "../styles/global.css";
 import App from "../components/App";
 import { getUser, parse } from "../data/user";
+import IconSun from "../components/IconSun";
+import IconMoon from "../components/IconMoon";
 
 let username = "octocat";
 let error: string | undefined;
@@ -33,16 +35,27 @@ error = response.error?.message;
       href="/assets/favicon-32x32.png"
     />
     <title>Frontend Mentor | GitHub user search app</title>
+    <script is:inline>
+      const schemeKey = "scheme";
+      const scheme = localStorage.getItem(schemeKey);
+      if (scheme) {
+        document.documentElement.dataset.scheme = scheme;
+      }
+    </script>
   </head>
   <body>
     <div class="center region">
       <header class="header">
         <p class="header__title">devfinder</p>
         <!-- todo: "change to ..." name, toggle button? -->
-        <form hidden>
+        <form hidden data-scheme-toggle>
           <button class="header__toggle" type="submit">
-            Light <img alt="" src="/assets/icon-sun.svg" />
-             Dark <img alt="" src="/assets/icon-moon.svg" />
+            <span class="toggle__light">
+              Dark <IconMoon />
+            </span>
+            <span class="toggle__dark">
+              Light <IconSun />
+            </span>
           </button>
         </form>
       </header>
@@ -55,3 +68,23 @@ error = response.error?.message;
     </div>
   </body>
 </html>
+
+<script>
+  const schemeKey = "scheme";
+  const schemeMq = matchMedia("(prefers-color-scheme: dark)");
+  const toggle = document.querySelector(
+    "[data-scheme-toggle]"
+  ) as HTMLFormElement;
+
+  toggle.addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    const scheme =
+      localStorage.getItem(schemeKey) ?? (schemeMq.matches ? "dark" : "light");
+    const nextScheme = scheme === "light" ? "dark" : "light";
+    localStorage.setItem(schemeKey, nextScheme);
+    document.documentElement.dataset.scheme = nextScheme;
+  });
+
+  toggle.hidden = false;
+</script>

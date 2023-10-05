@@ -12,10 +12,15 @@
 }
 
 .header__toggle {
+  --icon-width: 1.25rem;
+
   font: var(--text-h4);
   font-weight: var(--weight-bold);
   letter-spacing: 0.15625rem;
   text-transform: uppercase;
+  border: none;
+  padding: 0;
+  background: transparent;
   color: var(--color-header-toggle-text, var(--color-4b6a9b));
 }
 

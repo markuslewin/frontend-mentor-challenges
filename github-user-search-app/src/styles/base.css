@@ -1,5 +1,5 @@
 :root {
-  color-scheme: light dark;
+  color-scheme: light;
 }
 
 body {
@@ -30,7 +30,8 @@ input {
 }
 
 @media (prefers-color-scheme: dark) {
-  body {
+  :root:not([data-scheme]) {
+    color-scheme: dark;
     --color-body-background: var(--color-141d2f);
     --color-body-text: var(--color-ffffff);
     --color-placeholder: var(--color-ffffff);
@@ -47,4 +48,23 @@ input {
     --color-result-stats-text: var(--color-ffffff);
     --color-result-key-text: var(--color-ffffff);
   }
+}
+
+:root[data-scheme="dark"] {
+  color-scheme: dark;
+  --color-body-background: var(--color-141d2f);
+  --color-body-text: var(--color-ffffff);
+  --color-placeholder: var(--color-ffffff);
+  --color-header-title-text: var(--color-ffffff);
+  --color-header-toggle-text: var(--color-ffffff);
+  --color-header-toggle-text-focus: hsl(222 44% 70%);
+  --color-search-background: var(--color-1e2a47);
+  --color-search-shadow: transparent;
+  --color-result-background: var(--color-1e2a47);
+  --color-result-shadow: transparent;
+  --color-result-name-text: var(--color-ffffff);
+  --color-result-joined-text: var(--color-ffffff);
+  --color-result-stats-background: var(--color-141d2f);
+  --color-result-stats-text: var(--color-ffffff);
+  --color-result-key-text: var(--color-ffffff);
 }

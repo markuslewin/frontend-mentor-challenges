@@ -1,0 +1,30 @@
+.toggle__light,
+.toggle__dark {
+  --toggle-display-visible: flex;
+
+  display: var(--toggle-display-visible);
+  align-items: center;
+  gap: 1rem;
+}
+
+.toggle__dark {
+  display: none;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-scheme]) .toggle__light {
+    display: none;
+  }
+
+  :root:not([data-scheme]) .toggle__dark {
+    display: var(--toggle-display-visible);
+  }
+}
+
+:root[data-scheme="dark"] .toggle__light {
+  display: none;
+}
+
+:root[data-scheme="dark"] .toggle__dark {
+  display: var(--toggle-display-visible);
+}

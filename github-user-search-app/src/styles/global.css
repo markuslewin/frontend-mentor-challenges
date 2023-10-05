@@ -7,6 +7,7 @@
 @import "blocks/icon";
 @import "blocks/result";
 @import "blocks/search";
+@import "blocks/toggle";
 
 @import "compositions/center";
 @import "compositions/region";
