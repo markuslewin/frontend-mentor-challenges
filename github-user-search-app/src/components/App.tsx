@@ -80,7 +80,7 @@ const App = ({
       </div>
       {user && (
         // todo: `width`/`height` for `avatar_url`?
-        <div class="result">
+        <div class="[ result ] [ shape ]">
           <h2 class="sr-only">Result</h2>
           <div class="result__profile">
             <h3
@@ -110,7 +110,7 @@ const App = ({
               Statistics
             </h4>
             <ul
-              class="result__stats"
+              class="[ result__stats ] [ shape ]"
               role="list"
               aria-labelledby="statistics-heading"
             >
