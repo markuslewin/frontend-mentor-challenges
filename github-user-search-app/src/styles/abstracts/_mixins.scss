@@ -1,0 +1,11 @@
+@mixin dark-scheme-active($child: "") {
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-scheme]) #{$child} {
+      @content;
+    }
+  }
+
+  :root[data-scheme="dark"] #{$child} {
+    @content;
+  }
+}

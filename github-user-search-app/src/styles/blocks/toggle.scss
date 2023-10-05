@@ -1,0 +1,22 @@
+@use "../abstracts/mixins" as *;
+
+.toggle__light,
+.toggle__dark {
+  --toggle-display-visible: flex;
+
+  display: var(--toggle-display-visible);
+  align-items: center;
+  gap: 1rem;
+}
+
+.toggle__dark {
+  display: none;
+}
+
+@include dark-scheme-active(".toggle__light") {
+  display: none;
+}
+
+@include dark-scheme-active(".toggle__dark") {
+  display: var(--toggle-display-visible);
+}
