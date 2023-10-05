@@ -3,17 +3,28 @@ import IconTwitter from "./IconTwitter";
 import IconWebsite from "./IconWebsite";
 import IconLocation from "./IconLocation";
 import IconSearch from "./IconSearch";
-import { useState } from "preact/hooks";
-import type { User } from "../data/user";
+import { useState, useRef, useEffect } from "preact/hooks";
+import { getUser, parse, type User } from "../data/user";
 
 interface Props {
   user?: User | undefined;
   error?: string | undefined;
+  focusUserHeading?: boolean;
 }
 
-const App = ({ error: initialError, user: initialUser }: Props) => {
+const App = ({
+  error: initialError,
+  user: initialUser,
+  focusUserHeading,
+}: Props) => {
   const [user, setUser] = useState(initialUser);
   const [error, setError] = useState(initialError);
+  const [isClient, setIsClient] = useState(false);
+  const userHeadingRef = useRef<HTMLHeadingElement>(null);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   return (
     <main>
@@ -22,13 +33,28 @@ const App = ({ error: initialError, user: initialUser }: Props) => {
         <form
           class="search__control"
           method="post"
-          data-search
+          novalidate={isClient}
+          onSubmit={async (e) => {
+            e.preventDefault();
+
+            const formData = new FormData(e.currentTarget);
+            const result = parse(formData);
+            if (typeof result.error === "string") {
+              setError(result.error);
+              return;
+            }
+
+            const response = await getUser(result.data.username);
+            if (response.error) {
+              setError(response.error.message);
+              return;
+            }
+
+            setUser(response.data);
+            setError(undefined);
+            userHeadingRef.current?.focus();
+          }}
           data-has-error={`${!!error}`}
-          // noValidate
-          // onSubmit={(e) => {
-          //   e.preventDefault();
-          //   setUser({ ...user, name: user.name + "a" });
-          // }}
         >
           <label class="search__icon" for="search-input">
             <span class="sr-only">GitHub username</span>
@@ -41,13 +67,10 @@ const App = ({ error: initialError, user: initialUser }: Props) => {
             name="username"
             placeholder="Search GitHub username…"
             required
+            autofocus={!!error}
             aria-describedby="search-error"
           />
-          <p
-            // todo: enhance with aria-live="polite"
-            class="search__error"
-            id="search-error"
-          >
+          <p class="search__error" id="search-error" aria-live="polite">
             {error}
           </p>
           <button class="[ search__button ] [ shape ]" type="submit">
@@ -60,7 +83,14 @@ const App = ({ error: initialError, user: initialUser }: Props) => {
         <div class="result">
           <h2 class="sr-only">Result</h2>
           <div class="result__profile">
-            <h3 class="result__name">{user.name ? user.name : user.login}</h3>
+            <h3
+              class="result__name"
+              tabindex={-1}
+              ref={userHeadingRef}
+              autofocus={focusUserHeading}
+            >
+              {user.name ? user.name : user.login}
+            </h3>
             <p class="result__login">@{user.login}</p>
             <p class="result__joined">
               Joined{" "}
@@ -163,15 +193,22 @@ const App = ({ error: initialError, user: initialUser }: Props) => {
                     }
                   >
                     <detail.icon />
-                    <span class="sr-only">{detail.key}:</span>{" "}
                     {detail.value ? (
                       detail.href ? (
-                        <a href={detail.href}>{detail.value}</a>
+                        <a href={detail.href}>
+                          <span class="sr-only">{detail.key}:</span>{" "}
+                          {detail.value}
+                        </a>
                       ) : (
-                        detail.value
+                        <>
+                          <span class="sr-only">{detail.key}:</span>{" "}
+                          {detail.value}
+                        </>
                       )
                     ) : (
-                      "Not Available"
+                      <>
+                        <span class="sr-only">{detail.key}:</span> Not Available
+                      </>
                     )}
                   </li>
                 );
