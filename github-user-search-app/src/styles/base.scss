@@ -3,6 +3,7 @@
 :root {
   // from tailwind
   --transition: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition: 10s cubic-bezier(0.4, 0, 0.2, 1);
 
   color-scheme: light;
 }
@@ -11,8 +12,7 @@ body {
   font: var(--weight-regular) 0.8125rem / 1.5625rem var(--font);
   background: var(--color-body-background, var(--color-f6f8ff));
   color: var(--color-body-text, var(--color-4b6a9b));
-  transition: all var(--transition);
-  transition-property: background-color, color;
+  transition: background-color var(--transition);
 }
 
 [role="list"],

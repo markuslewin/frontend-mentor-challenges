@@ -63,8 +63,7 @@
   gap: 1rem;
   background: var(--color-result-stats-background, var(--color-f6f8ff));
   color: var(--color-result-stats-text, var(--color-2b3442));
-  transition: all var(--transition);
-  transition-property: background-color, color;
+  transition: background-color var(--transition);
 }
 
 .result__key {
@@ -102,6 +101,7 @@
   grid-template-columns: 1.25rem auto;
   align-items: center;
   gap: 0.75rem;
+  transition: opacity var(--transition);
 }
 
 .result__detail[data-availability="unavailable"] {

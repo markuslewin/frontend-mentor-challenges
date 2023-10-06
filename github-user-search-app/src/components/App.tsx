@@ -103,7 +103,10 @@ const App = ({
           </div>
           <img class="result__avatar" alt="" src={user.avatar_url} />
           <div class="result__more">
-            <p data-availability={user.bio ? "available" : "unavailable"}>
+            <p
+              class="transition-color transition-opacity"
+              data-availability={user.bio ? "available" : "unavailable"}
+            >
               {user.bio ? user.bio : "This profile has no bio"}
             </p>
             <h4 class="sr-only" id="statistics-heading">
@@ -134,7 +137,7 @@ const App = ({
                       {entry.key}
                       <span class="sr-only">: </span>
                     </span>
-                    {entry.value}
+                    <span class="transition-color">{entry.value}</span>
                   </li>
                 );
               })}
@@ -143,7 +146,7 @@ const App = ({
               Details
             </h4>
             <ul
-              class="result__details"
+              class="[ result__details ] [ transition-color ]"
               role="list"
               aria-labelledby="details-heading"
             >

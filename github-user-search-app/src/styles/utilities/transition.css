@@ -1,0 +1,13 @@
+/*
+  Nested transitions of inherited properties are delayed in Chrome.
+  Use these as far down the tree as possible.
+*/
+
+.transition-color {
+  transition: var(--transition);
+  transition-property: color, var(--transition-opacity);
+}
+
+.transition-opacity {
+  --transition-opacity: opacity;
+}
