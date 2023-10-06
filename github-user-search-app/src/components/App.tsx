@@ -9,12 +9,14 @@ import { getUser, parse, type User } from "../data/user";
 interface Props {
   user?: User | undefined;
   error?: string | undefined;
+  payload?: string | undefined;
   focusUserHeading?: boolean;
 }
 
 const App = ({
   error: initialError,
   user: initialUser,
+  payload,
   focusUserHeading,
 }: Props) => {
   const [user, setUser] = useState(initialUser);
@@ -67,6 +69,7 @@ const App = ({
             name="username"
             placeholder="Search GitHub username…"
             required
+            value={payload}
             autofocus={!!error}
             aria-describedby="search-error"
           />

@@ -7,6 +7,7 @@ import IconMoon from "../components/IconMoon";
 
 let username = "octocat";
 let error: string | undefined;
+let payload: string | undefined;
 let focusUserHeading = false;
 if (Astro.request.method === "POST") {
   const formData = await Astro.request.formData();
@@ -15,6 +16,7 @@ if (Astro.request.method === "POST") {
     error = result.error;
   } else {
     username = result.data.username;
+    payload = result.data.username;
     focusUserHeading = true;
   }
 }
@@ -63,6 +65,7 @@ error = response.error?.message;
         client:load
         user={user}
         error={error}
+        payload={payload}
         focusUserHeading={focusUserHeading}
       />
     </div>
