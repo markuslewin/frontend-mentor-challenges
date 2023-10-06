@@ -5,7 +5,7 @@
 
 .transition-color {
   transition: var(--transition);
-  transition-property: color, var(--transition-opacity);
+  transition-property: color, var(--transition-opacity, null);
 }
 
 .transition-opacity {
