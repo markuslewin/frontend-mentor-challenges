@@ -9,7 +9,7 @@ const parse = (formData: FormData) => {
   return { data: { username } };
 };
 
-const octokit = new Octokit();
+let abortController: AbortController | undefined;
 const getUser = async (username: string) => {
   // todo: Remove
   if (import.meta.env.DEV) {
@@ -22,6 +22,11 @@ const getUser = async (username: string) => {
   }
 
   try {
+    abortController?.abort();
+    abortController = new AbortController();
+    const octokit = new Octokit({
+      request: { signal: abortController.signal },
+    });
     const response = await octokit.rest.users.getByUsername({
       username,
     });
@@ -37,7 +42,7 @@ const getUser = async (username: string) => {
 };
 
 type User = Awaited<
-  ReturnType<typeof octokit.rest.users.getByUsername>
+  ReturnType<Octokit["rest"]["users"]["getByUsername"]>
 >["data"];
 
 export { parse, getUser };
