@@ -54,7 +54,10 @@ const App = ({
 
             setUser(response.data);
             setError(undefined);
-            userHeadingRef.current?.focus();
+            // Wait for Preact to render
+            setTimeout(() => {
+              userHeadingRef.current?.focus();
+            });
           }}
           data-has-error={`${!!error}`}
         >
