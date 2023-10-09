@@ -46,28 +46,32 @@ error = response.error?.message;
     </script>
   </head>
   <body>
-    <div class="center region">
-      <header class="header">
-        <p class="header__title">devfinder</p>
-        <!-- todo: "change to ..." name, toggle button? -->
-        <form hidden data-scheme-toggle>
-          <button class="header__toggle" type="submit">
-            <span class="toggle__light">
-              Dark <IconMoon />
-            </span>
-            <span class="toggle__dark">
-              Light <IconSun />
-            </span>
-          </button>
-        </form>
-      </header>
-      <App
-        client:load
-        user={user}
-        error={error}
-        payload={payload}
-        focusUserHeading={focusUserHeading}
-      />
+    <div class="center">
+      <div class="cover region">
+        <div>
+          <header class="header">
+            <p class="header__title">devfinder</p>
+            <!-- todo: "change to ..." name, toggle button? -->
+            <form hidden data-scheme-toggle>
+              <button class="header__toggle" type="submit">
+                <span class="toggle__light">
+                  Dark <IconMoon />
+                </span>
+                <span class="toggle__dark">
+                  Light <IconSun />
+                </span>
+              </button>
+            </form>
+          </header>
+          <App
+            client:load
+            user={user}
+            error={error}
+            payload={payload}
+            focusUserHeading={focusUserHeading}
+          />
+        </div>
+      </div>
     </div>
   </body>
 </html>

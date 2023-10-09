@@ -1,0 +1,11 @@
+.cover {
+  min-height: 100vh;
+}
+
+/* tablet */
+@media (min-width: 40em) {
+  .cover {
+    display: grid;
+    align-items: center;
+  }
+}

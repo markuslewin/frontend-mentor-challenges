@@ -10,6 +10,7 @@
 @import "blocks/toggle.scss";
 
 @import "compositions/center";
+@import "compositions/cover";
 @import "compositions/region";
 
 @import "utilities/shape";
