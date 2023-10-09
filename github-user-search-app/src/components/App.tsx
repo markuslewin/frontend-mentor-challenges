@@ -82,7 +82,6 @@ const App = ({
         </form>
       </div>
       {user && (
-        // todo: `width`/`height` for `avatar_url`?
         <div class="[ result ] [ shape ]">
           <h2 class="sr-only">Result</h2>
           <div class="result__profile">
@@ -104,7 +103,13 @@ const App = ({
               }).format(new Date(user.created_at))}
             </p>
           </div>
-          <img class="result__avatar" alt="" src={user.avatar_url} />
+          <img
+            class="result__avatar"
+            alt=""
+            src={user.avatar_url}
+            width="1"
+            height="1"
+          />
           <div class="result__more">
             <p
               class="transition-color transition-opacity"
