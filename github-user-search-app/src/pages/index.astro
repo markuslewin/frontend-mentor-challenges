@@ -51,14 +51,15 @@ error = response.error?.message;
         <div>
           <header class="header">
             <p class="header__title">devfinder</p>
-            <!-- todo: "change to ..." name, toggle button? -->
             <form hidden data-scheme-toggle>
               <button class="header__toggle" type="submit">
                 <span class="toggle__light">
-                  Dark <IconMoon />
+                  Dark<span class="sr-only"> mode</span>
+                  <IconMoon />
                 </span>
                 <span class="toggle__dark">
-                  Light <IconSun />
+                  Light<span class="sr-only"> mode</span>
+                  <IconSun />
                 </span>
               </button>
             </form>
@@ -73,17 +74,19 @@ error = response.error?.message;
         </div>
       </div>
     </div>
+    <p class="sr-only" role="status" aria-live="polite" data-announcer></p>
   </body>
 </html>
 
 <script>
   const schemeKey = "scheme";
   const schemeMq = matchMedia("(prefers-color-scheme: dark)");
-  const toggle = document.querySelector(
+  const $announcer = document.querySelector("[data-announcer]") as HTMLElement;
+  const $toggle = document.querySelector(
     "[data-scheme-toggle]"
   ) as HTMLFormElement;
 
-  toggle.addEventListener("submit", function (e) {
+  $toggle.addEventListener("submit", function (e) {
     e.preventDefault();
 
     const scheme =
@@ -91,7 +94,8 @@ error = response.error?.message;
     const nextScheme = scheme === "light" ? "dark" : "light";
     localStorage.setItem(schemeKey, nextScheme);
     document.documentElement.dataset.scheme = nextScheme;
+    $announcer.textContent = `${nextScheme} mode is now enabled.`;
   });
 
-  toggle.hidden = false;
+  $toggle.hidden = false;
 </script>
