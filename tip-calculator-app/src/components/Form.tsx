@@ -1,3 +1,4 @@
+import { useEffect, useState } from "preact/hooks";
 import RadioButton from "./RadioButton";
 
 interface Props {
@@ -5,9 +6,18 @@ interface Props {
 }
 
 const Form = ({ class: className }: Props) => {
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
   return (
     <form class={className}>
-      <fieldset class="percent">
+      <fieldset
+        class="percent"
+        data-variant={isClient ? "custom field" : "custom button"}
+      >
         <legend>Select Tip %</legend>
         <div class="[ percent__options ] [ grid ]">
           {[5, 10, 15, 25, 50].map((percent) => {

@@ -57,6 +57,18 @@
   display: none;
 }
 
+.percent[data-variant="custom field"] .percent__custom-container {
+  grid-template-areas: ". field";
+}
+
+.percent[data-variant="custom field"] .percent__custom-button {
+  display: none;
+}
+
+.percent[data-variant="custom field"] .percent__custom-field {
+  display: block;
+}
+
 /* tablet */
 @media (min-width: 40em) {
   .percent__options {
@@ -72,5 +84,9 @@
     grid-template-areas:
       ". . button"
       ". . field";
+  }
+
+  .percent[data-variant="custom field"] .percent__custom-container {
+    grid-template-areas: ". . field";
   }
 }
