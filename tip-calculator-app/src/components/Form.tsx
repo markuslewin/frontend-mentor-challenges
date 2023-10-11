@@ -17,15 +17,31 @@ const Form = ({ class: className }: Props) => {
               </RadioButton>
             );
           })}
-          <RadioButton name="percent" value="custom">
-            Custom
-          </RadioButton>
-          <input
-            class="field"
-            type="text"
-            name="percent-custom"
-            placeholder="Custom"
-          />
+          <div class="[ percent__custom-container radio-button ] [ grid ]">
+            <input
+              class="[ percent__custom-radio ] [ sr-only ]"
+              id="percent-custom"
+              type="radio"
+              name="percent"
+              value="custom"
+            />
+            <label
+              class="[ percent__custom-button ] [ shape ]"
+              for="percent-custom"
+            >
+              Custom
+            </label>
+            <input
+              class="[ percent__custom-field field ]"
+              id="percent-custom-value"
+              type="text"
+              name="percent-custom"
+              placeholder="Custom"
+            />
+            <label class="sr-only" for="percent-custom-value">
+              Custom percent
+            </label>
+          </div>
         </div>
       </fieldset>
       <button class="sr-only" type="submit">
