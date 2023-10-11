@@ -1,11 +1,15 @@
 import RadioButton from "./RadioButton";
 
-const Form = () => {
+interface Props {
+  class?: string;
+}
+
+const Form = ({ class: className }: Props) => {
   return (
-    <form class="box">
+    <form class={className}>
       <fieldset class="percent">
         <legend>Select Tip %</legend>
-        <div class="grid">
+        <div class="[ percent__options ] [ grid ]">
           {[5, 10, 15, 25, 50].map((percent) => {
             return (
               <RadioButton name="percent" value={percent.toString()}>

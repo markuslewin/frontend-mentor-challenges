@@ -3,3 +3,7 @@ body {
   background: var(--color-light-grayish-cyan);
   color: var(--color-dark-grayish-cyan);
 }
+
+label {
+  line-height: inherit;
+}

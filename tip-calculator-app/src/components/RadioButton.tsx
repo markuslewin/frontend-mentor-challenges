@@ -13,9 +13,11 @@ const RadioButton = ({
   const id = useId();
 
   return (
-    <div>
-      <input id={id} type="radio" name={name} value={value} />
-      <label for={id}>{children}</label>
+    <div class="radio-button">
+      <input class="sr-only" id={id} type="radio" name={name} value={value} />
+      <label class="shape" for={id}>
+        {children}
+      </label>
     </div>
   );
 };

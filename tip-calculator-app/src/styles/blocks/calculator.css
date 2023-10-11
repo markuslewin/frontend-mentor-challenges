@@ -1,15 +1,21 @@
 .calculator {
   --calculator-radius: 1.5625rem;
+}
 
-  --box-radius: var(--calculator-radius) var(--calculator-radius) 0 0;
-  --box-padding: 2rem;
-  --box-color: var(--color-white);
-  --center-size: 29.6875rem;
+.calculator__surface {
+  border-radius: var(--calculator-radius) var(--calculator-radius) 0 0;
+  padding: 2rem;
+  background: var(--color-white);
 }
 
 @media (min-width: 40em) {
   .calculator {
-    --box-radius: var(--calculator-radius);
-    --box-padding: 3rem;
+    --center-size: 29.6875rem;
+  }
+
+  .calculator__surface {
+    border-radius: var(--calculator-radius);
+    padding: 3rem;
+    box-shadow: 0 2rem 2.6875rem hsl(185 38% 50% / 20%);
   }
 }

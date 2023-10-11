@@ -7,6 +7,10 @@
   padding: 0;
 }
 
+.percent__options {
+  margin-top: 1rem;
+}
+
 /* tablet */
 @media (min-width: 40em) {
   .percent {

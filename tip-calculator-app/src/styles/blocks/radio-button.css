@@ -1,0 +1,30 @@
+.radio-button {
+  font: var(--text-radio);
+  text-align: center;
+  color: var(--color-white);
+}
+
+.radio-button [type="radio"]:checked + label {
+  --shape-color: Highlight;
+
+  background: var(--color-strong-cyan);
+  color: var(--color-very-dark-cyan);
+}
+
+.radio-button [type="radio"]:focus-visible + label {
+  outline: medium solid black;
+}
+
+.radio-button [type="radio"]:hover + label {
+  background: hsl(173 61% 77%);
+  color: var(--color-very-dark-cyan);
+}
+
+.radio-button label {
+  border-radius: 0.3125rem;
+  padding: 0.375rem 1rem;
+  display: block;
+  background: var(--color-very-dark-cyan);
+  transition: var(--transition);
+  transition-property: background-color, color;
+}
