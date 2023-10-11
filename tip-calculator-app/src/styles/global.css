@@ -4,6 +4,7 @@
 @import "base";
 
 @import "blocks/calculator";
+@import "blocks/field";
 @import "blocks/percent";
 @import "blocks/radio-button";
 

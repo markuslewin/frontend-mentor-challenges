@@ -20,10 +20,17 @@ const Form = ({ class: className }: Props) => {
           <RadioButton name="percent" value="custom">
             Custom
           </RadioButton>
-          <input type="number" name="percent-custom" placeholder="Custom" />
+          <input
+            class="field"
+            type="text"
+            name="percent-custom"
+            placeholder="Custom"
+          />
         </div>
       </fieldset>
-      <button type="submit">Calculate</button>
+      <button class="sr-only" type="submit">
+        Calculate
+      </button>
     </form>
   );
 };

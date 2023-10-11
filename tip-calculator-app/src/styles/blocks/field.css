@@ -1,0 +1,29 @@
+.field {
+  font: var(--text-radio);
+  text-align: end;
+  border: 0.125rem solid transparent;
+  border-radius: 0.3125rem;
+  width: 100%;
+  padding: 0.25rem 0.75rem;
+  background: var(--color-very-light-grayish-cyan);
+  color: var(--color-very-dark-cyan);
+  caret-color: var(--color-strong-cyan);
+  transition: border-color var(--transition);
+}
+
+.field::placeholder {
+  color: var(--color-dark-grayish-cyan);
+}
+
+.field:hover,
+.field:focus-visible {
+  outline: none;
+  border-color: var(--color-strong-cyan);
+}
+
+@media (forced-colors: active) {
+  .field:hover,
+  .field:focus-visible {
+    outline: revert;
+  }
+}
