@@ -1,0 +1,15 @@
+.calculator {
+  --calculator-radius: 1.5625rem;
+
+  --box-radius: var(--calculator-radius) var(--calculator-radius) 0 0;
+  --box-padding: 2rem;
+  --box-color: var(--color-white);
+  --center-size: 29.6875rem;
+}
+
+@media (min-width: 40em) {
+  .calculator {
+    --box-radius: var(--calculator-radius);
+    --box-padding: 3rem;
+  }
+}

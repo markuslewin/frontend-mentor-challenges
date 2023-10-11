@@ -1,0 +1,15 @@
+.percent {
+  --grid-cols: 2;
+  --grid-gap: 1rem;
+
+  border: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* tablet */
+@media (min-width: 40em) {
+  .percent {
+    --grid-cols: 3;
+  }
+}

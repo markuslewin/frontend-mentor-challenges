@@ -1,0 +1,11 @@
+.box {
+  border-radius: var(--box-radius);
+  padding: var(--box-padding);
+  background: var(--box-color);
+}
+
+@media (forced-colors: active) {
+  .box {
+    border: medium solid;
+  }
+}
