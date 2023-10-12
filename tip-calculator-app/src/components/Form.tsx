@@ -6,6 +6,7 @@ interface Props {
 }
 
 const Form = ({ class: className }: Props) => {
+  const [percent, setPercent] = useState<number | null>(null);
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
@@ -20,10 +21,17 @@ const Form = ({ class: className }: Props) => {
       >
         <legend>Select Tip %</legend>
         <div class="[ percent__options ] [ grid ]">
-          {[5, 10, 15, 25, 50].map((percent) => {
+          {[5, 10, 15, 25, 50].map((_percent) => {
             return (
-              <RadioButton name="percent" value={percent.toString()}>
-                {percent}%
+              <RadioButton
+                name="percent"
+                value={_percent.toString()}
+                checked={percent === _percent}
+                onClick={() => {
+                  setPercent(_percent);
+                }}
+              >
+                {_percent}%
               </RadioButton>
             );
           })}
@@ -47,6 +55,11 @@ const Form = ({ class: className }: Props) => {
               type="text"
               name="percent-custom"
               placeholder="Custom"
+              onInput={(e) => {
+                if (e.target instanceof HTMLInputElement && e.target.value) {
+                  setPercent(null);
+                }
+              }}
             />
             <label class="sr-only" for="percent-custom-value">
               Custom percent
