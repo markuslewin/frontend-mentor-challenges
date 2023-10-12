@@ -49,6 +49,12 @@ const Form = ({ class: className }: Props) => {
             >
               Custom
             </label>
+            <label
+              class="[ percent__custom-field-label ] [ sr-only ]"
+              for="percent-custom-value"
+            >
+              Custom percent
+            </label>
             <input
               class="[ percent__custom-field field ]"
               id="percent-custom-value"
@@ -61,9 +67,6 @@ const Form = ({ class: className }: Props) => {
                 }
               }}
             />
-            <label class="sr-only" for="percent-custom-value">
-              Custom percent
-            </label>
           </div>
         </div>
       </fieldset>

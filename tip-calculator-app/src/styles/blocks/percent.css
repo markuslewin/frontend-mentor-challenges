@@ -48,25 +48,32 @@
   grid-area: button;
 }
 
-.percent__custom-radio:checked ~ .percent__custom-field {
-  display: block;
-}
-
 .percent__custom-field {
   grid-area: field;
-  display: none;
+}
+
+.percent__custom-field,
+.percent__custom-field-label {
+  display: none !important;
+}
+
+.percent__custom-radio:checked ~ .percent__custom-field,
+.percent__custom-radio:checked ~ .percent__custom-field-label {
+  display: block !important;
 }
 
 .percent[data-variant="custom field"] .percent__custom-container {
   grid-template-areas: ". field";
 }
 
+.percent[data-variant="custom field"] .percent__custom-radio,
 .percent[data-variant="custom field"] .percent__custom-button {
   display: none;
 }
 
-.percent[data-variant="custom field"] .percent__custom-field {
-  display: block;
+.percent[data-variant="custom field"] .percent__custom-field,
+.percent[data-variant="custom field"] .percent__custom-field-label {
+  display: block !important;
 }
 
 /* tablet */
