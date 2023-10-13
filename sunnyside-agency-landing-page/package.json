@@ -10,6 +10,8 @@
     "astro": "astro"
   },
   "dependencies": {
+    "@fontsource-variable/fraunces": "^5.0.16",
+    "@fontsource/barlow": "^5.0.8",
     "astro": "^3.3.0"
   }
 }

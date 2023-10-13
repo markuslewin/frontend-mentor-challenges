@@ -1,0 +1,64 @@
+:root {
+  /* Primary */
+  --color-soft-red: hsl(7 99% 70%);
+  --color-yellow: hsl(51 100% 49%);
+  --color-dark-desaturated-cyan: hsl(167 40% 24%);
+  --color-dark-blue: hsl(198 62% 26%);
+  --color-dark-moderate-cyan: hsl(168 34% 41%);
+  /* Neutral */
+  --color-very-dark-desaturated-blue: hsl(212 27% 19%);
+  --color-very-dark-grayish-blue: hsl(213 9% 39%);
+  --color-dark-grayish-blue: hsl(232 10% 55%);
+  --color-grayish-blue: hsl(210 4% 67%);
+  --color-white: hsl(0 0% 100%);
+  /* Alias */
+  --color-graphic-design-text: var(--color-dark-desaturated-cyan);
+  --color-photography-text: var(--color-dark-blue);
+  --color-footer: var(--color-dark-moderate-cyan);
+
+  --weight-semi-bold: 600;
+  --weight-bold: 700;
+  --weight-black: 900;
+
+  --font-body: "Barlow", sans-serif;
+  --font-display: "Fraunces Variable", sans-serif;
+
+  --settings-display: "opsz" 9, "SOFT" 100;
+
+  --tracking-body: -0.008125rem;
+  --tracking-body-2: -0.006875rem;
+  --tracking-h1: 0.390625rem;
+  --tracking-h1-desktop: 0.546875rem;
+  --tracking-h2: -0.014375rem;
+  --tracking-h2-desktop: -0.018125rem;
+  --tracking-h3: -0.0125rem;
+  --tracking-nav: -0.00875rem;
+  --tracking-nav-desktop: -0.008125rem;
+  --tracking-footer-nav: -0.008125rem;
+  --tracking-cta: -0.006875rem;
+  --tracking-learn-more: 0.0625rem;
+  --tracking-testimonial-heading: 0.25rem;
+  --tracking-testimonial-heading-desktop: 0.3125rem;
+  --tracking-testimonial-title: -0.00625rem;
+
+  --text-body: var(--weight-semi-bold) 1.125rem / 1.875rem var(--font-body);
+  --text-body-2: var(--weight-semi-bold) 1rem / 1.6875rem var(--font-body);
+  --text-h1: var(--weight-black) 2.5rem / 3.0625rem var(--font-display);
+  --text-h1-desktop: var(--weight-black) 3.5rem / 4.3125rem var(--font-display);
+  --text-h2: var(--weight-black) 2rem / 2.4375rem var(--font-display);
+  --text-h2-desktop: var(--weight-black) 2.5rem / 3.0625rem var(--font-display);
+  --text-h3: var(--weight-black) 1.75rem / 2.1875rem var(--font-display);
+  --text-nav: var(--weight-semi-bold) 1.25rem / 1.5625rem var(--font-body);
+  --text-nav-desktop: var(--weight-semi-bold) 1.125rem / 1.5625rem
+    var(--font-body);
+  --text-footer-nav: var(--weight-semi-bold) 1.125rem / 1.5625rem
+    var(--font-body);
+  --text-cta: var(--weight-bold) 0.9375rem / 1.5625rem var(--font-body);
+  --text-learn-more: var(--weight-bold) 0.9375rem / 1.5625rem var(--font-body);
+  --text-testimonial-heading: var(--weight-black) 1rem / 1.25rem
+    var(--font-display);
+  --text-testimonial-heading-desktop: var(--weight-black) 1.25rem / 1.5625rem
+    var(--font-display);
+  --text-testimonial-title: var(--weight-semi-bold) 0.875rem / 1.5625rem
+    var(--font-body);
+}
