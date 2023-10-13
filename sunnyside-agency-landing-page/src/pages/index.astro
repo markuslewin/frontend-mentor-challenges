@@ -24,34 +24,38 @@ import { screens } from "../utils/screens";
     <title>Frontend Mentor | Sunnyside agency landing page</title>
   </head>
   <body>
-    <header class="repel">
-      <div>
-        <Logo />
-        <p class="sr-only">Sunnyside</p>
+    <header class="header">
+      <div class="center repel">
+        <div class="header__logo">
+          <Logo />
+          <p class="sr-only">Sunnyside</p>
+        </div>
+        <nav>
+          <button class="header__trigger">
+            <IconHamburger />
+            <span class="sr-only">Menu</span>
+          </button>
+          <div class="header__menu">
+            <ul class="cluster" role="list">
+              <li>
+                <a href="#">About</a>
+              </li>
+              <li>
+                <a href="#">Services</a>
+              </li>
+              <li>
+                <a href="#">Projects</a>
+              </li>
+              <li>
+                <a class="header__cta" href="#">Contact</a>
+              </li>
+            </ul>
+          </div>
+        </nav>
       </div>
-      <nav>
-        <button>
-          <IconHamburger />
-          <span class="sr-only">Menu</span>
-        </button>
-        <ul class="cluster" role="list">
-          <li>
-            <a href="#">About</a>
-          </li>
-          <li>
-            <a href="#">Services</a>
-          </li>
-          <li>
-            <a href="#">Projects</a>
-          </li>
-          <li class="header__cta">
-            <a href="#">Contact</a>
-          </li>
-        </ul>
-      </nav>
     </header>
     <main>
-      <h1>We are creatives</h1>
+      <h1 style="display: none">We are creatives</h1>
       <picture>
         <source
           media={`(min-width: ${screens.tablet})`}

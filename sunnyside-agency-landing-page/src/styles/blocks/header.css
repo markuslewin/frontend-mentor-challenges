@@ -1,5 +1,66 @@
+.header {
+  --center-size: 84.5rem;
+  --center-gutter: 1.5rem;
+
+  font: var(--text-header-body);
+  letter-spacing: var(--tracking-header-body);
+  position: absolute;
+  width: 100%;
+  padding-top: 2rem;
+  color: var(--color-white);
+}
+
+.header__logo {
+  --graphic-width: 10.625rem;
+}
+
+.header__menu {
+  --cluster-gap: 2rem;
+
+  display: none;
+}
+
 .header__cta {
   font: var(--text-header-cta);
   letter-spacing: var(--tracking-header-cta);
   text-transform: uppercase;
+  display: inline-block;
+  border-radius: 9999px;
+  padding: 1rem 2rem;
+  background: var(--color-yellow);
+  color: var(--color-very-dark-desaturated-blue);
+}
+
+/* tablet */
+@media (min-width: 40em) {
+  .header {
+    --center-gutter: 3rem;
+
+    font: var(--text-header-body-desktop);
+    letter-spacing: var(--tracking-header-body-desktop);
+    padding-top: 2.125rem;
+  }
+}
+
+/* desktop */
+@media (min-width: 64em) {
+  .header__trigger {
+    display: none;
+  }
+
+  .header__menu {
+    --cluster-gap: 2.9375rem;
+
+    display: block;
+  }
+
+  .header__cta {
+    background: var(--color-white);
+  }
+
+  .header__cta:hover,
+  .header__cta:focus-visible {
+    background: hsl(var(--base-white) / 25%);
+    color: var(--color-white);
+  }
 }

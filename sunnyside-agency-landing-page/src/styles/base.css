@@ -4,11 +4,6 @@ body {
   text-align: center;
 }
 
-header {
-  font: var(--text-header-body);
-  letter-spacing: var(--tracking-header-body);
-}
-
 footer {
   font: var(--text-footer-body);
   letter-spacing: var(--tracking-footer-body);
@@ -34,13 +29,13 @@ a {
   text-decoration: none;
 }
 
+[role="list"] {
+  margin: 0;
+  padding: 0;
+}
+
 /* tablet */
 @media (min-width: 40em) {
-  header {
-    font: var(--text-header-body-desktop);
-    letter-spacing: var(--tracking-header-body-desktop);
-  }
-
   h1 {
     font: var(--text-h1-desktop);
     letter-spacing: var(--tracking-h1-desktop);

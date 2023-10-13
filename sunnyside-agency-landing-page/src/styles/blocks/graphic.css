@@ -1,0 +1,8 @@
+.graphic {
+  width: var(--graphic-width, auto);
+  height: var(--graphic-height, auto);
+}
+
+.graphic * {
+  fill: currentColor;
+}

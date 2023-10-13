@@ -3,11 +3,13 @@
 @import "variables";
 @import "base";
 
+@import "blocks/graphic";
 @import "blocks/header";
 @import "blocks/learn-more";
 @import "blocks/services";
 @import "blocks/testimonials";
 
+@import "compositions/center";
 @import "compositions/cluster";
 @import "compositions/columns";
 @import "compositions/gallery";
