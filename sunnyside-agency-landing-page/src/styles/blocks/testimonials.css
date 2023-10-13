@@ -1,11 +1,13 @@
 .testimonials__heading {
   font: var(--text-testimonial-heading);
+  font-variation-settings: var(--settings-display);
   letter-spacing: var(--tracking-testimonial-heading);
   text-transform: uppercase;
 }
 
 .testimonials__name {
   font: var(--text-testimonial-name);
+  font-variation-settings: var(--settings-display);
   letter-spacing: var(--tracking-testimonial-name);
 }
 
@@ -18,6 +20,7 @@
 @media (min-width: 40em) {
   .testimonials__heading {
     font: var(--text-testimonial-heading-desktop);
+    font-variation-settings: var(--settings-display);
     letter-spacing: var(--tracking-testimonial-heading-desktop);
   }
 }

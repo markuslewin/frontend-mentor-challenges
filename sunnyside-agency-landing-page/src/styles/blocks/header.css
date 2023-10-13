@@ -1,10 +1,8 @@
 .header {
-  --center-size: 84.5rem;
-  --center-gutter: 1.5rem;
-
   font: var(--text-header-body);
   letter-spacing: var(--tracking-header-body);
   position: absolute;
+  z-index: 1;
   width: 100%;
   padding-top: 2rem;
   color: var(--color-white);
@@ -22,6 +20,7 @@
 
 .header__cta {
   font: var(--text-header-cta);
+  font-variation-settings: var(--settings-display);
   letter-spacing: var(--tracking-header-cta);
   text-transform: uppercase;
   display: inline-block;
@@ -34,8 +33,6 @@
 /* tablet */
 @media (min-width: 40em) {
   .header {
-    --center-gutter: 3rem;
-
     font: var(--text-header-body-desktop);
     letter-spacing: var(--tracking-header-body-desktop);
     padding-top: 2.125rem;

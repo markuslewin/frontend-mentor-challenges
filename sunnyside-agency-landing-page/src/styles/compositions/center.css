@@ -1,6 +1,6 @@
 .center {
   box-sizing: content-box;
   margin-inline: auto;
-  max-width: var(--center-size, 90rem);
-  padding-inline: var(--center-gutter);
+  max-width: var(--center-size, var(--column-size));
+  padding-inline: var(--center-gutter, var(--column-gutter));
 }

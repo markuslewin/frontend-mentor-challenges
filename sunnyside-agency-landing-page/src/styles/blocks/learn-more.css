@@ -1,5 +1,6 @@
 .learn-more {
   font: var(--text-learn-more);
+  font-variation-settings: var(--settings-display);
   letter-spacing: var(--tracking-learn-more);
   text-transform: uppercase;
 }

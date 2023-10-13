@@ -1,4 +1,7 @@
 body {
+  --column-size: 84.5rem;
+  --column-gutter: 1.5rem;
+
   font: var(--text-body);
   letter-spacing: var(--tracking-body);
   text-align: center;
@@ -11,17 +14,20 @@ footer {
 
 h1 {
   font: var(--text-h1);
+  font-variation-settings: var(--settings-display);
   letter-spacing: var(--tracking-h1);
   text-transform: uppercase;
 }
 
 h2 {
   font: var(--text-h2);
+  font-variation-settings: var(--settings-display);
   letter-spacing: var(--tracking-h2);
 }
 
 h3 {
   font: var(--text-h3);
+  font-variation-settings: var(--settings-display);
   letter-spacing: var(--tracking-h3);
 }
 
@@ -36,13 +42,19 @@ a {
 
 /* tablet */
 @media (min-width: 40em) {
+  body {
+    --column-gutter: 3rem;
+  }
+
   h1 {
     font: var(--text-h1-desktop);
+    font-variation-settings: var(--settings-display);
     letter-spacing: var(--tracking-h1-desktop);
   }
 
   h2 {
     font: var(--text-h2-desktop);
+    font-variation-settings: var(--settings-display);
     letter-spacing: var(--tracking-h2-desktop);
   }
 }

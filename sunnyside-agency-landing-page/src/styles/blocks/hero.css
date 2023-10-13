@@ -1,0 +1,35 @@
+.hero {
+  --center-gutter: 0;
+
+  position: relative;
+  color: var(--color-white);
+}
+
+.hero__heading {
+  --center-gutter: var(--column-gutter);
+
+  position: absolute;
+  inset: 9rem 0 0;
+}
+
+.hero__arrow {
+  --graphic-width: 2.25rem;
+
+  margin-top: 3.0625rem;
+}
+
+.hero__image {
+  width: 100%;
+  height: auto;
+}
+
+/* tablet */
+@media (min-width: 40em) {
+  .hero__heading {
+    top: 12.1875rem;
+  }
+
+  .hero__arrow {
+    margin-top: 5.8125rem;
+  }
+}

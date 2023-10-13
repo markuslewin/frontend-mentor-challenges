@@ -6,3 +6,8 @@
 .graphic * {
   fill: currentColor;
 }
+
+.graphic[data-graphic-strategy="stroke"] * {
+  fill: transparent;
+  stroke: currentColor;
+}

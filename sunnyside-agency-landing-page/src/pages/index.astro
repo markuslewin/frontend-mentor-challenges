@@ -3,6 +3,7 @@ import "../styles/global.css";
 import Logo from "../components/Logo.astro";
 // todo: aria-hidden
 import IconHamburger from "../components/IconHamburger.astro";
+import IconArrowDown from "../components/IconArrowDown.astro";
 import IconFacebook from "../components/IconFacebook.astro";
 import IconInstagram from "../components/IconInstagram.astro";
 import IconTwitter from "../components/IconTwitter.astro";
@@ -55,21 +56,29 @@ import { screens } from "../utils/screens";
       </div>
     </header>
     <main>
-      <h1 style="display: none">We are creatives</h1>
-      <picture>
-        <source
-          media={`(min-width: ${screens.tablet})`}
-          srcset="/images/desktop/image-header.jpg"
-          width="2880"
-          height="1600"
-        />
-        <img
-          alt=""
-          src="/images/mobile/image-header.jpg"
-          width="750"
-          height="1076"
-        />
-      </picture>
+      <div class="[ hero ] [ center ]">
+        <div class="[ hero__heading ] [ center ]">
+          <h1>We are creatives</h1>
+          <div class="hero__arrow">
+            <IconArrowDown />
+          </div>
+        </div>
+        <picture>
+          <source
+            media={`(min-width: ${screens.desktop})`}
+            srcset="/images/desktop/image-header.jpg"
+            width="2880"
+            height="1600"
+          />
+          <img
+            class="hero__image"
+            alt=""
+            src="/images/mobile/image-header.jpg"
+            width="750"
+            height="1076"
+          />
+        </picture>
+      </div>
       <div class="columns" data-columns="2">
         <div>
           <h2>Transform your brand</h2>
