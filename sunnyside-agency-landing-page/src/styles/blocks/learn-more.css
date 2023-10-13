@@ -1,0 +1,5 @@
+.learn-more {
+  font: var(--text-learn-more);
+  letter-spacing: var(--tracking-learn-more);
+  text-transform: uppercase;
+}

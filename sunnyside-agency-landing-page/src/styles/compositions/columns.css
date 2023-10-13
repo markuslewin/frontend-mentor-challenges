@@ -6,8 +6,8 @@
   --columns-count: 3;
 }
 
-/* tablet */
-@media (min-width: 40em) {
+/* desktop */
+@media (min-width: 64em) {
   .columns {
     display: grid;
     grid-template-columns: repeat(var(--columns-count, 1), 1fr);

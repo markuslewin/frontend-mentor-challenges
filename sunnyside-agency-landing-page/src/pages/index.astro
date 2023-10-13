@@ -26,7 +26,7 @@ import IconPinterest from "../components/IconPinterest.astro";
     <header class="repel">
       <div>
         <Logo />
-        <p>Sunnyside</p>
+        <p class="sr-only">Sunnyside</p>
       </div>
       <nav>
         <button>
@@ -43,7 +43,7 @@ import IconPinterest from "../components/IconPinterest.astro";
           <li>
             <a href="#">Projects</a>
           </li>
-          <li>
+          <li class="header__cta">
             <a href="#">Contact</a>
           </li>
         </ul>
@@ -63,7 +63,7 @@ import IconPinterest from "../components/IconPinterest.astro";
           </p>
           <p>
             <!-- todo: a11y name -->
-            <a href="#">Learn more</a>
+            <a class="learn-more" href="#">Learn more</a>
           </p>
         </div>
         <img alt="" src="/images/mobile/image-transform.jpg" />
@@ -78,12 +78,12 @@ import IconPinterest from "../components/IconPinterest.astro";
             extend your brand in digital places.
           </p>
           <p>
-            <a href="#">Learn more</a>
+            <a class="learn-more" href="#">Learn more</a>
           </p>
         </div>
       </div>
       <h2 class="sr-only">Our services</h2>
-      <div class="columns" data-columns="2">
+      <div class="[ services ] [ columns ]" data-columns="2">
         <div>
           <img alt="" src="/images/mobile/image-graphic-design.jpg" />
           <h3>Graphic design</h3>
@@ -102,48 +102,48 @@ import IconPinterest from "../components/IconPinterest.astro";
           </p>
         </div>
       </div>
-      <div>
-        <h2>Client testimonials</h2>
+      <div class="testimonials">
+        <h2 class="testimonials__heading">Client testimonials</h2>
         <ul class="columns" data-columns="3" role="list">
-          <li>
-            <!-- todo: testimonial markup -->
-            <figure>
-              <img alt="" src="/images/image-emily.jpg" />
-              <blockquote>
-                We put our trust in Sunnyside and they delivered, making sure
-                our needs were met and deadlines were always hit.
-              </blockquote>
-              <figcaption>
-                <p>Emily R.<span class="sr-only">,</span>Marketing Director</p>
-              </figcaption>
-            </figure>
-          </li>
-          <li>
-            <figure>
-              <img alt="" src="/images/image-thomas.jpg" />
-              <blockquote>
-                Sunnyside’s enthusiasm coupled with their keen interest in our
-                brand’s success made it a satisfying and enjoyable experience.
-              </blockquote>
-              <figcaption>
-                <p>
-                  Thomas S.<span class="sr-only">,</span>Chief Operating Officer
-                </p>
-              </figcaption>
-            </figure>
-          </li>
-          <li>
-            <figure>
-              <img alt="" src="/images/image-jennie.jpg" />
-              <blockquote>
-                Incredible end result! Our sales increased over 400% when we
-                worked with Sunnyside. Highly recommended!
-              </blockquote>
-              <figcaption>
-                <p>Jennie F.<span class="sr-only">,</span>Business Owner</p>
-              </figcaption>
-            </figure>
-          </li>
+          {
+            [
+              {
+                image: "/images/image-emily.jpg",
+                quote:
+                  "We put our trust in Sunnyside and they delivered, making sure our needs were met and deadlines were always hit.",
+                name: "Emily R.",
+                title: "Marketing Director",
+              },
+              {
+                image: "/images/image-thomas.jpg",
+                quote:
+                  "Sunnyside’s enthusiasm coupled with their keen interest in our brand’s success made it a satisfying and enjoyable experience.",
+                name: "Thomas S.",
+                title: "Chief Operating Officer",
+              },
+              {
+                image: "/images/image-jennie.jpg",
+                quote:
+                  "Incredible end result! Our sales increased over 400% when we worked with Sunnyside. Highly recommended!",
+                name: "Jennie F.",
+                title: "Business Owner",
+              },
+            ].map((testimonial) => {
+              // todo: testimonial markup
+              return (
+                <li>
+                  <figure>
+                    <img alt="" src={testimonial.image} />
+                    <blockquote>{testimonial.quote}</blockquote>
+                    <figcaption>
+                      <p class="testimonials__name">{testimonial.name}</p>
+                      <p class="testimonials__title">{testimonial.title}</p>
+                    </figcaption>
+                  </figure>
+                </li>
+              );
+            })
+          }
         </ul>
       </div>
       <div class="gallery">
@@ -155,7 +155,7 @@ import IconPinterest from "../components/IconPinterest.astro";
     </main>
     <footer>
       <Logo />
-      <p>Sunnyside</p>
+      <p class="sr-only">Sunnyside</p>
       <!-- todo: named nav -->
       <nav>
         <ul class="cluster" role="list">

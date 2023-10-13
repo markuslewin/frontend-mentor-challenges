@@ -1,0 +1,4 @@
+.services {
+  font: var(--text-services-body);
+  letter-spacing: var(--tracking-services-body);
+}

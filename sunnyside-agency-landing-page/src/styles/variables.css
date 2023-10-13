@@ -26,38 +26,45 @@
   --settings-display: "opsz" 9, "SOFT" 100;
 
   --tracking-body: -0.008125rem;
-  --tracking-body-2: -0.006875rem;
+  --tracking-header-body: -0.00875rem;
+  --tracking-header-body-desktop: -0.008125rem;
+  --tracking-header-cta: -0.006875rem;
+  --tracking-footer-body: -0.008125rem;
   --tracking-h1: 0.390625rem;
   --tracking-h1-desktop: 0.546875rem;
   --tracking-h2: -0.014375rem;
   --tracking-h2-desktop: -0.018125rem;
   --tracking-h3: -0.0125rem;
-  --tracking-nav: -0.00875rem;
-  --tracking-nav-desktop: -0.008125rem;
-  --tracking-footer-nav: -0.008125rem;
-  --tracking-cta: -0.006875rem;
   --tracking-learn-more: 0.0625rem;
+  --tracking-services-body: -0.006875rem;
   --tracking-testimonial-heading: 0.25rem;
   --tracking-testimonial-heading-desktop: 0.3125rem;
+  --tracking-testimonial-name: -0.008125rem;
   --tracking-testimonial-title: -0.00625rem;
 
   --text-body: var(--weight-semi-bold) 1.125rem / 1.875rem var(--font-body);
-  --text-body-2: var(--weight-semi-bold) 1rem / 1.6875rem var(--font-body);
+  --text-header-body: var(--weight-semi-bold) 1.25rem / 1.5625rem
+    var(--font-body);
+  --text-header-body-desktop: var(--weight-semi-bold) 1.125rem / 1.5625rem
+    var(--font-body);
+  --text-header-cta: var(--weight-bold) 0.9375rem / 1.5625rem
+    var(--font-display);
+  --text-footer-body: var(--weight-semi-bold) 1.125rem / 1.5625rem
+    var(--font-body);
   --text-h1: var(--weight-black) 2.5rem / 3.0625rem var(--font-display);
   --text-h1-desktop: var(--weight-black) 3.5rem / 4.3125rem var(--font-display);
   --text-h2: var(--weight-black) 2rem / 2.4375rem var(--font-display);
   --text-h2-desktop: var(--weight-black) 2.5rem / 3.0625rem var(--font-display);
   --text-h3: var(--weight-black) 1.75rem / 2.1875rem var(--font-display);
-  --text-nav: var(--weight-semi-bold) 1.25rem / 1.5625rem var(--font-body);
-  --text-nav-desktop: var(--weight-semi-bold) 1.125rem / 1.5625rem
+  --text-learn-more: var(--weight-black) 0.9375rem / 1.5625rem
+    var(--font-display);
+  --text-services-body: var(--weight-semi-bold) 1rem / 1.6875rem
     var(--font-body);
-  --text-footer-nav: var(--weight-semi-bold) 1.125rem / 1.5625rem
-    var(--font-body);
-  --text-cta: var(--weight-bold) 0.9375rem / 1.5625rem var(--font-body);
-  --text-learn-more: var(--weight-bold) 0.9375rem / 1.5625rem var(--font-body);
   --text-testimonial-heading: var(--weight-black) 1rem / 1.25rem
     var(--font-display);
   --text-testimonial-heading-desktop: var(--weight-black) 1.25rem / 1.5625rem
+    var(--font-display);
+  --text-testimonial-name: var(--weight-black) 1.125rem / 1.375rem
     var(--font-display);
   --text-testimonial-title: var(--weight-semi-bold) 0.875rem / 1.5625rem
     var(--font-body);

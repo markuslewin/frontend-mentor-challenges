@@ -1,0 +1,53 @@
+body {
+  font: var(--text-body);
+  letter-spacing: var(--tracking-body);
+  text-align: center;
+}
+
+header {
+  font: var(--text-header-body);
+  letter-spacing: var(--tracking-header-body);
+}
+
+footer {
+  font: var(--text-footer-body);
+  letter-spacing: var(--tracking-footer-body);
+}
+
+h1 {
+  font: var(--text-h1);
+  letter-spacing: var(--tracking-h1);
+  text-transform: uppercase;
+}
+
+h2 {
+  font: var(--text-h2);
+  letter-spacing: var(--tracking-h2);
+}
+
+h3 {
+  font: var(--text-h3);
+  letter-spacing: var(--tracking-h3);
+}
+
+a {
+  text-decoration: none;
+}
+
+/* tablet */
+@media (min-width: 40em) {
+  header {
+    font: var(--text-header-body-desktop);
+    letter-spacing: var(--tracking-header-body-desktop);
+  }
+
+  h1 {
+    font: var(--text-h1-desktop);
+    letter-spacing: var(--tracking-h1-desktop);
+  }
+
+  h2 {
+    font: var(--text-h2-desktop);
+    letter-spacing: var(--tracking-h2-desktop);
+  }
+}

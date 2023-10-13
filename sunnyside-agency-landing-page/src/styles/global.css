@@ -1,6 +1,12 @@
 @import "fonts";
 @import "reset";
 @import "variables";
+@import "base";
+
+@import "blocks/header";
+@import "blocks/learn-more";
+@import "blocks/services";
+@import "blocks/testimonials";
 
 @import "compositions/cluster";
 @import "compositions/columns";

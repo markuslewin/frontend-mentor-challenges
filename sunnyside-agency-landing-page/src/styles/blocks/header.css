@@ -1,0 +1,5 @@
+.header__cta {
+  font: var(--text-header-cta);
+  letter-spacing: var(--tracking-header-cta);
+  text-transform: uppercase;
+}
