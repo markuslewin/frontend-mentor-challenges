@@ -7,6 +7,7 @@ import IconFacebook from "../components/IconFacebook.astro";
 import IconInstagram from "../components/IconInstagram.astro";
 import IconTwitter from "../components/IconTwitter.astro";
 import IconPinterest from "../components/IconPinterest.astro";
+import { screens } from "../utils/screens";
 ---
 
 <html lang="en">
@@ -51,8 +52,20 @@ import IconPinterest from "../components/IconPinterest.astro";
     </header>
     <main>
       <h1>We are creatives</h1>
-      <!-- todo: picture -->
-      <img alt="" src="/images/mobile/image-header.jpg" />
+      <picture>
+        <source
+          media={`(min-width: ${screens.tablet})`}
+          srcset="/images/desktop/image-header.jpg"
+          width="2880"
+          height="1600"
+        />
+        <img
+          alt=""
+          src="/images/mobile/image-header.jpg"
+          width="750"
+          height="1076"
+        />
+      </picture>
       <div class="columns" data-columns="2">
         <div>
           <h2>Transform your brand</h2>
@@ -66,10 +79,36 @@ import IconPinterest from "../components/IconPinterest.astro";
             <a class="learn-more" href="#">Learn more</a>
           </p>
         </div>
-        <img alt="" src="/images/mobile/image-transform.jpg" />
+        <picture>
+          <source
+            media={`(min-width: ${screens.tablet})`}
+            srcset="/images/mobile/image-transform.jpg"
+            width="720"
+            height="600"
+          />
+          <img
+            alt=""
+            src="/images/mobile/image-transform.jpg"
+            width="750"
+            height="624"
+          />
+        </picture>
       </div>
       <div class="columns" data-columns="2">
-        <img alt="" src="/images/mobile/image-stand-out.jpg" />
+        <picture>
+          <source
+            media={`(min-width: ${screens.tablet})`}
+            srcset="/images/desktop/image-stand-out.jpg"
+            width="720"
+            height="600"
+          />
+          <img
+            alt=""
+            src="/images/mobile/image-stand-out.jpg"
+            width="750"
+            height="624"
+          />
+        </picture>
         <div>
           <h2>Stand out to the right audience</h2>
           <p>
@@ -85,7 +124,20 @@ import IconPinterest from "../components/IconPinterest.astro";
       <h2 class="sr-only">Our services</h2>
       <div class="[ services ] [ columns ]" data-columns="2">
         <div>
-          <img alt="" src="/images/mobile/image-graphic-design.jpg" />
+          <picture>
+            <source
+              media={`(min-width: ${screens.tablet})`}
+              srcset="/images/desktop/image-graphic-design.jpg"
+              width="720"
+              height="600"
+            />
+            <img
+              alt=""
+              src="/images/mobile/image-graphic-design.jpg"
+              width="750"
+              height="1200"
+            />
+          </picture>
           <h3>Graphic design</h3>
           <p>
             Great design makes you memorable. We deliver artwork that
@@ -94,7 +146,20 @@ import IconPinterest from "../components/IconPinterest.astro";
           </p>
         </div>
         <div>
-          <img alt="" src="/images/mobile/image-photography.jpg" />
+          <picture>
+            <source
+              media={`(min-width: ${screens.tablet})`}
+              srcset="/images/desktop/image-photography.jpg"
+              width="720"
+              height="600"
+            />
+            <img
+              alt=""
+              src="/images/mobile/image-photography.jpg"
+              width="750"
+              height="1200"
+            />
+          </picture>
           <h3>Photography</h3>
           <p>
             Increase your credibility by getting the most stunning, high-quality
@@ -133,7 +198,12 @@ import IconPinterest from "../components/IconPinterest.astro";
               return (
                 <li>
                   <figure>
-                    <img alt="" src={testimonial.image} />
+                    <img
+                      alt=""
+                      src={testimonial.image}
+                      width="144"
+                      height="144"
+                    />
                     <blockquote>{testimonial.quote}</blockquote>
                     <figcaption>
                       <p class="testimonials__name">{testimonial.name}</p>
@@ -147,10 +217,62 @@ import IconPinterest from "../components/IconPinterest.astro";
         </ul>
       </div>
       <div class="gallery">
-        <img alt="" src="/images/mobile/image-gallery-milkbottles.jpg" />
-        <img alt="" src="/images/mobile/image-gallery-orange.jpg" />
-        <img alt="" src="/images/mobile/image-gallery-cone.jpg" />
-        <img alt="" src="/images/mobile/image-gallery-sugar-cubes.jpg" />
+        <picture>
+          <source
+            media={`(min-width: ${screens.tablet})`}
+            srcset="/images/desktop/image-gallery-milkbottles.jpg"
+            width="720"
+            height="894"
+          />
+          <img
+            alt=""
+            src="/images/mobile/image-gallery-milkbottles.jpg"
+            width="376"
+            height="376"
+          />
+        </picture>
+        <picture>
+          <source
+            media={`(min-width: ${screens.tablet})`}
+            srcset="/images/desktop/image-gallery-orange.jpg"
+            width="720"
+            height="894"
+          />
+          <img
+            alt=""
+            src="/images/mobile/image-gallery-orange.jpg"
+            width="376"
+            height="376"
+          />
+        </picture>
+        <picture>
+          <source
+            media={`(min-width: ${screens.tablet})`}
+            srcset="/images/desktop/image-gallery-cone.jpg"
+            width="720"
+            height="894"
+          />
+          <img
+            alt=""
+            src="/images/mobile/image-gallery-cone.jpg"
+            width="376"
+            height="376"
+          />
+        </picture>
+        <picture>
+          <source
+            media={`(min-width: ${screens.tablet})`}
+            srcset="/images/desktop/image-gallery-sugarcubes.jpg"
+            width="720"
+            height="894"
+          />
+          <img
+            alt=""
+            src="/images/mobile/image-gallery-sugar-cubes.jpg"
+            width="376"
+            height="376"
+          />
+        </picture>
       </div>
     </main>
     <footer>
