@@ -1,0 +1,5 @@
+.repel {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--repel-gap, 1rem);
+}
