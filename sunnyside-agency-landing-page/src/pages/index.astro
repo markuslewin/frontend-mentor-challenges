@@ -56,14 +56,14 @@ import { screens } from "../utils/screens";
       </div>
     </header>
     <main>
-      <div class="[ hero ] [ center ]">
-        <div class="[ hero__heading ] [ center ]">
+      <div class="hero">
+        <div class="center">
           <h1>We are creatives</h1>
           <div class="hero__arrow">
             <IconArrowDown />
           </div>
         </div>
-        <picture>
+        <picture class="[ hero__background ] [ center ]">
           <source
             media={`(min-width: ${screens.desktop})`}
             srcset="/images/desktop/image-header.jpg"
