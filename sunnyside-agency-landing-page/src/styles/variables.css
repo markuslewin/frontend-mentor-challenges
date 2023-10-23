@@ -1,7 +1,9 @@
 :root {
   /* Primary */
-  --color-soft-red: hsl(7 99% 70%);
-  --color-yellow: hsl(51 100% 49%);
+  --base-soft-red: 7 99% 70%;
+  --color-soft-red: hsl(var(--base-soft-red));
+  --base-yellow: 51 100% 49%;
+  --color-yellow: hsl(var(--base-yellow));
   --color-dark-desaturated-cyan: hsl(167 40% 24%);
   --color-dark-blue: hsl(198 62% 26%);
   --color-dark-moderate-cyan: hsl(168 34% 41%);

@@ -3,4 +3,25 @@
   font-variation-settings: var(--settings-display);
   letter-spacing: var(--tracking-learn-more);
   text-transform: uppercase;
+  white-space: nowrap;
+  position: relative;
+  isolation: isolate;
+  display: inline-block;
+  padding-inline: 0.5rem;
+}
+
+.learn-more::before {
+  position: absolute;
+  inset: auto 0 0;
+  z-index: -1;
+  content: "";
+  display: block;
+  height: 0.625rem;
+  border-radius: 9999px;
+  background: hsl(var(--learn-more-base) / 25%);
+}
+
+.learn-more:hover::before,
+.learn-more:focus-visible::before {
+  background: hsl(var(--learn-more-base) / 100%);
 }

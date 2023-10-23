@@ -79,20 +79,13 @@ import { screens } from "../utils/screens";
           />
         </picture>
       </div>
-      <div class="columns" data-columns="2">
-        <div>
-          <h2>Transform your brand</h2>
-          <p>
-            We are a full-service creative agency specializing in helping brands
-            grow fast. Engage your clients through compelling visuals that do
-            most of the marketing for you.
-          </p>
-          <p>
-            <!-- todo: a11y name -->
-            <a class="learn-more" href="#">Learn more</a>
-          </p>
-        </div>
-        <picture>
+      <div
+        class="[ pair ] [ center columns ]"
+        data-pair-layout="text image"
+        data-pair-color="yellow"
+        data-columns="2"
+      >
+        <picture class="pair__image-container">
           <source
             media={`(min-width: ${screens.tablet})`}
             srcset="/images/mobile/image-transform.jpg"
@@ -100,15 +93,32 @@ import { screens } from "../utils/screens";
             height="600"
           />
           <img
+            class="pair__image"
             alt=""
             src="/images/mobile/image-transform.jpg"
             width="750"
             height="624"
           />
         </picture>
+        <div class="pair__text">
+          <h2 class="pair__heading">Transform your brand</h2>
+          <p class="pair__body">
+            We are a full-service creative agency specializing in helping brands
+            grow fast. Engage your clients through compelling visuals that do
+            most of the marketing for you.
+          </p>
+          <p>
+            <!-- todo: a11y name -->
+            <a class="[ learn-more ] [ pair__link ]" href="#">Learn more</a>
+          </p>
+        </div>
       </div>
-      <div class="columns" data-columns="2">
-        <picture>
+      <div
+        class="[ pair ] [ center columns ]"
+        data-pair-color="soft red"
+        data-columns="2"
+      >
+        <picture class="pair__image-container">
           <source
             media={`(min-width: ${screens.tablet})`}
             srcset="/images/desktop/image-stand-out.jpg"
@@ -116,21 +126,22 @@ import { screens } from "../utils/screens";
             height="600"
           />
           <img
+            class="pair__image"
             alt=""
             src="/images/mobile/image-stand-out.jpg"
             width="750"
             height="624"
           />
         </picture>
-        <div>
-          <h2>Stand out to the right audience</h2>
-          <p>
+        <div class="pair__text">
+          <h2 class="pair__heading">Stand out to the right audience</h2>
+          <p class="pair__body">
             Using a collaborative formula of designers, researchers,
             photographers, videographers, and copywriters, we’ll build and
             extend your brand in digital places.
           </p>
           <p>
-            <a class="learn-more" href="#">Learn more</a>
+            <a class="[ learn-more pair__link ]" href="#">Learn more</a>
           </p>
         </div>
       </div>
