@@ -1,11 +1,11 @@
-.gallery {
+.grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
 }
 
 /* desktop */
 @media (min-width: 64em) {
-  .gallery {
+  .grid {
     grid-template-columns: repeat(4, 1fr);
   }
 }

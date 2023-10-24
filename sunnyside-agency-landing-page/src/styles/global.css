@@ -3,6 +3,7 @@
 @import "variables";
 @import "base";
 
+@import "blocks/gallery";
 @import "blocks/graphic";
 @import "blocks/header";
 @import "blocks/hero";
@@ -14,7 +15,7 @@
 @import "compositions/center";
 @import "compositions/cluster";
 @import "compositions/columns";
-@import "compositions/gallery";
+@import "compositions/grid";
 @import "compositions/repel";
 
 @import "utilities/sr-only";
