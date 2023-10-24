@@ -19,4 +19,5 @@
 @import "compositions/grid";
 @import "compositions/repel";
 
+@import "utilities/shape";
 @import "utilities/sr-only";
