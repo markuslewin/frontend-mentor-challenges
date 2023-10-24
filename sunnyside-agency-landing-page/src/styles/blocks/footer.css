@@ -21,6 +21,7 @@
 
 .footer__link {
   color: inherit;
+  transition: color var(--transition);
 }
 
 .footer__link:hover,
@@ -39,6 +40,7 @@
 
 .footer__social {
   color: inherit;
+  transition: color var(--transition);
 }
 
 .footer__social:hover,

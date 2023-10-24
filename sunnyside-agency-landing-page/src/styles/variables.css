@@ -71,4 +71,7 @@
     var(--font-display);
   --text-testimonial-title: var(--weight-semi-bold) 0.875rem / 1.5625rem
     var(--font-body);
+
+  /* tailwind */
+  --transition: cubic-bezier(0.4, 0, 0.2, 1) 150ms;
 }

@@ -19,6 +19,7 @@
   height: 0.625rem;
   border-radius: 9999px;
   background: hsl(var(--learn-more-base) / 25%);
+  transition: background-color var(--transition);
 }
 
 .learn-more:hover::before,

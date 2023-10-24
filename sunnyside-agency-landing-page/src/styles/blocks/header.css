@@ -71,6 +71,8 @@
 
   .header__cta {
     background: var(--color-white);
+    transition: all var(--transition);
+    transition-property: background-color, color;
   }
 
   .header__cta:hover,
