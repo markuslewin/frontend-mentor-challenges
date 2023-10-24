@@ -32,12 +32,16 @@ import { screens } from "../utils/screens";
           <p class="sr-only">Sunnyside</p>
         </div>
         <nav>
-          <button class="header__trigger">
+          <button
+            class="header__trigger"
+            aria-expanded="false"
+            data-menu-trigger
+          >
             <IconHamburger />
             <span class="sr-only">Menu</span>
           </button>
-          <div class="header__menu">
-            <ul class="cluster" role="list">
+          <div class="header__menu" data-menu>
+            <ul class="header__links" role="list">
               <li>
                 <a href="#">About</a>
               </li>
@@ -362,3 +366,5 @@ import { screens } from "../utils/screens";
     </footer>
   </body>
 </html>
+
+<script src="../scripts/menu.ts"></script>
