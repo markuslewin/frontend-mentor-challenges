@@ -316,45 +316,49 @@ import { screens } from "../utils/screens";
         </picture>
       </div>
     </main>
-    <footer>
-      <Logo />
-      <p class="sr-only">Sunnyside</p>
-      <!-- todo: named nav -->
-      <nav>
-        <ul class="cluster" role="list">
+    <footer class="footer">
+      <div class="center">
+        <div class="footer__logo">
+          <Logo />
+          <p class="sr-only">Sunnyside</p>
+        </div>
+        <!-- todo: named nav -->
+        <nav class="footer__nav">
+          <ul class="cluster" role="list">
+            <li>
+              <a class="footer__link" href="#">About</a>
+            </li>
+            <li>
+              <a class="footer__link" href="#">Services</a>
+            </li>
+            <li>
+              <a class="footer__link" href="#">Projects</a>
+            </li>
+          </ul>
+        </nav>
+        <ul class="[ footer__socials ] [ cluster ]" role="list">
           <li>
-            <a href="#">About</a>
+            <a class="footer__social" href="#">
+              <IconFacebook /><span class="sr-only">Facebook</span>
+            </a>
           </li>
           <li>
-            <a href="#">Services</a>
+            <a class="footer__social" href="#">
+              <IconInstagram /><span class="sr-only">Instagram</span>
+            </a>
           </li>
           <li>
-            <a href="#">Projects</a>
+            <a class="footer__social" href="#">
+              <IconTwitter /><span class="sr-only">Twitter</span>
+            </a>
+          </li>
+          <li>
+            <a class="footer__social" href="#">
+              <IconPinterest /><span class="sr-only">Pinterest</span>
+            </a>
           </li>
         </ul>
-      </nav>
-      <ul class="cluster" role="list">
-        <li>
-          <a href="#">
-            <IconFacebook /><span class="sr-only">Facebook</span>
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <IconInstagram /><span class="sr-only">Instagram</span>
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <IconTwitter /><span class="sr-only">Twitter</span>
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <IconPinterest /><span class="sr-only">Pinterest</span>
-          </a>
-        </li>
-      </ul>
+      </div>
     </footer>
   </body>
 </html>

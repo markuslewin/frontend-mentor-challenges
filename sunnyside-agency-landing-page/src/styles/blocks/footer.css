@@ -1,0 +1,55 @@
+.footer {
+  --center-gutter: 2.5rem;
+  --cluster-justify: center;
+
+  padding-block: 4rem 5rem;
+  background: hsl(168 44% 70%);
+  color: var(--color-footer);
+}
+
+.footer__logo {
+  --graphic-width: 10.625rem;
+
+  color: hsl(168 46% 31%);
+}
+
+.footer__nav {
+  --cluster-gap: 1rem 3.5rem;
+
+  margin-top: 2.5rem;
+}
+
+.footer__link {
+  color: inherit;
+}
+
+.footer__link:hover,
+.footer__link:focus-visible {
+  color: var(--color-white);
+}
+
+.footer__socials {
+  --graphic-width: 1.25rem;
+
+  --cluster-gap: 1rem 1.75rem;
+
+  margin-top: 5.5rem;
+  color: hsl(168 46% 31%);
+}
+
+.footer__social {
+  color: inherit;
+}
+
+.footer__social:hover,
+.footer__social:focus-visible {
+  color: var(--color-white);
+}
+
+@media (min-width: 64em) {
+  .footer {
+    --center-gutter: var(--column-gutter);
+
+    padding-block: 4.5rem;
+  }
+}

@@ -3,6 +3,7 @@
 @import "variables";
 @import "base";
 
+@import "blocks/footer";
 @import "blocks/gallery";
 @import "blocks/graphic";
 @import "blocks/header";
