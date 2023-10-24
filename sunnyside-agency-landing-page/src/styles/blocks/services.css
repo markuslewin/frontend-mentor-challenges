@@ -1,4 +1,46 @@
 .services {
+  --center-size: calc(var(--column-size) + var(--column-gutter) * 2);
+  --center-gutter: 0;
+
   font: var(--text-services-body);
   letter-spacing: var(--tracking-services-body);
+}
+
+.services__service {
+  position: relative;
+  isolation: isolate;
+  padding: 24.875rem var(--column-gutter) 3.75rem;
+}
+
+.services__service[data-service="graphic design"] {
+  color: var(--color-graphic-design-text);
+}
+
+.services__service[data-service="photography"] {
+  color: var(--color-photography-text);
+}
+
+.services__background {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+}
+
+.services__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.services__body {
+  margin-top: 1.75rem;
+}
+
+/* desktop */
+@media (min-width: 64em) {
+  .services__text {
+    box-sizing: content-box;
+    margin-inline: auto;
+    max-width: 21.25rem;
+  }
 }

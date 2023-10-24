@@ -146,9 +146,9 @@ import { screens } from "../utils/screens";
         </div>
       </div>
       <h2 class="sr-only">Our services</h2>
-      <div class="[ services ] [ columns ]" data-columns="2">
-        <div>
-          <picture>
+      <div class="[ services ] [ center columns ]" data-columns="2">
+        <div class="services__service" data-service="graphic design">
+          <picture class="services__background">
             <source
               media={`(min-width: ${screens.tablet})`}
               srcset="/images/desktop/image-graphic-design.jpg"
@@ -156,21 +156,24 @@ import { screens } from "../utils/screens";
               height="600"
             />
             <img
+              class="services__image"
               alt=""
               src="/images/mobile/image-graphic-design.jpg"
               width="750"
               height="1200"
             />
           </picture>
-          <h3>Graphic design</h3>
-          <p>
-            Great design makes you memorable. We deliver artwork that
-            underscores your brand message and captures potential clients’
-            attention.
-          </p>
+          <div class="services__text">
+            <h3>Graphic design</h3>
+            <p class="services__body">
+              Great design makes you memorable. We deliver artwork that
+              underscores your brand message and captures potential clients’
+              attention.
+            </p>
+          </div>
         </div>
-        <div>
-          <picture>
+        <div class="services__service" data-service="photography">
+          <picture class="services__background">
             <source
               media={`(min-width: ${screens.tablet})`}
               srcset="/images/desktop/image-photography.jpg"
@@ -178,17 +181,20 @@ import { screens } from "../utils/screens";
               height="600"
             />
             <img
+              class="services__image"
               alt=""
               src="/images/mobile/image-photography.jpg"
               width="750"
               height="1200"
             />
           </picture>
-          <h3>Photography</h3>
-          <p>
-            Increase your credibility by getting the most stunning, high-quality
-            photos that improve your business image.
-          </p>
+          <div class="services__text">
+            <h3>Photography</h3>
+            <p class="services__body">
+              Increase your credibility by getting the most stunning,
+              high-quality photos that improve your business image.
+            </p>
+          </div>
         </div>
       </div>
       <div class="testimonials">
