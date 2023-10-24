@@ -197,9 +197,13 @@ import { screens } from "../utils/screens";
           </div>
         </div>
       </div>
-      <div class="testimonials">
+      <div class="[ testimonials ] [ center ]">
         <h2 class="testimonials__heading">Client testimonials</h2>
-        <ul class="columns" data-columns="3" role="list">
+        <ul
+          class="[ testimonials__container ] [ columns ]"
+          data-columns="3"
+          role="list"
+        >
           {
             [
               {
@@ -229,12 +233,15 @@ import { screens } from "../utils/screens";
                 <li>
                   <figure>
                     <img
+                      class="testimonials__image"
                       alt=""
                       src={testimonial.image}
                       width="144"
                       height="144"
                     />
-                    <blockquote>{testimonial.quote}</blockquote>
+                    <blockquote class="testimonials__quote">
+                      {testimonial.quote}
+                    </blockquote>
                     <figcaption>
                       <p class="testimonials__name">{testimonial.name}</p>
                       <p class="testimonials__title">{testimonial.title}</p>
