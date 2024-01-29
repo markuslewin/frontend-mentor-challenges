@@ -2,8 +2,49 @@ body {
   font: var(--text-body);
 }
 
+h1 {
+  font: var(--text-h1);
+}
+
+h2 {
+  font: var(--text-h2);
+}
+
+h3 {
+  font: var(--text-h3);
+}
+
+nav {
+  font: var(--text-nav);
+}
+
+nav a {
+  text-decoration: none;
+}
+
+[role="list"] {
+  margin: 0;
+  padding: 0;
+}
+
 @media (min-width: 40em) {
   body {
     font: var(--text-body-desktop);
+  }
+
+  h1 {
+    font: var(--text-h1-desktop);
+  }
+
+  h2 {
+    font: var(--text-h2-desktop);
+  }
+
+  h3 {
+    font: var(--text-h3-desktop);
+  }
+
+  nav {
+    font: var(--text-nav-desktop);
   }
 }
