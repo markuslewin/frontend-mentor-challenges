@@ -1,0 +1,17 @@
+.button {
+  background: var(--color-moderate-cyan);
+  color: hsl(0 0% 100%);
+  border-radius: 100vh;
+  padding: var(--button-padding, 1.125rem 2.5rem);
+  transition: var(--transition);
+}
+
+.button:focus-visible,
+.button:hover {
+  background: var(--color-dark-cyan);
+}
+
+.button[data-disabled] {
+  background: hsl(0 0% 18%);
+  opacity: 50%;
+}

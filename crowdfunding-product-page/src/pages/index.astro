@@ -57,7 +57,9 @@ import rewards from "../data/rewards.json";
             strain.
           </p>
           <div class="repel">
-            <a class="cta-button" href="/pledge">Back this project</a>
+            <a class="[ cta-button ] [ button ]" href="/pledge">
+              Back this project
+            </a>
             <form method="post">
               <button
                 class="cta-button"
@@ -105,27 +107,33 @@ import rewards from "../data/rewards.json";
             <h2>Rewards</h2>
             <ul role="list">
               {
-                rewards.map((item) => {
+                rewards.map((reward) => {
+                  const isOutOfStock = !reward.left;
                   return (
-                    <li class="card mt-6 first:mt-9">
+                    <li
+                      class="card mt-6 first:mt-9"
+                      data-disabled={isOutOfStock}
+                    >
                       <div class="repel">
-                        <h3>{item.name}</h3>
-                        <p class="or-more">Pledge ${item.min} or more</p>
+                        <h3>{reward.name}</h3>
+                        <p class="or-more">Pledge ${reward.min} or more</p>
                       </div>
-                      <p>{item.description}</p>
+                      <p>{reward.description}</p>
                       <div class="repel">
                         <p class="left">
-                          <strong>{item.left}</strong> left
+                          <strong>{reward.left}</strong> left
                         </p>
-                        {item.left ? (
+                        {isOutOfStock ? (
+                          <p class="[ reward-button ] [ button ]" data-disabled>
+                            Out of Stock
+                          </p>
+                        ) : (
                           <a
-                            class="reward-button"
-                            href={`/pledge?item=${item.id}`}
+                            class="[ reward-button ] [ button ]"
+                            href={`/pledge?item=${reward.id}`}
                           >
                             Select Reward
                           </a>
-                        ) : (
-                          <p class="reward-button">Out of Stock</p>
                         )}
                       </div>
                     </li>

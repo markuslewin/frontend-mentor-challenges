@@ -1,3 +1,4 @@
 .about {
+  --button-padding: 1rem 2rem;
   --card-border-color: hsl(0 0% 0% / 15%);
 }

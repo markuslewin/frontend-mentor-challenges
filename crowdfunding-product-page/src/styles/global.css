@@ -20,4 +20,5 @@
 @import "compositions/flip";
 @import "compositions/repel";
 
+@import "utilities/button";
 @import "utilities/card";
