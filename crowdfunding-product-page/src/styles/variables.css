@@ -3,8 +3,8 @@
   --color-moderate-cyan: hsl(176 50% 47%);
   --color-dark-cyan: hsl(176 72% 28%);
   /* Neutral */
-  --black: hsl(0 0% 0%);
-  --dark-gray: hsl(0 0% 48%);
+  --color-black: hsl(0 0% 0%);
+  --color-dark-gray: hsl(0 0% 48%);
 
   --weight-regular: 400;
   --weight-medium: 500;

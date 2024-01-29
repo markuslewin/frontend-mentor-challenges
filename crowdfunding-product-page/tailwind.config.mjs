@@ -7,6 +7,10 @@ export default {
         tablet: "40em",
         desktop: "64em",
       },
+      spacing: {
+        21: "5.25rem",
+        30: "7.5rem",
+      },
     },
   },
   plugins: [],

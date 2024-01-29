@@ -1,6 +1,8 @@
 body {
   font: var(--text-body);
+  background: hsl(0 0% 98%);
   margin: 0;
+  padding-bottom: 4.75rem;
 }
 
 h1 {
@@ -35,6 +37,7 @@ p {
 @media (min-width: 40em) {
   body {
     font: var(--text-body-desktop);
+    padding-bottom: 7.75rem;
   }
 
   h1 {

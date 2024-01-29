@@ -3,6 +3,7 @@
 @import "variables";
 @import "base";
 
+@import "blocks/about";
 @import "blocks/cta-button";
 @import "blocks/header";
 @import "blocks/hero";
@@ -18,3 +19,5 @@
 @import "compositions/columns";
 @import "compositions/flip";
 @import "compositions/repel";
+
+@import "utilities/card";
