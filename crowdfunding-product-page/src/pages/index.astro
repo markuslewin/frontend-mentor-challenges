@@ -51,9 +51,9 @@ import rewards from "../data/rewards.json";
       <p>
         A beautiful & handcrafted monitor stand to reduce neck and eye strain.
       </p>
-      <a href="/pledge">Back this project</a>
+      <a class="cta-button" href="/pledge">Back this project</a>
       <form method="post">
-        <button type="submit" name="intent" value="bookmark">
+        <button class="cta-button" type="submit" name="intent" value="bookmark">
           <img alt="" src="/images/icon-bookmark.svg" />
           Bookmark
         </button>
@@ -61,13 +61,13 @@ import rewards from "../data/rewards.json";
       <section aria-labelledby="progress-heading">
         <h2 id="progress-heading">Goal and progress</h2>
         <ul role="list">
-          <li>
+          <li class="progress">
             <b>$89,914</b> of $100,000 backed
           </li>
-          <li>
+          <li class="progress">
             <b>5,007</b> total backers
           </li>
-          <li>
+          <li class="progress">
             <b>56</b> days left
           </li>
         </ul>
@@ -94,15 +94,17 @@ import rewards from "../data/rewards.json";
             return (
               <li>
                 <h3>{item.name}</h3>
-                <p>Pledge ${item.min} or more</p>
+                <p class="or-more">Pledge ${item.min} or more</p>
                 <p>{item.description}</p>
-                <p>
+                <p class="left">
                   <strong>{item.left}</strong> left
                 </p>
                 {item.left ? (
-                  <a href={`/pledge?item=${item.id}`}>Select Reward</a>
+                  <a class="reward-button" href={`/pledge?item=${item.id}`}>
+                    Select Reward
+                  </a>
                 ) : (
-                  <p>Out of Stock</p>
+                  <p class="reward-button">Out of Stock</p>
                 )}
               </li>
             );

@@ -1,0 +1,7 @@
+.left {
+  font: var(--text-left-body);
+}
+
+.left strong {
+  font: var(--text-left-number);
+}

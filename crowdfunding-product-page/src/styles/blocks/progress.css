@@ -1,0 +1,13 @@
+.progress {
+  font: var(--text-progress-body);
+}
+
+.progress b {
+  font: var(--text-progress-number);
+}
+
+@media (min-width: 40em) {
+  .progress {
+    font: var(--text-progress-body-desktop);
+  }
+}

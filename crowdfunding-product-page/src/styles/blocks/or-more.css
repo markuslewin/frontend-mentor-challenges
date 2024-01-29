@@ -1,0 +1,9 @@
+.or-more {
+  font: var(--text-or-more);
+}
+
+@media (min-width: 40em) {
+  .or-more {
+    font: var(--text-or-more-desktop);
+  }
+}

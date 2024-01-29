@@ -1,0 +1,4 @@
+.reward-button {
+  font: var(--text-reward-button);
+  text-decoration: none;
+}

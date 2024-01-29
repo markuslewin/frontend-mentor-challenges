@@ -2,3 +2,9 @@
 @import "reset";
 @import "variables";
 @import "base";
+
+@import "blocks/cta-button";
+@import "blocks/left";
+@import "blocks/or-more";
+@import "blocks/progress";
+@import "blocks/reward-button";
