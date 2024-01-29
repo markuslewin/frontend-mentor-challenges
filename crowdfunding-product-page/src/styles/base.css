@@ -1,0 +1,9 @@
+body {
+  font: var(--text-body);
+}
+
+@media (min-width: 40em) {
+  body {
+    font: var(--text-body-desktop);
+  }
+}
