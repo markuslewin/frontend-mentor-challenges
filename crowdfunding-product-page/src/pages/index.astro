@@ -17,7 +17,7 @@ import rewards from "../data/rewards.json";
     <title>Frontend Mentor | Crowdfunding product page</title>
   </head>
   <body>
-    <header>
+    <header class="[ header ] [ center repel ]">
       <img alt="Crowdfund" src="/images/logo.svg" />
       <nav>
         <!-- <button>
@@ -25,7 +25,7 @@ import rewards from "../data/rewards.json";
           <img alt="" src="/images/icon-close-menu.svg" />
           Menu
         </button> -->
-        <ul role="list">
+        <ul class="cluster" role="list">
           <li>
             <a href="/about">About</a>
           </li>
@@ -38,79 +38,97 @@ import rewards from "../data/rewards.json";
         </ul>
       </nav>
     </header>
-    <picture>
-      <source
-        media="(min-width: 40em)"
-        srcset="/images/image-hero-desktop.jpg"
-      />
-      <img alt="" src="/images/image-hero-mobile.jpg" />
-    </picture>
     <main>
-      <h1>Mastercraft Bamboo Monitor Riser</h1>
-      <img alt="Mastercraft" src="/images/logo-mastercraft.svg" />
-      <p>
-        A beautiful & handcrafted monitor stand to reduce neck and eye strain.
-      </p>
-      <a class="cta-button" href="/pledge">Back this project</a>
-      <form method="post">
-        <button class="cta-button" type="submit" name="intent" value="bookmark">
-          <img alt="" src="/images/icon-bookmark.svg" />
-          Bookmark
-        </button>
-      </form>
-      <section aria-labelledby="progress-heading">
-        <h2 id="progress-heading">Goal and progress</h2>
+      <picture class="[ hero ] [ center ]">
+        <source
+          media="(min-width: 40em)"
+          srcset="/images/image-hero-desktop.jpg"
+        />
+        <img alt="" src="/images/image-hero-mobile.jpg" />
+      </picture>
+      <div class="[ main ] [ center ]">
+        <div class="intro">
+          <div class="flip">
+            <h1>Mastercraft Bamboo Monitor Riser</h1>
+            <img alt="Mastercraft" src="/images/logo-mastercraft.svg" />
+          </div>
+          <p>
+            A beautiful & handcrafted monitor stand to reduce neck and eye
+            strain.
+          </p>
+          <div class="repel">
+            <a class="cta-button" href="/pledge">Back this project</a>
+            <form method="post">
+              <button
+                class="cta-button"
+                type="submit"
+                name="intent"
+                value="bookmark"
+              >
+                <img alt="" src="/images/icon-bookmark.svg" />
+                Bookmark
+              </button>
+            </form>
+          </div>
+        </div>
+        <section aria-labelledby="progress-heading">
+          <h2 id="progress-heading">Goal and progress</h2>
+          <ul class="columns" role="list">
+            <li class="progress">
+              <b>$89,914</b> of $100,000 backed
+            </li>
+            <li class="progress">
+              <b>5,007</b> total backers
+            </li>
+            <li class="progress">
+              <b>56</b> days left
+            </li>
+          </ul>
+          <!-- todo: https://www.radix-ui.com/primitives/docs/components/progress -->
+          <progress value="0.66"></progress>
+        </section>
+        <h2>About this project</h2>
+        <p>
+          The Mastercraft Bamboo Monitor Riser is a sturdy and stylish platform
+          that elevates your screen to a more comfortable viewing height.
+          Placing your monitor at eye level has the potential to improve your
+          posture and make you more comfortable while at work, helping you stay
+          focused on the task at hand.
+        </p>
+        <p>
+          Featuring artisan craftsmanship, the simplicity of design creates
+          extra desk space below your computer to allow notepads, pens, and USB
+          sticks to be stored under the stand.
+        </p>
+        <h2>Rewards</h2>
         <ul role="list">
-          <li class="progress">
-            <b>$89,914</b> of $100,000 backed
-          </li>
-          <li class="progress">
-            <b>5,007</b> total backers
-          </li>
-          <li class="progress">
-            <b>56</b> days left
-          </li>
+          {
+            rewards.map((item) => {
+              return (
+                <li>
+                  <div class="repel">
+                    <h3>{item.name}</h3>
+                    <p class="or-more">Pledge ${item.min} or more</p>
+                  </div>
+                  <p>{item.description}</p>
+                  <div class="repel">
+                    <p class="left">
+                      <strong>{item.left}</strong> left
+                    </p>
+                    {item.left ? (
+                      <a class="reward-button" href={`/pledge?item=${item.id}`}>
+                        Select Reward
+                      </a>
+                    ) : (
+                      <p class="reward-button">Out of Stock</p>
+                    )}
+                  </div>
+                </li>
+              );
+            })
+          }
         </ul>
-        <!-- todo: https://www.radix-ui.com/primitives/docs/components/progress -->
-        <progress value="0.66"></progress>
-      </section>
-      <h2>About this project</h2>
-      <p>
-        The Mastercraft Bamboo Monitor Riser is a sturdy and stylish platform
-        that elevates your screen to a more comfortable viewing height. Placing
-        your monitor at eye level has the potential to improve your posture and
-        make you more comfortable while at work, helping you stay focused on the
-        task at hand.
-      </p>
-      <p>
-        Featuring artisan craftsmanship, the simplicity of design creates extra
-        desk space below your computer to allow notepads, pens, and USB sticks
-        to be stored under the stand.
-      </p>
-      <h2>Rewards</h2>
-      <ul role="list">
-        {
-          rewards.map((item) => {
-            return (
-              <li>
-                <h3>{item.name}</h3>
-                <p class="or-more">Pledge ${item.min} or more</p>
-                <p>{item.description}</p>
-                <p class="left">
-                  <strong>{item.left}</strong> left
-                </p>
-                {item.left ? (
-                  <a class="reward-button" href={`/pledge?item=${item.id}`}>
-                    Select Reward
-                  </a>
-                ) : (
-                  <p class="reward-button">Out of Stock</p>
-                )}
-              </li>
-            );
-          })
-        }
-      </ul>
+      </div>
       <!-- Selection modal -->
       <!-- todo: https://www.radix-ui.com/primitives/docs/components/dialog -->
       <!-- <article>
@@ -130,21 +148,21 @@ import rewards from "../data/rewards.json";
       <!-- <li data-selected="true">
               <h2>
                 <button
-                  type="submit"
-                  name="reward"
-                  value="none"
-                  aria-describedby="reward-none-desc"
+                type="submit"
+                name="reward"
+                value="none"
+                aria-describedby="reward-none-desc"
                 >
-                  Pledge with no reward
-                </button>
-              </h2>
-              <div class="radio"></div>
-              <p id="reward-none-desc">
-                Choose to support us without a reward if you simply believe in
-                our project. As a backer, you will be signed up to receive
-                product updates via email.
-              </p>
-            </li> -->
+                Pledge with no reward
+              </button>
+            </h2>
+            <div class="radio"></div>
+            <p id="reward-none-desc">
+              Choose to support us without a reward if you simply believe in
+              our project. As a backer, you will be signed up to receive
+              product updates via email.
+            </p>
+          </li> -->
       {
         rewards.map((reward) => {
           const descId = `reward-${reward.id}-desc`;

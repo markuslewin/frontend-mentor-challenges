@@ -4,7 +4,17 @@
 @import "base";
 
 @import "blocks/cta-button";
+@import "blocks/header";
+@import "blocks/hero";
+@import "blocks/intro";
 @import "blocks/left";
+@import "blocks/main";
 @import "blocks/or-more";
 @import "blocks/progress";
 @import "blocks/reward-button";
+
+@import "compositions/center";
+@import "compositions/cluster";
+@import "compositions/columns";
+@import "compositions/flip";
+@import "compositions/repel";

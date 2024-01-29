@@ -1,5 +1,6 @@
 body {
   font: var(--text-body);
+  margin: 0;
 }
 
 h1 {
@@ -20,6 +21,10 @@ nav {
 
 nav a {
   text-decoration: none;
+}
+
+p {
+  margin: 0;
 }
 
 [role="list"] {
