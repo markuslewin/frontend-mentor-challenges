@@ -1,6 +1,0 @@
-@media (min-width: 40em) {
-  .columns {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-  }
-}

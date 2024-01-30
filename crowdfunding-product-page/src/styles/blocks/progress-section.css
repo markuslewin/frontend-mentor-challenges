@@ -1,0 +1,46 @@
+.progress-section {
+  text-align: center;
+}
+
+.progress-section__stat {
+  font: var(--text-progress-body);
+}
+
+.progress-section__stat + *::before {
+  content: "";
+  margin: 1.5rem auto;
+  border-block-start: 1px solid hsl(0 0% 0% / 15%);
+  display: block;
+  max-width: 5rem;
+  width: 100%;
+}
+
+.progress-section__stat b {
+  font: var(--text-progress-number);
+  display: block;
+  margin-block-end: 0.5rem;
+}
+
+@media (min-width: 40em) {
+  .progress-section {
+    text-align: start;
+  }
+
+  .progress-section__stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .progress-section__stat {
+    font: var(--text-progress-body-desktop);
+  }
+
+  .progress-section__stat + *::before {
+    content: revert;
+  }
+
+  .progress-section__stat + * {
+    border-inline-start: 1px solid hsl(0 0% 0% / 15%);
+    padding-inline-start: 3rem;
+  }
+}

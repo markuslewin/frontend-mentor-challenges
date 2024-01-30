@@ -2,6 +2,7 @@
 import "../styles/global.css";
 import Icon from "../components/Icon.astro";
 import rewards from "../data/rewards.json";
+import Progress from "../components/Progress";
 ---
 
 <html lang="en">
@@ -104,21 +105,25 @@ import rewards from "../data/rewards.json";
             </form>
           </div>
         </div>
-        <section class="card mt-6" aria-labelledby="progress-heading">
-          <h2 id="progress-heading">Goal and progress</h2>
-          <ul class="columns" role="list">
-            <li class="progress">
+        <section
+          class="[ progress-section ] [ card mt-6 ]"
+          aria-labelledby="progress-heading"
+        >
+          <h2 class="sr-only" id="progress-heading">Progress</h2>
+          <ul class="progress-section__stats" role="list">
+            <li class="progress-section__stat">
               <b>$89,914</b> of $100,000 backed
             </li>
-            <li class="progress">
+            <li class="progress-section__stat">
               <b>5,007</b> total backers
             </li>
-            <li class="progress">
+            <li class="progress-section__stat">
               <b>56</b> days left
             </li>
           </ul>
-          <!-- todo: https://www.radix-ui.com/primitives/docs/components/progress -->
-          <progress value="0.66"></progress>
+          <div class="mt-8 tablet:mt-9">
+            <Progress current={89914} goal={100000} />
+          </div>
         </section>
         <div class="card mt-6">
           <div class="about">
