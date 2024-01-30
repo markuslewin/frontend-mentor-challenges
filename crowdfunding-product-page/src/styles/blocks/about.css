@@ -1,4 +1,11 @@
 .about {
   --button-padding: 1rem 2rem;
   --card-border-color: hsl(0 0% 0% / 15%);
+  --card-padding: 1.5rem;
+}
+
+@media (min-width: 40em) {
+  .about {
+    --card-padding: 2.5rem 2rem;
+  }
 }

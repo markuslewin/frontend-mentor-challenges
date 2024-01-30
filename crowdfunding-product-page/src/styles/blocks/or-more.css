@@ -1,5 +1,6 @@
 .or-more {
   font: var(--text-or-more);
+  color: var(--color-moderate-cyan);
 }
 
 @media (min-width: 40em) {

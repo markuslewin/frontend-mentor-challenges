@@ -2,7 +2,7 @@
   background: hsl(0 0% 100%);
   border: 1px solid var(--card-border-color, hsl(0 0% 0% / 5%));
   border-radius: 0.5rem;
-  padding: 2.5rem 1.5rem;
+  padding: var(--card-padding, 2.5rem 1.5rem);
 }
 
 .card[data-disabled] {
@@ -11,6 +11,6 @@
 
 @media (min-width: 40em) {
   .card {
-    padding: 3rem;
+    padding: var(--card-padding, 3rem);
   }
 }

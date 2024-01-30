@@ -1,5 +1,8 @@
 .left {
   font: var(--text-left-body);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .left strong {

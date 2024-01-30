@@ -20,7 +20,7 @@ import Progress from "../components/Progress";
     <title>Frontend Mentor | Crowdfunding product page</title>
   </head>
   <body>
-    <header class="[ header ] [ center repel ]">
+    <header class="[ header ] [ center repel ] [ gap-8 ]">
       <a href="/">
         <Icon alt="Crowdfund" name="logo" width={128} height={20} />
       </a>
@@ -128,19 +128,19 @@ import Progress from "../components/Progress";
         <div class="card mt-6">
           <div class="about">
             <h2>About this project</h2>
-            <p>
+            <p class="mt-6 tablet:mt-9">
               The Mastercraft Bamboo Monitor Riser is a sturdy and stylish
               platform that elevates your screen to a more comfortable viewing
               height. Placing your monitor at eye level has the potential to
               improve your posture and make you more comfortable while at work,
               helping you stay focused on the task at hand.
             </p>
-            <p>
+            <p class="mt-6 tablet:mt-8">
               Featuring artisan craftsmanship, the simplicity of design creates
               extra desk space below your computer to allow notepads, pens, and
               USB sticks to be stored under the stand.
             </p>
-            <h2>Rewards</h2>
+            <h2 class="sr-only">Rewards</h2>
             <ul role="list">
               {
                 rewards.map((reward) => {
@@ -150,12 +150,12 @@ import Progress from "../components/Progress";
                       class="card mt-6 first:mt-9"
                       data-disabled={isOutOfStock}
                     >
-                      <div class="repel">
+                      <div class="[ repel ] [ gap-2 ]">
                         <h3>{reward.name}</h3>
                         <p class="or-more">Pledge ${reward.min} or more</p>
                       </div>
-                      <p>{reward.description}</p>
-                      <div class="repel">
+                      <p class="mt-6">{reward.description}</p>
+                      <div class="[ repel ] [ mt-6 gap-6 ]">
                         <p class="left">
                           <strong>{reward.left}</strong> left
                         </p>
