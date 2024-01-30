@@ -3,4 +3,6 @@
 
   position: absolute;
   inset: auto 0;
+  padding-block: 3rem;
+  color: hsl(0 0% 100%);
 }

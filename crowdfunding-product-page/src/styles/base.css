@@ -25,6 +25,11 @@ nav a {
   text-decoration: none;
 }
 
+nav a:hover,
+nav a:focus-visible {
+  text-decoration: underline;
+}
+
 p {
   margin: 0;
 }
