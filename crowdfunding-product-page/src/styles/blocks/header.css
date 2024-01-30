@@ -1,4 +1,6 @@
 .header {
+  --icon-size: 1.25rem;
+
   position: absolute;
   inset: auto 0;
 }

@@ -3,7 +3,7 @@
   color: hsl(0 0% 100%);
   border-radius: 100vh;
   padding: var(--button-padding, 1.125rem 2.5rem);
-  transition: var(--transition);
+  transition: background-color var(--transition);
 }
 
 .button:focus-visible,

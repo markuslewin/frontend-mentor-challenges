@@ -1,0 +1,22 @@
+---
+interface Props {
+  name: string;
+  alt: string;
+  width: number;
+  height: number;
+}
+
+const { name, alt, width, height } = Astro.props;
+---
+
+<div>
+  <svg
+    class="icon"
+    aria-hidden="true"
+    focusable="false"
+    viewBox={`0 0 ${width} ${height}`}
+  >
+    <use href={`/sprite.svg#${name}`}></use>
+  </svg>
+  <span class="sr-only">{alt}</span>
+</div>

@@ -1,5 +1,6 @@
 ---
 import "../styles/global.css";
+import Icon from "../components/Icon.astro";
 import rewards from "../data/rewards.json";
 ---
 
@@ -14,11 +15,12 @@ import rewards from "../data/rewards.json";
       sizes="32x32"
       href="/images/favicon-32x32.png"
     />
+    <link rel="preload" href="/sprite.svg" as="image" />
     <title>Frontend Mentor | Crowdfunding product page</title>
   </head>
   <body>
     <header class="[ header ] [ center repel ]">
-      <img alt="Crowdfund" src="/images/logo.svg" />
+      <Icon alt="Crowdfund" name="logo" width={128} height={20} />
       <nav>
         <!-- <button>
           <img alt="" src="/images/icon-hamburger.svg" />
@@ -39,18 +41,30 @@ import rewards from "../data/rewards.json";
       </nav>
     </header>
     <main>
-      <picture class="[ hero ] [ center ] [ -mb-21 desktop:-mb-30 ]">
+      <picture class="[ hero ] [ center ] [ -mb-21 tablet:-mb-30 ]">
         <source
           media="(min-width: 40em)"
           srcset="/images/image-hero-desktop.jpg"
+          width="1440"
+          height="400"
         />
-        <img alt="" src="/images/image-hero-mobile.jpg" />
+        <img
+          alt=""
+          src="/images/image-hero-mobile.jpg"
+          width="750"
+          height="600"
+        />
       </picture>
       <div class="[ main ] [ center ]">
         <div class="[ intro ] [ card isolate ]">
           <div class="flip">
             <h1>Mastercraft Bamboo Monitor Riser</h1>
-            <img alt="Mastercraft" src="/images/logo-mastercraft.svg" />
+            <Icon
+              alt="Mastercraft"
+              name="logo-mastercraft"
+              width={56}
+              height={56}
+            />
           </div>
           <p>
             A beautiful & handcrafted monitor stand to reduce neck and eye
@@ -67,8 +81,13 @@ import rewards from "../data/rewards.json";
                 name="intent"
                 value="bookmark"
               >
-                <img alt="" src="/images/icon-bookmark.svg" />
-                Bookmark
+                <Icon
+                  alt="Bookmark"
+                  name="icon-bookmark"
+                  width={56}
+                  height={56}
+                />
+                <span aria-hidden="true">Bookmark</span>
               </button>
             </form>
           </div>
