@@ -1,3 +1,4 @@
 .hero {
+  --center-gutter: 0;
   --center-size: 90rem;
 }
