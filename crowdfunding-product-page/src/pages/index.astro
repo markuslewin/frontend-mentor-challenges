@@ -59,37 +59,47 @@ import rewards from "../data/rewards.json";
       </picture>
       <div class="[ main ] [ center ]">
         <div class="[ intro ] [ card isolate ]">
-          <div class="flip">
+          <div class="flip -mt-17 tablet:-mt-19 gap-6 tablet:gap-7">
             <h1>Mastercraft Bamboo Monitor Riser</h1>
-            <Icon
-              alt="Mastercraft"
-              name="logo-mastercraft"
-              width={56}
-              height={56}
-            />
+            <div class="self-center">
+              <Icon
+                alt="Mastercraft"
+                name="logo-mastercraft"
+                width={56}
+                height={56}
+              />
+            </div>
           </div>
-          <p>
+          <p class="mt-4">
             A beautiful & handcrafted monitor stand to reduce neck and eye
             strain.
           </p>
-          <div class="repel">
-            <a class="[ cta-button ] [ button ]" href="/pledge">
-              Back this project
-            </a>
-            <form method="post">
+          <div
+            class="mt-6 tablet:mt-10 flex justify-center items-center flex-wrap gap-2 tablet:justify-between"
+          >
+            <a class="button" href="/pledge"> Back this project</a>
+            <form class="flex" method="post">
               <button
-                class="cta-button"
+                class="icon-button"
                 type="submit"
                 name="intent"
                 value="bookmark"
               >
-                <Icon
-                  alt="Bookmark"
-                  name="icon-bookmark"
-                  width={56}
-                  height={56}
-                />
-                <span aria-hidden="true">Bookmark</span>
+                <svg
+                  class="icon"
+                  aria-hidden="true"
+                  focusable="false"
+                  viewBox="0 0 56 56"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <g fill="none" fill-rule="evenodd"
+                    ><circle fill="#2F2F2F" cx="28" cy="28" r="28"
+                    ></circle><path
+                      fill="#B1B1B1"
+                      d="M23 19v18l5-5.058L33 37V19z"></path></g
+                  >
+                </svg>
+                <span class="sr-only tablet:not-sr-only">Bookmark</span>
               </button>
             </form>
           </div>

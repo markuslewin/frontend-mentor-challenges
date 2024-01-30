@@ -7,3 +7,8 @@
 .intro img {
   margin-inline: auto;
 }
+
+.intro .button {
+  font: var(--text-cta-button);
+  text-decoration: none;
+}

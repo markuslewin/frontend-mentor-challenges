@@ -1,0 +1,32 @@
+.icon-button {
+  font: var(--text-cta-button);
+  text-decoration: none;
+  color: var(--color-dark-gray);
+}
+
+.icon-button circle {
+  transition: fill var(--transition);
+}
+
+.icon-button:hover circle,
+.icon-button:focus-visible circle {
+  fill: var(--color-dark-gray);
+}
+
+@media (min-width: 40em) {
+  .icon-button {
+    border-radius: 100vh;
+    padding-inline-end: 1.5rem;
+    display: grid;
+    grid-template-columns: min-content 1fr;
+    align-items: center;
+    gap: 1rem;
+    background: hsl(0 0% 18% / 5%);
+  }
+}
+
+@media (forced-colors: active) {
+  .icon-button {
+    border: 1px solid;
+  }
+}
