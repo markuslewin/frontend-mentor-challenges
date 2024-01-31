@@ -1,27 +1,49 @@
 .icon-button {
+  --_background-color: ;
+  --_circle-color: hsl(0 0% 18%);
+  --_path-color: hsl(0 0% 69%);
+  --_text-color: var(--color-dark-gray);
+
   font: var(--text-cta-button);
   text-decoration: none;
-  color: var(--color-dark-gray);
+  color: var(--_text-color);
+}
+
+.icon-button:hover,
+.icon-button:focus-visible {
+  --_circle-color: var(--color-dark-gray);
 }
 
 .icon-button circle {
+  fill: var(--_circle-color);
   transition: fill var(--transition);
 }
 
-.icon-button:hover circle,
-.icon-button:focus-visible circle {
-  fill: var(--color-dark-gray);
+.icon-button path {
+  fill: var(--_path-color);
+}
+
+.icon-button[data-is-bookmarked="true"] {
+  --_circle-color: hsl(176 72% 28%);
+  --_path-color: hsl(0 0% 100%);
+  --_text-color: hsl(176 72% 28%);
 }
 
 @media (min-width: 40em) {
   .icon-button {
+    --_background-color: hsl(0 0% 18% / 5%);
+
     border-radius: 100vh;
     padding-inline-end: 1.5rem;
     display: grid;
     grid-template-columns: min-content 1fr;
     align-items: center;
     gap: 1rem;
-    background: hsl(0 0% 18% / 5%);
+    background: var(--_background-color);
+  }
+
+  .icon-button[data-is-bookmarked="true"] {
+    --_background-color: hsl(176 72% 28% / 5%);
   }
 }
 

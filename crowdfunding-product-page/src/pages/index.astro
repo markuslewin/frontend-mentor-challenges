@@ -3,6 +3,34 @@ import "../styles/global.css";
 import Icon from "../components/Icon.astro";
 import rewards from "../data/rewards.json";
 import Progress from "../components/Progress";
+
+const COOKIE_NAME = "crowdfunding-product-page";
+
+function getIsBookmarked() {
+  const data = Astro.cookies.get(COOKIE_NAME)?.json() as unknown;
+  const isBookmarked =
+    data && typeof data === "object" && "isBookmarked" in data
+      ? !!data.isBookmarked
+      : false;
+  return isBookmarked;
+}
+
+if (Astro.request.method === "POST") {
+  const formData = await Astro.request.formData();
+  const intent = formData.get("intent");
+  switch (intent) {
+    case "bookmark": {
+      const isBookmarked = getIsBookmarked();
+      Astro.cookies.set(COOKIE_NAME, { isBookmarked: !isBookmarked });
+      return Astro.redirect("/", 302);
+    }
+    default: {
+      throw new Error(`Unexpected intent: "${intent}"`);
+    }
+  }
+}
+
+const isBookmarked = getIsBookmarked();
 ---
 
 <html lang="en">
@@ -85,6 +113,7 @@ import Progress from "../components/Progress";
                 type="submit"
                 name="intent"
                 value="bookmark"
+                data-is-bookmarked={`${isBookmarked}`}
               >
                 <svg
                   class="icon"
@@ -100,7 +129,9 @@ import Progress from "../components/Progress";
                       d="M23 19v18l5-5.058L33 37V19z"></path></g
                   >
                 </svg>
-                <span class="sr-only tablet:not-sr-only">Bookmark</span>
+                <span class="sr-only tablet:not-sr-only">
+                  {isBookmarked ? "Bookmarked" : "Bookmark"}
+                </span>
               </button>
             </form>
           </div>
