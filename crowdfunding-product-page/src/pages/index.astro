@@ -72,20 +72,22 @@ const isBookmarked = getIsBookmarked();
       </nav>
     </header>
     <main>
-      <picture class="[ hero ] [ center ] [ -mb-21 tablet:-mb-30 ]">
-        <source
-          media="(min-width: 40em)"
-          srcset="/images/image-hero-desktop.jpg"
-          width="1440"
-          height="400"
-        />
-        <img
-          alt=""
-          src="/images/image-hero-mobile.jpg"
-          width="750"
-          height="600"
-        />
-      </picture>
+      <div class="[ hero ] [ center ] [ -mb-21 tablet:-mb-30 ]">
+        <picture>
+          <source
+            media="(min-width: 40em)"
+            srcset="/images/image-hero-desktop.jpg"
+            width="1440"
+            height="400"
+          />
+          <img
+            alt=""
+            src="/images/image-hero-mobile.jpg"
+            width="750"
+            height="600"
+          />
+        </picture>
+      </div>
       <div class="[ main ] [ center ]">
         <div class="[ intro ] [ card isolate ]">
           <div class="flip -mt-17 tablet:-mt-19 gap-6 tablet:gap-7">

@@ -3,6 +3,7 @@
 
   position: absolute;
   inset: auto 0;
+  z-index: 1;
   padding-block: 3rem;
   color: hsl(0 0% 100%);
 }

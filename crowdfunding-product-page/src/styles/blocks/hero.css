@@ -9,6 +9,19 @@
   object-fit: cover;
 }
 
+.hero picture {
+  position: relative;
+  isolation: isolate;
+}
+
+.hero picture::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 60%;
+  background: linear-gradient(to bottom, var(--color-black), transparent 8rem);
+}
+
 @media (min-width: 40em) {
   .hero img {
     height: 25rem;
