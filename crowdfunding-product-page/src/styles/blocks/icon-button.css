@@ -7,6 +7,7 @@
   font: var(--text-cta-button);
   text-decoration: none;
   color: var(--_text-color);
+  transition: color var(--transition);
 }
 
 .icon-button:hover,
@@ -24,9 +25,15 @@
 }
 
 .icon-button[data-is-bookmarked="true"] {
-  --_circle-color: hsl(176 72% 28%);
+  --_circle-color: var(--color-moderate-cyan);
   --_path-color: hsl(0 0% 100%);
-  --_text-color: hsl(176 72% 28%);
+  --_text-color: var(--color-moderate-cyan);
+}
+
+.icon-button[data-is-bookmarked="true"]:hover,
+.icon-button[data-is-bookmarked="true"]:focus-visible {
+  --_circle-color: var(--color-dark-cyan);
+  --_text-color: var(--color-dark-cyan);
 }
 
 @media (min-width: 40em) {
