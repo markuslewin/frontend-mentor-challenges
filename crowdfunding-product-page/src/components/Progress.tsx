@@ -1,5 +1,5 @@
 import { Root, Indicator } from "@radix-ui/react-progress";
-import { useState } from "preact/hooks";
+import { useState } from "react";
 
 type Props = {
   current: number;
