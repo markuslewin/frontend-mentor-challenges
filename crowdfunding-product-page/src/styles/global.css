@@ -4,6 +4,7 @@
 @import "base";
 
 @import "blocks/about";
+@import "blocks/dialog";
 @import "blocks/icon-button";
 @import "blocks/header";
 @import "blocks/hero";

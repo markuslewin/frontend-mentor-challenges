@@ -11,7 +11,7 @@
   background: var(--color-dark-cyan);
 }
 
-.button[data-disabled] {
+.button[disabled] {
   background: hsl(0 0% 18%);
   opacity: 50%;
 }

@@ -1,0 +1,47 @@
+.dialog__overlay {
+  position: fixed;
+  inset: 0;
+  opacity: 50%;
+  background-color: var(--color-black);
+  z-index: 2;
+}
+
+.dialog__content {
+  --card-padding: 2rem 1.5rem;
+
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  z-index: 2;
+  transform: translate(-50%, -50%);
+  width: 45.625rem;
+  max-width: calc(100% - 1.5rem);
+  /* todo: "scrollable overlay"? */
+  max-height: calc(100% - 1.5rem);
+  overflow-y: auto;
+}
+
+.dialog__pledges {
+  --card-padding: 2rem 1.5rem;
+}
+
+.dialog__close {
+  height: 3rem;
+  width: 3rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 0.9375rem;
+  right: 0.9375rem;
+}
+
+@media (min-width: 40em) {
+  .dialog__content {
+    --card-padding: 3rem;
+  }
+
+  .dialog__pledges {
+    --card-padding: 2rem 1.75rem;
+  }
+}
