@@ -1,6 +1,36 @@
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import rewards from "../data/rewards.json";
 
+const pledges: (
+  | { type: "none"; id: string; name: string; description: string }
+  | {
+      type: "item";
+      id: string;
+      name: string;
+      description: string;
+      min: number;
+      left: number;
+    }
+)[] = [
+  {
+    type: "none",
+    id: "none",
+    name: "Pledge with no reward",
+    description:
+      "Choose to support us without a reward if you simply believe in our project. As a backer, you will be signed up to receive product updates via email.",
+  },
+  ...rewards.map((reward) => {
+    return {
+      type: "item" as const,
+      id: reward.id,
+      name: reward.name,
+      description: reward.description,
+      min: reward.min,
+      left: reward.left,
+    };
+  }),
+];
+
 type Props = React.ButtonHTMLAttributes<HTMLButtonElement>;
 
 export const PledgeDialogTrigger = (props: Props) => (
@@ -15,72 +45,60 @@ export const PledgeDialogTrigger = (props: Props) => (
           the world?
         </DialogPrimitive.Description>
         <form className="mt-8" method="post">
-          <ul className="dialog__pledges">
-            {/* todo: Merge into `rewards.map` */}
-            <li className="card" data-selected="true">
-              <h3>
-                <button
-                  type="submit"
-                  name="reward"
-                  value="none"
-                  aria-describedby="reward-none-desc"
-                >
-                  Pledge with no reward
-                </button>
-              </h3>
-              <div className="radio"></div>
-              <p id="reward-none-desc">
-                Choose to support us without a reward if you simply believe in
-                our project. As a backer, you will be signed up to receive
-                product updates via email.
-              </p>
-            </li>
-            {rewards.map((reward) => {
-              const descId = `reward-${reward.id}-desc`;
-              const quantityId = `reward-${reward.id}-quantity`;
-              const disabled = !reward.left;
-              return (
-                <li
-                  className="card mt-6"
-                  key={reward.id}
-                  data-disabled={disabled}
-                >
-                  <div>
-                    <h3>
-                      <button
-                        type="submit"
-                        name="reward"
-                        value={reward.id}
-                        disabled={disabled}
-                        aria-describedby={descId}
-                      >
-                        {reward.name}
-                      </button>
-                    </h3>
-                    <p>Pledge ${reward.min} or more</p>
-                    <p id={descId}>{reward.description}</p>
-                    <p>
-                      <strong>{reward.left}</strong> left
-                    </p>
-                  </div>
-                  <label htmlFor={quantityId}>Enter your pledge</label>
-                  <span>
-                    <span>$</span>
-                    <input
-                      type="number"
-                      name="quantity"
-                      defaultValue={reward.min}
-                      min={reward.min}
-                      id={quantityId}
-                    />
-                  </span>
-                  <button type="submit" name="intent" value="pledge">
-                    Continue
-                  </button>
-                </li>
-              );
-            })}
-          </ul>
+          <fieldset>
+            <legend className="sr-only">Select a reward</legend>
+            <ul className="dialog__pledges">
+              {pledges.map((pledge) => {
+                const descId = `pledge-${pledge.id}-desc`;
+                const quantityId = `pledge-${pledge.id}-quantity`;
+                const disabled = pledge.type === "item" && !pledge.left;
+                return (
+                  <li
+                    className="card mt-6"
+                    key={pledge.id}
+                    data-disabled={disabled}
+                  >
+                    <div>
+                      <h3>
+                        <button
+                          type="submit"
+                          name="pledge"
+                          value={pledge.id}
+                          disabled={disabled}
+                          aria-describedby={descId}
+                        >
+                          {pledge.name}
+                        </button>
+                      </h3>
+                      {pledge.type === "item" ? (
+                        <p>Pledge ${pledge.min} or more</p>
+                      ) : null}
+                      <p id={descId}>{pledge.description}</p>
+                      {pledge.type === "item" ? (
+                        <p>
+                          <strong>{pledge.left}</strong> left
+                        </p>
+                      ) : null}
+                    </div>
+                    <label htmlFor={quantityId}>Enter your pledge</label>
+                    <span>
+                      <span>$</span>
+                      <input
+                        type="number"
+                        name="quantity"
+                        defaultValue={pledge.type === "item" ? pledge.min : 0}
+                        min={pledge.type === "item" ? pledge.min : 0}
+                        id={quantityId}
+                      />
+                    </span>
+                    <button type="submit" name="intent" value="pledge">
+                      Continue
+                    </button>
+                  </li>
+                );
+              })}
+            </ul>
+          </fieldset>
         </form>
         <DialogPrimitive.Close className="dialog__close">
           <img alt="Close" src="/images/icon-close-modal.svg" />
