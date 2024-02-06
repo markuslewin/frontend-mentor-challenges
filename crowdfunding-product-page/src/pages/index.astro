@@ -184,7 +184,7 @@ const isBookmarked = getIsBookmarked();
                   return (
                     <li
                       class="card mt-6 first:mt-9"
-                      data-disabled={isOutOfStock}
+                      data-disabled={isOutOfStock.toString()}
                     >
                       <div class="[ repel ] [ gap-2 ]">
                         <h3>{reward.name}</h3>

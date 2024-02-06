@@ -5,7 +5,7 @@
   padding: var(--card-padding, 2.5rem 1.5rem);
 }
 
-.card[data-disabled] {
+.card[data-disabled="true"] {
   opacity: 50%;
 }
 
