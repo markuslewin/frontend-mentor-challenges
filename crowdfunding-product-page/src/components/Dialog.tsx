@@ -48,7 +48,7 @@ export const PledgeDialogTrigger = (props: Props) => {
             in the world?
           </DialogPrimitive.Description>
           <form
-            className="mt-8"
+            className="mt-6 tablet:mt-8"
             method="post"
             onSubmit={(e) => {
               if (!(e.nativeEvent instanceof SubmitEvent)) {
@@ -68,58 +68,65 @@ export const PledgeDialogTrigger = (props: Props) => {
           >
             <fieldset>
               <legend className="sr-only">Select a reward</legend>
-              <ul className="dialog__pledges">
+              <ul className="dialog__pledges" role="list">
                 {pledges.map((pledge) => {
                   const descId = `pledge-${pledge.id}-desc`;
                   const quantityId = `pledge-${pledge.id}-quantity`;
                   const disabled = pledge.type === "item" && !pledge.left;
                   return (
                     <li
-                      className="[ pledge ] [ card mt-6 ]"
+                      className="[ pledge ] [ card first:mt-0 mt-6 ]"
                       key={pledge.id}
                       data-disabled={disabled}
                       data-selected={selected === pledge.id}
                     >
-                      <div>
+                      <div className="pledge__upper">
                         <div className="pledge__radio"></div>
-                        <h3>
-                          <button
-                            type="submit"
-                            name="pledge"
-                            value={pledge.id}
-                            disabled={disabled}
-                            aria-describedby={descId}
-                          >
-                            {pledge.name}
-                          </button>
-                        </h3>
+                        <div className="pledge__heading">
+                          <h3>
+                            <button
+                              type="submit"
+                              name="pledge"
+                              value={pledge.id}
+                              disabled={disabled}
+                              aria-describedby={descId}
+                            >
+                              {pledge.name}
+                            </button>
+                          </h3>
+                          {pledge.type === "item" ? (
+                            <p>Pledge ${pledge.min} or more</p>
+                          ) : null}
+                        </div>
+                        <p className="pledge__desc" id={descId}>
+                          {pledge.description}
+                        </p>
                         {pledge.type === "item" ? (
-                          <p>Pledge ${pledge.min} or more</p>
-                        ) : null}
-                        <p id={descId}>{pledge.description}</p>
-                        {pledge.type === "item" ? (
-                          <p>
+                          <p className="pledge__left">
                             <strong>{pledge.left}</strong> left
                           </p>
                         ) : null}
                       </div>
-                      <div className="pledge__enter">
+                      <div className="[ pledge__enter ] [ mt-6 tablet:mt-8 ]">
                         <label htmlFor={quantityId}>Enter your pledge</label>
-                        <span>
-                          <span>$</span>
-                          <input
-                            type="number"
-                            name="quantity"
-                            defaultValue={
-                              pledge.type === "item" ? pledge.min : 0
-                            }
-                            min={pledge.type === "item" ? pledge.min : 0}
-                            id={quantityId}
-                          />
-                        </span>
-                        <button type="submit" name="intent" value="pledge">
-                          Continue
-                        </button>
+                        <div>
+                          <span>
+                            <span>$</span>
+                            <input
+                              className="w-[6.25rem]"
+                              type="number"
+                              name="quantity"
+                              defaultValue={
+                                pledge.type === "item" ? pledge.min : 0
+                              }
+                              min={pledge.type === "item" ? pledge.min : 0}
+                              id={quantityId}
+                            />
+                          </span>
+                          <button type="submit" name="intent" value="pledge">
+                            Continue
+                          </button>
+                        </div>
                       </div>
                     </li>
                   );
