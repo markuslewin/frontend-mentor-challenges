@@ -42,7 +42,9 @@ export const PledgeDialogTrigger = (props: Props) => {
       <DialogPrimitive.Portal>
         <DialogPrimitive.Overlay className="dialog__overlay" />
         <DialogPrimitive.Content className="dialog__content card">
-          <DialogPrimitive.Title>Back this project</DialogPrimitive.Title>
+          <DialogPrimitive.Title className="dialog__heading">
+            Back this project
+          </DialogPrimitive.Title>
           <DialogPrimitive.Description className="mt-4">
             Want to support us in bringing Mastercraft Bamboo Monitor Riser out
             in the world?

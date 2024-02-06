@@ -21,6 +21,10 @@
   overflow-y: auto;
 }
 
+.dialog__heading {
+  font: var(--text-dialog-heading);
+}
+
 .dialog__pledges {
   --card-padding: 2rem 1.5rem;
 }
@@ -39,6 +43,10 @@
 @media (min-width: 40em) {
   .dialog__content {
     --card-padding: 3rem;
+  }
+
+  .dialog__heading {
+    font: var(--text-dialog-heading-desktop);
   }
 
   .dialog__pledges {
