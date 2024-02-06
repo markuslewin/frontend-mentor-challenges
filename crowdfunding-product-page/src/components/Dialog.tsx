@@ -49,25 +49,7 @@ export const PledgeDialogTrigger = (props: Props) => {
             Want to support us in bringing Mastercraft Bamboo Monitor Riser out
             in the world?
           </DialogPrimitive.Description>
-          <form
-            className="mt-6 tablet:mt-8"
-            method="post"
-            onSubmit={(e) => {
-              if (!(e.nativeEvent instanceof SubmitEvent)) {
-                return;
-              }
-              const formData = new FormData(
-                e.currentTarget,
-                e.nativeEvent.submitter
-              );
-              const pledgeId = formData.get("pledge");
-              if (typeof pledgeId !== "string") {
-                return;
-              }
-              setSelected(pledgeId);
-              e.preventDefault();
-            }}
-          >
+          <div className="mt-6 tablet:mt-8">
             <fieldset>
               <legend className="sr-only">Select a reward</legend>
               <ul className="dialog__pledges" role="list">
@@ -85,17 +67,36 @@ export const PledgeDialogTrigger = (props: Props) => {
                       <div className="pledge__upper">
                         <div className="pledge__radio"></div>
                         <div className="pledge__heading">
-                          <h3>
-                            <button
-                              type="submit"
-                              name="pledge"
-                              value={pledge.id}
-                              disabled={disabled}
-                              aria-describedby={descId}
-                            >
-                              {pledge.name}
-                            </button>
-                          </h3>
+                          <form
+                            method="post"
+                            onSubmit={(e) => {
+                              if (!(e.nativeEvent instanceof SubmitEvent)) {
+                                return;
+                              }
+                              const formData = new FormData(
+                                e.currentTarget,
+                                e.nativeEvent.submitter
+                              );
+                              const pledgeId = formData.get("pledge");
+                              if (typeof pledgeId !== "string") {
+                                return;
+                              }
+                              setSelected(pledgeId);
+                              e.preventDefault();
+                            }}
+                          >
+                            <h3>
+                              <button
+                                type="submit"
+                                name="pledge"
+                                value={pledge.id}
+                                disabled={disabled}
+                                aria-describedby={descId}
+                              >
+                                {pledge.name}
+                              </button>
+                            </h3>
+                          </form>
                           {pledge.type === "item" ? (
                             <p>Pledge ${pledge.min} or more</p>
                           ) : null}
@@ -109,7 +110,17 @@ export const PledgeDialogTrigger = (props: Props) => {
                           </p>
                         ) : null}
                       </div>
-                      <div className="[ pledge__enter ] [ mt-6 tablet:mt-8 ]">
+                      <form
+                        className="[ pledge__enter ] [ mt-6 tablet:mt-8 ]"
+                        method="post"
+                        onSubmit={(e) => {
+                          console.log(
+                            pledge.id,
+                            Object.fromEntries(new FormData(e.currentTarget))
+                          );
+                          e.preventDefault();
+                        }}
+                      >
                         <label htmlFor={quantityId}>
                           Enter your pledge
                           <span className="sr-only"> in dollars</span>
@@ -139,13 +150,13 @@ export const PledgeDialogTrigger = (props: Props) => {
                             Continue
                           </button>
                         </div>
-                      </div>
+                      </form>
                     </li>
                   );
                 })}
               </ul>
             </fieldset>
-          </form>
+          </div>
           <DialogPrimitive.Close className="dialog__close">
             <img alt="Close" src="/images/icon-close-modal.svg" />
           </DialogPrimitive.Close>
