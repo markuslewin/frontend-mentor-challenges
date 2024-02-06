@@ -1,0 +1,24 @@
+.textbox {
+  isolation: isolate;
+  width: 6.25rem;
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  align-items: baseline;
+}
+
+.textbox__sign {
+  grid-column: 1;
+  grid-row: 1;
+  z-index: 1;
+  margin-inline-start: 1.5rem;
+  pointer-events: none;
+}
+
+.textbox__input {
+  grid-column: 1 / -1;
+  grid-row: 1;
+  border: 1px solid hsl(0 0% 0% / 15%);
+  border-radius: 100vh;
+  padding-block: 1rem;
+  padding-inline: 2.5rem 1rem;
+}

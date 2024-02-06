@@ -1,5 +1,6 @@
 .pledge {
   --pledge-padding-inline: 1.5rem;
+  --button-padding: 1rem 1.5rem;
   --card-border-color: hsl(0 0% 0% / 15%);
   --card-padding: 2rem 0;
 }
@@ -61,7 +62,9 @@
 }
 
 .pledge[data-selected="true"] .pledge__enter {
-  display: block;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
 }
 
 @media (min-width: 40em) {
@@ -80,5 +83,12 @@
 
   .pledge__heading {
     gap: 1rem;
+  }
+
+  .pledge[data-selected="true"] .pledge__enter {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    text-align: start;
   }
 }

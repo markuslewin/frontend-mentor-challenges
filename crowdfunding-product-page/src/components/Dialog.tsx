@@ -108,12 +108,17 @@ export const PledgeDialogTrigger = (props: Props) => {
                         ) : null}
                       </div>
                       <div className="[ pledge__enter ] [ mt-6 tablet:mt-8 ]">
-                        <label htmlFor={quantityId}>Enter your pledge</label>
-                        <div>
-                          <span>
-                            <span>$</span>
+                        <label htmlFor={quantityId}>
+                          Enter your pledge
+                          <span className="sr-only"> in dollars</span>
+                        </label>
+                        <div className="flex flex-wrap gap-4 justify-center mt-4 tablet:mt-0">
+                          <span className="textbox">
+                            <span className="textbox__sign" aria-hidden="true">
+                              $
+                            </span>
                             <input
-                              className="w-[6.25rem]"
+                              className="textbox__input"
                               type="number"
                               name="quantity"
                               defaultValue={
@@ -123,7 +128,12 @@ export const PledgeDialogTrigger = (props: Props) => {
                               id={quantityId}
                             />
                           </span>
-                          <button type="submit" name="intent" value="pledge">
+                          <button
+                            className="button"
+                            type="submit"
+                            name="intent"
+                            value="pledge"
+                          >
                             Continue
                           </button>
                         </div>

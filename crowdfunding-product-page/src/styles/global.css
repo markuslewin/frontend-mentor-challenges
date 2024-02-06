@@ -17,6 +17,7 @@
 @import "blocks/progress-section";
 @import "blocks/progress";
 @import "blocks/reward-button";
+@import "blocks/textbox";
 
 @import "compositions/center";
 @import "compositions/cluster";
