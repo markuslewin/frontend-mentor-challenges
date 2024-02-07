@@ -9,7 +9,7 @@ type Props = {
 const Progress = ({ current: initialCurrent, goal }: Props) => {
   const [current, setCurrent] = useState(initialCurrent);
 
-  const value = (current / goal) * 100;
+  const value = Math.min((current / goal) * 100, 100);
 
   return (
     <Root className="progress" value={value}>

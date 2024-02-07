@@ -9,6 +9,10 @@ import { getAppState, setAppState } from "../utils/state";
 
 const state = getAppState(Astro.cookies);
 
+const backed = 89914 + state.amount;
+const goal = 100000;
+const totalBackers = 5007 + (state.hasPledged ? 1 : 0);
+
 if (Astro.request.method === "POST") {
   const formData = await Astro.request.formData();
   const intent = formData.get("intent");
@@ -142,17 +146,35 @@ if (Astro.request.method === "POST") {
           <h2 class="sr-only" id="progress-heading">Progress</h2>
           <ul class="progress-section__stats" role="list">
             <li class="progress-section__stat">
-              <b>$89,914</b> of $100,000 backed
+              <b>
+                {
+                  new Intl.NumberFormat("en-US", {
+                    style: "currency",
+                    currency: "USD",
+                    currencyDisplay: "narrowSymbol",
+                    maximumFractionDigits: 0,
+                  }).format(backed)
+                }
+              </b> of {
+                new Intl.NumberFormat("en-US", {
+                  style: "currency",
+                  currency: "USD",
+                  currencyDisplay: "narrowSymbol",
+                  maximumFractionDigits: 0,
+                }).format(goal)
+              } backed
             </li>
             <li class="progress-section__stat">
-              <b>5,007</b> total backers
+              <b>
+                {new Intl.NumberFormat("en-US").format(totalBackers)}
+              </b> total backers
             </li>
             <li class="progress-section__stat">
               <b>56</b> days left
             </li>
           </ul>
           <div class="mt-8 tablet:mt-9">
-            <Progress current={89914} goal={100000} />
+            <Progress current={backed} goal={goal} />
           </div>
         </section>
         <div class="card mt-6">
