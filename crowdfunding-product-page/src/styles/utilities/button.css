@@ -2,6 +2,7 @@
   background: var(--color-moderate-cyan);
   color: hsl(0 0% 100%);
   border-radius: 100vh;
+  display: inline-block;
   padding: var(--button-padding, 1.125rem 2.5rem);
   transition: background-color var(--transition);
 }

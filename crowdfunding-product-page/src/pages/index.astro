@@ -4,6 +4,7 @@ import Icon from "../components/Icon.astro";
 import rewards from "../data/rewards.json";
 import Progress from "../components/Progress";
 import { PledgeDialogTrigger } from "../components/Dialog";
+import { SuccessDialog } from "../components/SuccessDialog";
 
 const COOKIE_NAME = "crowdfunding-product-page";
 
@@ -211,16 +212,15 @@ const isBookmarked = getIsBookmarked();
           </div>
         </div>
       </div>
-      <!-- <div>
-        <img alt="" src="/images/icon-check.svg" />
-        <h1>Thanks for your support!</h1>
-        <p>
-          Your pledge brings us one step closer to sharing Mastercraft Bamboo
-          Monitor Riser worldwide. You will get an email once our campaign is
-          completed.
-        </p>
-        <a href="/">Got it!</a>
-      </div> -->
     </main>
+    <SuccessDialog client:load />
   </body>
 </html>
+
+<script>
+  import { $open } from "../utils/store";
+
+  addEventListener("success", () => {
+    $open.set(true);
+  });
+</script>

@@ -169,10 +169,13 @@ export const PledgeDialogTrigger = (props: Props) => {
                         className="[ pledge__enter ] [ mt-6 tablet:mt-8 ]"
                         method="post"
                         onSubmit={(e) => {
-                          e.preventDefault();
                           const formData = new FormData(e.currentTarget);
                           formData.set("id", pledge.id);
-                          mutation.mutate(formData);
+                          mutation.mutate(formData).then(() => {
+                            setOpen(false);
+                            dispatchEvent(new Event("success"));
+                          });
+                          e.preventDefault();
                         }}
                       >
                         <label htmlFor={amountId}>
