@@ -5,25 +5,20 @@ import rewards from "../data/rewards.json";
 import Progress from "../components/Progress";
 import { PledgeDialogTrigger } from "../components/Dialog";
 import { SuccessDialog } from "../components/SuccessDialog";
-import { COOKIE_NAME } from "../utils/cookie";
+import { getAppState, setAppState } from "../utils/state";
 
-function getIsBookmarked() {
-  const data = Astro.cookies.get(COOKIE_NAME)?.json() as unknown;
-  const isBookmarked =
-    data && typeof data === "object" && "isBookmarked" in data
-      ? !!data.isBookmarked
-      : false;
-  return isBookmarked;
-}
+const state = getAppState(Astro.cookies);
 
 if (Astro.request.method === "POST") {
   const formData = await Astro.request.formData();
   const intent = formData.get("intent");
   switch (intent) {
     case "bookmark": {
-      const isBookmarked = getIsBookmarked();
-      const state = Astro.cookies.get(COOKIE_NAME)?.json();
-      Astro.cookies.set(COOKIE_NAME, { ...state, isBookmarked: !isBookmarked });
+      setAppState(Astro.cookies, { ...state, isBookmarked: true });
+      return Astro.redirect("/", 302);
+    }
+    case "unbookmark": {
+      setAppState(Astro.cookies, { ...state, isBookmarked: false });
       return Astro.redirect("/", 302);
     }
     default: {
@@ -31,8 +26,6 @@ if (Astro.request.method === "POST") {
     }
   }
 }
-
-const isBookmarked = getIsBookmarked();
 ---
 
 <html lang="en">
@@ -118,8 +111,8 @@ const isBookmarked = getIsBookmarked();
                 class="icon-button"
                 type="submit"
                 name="intent"
-                value="bookmark"
-                data-is-bookmarked={`${isBookmarked}`}
+                value={state.isBookmarked ? "unbookmark" : "bookmark"}
+                data-is-bookmarked={`${state.isBookmarked}`}
               >
                 <svg
                   class="icon"
@@ -136,7 +129,7 @@ const isBookmarked = getIsBookmarked();
                   >
                 </svg>
                 <span class="sr-only tablet:not-sr-only">
-                  {isBookmarked ? "Bookmarked" : "Bookmark"}
+                  {state.isBookmarked ? "Bookmarked" : "Bookmark"}
                 </span>
               </button>
             </form>

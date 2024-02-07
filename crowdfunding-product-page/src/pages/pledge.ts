@@ -1,12 +1,6 @@
 import type { APIRoute } from "astro";
-import { COOKIE_NAME } from "../utils/cookie";
 import { z } from "zod";
-
-const StateSchema = z.object({
-  isBookmarked: z.boolean().default(false),
-  hasPledged: z.boolean().default(false),
-  amount: z.number().default(0),
-});
+import { getAppState, setAppState } from "../utils/state";
 
 const PledgeInput = z.object({
   id: z.string(),
@@ -20,12 +14,11 @@ export const POST: APIRoute = async ({ request, cookies }) => {
   if (!result.success) {
     return new Response(null, { status: 400 });
   }
-  const json = cookies.get(COOKIE_NAME)?.json();
-  const state = StateSchema.parse(json ?? {});
-  cookies.set(COOKIE_NAME, {
+  const state = getAppState(cookies);
+  setAppState(cookies, {
     ...state,
-    hasPledged: true,
     amount: state.amount + result.data.amount,
+    hasPledged: true,
   });
   return new Response();
 };
