@@ -1,7 +1,7 @@
 ---
 import "../styles/global.css";
 import Icon from "../components/Icon.astro";
-import rewards from "../data/rewards.json";
+import { rewards } from "../data/rewards";
 import Progress from "../components/Progress";
 import { PledgeDialogTrigger } from "../components/Dialog";
 import { SuccessDialog } from "../components/SuccessDialog";
@@ -107,7 +107,11 @@ if (Astro.request.method === "POST") {
           <div
             class="mt-6 tablet:mt-10 flex justify-center items-center flex-wrap gap-2 tablet:justify-between"
           >
-            <PledgeDialogTrigger client:load className="button">
+            <PledgeDialogTrigger
+              client:load
+              className="button"
+              pledges={state.pledges}
+            >
               Back this project
             </PledgeDialogTrigger>
             <form class="flex" method="post">
@@ -196,7 +200,8 @@ if (Astro.request.method === "POST") {
             <ul role="list">
               {
                 rewards.map((reward) => {
-                  const isOutOfStock = !reward.left;
+                  const left = reward.left - state.pledges[reward.id];
+                  const isOutOfStock = !left;
                   return (
                     <li
                       class="card mt-6 first:mt-9"
@@ -209,11 +214,12 @@ if (Astro.request.method === "POST") {
                       <p class="mt-6">{reward.description}</p>
                       <div class="[ repel ] [ mt-6 gap-6 ]">
                         <p class="left">
-                          <strong>{reward.left}</strong> left
+                          <strong>{left}</strong> left
                         </p>
                         <PledgeDialogTrigger
                           client:load
                           className="[ reward-button ] [ button ]"
+                          pledges={state.pledges}
                           disabled={isOutOfStock}
                         >
                           {isOutOfStock ? "Out of Stock" : "Select Reward"}

@@ -1,22 +1,14 @@
 import * as DialogPrimitive from "@radix-ui/react-dialog";
-import rewards from "../data/rewards.json";
+import { rewards } from "../data/rewards";
 import { useState } from "react";
 import { fetcher } from "../utils/fetcher";
+import type { z } from "zod";
+import type { StateSchema } from "../utils/state";
 
-const pledges: (
-  | { type: "none"; id: string; name: string; description: string }
-  | {
-      type: "item";
-      id: string;
-      name: string;
-      description: string;
-      min: number;
-      left: number;
-    }
-)[] = [
+const pledges = [
   {
-    type: "none",
-    id: "none",
+    type: "none" as const,
+    id: "none" as const,
     name: "Pledge with no reward",
     description:
       "Choose to support us without a reward if you simply believe in our project. As a backer, you will be signed up to receive product updates via email.",
@@ -73,9 +65,14 @@ function usePledge() {
   };
 }
 
-type Props = React.ButtonHTMLAttributes<HTMLButtonElement>;
+type Props = React.ButtonHTMLAttributes<HTMLButtonElement> & {
+  pledges: z.infer<typeof StateSchema>["pledges"];
+};
 
-export const PledgeDialogTrigger = (props: Props) => {
+export const PledgeDialogTrigger = ({
+  pledges: userPledges,
+  ...props
+}: Props) => {
   const mutation = usePledge();
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState<string | null>(null);
@@ -111,7 +108,9 @@ export const PledgeDialogTrigger = (props: Props) => {
                 {pledges.map((pledge) => {
                   const descId = `pledge-${pledge.id}-desc`;
                   const amountId = `pledge-${pledge.id}-amount`;
-                  const disabled = pledge.type === "item" && !pledge.left;
+                  const disabled =
+                    pledge.type === "item" &&
+                    !(pledge.left - userPledges[pledge.id]);
                   return (
                     <li
                       className="[ pledge ] [ card first:mt-0 mt-6 ]"
@@ -161,7 +160,10 @@ export const PledgeDialogTrigger = (props: Props) => {
                         </p>
                         {pledge.type === "item" ? (
                           <p className="pledge__left">
-                            <strong>{pledge.left}</strong> left
+                            <strong>
+                              {pledge.left - userPledges[pledge.id]}
+                            </strong>{" "}
+                            left
                           </p>
                         ) : null}
                       </div>
