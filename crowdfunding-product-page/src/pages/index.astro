@@ -5,8 +5,7 @@ import rewards from "../data/rewards.json";
 import Progress from "../components/Progress";
 import { PledgeDialogTrigger } from "../components/Dialog";
 import { SuccessDialog } from "../components/SuccessDialog";
-
-const COOKIE_NAME = "crowdfunding-product-page";
+import { COOKIE_NAME } from "../utils/cookie";
 
 function getIsBookmarked() {
   const data = Astro.cookies.get(COOKIE_NAME)?.json() as unknown;
@@ -23,7 +22,8 @@ if (Astro.request.method === "POST") {
   switch (intent) {
     case "bookmark": {
       const isBookmarked = getIsBookmarked();
-      Astro.cookies.set(COOKIE_NAME, { isBookmarked: !isBookmarked });
+      const state = Astro.cookies.get(COOKIE_NAME)?.json();
+      Astro.cookies.set(COOKIE_NAME, { ...state, isBookmarked: !isBookmarked });
       return Astro.redirect("/", 302);
     }
     default: {
