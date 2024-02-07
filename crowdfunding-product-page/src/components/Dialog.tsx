@@ -1,6 +1,7 @@
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import rewards from "../data/rewards.json";
-import { useState, type SyntheticEvent } from "react";
+import { useState } from "react";
+import { fetcher } from "../utils/fetcher";
 
 const pledges: (
   | { type: "none"; id: string; name: string; description: string }
@@ -32,12 +33,63 @@ const pledges: (
   }),
 ];
 
+function usePledge() {
+  const [state, setState] = useState<
+    | { status: "idle" }
+    | { status: "pending" }
+    | { status: "success"; data: unknown }
+    | { status: "error"; error: unknown }
+  >({
+    status: "idle",
+  });
+
+  return {
+    isIdle: state.status === "idle",
+    isPending: state.status === "pending",
+    isSuccess: state.status === "success",
+    isError: state.status === "error",
+    data: state.status === "success" ? state.data : undefined,
+    error: state.status === "error" ? state.error : undefined,
+    async mutate(formData: FormData) {
+      try {
+        setState({ status: "pending" });
+        const response = await fetcher.fetch("/pledge", {
+          method: "post",
+          body: formData,
+        });
+        if (!response.ok) {
+          throw new Error("Response not successful");
+        }
+        const data = await response.json();
+        setState({ status: "success", data });
+      } catch (error) {
+        if (error instanceof DOMException && error.name === "AbortError") {
+          // Keep the pending state of the current fetch.
+          return;
+        }
+        setState({ status: "error", error });
+      }
+    },
+  };
+}
+
 type Props = React.ButtonHTMLAttributes<HTMLButtonElement>;
 
 export const PledgeDialogTrigger = (props: Props) => {
+  const mutation = usePledge();
+  const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState<string | null>(null);
+
   return (
-    <DialogPrimitive.Root>
+    <DialogPrimitive.Root
+      open={open}
+      onOpenChange={(nextOpen) => {
+        if (mutation.isPending) {
+          return;
+        }
+        setOpen(nextOpen);
+      }}
+    >
       <DialogPrimitive.Trigger {...props} />
       <DialogPrimitive.Portal>
         <DialogPrimitive.Overlay className="dialog__overlay" />
@@ -50,12 +102,15 @@ export const PledgeDialogTrigger = (props: Props) => {
             in the world?
           </DialogPrimitive.Description>
           <div className="mt-6 tablet:mt-8">
-            <fieldset>
+            <fieldset
+              className="disabled:opacity-50"
+              disabled={mutation.isPending}
+            >
               <legend className="sr-only">Select a reward</legend>
               <ul className="dialog__pledges" role="list">
                 {pledges.map((pledge) => {
                   const descId = `pledge-${pledge.id}-desc`;
-                  const quantityId = `pledge-${pledge.id}-quantity`;
+                  const amountId = `pledge-${pledge.id}-amount`;
                   const disabled = pledge.type === "item" && !pledge.left;
                   return (
                     <li
@@ -114,14 +169,13 @@ export const PledgeDialogTrigger = (props: Props) => {
                         className="[ pledge__enter ] [ mt-6 tablet:mt-8 ]"
                         method="post"
                         onSubmit={(e) => {
-                          console.log(
-                            pledge.id,
-                            Object.fromEntries(new FormData(e.currentTarget))
-                          );
                           e.preventDefault();
+                          const formData = new FormData(e.currentTarget);
+                          formData.set("id", pledge.id);
+                          mutation.mutate(formData);
                         }}
                       >
-                        <label htmlFor={quantityId}>
+                        <label htmlFor={amountId}>
                           Enter your pledge
                           <span className="sr-only"> in dollars</span>
                         </label>
@@ -133,12 +187,12 @@ export const PledgeDialogTrigger = (props: Props) => {
                             <input
                               className="textbox__input"
                               type="number"
-                              name="quantity"
+                              name="amount"
                               defaultValue={
                                 pledge.type === "item" ? pledge.min : 0
                               }
                               min={pledge.type === "item" ? pledge.min : 0}
-                              id={quantityId}
+                              id={amountId}
                             />
                           </span>
                           <button
@@ -157,7 +211,10 @@ export const PledgeDialogTrigger = (props: Props) => {
               </ul>
             </fieldset>
           </div>
-          <DialogPrimitive.Close className="dialog__close">
+          <DialogPrimitive.Close
+            className="dialog__close"
+            disabled={mutation.isPending}
+          >
             <img alt="Close" src="/images/icon-close-modal.svg" />
           </DialogPrimitive.Close>
         </DialogPrimitive.Content>

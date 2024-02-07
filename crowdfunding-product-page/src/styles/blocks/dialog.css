@@ -40,6 +40,10 @@
   right: 0.9375rem;
 }
 
+.dialog__close[disabled] {
+  opacity: 50%;
+}
+
 @media (min-width: 40em) {
   .dialog__content {
     --card-padding: 3rem;
