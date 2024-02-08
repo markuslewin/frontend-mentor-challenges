@@ -1,15 +1,16 @@
 ---
 interface Props {
+  class?: string;
   name: string;
   alt: string;
   width: number;
   height: number;
 }
 
-const { name, alt, width, height } = Astro.props;
+const { class: className, name, alt, width, height } = Astro.props;
 ---
 
-<div>
+<div class={className}>
   <svg
     class="icon"
     aria-hidden="true"

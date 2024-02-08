@@ -12,6 +12,7 @@
 @import "blocks/intro";
 @import "blocks/left";
 @import "blocks/main";
+@import "blocks/menu";
 @import "blocks/or-more";
 @import "blocks/pledge";
 @import "blocks/progress-section";

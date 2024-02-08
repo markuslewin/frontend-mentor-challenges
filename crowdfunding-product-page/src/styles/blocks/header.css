@@ -7,3 +7,7 @@
   padding-block: 3rem;
   color: hsl(0 0% 100%);
 }
+
+.header > a {
+  z-index: 1;
+}

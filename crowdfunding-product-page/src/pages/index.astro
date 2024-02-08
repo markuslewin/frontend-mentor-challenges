@@ -51,13 +51,26 @@ if (Astro.request.method === "POST") {
       <a href="/">
         <Icon alt="Crowdfund" name="logo" width={128} height={20} />
       </a>
-      <nav>
-        <!-- <button>
-          <img alt="" src="/images/icon-hamburger.svg" />
-          <img alt="" src="/images/icon-close-menu.svg" />
-          Menu
-        </button> -->
-        <ul class="cluster" role="list">
+      <nav class="menu">
+        <button class="menu__trigger" aria-expanded="false">
+          <Icon
+            class="menu__icon-open"
+            alt=""
+            name="icon-hamburger"
+            width={16}
+            height={15}
+          />
+          <Icon
+            class="menu__icon-close"
+            alt=""
+            name="icon-close-menu"
+            width={14}
+            height={15}
+          />
+          <span class="sr-only">Menu</span>
+        </button>
+        <div class="menu__overlay"></div>
+        <ul class="menu__links" role="list">
           <li>
             <a href="/about">About</a>
           </li>
@@ -241,6 +254,13 @@ if (Astro.request.method === "POST") {
 <script>
   import { $open } from "../utils/store";
 
+  const trigger = document.getElementsByClassName("menu__trigger")[0];
+  trigger?.addEventListener("click", () => {
+    const expanded = trigger.getAttribute("aria-expanded") === "true";
+    trigger.setAttribute("aria-expanded", (!expanded).toString());
+  });
+
+  // Open success dialog
   addEventListener("success", () => {
     $open.set(true);
   });
