@@ -14,7 +14,7 @@ export default function Index() {
 		<main>
 			<h1>Welcome to the Frontend Quiz!</h1>
 			<p>Pick a subject to get started.</p>
-			<ul>
+			<ul role="list">
 				{subjects.map(subject => {
 					return (
 						<li key={subject.name}>
