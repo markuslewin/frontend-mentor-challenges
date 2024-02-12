@@ -1,13 +1,16 @@
-import { useForm, getFormProps } from '@conform-to/react'
+import { getFormProps, useForm } from '@conform-to/react'
 import { parseWithZod } from '@conform-to/zod'
 import { invariantResponse } from '@epic-web/invariant'
+// Supports weights 300-900
+import rubikHref from '@fontsource-variable/rubik/index.css'
+import rubikItalicHref from '@fontsource-variable/rubik/wght-italic.css'
 import { cssBundleHref } from '@remix-run/css-bundle'
 import {
 	json,
-	type LoaderFunctionArgs,
 	type ActionFunctionArgs,
 	type HeadersFunction,
 	type LinksFunction,
+	type LoaderFunctionArgs,
 	type MetaFunction,
 } from '@remix-run/node'
 import {
@@ -52,7 +55,7 @@ import { honeypot } from './utils/honeypot.server.ts'
 import { combineHeaders, getDomainUrl, getUserImgSrc } from './utils/misc.tsx'
 import { useNonce } from './utils/nonce-provider.ts'
 import { useRequestInfo } from './utils/request-info.ts'
-import { type Theme, setTheme, getTheme } from './utils/theme.server.ts'
+import { getTheme, setTheme, type Theme } from './utils/theme.server.ts'
 import { makeTimings, time } from './utils/timing.server.ts'
 import { getToast } from './utils/toast.server.ts'
 import { useOptionalUser, useUser } from './utils/user.ts'
@@ -77,6 +80,8 @@ export const links: LinksFunction = () => {
 		//These should match the css preloads above to avoid css as render blocking resource
 		{ rel: 'stylesheet', href: tailwindStyleSheetUrl },
 		cssBundleHref ? { rel: 'stylesheet', href: cssBundleHref } : null,
+		{ rel: 'stylesheet', href: rubikHref },
+		{ rel: 'stylesheet', href: rubikItalicHref },
 	].filter(Boolean)
 }
 
