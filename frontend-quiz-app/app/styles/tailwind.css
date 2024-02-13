@@ -20,6 +20,8 @@
 		--background: var(--color-light-grey);
 		--foreground: var(--color-grey-navy);
 		--foreground-heading: var(--color-dark-navy);
+		--foreground-question-number: var(--color-grey-navy);
+		--foreground-question: var(--color-dark-navy);
 
 		--card: var(--color-pure-white);
 		--card-foreground: var(--color-dark-navy);
@@ -27,15 +29,23 @@
 
 		--button: var(--color-purple);
 		--button-foreground: var(--color-pure-white);
+
+		--timer: var(--color-pure-white);
+
+		--border: var(--color-purple);
 	}
 
 	.dark {
 		--background: var(--color-dark-navy);
 		--foreground: var(--color-light-bluish);
 		--foreground-heading: var(--color-pure-white);
+		--foreground-question-number: var(--color-light-bluish);
+		--foreground-question: var(--color-pure-white);
 
 		--card: var(--color-navy);
 		--card-foreground: var(--color-pure-white);
 		--card-shadow: 216 25% 25% / 14%;
+
+		--timer: var(--color-navy);
 	}
 }

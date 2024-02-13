@@ -6,6 +6,8 @@ export const extendedTheme = {
 		foreground: {
 			DEFAULT: 'hsl(var(--foreground))',
 			heading: 'hsl(var(--foreground-heading))',
+			questionNumber: 'hsl(var(--foreground-question-number))',
+			question: 'hsl(var(--foreground-question))',
 		},
 		card: {
 			DEFAULT: 'hsl(var(--card))',
@@ -16,6 +18,13 @@ export const extendedTheme = {
 			DEFAULT: 'hsl(var(--button))',
 			foreground: 'hsl(var(--button-foreground))',
 		},
+		timer: {
+			DEFAULT: 'hsl(var(--timer))',
+		},
+		purple: 'hsl(var(--color-purple))',
+		'grey-navy': 'hsl(var(--color-grey-navy))',
+		'light-grey': 'hsl(var(--color-light-grey))',
+		'pure-white': 'hsl(var(--color-pure-white))',
 	},
 	borderColor: {
 		DEFAULT: 'hsl(var(--border))',
