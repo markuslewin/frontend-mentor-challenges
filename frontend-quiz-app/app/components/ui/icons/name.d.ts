@@ -14,6 +14,8 @@ export type IconName =
 	| 'exit'
 	| 'file-text'
 	| 'github-logo'
+	| 'icon-moon-light'
+	| 'icon-sun-light'
 	| 'laptop'
 	| 'link-2'
 	| 'lock-closed'

@@ -22,6 +22,7 @@ import {
 	Outlet,
 	Scripts,
 	ScrollRestoration,
+	useActionData,
 	useFetcher,
 	useFetchers,
 	useLoaderData,
@@ -29,7 +30,7 @@ import {
 	useSubmit,
 } from '@remix-run/react'
 import { withSentry } from '@sentry/remix'
-import { useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { HoneypotProvider } from 'remix-utils/honeypot/react'
 import { z } from 'zod'
 import { GeneralErrorBoundary } from './components/error-boundary.tsx'
@@ -161,7 +162,7 @@ export const headers: HeadersFunction = ({ loaderHeaders }) => {
 }
 
 const ThemeFormSchema = z.object({
-	theme: z.enum(['system', 'light', 'dark']),
+	theme: z.enum(['light', 'dark']),
 })
 
 export async function action({ request }: ActionFunctionArgs) {
@@ -229,8 +230,10 @@ function App() {
 	return (
 		<Document nonce={nonce} theme={theme} env={data.ENV}>
 			<div className="flex min-h-screen flex-col justify-between pb-16">
-				<header className="container py-6">
-					<ThemeSwitch userPreference={data.requestInfo.userPrefs.theme} />
+				<header className="py-4 tablet:py-10 desktop:py-[5.1875rem]">
+					<div className="mx-auto box-content flex max-w-default justify-end px-6 tablet:px-16">
+						<ThemeSwitch />
+					</div>
 				</header>
 				<div className="flex-1">
 					<Outlet />
@@ -335,10 +338,10 @@ export function useTheme() {
 	const hints = useHints()
 	const requestInfo = useRequestInfo()
 	const optimisticMode = useOptimisticThemeMode()
-	if (optimisticMode) {
-		return optimisticMode === 'system' ? hints.theme : optimisticMode
-	}
-	return requestInfo.userPrefs.theme ?? hints.theme
+	const actionMode = useActionThemeMode()
+	return (
+		optimisticMode ?? actionMode ?? requestInfo.userPrefs.theme ?? hints.theme
+	)
 }
 
 /**
@@ -360,7 +363,24 @@ export function useOptimisticThemeMode() {
 	}
 }
 
-function ThemeSwitch({ userPreference }: { userPreference?: Theme | null }) {
+/**
+ * Return the theme of the action result. Enables theme mode when JS is
+ * unavailable.
+ */
+function useActionThemeMode() {
+	const data = useActionData<typeof action>()
+	const result = ThemeFormSchema.safeParse(data?.result.initialValue)
+	const [theme, setTheme] = useState(result.success ? result.data.theme : null)
+
+	useEffect(() => {
+		// Ignore the action result if the app is hydrated.
+		setTheme(null)
+	}, [])
+
+	return theme
+}
+
+function ThemeSwitch() {
 	const fetcher = useFetcher<typeof action>()
 
 	const [form] = useForm({
@@ -368,38 +388,25 @@ function ThemeSwitch({ userPreference }: { userPreference?: Theme | null }) {
 		lastResult: fetcher.data?.result,
 	})
 
-	const optimisticMode = useOptimisticThemeMode()
-	const mode = optimisticMode ?? userPreference ?? 'system'
-	const nextMode =
-		mode === 'system' ? 'light' : mode === 'light' ? 'dark' : 'system'
-	const modeLabel = {
-		light: (
-			<Icon name="sun">
-				<span className="sr-only">Light</span>
-			</Icon>
-		),
-		dark: (
-			<Icon name="moon">
-				<span className="sr-only">Dark</span>
-			</Icon>
-		),
-		system: (
-			<Icon name="laptop">
-				<span className="sr-only">System</span>
-			</Icon>
-		),
-	}
+	const mode = useTheme()
+	const nextMode = mode === 'light' ? 'dark' : 'light'
 
 	return (
-		<fetcher.Form method="POST" {...getFormProps(form)}>
+		<fetcher.Form
+			className="text-foreground-theme"
+			method="POST"
+			{...getFormProps(form)}
+		>
 			<input type="hidden" name="theme" value={nextMode} />
-			<div className="flex gap-2">
+			<div className="flex items-center gap-4">
+				<Icon className="size-4 tablet:size-6" name="icon-sun-light" />
 				<button
 					type="submit"
-					className="flex h-8 w-8 cursor-pointer items-center justify-center"
+					className="border-1 grid h-5 w-8 items-center rounded-full bg-purple before:inline-block before:size-3 before:translate-x-1 before:rounded-full before:border-[0.375rem] before:border-pure-white dark:before:translate-x-[0.9375rem] tablet:h-7 tablet:w-12 tablet:before:size-5 tablet:before:border-[0.625rem] dark:tablet:before:translate-x-[1.4375rem]"
 				>
-					{modeLabel[mode]}
+					<span className="sr-only">Enable {nextMode} mode</span>
 				</button>
+				<Icon className="size-4 tablet:size-6" name="icon-moon-light" />
 			</div>
 		</fetcher.Form>
 	)

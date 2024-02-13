@@ -5,6 +5,7 @@ export const extendedTheme = {
 		background: 'hsl(var(--background))',
 		foreground: {
 			DEFAULT: 'hsl(var(--foreground))',
+			theme: 'hsl(var(--foreground-theme))',
 			heading: 'hsl(var(--foreground-heading))',
 			questionNumber: 'hsl(var(--foreground-question-number))',
 			question: 'hsl(var(--foreground-question))',

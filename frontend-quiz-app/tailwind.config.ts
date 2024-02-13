@@ -38,6 +38,7 @@ export default {
 			default: '0 1rem 2.5rem',
 		},
 		borderWidth: {
+			1: '1px',
 			3: '3px',
 		},
 		maxWidth: {

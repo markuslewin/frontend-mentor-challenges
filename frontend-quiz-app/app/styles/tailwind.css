@@ -19,6 +19,7 @@
 
 		--background: var(--color-light-grey);
 		--foreground: var(--color-grey-navy);
+		--foreground-theme: var(--color-grey-navy);
 		--foreground-heading: var(--color-dark-navy);
 		--foreground-question-number: var(--color-grey-navy);
 		--foreground-question: var(--color-dark-navy);
@@ -38,6 +39,7 @@
 	.dark {
 		--background: var(--color-dark-navy);
 		--foreground: var(--color-light-bluish);
+		--foreground-theme: var(--color-pure-white);
 		--foreground-heading: var(--color-pure-white);
 		--foreground-question-number: var(--color-light-bluish);
 		--foreground-question: var(--color-pure-white);
