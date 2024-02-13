@@ -7,74 +7,37 @@
 		/* --font-sans: here if you have one */
 		/* --font-mono: here if you got it... */
 
-		/* prefixed with foreground because it should look good on the background */
-		--foreground-destructive: 345 82.7% 40.8%;
+		--color-purple: 277 91% 56%;
+		--color-dark-navy: 216 25% 25%;
+		--color-navy: 215 27% 32%;
+		--color-grey-navy: 219 13% 44%;
+		--color-light-bluish: 216 47% 78%;
+		--color-light-grey: 220 38% 97%;
+		--color-pure-white: 0 0% 100%;
+		--color-green: 151 70% 50%;
+		--color-red: 0 82% 63%;
 
-		--background: 0 0% 100%;
-		--foreground: 222.2 84% 4.9%;
+		--background: var(--color-light-grey);
+		--foreground: var(--color-grey-navy);
+		--foreground-heading: var(--color-dark-navy);
 
-		--muted: 210 40% 93%;
-		--muted-foreground: 215.4 16.3% 30%;
+		--card: var(--color-pure-white);
+		--card-foreground: var(--color-dark-navy);
+		--card-shadow: 220 29% 66% / 14%;
 
-		--popover: 0 0% 100%;
-		--popover-foreground: 222.2 84% 4.9%;
-
-		--card: 0 0% 100%;
-		--card-foreground: 222.2 84% 4.9%;
-
-		--border: 214.3 31.8% 91.4%;
-		--input: 214.3 31.8% 91.4%;
-		--input-invalid: 0 84.2% 60.2%;
-
-		--primary: 222.2 47.4% 11.2%;
-		--primary-foreground: 210 40% 98%;
-
-		--secondary: 210 20% 83%;
-		--secondary-foreground: 222.2 47.4% 11.2%;
-
-		--accent: 210 40% 90%;
-		--accent-foreground: 222.2 47.4% 11.2%;
-
-		--destructive: 0 70% 50%;
-		--destructive-foreground: 210 40% 98%;
-
-		--ring: 215 20.2% 65.1%;
+		--button: var(--color-purple);
+		--button-foreground: var(--color-pure-white);
 
 		--radius: 0.5rem;
 	}
 
 	.dark {
-		--background: 222.2 84% 4.9%;
-		--foreground: 210 40% 98%;
+		--background: var(--color-dark-navy);
+		--foreground: var(--color-light-bluish);
+		--foreground-heading: var(--color-pure-white);
 
-		/* prefixed with foreground because it should look good on the background */
-		--foreground-destructive: -4 84% 60%;
-
-		--muted: 217.2 32.6% 12%;
-		--muted-foreground: 215 20.2% 65.1%;
-
-		--popover: 222.2 84% 4.9%;
-		--popover-foreground: 210 40% 98%;
-
-		--card: 222.2 84% 4.9%;
-		--card-foreground: 210 40% 98%;
-
-		--border: 217.2 32.6% 17.5%;
-		--input: 217.2 32.6% 17.5%;
-		--input-invalid: 0 62.8% 30.6%;
-
-		--primary: 210 40% 98%;
-		--primary-foreground: 222.2 47.4% 11.2%;
-
-		--secondary: 217.2 20% 24%;
-		--secondary-foreground: 210 40% 98%;
-
-		--accent: 217.2 32.6% 10%;
-		--accent-foreground: 210 40% 98%;
-
-		--destructive: 0 60% 40%;
-		--destructive-foreground: 0 85.7% 97.3%;
-
-		--ring: 217.2 32.6% 60%;
+		--card: var(--color-navy);
+		--card-foreground: var(--color-pure-white);
+		--card-shadow: 216 25% 25% / 14%;
 	}
 }
