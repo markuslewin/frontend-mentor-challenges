@@ -200,7 +200,7 @@ function Document({
 				<meta name="viewport" content="width=device-width,initial-scale=1" />
 				<Links />
 			</head>
-			<body className="bg-background text-foreground">
+			<body className="bg-background font-body text-[0.875rem] text-foreground tablet:text-body-s">
 				{children}
 				<script
 					nonce={nonce}
@@ -228,7 +228,7 @@ function App() {
 
 	return (
 		<Document nonce={nonce} theme={theme} env={data.ENV}>
-			<div className="flex h-screen flex-col justify-between">
+			<div className="flex min-h-screen flex-col justify-between pb-16">
 				<header className="container py-6">
 					<ThemeSwitch userPreference={data.requestInfo.userPrefs.theme} />
 				</header>

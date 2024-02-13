@@ -19,6 +19,10 @@ export default {
 				'2xl': '1400px',
 			},
 		},
+		screens: {
+			tablet: '40em',
+			desktop: '64em',
+		},
 		fontFamily: {
 			body: '"Rubik Variable", sans-serif',
 		},
@@ -32,6 +36,9 @@ export default {
 		},
 		boxShadow: {
 			default: '0 1rem 2.5rem',
+		},
+		maxWidth: {
+			default: rem(1160),
 		},
 		extend: extendedTheme,
 	},

@@ -20,11 +20,6 @@ export const extendedTheme = {
 	borderColor: {
 		DEFAULT: 'hsl(var(--border))',
 	},
-	borderRadius: {
-		lg: 'var(--radius)',
-		md: 'calc(var(--radius) - 2px)',
-		sm: 'calc(var(--radius) - 4px)',
-	},
 	fontSize: {
 		// 1rem = 16px
 		/** 80px size / 84px high / bold */

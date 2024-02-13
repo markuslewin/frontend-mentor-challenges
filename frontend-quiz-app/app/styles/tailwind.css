@@ -27,8 +27,6 @@
 
 		--button: var(--color-purple);
 		--button-foreground: var(--color-pure-white);
-
-		--radius: 0.5rem;
 	}
 
 	.dark {
