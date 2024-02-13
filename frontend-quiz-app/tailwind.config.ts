@@ -37,6 +37,9 @@ export default {
 		boxShadow: {
 			default: '0 1rem 2.5rem',
 		},
+		borderWidth: {
+			3: '3px',
+		},
 		maxWidth: {
 			default: rem(1160),
 		},

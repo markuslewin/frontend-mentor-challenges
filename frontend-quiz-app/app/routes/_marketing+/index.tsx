@@ -25,7 +25,7 @@ export default function Index() {
 								className="mt-3 rounded-xl bg-card text-card-foreground shadow-default shadow-card-shadow first:mt-0 tablet:mt-6 tablet:rounded-3xl tablet:first:mt-0"
 							>
 								<a
-									className="grid grid-cols-[max-content_1fr] items-center gap-4 p-5 tablet:gap-8"
+									className="border-3 grid grid-cols-[max-content_1fr] items-center gap-4 rounded-[inherit] border-transparent p-[calc(1.25rem-3px)] tablet:gap-8"
 									href={subject.href}
 								>
 									<div
