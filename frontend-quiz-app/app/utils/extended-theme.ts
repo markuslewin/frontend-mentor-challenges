@@ -26,6 +26,8 @@ export const extendedTheme = {
 		'grey-navy': 'hsl(var(--color-grey-navy))',
 		'light-grey': 'hsl(var(--color-light-grey))',
 		'pure-white': 'hsl(var(--color-pure-white))',
+		green: 'hsl(var(--color-green))',
+		red: 'hsl(var(--color-red))',
 	},
 	borderColor: {
 		DEFAULT: 'hsl(var(--border))',

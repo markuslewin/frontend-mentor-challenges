@@ -9,6 +9,7 @@ import {
 import { useId } from 'react'
 import { z } from 'zod'
 import { quizzes } from '#app/data/data.json'
+import { Icon } from '../../components/ui/icon'
 
 export function loader({ params }: LoaderFunctionArgs) {
 	const { subject } = params
@@ -95,9 +96,11 @@ export default function SubjectRoute() {
 function Option({
 	letter,
 	name,
+	state,
 }: {
 	letter: 'A' | 'B' | 'C' | 'D'
 	name: string
+	state?: 'correct' | 'incorrect'
 }) {
 	const id = useId()
 	const letterContent = {
@@ -106,6 +109,21 @@ function Option({
 		C: "before:content-['C']",
 		D: "before:content-['D']",
 	}[letter]
+	const stateIcon = {
+		correct: (
+			<Icon
+				className="text-green size-8 forced-color-adjust-auto"
+				name="icon-correct"
+			/>
+		),
+		incorrect: (
+			<Icon
+				className="text-red size-8 forced-color-adjust-auto"
+				name="icon-incorrect"
+			/>
+		),
+		default: null,
+	}[state ?? 'default']
 	return (
 		<div className="mt-3 leading-none first:mt-0 tablet:mt-6 tablet:first:mt-0">
 			<input
@@ -116,10 +134,12 @@ function Option({
 				id={id}
 			/>
 			<label
-				className={`${letterContent} grid grid-cols-[max-content_1fr] items-center gap-4 rounded-xl border-3 border-transparent bg-card px-[calc(1.25rem-3px)] py-[calc(1.125rem-3px)] text-card-foreground shadow-default shadow-card-shadow transition-colors before:grid before:size-10 before:place-items-center before:rounded-md before:bg-light-grey before:text-[1.125rem] before:font-medium before:text-grey-navy before:transition-colors hover:before:bg-[hsl(278_100%_95%)] hover:before:text-purple peer-checked:border-purple peer-checked:before:bg-purple peer-checked:before:text-pure-white peer-focus-visible:outline tablet:gap-8 tablet:rounded-3xl tablet:before:size-14 tablet:before:rounded-xl tablet:before:text-heading-s desktop:before:rounded-lg`}
+				className={`${letterContent} data-[state=correct]:border-green data-[state=incorrect]:before:bg-red data-[state=correct]:before:bg-green data-[state=incorrect]:border-red grid grid-cols-[max-content_1fr] items-center gap-4 rounded-xl border-3 border-transparent bg-card px-[calc(1.25rem-3px)] py-[calc(1.125rem-3px)] text-card-foreground shadow-default shadow-card-shadow transition-colors before:grid before:size-10 before:place-items-center before:rounded-md before:bg-light-grey before:text-[1.125rem] before:font-medium before:text-grey-navy before:transition-colors hover:before:bg-[hsl(278_100%_95%)] hover:before:text-purple peer-checked:border-purple peer-checked:before:bg-purple peer-checked:before:text-pure-white peer-focus-visible:outline data-[state=correct]:grid-cols-[max-content_1fr_max-content] data-[state=incorrect]:grid-cols-[max-content_1fr_max-content] data-[state=correct]:before:text-pure-white data-[state=incorrect]:before:text-pure-white tablet:gap-8 tablet:rounded-3xl tablet:before:size-14 tablet:before:rounded-xl tablet:before:text-heading-s desktop:before:rounded-lg`}
 				htmlFor={id}
+				data-state={state}
 			>
 				{name}
+				{stateIcon}
 			</label>
 		</div>
 	)
