@@ -201,7 +201,7 @@ function Document({
 				<meta name="viewport" content="width=device-width,initial-scale=1" />
 				<Links />
 			</head>
-			<body className="bg-background font-body text-[0.875rem] text-foreground tablet:text-body-s">
+			<body className="bg-body-pattern-light dark:bg-body-pattern-dark tablet:bg-body-pattern-light-tablet dark:tablet:bg-body-pattern-dark-tablet desktop:bg-body-pattern-light-desktop dark:desktop:bg-body-pattern-dark-desktop bg-background bg-cover bg-center bg-no-repeat font-body text-[0.875rem] text-foreground tablet:bg-auto tablet:bg-left-top tablet:text-body-s desktop:bg-cover desktop:bg-center">
 				{children}
 				<script
 					nonce={nonce}
@@ -402,7 +402,7 @@ function ThemeSwitch() {
 				<Icon className="size-4 tablet:size-6" name="icon-sun-light" />
 				<button
 					type="submit"
-					className="border-1 grid h-5 w-8 items-center rounded-full bg-purple before:inline-block before:size-3 before:translate-x-1 before:rounded-full before:border-[0.375rem] before:border-pure-white dark:before:translate-x-[0.9375rem] tablet:h-7 tablet:w-12 tablet:before:size-5 tablet:before:border-[0.625rem] dark:tablet:before:translate-x-[1.4375rem]"
+					className="grid h-5 w-8 items-center rounded-full border-1 bg-purple before:inline-block before:size-3 before:translate-x-1 before:rounded-full before:border-[0.375rem] before:border-pure-white dark:before:translate-x-[0.9375rem] tablet:h-7 tablet:w-12 tablet:before:size-5 tablet:before:border-[0.625rem] dark:tablet:before:translate-x-[1.4375rem]"
 				>
 					<span className="sr-only">Enable {nextMode} mode</span>
 				</button>

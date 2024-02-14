@@ -44,6 +44,20 @@ export default {
 		maxWidth: {
 			default: rem(1160),
 		},
+		backgroundImage: {
+			'body-pattern-dark':
+				"url('/assets/images/pattern-background-mobile-dark.svg')",
+			'body-pattern-light':
+				"url('/assets/images/pattern-background-mobile-light.svg')",
+			'body-pattern-dark-tablet':
+				"url('/assets/images/pattern-background-tablet-dark.svg')",
+			'body-pattern-light-tablet':
+				"url('/assets/images/pattern-background-tablet-light.svg')",
+			'body-pattern-dark-desktop':
+				"url('/assets/images/pattern-background-desktop-dark.svg')",
+			'body-pattern-light-desktop':
+				"url('/assets/images/pattern-background-desktop-light.svg')",
+		},
 		extend: extendedTheme,
 	},
 	presets: [marketingPreset],
