@@ -26,6 +26,7 @@
 
 		--card: var(--color-pure-white);
 		--card-foreground: var(--color-dark-navy);
+		--card-foreground-body: var(--color-grey-navy);
 		--card-shadow: 220 29% 66% / 14%;
 
 		--button: var(--color-purple);
@@ -46,6 +47,7 @@
 
 		--card: var(--color-navy);
 		--card-foreground: var(--color-pure-white);
+		--card-foreground-body: var(--color-light-bluish);
 		--card-shadow: 216 25% 25% / 14%;
 
 		--timer: var(--color-navy);

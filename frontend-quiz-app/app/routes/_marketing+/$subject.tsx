@@ -18,6 +18,13 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
 	)
 	invariantResponse(quiz, 'Quiz not found.', { status: 404 })
 	const state = await getQuizState(request, subject)
+	if (state.type === 'complete') {
+		return json({
+			type: state.type,
+			points: state.points,
+			maxPoints: state.maxPoints,
+		})
+	}
 	const questionData = quiz.questions[state.index]
 	invariantResponse(questionData, 'Question not found.', { status: 404 })
 	return json(
@@ -49,18 +56,31 @@ export async function action({ request, params }: ActionFunctionArgs) {
 
 export default function SubjectRoute() {
 	const loaderData = useLoaderData<typeof loader>()
-	const completed = false
 	return (
 		<main>
 			<div className="mx-auto box-content max-w-default px-6 tablet:px-16 desktop:grid desktop:grid-cols-2 desktop:gap-16">
-				{completed ? (
+				{loaderData.type === 'complete' ? (
 					<>
-						<h1>Quiz completed</h1>
-						<p>You scored...</p>
-						<p>{'score'} out of 10</p>
-						<form>
-							<button type="submit">Play Again</button>
-						</form>
+						<div className="text-[2.5rem] font-light leading-none text-foreground-heading tablet:text-heading-l">
+							<h1>Quiz completed</h1>
+							<p className="mt-2 font-medium">You scored...</p>
+						</div>
+						<div className="text-center">
+							<p className="text-card-foreground-body mt-10 rounded-xl bg-card p-8 text-[1.125rem] shadow-default shadow-card-shadow tablet:mt-16 tablet:rounded-3xl tablet:p-12 tablet:text-body-m desktop:mt-0">
+								<strong className="mb-4 block text-[5.5rem] leading-none text-card-foreground tablet:text-display">
+									{loaderData.points}
+								</strong>{' '}
+								out of {loaderData.maxPoints}
+							</p>
+							<form method="post">
+								<button
+									className="mt-3 block w-full rounded-xl border-3 border-transparent bg-purple p-[calc(1.1875rem-3px)] text-[1.125rem] capitalize leading-none text-pure-white shadow-default shadow-card-shadow transition-colors hover:bg-[hsl(277_91%_78%)] focus-visible:bg-[hsl(277_91%_78%)] tablet:mt-8 tablet:rounded-3xl tablet:p-[calc(2rem-3px)] tablet:text-heading-s"
+									type="submit"
+								>
+									Play again
+								</button>
+							</form>
+						</div>
 					</>
 				) : (
 					<>
@@ -128,13 +148,13 @@ function Option({
 	const stateIcon = {
 		correct: (
 			<Icon
-				className="text-green size-8 forced-color-adjust-auto"
+				className="size-8 text-green forced-color-adjust-auto"
 				name="icon-correct"
 			/>
 		),
 		incorrect: (
 			<Icon
-				className="text-red size-8 forced-color-adjust-auto"
+				className="size-8 text-red forced-color-adjust-auto"
 				name="icon-incorrect"
 			/>
 		),
@@ -150,7 +170,7 @@ function Option({
 				id={id}
 			/>
 			<label
-				className={`${letterContent} data-[state=correct]:border-green data-[state=incorrect]:before:bg-red data-[state=correct]:before:bg-green data-[state=incorrect]:border-red grid grid-cols-[max-content_1fr] items-center gap-4 rounded-xl border-3 border-transparent bg-card px-[calc(1.25rem-3px)] py-[calc(1.125rem-3px)] text-card-foreground shadow-default shadow-card-shadow transition-colors before:grid before:size-10 before:place-items-center before:rounded-md before:bg-light-grey before:text-[1.125rem] before:font-medium before:text-grey-navy before:transition-colors hover:before:bg-[hsl(278_100%_95%)] hover:before:text-purple peer-checked:border-purple peer-checked:before:bg-purple peer-checked:before:text-pure-white peer-focus-visible:outline data-[state=correct]:grid-cols-[max-content_1fr_max-content] data-[state=incorrect]:grid-cols-[max-content_1fr_max-content] data-[state=correct]:before:text-pure-white data-[state=incorrect]:before:text-pure-white tablet:gap-8 tablet:rounded-3xl tablet:before:size-14 tablet:before:rounded-xl tablet:before:text-heading-s desktop:before:rounded-lg`}
+				className={`${letterContent} grid grid-cols-[max-content_1fr] items-center gap-4 rounded-xl border-3 border-transparent bg-card px-[calc(1.25rem-3px)] py-[calc(1.125rem-3px)] text-card-foreground shadow-default shadow-card-shadow transition-colors before:grid before:size-10 before:place-items-center before:rounded-md before:bg-light-grey before:text-[1.125rem] before:font-medium before:text-grey-navy before:transition-colors hover:before:bg-[hsl(278_100%_95%)] hover:before:text-purple peer-checked:border-purple peer-checked:before:bg-purple peer-checked:before:text-pure-white peer-focus-visible:outline data-[state=correct]:grid-cols-[max-content_1fr_max-content] data-[state=incorrect]:grid-cols-[max-content_1fr_max-content] data-[state=correct]:border-green data-[state=incorrect]:border-red data-[state=correct]:before:bg-green data-[state=incorrect]:before:bg-red data-[state=correct]:before:text-pure-white data-[state=incorrect]:before:text-pure-white tablet:gap-8 tablet:rounded-3xl tablet:before:size-14 tablet:before:rounded-xl tablet:before:text-heading-s desktop:before:rounded-lg`}
 				htmlFor={id}
 				data-state={state}
 			>

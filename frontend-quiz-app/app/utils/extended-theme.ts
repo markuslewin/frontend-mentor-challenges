@@ -13,6 +13,7 @@ export const extendedTheme = {
 		card: {
 			DEFAULT: 'hsl(var(--card))',
 			foreground: 'hsl(var(--card-foreground))',
+			'foreground-body': 'hsl(var(--card-foreground-body))',
 			shadow: 'hsl(var(--card-shadow))',
 		},
 		button: {

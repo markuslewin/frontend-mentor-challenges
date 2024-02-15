@@ -1,6 +1,7 @@
 import { invariantResponse } from '@epic-web/invariant'
 import { createCookieSessionStorage, redirect } from '@remix-run/node'
 import { z } from 'zod'
+import { quizzes } from '#app/data/data.json'
 
 export const quizSessionStorage = createCookieSessionStorage({
 	cookie: {
@@ -29,6 +30,12 @@ const QuizSchema = z.discriminatedUnion('type', [
 		index: z.coerce.number(),
 		option: z.string(),
 	}),
+	z.object({
+		type: z.literal('complete'),
+		subject: z.string(),
+		points: z.coerce.number(),
+		maxPoints: z.coerce.number(),
+	}),
 ])
 
 export async function getQuizState(request: Request, subject: string) {
@@ -40,7 +47,7 @@ export async function getQuizState(request: Request, subject: string) {
 		return {
 			type: 'question',
 			subject,
-			index: 0,
+			index: 9,
 		} satisfies z.infer<typeof QuizSchema>
 	}
 	return result.data
@@ -68,11 +75,39 @@ export async function handleAnswer(request: Request, subject: string) {
 		})
 	}
 	if (state.type === 'review') {
-		// todo: was last question?
+		const quiz = quizzes.find(
+			q => q.title.toLowerCase() === subject.toLowerCase(),
+		)
+		invariantResponse(quiz, 'Quiz not found.', { status: 404 })
+		if (state.index + 1 === quiz.questions.length) {
+			quizSession.set('state', {
+				...state,
+				type: 'complete',
+				points: 8,
+				maxPoints: quiz.questions.length,
+			} satisfies z.infer<typeof QuizSchema>)
+			return redirect(`/${subject}`, {
+				headers: {
+					'set-cookie': await quizSessionStorage.commitSession(quizSession),
+				},
+			})
+		}
 		quizSession.set('state', {
 			...state,
 			type: 'question',
 			index: state.index + 1,
+		} satisfies z.infer<typeof QuizSchema>)
+		return redirect(`/${subject}`, {
+			headers: {
+				'set-cookie': await quizSessionStorage.commitSession(quizSession),
+			},
+		})
+	}
+	if (state.type === 'complete') {
+		quizSession.set('state', {
+			type: 'question',
+			subject,
+			index: 0,
 		} satisfies z.infer<typeof QuizSchema>)
 		return redirect(`/${subject}`, {
 			headers: {
