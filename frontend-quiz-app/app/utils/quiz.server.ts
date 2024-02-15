@@ -22,11 +22,13 @@ const QuizSchema = z.discriminatedUnion('type', [
 	z.object({
 		type: z.literal('question'),
 		subject: z.string(),
+		points: z.coerce.number(),
 		index: z.coerce.number(),
 	}),
 	z.object({
 		type: z.literal('review'),
 		subject: z.string(),
+		points: z.coerce.number(),
 		index: z.coerce.number(),
 		option: z.string(),
 	}),
@@ -47,7 +49,8 @@ export async function getQuizState(request: Request, subject: string) {
 		return {
 			type: 'question',
 			subject,
-			index: 9,
+			points: 0,
+			index: 0,
 		} satisfies z.infer<typeof QuizSchema>
 	}
 	return result.data
@@ -61,11 +64,21 @@ export async function handleAnswer(request: Request, subject: string) {
 	const state = await getQuizState(request, subject)
 
 	if (state.type === 'question') {
+		const quiz = quizzes.find(
+			q => q.title.toLowerCase() === subject.toLowerCase(),
+		)
+		invariantResponse(quiz, 'Quiz not found.', { status: 404 })
+		const questionData = quiz.questions[state.index]
+		invariantResponse(questionData, 'Question not found.', { status: 404 })
 		const result = OptionSchema.safeParse(Object.fromEntries(formData))
 		invariantResponse(result.success, 'Missing option.')
 		quizSession.set('state', {
 			...state,
 			type: 'review',
+			points:
+				result.data.option === questionData.answer
+					? state.points + 1
+					: state.points,
 			option: result.data.option,
 		} satisfies z.infer<typeof QuizSchema>)
 		return redirect(`/${subject}`, {
@@ -83,7 +96,6 @@ export async function handleAnswer(request: Request, subject: string) {
 			quizSession.set('state', {
 				...state,
 				type: 'complete',
-				points: 8,
 				maxPoints: quiz.questions.length,
 			} satisfies z.infer<typeof QuizSchema>)
 			return redirect(`/${subject}`, {
@@ -107,6 +119,7 @@ export async function handleAnswer(request: Request, subject: string) {
 		quizSession.set('state', {
 			type: 'question',
 			subject,
+			points: 0,
 			index: 0,
 		} satisfies z.infer<typeof QuizSchema>)
 		return redirect(`/${subject}`, {
