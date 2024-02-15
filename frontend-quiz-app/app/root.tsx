@@ -48,6 +48,11 @@ import {
 import { Icon, href as iconsHref } from './components/ui/icon.tsx'
 import { EpicToaster } from './components/ui/sonner.tsx'
 import tailwindStyleSheetUrl from './styles/tailwind.css'
+import {
+	AnnouncerProvider,
+	MessageQueue,
+	useAnnouncer,
+} from './utils/announcer.tsx'
 import { getUserId, logout } from './utils/auth.server.ts'
 import { ClientHintCheck, getHints, useHints } from './utils/client-hints.tsx'
 import { prisma } from './utils/db.server.ts'
@@ -201,7 +206,7 @@ function Document({
 				<meta name="viewport" content="width=device-width,initial-scale=1" />
 				<Links />
 			</head>
-			<body className="bg-body-pattern-light dark:bg-body-pattern-dark tablet:bg-body-pattern-light-tablet dark:tablet:bg-body-pattern-dark-tablet desktop:bg-body-pattern-light-desktop dark:desktop:bg-body-pattern-dark-desktop bg-background bg-cover bg-center bg-no-repeat font-body text-[0.875rem] text-foreground tablet:bg-auto tablet:bg-left-top tablet:text-body-s desktop:bg-cover desktop:bg-center">
+			<body className="bg-background bg-body-pattern-light bg-cover bg-center bg-no-repeat font-body text-[0.875rem] text-foreground dark:bg-body-pattern-dark tablet:bg-body-pattern-light-tablet tablet:bg-auto tablet:bg-left-top tablet:text-body-s dark:tablet:bg-body-pattern-dark-tablet desktop:bg-body-pattern-light-desktop desktop:bg-cover desktop:bg-center dark:desktop:bg-body-pattern-dark-desktop">
 				{children}
 				<script
 					nonce={nonce}
@@ -212,6 +217,7 @@ function Document({
 				<ScrollRestoration nonce={nonce} />
 				<Scripts nonce={nonce} />
 				<LiveReload nonce={nonce} />
+				<MessageQueue />
 			</body>
 		</html>
 	)
@@ -261,9 +267,11 @@ function Logo() {
 function AppWithProviders() {
 	const data = useLoaderData<typeof loader>()
 	return (
-		<HoneypotProvider {...data.honeyProps}>
-			<App />
-		</HoneypotProvider>
+		<AnnouncerProvider>
+			<HoneypotProvider {...data.honeyProps}>
+				<App />
+			</HoneypotProvider>
+		</AnnouncerProvider>
 	)
 }
 
@@ -382,6 +390,7 @@ function useActionThemeMode() {
 
 function ThemeSwitch() {
 	const fetcher = useFetcher<typeof action>()
+	const { announce } = useAnnouncer()
 
 	const [form] = useForm({
 		id: 'theme-switch',
@@ -396,6 +405,11 @@ function ThemeSwitch() {
 			className="text-foreground-theme"
 			method="POST"
 			{...getFormProps(form)}
+			onSubmit={event => {
+				event.preventDefault()
+				fetcher.submit(event.currentTarget)
+				announce(`Color mode is now ${nextMode}.`)
+			}}
 		>
 			<input type="hidden" name="theme" value={nextMode} />
 			<div className="flex items-center gap-4">
