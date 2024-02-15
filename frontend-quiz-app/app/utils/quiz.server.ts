@@ -20,21 +20,30 @@ const OptionSchema = z.object({
 const QuizSchema = z.discriminatedUnion('type', [
 	z.object({
 		type: z.literal('question'),
+		subject: z.string(),
 		index: z.coerce.number(),
 	}),
 	z.object({
 		type: z.literal('review'),
+		subject: z.string(),
 		index: z.coerce.number(),
 		option: z.string(),
 	}),
 ])
 
-export async function getQuizState(request: Request) {
+export async function getQuizState(request: Request, subject: string) {
 	const quizSession = await quizSessionStorage.getSession(
 		request.headers.get('cookie'),
 	)
 	const result = QuizSchema.safeParse(quizSession.get('state'))
-	return result.success ? result.data : { type: 'question' as const, index: 0 }
+	if (!result.success || result.data.subject !== subject) {
+		return {
+			type: 'question',
+			subject,
+			index: 0,
+		} satisfies z.infer<typeof QuizSchema>
+	}
+	return result.data
 }
 
 export async function handleAnswer(request: Request, subject: string) {
@@ -42,14 +51,14 @@ export async function handleAnswer(request: Request, subject: string) {
 	const quizSession = await quizSessionStorage.getSession(
 		request.headers.get('cookie'),
 	)
-	const state = await getQuizState(request)
+	const state = await getQuizState(request, subject)
 
 	if (state.type === 'question') {
 		const result = OptionSchema.safeParse(Object.fromEntries(formData))
 		invariantResponse(result.success, 'Missing option.')
 		quizSession.set('state', {
+			...state,
 			type: 'review',
-			index: state.index,
 			option: result.data.option,
 		} satisfies z.infer<typeof QuizSchema>)
 		return redirect(`/${subject}`, {
@@ -57,9 +66,11 @@ export async function handleAnswer(request: Request, subject: string) {
 				'set-cookie': await quizSessionStorage.commitSession(quizSession),
 			},
 		})
-	} else if (state.type === 'review') {
+	}
+	if (state.type === 'review') {
 		// todo: was last question?
 		quizSession.set('state', {
+			...state,
 			type: 'question',
 			index: state.index + 1,
 		} satisfies z.infer<typeof QuizSchema>)

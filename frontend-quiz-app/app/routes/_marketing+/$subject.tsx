@@ -17,7 +17,7 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
 		q => q.title.toLowerCase() === subject.toLowerCase(),
 	)
 	invariantResponse(quiz, 'Quiz not found.', { status: 404 })
-	const state = await getQuizState(request)
+	const state = await getQuizState(request, subject)
 	const questionData = quiz.questions[state.index]
 	invariantResponse(questionData, 'Question not found.', { status: 404 })
 	return json(
@@ -25,12 +25,14 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
 			? {
 					type: state.type,
 					index: state.index,
+					questionsLength: quiz.questions.length,
 					question: questionData.question,
 					options: questionData.options,
 				}
 			: {
 					type: state.type,
 					index: state.index,
+					questionsLength: quiz.questions.length,
 					question: questionData.question,
 					options: questionData.options,
 					answer: questionData.answer,
@@ -64,7 +66,7 @@ export default function SubjectRoute() {
 					<>
 						<div>
 							<h1 className="text-[0.875rem] italic text-foreground-questionNumber tablet:text-body-s">
-								Question {loaderData.index + 1} of 10
+								Question {loaderData.index + 1} of {loaderData.questionsLength}
 							</h1>
 							<p className="mt-3 text-[1.25rem] leading-tight text-foreground-question tablet:mt-7 tablet:text-heading-m">
 								{loaderData.question}
