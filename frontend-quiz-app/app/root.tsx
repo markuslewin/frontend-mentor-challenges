@@ -416,7 +416,7 @@ function ThemeSwitch() {
 				<Icon className="size-4 tablet:size-6" name="icon-sun-light" />
 				<button
 					type="submit"
-					className="grid h-5 w-8 items-center rounded-full border-1 bg-purple before:inline-block before:size-3 before:translate-x-1 before:rounded-full before:border-[0.375rem] before:border-pure-white dark:before:translate-x-[0.9375rem] tablet:h-7 tablet:w-12 tablet:before:size-5 tablet:before:border-[0.625rem] dark:tablet:before:translate-x-[1.4375rem]"
+					className="grid h-5 w-8 items-center rounded-full border-1 bg-purple before:inline-block before:size-3 before:translate-x-1 before:rounded-full before:border-[0.375rem] before:border-pure-white before:transition-transform dark:before:translate-x-[0.9375rem] tablet:h-7 tablet:w-12 tablet:before:size-5 tablet:before:border-[0.625rem] dark:tablet:before:translate-x-[1.4375rem]"
 				>
 					<span className="sr-only">Enable {nextMode} mode</span>
 				</button>
