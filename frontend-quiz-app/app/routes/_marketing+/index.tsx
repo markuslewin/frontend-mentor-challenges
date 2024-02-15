@@ -3,7 +3,7 @@ import { subjects } from './subjects/subjects.ts'
 export default function Index() {
 	return (
 		<main>
-			<div className="mx-auto box-content max-w-default px-6 tablet:px-16 desktop:grid desktop:grid-cols-2 desktop:gap-16">
+			<div className="desktop:grid-cols-main-desktop mx-auto box-content max-w-default px-6 tablet:px-16 desktop:grid desktop:justify-between desktop:gap-16">
 				<div>
 					<h1 className="text-[2.5rem] font-light leading-none text-foreground-heading tablet:text-heading-l">
 						Welcome to the{' '}
@@ -25,7 +25,7 @@ export default function Index() {
 								className="mt-3 rounded-xl bg-card text-card-foreground shadow-default shadow-card-shadow first:mt-0 tablet:mt-6 tablet:rounded-3xl tablet:first:mt-0"
 							>
 								<a
-									className="border-3 grid grid-cols-[max-content_1fr] items-center gap-4 rounded-[inherit] border-transparent p-[calc(1.25rem-3px)] tablet:gap-8"
+									className="grid grid-cols-[max-content_1fr] items-center gap-4 rounded-[inherit] border-3 border-transparent p-[calc(1.25rem-3px)] tablet:gap-8"
 									href={subject.href}
 								>
 									<div

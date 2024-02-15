@@ -58,7 +58,7 @@ export default function SubjectRoute() {
 	const loaderData = useLoaderData<typeof loader>()
 	return (
 		<main>
-			<div className="mx-auto box-content max-w-default px-6 tablet:px-16 desktop:grid desktop:grid-cols-2 desktop:gap-16">
+			<div className="desktop:grid-cols-main-desktop mx-auto box-content max-w-default px-6 tablet:px-16 desktop:grid desktop:justify-between desktop:gap-16">
 				{loaderData.type === 'complete' ? (
 					<>
 						<div className="text-[2.5rem] font-light leading-none text-foreground-heading tablet:text-heading-l">
