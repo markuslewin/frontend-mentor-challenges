@@ -61,6 +61,7 @@ export default function SubjectRoute() {
 	const { announce } = useAnnouncer()
 	const headingRef = useRef<HTMLHeadingElement>(null)
 	const buttonRef = useRef<HTMLButtonElement>(null)
+	const buttonDescId = useId()
 
 	useEffect(() => {
 		if (navigation.state === 'idle') {
@@ -156,13 +157,11 @@ export default function SubjectRoute() {
 													letter={letter}
 													name={option}
 													state={
-														loaderData.type === 'review'
-															? option === loaderData.answer
-																? 'correct'
-																: option === loaderData.option
-																	? 'incorrect'
-																	: undefined
-															: undefined
+														option === loaderData.answer
+															? 'correct'
+															: option === loaderData.option
+																? 'incorrect'
+																: undefined
 													}
 												/>
 											</li>
@@ -175,12 +174,18 @@ export default function SubjectRoute() {
 										type="submit"
 										ref={buttonRef}
 										disabled={navigation.state !== 'idle'}
+										aria-describedby={buttonDescId}
 										onClick={() => {
 											announce('Loading...')
 										}}
 									>
 										Next question
 									</button>
+									<p className="sr-only" id={buttonDescId}>
+										{loaderData.option === loaderData.answer
+											? "That's correct!"
+											: `That's incorrect. The correct answer was ${loaderData.answer}.`}
+									</p>
 								</Form>
 							</div>
 						)}
@@ -255,12 +260,19 @@ function OptionReview({
 		default: null,
 	}[state ?? 'default']
 	return (
-		<p
-			className={`${letterContent} grid grid-cols-[max-content_1fr] items-center gap-4 rounded-xl border-3 border-transparent bg-card px-[calc(1.25rem-3px)] py-[calc(1.125rem-3px)] text-card-foreground shadow-default shadow-card-shadow before:grid before:size-10 before:place-items-center before:rounded-md before:bg-light-grey before:text-[1.125rem] before:font-medium before:text-grey-navy data-[state=correct]:grid-cols-[max-content_1fr_max-content] data-[state=incorrect]:grid-cols-[max-content_1fr_max-content] data-[state=correct]:border-green data-[state=incorrect]:border-red data-[state=correct]:before:bg-green data-[state=incorrect]:before:bg-red data-[state=correct]:before:text-pure-white data-[state=incorrect]:before:text-pure-white tablet:gap-8 tablet:rounded-3xl tablet:before:size-14 tablet:before:rounded-xl tablet:before:text-heading-s desktop:before:rounded-lg`}
-			data-state={state}
-		>
-			{name}
-			{stateIcon}
-		</p>
+		<div>
+			{state === 'correct' ? (
+				<p className="sr-only">Correct answer:</p>
+			) : state === 'incorrect' ? (
+				<p className="sr-only">Incorrect answer:</p>
+			) : null}
+			<p
+				className={`${letterContent} grid grid-cols-[max-content_1fr] items-center gap-4 rounded-xl border-3 border-transparent bg-card px-[calc(1.25rem-3px)] py-[calc(1.125rem-3px)] text-card-foreground shadow-default shadow-card-shadow before:grid before:size-10 before:place-items-center before:rounded-md before:bg-light-grey before:text-[1.125rem] before:font-medium before:text-grey-navy data-[state=correct]:grid-cols-[max-content_1fr_max-content] data-[state=incorrect]:grid-cols-[max-content_1fr_max-content] data-[state=correct]:border-green data-[state=incorrect]:border-red data-[state=correct]:before:bg-green data-[state=incorrect]:before:bg-red data-[state=correct]:before:text-pure-white data-[state=incorrect]:before:text-pure-white tablet:gap-8 tablet:rounded-3xl tablet:before:size-14 tablet:before:rounded-xl tablet:before:text-heading-s desktop:before:rounded-lg`}
+				data-state={state}
+			>
+				{name}
+				{stateIcon}
+			</p>
+		</div>
 	)
 }
