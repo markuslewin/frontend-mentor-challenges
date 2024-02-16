@@ -1,13 +1,14 @@
 import { invariantResponse } from '@epic-web/invariant'
-import { useLoaderData } from '@remix-run/react'
+import { Form, useLoaderData, useNavigation } from '@remix-run/react'
 import {
 	type LoaderFunctionArgs,
 	json,
 	type ActionFunctionArgs,
 } from '@remix-run/server-runtime'
-import { useId } from 'react'
+import { useEffect, useId, useRef } from 'react'
 import { quizzes } from '#app/data/data.json'
 import { Icon } from '../../components/ui/icon'
+import { useAnnouncer } from '../../utils/announcer'
 import { getQuizState, handleAnswer } from '../../utils/quiz.server'
 
 export async function loader({ params, request }: LoaderFunctionArgs) {
@@ -56,36 +57,61 @@ export async function action({ request, params }: ActionFunctionArgs) {
 
 export default function SubjectRoute() {
 	const loaderData = useLoaderData<typeof loader>()
+	const navigation = useNavigation()
+	const { announce } = useAnnouncer()
+	const headingRef = useRef<HTMLHeadingElement>(null)
+	const buttonRef = useRef<HTMLButtonElement>(null)
+
+	useEffect(() => {
+		if (navigation.state === 'idle') {
+			if (loaderData.type === 'review') {
+				buttonRef.current?.focus()
+			} else {
+				headingRef.current?.focus()
+			}
+		}
+	}, [loaderData.type, navigation.state])
+
 	return (
 		<main>
-			<div className="desktop:grid-cols-main-desktop mx-auto box-content max-w-default px-6 tablet:px-16 desktop:grid desktop:justify-between desktop:gap-16">
+			<div className="mx-auto box-content max-w-default px-6 tablet:px-16 desktop:grid desktop:grid-cols-main-desktop desktop:justify-between desktop:gap-16">
 				{loaderData.type === 'complete' ? (
 					<>
 						<div className="text-[2.5rem] font-light leading-none text-foreground-heading tablet:text-heading-l">
-							<h1>Quiz completed</h1>
+							<h1 ref={headingRef} tabIndex={-1}>
+								Quiz completed
+							</h1>
 							<p className="mt-2 font-medium">You scored...</p>
 						</div>
 						<div className="text-center">
-							<p className="text-card-foreground-body mt-10 rounded-xl bg-card p-8 text-[1.125rem] shadow-default shadow-card-shadow tablet:mt-16 tablet:rounded-3xl tablet:p-12 tablet:text-body-m desktop:mt-0">
+							<p className="mt-10 rounded-xl bg-card p-8 text-[1.125rem] text-card-foreground-body shadow-default shadow-card-shadow tablet:mt-16 tablet:rounded-3xl tablet:p-12 tablet:text-body-m desktop:mt-0">
 								<strong className="mb-4 block text-[5.5rem] leading-none text-card-foreground tablet:text-display">
 									{loaderData.points}
 								</strong>{' '}
 								out of {loaderData.maxPoints}
 							</p>
-							<form method="post">
+							<Form method="post">
 								<button
 									className="mt-3 block w-full rounded-xl border-3 border-transparent bg-purple p-[calc(1.1875rem-3px)] text-[1.125rem] capitalize leading-none text-pure-white shadow-default shadow-card-shadow transition-colors hover:bg-[hsl(277_91%_78%)] focus-visible:bg-[hsl(277_91%_78%)] tablet:mt-8 tablet:rounded-3xl tablet:p-[calc(2rem-3px)] tablet:text-heading-s"
 									type="submit"
+									disabled={navigation.state !== 'idle'}
+									onClick={() => {
+										announce('Loading quiz...')
+									}}
 								>
 									Play again
 								</button>
-							</form>
+							</Form>
 						</div>
 					</>
 				) : (
 					<>
 						<div>
-							<h1 className="text-[0.875rem] italic text-foreground-questionNumber tablet:text-body-s">
+							<h1
+								className="text-[0.875rem] italic text-foreground-questionNumber tablet:text-body-s"
+								ref={headingRef}
+								tabIndex={-1}
+							>
 								Question {loaderData.index + 1} of {loaderData.questionsLength}
 							</h1>
 							<p className="mt-3 text-[1.25rem] leading-tight text-foreground-question tablet:mt-7 tablet:text-heading-m">
@@ -93,7 +119,7 @@ export default function SubjectRoute() {
 							</p>
 							{/* todo: timer */}
 						</div>
-						<form className="mt-10 tablet:mt-16 desktop:mt-0" method="post">
+						<Form className="mt-10 tablet:mt-16 desktop:mt-0" method="post">
 							{loaderData.options.map((option, i) => {
 								const letter = (['A', 'B', 'C', 'D'] as const)[i]
 								return (
@@ -114,14 +140,23 @@ export default function SubjectRoute() {
 								)
 							})}
 							<button
-								className="mt-3 block w-full rounded-xl border-3 border-transparent bg-purple p-[calc(1.1875rem-3px)] text-[1.125rem] capitalize leading-none text-pure-white shadow-default shadow-card-shadow transition-colors hover:bg-[hsl(277_91%_78%)] focus-visible:bg-[hsl(277_91%_78%)] tablet:mt-8 tablet:rounded-3xl tablet:p-[calc(2rem-3px)] tablet:text-heading-s"
+								className="mt-3 block w-full rounded-xl border-3 border-transparent bg-purple p-[calc(1.1875rem-3px)] text-[1.125rem] capitalize leading-none text-pure-white shadow-default shadow-card-shadow transition-colors hover:bg-[hsl(277_91%_78%)] focus-visible:bg-[hsl(277_91%_78%)] disabled:opacity-50 tablet:mt-8 tablet:rounded-3xl tablet:p-[calc(2rem-3px)] tablet:text-heading-s"
 								type="submit"
+								ref={buttonRef}
+								disabled={navigation.state !== 'idle'}
+								onClick={() => {
+									announce(
+										loaderData.type === 'question'
+											? 'Submitting answer...'
+											: 'Loading...',
+									)
+								}}
 							>
 								{loaderData.type === 'question'
 									? 'Submit answer'
 									: 'Next question'}
 							</button>
-						</form>
+						</Form>
 					</>
 				)}
 			</div>

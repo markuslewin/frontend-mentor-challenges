@@ -26,14 +26,22 @@ export function AnnouncerProvider({ children }: { children: ReactNode }) {
 	const nextId = useRef(0)
 
 	function announce(text: string) {
-		setMessages([...messages, { id: nextId.current++, text }])
+		const id = nextId.current++
+		setMessages(messages => {
+			return [...messages, { id, text }]
+		})
 		setTimeout(() => {
-			setMessages(messages => messages.slice(1))
+			setMessages(messages => {
+				return messages.filter(message => message.id !== id)
+			})
 		}, 7000)
 	}
+	const announceRef = useRef(announce)
 
 	return (
-		<AnnouncerContext.Provider value={{ announce, messages }}>
+		<AnnouncerContext.Provider
+			value={{ announce: announceRef.current, messages }}
+		>
 			{children}
 		</AnnouncerContext.Provider>
 	)
