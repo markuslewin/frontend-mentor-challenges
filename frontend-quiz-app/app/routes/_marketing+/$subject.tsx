@@ -120,25 +120,30 @@ export default function SubjectRoute() {
 							{/* todo: timer */}
 						</div>
 						<Form className="mt-10 tablet:mt-16 desktop:mt-0" method="post">
-							{loaderData.options.map((option, i) => {
-								const letter = (['A', 'B', 'C', 'D'] as const)[i]
-								return (
-									<Option
-										key={i}
-										letter={letter}
-										name={option}
-										state={
-											loaderData.type === 'review'
-												? option === loaderData.answer
-													? 'correct'
-													: option === loaderData.option
-														? 'incorrect'
+							<fieldset>
+								<legend className="sr-only">Choose an answer</legend>
+								<div>
+									{loaderData.options.map((option, i) => {
+										const letter = (['A', 'B', 'C', 'D'] as const)[i]
+										return (
+											<Option
+												key={i}
+												letter={letter}
+												name={option}
+												state={
+													loaderData.type === 'review'
+														? option === loaderData.answer
+															? 'correct'
+															: option === loaderData.option
+																? 'incorrect'
+																: undefined
 														: undefined
-												: undefined
-										}
-									/>
-								)
-							})}
+												}
+											/>
+										)
+									})}
+								</div>
+							</fieldset>
 							<button
 								className="mt-3 block w-full rounded-xl border-3 border-transparent bg-purple p-[calc(1.1875rem-3px)] text-[1.125rem] capitalize leading-none text-pure-white shadow-default shadow-card-shadow transition-colors hover:bg-[hsl(277_91%_78%)] focus-visible:bg-[hsl(277_91%_78%)] disabled:opacity-50 tablet:mt-8 tablet:rounded-3xl tablet:p-[calc(2rem-3px)] tablet:text-heading-s"
 								type="submit"
