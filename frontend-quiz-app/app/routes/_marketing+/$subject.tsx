@@ -156,13 +156,8 @@ export default function SubjectRoute() {
 												<OptionReview
 													letter={letter}
 													name={option}
-													state={
-														option === loaderData.answer
-															? 'correct'
-															: option === loaderData.option
-																? 'incorrect'
-																: undefined
-													}
+													correct={option === loaderData.answer}
+													selected={option === loaderData.option}
 												/>
 											</li>
 										)
@@ -232,11 +227,13 @@ function Option({
 function OptionReview({
 	letter,
 	name,
-	state,
+	correct,
+	selected,
 }: {
 	letter: 'A' | 'B' | 'C' | 'D'
 	name: string
-	state?: 'correct' | 'incorrect'
+	correct: boolean
+	selected: boolean
 }) {
 	const letterContent = {
 		A: "before:content-['A']",
@@ -244,34 +241,30 @@ function OptionReview({
 		C: "before:content-['C']",
 		D: "before:content-['D']",
 	}[letter]
-	const stateIcon = {
-		correct: (
-			<Icon
-				className="size-8 text-green forced-color-adjust-auto"
-				name="icon-correct"
-			/>
-		),
-		incorrect: (
-			<Icon
-				className="size-8 text-red forced-color-adjust-auto"
-				name="icon-incorrect"
-			/>
-		),
-		default: null,
-	}[state ?? 'default']
 	return (
 		<div>
-			{state === 'correct' ? (
+			{correct ? (
 				<p className="sr-only">Correct answer:</p>
-			) : state === 'incorrect' ? (
+			) : selected ? (
 				<p className="sr-only">Incorrect answer:</p>
 			) : null}
 			<p
-				className={`${letterContent} grid grid-cols-[max-content_1fr] items-center gap-4 rounded-xl border-3 border-transparent bg-card px-[calc(1.25rem-3px)] py-[calc(1.125rem-3px)] text-card-foreground shadow-default shadow-card-shadow before:grid before:size-10 before:place-items-center before:rounded-md before:bg-light-grey before:text-[1.125rem] before:font-medium before:text-grey-navy data-[state=correct]:grid-cols-[max-content_1fr_max-content] data-[state=incorrect]:grid-cols-[max-content_1fr_max-content] data-[state=correct]:border-green data-[state=incorrect]:border-red data-[state=correct]:before:bg-green data-[state=incorrect]:before:bg-red data-[state=correct]:before:text-pure-white data-[state=incorrect]:before:text-pure-white tablet:gap-8 tablet:rounded-3xl tablet:before:size-14 tablet:before:rounded-xl tablet:before:text-heading-s desktop:before:rounded-lg`}
-				data-state={state}
+				className={`${letterContent} grid grid-cols-[max-content_1fr] items-center gap-4 rounded-xl border-3 border-transparent bg-card px-[calc(1.25rem-3px)] py-[calc(1.125rem-3px)] text-card-foreground shadow-default shadow-card-shadow before:grid before:size-10 before:place-items-center before:rounded-md before:bg-light-grey before:text-[1.125rem] before:font-medium before:text-grey-navy data-[correct=true]:grid-cols-[max-content_1fr_max-content] data-[selected=true]:grid-cols-[max-content_1fr_max-content] data-[correct=false]:data-[selected=true]:border-red data-[correct=true]:data-[selected=true]:border-green data-[correct=false]:data-[selected=true]:before:bg-red data-[correct=true]:data-[selected=true]:before:bg-green data-[correct=false]:data-[selected=true]:before:text-pure-white data-[correct=true]:data-[selected=true]:before:text-pure-white tablet:gap-8 tablet:rounded-3xl tablet:before:size-14 tablet:before:rounded-xl tablet:before:text-heading-s desktop:before:rounded-lg`}
+				data-correct={correct}
+				data-selected={selected}
 			>
 				{name}
-				{stateIcon}
+				{correct ? (
+					<Icon
+						className="size-8 text-green forced-color-adjust-auto"
+						name="icon-correct"
+					/>
+				) : selected ? (
+					<Icon
+						className="size-8 text-red forced-color-adjust-auto"
+						name="icon-incorrect"
+					/>
+				) : null}
 			</p>
 		</div>
 	)
