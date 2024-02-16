@@ -119,49 +119,71 @@ export default function SubjectRoute() {
 							</p>
 							{/* todo: timer */}
 						</div>
-						<Form className="mt-10 tablet:mt-16 desktop:mt-0" method="post">
-							<fieldset>
-								<legend className="sr-only">Choose an answer</legend>
-								<div>
+						{loaderData.type === 'question' ? (
+							<Form className="mt-10 tablet:mt-16 desktop:mt-0" method="post">
+								<fieldset>
+									<legend className="sr-only">Choose an answer</legend>
+									<div>
+										{loaderData.options.map((option, i) => {
+											const letter = (['A', 'B', 'C', 'D'] as const)[i]
+											return <Option key={i} letter={letter} name={option} />
+										})}
+									</div>
+								</fieldset>
+								<button
+									className="mt-3 block w-full rounded-xl border-3 border-transparent bg-purple p-[calc(1.1875rem-3px)] text-[1.125rem] capitalize leading-none text-pure-white shadow-default shadow-card-shadow transition-colors hover:bg-[hsl(277_91%_78%)] focus-visible:bg-[hsl(277_91%_78%)] disabled:opacity-50 tablet:mt-8 tablet:rounded-3xl tablet:p-[calc(2rem-3px)] tablet:text-heading-s"
+									type="submit"
+									ref={buttonRef}
+									disabled={navigation.state !== 'idle'}
+									onClick={() => {
+										announce('Submitting answer...')
+									}}
+								>
+									Submit answer
+								</button>
+							</Form>
+						) : (
+							<div>
+								<ul className="mt-10 tablet:mt-16 desktop:mt-0">
 									{loaderData.options.map((option, i) => {
 										const letter = (['A', 'B', 'C', 'D'] as const)[i]
 										return (
-											<Option
+											<li
+												className="mt-3 leading-none first:mt-0 tablet:mt-6 tablet:first:mt-0"
 												key={i}
-												letter={letter}
-												name={option}
-												state={
-													loaderData.type === 'review'
-														? option === loaderData.answer
-															? 'correct'
-															: option === loaderData.option
-																? 'incorrect'
-																: undefined
-														: undefined
-												}
-											/>
+											>
+												<OptionReview
+													letter={letter}
+													name={option}
+													state={
+														loaderData.type === 'review'
+															? option === loaderData.answer
+																? 'correct'
+																: option === loaderData.option
+																	? 'incorrect'
+																	: undefined
+															: undefined
+													}
+												/>
+											</li>
 										)
 									})}
-								</div>
-							</fieldset>
-							<button
-								className="mt-3 block w-full rounded-xl border-3 border-transparent bg-purple p-[calc(1.1875rem-3px)] text-[1.125rem] capitalize leading-none text-pure-white shadow-default shadow-card-shadow transition-colors hover:bg-[hsl(277_91%_78%)] focus-visible:bg-[hsl(277_91%_78%)] disabled:opacity-50 tablet:mt-8 tablet:rounded-3xl tablet:p-[calc(2rem-3px)] tablet:text-heading-s"
-								type="submit"
-								ref={buttonRef}
-								disabled={navigation.state !== 'idle'}
-								onClick={() => {
-									announce(
-										loaderData.type === 'question'
-											? 'Submitting answer...'
-											: 'Loading...',
-									)
-								}}
-							>
-								{loaderData.type === 'question'
-									? 'Submit answer'
-									: 'Next question'}
-							</button>
-						</Form>
+								</ul>
+								<Form method="post">
+									<button
+										className="mt-3 block w-full rounded-xl border-3 border-transparent bg-purple p-[calc(1.1875rem-3px)] text-[1.125rem] capitalize leading-none text-pure-white shadow-default shadow-card-shadow transition-colors hover:bg-[hsl(277_91%_78%)] focus-visible:bg-[hsl(277_91%_78%)] disabled:opacity-50 tablet:mt-8 tablet:rounded-3xl tablet:p-[calc(2rem-3px)] tablet:text-heading-s"
+										type="submit"
+										ref={buttonRef}
+										disabled={navigation.state !== 'idle'}
+										onClick={() => {
+											announce('Loading...')
+										}}
+									>
+										Next question
+									</button>
+								</Form>
+							</div>
+						)}
 					</>
 				)}
 			</div>
@@ -172,13 +194,45 @@ export default function SubjectRoute() {
 function Option({
 	letter,
 	name,
+}: {
+	letter: 'A' | 'B' | 'C' | 'D'
+	name: string
+}) {
+	const id = useId()
+	const letterContent = {
+		A: "before:content-['A']",
+		B: "before:content-['B']",
+		C: "before:content-['C']",
+		D: "before:content-['D']",
+	}[letter]
+	return (
+		<div className="mt-3 leading-none first:mt-0 tablet:mt-6 tablet:first:mt-0">
+			<input
+				className="peer sr-only"
+				type="radio"
+				name="option"
+				value={name}
+				id={id}
+			/>
+			<label
+				className={`${letterContent} grid grid-cols-[max-content_1fr] items-center gap-4 rounded-xl border-3 border-transparent bg-card px-[calc(1.25rem-3px)] py-[calc(1.125rem-3px)] text-card-foreground shadow-default shadow-card-shadow transition-colors before:grid before:size-10 before:place-items-center before:rounded-md before:bg-light-grey before:text-[1.125rem] before:font-medium before:text-grey-navy before:transition-colors hover:before:bg-[hsl(278_100%_95%)] hover:before:text-purple peer-checked:border-purple peer-checked:before:bg-purple peer-checked:before:text-pure-white peer-focus-visible:outline tablet:gap-8 tablet:rounded-3xl tablet:before:size-14 tablet:before:rounded-xl tablet:before:text-heading-s desktop:before:rounded-lg`}
+				htmlFor={id}
+			>
+				{name}
+			</label>
+		</div>
+	)
+}
+
+function OptionReview({
+	letter,
+	name,
 	state,
 }: {
 	letter: 'A' | 'B' | 'C' | 'D'
 	name: string
 	state?: 'correct' | 'incorrect'
 }) {
-	const id = useId()
 	const letterContent = {
 		A: "before:content-['A']",
 		B: "before:content-['B']",
@@ -201,22 +255,12 @@ function Option({
 		default: null,
 	}[state ?? 'default']
 	return (
-		<div className="mt-3 leading-none first:mt-0 tablet:mt-6 tablet:first:mt-0">
-			<input
-				className="peer sr-only"
-				type="radio"
-				name="option"
-				value={name}
-				id={id}
-			/>
-			<label
-				className={`${letterContent} grid grid-cols-[max-content_1fr] items-center gap-4 rounded-xl border-3 border-transparent bg-card px-[calc(1.25rem-3px)] py-[calc(1.125rem-3px)] text-card-foreground shadow-default shadow-card-shadow transition-colors before:grid before:size-10 before:place-items-center before:rounded-md before:bg-light-grey before:text-[1.125rem] before:font-medium before:text-grey-navy before:transition-colors hover:before:bg-[hsl(278_100%_95%)] hover:before:text-purple peer-checked:border-purple peer-checked:before:bg-purple peer-checked:before:text-pure-white peer-focus-visible:outline data-[state=correct]:grid-cols-[max-content_1fr_max-content] data-[state=incorrect]:grid-cols-[max-content_1fr_max-content] data-[state=correct]:border-green data-[state=incorrect]:border-red data-[state=correct]:before:bg-green data-[state=incorrect]:before:bg-red data-[state=correct]:before:text-pure-white data-[state=incorrect]:before:text-pure-white tablet:gap-8 tablet:rounded-3xl tablet:before:size-14 tablet:before:rounded-xl tablet:before:text-heading-s desktop:before:rounded-lg`}
-				htmlFor={id}
-				data-state={state}
-			>
-				{name}
-				{stateIcon}
-			</label>
-		</div>
+		<p
+			className={`${letterContent} grid grid-cols-[max-content_1fr] items-center gap-4 rounded-xl border-3 border-transparent bg-card px-[calc(1.25rem-3px)] py-[calc(1.125rem-3px)] text-card-foreground shadow-default shadow-card-shadow before:grid before:size-10 before:place-items-center before:rounded-md before:bg-light-grey before:text-[1.125rem] before:font-medium before:text-grey-navy data-[state=correct]:grid-cols-[max-content_1fr_max-content] data-[state=incorrect]:grid-cols-[max-content_1fr_max-content] data-[state=correct]:border-green data-[state=incorrect]:border-red data-[state=correct]:before:bg-green data-[state=incorrect]:before:bg-red data-[state=correct]:before:text-pure-white data-[state=incorrect]:before:text-pure-white tablet:gap-8 tablet:rounded-3xl tablet:before:size-14 tablet:before:rounded-xl tablet:before:text-heading-s desktop:before:rounded-lg`}
+			data-state={state}
+		>
+			{name}
+			{stateIcon}
+		</p>
 	)
 }
