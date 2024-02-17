@@ -1,11 +1,16 @@
 import { invariantResponse } from '@epic-web/invariant'
-import { Form, useLoaderData, useNavigation } from '@remix-run/react'
+import {
+	Form,
+	useActionData,
+	useLoaderData,
+	useNavigation,
+} from '@remix-run/react'
 import {
 	type LoaderFunctionArgs,
 	json,
 	type ActionFunctionArgs,
 } from '@remix-run/server-runtime'
-import { useEffect, useId, useRef } from 'react'
+import { forwardRef, useEffect, useId, useRef, useState } from 'react'
 import { quizzes } from '#app/data/data.json'
 import { Icon } from '../../components/ui/icon'
 import { useAnnouncer } from '../../utils/announcer'
@@ -57,21 +62,40 @@ export async function action({ request, params }: ActionFunctionArgs) {
 
 export default function SubjectRoute() {
 	const loaderData = useLoaderData<typeof loader>()
+	const actionData = useActionData<typeof action>()
 	const navigation = useNavigation()
 	const { announce } = useAnnouncer()
 	const headingRef = useRef<HTMLHeadingElement>(null)
 	const buttonRef = useRef<HTMLButtonElement>(null)
 	const buttonDescId = useId()
+	const [noValidate, setNoValidate] = useState(false)
+	const radioRef = useRef<HTMLInputElement>(null)
+	const errorId = useId()
 
 	useEffect(() => {
+		let timeoutId: ReturnType<typeof setTimeout>
 		if (navigation.state === 'idle') {
 			if (loaderData.type === 'review') {
 				buttonRef.current?.focus()
 			} else {
-				headingRef.current?.focus()
+				if (actionData?.error) {
+					radioRef.current?.blur()
+					timeoutId = setTimeout(() => {
+						radioRef.current?.focus()
+					}, 300)
+				} else {
+					headingRef.current?.focus()
+				}
 			}
 		}
-	}, [loaderData.type, navigation.state])
+		return () => {
+			clearTimeout(timeoutId)
+		}
+	}, [actionData?.error, loaderData.type, navigation.state])
+
+	useEffect(() => {
+		setNoValidate(true)
+	}, [])
 
 	return (
 		<main>
@@ -121,13 +145,28 @@ export default function SubjectRoute() {
 							{/* todo: timer */}
 						</div>
 						{loaderData.type === 'question' ? (
-							<Form className="mt-10 tablet:mt-16 desktop:mt-0" method="post">
-								<fieldset>
+							<Form
+								className="mt-10 tablet:mt-16 desktop:mt-0"
+								method="post"
+								noValidate={noValidate}
+							>
+								<fieldset
+									aria-required
+									aria-invalid={!!actionData?.error}
+									aria-describedby={errorId}
+								>
 									<legend className="sr-only">Choose an answer</legend>
 									<div>
 										{loaderData.options.map((option, i) => {
 											const letter = (['A', 'B', 'C', 'D'] as const)[i]
-											return <Option key={i} letter={letter} name={option} />
+											return (
+												<Option
+													key={i}
+													letter={letter}
+													name={option}
+													ref={i === 0 ? radioRef : null}
+												/>
+											)
 										})}
 									</div>
 								</fieldset>
@@ -142,6 +181,20 @@ export default function SubjectRoute() {
 								>
 									Submit answer
 								</button>
+								<p
+									className="text-foreground-error mt-4 grid grid-cols-[max-content_auto] items-center justify-center gap-2 text-[1.125rem] leading-none tablet:mt-8 tablet:text-body-m"
+									id={errorId}
+								>
+									{actionData?.error ? (
+										<>
+											<Icon
+												className="size-8 text-red forced-color-adjust-auto tablet:size-10"
+												name="icon-error"
+											/>
+											{actionData.error}
+										</>
+									) : null}
+								</p>
 							</Form>
 						) : (
 							<div>
@@ -191,13 +244,15 @@ export default function SubjectRoute() {
 	)
 }
 
-function Option({
-	letter,
-	name,
-}: {
+type OptionProps = {
 	letter: 'A' | 'B' | 'C' | 'D'
 	name: string
-}) {
+}
+
+const Option = forwardRef<HTMLInputElement, OptionProps>(function (
+	{ letter, name },
+	ref,
+) {
 	const id = useId()
 	const letterContent = {
 		A: "before:content-['A']",
@@ -213,6 +268,7 @@ function Option({
 				name="option"
 				value={name}
 				id={id}
+				ref={ref}
 			/>
 			<label
 				className={`${letterContent} grid grid-cols-[max-content_1fr] items-center gap-4 rounded-xl border-3 border-transparent bg-card px-[calc(1.25rem-3px)] py-[calc(1.125rem-3px)] text-card-foreground shadow-default shadow-card-shadow transition-colors before:grid before:size-10 before:place-items-center before:rounded-md before:bg-light-grey before:text-[1.125rem] before:font-medium before:text-grey-navy before:transition-colors hover:before:bg-[hsl(278_100%_95%)] hover:before:text-purple peer-checked:border-purple peer-checked:before:bg-purple peer-checked:before:text-pure-white peer-focus-visible:outline tablet:gap-8 tablet:rounded-3xl tablet:before:size-14 tablet:before:rounded-xl tablet:before:text-heading-s desktop:before:rounded-lg`}
@@ -222,7 +278,7 @@ function Option({
 			</label>
 		</div>
 	)
-}
+})
 
 function OptionReview({
 	letter,

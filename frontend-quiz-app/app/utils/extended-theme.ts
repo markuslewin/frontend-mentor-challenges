@@ -9,6 +9,7 @@ export const extendedTheme = {
 			heading: 'hsl(var(--foreground-heading))',
 			questionNumber: 'hsl(var(--foreground-question-number))',
 			question: 'hsl(var(--foreground-question))',
+			error: 'hsl(var(--foreground-error))',
 		},
 		card: {
 			DEFAULT: 'hsl(var(--card))',

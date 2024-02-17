@@ -23,6 +23,7 @@
 		--foreground-heading: var(--color-dark-navy);
 		--foreground-question-number: var(--color-grey-navy);
 		--foreground-question: var(--color-dark-navy);
+		--foreground-error: var(--color-red);
 
 		--card: var(--color-pure-white);
 		--card-foreground: var(--color-dark-navy);
@@ -44,6 +45,7 @@
 		--foreground-heading: var(--color-pure-white);
 		--foreground-question-number: var(--color-light-bluish);
 		--foreground-question: var(--color-pure-white);
+		--foreground-error: var(--color-pure-white);
 
 		--card: var(--color-navy);
 		--card-foreground: var(--color-pure-white);

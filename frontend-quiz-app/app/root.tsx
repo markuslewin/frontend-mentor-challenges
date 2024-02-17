@@ -217,7 +217,6 @@ function Document({
 				<ScrollRestoration nonce={nonce} />
 				<Scripts nonce={nonce} />
 				<LiveReload nonce={nonce} />
-				<MessageQueue />
 			</body>
 		</html>
 	)
@@ -247,6 +246,7 @@ function App() {
 			</div>
 			<EpicToaster closeButton position="top-center" theme={theme} />
 			<EpicProgress />
+			<MessageQueue />
 		</Document>
 	)
 }

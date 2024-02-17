@@ -1,5 +1,5 @@
 import { invariantResponse } from '@epic-web/invariant'
-import { createCookieSessionStorage, redirect } from '@remix-run/node'
+import { createCookieSessionStorage, json, redirect } from '@remix-run/node'
 import { z } from 'zod'
 import { quizzes } from '#app/data/data.json'
 
@@ -71,7 +71,11 @@ export async function handleAnswer(request: Request, subject: string) {
 		const questionData = quiz.questions[state.index]
 		invariantResponse(questionData, 'Question not found.', { status: 404 })
 		const result = OptionSchema.safeParse(Object.fromEntries(formData))
-		invariantResponse(result.success, 'Missing option.')
+		if (!result.success) {
+			return json({
+				error: 'Please select an answer',
+			})
+		}
 		quizSession.set('state', {
 			...state,
 			type: 'review',
