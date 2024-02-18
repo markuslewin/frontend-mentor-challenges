@@ -48,11 +48,7 @@ import {
 import { Icon, href as iconsHref } from './components/ui/icon.tsx'
 import { EpicToaster } from './components/ui/sonner.tsx'
 import tailwindStyleSheetUrl from './styles/tailwind.css'
-import {
-	AnnouncerProvider,
-	MessageQueue,
-	useAnnouncer,
-} from './utils/announcer.tsx'
+import { AnnouncerProvider, MessageQueue } from './utils/announcer.tsx'
 import { getUserId, logout } from './utils/auth.server.ts'
 import { ClientHintCheck, getHints, useHints } from './utils/client-hints.tsx'
 import { prisma } from './utils/db.server.ts'
@@ -235,14 +231,7 @@ function App() {
 	return (
 		<Document nonce={nonce} theme={theme} env={data.ENV}>
 			<div className="flex min-h-screen flex-col justify-between pb-16">
-				<header className="py-4 tablet:py-10 desktop:py-[5.1875rem]">
-					<div className="mx-auto box-content flex max-w-default justify-end px-6 tablet:px-16">
-						<ThemeSwitch />
-					</div>
-				</header>
-				<div className="flex-1">
-					<Outlet />
-				</div>
+				<Outlet />
 			</div>
 			<EpicToaster closeButton position="top-center" theme={theme} />
 			<EpicProgress />
@@ -376,8 +365,8 @@ export function useOptimisticThemeMode() {
  * unavailable.
  */
 function useActionThemeMode() {
-	const data = useActionData<typeof action>()
-	const result = ThemeFormSchema.safeParse(data?.result.initialValue)
+	const data = useActionData<any>()
+	const result = ThemeFormSchema.safeParse(data?.result?.initialValue)
 	const [theme, setTheme] = useState(result.success ? result.data.theme : null)
 
 	useEffect(() => {
@@ -386,44 +375,6 @@ function useActionThemeMode() {
 	}, [])
 
 	return theme
-}
-
-function ThemeSwitch() {
-	const fetcher = useFetcher<typeof action>()
-	const { announce } = useAnnouncer()
-
-	const [form] = useForm({
-		id: 'theme-switch',
-		lastResult: fetcher.data?.result,
-	})
-
-	const mode = useTheme()
-	const nextMode = mode === 'light' ? 'dark' : 'light'
-
-	return (
-		<fetcher.Form
-			className="text-foreground-theme"
-			method="POST"
-			{...getFormProps(form)}
-			onSubmit={event => {
-				event.preventDefault()
-				fetcher.submit(event.currentTarget)
-				announce(`Color mode is now ${nextMode}.`)
-			}}
-		>
-			<input type="hidden" name="theme" value={nextMode} />
-			<div className="flex items-center gap-4">
-				<Icon className="size-4 tablet:size-6" name="icon-sun-light" />
-				<button
-					type="submit"
-					className="grid h-5 w-8 items-center rounded-full border-1 bg-purple before:inline-block before:size-3 before:translate-x-1 before:rounded-full before:border-[0.375rem] before:border-pure-white before:transition-transform dark:before:translate-x-[0.9375rem] tablet:h-7 tablet:w-12 tablet:before:size-5 tablet:before:border-[0.625rem] dark:tablet:before:translate-x-[1.4375rem]"
-				>
-					<span className="sr-only">Enable {nextMode} mode</span>
-				</button>
-				<Icon className="size-4 tablet:size-6" name="icon-moon-light" />
-			</div>
-		</fetcher.Form>
-	)
 }
 
 export function ErrorBoundary() {
