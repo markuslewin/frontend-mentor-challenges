@@ -121,13 +121,18 @@ export default function SubjectRoute() {
 									</h1>
 									<p className="mt-2 font-medium">You scored...</p>
 								</div>
-								<div className="text-center">
-									<p className="mt-10 rounded-xl bg-card p-8 text-[1.125rem] text-card-foreground-body shadow-default shadow-card-shadow tablet:mt-16 tablet:rounded-3xl tablet:p-12 tablet:text-body-m desktop:mt-0">
-										<strong className="mb-4 block text-[5.5rem] leading-none text-card-foreground tablet:text-display">
-											{loaderData.points}
-										</strong>{' '}
-										out of {loaderData.maxPoints}
-									</p>
+								<div className="mt-10 tablet:mt-16 desktop:mt-0">
+									<div className="grid justify-center rounded-xl border-3 border-transparent bg-card p-[calc(2rem-3px)] text-[1.125rem] text-card-foreground-body shadow-default shadow-card-shadow tablet:rounded-3xl tablet:p-[calc(3rem-3px)] tablet:text-body-m">
+										<p className="text-[1.125rem] font-medium text-card-foreground tablet:text-heading-s">
+											{subjects[loaderData.subject].tag}
+										</p>
+										<p className="mt-4 text-center tablet:mt-10">
+											<strong className="mb-4 block text-[5.5rem] leading-none text-card-foreground tablet:text-display">
+												{loaderData.points}
+											</strong>{' '}
+											out of {loaderData.maxPoints}
+										</p>
+									</div>
 									<Form method="post">
 										<button
 											className="mt-3 block w-full rounded-xl border-3 border-transparent bg-purple p-[calc(1.1875rem-3px)] text-[1.125rem] capitalize leading-none text-pure-white shadow-default shadow-card-shadow transition-colors hover:bg-[hsl(277_91%_78%)] focus-visible:bg-[hsl(277_91%_78%)] tablet:mt-8 tablet:rounded-3xl tablet:p-[calc(2rem-3px)] tablet:text-heading-s"
