@@ -301,7 +301,7 @@ const Option = forwardRef<HTMLInputElement, OptionProps>(function (
 				ref={ref}
 			/>
 			<label
-				className={`${letterContent} grid grid-cols-[max-content_1fr] items-center gap-4 rounded-xl border-3 border-transparent bg-card px-[calc(1.25rem-3px)] py-[calc(1.125rem-3px)] text-card-foreground shadow-default shadow-card-shadow transition-colors before:grid before:size-10 before:place-items-center before:rounded-md before:bg-light-grey before:text-[1.125rem] before:font-medium before:text-grey-navy before:transition-colors hover:before:bg-[hsl(278_100%_95%)] hover:before:text-purple peer-checked:border-purple peer-checked:before:bg-purple peer-checked:before:text-pure-white peer-focus-visible:outline tablet:gap-8 tablet:rounded-3xl tablet:before:size-14 tablet:before:rounded-xl tablet:before:text-heading-s desktop:before:rounded-lg`}
+				className={`${letterContent} grid grid-cols-[max-content_1fr] items-center gap-4 rounded-xl border-3 border-transparent bg-card px-[calc(1.25rem-3px)] py-[calc(1.125rem-3px)] text-card-foreground shadow-default shadow-card-shadow transition-colors before:grid before:size-10 before:place-items-center before:rounded-md before:bg-light-grey before:text-[1.125rem] before:font-medium before:text-grey-navy before:transition-colors hover:before:bg-[hsl(278_100%_95%)] hover:before:text-purple peer-checked:border-purple peer-checked:before:bg-purple peer-checked:before:text-pure-white peer-focus-visible:outline tablet:gap-8 tablet:rounded-3xl tablet:before:size-14 tablet:before:rounded-xl tablet:before:text-heading-s desktop:before:rounded-lg forced-colors:peer-checked:border-[SelectedItem]`}
 				htmlFor={id}
 			>
 				{name}
