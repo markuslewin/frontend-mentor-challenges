@@ -44,7 +44,7 @@ export default function Index() {
 										className="mt-3 rounded-xl bg-card text-card-foreground shadow-default shadow-card-shadow first:mt-0 tablet:mt-6 tablet:rounded-3xl tablet:first:mt-0"
 									>
 										<Link
-											className="block rounded-[inherit] border-3 border-transparent p-[calc(1.25rem-3px)]"
+											className="block rounded-[inherit] border-3 border-transparent p-[calc(0.75rem-3px)] desktop:p-[calc(1.25rem-3px)]"
 											to={subject.href}
 											onClick={() => {
 												announce('Loading...')
