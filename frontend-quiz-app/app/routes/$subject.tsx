@@ -123,9 +123,9 @@ export default function SubjectRoute() {
 								</div>
 								<div className="mt-10 tablet:mt-16 desktop:mt-0">
 									<div className="grid justify-center rounded-xl border-3 border-transparent bg-card p-[calc(2rem-3px)] text-[1.125rem] text-card-foreground-body shadow-default shadow-card-shadow tablet:rounded-3xl tablet:p-[calc(3rem-3px)] tablet:text-body-m">
-										<p className="text-[1.125rem] font-medium text-card-foreground tablet:text-heading-s">
+										<div className="text-[1.125rem] font-medium text-card-foreground tablet:text-heading-s">
 											{subjects[loaderData.subject].tag}
-										</p>
+										</div>
 										<p className="mt-4 text-center tablet:mt-10">
 											<strong className="mb-4 block text-[5.5rem] leading-none text-card-foreground tablet:text-display">
 												{loaderData.points}
