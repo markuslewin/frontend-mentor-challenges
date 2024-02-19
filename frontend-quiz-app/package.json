@@ -158,8 +158,5 @@
   "engines": {
     "node": "20"
   },
-  "epic-stack": true,
-  "prisma": {
-    "seed": "tsx prisma/seed.ts"
-  }
+  "epic-stack": true
 }
