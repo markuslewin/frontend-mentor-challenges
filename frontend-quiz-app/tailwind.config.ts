@@ -1,4 +1,5 @@
 import { type Config } from 'tailwindcss'
+import plugin from 'tailwindcss/plugin'
 import animatePlugin from 'tailwindcss-animate'
 import radixPlugin from 'tailwindcss-radix'
 import { extendedTheme } from './app/utils/extended-theme.ts'
@@ -62,5 +63,55 @@ export default {
 		},
 		extend: extendedTheme,
 	},
-	plugins: [animatePlugin, radixPlugin],
+	plugins: [
+		animatePlugin,
+		radixPlugin,
+		plugin(({ matchUtilities, theme }) => {
+			matchUtilities(
+				{
+					'shape-p': padding => {
+						return {
+							padding: `calc(${padding} - var(--shape-border-width, 0px))`,
+							borderWidth: 'var(--shape-border-width)',
+						}
+					},
+				},
+				{ values: theme('size') },
+			)
+			matchUtilities(
+				{
+					'shape-py': padding => {
+						return {
+							'padding-top': `calc(${padding} - var(--shape-border-width, 0px))`,
+							'padding-bottom': `calc(${padding} - var(--shape-border-width, 0px))`,
+							borderWidth: 'var(--shape-border-width)',
+						}
+					},
+				},
+				{ values: theme('size') },
+			)
+			matchUtilities(
+				{
+					'shape-px': padding => {
+						return {
+							'padding-left': `calc(${padding} - var(--shape-border-width, 0px))`,
+							'padding-right': `calc(${padding} - var(--shape-border-width, 0px))`,
+							borderWidth: 'var(--shape-border-width)',
+						}
+					},
+				},
+				{ values: theme('size') },
+			)
+			matchUtilities(
+				{
+					'shape-border': borderWidth => {
+						return {
+							'--shape-border-width': borderWidth,
+						}
+					},
+				},
+				{ values: theme('borderWidth') },
+			)
+		}),
+	],
 } satisfies Config

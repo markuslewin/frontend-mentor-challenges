@@ -122,7 +122,7 @@ export default function SubjectRoute() {
 									<p className="mt-2 font-medium">You scored...</p>
 								</div>
 								<div className="mt-10 tablet:mt-16 desktop:mt-0">
-									<div className="grid justify-center rounded-xl border-3 border-transparent bg-card p-[calc(2rem-3px)] text-[1.125rem] text-card-foreground-body shadow-default shadow-card-shadow tablet:rounded-3xl tablet:p-[calc(3rem-3px)] tablet:text-body-m">
+									<div className="grid justify-center rounded-xl border-transparent bg-card text-[1.125rem] text-card-foreground-body shadow-default shadow-card-shadow shape-p-8 shape-border-3 tablet:rounded-3xl tablet:text-body-m tablet:shape-p-12">
 										<div className="text-[1.125rem] font-medium text-card-foreground tablet:text-heading-s">
 											{subjects[loaderData.subject].tag}
 										</div>
@@ -135,7 +135,7 @@ export default function SubjectRoute() {
 									</div>
 									<Form method="post">
 										<button
-											className="mt-3 block w-full rounded-xl border-3 border-transparent bg-purple p-[calc(1.1875rem-3px)] text-[1.125rem] capitalize leading-none text-pure-white shadow-default shadow-card-shadow transition-colors hover:bg-[hsl(277_91%_78%)] focus-visible:bg-[hsl(277_91%_78%)] tablet:mt-8 tablet:rounded-3xl tablet:p-[calc(2rem-3px)] tablet:text-heading-s"
+											className="mt-3 block w-full rounded-xl border-transparent bg-purple text-[1.125rem] capitalize leading-none text-pure-white shadow-default shadow-card-shadow transition-colors shape-p-[1.1875rem] shape-border-3 hover:bg-[hsl(277_91%_78%)] focus-visible:bg-[hsl(277_91%_78%)] tablet:mt-8 tablet:rounded-3xl tablet:text-heading-s tablet:shape-p-8"
 											type="submit"
 											disabled={navigation.state !== 'idle'}
 											onClick={() => {
@@ -199,7 +199,7 @@ export default function SubjectRoute() {
 											</div>
 										</fieldset>
 										<button
-											className="mt-3 block w-full rounded-xl border-3 border-transparent bg-purple p-[calc(1.1875rem-3px)] text-[1.125rem] capitalize leading-none text-pure-white shadow-default shadow-card-shadow transition-colors hover:bg-[hsl(277_91%_78%)] focus-visible:bg-[hsl(277_91%_78%)] disabled:opacity-50 tablet:mt-8 tablet:rounded-3xl tablet:p-[calc(2rem-3px)] tablet:text-heading-s"
+											className="mt-3 block w-full rounded-xl border-transparent bg-purple text-[1.125rem] capitalize leading-none text-pure-white shadow-default shadow-card-shadow transition-colors shape-p-[1.1875rem] shape-border-3 hover:bg-[hsl(277_91%_78%)] focus-visible:bg-[hsl(277_91%_78%)] disabled:opacity-50 tablet:mt-8 tablet:rounded-3xl tablet:text-heading-s tablet:shape-p-8"
 											type="submit"
 											ref={buttonRef}
 											disabled={navigation.state !== 'idle'}
@@ -246,7 +246,7 @@ export default function SubjectRoute() {
 										</ul>
 										<Form method="post">
 											<button
-												className="mt-3 block w-full rounded-xl border-3 border-transparent bg-purple p-[calc(1.1875rem-3px)] text-[1.125rem] capitalize leading-none text-pure-white shadow-default shadow-card-shadow transition-colors hover:bg-[hsl(277_91%_78%)] focus-visible:bg-[hsl(277_91%_78%)] disabled:opacity-50 tablet:mt-8 tablet:rounded-3xl tablet:p-[calc(2rem-3px)] tablet:text-heading-s"
+												className="mt-3 block w-full rounded-xl border-transparent bg-purple text-[1.125rem] capitalize leading-none text-pure-white shadow-default shadow-card-shadow transition-colors shape-p-[1.1875rem] shape-border-3 hover:bg-[hsl(277_91%_78%)] focus-visible:bg-[hsl(277_91%_78%)] disabled:opacity-50 tablet:mt-8 tablet:rounded-3xl tablet:text-heading-s tablet:shape-p-8"
 												type="submit"
 												ref={buttonRef}
 												disabled={navigation.state !== 'idle'}
@@ -301,7 +301,7 @@ const Option = forwardRef<HTMLInputElement, OptionProps>(function (
 				ref={ref}
 			/>
 			<label
-				className={`${letterContent} grid grid-cols-[max-content_1fr] items-center gap-4 rounded-xl border-3 border-transparent bg-card p-[calc(0.75rem-3px)] text-card-foreground shadow-default shadow-card-shadow transition-colors before:grid before:size-10 before:place-items-center before:rounded-md before:border-1 before:border-transparent before:bg-light-grey before:text-[1.125rem] before:font-medium before:text-grey-navy before:transition-colors hover:before:bg-[hsl(278_100%_95%)] hover:before:text-purple peer-checked:border-purple peer-checked:before:bg-purple peer-checked:before:text-pure-white peer-focus-visible:outline tablet:gap-8 tablet:rounded-3xl tablet:before:size-14 tablet:before:rounded-xl tablet:before:text-heading-s desktop:px-[calc(1.25rem-3px)] desktop:py-[calc(1.125rem-3px)] desktop:before:rounded-lg forced-colors:transition-none forced-colors:peer-checked:border-[SelectedItem]`}
+				className={`${letterContent} desktop:shape-px-5 desktop:shape-py-[1.125rem] grid grid-cols-[max-content_1fr] items-center gap-4 rounded-xl border-transparent bg-card text-card-foreground shadow-default shadow-card-shadow transition-colors shape-p-3 shape-border-3 before:grid before:size-10 before:place-items-center before:rounded-md before:border-1 before:border-transparent before:bg-light-grey before:text-[1.125rem] before:font-medium before:text-grey-navy before:transition-colors hover:before:bg-[hsl(278_100%_95%)] hover:before:text-purple peer-checked:border-purple peer-checked:before:bg-purple peer-checked:before:text-pure-white peer-focus-visible:outline tablet:gap-8 tablet:rounded-3xl tablet:before:size-14 tablet:before:rounded-xl tablet:before:text-heading-s desktop:before:rounded-lg forced-colors:transition-none forced-colors:peer-checked:border-[SelectedItem]`}
 				htmlFor={id}
 			>
 				{name}
@@ -335,7 +335,7 @@ function OptionReview({
 				<p className="sr-only">Incorrect answer:</p>
 			) : null}
 			<p
-				className={`${letterContent} grid grid-cols-[max-content_1fr] items-center gap-4 rounded-xl border-3 border-transparent bg-card p-[calc(0.75rem-3px)] text-card-foreground shadow-default shadow-card-shadow before:grid before:size-10 before:place-items-center before:rounded-md before:border-1 before:border-transparent before:bg-light-grey before:text-[1.125rem] before:font-medium before:text-grey-navy data-[correct=true]:grid-cols-[max-content_1fr_max-content] data-[selected=true]:grid-cols-[max-content_1fr_max-content] data-[correct=false]:data-[selected=true]:border-red data-[correct=true]:data-[selected=true]:border-green data-[correct=false]:data-[selected=true]:before:bg-red data-[correct=true]:data-[selected=true]:before:bg-green data-[correct=false]:data-[selected=true]:before:text-pure-white data-[correct=true]:data-[selected=true]:before:text-pure-white tablet:gap-8 tablet:rounded-3xl tablet:before:size-14 tablet:before:rounded-xl tablet:before:text-heading-s desktop:px-[calc(1.25rem-3px)] desktop:py-[calc(1.125rem-3px)] desktop:before:rounded-lg`}
+				className={`${letterContent} desktop:shape-px-5 desktop:shape-py-[1.125rem] grid grid-cols-[max-content_1fr] items-center gap-4 rounded-xl border-transparent bg-card text-card-foreground shadow-default shadow-card-shadow shape-p-3 shape-border-3 before:grid before:size-10 before:place-items-center before:rounded-md before:border-1 before:border-transparent before:bg-light-grey before:text-[1.125rem] before:font-medium before:text-grey-navy data-[correct=true]:grid-cols-[max-content_1fr_max-content] data-[selected=true]:grid-cols-[max-content_1fr_max-content] data-[correct=false]:data-[selected=true]:border-red data-[correct=true]:data-[selected=true]:border-green data-[correct=false]:data-[selected=true]:before:bg-red data-[correct=true]:data-[selected=true]:before:bg-green data-[correct=false]:data-[selected=true]:before:text-pure-white data-[correct=true]:data-[selected=true]:before:text-pure-white tablet:gap-8 tablet:rounded-3xl tablet:before:size-14 tablet:before:rounded-xl tablet:before:text-heading-s desktop:before:rounded-lg`}
 				data-correct={correct}
 				data-selected={selected}
 			>
