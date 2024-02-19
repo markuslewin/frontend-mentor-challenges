@@ -23,7 +23,7 @@ function Tag({
 	return (
 		<div className="grid grid-cols-[max-content_1fr] items-center gap-4 tablet:gap-8">
 			<div
-				className={`${background} grid size-10 place-items-center rounded-md tablet:size-14 tablet:rounded-xl desktop:rounded-lg`}
+				className={`${background} grid size-10 place-items-center rounded-md border-1 border-transparent tablet:size-14 tablet:rounded-xl desktop:rounded-lg`}
 			>
 				<img className="h-[1.75rem] tablet:h-[2.5rem]" alt="" src={src} />
 			</div>
