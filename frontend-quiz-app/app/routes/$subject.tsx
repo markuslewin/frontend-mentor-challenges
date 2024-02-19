@@ -13,11 +13,11 @@ import {
 import { forwardRef, useEffect, useId, useRef, useState } from 'react'
 import { Progress } from '#app/components/ui/progress'
 import { quizzes } from '#app/data/data.json'
-import { ThemeSwitch } from '../../components/theme-switcher'
-import { Icon } from '../../components/ui/icon'
-import { useAnnouncer } from '../../utils/announcer'
-import { getQuizState, handleAnswer } from '../../utils/quiz.server'
-import { SubjectsSchema, subjects } from '../../utils/subjects/subjects'
+import { ThemeSwitch } from '../components/theme-switcher'
+import { Icon } from '../components/ui/icon'
+import { useAnnouncer } from '../utils/announcer'
+import { getQuizState, handleAnswer } from '../utils/quiz.server'
+import { SubjectsSchema, subjects } from '../utils/subjects/subjects'
 
 export async function loader({ params, request }: LoaderFunctionArgs) {
 	const { subject } = params

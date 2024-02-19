@@ -1,7 +1,7 @@
 import { Link } from '@remix-run/react'
-import { ThemeSwitch } from '../../components/theme-switcher.tsx'
-import { useAnnouncer } from '../../utils/announcer.tsx'
-import { subjects } from '../../utils/subjects/subjects.tsx'
+import { ThemeSwitch } from '../components/theme-switcher.tsx'
+import { useAnnouncer } from '../utils/announcer.tsx'
+import { subjects } from '../utils/subjects/subjects.tsx'
 
 export default function Index() {
 	const { announce } = useAnnouncer()
