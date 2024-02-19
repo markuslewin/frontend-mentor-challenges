@@ -1,34 +1,29 @@
-import { useForm, getFormProps } from '@conform-to/react'
-import { useFetcher } from '@remix-run/react'
-import { type action, useTheme } from '../root'
+import { Form, useLocation, useSubmit } from '@remix-run/react'
+import { useTheme } from '../root'
 import { useAnnouncer } from '../utils/announcer'
 import { Icon } from './ui/icon'
 
 export function ThemeSwitch() {
-	const fetcher = useFetcher<typeof action>()
+	const submit = useSubmit()
+	const location = useLocation()
 	const { announce } = useAnnouncer()
-
-	const [form] = useForm({
-		id: 'theme-switch',
-		lastResult: fetcher.data?.result,
-	})
 
 	const mode = useTheme()
 	const nextMode = mode === 'light' ? 'dark' : 'light'
 
 	return (
-		<fetcher.Form
+		<Form
 			className="text-foreground-theme"
 			method="POST"
 			action="/"
-			{...getFormProps(form)}
 			onSubmit={event => {
 				event.preventDefault()
-				fetcher.submit(event.currentTarget)
+				submit(event.currentTarget)
 				announce(`Color mode is now ${nextMode}.`)
 			}}
 		>
 			<input type="hidden" name="theme" value={nextMode} />
+			<input type="hidden" name="redirectTo" value={location.pathname} />
 			<div className="flex items-center gap-2 tablet:gap-4">
 				<Icon className="size-4 tablet:size-6" name="icon-sun-light" />
 				<button
@@ -39,6 +34,6 @@ export function ThemeSwitch() {
 				</button>
 				<Icon className="size-4 tablet:size-6" name="icon-moon-light" />
 			</div>
-		</fetcher.Form>
+		</Form>
 	)
 }

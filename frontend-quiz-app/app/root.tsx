@@ -11,6 +11,7 @@ import {
 	type LinksFunction,
 	type LoaderFunctionArgs,
 	type MetaFunction,
+	redirect,
 } from '@remix-run/node'
 import {
 	Links,
@@ -19,13 +20,12 @@ import {
 	Outlet,
 	Scripts,
 	ScrollRestoration,
-	useActionData,
-	useFetchers,
 	useLoaderData,
+	useNavigation,
 } from '@remix-run/react'
 import { withSentry } from '@sentry/remix'
-import { useEffect, useState } from 'react'
 import { HoneypotProvider } from 'remix-utils/honeypot/react'
+import { safeRedirect } from 'remix-utils/safe-redirect'
 import { z } from 'zod'
 import { GeneralErrorBoundary } from './components/error-boundary.tsx'
 import { EpicProgress } from './components/progress-bar.tsx'
@@ -96,6 +96,7 @@ export const headers: HeadersFunction = ({ loaderHeaders }) => {
 
 const ThemeFormSchema = z.object({
 	theme: z.enum(['light', 'dark']),
+	redirectTo: z.string(),
 })
 
 export async function action({ request }: ActionFunctionArgs) {
@@ -106,12 +107,12 @@ export async function action({ request }: ActionFunctionArgs) {
 
 	invariantResponse(submission.status === 'success', 'Invalid theme received')
 
-	const { theme } = submission.value
+	const { theme, redirectTo } = submission.value
 
 	const responseInit = {
 		headers: { 'set-cookie': setTheme(theme) },
 	}
-	return json({ result: submission.reply() }, responseInit)
+	return redirect(safeRedirect(redirectTo), responseInit)
 }
 
 function Document({
@@ -188,10 +189,7 @@ export function useTheme() {
 	const hints = useHints()
 	const requestInfo = useRequestInfo()
 	const optimisticMode = useOptimisticThemeMode()
-	const actionMode = useActionThemeMode()
-	return (
-		optimisticMode ?? actionMode ?? requestInfo.userPrefs.theme ?? hints.theme
-	)
+	return optimisticMode ?? requestInfo.userPrefs.theme ?? hints.theme
 }
 
 /**
@@ -199,11 +197,10 @@ export function useTheme() {
  * value it's being changed to.
  */
 export function useOptimisticThemeMode() {
-	const fetchers = useFetchers()
-	const themeFetcher = fetchers.find(f => f.formAction === '/')
+	const navigation = useNavigation()
 
-	if (themeFetcher && themeFetcher.formData) {
-		const submission = parseWithZod(themeFetcher.formData, {
+	if (navigation.formData) {
+		const submission = parseWithZod(navigation.formData, {
 			schema: ThemeFormSchema,
 		})
 
@@ -211,23 +208,6 @@ export function useOptimisticThemeMode() {
 			return submission.value.theme
 		}
 	}
-}
-
-/**
- * Return the theme of the action result. Enables theme mode when JS is
- * unavailable.
- */
-function useActionThemeMode() {
-	const data = useActionData<any>()
-	const result = ThemeFormSchema.safeParse(data?.result?.initialValue)
-	const [theme, setTheme] = useState(result.success ? result.data.theme : null)
-
-	useEffect(() => {
-		// Ignore the action result if the app is hydrated.
-		setTheme(null)
-	}, [])
-
-	return theme
 }
 
 export function ErrorBoundary() {
