@@ -44,7 +44,7 @@ export default {
 			default: rem(1160),
 		},
 		gridTemplateColumns: {
-			'main-desktop': 'minmax(auto, 29.0625rem) minmax(auto, 35.25rem)',
+			'main-desktop': 'minmax(0, 29.0625rem) minmax(0, 35.25rem)',
 		},
 		backgroundImage: {
 			'body-pattern-dark':
