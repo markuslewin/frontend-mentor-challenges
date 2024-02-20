@@ -16,6 +16,7 @@ import { quizzes } from '#app/data/data.json'
 import { ThemeSwitch } from '../components/theme-switcher'
 import { Icon } from '../components/ui/icon'
 import { useAnnouncer } from '../utils/announcer'
+import { useLastIntent } from '../utils/misc'
 import { getQuizState, handleAnswer } from '../utils/quiz.server'
 import { SubjectsSchema, subjects } from '../utils/subjects/subjects'
 
@@ -70,6 +71,7 @@ export default function SubjectRoute() {
 	const actionData = useActionData<typeof action>()
 	const navigation = useNavigation()
 	const { announce } = useAnnouncer()
+	const lastIntent = useLastIntent()
 	const headingRef = useRef<HTMLHeadingElement>(null)
 	const buttonRef = useRef<HTMLButtonElement>(null)
 	const buttonDescId = useId()
@@ -79,6 +81,9 @@ export default function SubjectRoute() {
 
 	useEffect(() => {
 		let timeoutId: ReturnType<typeof setTimeout>
+		if (lastIntent === 'switch-theme') {
+			return
+		}
 		if (navigation.state === 'idle') {
 			if (loaderData.type === 'review') {
 				buttonRef.current?.focus()
@@ -96,7 +101,7 @@ export default function SubjectRoute() {
 		return () => {
 			clearTimeout(timeoutId)
 		}
-	}, [actionData?.error, loaderData.type, navigation.state])
+	}, [actionData?.error, lastIntent, loaderData.type, navigation.state])
 
 	useEffect(() => {
 		setNoValidate(true)
@@ -301,7 +306,7 @@ const Option = forwardRef<HTMLInputElement, OptionProps>(function (
 				ref={ref}
 			/>
 			<label
-				className={`${letterContent} desktop:shape-px-5 desktop:shape-py-[1.125rem] grid grid-cols-[max-content_1fr] items-center gap-4 rounded-xl border-transparent bg-card text-card-foreground shadow-default shadow-card-shadow transition-colors shape-p-3 shape-border-3 before:grid before:size-10 before:place-items-center before:rounded-md before:border-1 before:border-transparent before:bg-light-grey before:text-[1.125rem] before:font-medium before:text-grey-navy before:transition-colors hover:before:bg-[hsl(278_100%_95%)] hover:before:text-purple peer-checked:border-purple peer-checked:before:bg-purple peer-checked:before:text-pure-white peer-focus-visible:outline tablet:gap-8 tablet:rounded-3xl tablet:before:size-14 tablet:before:rounded-xl tablet:before:text-heading-s desktop:before:rounded-lg forced-colors:transition-none forced-colors:peer-checked:border-[SelectedItem]`}
+				className={`${letterContent} grid grid-cols-[max-content_1fr] items-center gap-4 rounded-xl border-transparent bg-card text-card-foreground shadow-default shadow-card-shadow transition-colors shape-p-3 shape-border-3 before:grid before:size-10 before:place-items-center before:rounded-md before:border-1 before:border-transparent before:bg-light-grey before:text-[1.125rem] before:font-medium before:text-grey-navy before:transition-colors hover:before:bg-[hsl(278_100%_95%)] hover:before:text-purple peer-checked:border-purple peer-checked:before:bg-purple peer-checked:before:text-pure-white peer-focus-visible:outline tablet:gap-8 tablet:rounded-3xl tablet:before:size-14 tablet:before:rounded-xl tablet:before:text-heading-s desktop:shape-py-[1.125rem] desktop:shape-px-5 desktop:before:rounded-lg forced-colors:transition-none forced-colors:peer-checked:border-[SelectedItem]`}
 				htmlFor={id}
 			>
 				{name}
@@ -335,7 +340,7 @@ function OptionReview({
 				<p className="sr-only">Incorrect answer:</p>
 			) : null}
 			<p
-				className={`${letterContent} desktop:shape-px-5 desktop:shape-py-[1.125rem] grid grid-cols-[max-content_1fr] items-center gap-4 rounded-xl border-transparent bg-card text-card-foreground shadow-default shadow-card-shadow shape-p-3 shape-border-3 before:grid before:size-10 before:place-items-center before:rounded-md before:border-1 before:border-transparent before:bg-light-grey before:text-[1.125rem] before:font-medium before:text-grey-navy data-[correct=true]:grid-cols-[max-content_1fr_max-content] data-[selected=true]:grid-cols-[max-content_1fr_max-content] data-[correct=false]:data-[selected=true]:border-red data-[correct=true]:data-[selected=true]:border-green data-[correct=false]:data-[selected=true]:before:bg-red data-[correct=true]:data-[selected=true]:before:bg-green data-[correct=false]:data-[selected=true]:before:text-pure-white data-[correct=true]:data-[selected=true]:before:text-pure-white tablet:gap-8 tablet:rounded-3xl tablet:before:size-14 tablet:before:rounded-xl tablet:before:text-heading-s desktop:before:rounded-lg`}
+				className={`${letterContent} grid grid-cols-[max-content_1fr] items-center gap-4 rounded-xl border-transparent bg-card text-card-foreground shadow-default shadow-card-shadow shape-p-3 shape-border-3 before:grid before:size-10 before:place-items-center before:rounded-md before:border-1 before:border-transparent before:bg-light-grey before:text-[1.125rem] before:font-medium before:text-grey-navy data-[correct=true]:grid-cols-[max-content_1fr_max-content] data-[selected=true]:grid-cols-[max-content_1fr_max-content] data-[correct=false]:data-[selected=true]:border-red data-[correct=true]:data-[selected=true]:border-green data-[correct=false]:data-[selected=true]:before:bg-red data-[correct=true]:data-[selected=true]:before:bg-green data-[correct=false]:data-[selected=true]:before:text-pure-white data-[correct=true]:data-[selected=true]:before:text-pure-white tablet:gap-8 tablet:rounded-3xl tablet:before:size-14 tablet:before:rounded-xl tablet:before:text-heading-s desktop:shape-py-[1.125rem] desktop:shape-px-5 desktop:before:rounded-lg`}
 				data-correct={correct}
 				data-selected={selected}
 			>

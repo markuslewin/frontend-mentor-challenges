@@ -1,8 +1,13 @@
-import { useFormAction, useNavigation } from '@remix-run/react'
+import {
+	useFormAction,
+	useNavigation,
+	useRouteLoaderData,
+} from '@remix-run/react'
 import { clsx, type ClassValue } from 'clsx'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useSpinDelay } from 'spin-delay'
 import { extendTailwindMerge } from 'tailwind-merge'
+import { type loader as rootLoader } from '#app/root.tsx'
 import { extendedTheme } from './extended-theme.ts'
 
 export function getUserImgSrc(imageId?: string | null) {
@@ -270,6 +275,11 @@ export function useDebounce<
 			),
 		[delay],
 	)
+}
+
+export function useLastIntent() {
+	const data = useRouteLoaderData<typeof rootLoader>('root')
+	return data?.lastIntent ?? null
 }
 
 export async function downloadFile(url: string, retries: number = 0) {

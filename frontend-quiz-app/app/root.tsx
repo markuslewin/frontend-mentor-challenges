@@ -11,7 +11,6 @@ import {
 	type LinksFunction,
 	type LoaderFunctionArgs,
 	type MetaFunction,
-	redirect,
 } from '@remix-run/node'
 import {
 	Links,
@@ -36,7 +35,11 @@ import { AnnouncerProvider, MessageQueue } from './utils/announcer.tsx'
 import { ClientHintCheck, getHints, useHints } from './utils/client-hints.tsx'
 import { getEnv } from './utils/env.server.ts'
 import { honeypot } from './utils/honeypot.server.ts'
-import { getDomainUrl } from './utils/misc.tsx'
+import {
+	getLastIntent,
+	redirectWithLastIntent,
+} from './utils/last-intent.server.tsx'
+import { combineHeaders, getDomainUrl } from './utils/misc.tsx'
 import { useNonce } from './utils/nonce-provider.ts'
 import { useRequestInfo } from './utils/request-info.ts'
 import { getTheme, setTheme, type Theme } from './utils/theme.server.ts'
@@ -72,19 +75,25 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
 
 export async function loader({ request }: LoaderFunctionArgs) {
 	const honeyProps = honeypot.getInputProps()
+	const { lastIntent, headers: lastIntentHeaders } =
+		await getLastIntent(request)
 
-	return json({
-		requestInfo: {
-			hints: getHints(request),
-			origin: getDomainUrl(request),
-			path: new URL(request.url).pathname,
-			userPrefs: {
-				theme: getTheme(request),
+	return json(
+		{
+			requestInfo: {
+				hints: getHints(request),
+				origin: getDomainUrl(request),
+				path: new URL(request.url).pathname,
+				userPrefs: {
+					theme: getTheme(request),
+				},
 			},
+			ENV: getEnv(),
+			honeyProps,
+			lastIntent,
 		},
-		ENV: getEnv(),
-		honeyProps,
-	})
+		{ headers: combineHeaders(lastIntentHeaders) },
+	)
 }
 
 export const headers: HeadersFunction = ({ loaderHeaders }) => {
@@ -112,7 +121,11 @@ export async function action({ request }: ActionFunctionArgs) {
 	const responseInit = {
 		headers: { 'set-cookie': setTheme(theme) },
 	}
-	return redirect(safeRedirect(redirectTo), responseInit)
+	return redirectWithLastIntent(
+		safeRedirect(redirectTo),
+		'switch-theme',
+		responseInit,
+	)
 }
 
 function Document({
