@@ -78,10 +78,14 @@ export default function SubjectRoute() {
 	const [noValidate, setNoValidate] = useState(false)
 	const radioRef = useRef<HTMLInputElement>(null)
 	const errorId = useId()
+	const themeSwitchRef = useRef<HTMLButtonElement>(null)
 
 	useEffect(() => {
 		let timeoutId: ReturnType<typeof setTimeout>
-		if (lastIntent === 'switch-theme') {
+		if (
+			themeSwitchRef.current &&
+			themeSwitchRef.current === document.activeElement
+		) {
 			return
 		}
 		if (navigation.state === 'idle') {
@@ -112,7 +116,7 @@ export default function SubjectRoute() {
 			<header className="py-4 text-[1.125rem] font-medium text-foreground-heading tablet:py-10 tablet:text-heading-s desktop:py-[5.1875rem]">
 				<div className="mx-auto box-content flex max-w-default flex-wrap items-center justify-between gap-4 px-6 tablet:px-16">
 					{subjects[loaderData.subject].tag}
-					<ThemeSwitch />
+					<ThemeSwitch ref={themeSwitchRef} />
 				</div>
 			</header>
 			<div className="mt-8 flex-1 tablet:mt-2 desktop:mt-1">
