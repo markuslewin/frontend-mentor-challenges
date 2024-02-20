@@ -140,9 +140,13 @@ export default function SubjectRoute() {
 									</div>
 									<Form method="post">
 										<button
-											className="mt-3 block w-full rounded-xl border-transparent bg-purple text-[1.125rem] capitalize leading-none text-pure-white shadow-default shadow-card-shadow transition-colors shape-p-[1.1875rem] shape-border-3 hover:bg-[hsl(277_91%_78%)] focus-visible:bg-[hsl(277_91%_78%)] tablet:mt-8 tablet:rounded-3xl tablet:text-heading-s tablet:shape-p-8"
+											className="mt-3 block w-full rounded-xl border-transparent bg-purple text-[1.125rem] capitalize leading-none text-pure-white shadow-default shadow-card-shadow transition-colors shape-p-[1.1875rem] shape-border-3 hover:bg-[hsl(277_91%_78%)] focus-visible:bg-[hsl(277_91%_78%)] disabled:opacity-50 tablet:mt-8 tablet:rounded-3xl tablet:text-heading-s tablet:shape-p-8"
 											type="submit"
-											disabled={navigation.state !== 'idle'}
+											name="intent"
+											value="play-again"
+											disabled={
+												navigation.formData?.get('intent') === 'play-again'
+											}
 											onClick={() => {
 												announce('Loading quiz...')
 											}}
@@ -207,8 +211,12 @@ export default function SubjectRoute() {
 										<button
 											className="mt-3 block w-full rounded-xl border-transparent bg-purple text-[1.125rem] capitalize leading-none text-pure-white shadow-default shadow-card-shadow transition-colors shape-p-[1.1875rem] shape-border-3 hover:bg-[hsl(277_91%_78%)] focus-visible:bg-[hsl(277_91%_78%)] disabled:opacity-50 tablet:mt-8 tablet:rounded-3xl tablet:text-heading-s tablet:shape-p-8"
 											type="submit"
+											name="intent"
+											value="submit-answer"
 											ref={buttonRef}
-											disabled={navigation.state !== 'idle'}
+											disabled={
+												navigation.formData?.get('intent') === 'submit-answer'
+											}
 											onClick={() => {
 												announce('Submitting answer...')
 											}}
@@ -254,8 +262,12 @@ export default function SubjectRoute() {
 											<button
 												className="mt-3 block w-full rounded-xl border-transparent bg-purple text-[1.125rem] capitalize leading-none text-pure-white shadow-default shadow-card-shadow transition-colors shape-p-[1.1875rem] shape-border-3 hover:bg-[hsl(277_91%_78%)] focus-visible:bg-[hsl(277_91%_78%)] disabled:opacity-50 tablet:mt-8 tablet:rounded-3xl tablet:text-heading-s tablet:shape-p-8"
 												type="submit"
+												name="intent"
+												value="next-question"
 												ref={buttonRef}
-												disabled={navigation.state !== 'idle'}
+												disabled={
+													navigation.formData?.get('intent') === 'next-question'
+												}
 												aria-describedby={buttonDescId}
 												onClick={() => {
 													announce('Loading...')
