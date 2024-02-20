@@ -44,7 +44,6 @@ export async function getLastIntent(request: Request) {
 	)
 	const result = LastIntentSchema.safeParse(session.get(lastIntentKey))
 	const lastIntent = result.success ? result.data['last-intent'] : null
-	console.log('get last intent', { lastIntent }, result.success)
 	return {
 		lastIntent,
 		headers: lastIntent
