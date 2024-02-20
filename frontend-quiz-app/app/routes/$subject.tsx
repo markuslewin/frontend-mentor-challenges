@@ -184,6 +184,7 @@ export default function SubjectRoute() {
 										noValidate={noValidate}
 									>
 										<fieldset
+											className="text-[1.125rem] tablet:text-heading-s"
 											aria-required
 											aria-invalid={!!actionData?.error}
 											aria-describedby={errorId}
@@ -231,7 +232,7 @@ export default function SubjectRoute() {
 									</Form>
 								) : (
 									<div>
-										<ul className="mt-10 tablet:mt-16 desktop:mt-0">
+										<ul className="mt-10 text-[1.125rem] tablet:mt-16 tablet:text-heading-s desktop:mt-0">
 											{loaderData.options.map((option, i) => {
 												const letter = (['A', 'B', 'C', 'D'] as const)[i]
 												return (

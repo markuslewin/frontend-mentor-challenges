@@ -8,7 +8,7 @@ export default function Index() {
 
 	return (
 		<>
-			<header className="py-[1.625rem] tablet:py-[4rem] desktop:py-[6.0625rem]">
+			<header className="py-[1.625rem] tablet:py-[3.375rem] desktop:py-[6.0625rem]">
 				<div className="mx-auto box-content flex max-w-default justify-end px-6 tablet:px-16">
 					<ThemeSwitch />
 				</div>
@@ -50,7 +50,18 @@ export default function Index() {
 												announce('Loading...')
 											}}
 										>
-											{subject.tag}
+											<div className="grid grid-cols-[max-content_1fr] items-center gap-4 tablet:gap-8">
+												<div
+													className={`${subject.color} grid size-10 place-items-center rounded-md border-1 border-transparent tablet:size-14 tablet:rounded-xl desktop:rounded-lg`}
+												>
+													<img
+														className="h-[1.75rem] tablet:h-[2.5rem]"
+														alt=""
+														src={subject.src}
+													/>
+												</div>
+												<p>{subject.name}</p>
+											</div>
 										</Link>
 									</li>
 								)
