@@ -90,22 +90,30 @@ export default function Index() {
           <button type="submit">Search</button>
         </Form>
         <article>
-          <h2>{definition.word}</h2>
-          <p>{definition.phonetic?.text}</p>
+          <h2 className="tablet:text-heading-l text-[2rem] leading-[2.4375rem]">
+            {definition.word}
+          </h2>
+          <p className="text-body-m tablet:text-heading-m text-A445ED">
+            {definition.phonetic?.text}
+          </p>
           {/* todo: <audio />? */}
           {/* todo: colors */}
           <img alt="Play phonetic" src="/assets/images/icon-play.svg" />
           {definition.meanings.map((meaning, i) => {
             return (
               <Fragment key={i}>
-                <h3>{meaning.partOfSpeech}</h3>
-                <h4 className="text-757575">Meaning</h4>
+                <h3 className="tablet:text-[1.5rem] tablet:leading-[1.8125rem] text-[1.125rem] font-bold italic leading-[1.375rem]">
+                  {meaning.partOfSpeech}
+                </h3>
+                <h4 className="text-757575 tablet:text-heading-s text-[1rem] leading-[1.1875rem]">
+                  Meaning
+                </h4>
                 {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
                 <ul className="list-disc" role="list">
                   {meaning.definitions.map((definition, i) => {
                     return (
                       <li
-                        className="grid grid-cols-[max-content_1fr] gap-5 before:mt-[0.625rem] before:inline-block before:w-[0.3125rem] before:rounded-full before:border-t-[0.3125rem] before:text-[hsl(274_82%_50%)]"
+                        className="grid grid-cols-[max-content_1fr] gap-5 before:mt-[0.625rem] before:inline-block before:h-[0.3125rem] before:w-[0.3125rem] before:rounded-full before:border-t-[0.3125rem] before:text-[hsl(274_82%_50%)]"
                         key={i}
                       >
                         <div>
@@ -128,7 +136,9 @@ export default function Index() {
                 </ul>
                 {meaning.synonyms.length ? (
                   <>
-                    <h4 className="text-757575">Synonyms</h4>
+                    <h4 className="text-757575 tablet:text-heading-s text-[1rem] leading-[1.1875rem]">
+                      Synonyms
+                    </h4>
                     {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
                     <ul role="list">
                       {meaning.synonyms.map((synonym, i) => {
@@ -136,7 +146,7 @@ export default function Index() {
                           <li key={i}>
                             {/* todo: to where? */}
                             {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-                            <a className="text-A445ED" href="#">
+                            <a className="text-A445ED font-bold" href="#">
                               {synonym}
                             </a>
                           </li>
@@ -148,14 +158,19 @@ export default function Index() {
               </Fragment>
             );
           })}
-          <footer>
-            <h3 className="text-757575">Source</h3>
+          <footer className="text-body-s">
+            <h3 className="text-757575 underline">Source</h3>
             {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
             <ul role="list">
               {definition.sourceUrls.map((sourceUrl, i) => {
                 return (
                   <li key={i}>
-                    <a href={sourceUrl} target="_blank" rel="noreferrer">
+                    <a
+                      className="underline"
+                      href={sourceUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
                       {sourceUrl}{" "}
                       <img
                         className="text-757575"

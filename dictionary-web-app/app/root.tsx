@@ -28,7 +28,10 @@ export default function App() {
         <Meta />
         <Links />
       </head>
-      <body className="font-base bg-background text-foreground">
+      <body
+        className="font-base bg-background text-foreground tablet:text-body-m text-[0.9375rem] leading-[1.5rem]"
+        data-mode="dark"
+      >
         <Outlet />
         <ScrollRestoration />
         <Scripts />

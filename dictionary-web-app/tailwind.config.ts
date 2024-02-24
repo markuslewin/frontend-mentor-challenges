@@ -8,6 +8,10 @@ export default {
   content: ["./app/**/*.{js,jsx,ts,tsx}"],
   darkMode: ["selector", '[data-mode="dark"]'],
   theme: {
+    screens: {
+      tablet: "40em",
+      desktop: "64em",
+    },
     fontFamily: {
       base: "var(--font)",
     },
