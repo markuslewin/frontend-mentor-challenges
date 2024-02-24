@@ -11,6 +11,17 @@
 
 @layer base {
   :root {
+    --color-050505: 0 0% 2%;
+    --color-1F1F1F: 0 0% 12%;
+    --color-2D2D2D: 0 0% 18%;
+    --color-3A3A3A: 0 0% 23%;
+    --color-757575: 0 0% 51%;
+    --color-E9E9E9: 0 0% 91%;
+    --color-F4F4F4: 0 0% 96%;
+    --color-FFFFFF: 0 0% 100%;
+    --color-A445ED: 274 82% 60%;
+    --color-FF5252: 0 100% 66%;
+
     --font: "Inter Variable", sans-serif;
   }
 
