@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import plugin from "tailwindcss/plugin";
 
 function rem(px: number) {
   return `${px / 16}rem`;
@@ -11,6 +12,9 @@ export default {
     screens: {
       tablet: "40em",
       desktop: "64em",
+    },
+    maxWidth: {
+      column: rem(737),
     },
     fontFamily: {
       base: "var(--font)",
@@ -31,5 +35,20 @@ export default {
     },
     extend: {},
   },
-  plugins: [],
+  plugins: [
+    plugin(({ matchUtilities, theme }) => {
+      matchUtilities(
+        {
+          center: (maxWidth) => {
+            return {
+              boxSizing: "content-box",
+              maxWidth,
+              marginInline: "auto",
+            };
+          },
+        },
+        { values: theme("maxWidth") },
+      );
+    }),
+  ],
 } satisfies Config;

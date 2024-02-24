@@ -29,7 +29,7 @@ export default function App() {
         <Links />
       </head>
       <body
-        className="font-base bg-background text-foreground tablet:text-body-m text-[0.9375rem] leading-[1.5rem]"
+        className="font-base bg-background text-foreground tablet:text-body-m tablet:pb-28 desktop:pb-32 tablet:pt-[3.625rem] pb-20 pt-6 text-[0.9375rem] leading-[1.5rem]"
         data-mode="dark"
       >
         <Outlet />
