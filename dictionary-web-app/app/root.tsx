@@ -7,8 +7,11 @@ import {
   ScrollRestoration,
 } from "@remix-run/react";
 import tailwind from "~/tailwind.css?url";
+import { href as iconsHref } from "~/components/ui/icon";
 
 export const links: LinksFunction = () => [
+  // Preload svg sprite as a resource to avoid render blocking
+  { rel: "preload", href: iconsHref, as: "image" },
   { rel: "stylesheet", href: tailwind },
 ];
 

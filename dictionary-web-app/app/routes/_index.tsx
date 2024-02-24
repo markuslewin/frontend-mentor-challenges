@@ -1,6 +1,7 @@
 import type { MetaFunction } from "@remix-run/node";
 import { Form, useLoaderData } from "@remix-run/react";
 import { Fragment, useId } from "react";
+import { Icon } from "../components/ui/icon";
 
 export const meta: MetaFunction = () => {
   return [
@@ -53,10 +54,10 @@ export default function Index() {
     <>
       <header>
         <div className="center-column tablet:px-10 flex flex-wrap justify-between gap-4 px-6">
-          <img
-            className="text-757575"
+          <Icon
+            className="text-757575 tablet:w-8 tablet:h-9 h-8 w-7"
             alt="Dictionary Web App"
-            src="/assets/images/logo.svg"
+            name="logo"
           />
           <div className="flex flex-wrap items-center gap-4">
             {/* todo: role="menu" */}
