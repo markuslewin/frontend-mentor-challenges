@@ -52,12 +52,20 @@ export default function Index() {
   return (
     <>
       <header>
-        <img alt="Dictionary Web App" src="/assets/images/logo.svg" />
+        <img
+          className="text-757575"
+          alt="Dictionary Web App"
+          src="/assets/images/logo.svg"
+        />
         {/* todo: role="menu" */}
         {/* todo: useFetcher */}
-        <img alt="" src="/assets/images/icon-arrow-down.svg" />
+        <img
+          className="text-A445ED"
+          alt=""
+          src="/assets/images/icon-arrow-down.svg"
+        />
         {/* todo: useFetcher */}
-        <Form>
+        <Form className="text-757575 dark:text-A445ED">
           <button type="submit" name="theme" value="light">
             Switch to light mode
           </button>
@@ -68,45 +76,71 @@ export default function Index() {
         <h1>Dictionary Web App</h1>
         <Form>
           <label htmlFor={inputWordId}>Search for a word</label>
-          <input type="text" name="word" id={inputWordId} />
-          <img alt="" src="/assets/images/icon-search.svg" />
+          <input
+            className="bg-field"
+            type="text"
+            name="word"
+            id={inputWordId}
+          />
+          <img
+            className="text-A445ED"
+            alt=""
+            src="/assets/images/icon-search.svg"
+          />
           <button type="submit">Search</button>
         </Form>
         <article>
           <h2>{definition.word}</h2>
           <p>{definition.phonetic?.text}</p>
           {/* todo: <audio />? */}
+          {/* todo: colors */}
           <img alt="Play phonetic" src="/assets/images/icon-play.svg" />
           {definition.meanings.map((meaning, i) => {
             return (
               <Fragment key={i}>
                 <h3>{meaning.partOfSpeech}</h3>
-                <h4>Meaning</h4>
+                <h4 className="text-757575">Meaning</h4>
                 {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
-                <ul role="list">
+                <ul className="list-disc" role="list">
                   {meaning.definitions.map((definition, i) => {
                     return (
-                      <li key={i}>
-                        <p>{definition.definition}</p>
-                        {definition.example ? (
-                          <>
-                            <hr />
-                            <p>
-                              Example: <q>{definition.example}</q>
-                            </p>
-                          </>
-                        ) : null}
+                      <li
+                        className="grid grid-cols-[max-content_1fr] gap-5 before:mt-[0.625rem] before:inline-block before:w-[0.3125rem] before:rounded-full before:border-t-[0.3125rem] before:text-[hsl(274_82%_50%)]"
+                        key={i}
+                      >
+                        <div>
+                          <p>{definition.definition}</p>
+                          {definition.example ? (
+                            <>
+                              <hr />
+                              <p>
+                                Example:{" "}
+                                <q className="text-757575">
+                                  {definition.example}
+                                </q>
+                              </p>
+                            </>
+                          ) : null}
+                        </div>
                       </li>
                     );
                   })}
                 </ul>
                 {meaning.synonyms.length ? (
                   <>
-                    <h4>Synonyms</h4>
+                    <h4 className="text-757575">Synonyms</h4>
                     {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
                     <ul role="list">
                       {meaning.synonyms.map((synonym, i) => {
-                        return <li key={i}>{synonym}</li>;
+                        return (
+                          <li key={i}>
+                            {/* todo: to where? */}
+                            {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+                            <a className="text-A445ED" href="#">
+                              {synonym}
+                            </a>
+                          </li>
+                        );
                       })}
                     </ul>
                   </>
@@ -115,13 +149,20 @@ export default function Index() {
             );
           })}
           <footer>
-            <h3>Source</h3>
+            <h3 className="text-757575">Source</h3>
             {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
             <ul role="list">
               {definition.sourceUrls.map((sourceUrl, i) => {
                 return (
                   <li key={i}>
-                    <a href={sourceUrl}>{sourceUrl}</a>
+                    <a href={sourceUrl} target="_blank" rel="noreferrer">
+                      {sourceUrl}{" "}
+                      <img
+                        className="text-757575"
+                        alt=""
+                        src="/assets/images/icon-new-window.svg"
+                      />
+                    </a>
                   </li>
                 );
               })}

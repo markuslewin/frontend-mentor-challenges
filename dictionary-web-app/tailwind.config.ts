@@ -6,6 +6,7 @@ function rem(px: number) {
 
 export default {
   content: ["./app/**/*.{js,jsx,ts,tsx}"],
+  darkMode: ["selector", '[data-mode="dark"]'],
   theme: {
     fontFamily: {
       base: "var(--font)",
@@ -16,6 +17,13 @@ export default {
       "heading-s": [rem(20), { fontWeight: 400, lineHeight: rem(24) }],
       "body-m": [rem(18), { fontWeight: 400, lineHeight: rem(24) }],
       "body-s": [rem(14), { fontWeight: 400, lineHeight: rem(17) }],
+    },
+    colors: {
+      background: "hsl(var(--background))",
+      foreground: "hsl(var(--foreground))",
+      field: "hsl(var(--field))",
+      757575: "hsl(var(--color-757575))",
+      A445ED: "hsl(var(--color-A445ED))",
     },
     extend: {},
   },

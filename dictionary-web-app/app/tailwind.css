@@ -23,6 +23,10 @@
     --color-FF5252: 0 100% 66%;
 
     --font: "Inter Variable", sans-serif;
+
+    --background: var(--color-FFFFFF);
+    --foreground: var(--color-2D2D2D);
+    --field: var(--color-F4F4F4);
   }
 
   [data-font="serif"] {
@@ -31,5 +35,11 @@
 
   [data-font="mono"] {
     --font: "Inconsolata Variable", monospace;
+  }
+
+  [data-mode="dark"] {
+    --background: var(--color-050505);
+    --foreground: var(--color-FFFFFF);
+    --field: var(--color-1F1F1F);
   }
 }
