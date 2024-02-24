@@ -89,9 +89,12 @@ export default function Index() {
                       <li key={i}>
                         <p>{definition.definition}</p>
                         {definition.example ? (
-                          <p>
-                            Example: <q>{definition.example}</q>
-                          </p>
+                          <>
+                            <hr />
+                            <p>
+                              Example: <q>{definition.example}</q>
+                            </p>
+                          </>
                         ) : null}
                       </li>
                     );

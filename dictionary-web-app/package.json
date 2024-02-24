@@ -11,6 +11,9 @@
     "typecheck": "tsc"
   },
   "dependencies": {
+    "@fontsource-variable/inconsolata": "^5.0.16",
+    "@fontsource-variable/inter": "^5.0.16",
+    "@fontsource-variable/lora": "^5.0.14",
     "@netlify/functions": "^2.6.0",
     "@netlify/remix-adapter": "^2.3.0",
     "@remix-run/node": "^2.7.2",
