@@ -18,6 +18,9 @@ export default {
     },
     fontFamily: {
       base: "var(--font)",
+      sans: "var(--font-sans)",
+      serif: "var(--font-serif)",
+      mono: "var(--font-mono)",
     },
     fontSize: {
       "heading-l": [rem(64), { fontWeight: 700, lineHeight: rem(77) }],
@@ -30,8 +33,15 @@ export default {
       background: "hsl(var(--background))",
       foreground: "hsl(var(--foreground))",
       field: "hsl(var(--field))",
+      menu: {
+        DEFAULT: "hsl(var(--menu))",
+        shadow: "hsl(var(--menu-shadow))",
+      },
       757575: "hsl(var(--color-757575))",
       A445ED: "hsl(var(--color-A445ED))",
+    },
+    boxShadow: {
+      DEFAULT: `0 ${rem(5)} ${rem(30)}`,
     },
     extend: {},
   },

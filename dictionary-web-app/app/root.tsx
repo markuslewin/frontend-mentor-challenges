@@ -32,10 +32,12 @@ export default function App() {
         <Links />
       </head>
       <body
-        className="font-base bg-background text-foreground tablet:text-body-m tablet:pb-28 desktop:pb-32 tablet:pt-[3.625rem] pb-20 pt-6 text-[0.9375rem] leading-[1.5rem]"
+        className="bg-background font-base text-[0.9375rem] leading-[1.5rem] text-foreground tablet:text-body-m"
         data-mode="dark"
       >
-        <Outlet />
+        <div className="min-h-screen pb-20 pt-6 tablet:pb-28 tablet:pt-[3.625rem] desktop:pb-32">
+          <Outlet />
+        </div>
         <ScrollRestoration />
         <Scripts />
       </body>

@@ -2,6 +2,7 @@ import type { MetaFunction } from "@remix-run/node";
 import { Form, useLoaderData } from "@remix-run/react";
 import { Fragment, useId } from "react";
 import { Icon } from "../components/ui/icon";
+import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 
 export const meta: MetaFunction = () => {
   return [
@@ -53,20 +54,57 @@ export default function Index() {
   return (
     <>
       <header>
-        <div className="center-column tablet:px-10 flex flex-wrap justify-between gap-4 px-6">
+        <div className="flex flex-wrap justify-between gap-4 px-6 center-column tablet:px-10">
           <Icon
-            className="text-757575 tablet:w-8 tablet:h-9 h-8 w-7"
+            className="h-8 w-7 text-757575 tablet:h-9 tablet:w-8"
             alt="Dictionary Web App"
             name="logo"
           />
           <div className="flex flex-wrap items-center gap-4">
             {/* todo: role="menu" */}
             {/* todo: useFetcher */}
-            <img
-              className="text-A445ED"
-              alt=""
-              src="/assets/images/icon-arrow-down.svg"
-            />
+            <DropdownMenu.Root>
+              <DropdownMenu.Trigger className="flex items-center gap-4 text-[0.875rem] font-bold leading-6 tablet:text-[1.125rem]">
+                <span className="sr-only">Font: </span>Sans Serif
+                <img
+                  className="text-A445ED"
+                  alt=""
+                  src="/assets/images/icon-arrow-down.svg"
+                />
+              </DropdownMenu.Trigger>
+              <DropdownMenu.Portal>
+                <DropdownMenu.Content
+                  className="bg-menu shadow-menu-shadow min-w-[11.4375rem] rounded-2xl py-2 shadow"
+                  sideOffset={18}
+                  align="end"
+                >
+                  <DropdownMenu.RadioGroup
+                    value="serif"
+                    onValueChange={(font) => {
+                      // todo
+                      console.log(`Selected ${font}`);
+                    }}
+                  >
+                    {[
+                      { value: "sans", text: "Sans Serif" },
+                      { value: "serif", text: "Serif" },
+                      { value: "mono", text: "Mono" },
+                    ].map((option) => {
+                      return (
+                        <DropdownMenu.RadioItem
+                          className="data-[font=sans]:font-sans data-[font=serif]:font-serif data-[font=mono]:font-mono select-none px-6 py-2 hover:outline-none data-[highlighted]:text-A445ED"
+                          key={option.value}
+                          value={option.value}
+                          data-font={option.value}
+                        >
+                          {option.text}
+                        </DropdownMenu.RadioItem>
+                      );
+                    })}
+                  </DropdownMenu.RadioGroup>
+                </DropdownMenu.Content>
+              </DropdownMenu.Portal>
+            </DropdownMenu.Root>
             <div className="h-full border-l-[1px]"></div>
             {/* todo: useFetcher */}
             <Form className="text-757575 dark:text-A445ED">
@@ -78,8 +116,8 @@ export default function Index() {
           </div>
         </div>
       </header>
-      <main className="tablet:mt-[3.25rem] mt-6">
-        <div className="center-column tablet:px-10 px-6">
+      <main className="mt-6 tablet:mt-[3.25rem]">
+        <div className="px-6 center-column tablet:px-10">
           <h1 className="sr-only">Dictionary Web App</h1>
           <Form>
             <label className="sr-only" htmlFor={inputWordId}>
@@ -87,7 +125,7 @@ export default function Index() {
             </label>
             <div className="grid grid-cols-[1fr_max-content]">
               <input
-                className="bg-field col-span-full row-start-1"
+                className="col-span-full row-start-1 bg-field"
                 type="text"
                 name="word"
                 id={inputWordId}
@@ -101,13 +139,13 @@ export default function Index() {
               </button>
             </div>
           </Form>
-          <article className="tablet:mt-11 mt-6">
+          <article className="mt-6 tablet:mt-11">
             <div className="flex flex-wrap items-center justify-between gap-4">
               <div>
-                <h2 className="tablet:text-heading-l text-[2rem] leading-[2.4375rem]">
+                <h2 className="text-[2rem] leading-[2.4375rem] tablet:text-heading-l">
                   {definition.word}
                 </h2>
-                <p className="text-body-m tablet:text-heading-m text-A445ED mt-2">
+                <p className="mt-2 text-body-m text-A445ED tablet:text-heading-m">
                   {definition.phonetic?.text}
                 </p>
               </div>
@@ -118,14 +156,14 @@ export default function Index() {
             {definition.meanings.map((meaning, i) => {
               return (
                 <Fragment key={i}>
-                  <h3 className="tablet:mt-10 tablet:text-[1.5rem] tablet:leading-[1.8125rem] mt-8 text-[1.125rem] font-bold italic leading-[1.375rem]">
+                  <h3 className="mt-8 text-[1.125rem] font-bold italic leading-[1.375rem] tablet:mt-10 tablet:text-[1.5rem] tablet:leading-[1.8125rem]">
                     {meaning.partOfSpeech}
                   </h3>
-                  <h4 className="tablet:mt-10 text-757575 tablet:text-heading-s mt-8 text-[1rem] leading-[1.1875rem]">
+                  <h4 className="mt-8 text-[1rem] leading-[1.1875rem] text-757575 tablet:mt-10 tablet:text-heading-s">
                     Meaning
                   </h4>
                   {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
-                  <ul className="tablet:mt-6 mt-4" role="list">
+                  <ul className="mt-4 tablet:mt-6" role="list">
                     {meaning.definitions.map((definition, i) => {
                       return (
                         <li
@@ -151,8 +189,8 @@ export default function Index() {
                     })}
                   </ul>
                   {meaning.synonyms.length ? (
-                    <div className="tablet:mt-10 desktop:mt-16 mt-6 grid grid-cols-[max-content_1fr] items-baseline gap-6">
-                      <h4 className="text-757575 tablet:text-heading-s text-[1rem] leading-[1.1875rem]">
+                    <div className="mt-6 grid grid-cols-[max-content_1fr] items-baseline gap-6 tablet:mt-10 desktop:mt-16">
+                      <h4 className="text-[1rem] leading-[1.1875rem] text-757575 tablet:text-heading-s">
                         Synonyms
                       </h4>
                       {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
@@ -162,7 +200,7 @@ export default function Index() {
                             <li key={i}>
                               {/* todo: to where? */}
                               {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-                              <a className="text-A445ED font-bold" href="#">
+                              <a className="font-bold text-A445ED" href="#">
                                 {synonym}
                               </a>
                             </li>
@@ -174,13 +212,13 @@ export default function Index() {
                 </Fragment>
               );
             })}
-            <footer className="text-body-s tablet:mt-10 tablet:pt-5 tablet:grid tablet:grid-cols-[max-content_1fr] tablet:gap-5 mt-8 pt-6">
+            <footer className="mt-8 pt-6 text-body-s tablet:mt-10 tablet:grid tablet:grid-cols-[max-content_1fr] tablet:gap-5 tablet:pt-5">
               <h3 className="text-757575 underline">Source</h3>
               {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
               <ul role="list">
                 {definition.sourceUrls.map((sourceUrl, i) => {
                   return (
-                    <li className="tablet:first:mt-0 mt-2" key={i}>
+                    <li className="mt-2 tablet:first:mt-0" key={i}>
                       <a
                         className="flex gap-2 underline"
                         href={sourceUrl}

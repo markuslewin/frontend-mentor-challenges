@@ -22,24 +22,32 @@
     --color-A445ED: 274 82% 60%;
     --color-FF5252: 0 100% 66%;
 
-    --font: "Inter Variable", sans-serif;
+    --font-sans: "Inter Variable", sans-serif;
+    --font-serif: "Lora Variable", serif;
+    --font-mono: "Inconsolata Variable", monospace;
+
+    --font: var(--font-sans);
 
     --background: var(--color-FFFFFF);
     --foreground: var(--color-2D2D2D);
     --field: var(--color-F4F4F4);
+    --menu: var(--color-FFFFFF);
+    --menu-shadow: 0 0% 0% / 10%;
   }
 
   [data-font="serif"] {
-    --font: "Lora Variable", serif;
+    --font: var(--font-serif);
   }
 
   [data-font="mono"] {
-    --font: "Inconsolata Variable", monospace;
+    --font: var(--font-mono);
   }
 
   [data-mode="dark"] {
     --background: var(--color-050505);
     --foreground: var(--color-FFFFFF);
     --field: var(--color-1F1F1F);
+    --menu: var(--color-1F1F1F);
+    --menu-shadow: var(--color-A445ED);
   }
 }
