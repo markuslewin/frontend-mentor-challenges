@@ -1,7 +1,7 @@
 import { type SVGProps } from "react";
 // eslint-disable-next-line import/no-unresolved
 import { type IconName } from "@/icon-name";
-import href from "./icons/sprite.svg";
+import href from "./icons/sprite.svg?url";
 
 export { href };
 export { IconName };
