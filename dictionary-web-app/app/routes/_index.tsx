@@ -1,8 +1,9 @@
 import type { MetaFunction } from "@remix-run/node";
-import { Form, useLoaderData } from "@remix-run/react";
+import { Form, useFetcher, useLoaderData } from "@remix-run/react";
 import { Fragment, useId } from "react";
 import { Icon } from "../components/ui/icon";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
+import { useFont } from "../utils/font";
 
 export const meta: MetaFunction = () => {
   return [
@@ -49,7 +50,9 @@ export async function loader() {
 
 export default function Index() {
   const { definition } = useLoaderData<typeof loader>();
+  const fontFetcher = useFetcher({ key: "font" });
   const inputWordId = useId();
+  const { font } = useFont();
 
   return (
     <>
@@ -61,11 +64,10 @@ export default function Index() {
             name="logo"
           />
           <div className="flex flex-wrap items-center gap-4">
-            {/* todo: role="menu" */}
-            {/* todo: useFetcher */}
             <DropdownMenu.Root>
               <DropdownMenu.Trigger className="flex items-center gap-4 text-[0.875rem] font-bold leading-6 tablet:text-[1.125rem]">
-                <span className="sr-only">Font: </span>Sans Serif
+                <span className="sr-only">Font: </span>
+                {{ sans: "Sans Serif", serif: "Serif", mono: "Mono" }[font]}
                 <img
                   className="text-A445ED"
                   alt=""
@@ -81,8 +83,10 @@ export default function Index() {
                   <DropdownMenu.RadioGroup
                     value="serif"
                     onValueChange={(font) => {
-                      // todo
-                      console.log(`Selected ${font}`);
+                      fontFetcher.submit(
+                        { font },
+                        { action: "/", method: "post" },
+                      );
                     }}
                   >
                     {[
