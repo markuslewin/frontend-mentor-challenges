@@ -40,6 +40,7 @@ export default {
       757575: "hsl(var(--color-757575))",
       FFFFFF: "hsl(var(--color-FFFFFF))",
       A445ED: "hsl(var(--color-A445ED))",
+      transparent: "transparent",
     },
     boxShadow: {
       DEFAULT: `0 ${rem(5)} ${rem(30)}`,

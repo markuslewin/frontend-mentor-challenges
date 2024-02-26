@@ -153,17 +153,14 @@ export default function Index() {
             </label>
             <div className="grid grid-cols-[1fr_max-content]">
               <input
-                className="col-span-full row-start-1 bg-field"
+                className="border-transparent col-span-full row-start-1 h-12 rounded-2xl border-2 bg-field px-6 pr-14 text-[1rem] font-bold leading-[1.1875rem] tablet:h-16 tablet:text-[1.25rem] tablet:leading-[1.5rem]"
                 type="text"
                 name="word"
                 id={inputWordId}
               />
-              <button className="col-start-2 row-start-1" type="submit">
-                <img
-                  className="text-A445ED"
-                  alt="Search"
-                  src="/assets/images/icon-search.svg"
-                />
+              <button className="col-start-2 row-start-1 px-6" type="submit">
+                <Icon className="size-4 text-A445ED" name="icon-search" />
+                <span className="sr-only">Search</span>
               </button>
             </div>
           </Form>
