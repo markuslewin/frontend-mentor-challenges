@@ -3,6 +3,7 @@ import { z } from "zod";
 import { loader as rootLoader } from "~/root";
 
 export const FontFormSchema = z.object({
+  intent: z.literal("change-font"),
   font: z.enum(["sans", "serif", "mono"]),
 });
 

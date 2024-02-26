@@ -38,6 +38,7 @@ export default {
         shadow: "hsl(var(--menu-shadow))",
       },
       757575: "hsl(var(--color-757575))",
+      FFFFFF: "hsl(var(--color-FFFFFF))",
       A445ED: "hsl(var(--color-A445ED))",
     },
     boxShadow: {

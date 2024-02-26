@@ -16,6 +16,9 @@ import { href as iconsHref } from "~/components/ui/icon";
 import { getFont, setFont } from "./utils/font.server";
 import { invariantResponse } from "@epic-web/invariant";
 import { FontFormSchema, useFont } from "./utils/font";
+import { z } from "zod";
+import { ModeFormSchema, useMode } from "./utils/mode";
+import { getMode, setMode } from "./utils/mode.server";
 
 export const links: LinksFunction = () => [
   // Preload svg sprite as a resource to avoid render blocking
@@ -24,25 +27,43 @@ export const links: LinksFunction = () => [
 ];
 
 export async function loader({ request }: LoaderFunctionArgs) {
+  const [font, mode] = await Promise.all([getFont(request), getMode(request)]);
   return {
-    font: await getFont(request),
+    font,
+    mode,
   };
 }
 
 export async function action({ request }: ActionFunctionArgs) {
   const formData = await request.formData();
-  const result = FontFormSchema.safeParse(Object.fromEntries(formData));
-  invariantResponse(result.success, "Invalid font");
+  const result = z
+    .discriminatedUnion("intent", [FontFormSchema, ModeFormSchema])
+    .safeParse(Object.fromEntries(formData));
+  invariantResponse(result.success, "Invalid value");
 
-  const { font } = result.data;
+  let setCookie: string;
+  let value: string;
+  switch (result.data.intent) {
+    case "change-font":
+      setCookie = await setFont(result.data.font);
+      value = result.data.font;
+      break;
+    case "change-mode":
+      setCookie = await setMode(result.data.mode);
+      value = result.data.mode;
+      break;
+    default:
+      throw new Error("Not implemented");
+  }
 
-  return json(font, {
-    headers: { "set-cookie": await setFont(font) },
+  return json(value, {
+    headers: { "set-cookie": setCookie },
   });
 }
 
 export default function App() {
   const { font } = useFont();
+  const { mode } = useMode();
 
   return (
     <html lang="en">
@@ -61,7 +82,7 @@ export default function App() {
       </head>
       <body
         className="bg-background font-base text-[0.9375rem] leading-[1.5rem] text-foreground tablet:text-body-m"
-        data-mode="dark"
+        data-mode={mode}
         data-font={font}
       >
         <div className="min-h-screen pb-20 pt-6 tablet:pb-28 tablet:pt-[3.625rem] desktop:pb-32">

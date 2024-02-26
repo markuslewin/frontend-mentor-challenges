@@ -4,6 +4,7 @@ import { Fragment, useId } from "react";
 import { Icon } from "../components/ui/icon";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import { useFont } from "../utils/font";
+import { useMode } from "../utils/mode";
 
 export const meta: MetaFunction = () => {
   return [
@@ -51,19 +52,25 @@ export async function loader() {
 export default function Index() {
   const { definition } = useLoaderData<typeof loader>();
   const fontFetcher = useFetcher({ key: "font" });
+  const modeFetcher = useFetcher({ key: "mode" });
   const inputWordId = useId();
   const { font } = useFont();
+  const { mode } = useMode();
+
+  const nextMode = mode === "dark" ? "light" : "dark";
 
   return (
     <>
       <header>
         <div className="flex flex-wrap justify-between gap-4 px-6 center-column tablet:px-10">
-          <Icon
-            className="h-8 w-7 text-757575 tablet:h-9 tablet:w-8"
-            alt="Dictionary Web App"
-            name="logo"
-          />
-          <div className="flex flex-wrap items-center gap-4">
+          <div>
+            <Icon
+              className="h-8 w-7 text-757575 tablet:h-9 tablet:w-8"
+              name="logo"
+            />
+            <p className="sr-only">Dictionary Web App</p>
+          </div>
+          <div className="flex flex-wrap gap-4">
             <DropdownMenu.Root>
               <DropdownMenu.Trigger className="flex items-center gap-4 text-[0.875rem] font-bold leading-6 tablet:text-[1.125rem]">
                 <span className="sr-only">Font: </span>
@@ -76,7 +83,7 @@ export default function Index() {
               </DropdownMenu.Trigger>
               <DropdownMenu.Portal>
                 <DropdownMenu.Content
-                  className="bg-menu shadow-menu-shadow min-w-[11.4375rem] rounded-2xl py-2 shadow"
+                  className="min-w-[11.4375rem] rounded-2xl bg-menu py-2 shadow shadow-menu-shadow"
                   sideOffset={18}
                   align="end"
                 >
@@ -84,7 +91,7 @@ export default function Index() {
                     value="serif"
                     onValueChange={(font) => {
                       fontFetcher.submit(
-                        { font },
+                        { intent: "change-font", font },
                         { action: "/", method: "post" },
                       );
                     }}
@@ -96,7 +103,7 @@ export default function Index() {
                     ].map((option) => {
                       return (
                         <DropdownMenu.RadioItem
-                          className="data-[font=sans]:font-sans data-[font=serif]:font-serif data-[font=mono]:font-mono select-none px-6 py-2 hover:outline-none data-[highlighted]:text-A445ED"
+                          className="select-none px-6 py-2 hover:outline-none data-[font=mono]:font-mono data-[font=sans]:font-sans data-[font=serif]:font-serif data-[highlighted]:text-A445ED"
                           key={option.value}
                           value={option.value}
                           data-font={option.value}
@@ -109,14 +116,31 @@ export default function Index() {
                 </DropdownMenu.Content>
               </DropdownMenu.Portal>
             </DropdownMenu.Root>
-            <div className="h-full border-l-[1px]"></div>
-            {/* todo: useFetcher */}
-            <Form className="text-757575 dark:text-A445ED">
-              <button type="submit" name="mode" value="light">
-                <span className="sr-only">Switch to light mode</span>
+            <div className="border-l-[1px]"></div>
+            <modeFetcher.Form
+              className="flex items-center gap-3 text-757575 tablet:gap-5 dark:text-A445ED"
+              action="/"
+              method="post"
+            >
+              <input type="hidden" name="mode" value={nextMode} />
+              <button
+                className="before:text-FFFFFF h-5 w-10 rounded-full border-[1px] bg-757575 before:block before:h-[0.875rem] before:w-[0.875rem] before:translate-x-[0.125rem] before:rounded-full before:border-t-[0.875rem] before:transition-all dark:bg-A445ED dark:before:translate-x-[1.375rem]"
+                type="submit"
+                name="intent"
+                value="change-mode"
+              >
+                <span className="sr-only">Switch to {nextMode} mode</span>
               </button>
-              <img alt="Dark mode active" src="/assets/images/icon-moon.svg" />
-            </Form>
+              <div>
+                <Icon
+                  className="size-5 text-757575 dark:text-A445ED"
+                  name="icon-moon"
+                />
+                <p className="sr-only" aria-live="polite">
+                  {mode} mode active
+                </p>
+              </div>
+            </modeFetcher.Form>
           </div>
         </div>
       </header>
