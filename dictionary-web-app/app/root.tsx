@@ -3,22 +3,30 @@ import {
   LinksFunction,
   LoaderFunctionArgs,
   json,
+  redirect,
 } from "@remix-run/node";
 import {
+  Form,
   Links,
   Meta,
   Outlet,
   Scripts,
   ScrollRestoration,
+  useActionData,
+  useFetcher,
+  useNavigation,
 } from "@remix-run/react";
 import tailwind from "~/tailwind.css?url";
-import { href as iconsHref } from "~/components/ui/icon";
+import { Icon, href as iconsHref } from "~/components/ui/icon";
 import { getFont, setFont } from "./utils/font.server";
-import { invariantResponse } from "@epic-web/invariant";
 import { FontFormSchema, useFont } from "./utils/font";
 import { z } from "zod";
 import { ModeFormSchema, useMode } from "./utils/mode";
 import { getMode, setMode } from "./utils/mode.server";
+import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
+import { parseWithZod } from "@conform-to/zod";
+import { useEffect, useRef } from "react";
+import { getFormProps, getInputProps, useForm } from "@conform-to/react";
 
 export const links: LinksFunction = () => [
   // Preload svg sprite as a resource to avoid render blocking
@@ -34,36 +42,71 @@ export async function loader({ request }: LoaderFunctionArgs) {
   };
 }
 
+const SearchFormSchema = z.object({
+  intent: z.literal("search-word"),
+  word: z.string({ required_error: "Whoops, can’t be empty…" }),
+});
+
 export async function action({ request }: ActionFunctionArgs) {
   const formData = await request.formData();
-  const result = z
-    .discriminatedUnion("intent", [FontFormSchema, ModeFormSchema])
-    .safeParse(Object.fromEntries(formData));
-  invariantResponse(result.success, "Invalid value");
+  const submission = parseWithZod(formData, {
+    schema: z.discriminatedUnion("intent", [
+      FontFormSchema,
+      ModeFormSchema,
+      SearchFormSchema,
+    ]),
+  });
+  if (submission.status !== "success") {
+    return submission.reply();
+  }
 
-  let setCookie: string;
-  let value: string;
-  switch (result.data.intent) {
-    case "change-font":
-      setCookie = await setFont(result.data.font);
-      value = result.data.font;
-      break;
-    case "change-mode":
-      setCookie = await setMode(result.data.mode);
-      value = result.data.mode;
-      break;
+  switch (submission.value.intent) {
+    case "change-font": {
+      const { font } = submission.value;
+      return json(null, {
+        headers: { "set-cookie": await setFont(font) },
+      });
+    }
+    case "change-mode": {
+      const { mode } = submission.value;
+      return json(null, {
+        headers: { "set-cookie": await setMode(mode) },
+      });
+    }
+    case "search-word": {
+      const { word } = submission.value;
+      return redirect(`/${word}`);
+    }
     default:
       throw new Error("Not implemented");
   }
-
-  return json(value, {
-    headers: { "set-cookie": setCookie },
-  });
 }
 
 export default function App() {
+  const lastResult = useActionData<typeof action>();
+  const navigation = useNavigation();
+  const fontFetcher = useFetcher({ key: "font" });
+  const modeFetcher = useFetcher({ key: "mode" });
+  const searchFormRef = useRef<HTMLFormElement>(null);
+  const [form, fields] = useForm({
+    shouldValidate: "onBlur",
+    shouldRevalidate: "onInput",
+    lastResult,
+    onValidate({ formData }) {
+      return parseWithZod(formData, { schema: SearchFormSchema });
+    },
+  });
   const { font } = useFont();
   const { mode } = useMode();
+
+  const nextMode = mode === "dark" ? "light" : "dark";
+
+  useEffect(() => {
+    if (navigation.state === "idle") {
+      // todo: Navigates back to index route for some reason
+      // searchFormRef.current?.reset();
+    }
+  }, [navigation.state]);
 
   return (
     <html lang="en">
@@ -86,7 +129,126 @@ export default function App() {
         data-font={font}
       >
         <div className="min-h-screen pb-20 pt-6 tablet:pb-28 tablet:pt-[3.625rem] desktop:pb-32">
-          <Outlet />
+          <header>
+            <div className="flex flex-wrap justify-between gap-4 px-6 center-column tablet:px-10">
+              <div>
+                <Icon
+                  className="h-8 w-7 text-757575 tablet:h-9 tablet:w-8"
+                  name="logo"
+                />
+                <p className="sr-only">Dictionary Web App</p>
+              </div>
+              <div className="flex flex-wrap gap-4">
+                <DropdownMenu.Root>
+                  <DropdownMenu.Trigger className="flex items-center gap-4 text-[0.875rem] font-bold leading-6 tablet:text-[1.125rem]">
+                    <span className="sr-only">Font: </span>
+                    {{ sans: "Sans Serif", serif: "Serif", mono: "Mono" }[font]}
+                    <img
+                      className="text-A445ED"
+                      alt=""
+                      src="/assets/images/icon-arrow-down.svg"
+                    />
+                  </DropdownMenu.Trigger>
+                  <DropdownMenu.Portal>
+                    <DropdownMenu.Content
+                      className="min-w-[11.4375rem] rounded-2xl bg-menu py-2 shadow shadow-menu-shadow"
+                      sideOffset={18}
+                      align="end"
+                    >
+                      <DropdownMenu.RadioGroup
+                        value="serif"
+                        onValueChange={(font) => {
+                          fontFetcher.submit(
+                            { intent: "change-font", font },
+                            { method: "post" },
+                          );
+                        }}
+                      >
+                        {[
+                          { value: "sans", text: "Sans Serif" },
+                          { value: "serif", text: "Serif" },
+                          { value: "mono", text: "Mono" },
+                        ].map((option) => {
+                          return (
+                            <DropdownMenu.RadioItem
+                              className="select-none px-6 py-2 hover:outline-none data-[font=mono]:font-mono data-[font=sans]:font-sans data-[font=serif]:font-serif data-[highlighted]:text-A445ED"
+                              key={option.value}
+                              value={option.value}
+                              data-font={option.value}
+                            >
+                              {option.text}
+                            </DropdownMenu.RadioItem>
+                          );
+                        })}
+                      </DropdownMenu.RadioGroup>
+                    </DropdownMenu.Content>
+                  </DropdownMenu.Portal>
+                </DropdownMenu.Root>
+                <div className="border-l-[1px]"></div>
+                <modeFetcher.Form
+                  className="flex items-center gap-3 text-757575 tablet:gap-5 dark:text-A445ED"
+                  method="post"
+                >
+                  <input type="hidden" name="mode" value={nextMode} />
+                  <button
+                    className="before:text-FFFFFF h-5 w-10 rounded-full border-[1px] bg-757575 before:block before:h-[0.875rem] before:w-[0.875rem] before:translate-x-[0.125rem] before:rounded-full before:border-t-[0.875rem] before:transition-all dark:bg-A445ED dark:before:translate-x-[1.375rem]"
+                    type="submit"
+                    name="intent"
+                    value="change-mode"
+                  >
+                    <span className="sr-only">Switch to {nextMode} mode</span>
+                  </button>
+                  <div>
+                    <Icon
+                      className="size-5 text-757575 dark:text-A445ED"
+                      name="icon-moon"
+                    />
+                    <p className="sr-only" aria-live="polite">
+                      {mode} mode active
+                    </p>
+                  </div>
+                </modeFetcher.Form>
+              </div>
+            </div>
+          </header>
+          <main className="mt-6 tablet:mt-[3.25rem]">
+            <div className="px-6 center-column tablet:px-10">
+              <h1 className="sr-only">Dictionary Web App</h1>
+              <Form
+                className="group"
+                method="post"
+                ref={searchFormRef}
+                {...getFormProps(form)}
+                data-error={!!fields.word.errors?.length}
+              >
+                <input type="hidden" name="intent" value="search-word" />
+                <label className="sr-only" htmlFor={fields.word.id}>
+                  Search for a word
+                </label>
+                <div className="grid grid-cols-[1fr_max-content]">
+                  <input
+                    className="group-data-[error=true]:border-FF5252 border-transparent placeholder:text-field-placeholder col-span-full row-start-1 h-12 rounded-2xl border-[1px] bg-field px-6 pr-14 text-[1rem] font-bold leading-[1.1875rem] tablet:h-16 tablet:text-[1.25rem] tablet:leading-[1.5rem]"
+                    placeholder="Search for any word…"
+                    {...getInputProps(fields.word, { type: "text" })}
+                  />
+                  <button
+                    className="col-start-2 row-start-1 px-6"
+                    type="submit"
+                  >
+                    <Icon className="size-4 text-A445ED" name="icon-search" />
+                    <span className="sr-only">Search</span>
+                  </button>
+                </div>
+                <p
+                  className="group-data-[error=true]:text-FF5252 mt-2 text-heading-s"
+                  id={fields.word.errorId}
+                >
+                  {fields.word.errors}
+                </p>
+              </Form>
+              <Outlet />
+            </div>
+          </main>
         </div>
         <ScrollRestoration />
         <Scripts />
