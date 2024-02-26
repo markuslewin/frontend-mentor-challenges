@@ -31,6 +31,7 @@
     --background: var(--color-FFFFFF);
     --foreground: var(--color-2D2D2D);
     --field: var(--color-F4F4F4);
+    --field-placeholder: var(--color-2D2D2D) / 25%;
     --menu: var(--color-FFFFFF);
     --menu-shadow: 0 0% 0% / 10%;
   }
@@ -47,7 +48,10 @@
     --background: var(--color-050505);
     --foreground: var(--color-FFFFFF);
     --field: var(--color-1F1F1F);
+    --field-placeholder: var(--color-FFFFFF) / 25%;
     --menu: var(--color-1F1F1F);
     --menu-shadow: var(--color-A445ED);
+
+    color-scheme: dark;
   }
 }

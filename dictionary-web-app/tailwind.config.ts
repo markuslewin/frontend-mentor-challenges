@@ -32,7 +32,10 @@ export default {
     colors: {
       background: "hsl(var(--background))",
       foreground: "hsl(var(--foreground))",
-      field: "hsl(var(--field))",
+      field: {
+        DEFAULT: "hsl(var(--field))",
+        placeholder: "hsl(var(--field-placeholder))",
+      },
       menu: {
         DEFAULT: "hsl(var(--menu))",
         shadow: "hsl(var(--menu-shadow))",
@@ -40,6 +43,7 @@ export default {
       757575: "hsl(var(--color-757575))",
       FFFFFF: "hsl(var(--color-FFFFFF))",
       A445ED: "hsl(var(--color-A445ED))",
+      FF5252: "hsl(var(--color-FF5252))",
       transparent: "transparent",
     },
     boxShadow: {

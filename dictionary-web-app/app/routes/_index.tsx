@@ -1,10 +1,19 @@
-import type { MetaFunction } from "@remix-run/node";
-import { Form, useFetcher, useLoaderData } from "@remix-run/react";
-import { Fragment, useId } from "react";
+import type { ActionFunctionArgs, MetaFunction } from "@remix-run/node";
+import {
+  Form,
+  redirect,
+  useActionData,
+  useFetcher,
+  useLoaderData,
+} from "@remix-run/react";
+import { Fragment } from "react";
 import { Icon } from "../components/ui/icon";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import { useFont } from "../utils/font";
 import { useMode } from "../utils/mode";
+import { z } from "zod";
+import { parseWithZod } from "@conform-to/zod";
+import { getFormProps, getInputProps, useForm } from "@conform-to/react";
 
 export const meta: MetaFunction = () => {
   return [
@@ -49,11 +58,33 @@ export async function loader() {
   };
 }
 
+const SearchFormSchema = z.object({
+  word: z.string({ required_error: "Whoops, can’t be empty…" }),
+});
+
+export async function action({ request }: ActionFunctionArgs) {
+  const formData = await request.formData();
+  const submission = parseWithZod(formData, { schema: SearchFormSchema });
+  if (submission.status !== "success") {
+    return submission.reply();
+  }
+
+  return redirect(`/${submission.value.word}`);
+}
+
 export default function Index() {
   const { definition } = useLoaderData<typeof loader>();
+  const lastResult = useActionData<typeof action>();
   const fontFetcher = useFetcher({ key: "font" });
   const modeFetcher = useFetcher({ key: "mode" });
-  const inputWordId = useId();
+  const [form, fields] = useForm({
+    shouldValidate: "onBlur",
+    shouldRevalidate: "onInput",
+    lastResult,
+    onValidate({ formData }) {
+      return parseWithZod(formData, { schema: SearchFormSchema });
+    },
+  });
   const { font } = useFont();
   const { mode } = useMode();
 
@@ -147,22 +178,32 @@ export default function Index() {
       <main className="mt-6 tablet:mt-[3.25rem]">
         <div className="px-6 center-column tablet:px-10">
           <h1 className="sr-only">Dictionary Web App</h1>
-          <Form>
-            <label className="sr-only" htmlFor={inputWordId}>
+          <Form
+            className="group"
+            method="post"
+            {...getFormProps(form)}
+            data-error={!!fields.word.errors?.length}
+          >
+            <label className="sr-only" htmlFor={fields.word.id}>
               Search for a word
             </label>
             <div className="grid grid-cols-[1fr_max-content]">
               <input
-                className="border-transparent col-span-full row-start-1 h-12 rounded-2xl border-2 bg-field px-6 pr-14 text-[1rem] font-bold leading-[1.1875rem] tablet:h-16 tablet:text-[1.25rem] tablet:leading-[1.5rem]"
-                type="text"
-                name="word"
-                id={inputWordId}
+                className="group-data-[error=true]:border-FF5252 border-transparent placeholder:text-field-placeholder col-span-full row-start-1 h-12 rounded-2xl border-[1px] bg-field px-6 pr-14 text-[1rem] font-bold leading-[1.1875rem] tablet:h-16 tablet:text-[1.25rem] tablet:leading-[1.5rem]"
+                placeholder="Search for any word…"
+                {...getInputProps(fields.word, { type: "text" })}
               />
               <button className="col-start-2 row-start-1 px-6" type="submit">
                 <Icon className="size-4 text-A445ED" name="icon-search" />
                 <span className="sr-only">Search</span>
               </button>
             </div>
+            <p
+              className="group-data-[error=true]:text-FF5252 mt-2 text-heading-s"
+              id={fields.word.errorId}
+            >
+              {fields.word.errors}
+            </p>
           </Form>
           <article className="mt-6 tablet:mt-11">
             <div className="flex flex-wrap items-center justify-between gap-4">
