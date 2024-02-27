@@ -2,6 +2,7 @@ import { invariantResponse } from "@epic-web/invariant";
 import { LoaderFunctionArgs } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { z } from "zod";
+import { WordDefinition } from "~/components/WordDefinition";
 
 // We don't know a lot
 const DefinitionsSchema = z.array(
@@ -69,7 +70,13 @@ export async function loader({ params }: LoaderFunctionArgs) {
     return null;
   }
 
-  return { definition };
+  const rootPhonetic = { text: definition.phonetic };
+  const audioPhonetic = definition.phonetics?.find((p) => p.audio);
+  const firstSubPhonetic = definition.phonetics?.at(0);
+  // Prioritize phonetics with audio
+  const phonetic = audioPhonetic ?? rootPhonetic ?? firstSubPhonetic;
+
+  return { definition: { ...definition, phonetic } };
 }
 
 export default function Word() {
@@ -78,7 +85,7 @@ export default function Word() {
   return (
     <>
       {data ? (
-        <pre>{JSON.stringify(data.definition, undefined, "\t")}</pre>
+        <WordDefinition definition={data.definition} />
       ) : (
         <p>Not found</p>
       )}
