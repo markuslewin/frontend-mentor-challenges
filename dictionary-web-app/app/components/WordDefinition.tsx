@@ -1,5 +1,6 @@
 import { Fragment } from "react";
 import { useAudio } from "../utils/audio";
+import { Icon } from "./ui/icon";
 
 export function WordDefinition({
   definition,
@@ -110,16 +111,16 @@ export function WordDefinition({
               return (
                 <li className="mt-2 tablet:first:mt-0" key={i}>
                   <a
-                    className="flex gap-2 underline"
+                    className="flex items-center gap-2 underline"
                     href={sourceUrl}
                     target="_blank"
                     rel="noreferrer"
                   >
+                    <span className="sr-only">Opens in new window: </span>
                     {sourceUrl}
-                    <img
-                      className="text-757575"
-                      alt=""
-                      src="/assets/images/icon-new-window.svg"
+                    <Icon
+                      className="size-3 text-757575"
+                      name="icon-new-window"
                     />
                   </a>
                 </li>
@@ -137,17 +138,18 @@ function PlayButton({ src }: { src: string }) {
 
   return (
     <button
+      className="hocus:text-FFFFFF hocus:bg-A445ED rounded-full bg-A445ED/25 text-A445ED opacity-50 transition-all data-[ready=true]:opacity-100"
       onClick={() => {
         audio.play();
       }}
       aria-disabled={!audio.ready}
+      data-ready={audio.ready}
     >
-      <img
-        className="opacity-50 data-[ready=true]:opacity-100"
-        alt="Play phonetic"
-        src="/assets/images/icon-play.svg"
-        data-ready={audio.ready}
+      <Icon
+        className="size-12 rounded-full border-[1px] border-transparent tablet:size-[4.6875rem]"
+        name="icon-play"
       />
+      <span className="sr-only">Play phonetic</span>
     </button>
   );
 }

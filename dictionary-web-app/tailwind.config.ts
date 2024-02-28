@@ -67,5 +67,8 @@ export default {
         { values: theme("maxWidth") },
       );
     }),
+    plugin(({ addVariant }) => {
+      addVariant("hocus", ["&:hover", "&:focus-visible"]);
+    }),
   ],
 } satisfies Config;

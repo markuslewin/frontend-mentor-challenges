@@ -143,10 +143,9 @@ export default function App() {
                   <DropdownMenu.Trigger className="flex items-center gap-4 text-[0.875rem] font-bold leading-6 tablet:text-[1.125rem]">
                     <span className="sr-only">Font: </span>
                     {{ sans: "Sans Serif", serif: "Serif", mono: "Mono" }[font]}
-                    <img
-                      className="text-A445ED"
-                      alt=""
-                      src="/assets/images/icon-arrow-down.svg"
+                    <Icon
+                      className="size-3 text-A445ED"
+                      name="icon-arrow-down"
                     />
                   </DropdownMenu.Trigger>
                   <DropdownMenu.Portal>
@@ -191,7 +190,7 @@ export default function App() {
                 >
                   <input type="hidden" name="mode" value={nextMode} />
                   <button
-                    className="before:text-FFFFFF h-5 w-10 rounded-full border-[1px] bg-757575 before:block before:h-[0.875rem] before:w-[0.875rem] before:translate-x-[0.125rem] before:rounded-full before:border-t-[0.875rem] before:transition-all dark:bg-A445ED dark:before:translate-x-[1.375rem]"
+                    className="h-5 w-10 rounded-full border-[1px] bg-757575 before:block before:h-[0.875rem] before:w-[0.875rem] before:translate-x-[0.125rem] before:rounded-full before:border-t-[0.875rem] before:text-FFFFFF before:transition-all dark:bg-A445ED dark:before:translate-x-[1.375rem]"
                     type="submit"
                     name="intent"
                     value="change-mode"
@@ -227,7 +226,7 @@ export default function App() {
                 </label>
                 <div className="grid grid-cols-[1fr_max-content]">
                   <input
-                    className="group-data-[error=true]:border-FF5252 border-transparent placeholder:text-field-placeholder col-span-full row-start-1 h-12 rounded-2xl border-[1px] bg-field px-6 pr-14 text-[1rem] font-bold leading-[1.1875rem] tablet:h-16 tablet:text-[1.25rem] tablet:leading-[1.5rem]"
+                    className="col-span-full row-start-1 h-12 rounded-2xl border-[1px] border-transparent bg-field px-6 pr-14 text-[1rem] font-bold leading-[1.1875rem] placeholder:text-field-placeholder group-data-[error=true]:border-FF5252 tablet:h-16 tablet:text-[1.25rem] tablet:leading-[1.5rem]"
                     placeholder="Search for any word…"
                     {...getInputProps(fields.word, { type: "text" })}
                   />
@@ -240,7 +239,7 @@ export default function App() {
                   </button>
                 </div>
                 <p
-                  className="group-data-[error=true]:text-FF5252 mt-2 text-heading-s"
+                  className="mt-2 text-heading-s group-data-[error=true]:text-FF5252"
                   id={fields.word.errorId}
                 >
                   {fields.word.errors}
