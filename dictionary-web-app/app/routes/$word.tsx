@@ -42,7 +42,7 @@ export async function loader({ params }: LoaderFunctionArgs) {
   invariantResponse(word, "Invalid word");
 
   const response = await fetch(
-    `https://api.dictionaryapi.dev/api/v2/entries/en/${encodeURIComponent(word)}`,
+    `https://api.dictionaryapi.dev/api/v2/entries/en/${word}`,
   );
   if (response.status === 404) {
     // "Not found" screen

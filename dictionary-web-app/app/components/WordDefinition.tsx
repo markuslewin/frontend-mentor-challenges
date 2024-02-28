@@ -42,7 +42,7 @@ export function WordDefinition({
       {definition.meanings?.map((meaning, i) => {
         return (
           <Fragment key={i}>
-            <h3 className="after:text-separator mt-8 flex items-center gap-5 text-[1.125rem] font-bold italic leading-[1.375rem] after:flex-1 after:border-t-[1px] tablet:mt-10 tablet:text-[1.5rem] tablet:leading-[1.8125rem]">
+            <h3 className="mt-8 flex items-center gap-5 text-[1.125rem] font-bold italic leading-[1.375rem] after:flex-1 after:border-t-[1px] after:text-separator tablet:mt-10 tablet:text-[1.5rem] tablet:leading-[1.8125rem]">
               {meaning.partOfSpeech}
             </h3>
             {meaning.definitions && meaning.definitions.length ? (
@@ -88,9 +88,10 @@ export function WordDefinition({
                   {meaning.synonyms.map((synonym, i) => {
                     return (
                       <li key={i}>
-                        {/* todo: to where? */}
-                        {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-                        <a className="font-bold text-A445ED" href="#">
+                        <a
+                          className="font-bold text-A445ED underline-offset-[0.25rem] hocus:underline"
+                          href={`/${encodeURIComponent(synonym)}`}
+                        >
                           {synonym}
                         </a>
                       </li>
@@ -103,7 +104,7 @@ export function WordDefinition({
         );
       })}
       {definition.sourceUrls && definition.sourceUrls.length ? (
-        <footer className="border-t-separator mt-8 border-t-[1px] pt-6 text-body-s tablet:mt-10 tablet:grid tablet:grid-cols-[max-content_1fr] tablet:gap-5 tablet:pt-5">
+        <footer className="mt-8 border-t-[1px] border-t-separator pt-6 text-body-s tablet:mt-10 tablet:grid tablet:grid-cols-[max-content_1fr] tablet:gap-5 tablet:pt-5">
           <h3 className="text-757575 underline">Source</h3>
           {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
           <ul role="list">
@@ -111,7 +112,7 @@ export function WordDefinition({
               return (
                 <li className="mt-2 tablet:first:mt-0" key={i}>
                   <a
-                    className="flex items-center gap-2 underline"
+                    className="flex items-center gap-2 underline underline-offset-[0.1875rem] hocus:no-underline"
                     href={sourceUrl}
                     target="_blank"
                     rel="noreferrer"
@@ -138,7 +139,7 @@ function PlayButton({ src }: { src: string }) {
 
   return (
     <button
-      className="hocus:text-FFFFFF hocus:bg-A445ED rounded-full bg-A445ED/25 text-A445ED opacity-50 transition-all data-[ready=true]:opacity-100"
+      className="rounded-full bg-A445ED/25 text-A445ED opacity-50 transition-all data-[ready=true]:opacity-100 hocus:bg-A445ED hocus:text-FFFFFF"
       onClick={() => {
         audio.play();
       }}
