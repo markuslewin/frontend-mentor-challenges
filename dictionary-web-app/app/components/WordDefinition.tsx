@@ -41,7 +41,7 @@ export function WordDefinition({
       {definition.meanings?.map((meaning, i) => {
         return (
           <Fragment key={i}>
-            <h3 className="mt-8 text-[1.125rem] font-bold italic leading-[1.375rem] tablet:mt-10 tablet:text-[1.5rem] tablet:leading-[1.8125rem]">
+            <h3 className="after:text-separator mt-8 flex items-center gap-5 text-[1.125rem] font-bold italic leading-[1.375rem] after:flex-1 after:border-t-[1px] tablet:mt-10 tablet:text-[1.5rem] tablet:leading-[1.8125rem]">
               {meaning.partOfSpeech}
             </h3>
             {meaning.definitions && meaning.definitions.length ? (
@@ -102,7 +102,7 @@ export function WordDefinition({
         );
       })}
       {definition.sourceUrls && definition.sourceUrls.length ? (
-        <footer className="mt-8 pt-6 text-body-s tablet:mt-10 tablet:grid tablet:grid-cols-[max-content_1fr] tablet:gap-5 tablet:pt-5">
+        <footer className="border-t-separator mt-8 border-t-[1px] pt-6 text-body-s tablet:mt-10 tablet:grid tablet:grid-cols-[max-content_1fr] tablet:gap-5 tablet:pt-5">
           <h3 className="text-757575 underline">Source</h3>
           {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
           <ul role="list">

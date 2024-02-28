@@ -40,6 +40,7 @@ export default {
         DEFAULT: "hsl(var(--menu))",
         shadow: "hsl(var(--menu-shadow))",
       },
+      separator: "hsl(var(--separator))",
       757575: "hsl(var(--color-757575))",
       FFFFFF: "hsl(var(--color-FFFFFF))",
       A445ED: "hsl(var(--color-A445ED))",

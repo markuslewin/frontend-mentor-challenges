@@ -34,6 +34,7 @@
     --field-placeholder: var(--color-2D2D2D) / 25%;
     --menu: var(--color-FFFFFF);
     --menu-shadow: 0 0% 0% / 10%;
+    --separator: var(--color-E9E9E9);
   }
 
   [data-font="serif"] {
@@ -51,6 +52,7 @@
     --field-placeholder: var(--color-FFFFFF) / 25%;
     --menu: var(--color-1F1F1F);
     --menu-shadow: var(--color-A445ED);
+    --separator: var(--color-3A3A3A);
 
     color-scheme: dark;
   }
