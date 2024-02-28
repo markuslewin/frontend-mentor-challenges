@@ -1,4 +1,5 @@
 import { Fragment } from "react";
+import { useAudio } from "../utils/audio";
 
 export function WordDefinition({
   definition,
@@ -6,6 +7,7 @@ export function WordDefinition({
   definition: {
     word?: string;
     phonetic: {
+      audio?: string;
       text?: string;
     };
     meanings?: {
@@ -31,9 +33,10 @@ export function WordDefinition({
             {definition.phonetic?.text}
           </p>
         </div>
-        {/* todo: <audio />? */}
         {/* todo: colors */}
-        <img alt="Play phonetic" src="/assets/images/icon-play.svg" />
+        {definition.phonetic.audio ? (
+          <PlayButton src={definition.phonetic.audio} />
+        ) : null}
       </div>
       {definition.meanings?.map((meaning, i) => {
         return (
@@ -126,5 +129,25 @@ export function WordDefinition({
         </footer>
       ) : null}
     </article>
+  );
+}
+
+function PlayButton({ src }: { src: string }) {
+  const audio = useAudio(src);
+
+  return (
+    <button
+      onClick={() => {
+        audio.play();
+      }}
+      aria-disabled={!audio.ready}
+    >
+      <img
+        className="opacity-50 data-[ready=true]:opacity-100"
+        alt="Play phonetic"
+        src="/assets/images/icon-play.svg"
+        data-ready={audio.ready}
+      />
+    </button>
   );
 }
