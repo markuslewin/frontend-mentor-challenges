@@ -37,6 +37,12 @@ const DefinitionsSchema = z.array(
     .partial(),
 );
 
+const DefinitionsErrorSchema = z.object({
+  title: z.string(),
+  message: z.string(),
+  resolution: z.string(),
+});
+
 export async function loader({ params }: LoaderFunctionArgs) {
   const { word } = params;
   invariantResponse(word, "Invalid word");
@@ -44,30 +50,45 @@ export async function loader({ params }: LoaderFunctionArgs) {
   const response = await fetch(
     `https://api.dictionaryapi.dev/api/v2/entries/en/${word}`,
   );
-  if (response.status === 404) {
-    // "Not found" screen
-    return null;
-  }
-  invariantResponse(response.status !== 429, "Too many requests", {
-    status: 429,
-  });
-  invariantResponse(response.ok, "Invalid response", { status: 500 });
+  if (!response.ok) {
+    const json = await response.json().catch(() => {
+      throw new Response("Failed to parse error", { status: 500 });
+    });
 
-  let json;
-  try {
-    json = await response.json();
-  } catch {
-    throw new Response("Failed to parse response", { status: 500 });
+    const result = DefinitionsErrorSchema.safeParse(json);
+    invariantResponse(result.success, "Unexpected response error", {
+      status: 500,
+    });
+
+    const { message, resolution, title } = result.data;
+
+    return {
+      type: "error",
+      title: title,
+      message: message,
+      resolution: resolution,
+    } as const;
   }
+
+  const json = await response.json().catch(() => {
+    throw new Response("Failed to parse response", { status: 500 });
+  });
 
   const result = DefinitionsSchema.safeParse(json);
-  invariantResponse(result.success, "Invalid shape of response", {
+  invariantResponse(result.success, "Unexpected shape of response", {
     status: 500,
   });
   const definition = result.data[0];
   if (!definition) {
-    // "Not found" screen
-    return null;
+    // Copied from the API
+    return {
+      type: "error",
+      title: "No Definitions Found",
+      message:
+        "Sorry pal, we couldn't find definitions for the word you were looking for.",
+      resolution:
+        "You can try the search again at later time or head to the web instead.",
+    } as const;
   }
 
   const rootPhonetic = { text: definition.phonetic };
@@ -76,19 +97,31 @@ export async function loader({ params }: LoaderFunctionArgs) {
   // Prioritize phonetics with audio
   const phonetic = audioPhonetic ?? rootPhonetic ?? firstSubPhonetic;
 
-  return { definition: { ...definition, phonetic } };
+  return {
+    type: "definition",
+    definition: { ...definition, phonetic },
+  } as const;
 }
 
 export default function Word() {
   const data = useLoaderData<typeof loader>();
 
-  return (
-    <>
-      {data ? (
-        <WordDefinition definition={data.definition} />
-      ) : (
-        <p>Not found</p>
-      )}
-    </>
-  );
+  switch (data.type) {
+    case "definition":
+      return <WordDefinition definition={data.definition} />;
+    case "error":
+      return (
+        <div className="text-center">
+          <h2 className="mt-32 text-[1.25rem] font-bold leading-[1.5rem]">
+            <span className="mb-11 block text-[4rem] leading-none">😕</span>
+            {data.title}
+          </h2>
+          <p className="mt-6 text-757575">
+            {data.message} {data.resolution}
+          </p>
+        </div>
+      );
+    default:
+      throw new Error("Unexpected data type");
+  }
 }
