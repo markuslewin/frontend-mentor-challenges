@@ -2,6 +2,7 @@ import type { MetaFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { Title, WordDefinition } from "../components/WordDefinition";
 import keyboardDefinitions from "~/data/keyboard.json";
+import { MainLayout } from "../components/MainLayout";
 
 export const meta: MetaFunction = () => {
   return [
@@ -38,8 +39,10 @@ export default function Index() {
   const { definition } = useLoaderData<typeof loader>();
 
   return (
-    <WordDefinition definition={definition}>
-      <Title>{definition.word}</Title>
-    </WordDefinition>
+    <MainLayout>
+      <WordDefinition definition={definition}>
+        <Title>{definition.word}</Title>
+      </WordDefinition>
+    </MainLayout>
   );
 }

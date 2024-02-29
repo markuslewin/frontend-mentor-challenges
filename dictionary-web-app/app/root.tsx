@@ -6,15 +6,12 @@ import {
   redirect,
 } from "@remix-run/node";
 import {
-  Form,
   Links,
   Meta,
   Outlet,
   Scripts,
   ScrollRestoration,
-  useActionData,
   useFetcher,
-  useNavigation,
 } from "@remix-run/react";
 import tailwind from "~/tailwind.css?url";
 import { Icon, href as iconsHref } from "~/components/ui/icon";
@@ -25,8 +22,8 @@ import { ModeFormSchema, useMode } from "./utils/mode";
 import { getMode, setMode } from "./utils/mode.server";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import { parseWithZod } from "@conform-to/zod";
+import { SearchFormSchema } from "./components/MainLayout";
 import { useEffect, useRef } from "react";
-import { getFormProps, getInputProps, useForm } from "@conform-to/react";
 
 export const links: LinksFunction = () => [
   // Preload svg sprite as a resource to avoid render blocking
@@ -41,11 +38,6 @@ export async function loader({ request }: LoaderFunctionArgs) {
     mode,
   };
 }
-
-const SearchFormSchema = z.object({
-  intent: z.literal("search-word"),
-  word: z.string({ required_error: "Whoops, can’t be empty…" }),
-});
 
 export async function action({ request }: ActionFunctionArgs) {
   const formData = await request.formData();
@@ -83,30 +75,17 @@ export async function action({ request }: ActionFunctionArgs) {
 }
 
 export default function App() {
-  const lastResult = useActionData<typeof action>();
-  const navigation = useNavigation();
   const fontFetcher = useFetcher({ key: "font" });
   const modeFetcher = useFetcher({ key: "mode" });
-  const searchFormRef = useRef<HTMLFormElement>(null);
-  const [form, fields] = useForm({
-    shouldValidate: "onBlur",
-    shouldRevalidate: "onInput",
-    lastResult,
-    onValidate({ formData }) {
-      return parseWithZod(formData, { schema: SearchFormSchema });
-    },
-  });
   const { font } = useFont();
   const { mode } = useMode();
+  const isInitialLoadRef = useRef(true);
 
   const nextMode = mode === "dark" ? "light" : "dark";
 
   useEffect(() => {
-    if (navigation.state === "idle") {
-      // todo: Navigates back to index route for some reason
-      // searchFormRef.current?.reset();
-    }
-  }, [navigation.state]);
+    isInitialLoadRef.current = false;
+  }, []);
 
   return (
     <html lang="en">
@@ -210,44 +189,13 @@ export default function App() {
               </div>
             </div>
           </header>
-          <main className="mt-6 tablet:mt-[3.25rem]">
-            <div className="px-6 center-column tablet:px-10">
-              <h1 className="sr-only">Dictionary Web App</h1>
-              <Form
-                className="group"
-                method="post"
-                ref={searchFormRef}
-                {...getFormProps(form)}
-                data-error={!!fields.word.errors?.length}
-              >
-                <input type="hidden" name="intent" value="search-word" />
-                <label className="sr-only" htmlFor={fields.word.id}>
-                  Search for a word
-                </label>
-                <div className="grid grid-cols-[1fr_max-content]">
-                  <input
-                    className="col-span-full row-start-1 h-12 rounded-2xl border-[1px] border-transparent bg-field px-6 pr-14 text-[1rem] font-bold leading-[1.1875rem] transition-colors placeholder:text-field-placeholder group-data-[error=true]:border-FF5252 hocus:border-A445ED tablet:h-16 tablet:text-[1.25rem] tablet:leading-[1.5rem]"
-                    placeholder="Search for any word…"
-                    {...getInputProps(fields.word, { type: "text" })}
-                  />
-                  <button
-                    className="col-start-2 row-start-1 px-6"
-                    type="submit"
-                  >
-                    <Icon className="size-4 text-A445ED" name="icon-search" />
-                    <span className="sr-only">Search</span>
-                  </button>
-                </div>
-                <p
-                  className="mt-2 text-heading-s group-data-[error=true]:text-FF5252"
-                  id={fields.word.errorId}
-                >
-                  {fields.word.errors}
-                </p>
-              </Form>
-              <Outlet />
-            </div>
-          </main>
+          <Outlet
+            context={
+              {
+                isInitialLoad: isInitialLoadRef.current,
+              } satisfies OutletContext
+            }
+          />
         </div>
         <ScrollRestoration />
         <Scripts />
@@ -255,3 +203,7 @@ export default function App() {
     </html>
   );
 }
+
+export type OutletContext = {
+  isInitialLoad: boolean;
+};

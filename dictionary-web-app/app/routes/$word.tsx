@@ -1,9 +1,15 @@
 import { invariantResponse } from "@epic-web/invariant";
 import { LoaderFunctionArgs } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
-import { useEffect, useRef } from "react";
+import {
+  useLoaderData,
+  useNavigation,
+  useOutletContext,
+} from "@remix-run/react";
+import { useEffect, useRef, useState } from "react";
 import { z } from "zod";
 import { Title, WordDefinition } from "~/components/WordDefinition";
+import { MainLayout } from "../components/MainLayout";
+import { OutletContext as RootOutletContext } from "../root";
 
 // We don't know a lot
 const DefinitionsSchema = z.array(
@@ -106,44 +112,61 @@ export async function loader({ params }: LoaderFunctionArgs) {
 
 export default function Word() {
   const data = useLoaderData<typeof loader>();
+  const navigation = useNavigation();
+  const { isInitialLoad } = useOutletContext<RootOutletContext>();
+  const titleRef = useRef<HTMLHeadingElement>(null);
+  const searchFormRef = useRef<HTMLFormElement>(null);
+  const [id, setFormId] = useState(0);
+  const formId = `search-form-${id}`;
+
+  useEffect(() => {
+    const $title = titleRef.current;
+    const $searchForm = searchFormRef.current;
+
+    if (
+      navigation.state !== "idle" ||
+      !$title ||
+      !$searchForm ||
+      isInitialLoad
+    ) {
+      return;
+    }
+
+    $title.focus();
+    // Reset Conform form
+    setFormId((id) => id + 1);
+  }, [isInitialLoad, navigation.state]);
 
   switch (data.type) {
     case "definition":
-      return <Definition {...data.definition} />;
+      return (
+        <MainLayout searchFormRef={searchFormRef} formId={formId}>
+          <WordDefinition definition={data.definition}>
+            <Title ref={titleRef} tabIndex={-1}>
+              {data.definition.word}
+            </Title>
+          </WordDefinition>
+        </MainLayout>
+      );
     case "error":
       return (
-        <div className="text-center">
-          <h2 className="mt-32 text-[1.25rem] font-bold leading-[1.5rem]">
-            <span className="mb-11 block text-[4rem] leading-none">😕</span>
-            {data.title}
-          </h2>
-          <p className="mt-6 text-757575">
-            {data.message} {data.resolution}
-          </p>
-        </div>
+        <MainLayout searchFormRef={searchFormRef} formId={formId}>
+          <div className="text-center">
+            <h2
+              className="mt-32 text-[1.25rem] font-bold leading-[1.5rem]"
+              ref={titleRef}
+              tabIndex={-1}
+            >
+              <span className="mb-11 block text-[4rem] leading-none">😕</span>
+              {data.title}
+            </h2>
+            <p className="mt-6 text-757575">
+              {data.message} {data.resolution}
+            </p>
+          </div>
+        </MainLayout>
       );
     default:
       throw new Error("Unexpected data type");
   }
-}
-
-function Definition(
-  props: Extract<
-    Awaited<ReturnType<typeof loader>>,
-    { type: "definition" }
-  >["definition"],
-) {
-  const titleRef = useRef<HTMLHeadingElement>(null);
-
-  useEffect(() => {
-    titleRef.current?.focus();
-  }, [props.word]);
-
-  return (
-    <WordDefinition definition={props}>
-      <Title ref={titleRef} tabIndex={-1}>
-        {props.word}
-      </Title>
-    </WordDefinition>
-  );
 }
