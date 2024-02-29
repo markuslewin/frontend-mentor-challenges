@@ -1,12 +1,12 @@
-import { Fragment } from "react";
+import { Fragment, ReactNode, forwardRef } from "react";
 import { useAudio } from "../utils/audio";
 import { Icon } from "./ui/icon";
 
 export function WordDefinition({
   definition,
+  children,
 }: {
   definition: {
-    word?: string;
     phonetic: {
       audio?: string;
       text?: string;
@@ -22,19 +22,17 @@ export function WordDefinition({
     }[];
     sourceUrls?: string[];
   };
+  children: ReactNode;
 }) {
   return (
     <article className="mt-6 tablet:mt-11">
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
-          <h2 className="text-[2rem] leading-[2.4375rem] tablet:text-heading-l">
-            {definition.word}
-          </h2>
+          {children}
           <p className="mt-2 text-body-m text-A445ED tablet:text-heading-m">
             {definition.phonetic?.text}
           </p>
         </div>
-        {/* todo: colors */}
         {definition.phonetic.audio ? (
           <PlayButton src={definition.phonetic.audio} />
         ) : null}
@@ -154,3 +152,20 @@ function PlayButton({ src }: { src: string }) {
     </button>
   );
 }
+
+const Title = forwardRef<
+  HTMLHeadingElement,
+  React.ButtonHTMLAttributes<HTMLHeadingElement>
+>((props, ref) => {
+  return (
+    // eslint-disable-next-line jsx-a11y/heading-has-content
+    <h2
+      className="text-[2rem] leading-[2.4375rem] tablet:text-heading-l"
+      ref={ref}
+      {...props}
+    />
+  );
+});
+Title.displayName = "Title";
+
+export { Title };

@@ -1,8 +1,9 @@
 import { invariantResponse } from "@epic-web/invariant";
 import { LoaderFunctionArgs } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
+import { useEffect, useRef } from "react";
 import { z } from "zod";
-import { WordDefinition } from "~/components/WordDefinition";
+import { Title, WordDefinition } from "~/components/WordDefinition";
 
 // We don't know a lot
 const DefinitionsSchema = z.array(
@@ -108,7 +109,7 @@ export default function Word() {
 
   switch (data.type) {
     case "definition":
-      return <WordDefinition definition={data.definition} />;
+      return <Definition {...data.definition} />;
     case "error":
       return (
         <div className="text-center">
@@ -124,4 +125,25 @@ export default function Word() {
     default:
       throw new Error("Unexpected data type");
   }
+}
+
+function Definition(
+  props: Extract<
+    Awaited<ReturnType<typeof loader>>,
+    { type: "definition" }
+  >["definition"],
+) {
+  const titleRef = useRef<HTMLHeadingElement>(null);
+
+  useEffect(() => {
+    titleRef.current?.focus();
+  }, [props.word]);
+
+  return (
+    <WordDefinition definition={props}>
+      <Title ref={titleRef} tabIndex={-1}>
+        {props.word}
+      </Title>
+    </WordDefinition>
+  );
 }

@@ -1,6 +1,6 @@
 import type { MetaFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
-import { WordDefinition } from "../components/WordDefinition";
+import { Title, WordDefinition } from "../components/WordDefinition";
 import keyboardDefinitions from "~/data/keyboard.json";
 
 export const meta: MetaFunction = () => {
@@ -37,5 +37,9 @@ export async function loader() {
 export default function Index() {
   const { definition } = useLoaderData<typeof loader>();
 
-  return <WordDefinition definition={definition} />;
+  return (
+    <WordDefinition definition={definition}>
+      <Title>{definition.word}</Title>
+    </WordDefinition>
+  );
 }
