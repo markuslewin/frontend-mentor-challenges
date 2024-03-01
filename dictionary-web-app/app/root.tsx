@@ -225,7 +225,7 @@ export default function App() {
                 </label>
                 <div className="grid grid-cols-[1fr_max-content]">
                   <input
-                    className="col-span-full row-start-1 h-12 rounded-2xl border-[1px] border-transparent bg-field px-6 pr-14 text-[1rem] font-bold leading-[1.1875rem] transition-colors placeholder:text-field-placeholder group-data-[error=true]:border-FF5252 hocus:border-A445ED tablet:h-16 tablet:text-[1.25rem] tablet:leading-[1.5rem]"
+                    className="col-span-full row-start-1 h-12 rounded-2xl border-[1px] border-transparent bg-field px-6 pr-14 text-[1rem] font-bold leading-[1.1875rem] transition-[border-color] placeholder:text-field-placeholder group-data-[error=true]:border-FF5252 hocus:border-A445ED tablet:h-16 tablet:text-[1.25rem] tablet:leading-[1.5rem]"
                     placeholder="Search for any word…"
                     {...getInputProps(fields.word, { type: "text" })}
                   />
