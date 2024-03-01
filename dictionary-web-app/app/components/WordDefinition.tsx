@@ -30,7 +30,7 @@ export function WordDefinition({
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
           {children}
-          <p className="mt-2 text-body-m text-A445ED tablet:text-heading-m">
+          <p className="mt-2 font-sans text-body-m text-A445ED tablet:text-heading-m">
             {definition.phonetic?.text}
           </p>
         </div>
@@ -50,7 +50,10 @@ export function WordDefinition({
                   Meaning
                 </h4>
                 {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
-                <ul className="mt-4 tablet:mt-6" role="list">
+                <ul
+                  className="mt-4 tablet:mt-6 tablet:pl-[1.375rem]"
+                  role="list"
+                >
                   {meaning.definitions.map((definition, i) => {
                     return (
                       <li
@@ -78,10 +81,8 @@ export function WordDefinition({
               </>
             ) : null}
             {meaning.synonyms && meaning.synonyms.length ? (
-              <div className="mt-6 grid grid-cols-[max-content_1fr] items-baseline gap-6 tablet:mt-10 desktop:mt-16">
-                <h4 className="text-[1rem] leading-[1.1875rem] text-757575 tablet:text-heading-s">
-                  Synonyms
-                </h4>
+              <div className="mt-6 grid grid-cols-[max-content_1fr] items-baseline gap-6 text-[1rem] leading-[1.1875rem] tablet:mt-10 tablet:text-heading-s desktop:mt-16">
+                <h4 className="text-757575">Synonyms</h4>
                 {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
                 <ul className="flex flex-wrap gap-4" role="list">
                   {meaning.synonyms.map((synonym, i) => {
@@ -103,7 +104,7 @@ export function WordDefinition({
         );
       })}
       {definition.sourceUrls && definition.sourceUrls.length ? (
-        <footer className="mt-8 border-t-[1px] border-t-separator pt-6 text-body-s tablet:mt-10 tablet:grid tablet:grid-cols-[max-content_1fr] tablet:gap-5 tablet:pt-5">
+        <footer className="mt-8 border-t-[1px] border-t-separator pt-6 text-body-s underline-offset-[0.125rem] tablet:mt-10 tablet:grid tablet:grid-cols-[max-content_1fr] tablet:gap-5 tablet:pt-5">
           <h3 className="text-757575 underline">Source</h3>
           {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
           <ul role="list">
@@ -111,7 +112,7 @@ export function WordDefinition({
               return (
                 <li className="mt-2 tablet:first:mt-0" key={i}>
                   <Link
-                    className="flex items-center gap-2 underline underline-offset-[0.1875rem] hocus:no-underline"
+                    className="flex items-center gap-2 underline hocus:no-underline"
                     to={sourceUrl}
                     target="_blank"
                     rel="noreferrer"
@@ -119,7 +120,7 @@ export function WordDefinition({
                     <span className="sr-only">Opens in new window: </span>
                     {sourceUrl}
                     <Icon
-                      className="size-3 text-757575"
+                      className="size-[0.875rem] text-757575"
                       name="icon-new-window"
                     />
                   </Link>
@@ -161,7 +162,7 @@ const Title = forwardRef<
   return (
     // eslint-disable-next-line jsx-a11y/heading-has-content
     <h2
-      className="text-[2rem] leading-[2.4375rem] tablet:text-heading-l"
+      className="text-[2rem] font-bold leading-[2.4375rem] tablet:text-heading-l"
       ref={ref}
       {...props}
     />

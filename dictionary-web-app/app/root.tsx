@@ -133,18 +133,18 @@ export default function App() {
             <div className="flex flex-wrap justify-between gap-4 px-6 center-column tablet:px-10">
               <div>
                 <Icon
-                  className="h-8 w-7 text-757575 tablet:h-9 tablet:w-8"
+                  className="size-[2.125rem] text-757575 tablet:size-[2.375rem]"
                   name="logo"
                 />
                 <p className="sr-only">Dictionary Web App</p>
               </div>
-              <div className="flex flex-wrap gap-4">
+              <div className="flex flex-wrap gap-4 tablet:gap-[1.625rem]">
                 <DropdownMenu.Root>
                   <DropdownMenu.Trigger className="flex items-center gap-4 text-[0.875rem] font-bold leading-6 tablet:text-[1.125rem]">
                     <span className="sr-only">Font: </span>
                     {{ sans: "Sans Serif", serif: "Serif", mono: "Mono" }[font]}
                     <Icon
-                      className="size-3 text-A445ED"
+                      className="size-[0.875rem] text-A445ED"
                       name="icon-arrow-down"
                     />
                   </DropdownMenu.Trigger>
@@ -199,7 +199,7 @@ export default function App() {
                   </button>
                   <div>
                     <Icon
-                      className="size-5 text-757575 dark:text-A445ED"
+                      className="size-[1.375rem] text-757575 dark:text-A445ED"
                       name="icon-moon"
                     />
                     <p className="sr-only" aria-live="polite">
@@ -233,7 +233,10 @@ export default function App() {
                     className="col-start-2 row-start-1 px-6"
                     type="submit"
                   >
-                    <Icon className="size-4 text-A445ED" name="icon-search" />
+                    <Icon
+                      className="size-[1.125rem] text-A445ED"
+                      name="icon-search"
+                    />
                     <span className="sr-only">Search</span>
                   </button>
                 </div>
