@@ -1,5 +1,5 @@
 import { invariantResponse } from "@epic-web/invariant";
-import { LoaderFunctionArgs } from "@remix-run/node";
+import { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
 import {
   useLoaderData,
   useNavigation,
@@ -9,6 +9,32 @@ import { useEffect, useRef } from "react";
 import { z } from "zod";
 import { Title, WordDefinition } from "~/components/WordDefinition";
 import { OutletContext as RootOutletContext } from "../root";
+
+export const meta: MetaFunction = ({ data }) => {
+  const result = z
+    .object({
+      type: z.literal("definition"),
+      definition: z.object({
+        word: z.string(),
+      }),
+    })
+    .safeParse(data);
+
+  return result.success
+    ? [
+        {
+          title: `Frontend Mentor | Dictionary web app | ${result.data.definition.word}`,
+        },
+        {
+          name: "description",
+          content: `Read definitions for the word "${result.data.definition.word}"`,
+        },
+      ]
+    : [
+        { title: "Frontend Mentor | Dictionary web app" },
+        { name: "description", content: "A dictionary web app" },
+      ];
+};
 
 // We don't know a lot
 const DefinitionsSchema = z.array(

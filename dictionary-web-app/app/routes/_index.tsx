@@ -5,8 +5,8 @@ import keyboardDefinitions from "~/data/keyboard.json";
 
 export const meta: MetaFunction = () => {
   return [
-    { title: "New Remix App" },
-    { name: "description", content: "Welcome to Remix!" },
+    { title: "Frontend Mentor | Dictionary web app" },
+    { name: "description", content: "A dictionary web app" },
   ];
 };
 

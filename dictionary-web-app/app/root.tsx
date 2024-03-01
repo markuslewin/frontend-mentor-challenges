@@ -120,7 +120,6 @@ export default function App() {
           sizes="32x32"
           href="./assets/images/favicon-32x32.png"
         />
-        <title>Frontend Mentor | Dictionary web app</title>
         <Meta />
         <Links />
       </head>
