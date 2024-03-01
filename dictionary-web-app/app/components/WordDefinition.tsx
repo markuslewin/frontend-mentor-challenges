@@ -1,6 +1,7 @@
 import { Fragment, ReactNode, forwardRef } from "react";
 import { useAudio } from "../utils/audio";
 import { Icon } from "./ui/icon";
+import { Link } from "@remix-run/react";
 
 export function WordDefinition({
   definition,
@@ -86,12 +87,12 @@ export function WordDefinition({
                   {meaning.synonyms.map((synonym, i) => {
                     return (
                       <li key={i}>
-                        <a
+                        <Link
                           className="font-bold text-A445ED underline-offset-[0.25rem] hocus:underline"
-                          href={`/${encodeURIComponent(synonym)}`}
+                          to={`/${encodeURIComponent(synonym)}`}
                         >
                           {synonym}
-                        </a>
+                        </Link>
                       </li>
                     );
                   })}
@@ -109,9 +110,9 @@ export function WordDefinition({
             {definition.sourceUrls.map((sourceUrl, i) => {
               return (
                 <li className="mt-2 tablet:first:mt-0" key={i}>
-                  <a
+                  <Link
                     className="flex items-center gap-2 underline underline-offset-[0.1875rem] hocus:no-underline"
-                    href={sourceUrl}
+                    to={sourceUrl}
                     target="_blank"
                     rel="noreferrer"
                   >
@@ -121,7 +122,7 @@ export function WordDefinition({
                       className="size-3 text-757575"
                       name="icon-new-window"
                     />
-                  </a>
+                  </Link>
                 </li>
               );
             })}

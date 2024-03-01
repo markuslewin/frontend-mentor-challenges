@@ -6,11 +6,13 @@ import {
   redirect,
 } from "@remix-run/node";
 import {
+  Form,
   Links,
   Meta,
   Outlet,
   Scripts,
   ScrollRestoration,
+  useActionData,
   useFetcher,
 } from "@remix-run/react";
 import tailwind from "~/tailwind.css?url";
@@ -22,8 +24,8 @@ import { ModeFormSchema, useMode } from "./utils/mode";
 import { getMode, setMode } from "./utils/mode.server";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import { parseWithZod } from "@conform-to/zod";
-import { SearchFormSchema } from "./components/MainLayout";
-import { useEffect, useRef } from "react";
+import { RefObject, useEffect, useRef, useState } from "react";
+import { getFormProps, getInputProps, useForm } from "@conform-to/react";
 
 export const links: LinksFunction = () => [
   // Preload svg sprite as a resource to avoid render blocking
@@ -38,6 +40,11 @@ export async function loader({ request }: LoaderFunctionArgs) {
     mode,
   };
 }
+
+const SearchFormSchema = z.object({
+  intent: z.literal("search-word"),
+  word: z.string({ required_error: "Whoops, can’t be empty…" }),
+});
 
 export async function action({ request }: ActionFunctionArgs) {
   const formData = await request.formData();
@@ -80,6 +87,21 @@ export default function App() {
   const { font } = useFont();
   const { mode } = useMode();
   const isInitialLoadRef = useRef(true);
+  const lastResult = useActionData<typeof action>();
+  const [formId, setFormId] = useState(0);
+  const [form, fields] = useForm({
+    id: `search-form-${formId}`,
+    shouldValidate: "onBlur",
+    shouldRevalidate: "onInput",
+    lastResult,
+    onValidate({ formData }) {
+      return parseWithZod(formData, { schema: SearchFormSchema });
+    },
+  });
+  const headerRef = useRef<HTMLElement>(null);
+  const resetSearchFormRef = useRef(function resetSearchForm() {
+    setFormId((formId) => formId + 1);
+  });
 
   const nextMode = mode === "dark" ? "light" : "dark";
 
@@ -108,7 +130,7 @@ export default function App() {
         data-font={font}
       >
         <div className="min-h-screen pb-20 pt-6 tablet:pb-28 tablet:pt-[3.625rem] desktop:pb-32">
-          <header>
+          <header ref={headerRef}>
             <div className="flex flex-wrap justify-between gap-4 px-6 center-column tablet:px-10">
               <div>
                 <Icon
@@ -189,13 +211,51 @@ export default function App() {
               </div>
             </div>
           </header>
-          <Outlet
-            context={
-              {
-                isInitialLoad: isInitialLoadRef.current,
-              } satisfies OutletContext
-            }
-          />
+          <main className="mt-6 tablet:mt-[3.25rem]">
+            <div className="px-6 center-column tablet:px-10">
+              <h1 className="sr-only">Dictionary Web App</h1>
+              <Form
+                className="group"
+                method="post"
+                {...getFormProps(form)}
+                data-error={!!fields.word.errors?.length}
+              >
+                <input type="hidden" name="intent" value="search-word" />
+                <label className="sr-only" htmlFor={fields.word.id}>
+                  Search for a word
+                </label>
+                <div className="grid grid-cols-[1fr_max-content]">
+                  <input
+                    className="col-span-full row-start-1 h-12 rounded-2xl border-[1px] border-transparent bg-field px-6 pr-14 text-[1rem] font-bold leading-[1.1875rem] transition-colors placeholder:text-field-placeholder group-data-[error=true]:border-FF5252 hocus:border-A445ED tablet:h-16 tablet:text-[1.25rem] tablet:leading-[1.5rem]"
+                    placeholder="Search for any word…"
+                    {...getInputProps(fields.word, { type: "text" })}
+                  />
+                  <button
+                    className="col-start-2 row-start-1 px-6"
+                    type="submit"
+                  >
+                    <Icon className="size-4 text-A445ED" name="icon-search" />
+                    <span className="sr-only">Search</span>
+                  </button>
+                </div>
+                <p
+                  className="mt-2 text-heading-s group-data-[error=true]:text-FF5252"
+                  id={fields.word.errorId}
+                >
+                  {fields.word.errors}
+                </p>
+              </Form>
+              <Outlet
+                context={
+                  {
+                    isInitialLoad: isInitialLoadRef.current,
+                    headerRef,
+                    resetSearchForm: resetSearchFormRef.current,
+                  } satisfies OutletContext
+                }
+              />
+            </div>
+          </main>
         </div>
         <ScrollRestoration />
         <Scripts />
@@ -206,4 +266,6 @@ export default function App() {
 
 export type OutletContext = {
   isInitialLoad: boolean;
+  headerRef: RefObject<HTMLElement>;
+  resetSearchForm(): void;
 };
