@@ -26,6 +26,7 @@ import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import { parseWithZod } from "@conform-to/zod";
 import { RefObject, useEffect, useRef, useState } from "react";
 import { getFormProps, getInputProps, useForm } from "@conform-to/react";
+import { ClientHintCheck, getHints } from "./utils/client-hints";
 
 export const links: LinksFunction = () => [
   // Preload svg sprite as a resource to avoid render blocking
@@ -38,6 +39,9 @@ export async function loader({ request }: LoaderFunctionArgs) {
   return {
     font,
     mode,
+    requestInfo: {
+      hints: getHints(request),
+    },
   };
 }
 
@@ -112,6 +116,7 @@ export default function App() {
   return (
     <html lang="en">
       <head>
+        <ClientHintCheck nonce="" />
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link
