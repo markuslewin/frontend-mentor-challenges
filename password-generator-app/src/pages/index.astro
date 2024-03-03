@@ -3,18 +3,75 @@ import Layout from "../layouts/Layout.astro";
 ---
 
 <Layout title="Frontend Mentor | Password generator app">
-  <!-- Password Generator
-
-  P4$5W0rD!
-
-  Character Length
-
-  Include Uppercase Letters
-  Include Lowercase Letters
-  Include Numbers
-  Include Symbols
-
-  Strength
-
-  Generate -->
+  <main>
+    <h1>Password Generator</h1>
+    <section aria-labelledby="result-heading">
+      <h2 id="result-heading">Generated password</h2>
+      <p>
+        <output form="generate" aria-labelledby="result-heading">
+          PTx1f5DaFX
+        </output>
+      </p>
+      <form>
+        <button>
+          <img alt="Copy password" src="/assets/images/icon-copy.svg" />
+        </button>
+      </form>
+    </section>
+    <section aria-labelledby="settings-heading">
+      <h2 id="settings-heading">Settings</h2>
+      <form id="generate">
+        <p>
+          <label for="generate-length">Character Length</label>
+          <input id="generate-length" type="range" name="length" />
+        </p>
+        <p>
+          <img alt="" src="/assets/images/icon-check.svg" />
+          <input
+            id="generate-include-uppercase"
+            type="checkbox"
+            name="include-uppercase"
+          />
+          <label for="generate-include-uppercase">
+            Include Uppercase Letters
+          </label>
+        </p>
+        <p>
+          <input
+            id="generate-include-lowercase"
+            type="checkbox"
+            name="include-lowercase"
+          />
+          <label for="generate-include-lowercase">
+            Include Lowercase Letters
+          </label>
+        </p>
+        <p>
+          <input
+            id="generate-include-numbers"
+            type="checkbox"
+            name="include-numbers"
+          />
+          <label for="generate-include-numbers">Include Numbers</label>
+        </p>
+        <p>
+          <input
+            id="generate-include-symbols"
+            type="checkbox"
+            name="include-symbols"
+          />
+          <label for="generate-include-symbols">Include Symbols</label>
+        </p>
+        <p>
+          <output id="generate-strength">
+            <label for="generate-strength">Strength</label>
+            <span>Medium</span>
+          </output>
+        </p>
+        <button>
+          Generate <img alt="" src="/assets/images/icon-arrow-right.svg" />
+        </button>
+      </form>
+    </section>
+  </main>
 </Layout>
