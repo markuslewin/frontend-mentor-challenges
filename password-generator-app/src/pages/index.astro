@@ -1,5 +1,80 @@
 ---
+import { z } from "astro/zod";
 import Layout from "../layouts/Layout.astro";
+
+function getRandomInt(max: number) {
+  return Math.floor(Math.random() * max);
+}
+
+const OnBoolean = z.preprocess((val) => {
+  return val === "on";
+}, z.boolean());
+
+const GenerateFormSchema = z
+  .object({
+    length: z.coerce.number(),
+    "include-uppercase": OnBoolean,
+    "include-lowercase": OnBoolean,
+    "include-numbers": OnBoolean,
+    "include-symbols": OnBoolean,
+  })
+  .refine(
+    (val) =>
+      val["include-uppercase"] ||
+      val["include-lowercase"] ||
+      val["include-numbers"] ||
+      val["include-symbols"],
+    { message: "No character categories selected" }
+  );
+
+const { errors, password, payload } = await (async function () {
+  const { request } = Astro;
+
+  if (request.method === "POST") {
+    const formData = await request.formData();
+    const payload = Object.fromEntries(formData);
+    const result = GenerateFormSchema.safeParse(payload);
+    if (!result.success) {
+      return { payload, errors: result.error.formErrors };
+    }
+
+    const uppercaseLetters = "ABCDEFGHIJKLMNOPQRSTUVWZYZ";
+    const lowercaseLetters = "abcdefghijklmnopqrstuvwxyz";
+    const numbers = "1234567890";
+    const symbols = "!()-.?[]_`~;:!@#$%^&*+=";
+
+    const characterSet =
+      (result.data["include-uppercase"] ? uppercaseLetters : "") +
+      (result.data["include-lowercase"] ? lowercaseLetters : "") +
+      (result.data["include-numbers"] ? numbers : "") +
+      (result.data["include-symbols"] ? symbols : "");
+
+    const password = [...Array(result.data.length).keys()]
+      .map(() => characterSet.at(getRandomInt(characterSet.length)))
+      .join("");
+
+    return { payload, password };
+  }
+  return { password: "" };
+})();
+
+const values = z
+  .preprocess(
+    (val) => (typeof val === "object" ? val : {}),
+    z.object({
+      length: z.coerce.number().default(10),
+      "include-uppercase": z.coerce.boolean(),
+      "include-lowercase": z.coerce.boolean(),
+      "include-numbers": z.coerce.boolean(),
+      "include-symbols": z.coerce.boolean(),
+    })
+  )
+  .parse(payload);
+
+if (errors) {
+  // No UI
+  console.warn({ errors });
+}
 ---
 
 <Layout title="Frontend Mentor | Password generator app">
@@ -9,7 +84,7 @@ import Layout from "../layouts/Layout.astro";
       <h2 id="result-heading">Generated password</h2>
       <p>
         <output form="generate" aria-labelledby="result-heading">
-          PTx1f5DaFX
+          {password}
         </output>
       </p>
       <form>
@@ -20,10 +95,17 @@ import Layout from "../layouts/Layout.astro";
     </section>
     <section aria-labelledby="settings-heading">
       <h2 id="settings-heading">Settings</h2>
-      <form id="generate">
+      <form method="post" id="generate">
         <p>
           <label for="generate-length">Character Length</label>
-          <input id="generate-length" type="range" name="length" />
+          <input
+            id="generate-length"
+            type="range"
+            name="length"
+            min="1"
+            max="20"
+            value={values.length}
+          />
         </p>
         <p>
           <img alt="" src="/assets/images/icon-check.svg" />
@@ -31,6 +113,7 @@ import Layout from "../layouts/Layout.astro";
             id="generate-include-uppercase"
             type="checkbox"
             name="include-uppercase"
+            checked={values["include-uppercase"]}
           />
           <label for="generate-include-uppercase">
             Include Uppercase Letters
@@ -41,6 +124,7 @@ import Layout from "../layouts/Layout.astro";
             id="generate-include-lowercase"
             type="checkbox"
             name="include-lowercase"
+            checked={values["include-lowercase"]}
           />
           <label for="generate-include-lowercase">
             Include Lowercase Letters
@@ -51,6 +135,7 @@ import Layout from "../layouts/Layout.astro";
             id="generate-include-numbers"
             type="checkbox"
             name="include-numbers"
+            checked={values["include-numbers"]}
           />
           <label for="generate-include-numbers">Include Numbers</label>
         </p>
@@ -59,6 +144,7 @@ import Layout from "../layouts/Layout.astro";
             id="generate-include-symbols"
             type="checkbox"
             name="include-symbols"
+            checked={values["include-symbols"]}
           />
           <label for="generate-include-symbols">Include Symbols</label>
         </p>
