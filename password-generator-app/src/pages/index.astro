@@ -83,11 +83,16 @@ if (errors) {
     <section aria-labelledby="result-heading">
       <h2 id="result-heading">Generated password</h2>
       <p>
-        <output form="generate" aria-labelledby="result-heading">
+        <output
+          form="generate"
+          id="result-password"
+          aria-labelledby="result-heading"
+        >
           {password}
         </output>
       </p>
-      <form>
+      <form id="result-copy-password" hidden>
+        <p id="result-copy-message" aria-live="assertive"></p>
         <button>
           <img alt="Copy password" src="/assets/images/icon-copy.svg" />
         </button>
@@ -161,3 +166,42 @@ if (errors) {
     </section>
   </main>
 </Layout>
+
+<script>
+  let copyMessageTimeout: ReturnType<typeof setTimeout> | undefined;
+  function setCopyMessage(message: string) {
+    const $resultCopyMessage = document.getElementById("result-copy-message");
+    if (!$resultCopyMessage) {
+      return;
+    }
+    $resultCopyMessage.textContent = message;
+    clearTimeout(copyMessageTimeout);
+    copyMessageTimeout = setTimeout(() => {
+      $resultCopyMessage.textContent = null;
+    }, 7000);
+  }
+
+  (function () {
+    const $resultCopyPassword = document.getElementById("result-copy-password");
+    if (!$resultCopyPassword) {
+      return;
+    }
+
+    $resultCopyPassword.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const $resultPassword = document.getElementById("result-password");
+      if (!$resultPassword) {
+        return;
+      }
+
+      const password = $resultPassword.textContent?.trim();
+      navigator.clipboard
+        .writeText(password ?? "")
+        .then(() => {
+          setCopyMessage("Copied");
+        })
+        .catch(() => {});
+    });
+    $resultCopyPassword.hidden = false;
+  })();
+</script>
