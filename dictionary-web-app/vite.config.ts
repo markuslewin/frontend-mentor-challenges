@@ -6,11 +6,11 @@ import path from "node:path";
 
 export default defineConfig({
   build: {
-    assetsInlineLimit(filePath) {
+    assetsInlineLimit(filePath, content) {
       if (path.basename(filePath) === "sprite.svg") {
         return false;
       }
-      return true;
+      return content.byteLength < 4096;
     },
   },
   plugins: [remix(), netlifyPlugin(), tsconfigPaths()],
