@@ -160,7 +160,7 @@ export default function App() {
                       align="end"
                     >
                       <DropdownMenu.RadioGroup
-                        value="serif"
+                        value={font}
                         onValueChange={(font) => {
                           fontFetcher.submit(
                             { intent: "change-font", font },
