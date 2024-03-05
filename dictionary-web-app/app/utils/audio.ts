@@ -25,7 +25,9 @@ export function useAudio(src: string) {
       ready: false,
       play() {},
     });
+    $audio.preload = "auto";
     $audio.src = src;
+    $audio.load();
   }, [src]);
 
   return audio;
