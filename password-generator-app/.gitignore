@@ -36,3 +36,6 @@ pnpm-debug.log*
 # Avoid your project being littered with annoying .DS_Store files!
 .DS_Store
 .prettierignore
+
+# generated files
+/src/components/ui/icons

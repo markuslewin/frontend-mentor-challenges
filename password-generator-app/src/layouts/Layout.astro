@@ -1,6 +1,7 @@
 ---
 // Supports weights 100-800
 import "@fontsource-variable/jetbrains-mono";
+import { href as iconsHref } from "../components/ui/icon";
 
 interface Props {
   title: string;
@@ -12,6 +13,7 @@ const { title } = Astro.props;
 <!doctype html>
 <html lang="en">
   <head>
+    <link rel="preload" as="image" href={iconsHref} />
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <link

@@ -3,6 +3,7 @@ import { z } from "astro/zod";
 import Layout from "../layouts/Layout.astro";
 import { GenerateSchema } from "../utils/generate-form";
 import { generatePassword, getStrength } from "../utils/password";
+import { Icon } from "../components/ui/icon";
 
 const { errors, data, payload } = await (async function () {
   const { request } = Astro;
@@ -60,7 +61,8 @@ if (errors) {
       <form id="result-copy-password" hidden>
         <p id="result-copy-message" aria-live="assertive"></p>
         <button>
-          <img alt="Copy password" src="/assets/images/icon-copy.svg" />
+          <span>Copy password</span>
+          <Icon name="icon-copy" />
         </button>
       </form>
     </section>
@@ -79,7 +81,7 @@ if (errors) {
           />
         </p>
         <p>
-          <img alt="" src="/assets/images/icon-check.svg" />
+          <Icon name="icon-check" />
           <input
             id="generate-include-uppercase"
             type="checkbox"
@@ -126,7 +128,7 @@ if (errors) {
           </output>
         </p>
         <button>
-          Generate <img alt="" src="/assets/images/icon-arrow-right.svg" />
+          Generate <Icon name="icon-arrow-right" />
         </button>
       </form>
     </section>
