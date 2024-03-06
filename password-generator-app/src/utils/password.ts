@@ -3,27 +3,15 @@ const lowercaseLetters = "abcdefghijklmnopqrstuvwxyz";
 const numbers = "1234567890";
 const symbols = "!()-.?[]_`~;:!@#$%^&*+=";
 
-export function getCharacterSet(settings: {
-  "include-uppercase": boolean;
-  "include-lowercase": boolean;
-  "include-numbers": boolean;
-  "include-symbols": boolean;
-}) {
-  return (
-    (settings["include-uppercase"] ? uppercaseLetters : "") +
-    (settings["include-lowercase"] ? lowercaseLetters : "") +
-    (settings["include-numbers"] ? numbers : "") +
-    (settings["include-symbols"] ? symbols : "")
-  );
+export function generatePassword(settings: Settings) {
+  const characterSet = getCharacterSet(settings);
+  const password = [...Array(settings.length).keys()]
+    .map(() => characterSet.at(getRandomInt(characterSet.length)))
+    .join("");
+  return password;
 }
 
-export function getStrength(settings: {
-  length: number;
-  "include-uppercase": boolean;
-  "include-lowercase": boolean;
-  "include-numbers": boolean;
-  "include-symbols": boolean;
-}) {
+export function getStrength(settings: Settings) {
   const characterSet = getCharacterSet(settings);
   const score = characterSet.length ** settings.length;
   if (2.15e28 < score) {
@@ -37,3 +25,24 @@ export function getStrength(settings: {
   }
   return "Too weak!";
 }
+
+function getCharacterSet(settings: Settings) {
+  return (
+    (settings["include-uppercase"] ? uppercaseLetters : "") +
+    (settings["include-lowercase"] ? lowercaseLetters : "") +
+    (settings["include-numbers"] ? numbers : "") +
+    (settings["include-symbols"] ? symbols : "")
+  );
+}
+
+function getRandomInt(max: number) {
+  return Math.floor(Math.random() * max);
+}
+
+type Settings = {
+  length: number;
+  "include-uppercase": boolean;
+  "include-lowercase": boolean;
+  "include-numbers": boolean;
+  "include-symbols": boolean;
+};

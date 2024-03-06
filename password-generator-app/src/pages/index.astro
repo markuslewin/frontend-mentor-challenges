@@ -2,38 +2,24 @@
 import { z } from "astro/zod";
 import Layout from "../layouts/Layout.astro";
 import { GenerateSchema } from "../utils/generate-form";
-import { getCharacterSet, getStrength } from "../utils/password";
+import { generatePassword, getStrength } from "../utils/password";
 
-function getRandomInt(max: number) {
-  return Math.floor(Math.random() * max);
-}
-
-const { errors, password, payload } = await (async function () {
+const { errors, data, payload } = await (async function () {
   const { request } = Astro;
 
   if (request.method === "POST") {
     const formData = await request.formData();
     const payload = Object.fromEntries(formData);
-    const result = GenerateSchema.refine(
-      (val) =>
-        val["include-uppercase"] ||
-        val["include-lowercase"] ||
-        val["include-numbers"] ||
-        val["include-symbols"],
-      { message: "No character categories selected" }
-    ).safeParse(payload);
+    const result = GenerateSchema.safeParse(payload);
     if (!result.success) {
       return { payload, errors: result.error.formErrors };
     }
 
-    const characterSet = getCharacterSet(result.data);
-    const password = [...Array(result.data.length).keys()]
-      .map(() => characterSet.at(getRandomInt(characterSet.length)))
-      .join("");
+    const password = generatePassword(result.data);
 
-    return { payload, password };
+    return { payload, data: { password } };
   }
-  return { password: "" };
+  return { data: { password: "" } };
 })();
 
 const values = z
@@ -68,7 +54,7 @@ if (errors) {
           id="result-password"
           aria-labelledby="result-heading"
         >
-          {password}
+          {data?.password}
         </output>
       </p>
       <form id="result-copy-password" hidden>
@@ -149,7 +135,7 @@ if (errors) {
 
 <script>
   import { GenerateSchema } from "../utils/generate-form";
-  import { getStrength } from "../utils/password";
+  import { generatePassword, getStrength } from "../utils/password";
 
   let copyMessageTimeout: ReturnType<typeof setTimeout> | undefined;
   function setCopyMessage(message: string) {
@@ -186,6 +172,30 @@ if (errors) {
         .catch(() => {});
     });
     $resultCopyPassword.hidden = false;
+  })();
+
+  (function () {
+    const $generate = document.getElementById("generate");
+    if (!($generate instanceof HTMLFormElement)) {
+      return;
+    }
+    $generate.addEventListener("submit", (ev) => {
+      const $resultPassword = document.getElementById("result-password");
+      if (!$resultPassword) {
+        return;
+      }
+
+      const formData = new FormData($generate);
+      const result = GenerateSchema.safeParse(Object.fromEntries(formData));
+      if (!result.success) {
+        return;
+      }
+
+      const password = generatePassword(result.data);
+
+      $resultPassword.textContent = password;
+      ev.preventDefault();
+    });
   })();
 
   (function () {
