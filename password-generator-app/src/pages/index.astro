@@ -1,31 +1,12 @@
 ---
 import { z } from "astro/zod";
 import Layout from "../layouts/Layout.astro";
+import { GenerateSchema } from "../utils/generate-form";
+import { getCharacterSet, getStrength } from "../utils/password";
 
 function getRandomInt(max: number) {
   return Math.floor(Math.random() * max);
 }
-
-const OnBoolean = z.preprocess((val) => {
-  return val === "on";
-}, z.boolean());
-
-const GenerateFormSchema = z
-  .object({
-    length: z.coerce.number(),
-    "include-uppercase": OnBoolean,
-    "include-lowercase": OnBoolean,
-    "include-numbers": OnBoolean,
-    "include-symbols": OnBoolean,
-  })
-  .refine(
-    (val) =>
-      val["include-uppercase"] ||
-      val["include-lowercase"] ||
-      val["include-numbers"] ||
-      val["include-symbols"],
-    { message: "No character categories selected" }
-  );
 
 const { errors, password, payload } = await (async function () {
   const { request } = Astro;
@@ -33,22 +14,19 @@ const { errors, password, payload } = await (async function () {
   if (request.method === "POST") {
     const formData = await request.formData();
     const payload = Object.fromEntries(formData);
-    const result = GenerateFormSchema.safeParse(payload);
+    const result = GenerateSchema.refine(
+      (val) =>
+        val["include-uppercase"] ||
+        val["include-lowercase"] ||
+        val["include-numbers"] ||
+        val["include-symbols"],
+      { message: "No character categories selected" }
+    ).safeParse(payload);
     if (!result.success) {
       return { payload, errors: result.error.formErrors };
     }
 
-    const uppercaseLetters = "ABCDEFGHIJKLMNOPQRSTUVWZYZ";
-    const lowercaseLetters = "abcdefghijklmnopqrstuvwxyz";
-    const numbers = "1234567890";
-    const symbols = "!()-.?[]_`~;:!@#$%^&*+=";
-
-    const characterSet =
-      (result.data["include-uppercase"] ? uppercaseLetters : "") +
-      (result.data["include-lowercase"] ? lowercaseLetters : "") +
-      (result.data["include-numbers"] ? numbers : "") +
-      (result.data["include-symbols"] ? symbols : "");
-
+    const characterSet = getCharacterSet(result.data);
     const password = [...Array(result.data.length).keys()]
       .map(() => characterSet.at(getRandomInt(characterSet.length)))
       .join("");
@@ -70,6 +48,8 @@ const values = z
     })
   )
   .parse(payload);
+
+const strength = getStrength(values);
 
 if (errors) {
   // No UI
@@ -154,9 +134,9 @@ if (errors) {
           <label for="generate-include-symbols">Include Symbols</label>
         </p>
         <p>
-          <output id="generate-strength">
+          <output id="generate-strength" hidden>
             <label for="generate-strength">Strength</label>
-            <span>Medium</span>
+            <span id="generate-strength-value">{strength}</span>
           </output>
         </p>
         <button>
@@ -168,6 +148,9 @@ if (errors) {
 </Layout>
 
 <script>
+  import { GenerateSchema } from "../utils/generate-form";
+  import { getStrength } from "../utils/password";
+
   let copyMessageTimeout: ReturnType<typeof setTimeout> | undefined;
   function setCopyMessage(message: string) {
     const $resultCopyMessage = document.getElementById("result-copy-message");
@@ -203,5 +186,32 @@ if (errors) {
         .catch(() => {});
     });
     $resultCopyPassword.hidden = false;
+  })();
+
+  (function () {
+    const $generate = document.getElementById("generate");
+    const $generateStrength = document.getElementById("generate-strength");
+    if (!($generate instanceof HTMLFormElement) || !$generateStrength) {
+      return;
+    }
+    $generate.addEventListener("input", () => {
+      const $generateStrengthValue = document.getElementById(
+        "generate-strength-value"
+      );
+      if (!$generateStrengthValue) {
+        return;
+      }
+
+      const formData = new FormData($generate);
+      const result = GenerateSchema.safeParse(Object.fromEntries(formData));
+      if (!result.success) {
+        return;
+      }
+
+      const strength = getStrength(result.data);
+
+      $generateStrengthValue.textContent = strength;
+    });
+    $generateStrength.hidden = false;
   })();
 </script>
