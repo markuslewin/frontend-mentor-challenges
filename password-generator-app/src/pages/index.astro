@@ -254,4 +254,15 @@ if (errors) {
     });
     $generateStrength.hidden = false;
   })();
+
+  (function () {
+    const $range = document.getElementById("generate-length");
+    if (!($range instanceof HTMLInputElement)) {
+      return;
+    }
+    $range.addEventListener("input", () => {
+      $range.style.setProperty("--value", $range.value);
+    });
+    $range.style.setProperty("--value", $range.value);
+  })();
 </script>
