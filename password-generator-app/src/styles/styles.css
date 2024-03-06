@@ -1,0 +1,7 @@
+:root {
+  color-scheme: dark;
+}
+
+body {
+  background: linear-gradient(to bottom, hsl(247 16% 9%), hsl(255 22% 4%));
+}

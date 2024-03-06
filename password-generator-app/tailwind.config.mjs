@@ -6,6 +6,10 @@ function rem(px) {
 export default {
   content: ["./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}"],
   theme: {
+    screens: {
+      tablet: "40em",
+      desktop: "64em",
+    },
     colors: {
       red: "hsl(0 91% 63%)",
       orange: "hsl(13 95% 66%)",

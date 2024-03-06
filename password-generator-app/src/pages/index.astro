@@ -20,7 +20,7 @@ const { errors, data, payload } = await (async function () {
 
     return { payload, data: { password } };
   }
-  return { data: { password: "" } };
+  return { data: { password: "PTx1f5DaFX" } };
 })();
 
 const values = z
@@ -46,92 +46,119 @@ if (errors) {
 
 <Layout title="Frontend Mentor | Password generator app">
   <main>
-    <h1>Password Generator</h1>
-    <section aria-labelledby="result-heading">
-      <h2 id="result-heading">Generated password</h2>
-      <p>
-        <output
-          form="generate"
-          id="result-password"
+    <div class="min-h-screen">
+      <div class="max-w-[33.75rem] mx-auto box-content p-4">
+        <h1
+          class="tablet:text-heading-m text-[1rem] leading-[1.3125rem] text-center"
+        >
+          Password Generator
+        </h1>
+        <section
+          class="bg-dark-grey text-almost-white mt-4 tablet:mt-8 p-4 tablet:px-8 tablet:py-5 flex flex-wrap gap-4 justify-between items-center"
           aria-labelledby="result-heading"
         >
-          {data?.password}
-        </output>
-      </p>
-      <form id="result-copy-password" hidden>
-        <p id="result-copy-message" aria-live="assertive"></p>
-        <button>
-          <span>Copy password</span>
-          <Icon name="icon-copy" />
-        </button>
-      </form>
-    </section>
-    <section aria-labelledby="settings-heading">
-      <h2 id="settings-heading">Settings</h2>
-      <form method="post" id="generate">
-        <p>
-          <label for="generate-length">Character Length</label>
-          <input
-            id="generate-length"
-            type="range"
-            name="length"
-            min="1"
-            max="20"
-            value={values.length}
-          />
-        </p>
-        <p>
-          <Icon name="icon-check" />
-          <input
-            id="generate-include-uppercase"
-            type="checkbox"
-            name="include-uppercase"
-            checked={values["include-uppercase"]}
-          />
-          <label for="generate-include-uppercase">
-            Include Uppercase Letters
-          </label>
-        </p>
-        <p>
-          <input
-            id="generate-include-lowercase"
-            type="checkbox"
-            name="include-lowercase"
-            checked={values["include-lowercase"]}
-          />
-          <label for="generate-include-lowercase">
-            Include Lowercase Letters
-          </label>
-        </p>
-        <p>
-          <input
-            id="generate-include-numbers"
-            type="checkbox"
-            name="include-numbers"
-            checked={values["include-numbers"]}
-          />
-          <label for="generate-include-numbers">Include Numbers</label>
-        </p>
-        <p>
-          <input
-            id="generate-include-symbols"
-            type="checkbox"
-            name="include-symbols"
-            checked={values["include-symbols"]}
-          />
-          <label for="generate-include-symbols">Include Symbols</label>
-        </p>
-        <p>
-          <output id="generate-strength" hidden>
-            <label for="generate-strength">Strength</label>
-            <span id="generate-strength-value">{strength}</span>
-          </output>
-        </p>
-        <button>
-          Generate <Icon name="icon-arrow-right" />
-        </button>
-      </form>
-    </section>
+          <h2 class="sr-only" id="result-heading">Generated password</h2>
+          <p class="text-heading-m tablet:text-heading-l">
+            <output
+              form="generate"
+              id="result-password"
+              aria-labelledby="result-heading"
+            >
+              {data?.password}
+            </output>
+          </p>
+          <form id="result-copy-password" hidden>
+            <p id="result-copy-message" aria-live="assertive"></p>
+            <button class="text-neon-green">
+              <span class="sr-only">Copy password</span>
+              <Icon className="size-5" name="icon-copy" />
+            </button>
+          </form>
+        </section>
+        <section
+          class="bg-dark-grey text-almost-white mt-4 tablet:mt-6 p-4 tablet:p-8 tablet:pt-6"
+          aria-labelledby="settings-heading"
+        >
+          <h2 class="sr-only" id="settings-heading">Settings</h2>
+          <form method="post" id="generate">
+            <p>
+              <label for="generate-length">Character Length</label>
+              <input
+                id="generate-length"
+                type="range"
+                name="length"
+                min="1"
+                max="20"
+                value={values.length}
+              />
+            </p>
+            <div class="mt-8">
+              <p>
+                <input
+                  id="generate-include-uppercase"
+                  type="checkbox"
+                  name="include-uppercase"
+                  checked={values["include-uppercase"]}
+                />
+                <label for="generate-include-uppercase">
+                  Include Uppercase Letters
+                </label>
+              </p>
+              <p>
+                <input
+                  id="generate-include-lowercase"
+                  type="checkbox"
+                  name="include-lowercase"
+                  checked={values["include-lowercase"]}
+                />
+                <label for="generate-include-lowercase">
+                  Include Lowercase Letters
+                </label>
+              </p>
+              <p>
+                <input
+                  id="generate-include-numbers"
+                  type="checkbox"
+                  name="include-numbers"
+                  checked={values["include-numbers"]}
+                />
+                <label for="generate-include-numbers">Include Numbers</label>
+              </p>
+              <p>
+                <input
+                  id="generate-include-symbols"
+                  type="checkbox"
+                  name="include-symbols"
+                  checked={values["include-symbols"]}
+                />
+                <label for="generate-include-symbols">Include Symbols</label>
+              </p>
+            </div>
+            <p
+              class="bg-very-dark-grey py-[0.875rem] px-4 tablet:px-8 tablet:py-5 uppercase mt-8"
+            >
+              <output
+                class="flex flex-wrap gap-4 justify-between items-center"
+                id="generate-strength"
+                hidden
+              >
+                <label class="text-grey" for="generate-strength">Strength</label
+                >
+                <span
+                  class="text-body tablet:text-heading-m"
+                  id="generate-strength-value">{strength}</span
+                >
+              </output>
+            </p>
+            <button
+              class="mt-4 tablet:mt-8 bg-neon-green text-dark-grey uppercase w-full flex gap-4 tablet:gap-6 items-center p-[1.0625rem] tablet:p-5 justify-center"
+            >
+              Generate <Icon className="size-3" name="icon-arrow-right" />
+            </button>
+          </form>
+        </section>
+      </div>
+    </div>
   </main>
 </Layout>
 
