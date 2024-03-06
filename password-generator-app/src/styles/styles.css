@@ -5,3 +5,80 @@
 body {
   background: linear-gradient(to bottom, hsl(247 16% 9%), hsl(255 22% 4%));
 }
+
+/* https://www.smashingmagazine.com/2021/12/create-custom-range-input-consistent-browsers/ */
+/********** Range Input Styles **********/
+/*Range Reset*/
+input[type="range"] {
+  --range-track-color: hsl(127 100% 82%);
+  --range-track-height: 0.5rem;
+  --range-thumb-color: hsl(252 11% 91%);
+  --range-thumb-size: 1.75rem;
+  --range-thumb-radius: 50%;
+  --range-thumb-color-active: hsl(248 15% 11%);
+  --range-thumb-outline-color-active: hsl(127 100% 82%);
+
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+/* Removes default focus */
+input[type="range"]:focus {
+  outline: none;
+}
+
+/***** Chrome, Safari, Opera and Edge Chromium styles *****/
+/* slider track */
+input[type="range"]::-webkit-slider-runnable-track {
+  background-color: var(--range-track-color);
+  height: var(--range-track-height);
+  margin-top: calc((var(--range-thumb-size) - var(--range-track-height)) / 2);
+}
+
+/* slider thumb */
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none; /* Override default look */
+  appearance: none;
+  /* Centers thumb on the track */
+  margin-top: calc(
+    -1 * (var(--range-thumb-size) - var(--range-track-height)) / 2
+  );
+
+  /*custom styles*/
+  background-color: var(--range-thumb-color);
+  border-radius: var(--range-thumb-radius);
+  height: var(--range-thumb-size);
+  width: var(--range-thumb-size);
+}
+
+input[type="range"]:focus::-webkit-slider-thumb {
+  background-color: var(--range-thumb-color-active);
+  outline: 2px solid var(--range-thumb-outline-color-active);
+  outline-offset: 0;
+}
+
+/******** Firefox styles ********/
+/* slider track */
+input[type="range"]::-moz-range-track {
+  background-color: var(--range-track-color);
+  height: var(--range-track-height);
+}
+
+/* slider thumb */
+input[type="range"]::-moz-range-thumb {
+  border: none; /*Removes extra border that FF applies*/
+
+  /*custom styles*/
+  background-color: var(--range-thumb-color);
+  border-radius: var(--range-thumb-radius);
+  height: var(--range-thumb-size);
+  width: var(--range-thumb-size);
+}
+
+input[type="range"]:focus::-moz-range-thumb {
+  background-color: var(--range-thumb-color-active);
+  outline: 2px solid var(--range-thumb-outline-color-active);
+  outline-offset: 0;
+}
