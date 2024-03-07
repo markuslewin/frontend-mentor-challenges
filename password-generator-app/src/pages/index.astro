@@ -94,46 +94,53 @@ if (errors) {
               />
             </p>
             <div class="mt-8">
-              <p>
-                <input
-                  id="generate-include-uppercase"
-                  type="checkbox"
-                  name="include-uppercase"
-                  checked={values["include-uppercase"]}
-                />
-                <label for="generate-include-uppercase">
-                  Include Uppercase Letters
-                </label>
-              </p>
-              <p>
-                <input
-                  id="generate-include-lowercase"
-                  type="checkbox"
-                  name="include-lowercase"
-                  checked={values["include-lowercase"]}
-                />
-                <label for="generate-include-lowercase">
-                  Include Lowercase Letters
-                </label>
-              </p>
-              <p>
-                <input
-                  id="generate-include-numbers"
-                  type="checkbox"
-                  name="include-numbers"
-                  checked={values["include-numbers"]}
-                />
-                <label for="generate-include-numbers">Include Numbers</label>
-              </p>
-              <p>
-                <input
-                  id="generate-include-symbols"
-                  type="checkbox"
-                  name="include-symbols"
-                  checked={values["include-symbols"]}
-                />
-                <label for="generate-include-symbols">Include Symbols</label>
-              </p>
+              {
+                (
+                  [
+                    {
+                      name: "include-uppercase",
+                      text: "Include Uppercase Letters",
+                    },
+                    {
+                      name: "include-lowercase",
+                      text: "Include Lowercase Letters",
+                    },
+                    {
+                      name: "include-numbers",
+                      text: "Include Numbers",
+                    },
+                    {
+                      name: "include-symbols",
+                      text: "Include Symbols",
+                    },
+                  ] as const
+                ).map((category) => {
+                  const id = `generate-${category.name}`;
+                  return (
+                    <p class="mt-5">
+                      <input
+                        class="sr-only peer"
+                        id={id}
+                        type="checkbox"
+                        name={category.name}
+                        checked={values[category.name]}
+                      />
+                      <label
+                        class="grid grid-cols-[max-content_1fr] gap-5 tablet:gap-6 items-center group"
+                        for={id}
+                      >
+                        <span class="size-5 border-2 grid place-items-center group-hover:text-neon-green peer-focus-visible:group-[]:text-neon-green peer-focus-visible:group-[]:outline peer-focus-visible:group-[]:outline-offset-2 peer-checked:group-[]:bg-neon-green peer-checked:group-[]:text-neon-green">
+                          <Icon
+                            className="size-3 hidden peer-checked:group-[]:block peer-checked:group-[]:text-very-dark-grey"
+                            name="icon-check"
+                          />
+                        </span>
+                        {category.text}
+                      </label>
+                    </p>
+                  );
+                })
+              }
             </div>
             <p
               class="bg-very-dark-grey py-[0.875rem] px-4 tablet:px-8 tablet:py-5 uppercase mt-8"
