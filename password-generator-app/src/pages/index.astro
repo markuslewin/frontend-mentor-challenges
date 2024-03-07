@@ -46,154 +46,153 @@ if (errors) {
 
 <Layout title="Frontend Mentor | Password generator app">
   <main>
-    <div class="min-h-screen">
-      <div class="max-w-[33.75rem] mx-auto box-content p-4">
-        <h1
-          class="tablet:text-heading-m text-[1rem] leading-[1.3125rem] text-center"
-        >
-          Password Generator
-        </h1>
-        <section
-          class="bg-dark-grey text-almost-white mt-4 tablet:mt-8 p-4 tablet:px-8 tablet:py-5 flex flex-wrap gap-4 justify-between items-center"
-          aria-labelledby="result-heading"
-        >
-          <h2 class="sr-only" id="result-heading">Generated password</h2>
-          <p class="text-heading-m tablet:text-heading-l">
-            <output
-              form="generate"
-              id="result-password"
-              aria-labelledby="result-heading"
+    <div
+      class="min-h-screen grid place-content-center px-4 py-16 tablet:pb-[7.9375rem] grid-cols-[minmax(auto,33.75rem)]"
+    >
+      <h1
+        class="tablet:text-heading-m text-[1rem] leading-[1.3125rem] text-center"
+      >
+        Password Generator
+      </h1>
+      <section
+        class="bg-dark-grey text-almost-white mt-4 tablet:mt-8 p-4 tablet:px-8 tablet:py-5 flex flex-wrap gap-4 justify-between items-center"
+        aria-labelledby="result-heading"
+      >
+        <h2 class="sr-only" id="result-heading">Generated password</h2>
+        <p class="text-heading-m tablet:text-heading-l">
+          <output
+            form="generate"
+            id="result-password"
+            aria-labelledby="result-heading"
+          >
+            {data?.password ?? "\u00A0"}
+          </output>
+        </p>
+        <form id="result-copy-password" hidden>
+          <p id="result-copy-message" aria-live="assertive"></p>
+          <button class="text-neon-green">
+            <span class="sr-only">Copy password</span>
+            <Icon className="size-5" name="icon-copy" />
+          </button>
+        </form>
+      </section>
+      <section
+        class="bg-dark-grey text-almost-white mt-4 tablet:mt-6 p-4 tablet:p-8 tablet:pt-6"
+        aria-labelledby="settings-heading"
+      >
+        <h2 class="sr-only" id="settings-heading">Settings</h2>
+        <form method="post" id="generate">
+          <p>
+            <label
+              class="flex gap-4 justify-between items-center capitalize"
+              for="generate-length"
             >
-              {data?.password}
+              Character length
+              <span
+                class="text-heading-m tablet:text-heading-l text-neon-green"
+                id="generate-length-value"
+                aria-hidden="true"
+                hidden
+              >
+                {values.length}
+              </span>
+            </label>
+            <input
+              class="block w-full mt-2 tablet:mt-4"
+              id="generate-length"
+              type="range"
+              name="length"
+              min="1"
+              max="20"
+              value={values.length}
+            />
+          </p>
+          <div class="mt-[2.625rem]">
+            {
+              (
+                [
+                  {
+                    name: "include-uppercase",
+                    text: "Include Uppercase Letters",
+                  },
+                  {
+                    name: "include-lowercase",
+                    text: "Include Lowercase Letters",
+                  },
+                  {
+                    name: "include-numbers",
+                    text: "Include Numbers",
+                  },
+                  {
+                    name: "include-symbols",
+                    text: "Include Symbols",
+                  },
+                ] as const
+              ).map((category) => {
+                const id = `generate-${category.name}`;
+                return (
+                  <p class="mt-5">
+                    <input
+                      class="sr-only peer"
+                      id={id}
+                      type="checkbox"
+                      name={category.name}
+                      checked={values[category.name]}
+                    />
+                    <label
+                      class="grid grid-cols-[max-content_1fr] gap-5 tablet:gap-6 items-center group"
+                      for={id}
+                    >
+                      <span class="size-5 border-2 grid place-items-center group-hover:text-neon-green peer-focus-visible:group-[]:text-neon-green peer-focus-visible:group-[]:outline peer-focus-visible:group-[]:outline-offset-2 peer-checked:group-[]:bg-neon-green peer-checked:group-[]:text-neon-green">
+                        <Icon
+                          className="size-3 hidden peer-checked:group-[]:block peer-checked:group-[]:text-very-dark-grey"
+                          name="icon-check"
+                        />
+                      </span>
+                      {category.text}
+                    </label>
+                  </p>
+                );
+              })
+            }
+          </div>
+          <p
+            class="bg-very-dark-grey py-[0.875rem] px-4 tablet:px-8 tablet:py-5 uppercase mt-8 group"
+            id="generate-strength"
+            data-strength={strength.id}
+            hidden
+          >
+            <output class="flex flex-wrap gap-4 justify-between items-center">
+              <label class="text-grey" for="generate-strength">Strength</label>
+              <span class="flex gap-4 items-center">
+                <span
+                  class="text-body tablet:text-heading-m"
+                  id="generate-strength-value">{strength.text}</span
+                >
+                <span class="flex gap-2">
+                  <span
+                    class="border-2 group-data-[strength=too-weak]:text-red group-data-[strength=weak]:text-orange group-data-[strength=medium]:text-yellow group-data-[strength=strong]:text-neon-green border-t-[1.625rem] border-l-[0.5rem]"
+                  ></span>
+                  <span
+                    class="w-[0.625rem] h-7 border-2 group-data-[strength=weak]:border-t-[1.625rem] group-data-[strength=weak]:border-l-[0.5rem] group-data-[strength=medium]:border-t-[1.625rem] group-data-[strength=medium]:border-l-[0.5rem] group-data-[strength=strong]:border-t-[1.625rem] group-data-[strength=strong]:border-l-[0.5rem] group-data-[strength=weak]:text-orange group-data-[strength=medium]:text-yellow group-data-[strength=strong]:text-neon-green"
+                  ></span>
+                  <span
+                    class="w-[0.625rem] h-7 border-2 group-data-[strength=medium]:border-t-[1.625rem] group-data-[strength=medium]:border-l-[0.5rem] group-data-[strength=strong]:border-t-[1.625rem] group-data-[strength=strong]:border-l-[0.5rem] group-data-[strength=medium]:text-yellow group-data-[strength=strong]:text-neon-green"
+                  ></span>
+                  <span
+                    class="w-[0.625rem] h-7 border-2 group-data-[strength=strong]:border-t-[1.625rem] group-data-[strength=strong]:border-l-[0.5rem] group-data-[strength=strong]:text-neon-green"
+                  ></span>
+                </span>
+              </span>
             </output>
           </p>
-          <form id="result-copy-password" hidden>
-            <p id="result-copy-message" aria-live="assertive"></p>
-            <button class="text-neon-green">
-              <span class="sr-only">Copy password</span>
-              <Icon className="size-5" name="icon-copy" />
-            </button>
-          </form>
-        </section>
-        <section
-          class="bg-dark-grey text-almost-white mt-4 tablet:mt-6 p-4 tablet:p-8 tablet:pt-6"
-          aria-labelledby="settings-heading"
-        >
-          <h2 class="sr-only" id="settings-heading">Settings</h2>
-          <form method="post" id="generate">
-            <p>
-              <label
-                class="flex gap-4 justify-between items-center capitalize"
-                for="generate-length"
-              >
-                Character length
-                <span
-                  class="text-heading-m tablet:text-heading-l text-neon-green"
-                  id="generate-length-value"
-                  aria-hidden="true"
-                  hidden
-                >
-                  {values.length}
-                </span>
-              </label>
-              <input
-                class="block w-full mt-2 tablet:mt-4"
-                id="generate-length"
-                type="range"
-                name="length"
-                min="1"
-                max="20"
-                value={values.length}
-              />
-            </p>
-            <div class="mt-8">
-              {
-                (
-                  [
-                    {
-                      name: "include-uppercase",
-                      text: "Include Uppercase Letters",
-                    },
-                    {
-                      name: "include-lowercase",
-                      text: "Include Lowercase Letters",
-                    },
-                    {
-                      name: "include-numbers",
-                      text: "Include Numbers",
-                    },
-                    {
-                      name: "include-symbols",
-                      text: "Include Symbols",
-                    },
-                  ] as const
-                ).map((category) => {
-                  const id = `generate-${category.name}`;
-                  return (
-                    <p class="mt-5">
-                      <input
-                        class="sr-only peer"
-                        id={id}
-                        type="checkbox"
-                        name={category.name}
-                        checked={values[category.name]}
-                      />
-                      <label
-                        class="grid grid-cols-[max-content_1fr] gap-5 tablet:gap-6 items-center group"
-                        for={id}
-                      >
-                        <span class="size-5 border-2 grid place-items-center group-hover:text-neon-green peer-focus-visible:group-[]:text-neon-green peer-focus-visible:group-[]:outline peer-focus-visible:group-[]:outline-offset-2 peer-checked:group-[]:bg-neon-green peer-checked:group-[]:text-neon-green">
-                          <Icon
-                            className="size-3 hidden peer-checked:group-[]:block peer-checked:group-[]:text-very-dark-grey"
-                            name="icon-check"
-                          />
-                        </span>
-                        {category.text}
-                      </label>
-                    </p>
-                  );
-                })
-              }
-            </div>
-            <p
-              class="bg-very-dark-grey py-[0.875rem] px-4 tablet:px-8 tablet:py-5 uppercase mt-8 group"
-              id="generate-strength"
-              data-strength={strength.id}
-              hidden
-            >
-              <output class="flex flex-wrap gap-4 justify-between items-center">
-                <label class="text-grey" for="generate-strength">Strength</label
-                >
-                <span class="flex gap-4 items-center">
-                  <span
-                    class="text-body tablet:text-heading-m"
-                    id="generate-strength-value">{strength.text}</span
-                  >
-                  <span class="flex gap-2">
-                    <span
-                      class="border-2 group-data-[strength=too-weak]:text-red group-data-[strength=weak]:text-orange group-data-[strength=medium]:text-yellow group-data-[strength=strong]:text-neon-green border-t-[1.625rem] border-l-[0.5rem]"
-                    ></span>
-                    <span
-                      class="w-[0.625rem] h-7 border-2 group-data-[strength=weak]:border-t-[1.625rem] group-data-[strength=weak]:border-l-[0.5rem] group-data-[strength=medium]:border-t-[1.625rem] group-data-[strength=medium]:border-l-[0.5rem] group-data-[strength=strong]:border-t-[1.625rem] group-data-[strength=strong]:border-l-[0.5rem] group-data-[strength=weak]:text-orange group-data-[strength=medium]:text-yellow group-data-[strength=strong]:text-neon-green"
-                    ></span>
-                    <span
-                      class="w-[0.625rem] h-7 border-2 group-data-[strength=medium]:border-t-[1.625rem] group-data-[strength=medium]:border-l-[0.5rem] group-data-[strength=strong]:border-t-[1.625rem] group-data-[strength=strong]:border-l-[0.5rem] group-data-[strength=medium]:text-yellow group-data-[strength=strong]:text-neon-green"
-                    ></span>
-                    <span
-                      class="w-[0.625rem] h-7 border-2 group-data-[strength=strong]:border-t-[1.625rem] group-data-[strength=strong]:border-l-[0.5rem] group-data-[strength=strong]:text-neon-green"
-                    ></span>
-                  </span>
-                </span>
-              </output>
-            </p>
-            <button
-              class="mt-4 tablet:mt-8 bg-neon-green text-dark-grey uppercase w-full flex gap-4 tablet:gap-6 items-center shape-p-[1.0625rem] justify-center hocus:bg-transparent hocus:text-neon-green tablet:shape-p-5 shape-border-2 border-neon-green outline-offset-4"
-            >
-              Generate <Icon className="size-3" name="icon-arrow-right" />
-            </button>
-          </form>
-        </section>
-      </div>
+          <button
+            class="mt-4 tablet:mt-8 bg-neon-green text-dark-grey uppercase w-full flex gap-4 tablet:gap-6 items-center shape-p-[1.0625rem] justify-center hocus:bg-transparent hocus:text-neon-green tablet:shape-p-5 shape-border-2 border-neon-green outline-offset-4"
+          >
+            Generate <Icon className="size-3" name="icon-arrow-right" />
+          </button>
+        </form>
+      </section>
     </div>
   </main>
 </Layout>
