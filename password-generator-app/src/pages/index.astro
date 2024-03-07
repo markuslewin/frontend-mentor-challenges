@@ -156,14 +156,12 @@ if (errors) {
               }
             </div>
             <p
-              class="bg-very-dark-grey py-[0.875rem] px-4 tablet:px-8 tablet:py-5 uppercase mt-8"
+              class="bg-very-dark-grey py-[0.875rem] px-4 tablet:px-8 tablet:py-5 uppercase mt-8 group"
+              id="generate-strength"
+              data-strength={strength.id}
+              hidden
             >
-              <output
-                class="flex flex-wrap gap-4 justify-between items-center group"
-                id="generate-strength"
-                data-strength={strength.id}
-                hidden
-              >
+              <output class="flex flex-wrap gap-4 justify-between items-center">
                 <label class="text-grey" for="generate-strength">Strength</label
                 >
                 <span class="flex gap-4 items-center">
