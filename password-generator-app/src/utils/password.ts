@@ -15,15 +15,15 @@ export function getStrength(settings: Settings) {
   const characterSet = getCharacterSet(settings);
   const score = characterSet.length ** settings.length;
   if (2.15e28 < score) {
-    return "Strong";
+    return { id: "strong", text: "Strong" };
   }
   if (8.39e17 < score) {
-    return "Medium";
+    return { id: "medium", text: "Medium" };
   }
   if (14776336 < score) {
-    return "Weak";
+    return { id: "weak", text: "Weak" };
   }
-  return "Too weak!";
+  return { id: "too-weak", text: "Too weak!" };
 }
 
 function getCharacterSet(settings: Settings) {

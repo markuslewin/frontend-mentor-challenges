@@ -146,16 +146,33 @@ if (errors) {
               class="bg-very-dark-grey py-[0.875rem] px-4 tablet:px-8 tablet:py-5 uppercase mt-8"
             >
               <output
-                class="flex flex-wrap gap-4 justify-between items-center"
+                class="flex flex-wrap gap-4 justify-between items-center group"
                 id="generate-strength"
+                data-strength={strength.id}
                 hidden
               >
                 <label class="text-grey" for="generate-strength">Strength</label
                 >
-                <span
-                  class="text-body tablet:text-heading-m"
-                  id="generate-strength-value">{strength}</span
-                >
+                <span class="flex gap-4 items-center">
+                  <span
+                    class="text-body tablet:text-heading-m"
+                    id="generate-strength-value">{strength.text}</span
+                  >
+                  <span class="flex gap-2">
+                    <span
+                      class="border-2 group-data-[strength=too-weak]:text-red group-data-[strength=weak]:text-orange group-data-[strength=medium]:text-yellow group-data-[strength=strong]:text-neon-green border-t-[1.625rem] border-l-[0.5rem]"
+                    ></span>
+                    <span
+                      class="w-[0.625rem] h-7 border-2 group-data-[strength=weak]:border-t-[1.625rem] group-data-[strength=weak]:border-l-[0.5rem] group-data-[strength=medium]:border-t-[1.625rem] group-data-[strength=medium]:border-l-[0.5rem] group-data-[strength=strong]:border-t-[1.625rem] group-data-[strength=strong]:border-l-[0.5rem] group-data-[strength=weak]:text-orange group-data-[strength=medium]:text-yellow group-data-[strength=strong]:text-neon-green"
+                    ></span>
+                    <span
+                      class="w-[0.625rem] h-7 border-2 group-data-[strength=medium]:border-t-[1.625rem] group-data-[strength=medium]:border-l-[0.5rem] group-data-[strength=strong]:border-t-[1.625rem] group-data-[strength=strong]:border-l-[0.5rem] group-data-[strength=medium]:text-yellow group-data-[strength=strong]:text-neon-green"
+                    ></span>
+                    <span
+                      class="w-[0.625rem] h-7 border-2 group-data-[strength=strong]:border-t-[1.625rem] group-data-[strength=strong]:border-l-[0.5rem] group-data-[strength=strong]:text-neon-green"
+                    ></span>
+                  </span>
+                </span>
               </output>
             </p>
             <button
@@ -257,7 +274,8 @@ if (errors) {
 
       const strength = getStrength(result.data);
 
-      $generateStrengthValue.textContent = strength;
+      $generateStrength.dataset.strength = strength.id;
+      $generateStrengthValue.textContent = strength.text;
     });
     $generateStrength.hidden = false;
   })();
