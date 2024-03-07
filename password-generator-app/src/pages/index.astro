@@ -82,9 +82,22 @@ if (errors) {
           <h2 class="sr-only" id="settings-heading">Settings</h2>
           <form method="post" id="generate">
             <p>
-              <label for="generate-length">Character Length</label>
+              <label
+                class="flex gap-4 justify-between items-center capitalize"
+                for="generate-length"
+              >
+                Character length
+                <span
+                  class="text-heading-m tablet:text-heading-l text-neon-green"
+                  id="generate-length-value"
+                  aria-hidden="true"
+                  hidden
+                >
+                  {values.length}
+                </span>
+              </label>
               <input
-                class="block w-full"
+                class="block w-full mt-2 tablet:mt-4"
                 id="generate-length"
                 type="range"
                 name="length"
@@ -282,12 +295,18 @@ if (errors) {
 
   (function () {
     const $range = document.getElementById("generate-length");
-    if (!($range instanceof HTMLInputElement)) {
+    const $generateLengthValue = document.getElementById(
+      "generate-length-value"
+    );
+    if (!($range instanceof HTMLInputElement) || !$generateLengthValue) {
       return;
     }
     $range.addEventListener("input", () => {
-      $range.style.setProperty("--value", $range.value);
+      const { value } = $range;
+      $range.style.setProperty("--value", value);
+      $generateLengthValue.textContent = value;
     });
+    $generateLengthValue.hidden = false;
     $range.style.setProperty("--value", $range.value);
   })();
 </script>
