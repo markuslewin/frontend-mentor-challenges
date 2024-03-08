@@ -4,7 +4,7 @@ const OnBoolean = z.preprocess((val) => {
   return val === "on";
 }, z.boolean());
 
-export const GenerateStrengthSchema = z
+export const GenerateSchema = z
   .object({
     length: z.coerce.number(),
     "include-uppercase": OnBoolean,
@@ -14,13 +14,30 @@ export const GenerateStrengthSchema = z
   })
   .refine((val) => val.length > 0, {
     message: "Length must be a positive number",
-  });
+  })
+  .refine(validateCategories, { message: "No character categories selected" });
 
-export const GenerateSchema = GenerateStrengthSchema.refine(
-  (val) =>
+export function validateCategories(val: {
+  "include-uppercase": boolean;
+  "include-lowercase": boolean;
+  "include-numbers": boolean;
+  "include-symbols": boolean;
+}) {
+  return (
     val["include-uppercase"] ||
     val["include-lowercase"] ||
     val["include-numbers"] ||
-    val["include-symbols"],
-  { message: "No character categories selected" }
+    val["include-symbols"]
+  );
+}
+
+export const GenerateSchemaValues = z.preprocess(
+  (val) => (typeof val === "object" ? val : {}),
+  z.object({
+    length: z.coerce.number().default(10),
+    "include-uppercase": z.coerce.boolean(),
+    "include-lowercase": z.coerce.boolean(),
+    "include-numbers": z.coerce.boolean(),
+    "include-symbols": z.coerce.boolean(),
+  })
 );

@@ -1,7 +1,10 @@
 ---
-import { z } from "astro/zod";
 import Layout from "../layouts/Layout.astro";
-import { GenerateSchema } from "../utils/generate-form";
+import {
+  GenerateSchema,
+  GenerateSchemaValues,
+  validateCategories,
+} from "../utils/generate-form";
 import { generatePassword, getStrength } from "../utils/password";
 import { Icon } from "../components/ui/icon";
 
@@ -23,20 +26,10 @@ const { errors, data, payload } = await (async function () {
   return { data: { password: "PTx1f5DaFX" } };
 })();
 
-const values = z
-  .preprocess(
-    (val) => (typeof val === "object" ? val : {}),
-    z.object({
-      length: z.coerce.number().default(10),
-      "include-uppercase": z.coerce.boolean(),
-      "include-lowercase": z.coerce.boolean(),
-      "include-numbers": z.coerce.boolean(),
-      "include-symbols": z.coerce.boolean(),
-    })
-  )
-  .parse(payload);
+const values = GenerateSchemaValues.parse(payload);
 
 const strength = getStrength(values);
+const isValid = validateCategories(values);
 
 if (errors) {
   // No UI
@@ -198,7 +191,9 @@ if (errors) {
             </output>
           </p>
           <button
-            class="mt-4 tablet:mt-8 bg-neon-green transition-colors text-dark-grey uppercase w-full flex gap-4 tablet:gap-6 items-center shape-p-[1.0625rem] justify-center hocus:bg-transparent hocus:text-neon-green tablet:shape-p-5 shape-border-2 border-neon-green outline-offset-4"
+            class="mt-4 tablet:mt-8 bg-neon-green transition-colors text-dark-grey uppercase w-full flex gap-4 tablet:gap-6 items-center shape-p-[1.0625rem] justify-center aria-[disabled=false]:hocus:bg-transparent aria-[disabled=false]:hocus:text-neon-green tablet:shape-p-5 shape-border-2 border-neon-green outline-offset-4 aria-disabled:opacity-50"
+            id="generate-submit"
+            aria-disabled={!isValid}
           >
             Generate <Icon className="size-3" name="icon-arrow-right" />
           </button>
@@ -209,7 +204,11 @@ if (errors) {
 </Layout>
 
 <script>
-  import { GenerateSchema } from "../utils/generate-form";
+  import {
+    GenerateSchema,
+    GenerateSchemaValues,
+    validateCategories,
+  } from "../utils/generate-form";
   import { generatePassword, getStrength } from "../utils/password";
 
   let copyMessageTimeout: ReturnType<typeof setTimeout> | undefined;
@@ -263,6 +262,7 @@ if (errors) {
       const formData = new FormData($generate);
       const result = GenerateSchema.safeParse(Object.fromEntries(formData));
       if (!result.success) {
+        ev.preventDefault();
         return;
       }
 
@@ -276,7 +276,12 @@ if (errors) {
   (function () {
     const $generate = document.getElementById("generate");
     const $generateStrength = document.getElementById("generate-strength");
-    if (!($generate instanceof HTMLFormElement) || !$generateStrength) {
+    const $generateButton = document.getElementById("generate-submit");
+    if (
+      !($generate instanceof HTMLFormElement) ||
+      !$generateStrength ||
+      !$generateButton
+    ) {
       return;
     }
     $generate.addEventListener("input", () => {
@@ -288,15 +293,14 @@ if (errors) {
       }
 
       const formData = new FormData($generate);
-      const result = GenerateSchema.safeParse(Object.fromEntries(formData));
-      if (!result.success) {
-        return;
-      }
+      const values = GenerateSchemaValues.parse(Object.fromEntries(formData));
 
-      const strength = getStrength(result.data);
+      const strength = getStrength(values);
+      const isValid = validateCategories(values);
 
       $generateStrength.dataset.strength = strength.id;
       $generateStrengthValue.textContent = strength.text;
+      $generateButton.setAttribute("aria-disabled", String(!isValid));
     });
     $generateStrength.hidden = false;
   })();
