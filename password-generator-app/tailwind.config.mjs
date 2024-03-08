@@ -84,5 +84,24 @@ export default {
         { values: theme("borderWidth") }
       );
     }),
+    plugin(({ addUtilities }) => {
+      addUtilities({
+        ".clickable": {
+          position: "relative",
+          isolation: "isolate",
+          "&::before": {
+            content: "''",
+            display: "block",
+            width: "3rem",
+            height: "3rem",
+            position: "absolute",
+            "z-index": -1,
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+          },
+        },
+      });
+    }),
   ],
 };
