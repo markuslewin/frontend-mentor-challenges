@@ -1,11 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import {
-  GenerateSchema,
-  GenerateSchemaValues,
-  validateCategories,
-} from "../utils/generate-form";
-import { generatePassword, getStrength } from "../utils/password";
+import { GenerateSchema, GenerateSchemaValues } from "../utils/generate-form";
+import { generatePassword } from "../utils/password";
 import { Icon } from "../components/ui/icon";
 
 const { errors, data, payload } = await (async function () {
@@ -27,9 +23,6 @@ const { errors, data, payload } = await (async function () {
 })();
 
 const values = GenerateSchemaValues.parse(payload);
-
-const strength = getStrength(values);
-const isValid = validateCategories(values);
 
 if (errors) {
   // No UI
@@ -162,7 +155,6 @@ if (errors) {
           <p
             class="bg-very-dark-grey py-[0.875rem] px-4 tablet:px-8 tablet:py-5 uppercase mt-8 group"
             id="generate-strength"
-            data-strength={strength.id}
             hidden
           >
             <output class="flex flex-wrap gap-4 justify-between items-center">
@@ -170,8 +162,7 @@ if (errors) {
               <span class="flex gap-4 items-center">
                 <span
                   class="text-body tablet:text-heading-m"
-                  id="generate-strength-value">{strength.text}</span
-                >
+                  id="generate-strength-value"></span>
                 <span class="flex gap-2">
                   <span
                     class="border-2 group-data-[strength=too-weak]:text-red group-data-[strength=weak]:text-orange group-data-[strength=medium]:text-yellow group-data-[strength=strong]:text-neon-green border-t-[1.625rem] border-l-[0.5rem]"
@@ -190,9 +181,8 @@ if (errors) {
             </output>
           </p>
           <button
-            class="mt-4 tablet:mt-8 bg-neon-green transition-colors text-dark-grey uppercase w-full flex gap-4 tablet:gap-6 items-center shape-p-[1.0625rem] justify-center aria-[disabled=false]:hocus:bg-transparent aria-[disabled=false]:hocus:text-neon-green tablet:shape-p-5 shape-border-2 border-neon-green outline-offset-4 aria-disabled:opacity-50"
+            class="mt-4 tablet:mt-8 bg-neon-green transition-colors text-dark-grey uppercase w-full flex gap-4 tablet:gap-6 items-center shape-p-[1.0625rem] justify-center [&:not([aria-disabled=true])]:hocus:bg-transparent [&:not([aria-disabled=true])]:hocus:text-neon-green tablet:shape-p-5 shape-border-2 border-neon-green outline-offset-4 aria-disabled:opacity-50"
             id="generate-submit"
-            aria-disabled={!isValid}
           >
             Generate <Icon className="size-3" name="icon-arrow-right" />
           </button>
@@ -283,15 +273,14 @@ if (errors) {
     invariant($generate instanceof HTMLFormElement, "No form element");
     const $generateStrength = document.getElementById("generate-strength");
     invariant($generateStrength, "No strength element");
+    const $generateStrengthValue = document.getElementById(
+      "generate-strength-value"
+    );
+    invariant($generateStrengthValue, "No strength value element");
+    const $generateButton = document.getElementById("generate-submit");
+    invariant($generateButton, "No button element");
 
     $generate.addEventListener("input", () => {
-      const $generateStrengthValue = document.getElementById(
-        "generate-strength-value"
-      );
-      invariant($generateStrengthValue, "No strength value element");
-      const $generateButton = document.getElementById("generate-submit");
-      invariant($generateButton, "No button element");
-
       const formData = new FormData($generate);
       const values = GenerateSchemaValues.parse(Object.fromEntries(formData));
 
@@ -302,6 +291,15 @@ if (errors) {
       $generateStrengthValue.textContent = strength.text;
       $generateButton.setAttribute("aria-disabled", String(!isValid));
     });
+    const formData = new FormData($generate);
+    const values = GenerateSchemaValues.parse(Object.fromEntries(formData));
+
+    const strength = getStrength(values);
+    const isValid = validateCategories(values);
+
+    $generateStrength.dataset.strength = strength.id;
+    $generateStrengthValue.textContent = strength.text;
+    $generateButton.setAttribute("aria-disabled", String(!isValid));
 
     $generateStrength.hidden = false;
   } catch (e) {
