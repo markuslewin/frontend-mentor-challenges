@@ -322,7 +322,12 @@ if (errors) {
       $range.style.setProperty("--value", value);
       $generateLengthValue.textContent = value;
     });
-    $range.style.setProperty("--value", $range.value);
+    // Give Chrome/Edge some time to restore the form when the user backs onto the page
+    setTimeout(() => {
+      const { value } = $range;
+      $range.style.setProperty("--value", value);
+      $generateLengthValue.textContent = value;
+    }, 1);
 
     $generateLengthValue.hidden = false;
   } catch (e) {
