@@ -74,12 +74,14 @@ if (errors) {
           hidden
         >
           <p
-            class="absolute -left-4 -translate-x-full text-neon-green uppercase bg-dark-grey/50"
+            class="absolute -left-4 -translate-x-full text-neon-green uppercase bg-dark-grey/50 empty:opacity-0 transition-opacity"
             id="result-copy-message"
             aria-live="assertive"
           >
           </p>
-          <button class="text-neon-green hocus:text-almost-white">
+          <button
+            class="text-neon-green hocus:text-almost-white transition-colors"
+          >
             <span class="sr-only">Copy password</span>
             <Icon className="size-6" name="icon-copy" />
           </button>
@@ -152,7 +154,7 @@ if (errors) {
                       class="grid grid-cols-[max-content_1fr] gap-5 tablet:gap-6 items-center group"
                       for={id}
                     >
-                      <span class="size-5 border-2 grid place-items-center group-hover:text-neon-green peer-focus-visible:group-[]:text-neon-green peer-focus-visible:group-[]:outline peer-focus-visible:group-[]:outline-offset-2 peer-checked:group-[]:bg-neon-green peer-checked:group-[]:text-neon-green">
+                      <span class="size-5 border-2 grid place-items-center group-hover:text-neon-green peer-focus-visible:group-[]:text-neon-green peer-focus-visible:group-[]:outline peer-focus-visible:group-[]:outline-offset-2 peer-checked:group-[]:bg-neon-green peer-checked:group-[]:text-neon-green transition-colors">
                         <Icon
                           className="size-[0.875rem] hidden peer-checked:group-[]:block peer-checked:group-[]:text-very-dark-grey"
                           name="icon-check"
@@ -196,7 +198,7 @@ if (errors) {
             </output>
           </p>
           <button
-            class="mt-4 tablet:mt-8 bg-neon-green text-dark-grey uppercase w-full flex gap-4 tablet:gap-6 items-center shape-p-[1.0625rem] justify-center hocus:bg-transparent hocus:text-neon-green tablet:shape-p-5 shape-border-2 border-neon-green outline-offset-4"
+            class="mt-4 tablet:mt-8 bg-neon-green transition-colors text-dark-grey uppercase w-full flex gap-4 tablet:gap-6 items-center shape-p-[1.0625rem] justify-center hocus:bg-transparent hocus:text-neon-green tablet:shape-p-5 shape-border-2 border-neon-green outline-offset-4"
           >
             Generate <Icon className="size-3" name="icon-arrow-right" />
           </button>
