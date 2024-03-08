@@ -71,6 +71,7 @@ if (errors) {
             </p>
             <button
               class="text-neon-green hocus:text-almost-white transition-colors clickable outline-offset-4"
+              id="result-copy-button"
             >
               <span class="sr-only">Copy password</span>
               <Icon className="size-6" name="icon-copy" />
@@ -264,8 +265,12 @@ if (errors) {
       }
 
       const password = generatePassword(result.data);
-
+      const $copyBtn = document.getElementById("result-copy-button");
+      if ($copyBtn) {
+        $copyBtn.focus();
+      }
       $resultPassword.textContent = password;
+
       ev.preventDefault();
     });
   } catch (e) {
