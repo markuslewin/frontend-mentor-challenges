@@ -61,23 +61,21 @@ if (errors) {
             {data?.password ?? "\u00A0"}
           </output>
         </p>
-        <form
-          class="relative flex items-center"
-          id="result-copy-password"
-          hidden
-        >
-          <p
-            class="absolute -left-4 -translate-x-full text-neon-green uppercase bg-dark-grey/50 empty:opacity-0 transition-opacity"
-            id="result-copy-message"
-            aria-live="assertive"
-          >
-          </p>
-          <button
-            class="text-neon-green hocus:text-almost-white transition-colors clickable outline-offset-4"
-          >
-            <span class="sr-only">Copy password</span>
-            <Icon className="size-6" name="icon-copy" />
-          </button>
+        <form id="result-copy-password" hidden>
+          <div class="relative flex items-center">
+            <p
+              class="absolute -left-4 -translate-x-full text-neon-green uppercase bg-dark-grey/50 empty:opacity-0 transition-opacity"
+              id="result-copy-message"
+              aria-live="assertive"
+            >
+            </p>
+            <button
+              class="text-neon-green hocus:text-almost-white transition-colors clickable outline-offset-4"
+            >
+              <span class="sr-only">Copy password</span>
+              <Icon className="size-6" name="icon-copy" />
+            </button>
+          </div>
         </form>
       </section>
       <section
@@ -210,54 +208,53 @@ if (errors) {
     validateCategories,
   } from "../utils/generate-form";
   import { generatePassword, getStrength } from "../utils/password";
+  import { invariant } from "@epic-web/invariant";
 
   let copyMessageTimeout: ReturnType<typeof setTimeout> | undefined;
   function setCopyMessage(message: string) {
-    const $resultCopyMessage = document.getElementById("result-copy-message");
-    if (!$resultCopyMessage) {
-      return;
+    try {
+      const $resultCopyMessage = document.getElementById("result-copy-message");
+      invariant($resultCopyMessage, "No copy message element");
+
+      $resultCopyMessage.textContent = message;
+      clearTimeout(copyMessageTimeout);
+      copyMessageTimeout = setTimeout(() => {
+        $resultCopyMessage.textContent = null;
+      }, 5000);
+    } catch (e) {
+      console.error(e);
     }
-    $resultCopyMessage.textContent = message;
-    clearTimeout(copyMessageTimeout);
-    copyMessageTimeout = setTimeout(() => {
-      $resultCopyMessage.textContent = null;
-    }, 5000);
   }
 
-  (function () {
+  // Copy password
+  try {
     const $resultCopyPassword = document.getElementById("result-copy-password");
-    if (!$resultCopyPassword) {
-      return;
-    }
+    invariant($resultCopyPassword, "No copy form");
 
-    $resultCopyPassword.addEventListener("submit", (event) => {
+    $resultCopyPassword.addEventListener("submit", async (event) => {
       event.preventDefault();
+
       const $resultPassword = document.getElementById("result-password");
-      if (!$resultPassword) {
-        return;
-      }
+      invariant($resultPassword, "No password element");
 
       const password = $resultPassword.textContent?.trim();
-      navigator.clipboard
-        .writeText(password ?? "")
-        .then(() => {
-          setCopyMessage("Copied");
-        })
-        .catch(() => {});
+      await navigator.clipboard.writeText(password ?? "");
+      setCopyMessage("Copied");
     });
-    $resultCopyPassword.hidden = false;
-  })();
 
-  (function () {
+    $resultCopyPassword.hidden = false;
+  } catch (e) {
+    console.error(e);
+  }
+
+  // Generate password
+  try {
     const $generate = document.getElementById("generate");
-    if (!($generate instanceof HTMLFormElement)) {
-      return;
-    }
+    invariant($generate instanceof HTMLFormElement, "No form element");
+
     $generate.addEventListener("submit", (ev) => {
       const $resultPassword = document.getElementById("result-password");
-      if (!$resultPassword) {
-        return;
-      }
+      invariant($resultPassword, "No password element");
 
       const formData = new FormData($generate);
       const result = GenerateSchema.safeParse(Object.fromEntries(formData));
@@ -271,26 +268,24 @@ if (errors) {
       $resultPassword.textContent = password;
       ev.preventDefault();
     });
-  })();
+  } catch (e) {
+    console.error(e);
+  }
 
-  (function () {
+  // Strength and button updates
+  try {
     const $generate = document.getElementById("generate");
+    invariant($generate instanceof HTMLFormElement, "No form element");
     const $generateStrength = document.getElementById("generate-strength");
-    const $generateButton = document.getElementById("generate-submit");
-    if (
-      !($generate instanceof HTMLFormElement) ||
-      !$generateStrength ||
-      !$generateButton
-    ) {
-      return;
-    }
+    invariant($generateStrength, "No strength element");
+
     $generate.addEventListener("input", () => {
       const $generateStrengthValue = document.getElementById(
         "generate-strength-value"
       );
-      if (!$generateStrengthValue) {
-        return;
-      }
+      invariant($generateStrengthValue, "No strength value element");
+      const $generateButton = document.getElementById("generate-submit");
+      invariant($generateButton, "No button element");
 
       const formData = new FormData($generate);
       const values = GenerateSchemaValues.parse(Object.fromEntries(formData));
@@ -302,23 +297,30 @@ if (errors) {
       $generateStrengthValue.textContent = strength.text;
       $generateButton.setAttribute("aria-disabled", String(!isValid));
     });
-    $generateStrength.hidden = false;
-  })();
 
-  (function () {
+    $generateStrength.hidden = false;
+  } catch (e) {
+    console.error(e);
+  }
+
+  // Highlight chosen range
+  try {
     const $range = document.getElementById("generate-length");
+    invariant($range instanceof HTMLInputElement, "No range element");
     const $generateLengthValue = document.getElementById(
       "generate-length-value"
     );
-    if (!($range instanceof HTMLInputElement) || !$generateLengthValue) {
-      return;
-    }
+    invariant($generateLengthValue, "No length value element");
+
     $range.addEventListener("input", () => {
       const { value } = $range;
       $range.style.setProperty("--value", value);
       $generateLengthValue.textContent = value;
     });
-    $generateLengthValue.hidden = false;
     $range.style.setProperty("--value", $range.value);
-  })();
+
+    $generateLengthValue.hidden = false;
+  } catch (e) {
+    console.error(e);
+  }
 </script>
