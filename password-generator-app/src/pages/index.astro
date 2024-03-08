@@ -55,11 +55,11 @@ if (errors) {
         Password Generator
       </h1>
       <section
-        class="bg-dark-grey text-almost-white mt-4 tablet:mt-8 p-4 tablet:px-8 tablet:py-5 flex flex-wrap gap-4 justify-between items-center"
+        class="bg-dark-grey text-almost-white mt-4 tablet:mt-8 p-4 tablet:px-8 tablet:py-5 grid grid-cols-[1fr_max-content] gap-4 justify-between items-center"
         aria-labelledby="result-heading"
       >
         <h2 class="sr-only" id="result-heading">Generated password</h2>
-        <p class="text-heading-m tablet:text-heading-l">
+        <p class="text-heading-m tablet:text-heading-l break-all">
           <output
             form="generate"
             id="result-password"
@@ -68,9 +68,18 @@ if (errors) {
             {data?.password ?? "\u00A0"}
           </output>
         </p>
-        <form id="result-copy-password" hidden>
-          <p id="result-copy-message" aria-live="assertive"></p>
-          <button class="text-neon-green">
+        <form
+          class="relative flex items-center"
+          id="result-copy-password"
+          hidden
+        >
+          <p
+            class="absolute -left-4 -translate-x-full text-neon-green uppercase bg-dark-grey/50"
+            id="result-copy-message"
+            aria-live="assertive"
+          >
+          </p>
+          <button class="text-neon-green hocus:text-almost-white">
             <span class="sr-only">Copy password</span>
             <Icon className="size-6" name="icon-copy" />
           </button>
@@ -211,7 +220,7 @@ if (errors) {
     clearTimeout(copyMessageTimeout);
     copyMessageTimeout = setTimeout(() => {
       $resultCopyMessage.textContent = null;
-    }, 7000);
+    }, 5000);
   }
 
   (function () {
