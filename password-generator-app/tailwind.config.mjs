@@ -75,6 +75,17 @@ export default {
       );
       matchUtilities(
         {
+          "shape-pt": (padding) => {
+            return {
+              "padding-top": `calc(${padding} - var(--shape-border-width, 0px))`,
+              borderWidth: "var(--shape-border-width)",
+            };
+          },
+        },
+        { values: theme("size") }
+      );
+      matchUtilities(
+        {
           "shape-border": (borderWidth) => {
             return {
               "--shape-border-width": borderWidth,
