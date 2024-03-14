@@ -1,8 +1,10 @@
 import { useMemo, useState } from "react";
 import documents from "./data/data.json";
 import { micromark } from "micromark";
+import { useMode } from "./utils/mode";
 
 function App() {
+  const { mode, selectMode } = useMode();
   const [content, setContent] = useState(documents[1].content);
   const markdown = useMemo(() => {
     return micromark(content);
@@ -46,15 +48,24 @@ function App() {
                 })}
             </ul>
             <h2>Switch mode</h2>
-            <form>
+            <form
+              onSubmit={(ev) => {
+                ev.preventDefault();
+                selectMode(mode === "light" ? "dark" : "light");
+              }}
+            >
               <button type="submit">
                 <img alt="" src="/assets/icon-dark-mode.svg" />
-                <span>Switch to dark mode</span>
+                <span>
+                  Switch to {mode === "light" ? "dark" : "light"} mode
+                </span>
                 <img alt="" src="/assets/icon-light-mode.svg" />
               </button>
               <p>
                 <output>
-                  <span>Light mode is now active</span>
+                  <span>
+                    {mode === "light" ? "Light" : "Dark"} mode is now active
+                  </span>
                 </output>
               </p>
             </form>
