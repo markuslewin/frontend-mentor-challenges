@@ -5,7 +5,10 @@ import { invariant } from "@epic-web/invariant";
 
 export async function loader({ params }: LoaderFunctionArgs) {
   const { document } = params;
-  invariant(document, "Document parameter required");
+
+  if (document === undefined) {
+    return { doc: documents[1] };
+  }
 
   const doc = documents.find(
     (d) => d.name.toLowerCase() === document.toLowerCase()

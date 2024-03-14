@@ -1,7 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import IndexRoute, { loader as indexLoader } from "./routes/index.tsx";
 import DocumentRoute, {
   loader as documentLoader,
 } from "./routes/$document.tsx";
@@ -9,11 +8,11 @@ import DocumentRoute, {
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <IndexRoute />,
-    loader: indexLoader,
+    element: <DocumentRoute />,
+    loader: documentLoader,
   },
   {
-    path: "/:document",
+    path: ":document",
     element: <DocumentRoute />,
     loader: documentLoader,
   },
