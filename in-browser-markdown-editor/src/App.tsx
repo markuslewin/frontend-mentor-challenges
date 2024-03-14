@@ -1,16 +1,13 @@
-import { useMemo, useRef, useState } from "react";
+import { useRef } from "react";
 import documents from "./data/data.json";
-import { micromark } from "micromark";
 import { useMode } from "./utils/mode";
 import * as Dialog from "@radix-ui/react-dialog";
 import * as AlertDialog from "@radix-ui/react-alert-dialog";
+import { Link } from "react-router-dom";
+import { Editor } from "./components/Editor";
 
-function App() {
+function App({ doc }: { doc: (typeof documents)[number] }) {
   const { mode, selectMode } = useMode();
-  const [content, setContent] = useState(documents[1].content);
-  const markdown = useMemo(() => {
-    return micromark(content);
-  }, [content]);
   const headingRef = useRef<HTMLHeadingElement>(null);
 
   return (
@@ -39,24 +36,20 @@ function App() {
                   <span aria-hidden="true">+ </span>New document
                 </button>
                 <ul>
-                  {documents
-                    .map((document, i) => {
-                      return { ...document, id: i };
-                    })
-                    .map((document) => {
-                      // todo: Parse and format dates from `document.createdAt`
-                      const dateTime = "2022-01-04";
-                      const text = "01 April 2022";
-                      return (
-                        <li key={document.id}>
-                          <img alt="" src="/assets/icon-document.svg" />
-                          <a href="#">{document.name}</a>
-                          <p>
-                            <time dateTime={dateTime}>{text}</time>
-                          </p>
-                        </li>
-                      );
-                    })}
+                  {documents.map((document) => {
+                    // todo: Parse and format dates from `document.createdAt`
+                    const dateTime = "2022-01-04";
+                    const text = "01 April 2022";
+                    return (
+                      <li key={document.name}>
+                        <img alt="" src="/assets/icon-document.svg" />
+                        <Link to={`/${document.name}`}>{document.name}</Link>
+                        <p>
+                          <time dateTime={dateTime}>{text}</time>
+                        </p>
+                      </li>
+                    );
+                  })}
                 </ul>
                 <h3>Switch mode</h3>
                 <form
@@ -91,8 +84,9 @@ function App() {
             <div>
               <span>Document name</span>
               <input
+                key={doc.name}
                 name="document-name"
-                defaultValue="welcome-to-markdown.md"
+                defaultValue={doc.name}
               />
             </div>
           </label>
@@ -144,36 +138,7 @@ function App() {
       </header>
       <main>
         <h2>Document</h2>
-        <div>
-          <h3>Markdown</h3>
-          <button>
-            <img alt="Show preview" src="/assets/icon-show-preview.svg" />
-          </button>
-        </div>
-        <label>
-          <span>Markdown</span>
-          <textarea
-            name="markdown"
-            value={content}
-            onChange={(ev) => {
-              setContent(ev.target.value);
-            }}
-          />
-        </label>
-        <div>
-          <h3>Preview</h3>
-          <button>
-            <img alt="Show preview" src="/assets/icon-show-preview.svg" />
-          </button>
-          <button>
-            <img alt="Hide preview" src="/assets/icon-hide-preview.svg" />
-          </button>
-        </div>
-        <div
-          dangerouslySetInnerHTML={{
-            __html: markdown,
-          }}
-        />
+        <Editor key={doc.content} initialContent={doc.content} />
       </main>
     </>
   );
