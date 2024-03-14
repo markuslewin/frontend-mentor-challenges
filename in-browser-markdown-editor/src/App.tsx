@@ -1,6 +1,13 @@
+import { useMemo, useState } from "react";
 import documents from "./data/data.json";
+import { micromark } from "micromark";
 
 function App() {
+  const [content, setContent] = useState(documents[1].content);
+  const markdown = useMemo(() => {
+    return micromark(content);
+  }, [content]);
+
   return (
     <>
       <header>
@@ -101,7 +108,13 @@ function App() {
         </div>
         <label>
           <span>Markdown</span>
-          <textarea name="markdown" defaultValue="# Welcome to Markdown" />
+          <textarea
+            name="markdown"
+            value={content}
+            onChange={(ev) => {
+              setContent(ev.target.value);
+            }}
+          />
         </label>
         <div>
           <h3>Preview</h3>
@@ -113,7 +126,9 @@ function App() {
           </button>
         </div>
         <div
-          dangerouslySetInnerHTML={{ __html: "<h4>Welcome to Markdown</h4>" }}
+          dangerouslySetInnerHTML={{
+            __html: markdown,
+          }}
         />
       </main>
     </>
