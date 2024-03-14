@@ -1,14 +1,25 @@
-import { useRef } from "react";
-import documents from "./data/data.json";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useMode } from "./utils/mode";
 import * as Dialog from "@radix-ui/react-dialog";
 import * as AlertDialog from "@radix-ui/react-alert-dialog";
-import { Link } from "react-router-dom";
-import { Editor } from "./components/Editor";
+import { Link, useSubmit } from "react-router-dom";
+import { micromark } from "micromark";
+import { Doc, Docs } from "./utils/documents";
 
-function App({ doc }: { doc: (typeof documents)[number] }) {
-  const { mode, selectMode } = useMode();
+function App({ docs, doc: _doc }: { docs: Docs; doc: Doc }) {
+  const [doc, setDoc] = useState(_doc);
   const headingRef = useRef<HTMLHeadingElement>(null);
+  const submit = useSubmit();
+  const { mode, selectMode } = useMode();
+
+  const markdown = useMemo(() => {
+    return micromark(doc.content);
+  }, [doc.content]);
+
+  useEffect(() => {
+    // todo: Better way?
+    setDoc(_doc);
+  }, [_doc]);
 
   return (
     <>
@@ -36,14 +47,14 @@ function App({ doc }: { doc: (typeof documents)[number] }) {
                   <span aria-hidden="true">+ </span>New document
                 </button>
                 <ul>
-                  {documents.map((document) => {
+                  {docs.map((doc) => {
                     // todo: Parse and format dates from `document.createdAt`
                     const dateTime = "2022-01-04";
                     const text = "01 April 2022";
                     return (
-                      <li key={document.name}>
+                      <li key={doc.name}>
                         <img alt="" src="/assets/icon-document.svg" />
-                        <Link to={`/${document.name}`}>{document.name}</Link>
+                        <Link to={`/${doc.name}`}>{doc.name}</Link>
                         <p>
                           <time dateTime={dateTime}>{text}</time>
                         </p>
@@ -84,9 +95,11 @@ function App({ doc }: { doc: (typeof documents)[number] }) {
             <div>
               <span>Document name</span>
               <input
-                key={doc.name}
                 name="document-name"
-                defaultValue={doc.name}
+                value={doc.name}
+                onChange={(ev) => {
+                  setDoc({ ...doc, name: ev.target.value });
+                }}
               />
             </div>
           </label>
@@ -128,7 +141,14 @@ function App({ doc }: { doc: (typeof documents)[number] }) {
               </AlertDialog.Root>
             </li>
             <li>
-              <button>
+              <button
+                onClick={() => {
+                  submit(
+                    { ...doc, intent: "save-document" },
+                    { method: "post" }
+                  );
+                }}
+              >
                 <img alt="" src="/assets/icon-save.svg" />
                 <span>Save changes</span>
               </button>
@@ -138,7 +158,36 @@ function App({ doc }: { doc: (typeof documents)[number] }) {
       </header>
       <main>
         <h2>Document</h2>
-        <Editor key={doc.content} initialContent={doc.content} />
+        <div>
+          <h3>Markdown</h3>
+          <button>
+            <img alt="Show preview" src="/assets/icon-show-preview.svg" />
+          </button>
+        </div>
+        <label>
+          <span>Markdown</span>
+          <textarea
+            name="markdown"
+            value={doc.content}
+            onChange={(ev) => {
+              setDoc({ ...doc, content: ev.target.value });
+            }}
+          />
+        </label>
+        <div>
+          <h3>Preview</h3>
+          <button>
+            <img alt="Show preview" src="/assets/icon-show-preview.svg" />
+          </button>
+          <button>
+            <img alt="Hide preview" src="/assets/icon-hide-preview.svg" />
+          </button>
+        </div>
+        <div
+          dangerouslySetInnerHTML={{
+            __html: markdown,
+          }}
+        />
       </main>
     </>
   );

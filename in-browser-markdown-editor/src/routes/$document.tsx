@@ -1,25 +1,47 @@
-import { LoaderFunctionArgs, useLoaderData } from "react-router-dom";
+import {
+  ActionFunctionArgs,
+  LoaderFunctionArgs,
+  redirect,
+  useLoaderData,
+} from "react-router-dom";
 import App from "../App";
-import documents from "../data/data.json";
 import { invariant } from "@epic-web/invariant";
+import {
+  DocSchema,
+  getDocuments,
+  saveDocument,
+  templates,
+} from "../utils/documents";
 
 export async function loader({ params }: LoaderFunctionArgs) {
-  const { document } = params;
+  const { document: name } = params;
 
-  if (document === undefined) {
-    return { doc: documents[1] };
+  const docs = getDocuments();
+
+  if (name === undefined) {
+    return { docs, doc: docs.length ? docs[0] : templates.welcome };
   }
 
-  const doc = documents.find(
-    (d) => d.name.toLowerCase() === document.toLowerCase()
-  );
+  const doc = docs.find((d) => d.name.toLowerCase() === name.toLowerCase());
   invariant(doc, "Document not found");
 
-  return { doc };
+  return { docs, doc };
+}
+
+export async function action({ request }: ActionFunctionArgs) {
+  const formData = await request.formData();
+  const intent = formData.get("intent");
+  switch (intent) {
+    case "save-document": {
+      const doc = DocSchema.parse(Object.fromEntries(formData));
+      const newDoc = saveDocument(doc);
+      return redirect(`/${newDoc.name}`);
+    }
+  }
 }
 
 export default function DocumentRoute() {
-  const { doc } = useLoaderData() as Awaited<ReturnType<typeof loader>>;
+  const { docs, doc } = useLoaderData() as Awaited<ReturnType<typeof loader>>;
 
-  return <App doc={doc} />;
+  return <App docs={docs} doc={doc} />;
 }
