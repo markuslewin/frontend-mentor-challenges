@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import documents from "./data/data.json";
 import { micromark } from "micromark";
 import { useMode } from "./utils/mode";
+import * as Dialog from "@radix-ui/react-dialog";
 
 function App() {
   const { mode, selectMode } = useMode();
@@ -17,59 +18,69 @@ function App() {
           <h1>
             <img alt="Markdown" src="/assets/logo.svg" />
           </h1>
-          <button>
-            <img alt="Open menu" src="/assets/icon-menu.svg" />
-            <img alt="Close menu" src="/assets/icon-close.svg" />
-          </button>
-          {/* https://www.radix-ui.com/primitives/docs/components/dialog */}
-          <div>
-            <h2>My documents</h2>
-            <button>
-              <span aria-hidden="true">+ </span>New document
-            </button>
-            <ul>
-              {documents
-                .map((document, i) => {
-                  return { ...document, id: i };
-                })
-                .map((document) => {
-                  // todo: Parse and format dates from `document.createdAt`
-                  const dateTime = "2022-01-04";
-                  const text = "01 April 2022";
-                  return (
-                    <li key={document.id}>
-                      <img alt="" src="/assets/icon-document.svg" />
-                      <a href="#">{document.name}</a>
-                      <p>
-                        <time dateTime={dateTime}>{text}</time>
-                      </p>
-                    </li>
-                  );
-                })}
-            </ul>
-            <h2>Switch mode</h2>
-            <form
-              onSubmit={(ev) => {
-                ev.preventDefault();
-                selectMode(mode === "light" ? "dark" : "light");
-              }}
-            >
-              <button type="submit">
-                <img alt="" src="/assets/icon-dark-mode.svg" />
-                <span>
-                  Switch to {mode === "light" ? "dark" : "light"} mode
-                </span>
-                <img alt="" src="/assets/icon-light-mode.svg" />
-              </button>
-              <p>
-                <output>
-                  <span>
-                    {mode === "light" ? "Light" : "Dark"} mode is now active
-                  </span>
-                </output>
-              </p>
-            </form>
-          </div>
+          <Dialog.Root>
+            <Dialog.Trigger>
+              <img alt="Open menu" src="/assets/icon-menu.svg" />
+            </Dialog.Trigger>
+            <Dialog.Portal>
+              <Dialog.Overlay />
+              <Dialog.Content>
+                <Dialog.Close>
+                  <img alt="Close menu" src="/assets/icon-close.svg" />
+                </Dialog.Close>
+                <Dialog.Title>Documents and mode</Dialog.Title>
+                <Dialog.Description>
+                  Browse documents and switch mode.
+                </Dialog.Description>
+                <h3>My documents</h3>
+                <button>
+                  <span aria-hidden="true">+ </span>New document
+                </button>
+                <ul>
+                  {documents
+                    .map((document, i) => {
+                      return { ...document, id: i };
+                    })
+                    .map((document) => {
+                      // todo: Parse and format dates from `document.createdAt`
+                      const dateTime = "2022-01-04";
+                      const text = "01 April 2022";
+                      return (
+                        <li key={document.id}>
+                          <img alt="" src="/assets/icon-document.svg" />
+                          <a href="#">{document.name}</a>
+                          <p>
+                            <time dateTime={dateTime}>{text}</time>
+                          </p>
+                        </li>
+                      );
+                    })}
+                </ul>
+                <h3>Switch mode</h3>
+                <form
+                  onSubmit={(ev) => {
+                    ev.preventDefault();
+                    selectMode(mode === "light" ? "dark" : "light");
+                  }}
+                >
+                  <button type="submit">
+                    <img alt="" src="/assets/icon-dark-mode.svg" />
+                    <span>
+                      Switch to {mode === "light" ? "dark" : "light"} mode
+                    </span>
+                    <img alt="" src="/assets/icon-light-mode.svg" />
+                  </button>
+                  <p>
+                    <output>
+                      <span>
+                        {mode === "light" ? "Light" : "Dark"} mode is now active
+                      </span>
+                    </output>
+                  </p>
+                </form>
+              </Dialog.Content>
+            </Dialog.Portal>
+          </Dialog.Root>
         </div>
         <div>
           <h2>Options</h2>
