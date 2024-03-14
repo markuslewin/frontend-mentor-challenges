@@ -1,8 +1,9 @@
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import documents from "./data/data.json";
 import { micromark } from "micromark";
 import { useMode } from "./utils/mode";
 import * as Dialog from "@radix-ui/react-dialog";
+import * as AlertDialog from "@radix-ui/react-alert-dialog";
 
 function App() {
   const { mode, selectMode } = useMode();
@@ -10,6 +11,7 @@ function App() {
   const markdown = useMemo(() => {
     return micromark(content);
   }, [content]);
+  const headingRef = useRef<HTMLHeadingElement>(null);
 
   return (
     <>
@@ -98,18 +100,38 @@ function App() {
         <div>
           <ul>
             <li>
-              <button>
-                <img alt="Delete document" src="/assets/icon-delete.svg" />
-              </button>
-              {/* https://www.radix-ui.com/primitives/docs/components/alert-dialog */}
-              <div>
-                <h2>Delete this document?</h2>
-                <p>
-                  Are you sure you want to delete the ‘welcome.md’ document and
-                  its contents? This action cannot be reversed.
-                </p>
-                <button>Confirm & delete</button>
-              </div>
+              <AlertDialog.Root>
+                <AlertDialog.Trigger>
+                  <img alt="Delete document" src="/assets/icon-delete.svg" />
+                </AlertDialog.Trigger>
+                <AlertDialog.Portal>
+                  <AlertDialog.Overlay />
+                  <AlertDialog.Content
+                    onOpenAutoFocus={(ev) => {
+                      ev.preventDefault();
+                      if (!headingRef.current) {
+                        throw new Error("Alert dialog heading not found");
+                      }
+                      headingRef.current.focus();
+                    }}
+                  >
+                    <AlertDialog.Title ref={headingRef} tabIndex={-1}>
+                      Delete this document?
+                    </AlertDialog.Title>
+                    <AlertDialog.Description>
+                      Are you sure you want to delete the ‘welcome.md’ document
+                      and its contents? This action cannot be reversed.
+                    </AlertDialog.Description>
+                    <AlertDialog.Action
+                      onClick={() => {
+                        console.log("TODO: Delete document");
+                      }}
+                    >
+                      Confirm & delete
+                    </AlertDialog.Action>
+                  </AlertDialog.Content>
+                </AlertDialog.Portal>
+              </AlertDialog.Root>
             </li>
             <li>
               <button>
