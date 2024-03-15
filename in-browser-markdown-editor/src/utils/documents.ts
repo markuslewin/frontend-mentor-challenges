@@ -1,32 +1,38 @@
 import { z } from "zod";
 import data from "../data/data.json";
 import { createId } from "@paralleldrive/cuid2";
+import { invariant } from "@epic-web/invariant";
 
 const documentsKey = "documents";
 
 export const DocSchema = z.object({
-  // todo: Not optional
-  createdAt: z.string().optional(),
   id: z.string(),
   name: z.string(),
   content: z.string(),
+  createdAt: z.number(),
 });
 
 const DocsSchema = z.array(DocSchema);
 
 export type Doc = z.infer<typeof DocSchema>;
 export type Docs = z.infer<typeof DocsSchema>;
-export type Template = Omit<Doc, "id">;
+export type Template = Omit<Doc, "id" | "createdAt">;
 
 export function isDoc(doc: Doc | Template): doc is Doc {
-  return "id" in doc;
+  return "id" in doc && "createdAt" in doc;
 }
 
 const [_new, welcome] = data;
 
 export const templates = {
-  new: _new,
-  welcome,
+  new: {
+    name: _new.name,
+    content: _new.content,
+  },
+  welcome: {
+    name: welcome.name,
+    content: welcome.content,
+  },
 };
 
 export function getDocuments() {
@@ -43,24 +49,41 @@ function setDocuments(docs: Docs) {
   localStorage.setItem(documentsKey, JSON.stringify(docs));
 }
 
-export function saveDocument(updates: Doc | Template) {
-  const id = isDoc(updates) ? updates.id : createId();
+export function createDocument({
+  content,
+  name,
+}: Omit<Doc, "id" | "createdAt">) {
   const doc = {
-    ...updates,
-    id,
+    id: createId(),
+    name,
+    content,
+    createdAt: Date.now(),
   };
-
   const docs = getDocuments();
-  const exists = docs.some((d) => {
+  setDocuments([...docs, doc]);
+  return doc;
+}
+
+export function updateDocument({
+  id,
+  content,
+  name,
+}: Partial<Omit<Doc, "createdAt">> & {
+  id: Doc["id"];
+}) {
+  const docs = getDocuments();
+  const old = docs.find((d) => {
     return d.id === id;
   });
-
-  const nextDocs = exists
-    ? docs.map((d) => {
-        return d.id === doc.id ? { ...d, ...doc } : d;
-      })
-    : [...docs, doc];
-
+  invariant(old, "Document not found");
+  const doc = {
+    ...old,
+    ...(content === undefined ? {} : { content }),
+    ...(name === undefined ? {} : { name }),
+  };
+  const nextDocs = docs.map((d) => {
+    return d.id === doc.id ? doc : d;
+  });
   setDocuments(nextDocs);
   return doc;
 }

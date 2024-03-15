@@ -7,10 +7,11 @@ import {
 import App from "../App";
 import { invariant } from "@epic-web/invariant";
 import {
+  createDocument,
   deleteDocument,
   getDocuments,
-  saveDocument,
   templates,
+  updateDocument,
 } from "../utils/documents";
 import { z } from "zod";
 
@@ -40,18 +41,24 @@ export async function action({ request }: ActionFunctionArgs) {
 
   switch (payload.intent) {
     case "new-document": {
-      const doc = saveDocument(templates.new);
+      const doc = createDocument(templates.new);
       return redirect(`/${doc.id}`);
     }
     case "save-document": {
       const data = z
-        .object({
-          id: z.string().optional(),
-          name: z.string(),
-          content: z.string(),
-        })
+        .union([
+          z.object({
+            id: z.string(),
+            name: z.string().optional(),
+            content: z.string().optional(),
+          }),
+          z.object({
+            name: z.string(),
+            content: z.string(),
+          }),
+        ])
         .parse(payload);
-      const doc = saveDocument(data);
+      const doc = "id" in data ? updateDocument(data) : createDocument(data);
       return redirect(`/${doc.id}`);
     }
     case "delete-document": {

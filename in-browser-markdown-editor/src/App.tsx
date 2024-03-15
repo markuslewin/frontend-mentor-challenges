@@ -46,15 +46,17 @@ function App({ docs, doc }: { docs: Docs; doc: Doc | Template }) {
                 </button>
                 <ul>
                   {docs.map((doc) => {
-                    // todo: Parse and format dates from `document.createdAt`
-                    const dateTime = "2022-01-04";
-                    const text = "01 April 2022";
+                    const createdAt = new Date(doc.createdAt);
                     return (
                       <li key={doc.id}>
                         <img alt="" src="/assets/icon-document.svg" />
                         <Link to={`/${doc.id}`}>{doc.name}</Link>
                         <p>
-                          <time dateTime={dateTime}>{text}</time>
+                          <time dateTime={createdAt.toISOString()}>
+                            {createdAt.toLocaleDateString(undefined, {
+                              dateStyle: "long",
+                            })}
+                          </time>
                         </p>
                       </li>
                     );
