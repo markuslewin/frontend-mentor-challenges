@@ -1,25 +1,18 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useRef } from "react";
 import { useMode } from "./utils/mode";
 import * as Dialog from "@radix-ui/react-dialog";
 import * as AlertDialog from "@radix-ui/react-alert-dialog";
 import { Link, useSubmit } from "react-router-dom";
-import { micromark } from "micromark";
 import { Doc, Docs } from "./utils/documents";
+import { invariant } from "@epic-web/invariant";
+import Editor from "./components/editor";
 
-function App({ docs, doc: _doc }: { docs: Docs; doc: Doc }) {
-  const [doc, setDoc] = useState(_doc);
+function App({ docs, doc }: { docs: Docs; doc: Doc }) {
   const headingRef = useRef<HTMLHeadingElement>(null);
+  const nameRef = useRef<HTMLInputElement>(null);
+  const contentRef = useRef<HTMLTextAreaElement>(null);
   const submit = useSubmit();
   const { mode, selectMode } = useMode();
-
-  const markdown = useMemo(() => {
-    return micromark(doc.content);
-  }, [doc.content]);
-
-  useEffect(() => {
-    // todo: Better way?
-    setDoc(_doc);
-  }, [_doc]);
 
   return (
     <>
@@ -95,11 +88,10 @@ function App({ docs, doc: _doc }: { docs: Docs; doc: Doc }) {
             <div>
               <span>Document name</span>
               <input
+                key={doc.name}
+                ref={nameRef}
                 name="document-name"
-                value={doc.name}
-                onChange={(ev) => {
-                  setDoc({ ...doc, name: ev.target.value });
-                }}
+                defaultValue={doc.name}
               />
             </div>
           </label>
@@ -143,8 +135,14 @@ function App({ docs, doc: _doc }: { docs: Docs; doc: Doc }) {
             <li>
               <button
                 onClick={() => {
+                  invariant(nameRef.current, "No name element");
+                  invariant(contentRef.current, "No content element");
                   submit(
-                    { ...doc, intent: "save-document" },
+                    {
+                      name: nameRef.current.value,
+                      content: contentRef.current.value,
+                      intent: "save-document",
+                    },
                     { method: "post" }
                   );
                 }}
@@ -158,36 +156,7 @@ function App({ docs, doc: _doc }: { docs: Docs; doc: Doc }) {
       </header>
       <main>
         <h2>Document</h2>
-        <div>
-          <h3>Markdown</h3>
-          <button>
-            <img alt="Show preview" src="/assets/icon-show-preview.svg" />
-          </button>
-        </div>
-        <label>
-          <span>Markdown</span>
-          <textarea
-            name="markdown"
-            value={doc.content}
-            onChange={(ev) => {
-              setDoc({ ...doc, content: ev.target.value });
-            }}
-          />
-        </label>
-        <div>
-          <h3>Preview</h3>
-          <button>
-            <img alt="Show preview" src="/assets/icon-show-preview.svg" />
-          </button>
-          <button>
-            <img alt="Hide preview" src="/assets/icon-hide-preview.svg" />
-          </button>
-        </div>
-        <div
-          dangerouslySetInnerHTML={{
-            __html: markdown,
-          }}
-        />
+        <Editor key={doc.name} ref={contentRef} initialContent={doc.content} />
       </main>
     </>
   );
