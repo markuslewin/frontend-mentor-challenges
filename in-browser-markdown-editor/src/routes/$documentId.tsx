@@ -39,6 +39,10 @@ export async function action({ request }: ActionFunctionArgs) {
   const payload = Object.fromEntries(formData);
 
   switch (payload.intent) {
+    case "new-document": {
+      const doc = saveDocument(templates.new);
+      return redirect(`/${doc.id}`);
+    }
     case "save-document": {
       const data = z
         .object({

@@ -37,7 +37,11 @@ function App({ docs, doc }: { docs: Docs; doc: Doc | Template }) {
                   Browse documents and switch mode.
                 </Dialog.Description>
                 <h3>My documents</h3>
-                <button>
+                <button
+                  onClick={() => {
+                    submit({ intent: "new-document" }, { method: "post" });
+                  }}
+                >
                   <span aria-hidden="true">+ </span>New document
                 </button>
                 <ul>
