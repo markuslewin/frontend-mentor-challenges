@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useMode } from "./utils/mode";
 import * as Dialog from "@radix-ui/react-dialog";
 import * as AlertDialog from "@radix-ui/react-alert-dialog";
@@ -14,6 +14,10 @@ function App({ docs, doc }: { docs: Docs; doc: Doc | Template }) {
   const contentRef = useRef<HTMLTextAreaElement>(null);
   const submit = useSubmit();
   const { mode, selectMode } = useMode();
+
+  useEffect(() => {
+    document.body.dataset.mode = mode;
+  }, [mode]);
 
   return (
     <>

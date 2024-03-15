@@ -5,6 +5,7 @@ import DocumentRoute, {
   action as documentAction,
   loader as documentLoader,
 } from "./routes/$documentId.tsx";
+import "./index.css";
 
 const router = createBrowserRouter([
   {
