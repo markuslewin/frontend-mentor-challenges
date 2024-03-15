@@ -4,7 +4,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import DocumentRoute, {
   action as documentAction,
   loader as documentLoader,
-} from "./routes/$document.tsx";
+} from "./routes/$documentId.tsx";
 
 const router = createBrowserRouter([
   {
@@ -14,7 +14,7 @@ const router = createBrowserRouter([
     action: documentAction,
   },
   {
-    path: ":document",
+    path: ":documentId",
     element: <DocumentRoute />,
     loader: documentLoader,
     action: documentAction,

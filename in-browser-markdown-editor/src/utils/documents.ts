@@ -1,11 +1,13 @@
 import { z } from "zod";
 import data from "../data/data.json";
+import { createId } from "@paralleldrive/cuid2";
 
 const documentsKey = "documents";
 
 export const DocSchema = z.object({
   // todo: Not optional
   createdAt: z.string().optional(),
+  id: z.string(),
   name: z.string(),
   content: z.string(),
 });
@@ -13,8 +15,8 @@ export const DocSchema = z.object({
 const DocsSchema = z.array(DocSchema);
 
 export type Doc = z.infer<typeof DocSchema>;
-
 export type Docs = z.infer<typeof DocsSchema>;
+export type Template = Omit<Doc, "id">;
 
 const [_new, welcome] = data;
 
@@ -33,20 +35,24 @@ export function getDocuments() {
   return result.success ? result.data : [];
 }
 
-export function saveDocument(newDoc: z.infer<typeof DocSchema>) {
+export function saveDocument(updates: Doc | Template) {
+  const id = "id" in updates ? updates.id : createId();
+  const doc = {
+    ...updates,
+    id,
+  };
+
   const docs = getDocuments();
-  // todo: Compare IDs
-  const oldDoc = docs.find(
-    (doc) => doc.name.toLowerCase() === newDoc.name.toLowerCase()
-  );
-  const nextDocs = oldDoc
-    ? docs.map((doc) => {
-        return doc.name.toLowerCase() === newDoc.name.toLowerCase()
-          ? { ...doc, ...newDoc }
-          : doc;
+  const exists = docs.some((d) => {
+    return d.id === id;
+  });
+
+  const nextDocs = exists
+    ? docs.map((d) => {
+        return d.id === doc.id ? { ...d, ...doc } : d;
       })
-    : [...docs, newDoc];
+    : [...docs, doc];
 
   localStorage.setItem(documentsKey, JSON.stringify(nextDocs));
-  return newDoc;
+  return doc;
 }

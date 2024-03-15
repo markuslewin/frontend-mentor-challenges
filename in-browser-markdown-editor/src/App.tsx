@@ -3,11 +3,11 @@ import { useMode } from "./utils/mode";
 import * as Dialog from "@radix-ui/react-dialog";
 import * as AlertDialog from "@radix-ui/react-alert-dialog";
 import { Link, useSubmit } from "react-router-dom";
-import { Doc, Docs } from "./utils/documents";
+import { Doc, Docs, Template } from "./utils/documents";
 import { invariant } from "@epic-web/invariant";
 import Editor from "./components/editor";
 
-function App({ docs, doc }: { docs: Docs; doc: Doc }) {
+function App({ docs, doc }: { docs: Docs; doc: Doc | Template }) {
   const headingRef = useRef<HTMLHeadingElement>(null);
   const nameRef = useRef<HTMLInputElement>(null);
   const contentRef = useRef<HTMLTextAreaElement>(null);
@@ -45,9 +45,9 @@ function App({ docs, doc }: { docs: Docs; doc: Doc }) {
                     const dateTime = "2022-01-04";
                     const text = "01 April 2022";
                     return (
-                      <li key={doc.name}>
+                      <li key={doc.id}>
                         <img alt="" src="/assets/icon-document.svg" />
-                        <Link to={`/${doc.name}`}>{doc.name}</Link>
+                        <Link to={`/${doc.id}`}>{doc.name}</Link>
                         <p>
                           <time dateTime={dateTime}>{text}</time>
                         </p>
@@ -88,7 +88,7 @@ function App({ docs, doc }: { docs: Docs; doc: Doc }) {
             <div>
               <span>Document name</span>
               <input
-                key={doc.name}
+                key={"id" in doc ? doc.id : null}
                 ref={nameRef}
                 name="document-name"
                 defaultValue={doc.name}
@@ -139,6 +139,7 @@ function App({ docs, doc }: { docs: Docs; doc: Doc }) {
                   invariant(contentRef.current, "No content element");
                   submit(
                     {
+                      ...("id" in doc ? { id: doc.id } : {}),
                       name: nameRef.current.value,
                       content: contentRef.current.value,
                       intent: "save-document",
@@ -156,7 +157,11 @@ function App({ docs, doc }: { docs: Docs; doc: Doc }) {
       </header>
       <main>
         <h2>Document</h2>
-        <Editor key={doc.name} ref={contentRef} initialContent={doc.content} />
+        <Editor
+          key={"id" in doc ? doc.id : null}
+          ref={contentRef}
+          initialContent={doc.content}
+        />
       </main>
     </>
   );
