@@ -1,13 +1,14 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useMode } from "./utils/mode";
 import * as Dialog from "@radix-ui/react-dialog";
 import * as AlertDialog from "@radix-ui/react-alert-dialog";
 import { Link, useSubmit } from "react-router-dom";
-import { Doc, Docs, Template } from "./utils/documents";
+import { Doc, Docs, Template, isDoc } from "./utils/documents";
 import { invariant } from "@epic-web/invariant";
 import Editor from "./components/editor";
 
 function App({ docs, doc }: { docs: Docs; doc: Doc | Template }) {
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const headingRef = useRef<HTMLHeadingElement>(null);
   const nameRef = useRef<HTMLInputElement>(null);
   const contentRef = useRef<HTMLTextAreaElement>(null);
@@ -88,7 +89,7 @@ function App({ docs, doc }: { docs: Docs; doc: Doc | Template }) {
             <div>
               <span>Document name</span>
               <input
-                key={"id" in doc ? doc.id : null}
+                key={isDoc(doc) ? doc.id : null}
                 ref={nameRef}
                 name="document-name"
                 defaultValue={doc.name}
@@ -99,8 +100,13 @@ function App({ docs, doc }: { docs: Docs; doc: Doc | Template }) {
         <div>
           <ul>
             <li>
-              <AlertDialog.Root>
-                <AlertDialog.Trigger>
+              <AlertDialog.Root
+                open={deleteDialogOpen}
+                onOpenChange={(open) => {
+                  setDeleteDialogOpen(isDoc(doc) ? open : false);
+                }}
+              >
+                <AlertDialog.Trigger aria-disabled={!isDoc(doc)}>
                   <img alt="Delete document" src="/assets/icon-delete.svg" />
                 </AlertDialog.Trigger>
                 <AlertDialog.Portal>
@@ -108,9 +114,7 @@ function App({ docs, doc }: { docs: Docs; doc: Doc | Template }) {
                   <AlertDialog.Content
                     onOpenAutoFocus={(ev) => {
                       ev.preventDefault();
-                      if (!headingRef.current) {
-                        throw new Error("Alert dialog heading not found");
-                      }
+                      invariant(headingRef.current, "No heading element");
                       headingRef.current.focus();
                     }}
                   >
@@ -123,7 +127,11 @@ function App({ docs, doc }: { docs: Docs; doc: Doc | Template }) {
                     </AlertDialog.Description>
                     <AlertDialog.Action
                       onClick={() => {
-                        console.log("TODO: Delete document");
+                        invariant(isDoc(doc), "Must be a document");
+                        submit(
+                          { intent: "delete-document", id: doc.id },
+                          { method: "post" }
+                        );
                       }}
                     >
                       Confirm & delete
@@ -139,10 +147,10 @@ function App({ docs, doc }: { docs: Docs; doc: Doc | Template }) {
                   invariant(contentRef.current, "No content element");
                   submit(
                     {
-                      ...("id" in doc ? { id: doc.id } : {}),
+                      intent: "save-document",
+                      ...(isDoc(doc) ? { id: doc.id } : {}),
                       name: nameRef.current.value,
                       content: contentRef.current.value,
-                      intent: "save-document",
                     },
                     { method: "post" }
                   );
@@ -158,7 +166,7 @@ function App({ docs, doc }: { docs: Docs; doc: Doc | Template }) {
       <main>
         <h2>Document</h2>
         <Editor
-          key={"id" in doc ? doc.id : null}
+          key={isDoc(doc) ? doc.id : null}
           ref={contentRef}
           initialContent={doc.content}
         />

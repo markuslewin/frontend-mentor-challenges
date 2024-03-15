@@ -18,6 +18,10 @@ export type Doc = z.infer<typeof DocSchema>;
 export type Docs = z.infer<typeof DocsSchema>;
 export type Template = Omit<Doc, "id">;
 
+export function isDoc(doc: Doc | Template): doc is Doc {
+  return "id" in doc;
+}
+
 const [_new, welcome] = data;
 
 export const templates = {
@@ -35,8 +39,12 @@ export function getDocuments() {
   return result.success ? result.data : [];
 }
 
+function setDocuments(docs: Docs) {
+  localStorage.setItem(documentsKey, JSON.stringify(docs));
+}
+
 export function saveDocument(updates: Doc | Template) {
-  const id = "id" in updates ? updates.id : createId();
+  const id = isDoc(updates) ? updates.id : createId();
   const doc = {
     ...updates,
     id,
@@ -53,6 +61,15 @@ export function saveDocument(updates: Doc | Template) {
       })
     : [...docs, doc];
 
-  localStorage.setItem(documentsKey, JSON.stringify(nextDocs));
+  setDocuments(nextDocs);
   return doc;
+}
+
+export function deleteDocument(id: Doc["id"]) {
+  const docs = getDocuments();
+  const nextDocs = docs.filter((d) => {
+    return d.id !== id;
+  });
+
+  setDocuments(nextDocs);
 }

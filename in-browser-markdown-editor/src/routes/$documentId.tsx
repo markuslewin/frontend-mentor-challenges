@@ -6,7 +6,12 @@ import {
 } from "react-router-dom";
 import App from "../App";
 import { invariant } from "@epic-web/invariant";
-import { getDocuments, saveDocument, templates } from "../utils/documents";
+import {
+  deleteDocument,
+  getDocuments,
+  saveDocument,
+  templates,
+} from "../utils/documents";
 import { z } from "zod";
 
 export async function loader({ params }: LoaderFunctionArgs) {
@@ -31,19 +36,31 @@ export async function loader({ params }: LoaderFunctionArgs) {
 
 export async function action({ request }: ActionFunctionArgs) {
   const formData = await request.formData();
-  const intent = formData.get("intent");
-  switch (intent) {
+  const payload = Object.fromEntries(formData);
+
+  switch (payload.intent) {
     case "save-document": {
-      const updates = z
+      const data = z
         .object({
           id: z.string().optional(),
           name: z.string(),
           content: z.string(),
         })
-        .parse(Object.fromEntries(formData));
-      const doc = saveDocument(updates);
+        .parse(payload);
+      const doc = saveDocument(data);
       return redirect(`/${doc.id}`);
     }
+    case "delete-document": {
+      const data = z
+        .object({
+          id: z.string(),
+        })
+        .parse(payload);
+      deleteDocument(data.id);
+      return redirect("/");
+    }
+    default:
+      throw new Error("Invalid intent");
   }
 }
 
