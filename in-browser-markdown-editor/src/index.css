@@ -27,6 +27,22 @@
 
     --body: var(--color-100);
     --body-foreground: var(--color-700);
+    --header: var(--color-800);
+    --header-foreground: var(--color-100);
+    --header-muted: var(--color-500);
+    --header-separator: var(--color-600);
+    --menu-trigger: var(--color-700);
+    --menu-trigger-hover: var(--color-orange);
+    --menu-trigger-foreground: var(--color-100);
+    --name-field: transparent;
+    --name-field-foreground: var(--color-100);
+    --name-field-caret: var(--color-orange);
+    --delete-button: transparent;
+    --delete-button-foreground: var(--color-500);
+    --delete-button-hover: var(--color-orange);
+    --save-button: var(--color-orange);
+    --save-button-hover: var(--color-orange-hover);
+    --save-button-foreground: var(--color-100);
   }
 
   [data-mode="dark"] {

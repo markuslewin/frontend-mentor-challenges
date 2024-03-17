@@ -1,3 +1,5 @@
+import plugin from "tailwindcss/plugin";
+
 function rem(px) {
   return `${px / 16}rem`;
 }
@@ -34,12 +36,44 @@ export default {
       "markdown-code": [rem(14), { lineHeight: rem(24), fontWeight: 400 }],
     },
     colors: {
+      current: "currentColor",
+      transparent: "transparent",
       body: {
         DEFAULT: "hsl(var(--body))",
         foreground: "hsl(var(--body-foreground))",
       },
+      header: {
+        DEFAULT: "hsl(var(--header))",
+        foreground: "hsl(var(--header-foreground))",
+        muted: "hsl(var(--header-muted))",
+        separator: "hsl(var(--header-separator))",
+      },
+      "menu-trigger": {
+        DEFAULT: "hsl(var(--menu-trigger))",
+        hover: "hsl(var(--menu-trigger-hover))",
+        foreground: "hsl(var(--menu-trigger-foreground))",
+      },
+      "name-field": {
+        DEFAULT: "hsl(var(--name-field))",
+        foreground: "hsl(var(--name-field-foreground))",
+        caret: "hsl(var(--name-field-caret))",
+      },
+      "delete-button": {
+        DEFAULT: "hsl(var(--delete-button))",
+        foreground: "hsl(var(--delete-button-foreground))",
+        hover: "hsl(var(--delete-button-hover))",
+      },
+      "save-button": {
+        DEFAULT: "hsl(var(--save-button))",
+        hover: "hsl(var(--save-button-hover))",
+        foreground: "hsl(var(--save-button-foreground))",
+      },
     },
     extend: {},
   },
-  plugins: [],
+  plugins: [
+    plugin(({ addVariant }) => {
+      addVariant("hocus", ["&:hover", "&:focus-visible"]);
+    }),
+  ],
 };
