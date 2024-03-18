@@ -189,8 +189,8 @@ function App({ docs, doc }: { docs: Docs; doc: Doc | Template }) {
           </ul>
         </div>
       </header>
-      <main>
-        <h2>Document</h2>
+      <main className="grid">
+        <h2 className="sr-only">Document</h2>
         <Editor
           key={isDoc(doc) ? doc.id : null}
           ref={contentRef}
