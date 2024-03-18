@@ -43,12 +43,93 @@
     --save-button: var(--color-orange);
     --save-button-hover: var(--color-orange-hover);
     --save-button-foreground: var(--color-100);
+    --preview: var(--color-100);
+    --preview-foreground: var(--color-500);
+    --preview-h: var(--color-700);
+    --preview-h6: var(--color-orange);
+    --preview-h6: var(--color-orange);
+    --preview-blockquote: var(--color-200);
+    --preview-blockquote-foreground: var(--color-700);
+    --preview-blockquote-border: var(--color-orange);
+    --preview-pre: var(--color-200);
+    --preview-pre-foreground: var(--color-700);
+    --preview-code: var(--color-700);
+    --preview-disc: var(--color-orange);
   }
 
   [data-mode="dark"] {
     --body: var(--color-1000);
     --body-foreground: var(--color-400);
+    --preview: var(--color-1000);
+    --preview-foreground: var(--color-400);
+    --preview-h: var(--color-100);
+    --preview-h6: var(--color-orange);
+    --preview-blockquote: var(--color-800);
+    --preview-blockquote-foreground: var(--color-100);
+    --preview-blockquote-border: var(--color-orange);
+    --preview-pre: var(--color-800);
+    --preview-pre-foreground: var(--color-100);
+    --preview-code: var(--color-100);
+    --preview-disc: var(--color-orange);
 
     color-scheme: dark;
+  }
+}
+
+@layer components {
+  .preview {
+    @apply font-roboto-slab text-preview-paragraph p-6 pb-16;
+  }
+
+  .preview > * + * {
+    @apply mt-5;
+  }
+
+  .preview h1 {
+    @apply text-preview-h1 text-preview-h;
+  }
+
+  .preview h2 {
+    @apply text-preview-h2 text-preview-h;
+  }
+
+  .preview h3 {
+    @apply text-preview-h3 text-preview-h;
+  }
+
+  .preview h4 {
+    @apply text-preview-h4 text-preview-h;
+  }
+
+  .preview h5 {
+    @apply text-preview-h5 text-preview-h;
+  }
+
+  .preview h6 {
+    @apply text-preview-h6;
+  }
+
+  .preview ol {
+    @apply list-decimal pl-11;
+  }
+
+  .preview ul {
+    @apply list-disc marker:text-preview-disc pl-11;
+  }
+
+  .preview blockquote {
+    @apply bg-preview-blockquote text-preview-blockquote-foreground font-bold py-6 pr-8 pl-5 rounded border-l-4 border-preview-blockquote-border;
+  }
+
+  .preview pre {
+    @apply bg-preview-pre text-preview-pre-foreground p-6 rounded overflow-x-auto;
+  }
+
+  .preview a {
+    @apply underline;
+  }
+
+  .preview code {
+    @apply font-roboto-mono text-markdown-code text-preview-code;
   }
 }

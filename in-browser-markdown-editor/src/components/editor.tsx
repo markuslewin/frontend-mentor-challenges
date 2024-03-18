@@ -38,7 +38,7 @@ const Editor = forwardRef<HTMLTextAreaElement, { initialContent: string }>(
           </button>
         </div>
         <div
-          className="hidden tablet:block"
+          className="preview hidden tablet:block w-full max-w-[45rem] mx-auto"
           dangerouslySetInnerHTML={{
             __html: markdown,
           }}

@@ -68,6 +68,23 @@ export default {
         hover: "hsl(var(--save-button-hover))",
         foreground: "hsl(var(--save-button-foreground))",
       },
+      preview: {
+        DEFAULT: "hsl(var(--preview))",
+        foreground: "hsl(var(--preview-foreground))",
+        h: "hsl(var(--preview-h))",
+        h6: "hsl(var(--preview-h6))",
+        blockquote: {
+          DEFAULT: "hsl(var(--preview-blockquote))",
+          foreground: "hsl(var(--preview-blockquote-foreground))",
+          border: "hsl(var(--preview-blockquote-border))",
+        },
+        pre: {
+          DEFAULT: "hsl(var(--preview-pre))",
+          foreground: "hsl(var(--preview-pre-foreground))",
+        },
+        code: "hsl(var(--preview-code))",
+        disc: "hsl(var(--preview-disc))",
+      },
     },
     extend: {},
   },
