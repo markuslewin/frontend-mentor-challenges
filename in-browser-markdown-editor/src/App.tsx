@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useMode } from "./utils/mode";
 import * as Dialog from "@radix-ui/react-dialog";
-import * as AlertDialog from "@radix-ui/react-alert-dialog";
 import { Link, useSubmit } from "react-router-dom";
 import { Doc, Docs, Template, isDoc } from "./utils/documents";
 import { invariant } from "@epic-web/invariant";
@@ -119,49 +118,58 @@ function App({ docs, doc }: { docs: Docs; doc: Doc | Template }) {
           </div>
           <ul className="flex gap-3">
             <li>
-              <AlertDialog.Root
+              <Dialog.Root
                 open={deleteDialogOpen}
                 onOpenChange={(open) => {
                   setDeleteDialogOpen(isDoc(doc) ? open : false);
                 }}
               >
-                <AlertDialog.Trigger
+                <Dialog.Trigger
                   className="bg-delete-button text-delete-button-foreground hocus:text-delete-button-hover transition-colors size-10 grid place-items-center"
                   aria-disabled={!isDoc(doc)}
                 >
                   <Icon className="size-5" name="icon-delete" />
                   <span className="sr-only">Delete document</span>
-                </AlertDialog.Trigger>
-                <AlertDialog.Portal>
-                  <AlertDialog.Overlay />
-                  <AlertDialog.Content
-                    onOpenAutoFocus={(ev) => {
-                      ev.preventDefault();
-                      invariant(headingRef.current, "No heading element");
-                      headingRef.current.focus();
-                    }}
-                  >
-                    <AlertDialog.Title ref={headingRef} tabIndex={-1}>
-                      Delete this document?
-                    </AlertDialog.Title>
-                    <AlertDialog.Description>
-                      Are you sure you want to delete the ‘welcome.md’ document
-                      and its contents? This action cannot be reversed.
-                    </AlertDialog.Description>
-                    <AlertDialog.Action
-                      onClick={() => {
-                        invariant(isDoc(doc), "Must be a document");
-                        submit(
-                          { intent: "delete-document", id: doc.id },
-                          { method: "post" }
-                        );
+                </Dialog.Trigger>
+                <Dialog.Portal>
+                  <Dialog.Overlay className="bg-body-overlay fixed inset-0 overflow-y-auto grid place-items-center p-4">
+                    <Dialog.Content
+                      className="bg-alert text-alert-foreground font-roboto-slab text-preview-paragraph rounded p-6 w-full max-w-[21.4375rem]"
+                      onOpenAutoFocus={(ev) => {
+                        ev.preventDefault();
+                        invariant(headingRef.current, "No heading element");
+                        headingRef.current.focus();
                       }}
                     >
-                      Confirm & delete
-                    </AlertDialog.Action>
-                  </AlertDialog.Content>
-                </AlertDialog.Portal>
-              </AlertDialog.Root>
+                      <Dialog.Title
+                        className="text-preview-h4 text-alert-heading"
+                        ref={headingRef}
+                        tabIndex={-1}
+                      >
+                        Delete this document?
+                      </Dialog.Title>
+                      <Dialog.Description className="mt-4">
+                        Are you sure you want to delete the ‘{doc.name}’
+                        document and its contents? This action cannot be
+                        reversed.
+                      </Dialog.Description>
+                      <Dialog.Close
+                        className="mt-4 bg-confirm-button text-confirm-button-foreground hocus:bg-confirm-button-hover transition-colors py-[0.6875rem] px-4 block w-full rounded capitalize font-roboto text-heading-m"
+                        onClick={() => {
+                          // todo: Wait for RR to signal success
+                          invariant(isDoc(doc), "Must be a document");
+                          submit(
+                            { intent: "delete-document", id: doc.id },
+                            { method: "post" }
+                          );
+                        }}
+                      >
+                        Confirm & delete
+                      </Dialog.Close>
+                    </Dialog.Content>
+                  </Dialog.Overlay>
+                </Dialog.Portal>
+              </Dialog.Root>
             </li>
             <li>
               <button

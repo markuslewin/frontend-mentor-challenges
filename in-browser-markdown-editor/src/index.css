@@ -27,6 +27,7 @@
 
     --body: var(--color-100);
     --body-foreground: var(--color-700);
+    --body-overlay: var(--color-1000) / 50%;
     --header: var(--color-800);
     --header-foreground: var(--color-100);
     --header-muted: var(--color-500);
@@ -40,6 +41,12 @@
     --delete-button: transparent;
     --delete-button-foreground: var(--color-500);
     --delete-button-hover: var(--color-orange);
+    --alert: var(--color-100);
+    --alert-foreground: var(--color-500);
+    --alert-heading: var(--color-700);
+    --confirm-button: var(--color-orange);
+    --confirm-button-hover: var(--color-orange-hover);
+    --confirm-button-foreground: var(--color-100);
     --save-button: var(--color-orange);
     --save-button-hover: var(--color-orange-hover);
     --save-button-foreground: var(--color-100);
@@ -65,6 +72,10 @@
   [data-mode="dark"] {
     --body: var(--color-1000);
     --body-foreground: var(--color-400);
+    --body-overlay: var(--color-500) / 50%;
+    --alert: var(--color-900);
+    --alert-foreground: var(--color-400);
+    --alert-heading: var(--color-100);
     --editor-header: var(--color-900);
     --editor-header-foreground: var(--color-400);
     --editor-header-preview-hover: var(--color-orange);

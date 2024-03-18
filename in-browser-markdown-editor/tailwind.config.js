@@ -41,6 +41,7 @@ export default {
       body: {
         DEFAULT: "hsl(var(--body))",
         foreground: "hsl(var(--body-foreground))",
+        overlay: "hsl(var(--body-overlay))",
       },
       header: {
         DEFAULT: "hsl(var(--header))",
@@ -62,6 +63,16 @@ export default {
         DEFAULT: "hsl(var(--delete-button))",
         foreground: "hsl(var(--delete-button-foreground))",
         hover: "hsl(var(--delete-button-hover))",
+      },
+      alert: {
+        DEFAULT: "hsl(var(--alert))",
+        foreground: "hsl(var(--alert-foreground))",
+        heading: "hsl(var(--alert-heading))",
+      },
+      "confirm-button": {
+        DEFAULT: "hsl(var(--confirm-button))",
+        hover: "hsl(var(--confirm-button-hover))",
+        foreground: "hsl(var(--confirm-button-foreground))",
       },
       "save-button": {
         DEFAULT: "hsl(var(--save-button))",
