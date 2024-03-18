@@ -68,6 +68,11 @@ export default {
         hover: "hsl(var(--save-button-hover))",
         foreground: "hsl(var(--save-button-foreground))",
       },
+      "editor-header": {
+        DEFAULT: "hsl(var(--editor-header))",
+        foreground: "hsl(var(--editor-header-foreground))",
+        "preview-hover": "hsl(var(--editor-header-preview-hover))",
+      },
       preview: {
         DEFAULT: "hsl(var(--preview))",
         foreground: "hsl(var(--preview-foreground))",

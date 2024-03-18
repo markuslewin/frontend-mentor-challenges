@@ -43,6 +43,9 @@
     --save-button: var(--color-orange);
     --save-button-hover: var(--color-orange-hover);
     --save-button-foreground: var(--color-100);
+    --editor-header: var(--color-200);
+    --editor-header-foreground: var(--color-500);
+    --editor-header-preview-hover: var(--color-orange);
     --preview: var(--color-100);
     --preview-foreground: var(--color-500);
     --preview-h: var(--color-700);
@@ -60,6 +63,9 @@
   [data-mode="dark"] {
     --body: var(--color-1000);
     --body-foreground: var(--color-400);
+    --editor-header: var(--color-900);
+    --editor-header-foreground: var(--color-400);
+    --editor-header-preview-hover: var(--color-orange);
     --preview: var(--color-1000);
     --preview-foreground: var(--color-400);
     --preview-h: var(--color-100);

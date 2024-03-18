@@ -1,5 +1,6 @@
 import { micromark } from "micromark";
 import { forwardRef, useMemo, useState } from "react";
+import Icon from "./icon";
 
 const Editor = forwardRef<HTMLTextAreaElement, { initialContent: string }>(
   ({ initialContent }, ref) => {
@@ -10,10 +11,11 @@ const Editor = forwardRef<HTMLTextAreaElement, { initialContent: string }>(
 
     return (
       <div className="grid tablet:grid-cols-2 grid-rows-[max-content_1fr]">
-        <div className="grid grid-cols-[1fr_max-content] items-center">
+        <div className="bg-editor-header text-editor-header-foreground grid grid-cols-[1fr_max-content] items-center text-heading-s uppercase py-3 px-4">
           <h3>Markdown</h3>
-          <button className="tablet:hidden">
-            <img alt="Show preview" src="/assets/icon-show-preview.svg" />
+          <button className="tablet:hidden hocus:text-editor-header-preview-hover transition-colors">
+            <Icon className="size-4" name="icon-show-preview" />
+            <span className="sr-only">Show preview</span>
           </button>
         </div>
         <label className="col-start-1 grid">
@@ -28,13 +30,12 @@ const Editor = forwardRef<HTMLTextAreaElement, { initialContent: string }>(
             }}
           />
         </label>
-        <div className="hidden tablet:grid col-start-2 row-start-1 grid-cols-[1fr_max-content] items-center">
+        <div className="bg-editor-header text-editor-header-foreground hidden tablet:grid col-start-2 row-start-1 grid-cols-[1fr_max-content] items-center text-heading-s uppercase py-3 px-4">
           <h3>Preview</h3>
-          <button>
-            <img alt="Show preview" src="/assets/icon-show-preview.svg" />
-          </button>
-          <button className="hidden">
-            <img alt="Hide preview" src="/assets/icon-hide-preview.svg" />
+          <button className="hocus:text-editor-header-preview-hover transition-colors">
+            {/* todo: https://www.radix-ui.com/primitives/docs/components/toggle ? */}
+            <Icon className="size-4" name="icon-show-preview" />
+            <span className="sr-only">Show preview</span>
           </button>
         </div>
         <div

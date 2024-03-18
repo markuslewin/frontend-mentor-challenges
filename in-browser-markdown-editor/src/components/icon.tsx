@@ -4,7 +4,14 @@ export default function Icon({
   ...props
 }: {
   className?: string;
-  name: "icon-delete" | "icon-document" | "icon-menu" | "icon-save" | "logo";
+  name:
+    | "icon-delete"
+    | "icon-document"
+    | "icon-hide-preview"
+    | "icon-menu"
+    | "icon-save"
+    | "icon-show-preview"
+    | "logo";
 }) {
   return (
     <svg
