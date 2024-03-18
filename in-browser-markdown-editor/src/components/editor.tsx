@@ -21,7 +21,7 @@ const Editor = forwardRef<HTMLTextAreaElement, { initialContent: string }>(
         <label className="col-start-1 grid">
           <span className="sr-only">Markdown</span>
           <textarea
-            className="resize-none"
+            className="bg-content text-content-foreground text-markdown-code font-roboto-mono p-4 tablet:pt-2 resize-none"
             ref={ref}
             name="markdown"
             value={content}

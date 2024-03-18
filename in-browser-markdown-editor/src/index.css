@@ -46,6 +46,8 @@
     --editor-header: var(--color-200);
     --editor-header-foreground: var(--color-500);
     --editor-header-preview-hover: var(--color-orange);
+    --content: transparent;
+    --content-foreground: inherit;
     --preview: var(--color-100);
     --preview-foreground: var(--color-500);
     --preview-h: var(--color-700);
@@ -66,6 +68,8 @@
     --editor-header: var(--color-900);
     --editor-header-foreground: var(--color-400);
     --editor-header-preview-hover: var(--color-orange);
+    --content: transparent;
+    --content-foreground: inherit;
     --preview: var(--color-1000);
     --preview-foreground: var(--color-400);
     --preview-h: var(--color-100);
@@ -84,7 +88,7 @@
 
 @layer components {
   .preview {
-    @apply font-roboto-slab text-preview-paragraph p-6 pb-16;
+    @apply bg-preview text-preview-foreground font-roboto-slab text-preview-paragraph p-6 pb-16;
   }
 
   .preview > * + * {

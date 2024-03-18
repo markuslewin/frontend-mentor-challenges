@@ -73,6 +73,10 @@ export default {
         foreground: "hsl(var(--editor-header-foreground))",
         "preview-hover": "hsl(var(--editor-header-preview-hover))",
       },
+      content: {
+        DEFAULT: "hsl(var(--content))",
+        foreground: "hsl(var(--content-foreground))",
+      },
       preview: {
         DEFAULT: "hsl(var(--preview))",
         foreground: "hsl(var(--preview-foreground))",
