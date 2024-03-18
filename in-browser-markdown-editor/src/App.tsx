@@ -8,6 +8,7 @@ import Editor from "./components/editor";
 import Icon from "./components/icon";
 
 function App({ docs, doc }: { docs: Docs; doc: Doc | Template }) {
+  const [drawerOpen, setDrawerOpen] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const headingRef = useRef<HTMLHeadingElement>(null);
   const nameRef = useRef<HTMLInputElement>(null);
@@ -19,11 +20,17 @@ function App({ docs, doc }: { docs: Docs; doc: Doc | Template }) {
     document.body.dataset.mode = mode;
   }, [mode]);
 
+  useEffect(() => {
+    document.documentElement.dataset.drawerState = drawerOpen
+      ? "open"
+      : "closed";
+  }, [drawerOpen]);
+
   return (
     <>
       <header className="bg-header text-header-foreground text-heading-m grid grid-cols-[max-content_1fr]">
         <h1 className="sr-only">Markdown app</h1>
-        <Dialog.Root>
+        <Dialog.Root open={drawerOpen} onOpenChange={setDrawerOpen}>
           <Dialog.Trigger className="bg-menu-trigger text-menu-trigger-foreground hocus:bg-menu-trigger-hover transition-colors size-14 tablet:size-[4.5rem] grid place-items-center">
             <Icon
               className="size-[1.4375rem] tablet:size-[1.875rem]"
@@ -33,7 +40,7 @@ function App({ docs, doc }: { docs: Docs; doc: Doc | Template }) {
           </Dialog.Trigger>
           <Dialog.Portal>
             <Dialog.Overlay />
-            <Dialog.Content>
+            <Dialog.Content className="fixed top-0 bottom-0 left-0 w-full max-w-[15.625rem] overflow-y-auto">
               <Dialog.Close>
                 <img alt="Close menu" src="/assets/icon-close.svg" />
               </Dialog.Close>

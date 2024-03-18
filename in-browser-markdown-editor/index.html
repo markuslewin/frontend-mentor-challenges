@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html class="group data-[drawer-state=open]:overflow-x-hidden" lang="en">
   <head>
     <meta charset="UTF-8" />
     <link
@@ -12,8 +12,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Frontend Mentor | In-browser markdown editor</title>
   </head>
-  <body class="bg-body text-body-foreground font-roboto">
-    <div class="grid grid-rows-[max-content_1fr] min-h-screen" id="root"></div>
+  <body
+    class="bg-body text-body-foreground font-roboto group-data-[drawer-state=open]:overflow-x-hidden"
+  >
+    <div
+      class="grid grid-rows-[max-content_1fr] min-h-screen group-data-[drawer-state=open]:translate-x-[15.625rem]"
+      id="root"
+    ></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
