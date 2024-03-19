@@ -40,17 +40,15 @@ function App({ docs, doc }: { docs: Docs; doc: Doc | Template }) {
           </Dialog.Trigger>
           <Dialog.Portal>
             <Dialog.Overlay />
-            <Dialog.Content>
-              <div className="fixed top-0 bottom-0 left-0 w-[15.625rem]">
-                <Dialog.Close className="absolute top-0 right-0 translate-x-full bg-menu-trigger text-menu-trigger-foreground hocus:bg-menu-trigger-hover size-14 tablet:size-[4.5rem] grid place-items-center transition-colors">
-                  <Icon
-                    className="size-[1.125rem] tablet:size-[1.4375rem]"
-                    name="icon-close"
-                  />
-                  <span className="sr-only">Close menu</span>
-                </Dialog.Close>
-              </div>
-              <div className="fixed top-0 bottom-0 left-0 w-[15.625rem] bg-sidebar text-sidebar-foreground text-heading-m overflow-y-auto px-6 pt-7 pb-8 grid grid-rows-[1fr_max-content] gap-8">
+            <Dialog.Content className="fixed top-0 bottom-0 left-0 w-[15.625rem]">
+              <Dialog.Close className="absolute top-0 right-0 translate-x-full bg-menu-trigger text-menu-trigger-foreground hocus:bg-menu-trigger-hover size-14 tablet:size-[4.5rem] grid place-items-center transition-colors">
+                <Icon
+                  className="size-[1.125rem] tablet:size-[1.4375rem]"
+                  name="icon-close"
+                />
+                <span className="sr-only">Close menu</span>
+              </Dialog.Close>
+              <div className="w-full h-full bg-sidebar text-sidebar-foreground text-heading-m overflow-y-auto px-6 pt-7 pb-8 grid grid-rows-[1fr_max-content] gap-8">
                 <div>
                   <Dialog.Title className="sr-only">
                     Documents and mode
