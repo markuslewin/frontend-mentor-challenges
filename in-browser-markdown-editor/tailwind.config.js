@@ -49,6 +49,17 @@ export default {
         muted: "hsl(var(--header-muted))",
         separator: "hsl(var(--header-separator))",
       },
+      sidebar: {
+        DEFAULT: "hsl(var(--sidebar))",
+        foreground: "hsl(var(--sidebar-foreground))",
+        active: "hsl(var(--sidebar-active))",
+        muted: "hsl(var(--sidebar-muted))",
+        inactive: "hsl(var(--sidebar-inactive))",
+        toggle: {
+          DEFAULT: "hsl(var(--sidebar-toggle))",
+          foreground: "hsl(var(--sidebar-toggle-foreground))",
+        },
+      },
       "menu-trigger": {
         DEFAULT: "hsl(var(--menu-trigger))",
         hover: "hsl(var(--menu-trigger-hover))",
@@ -69,15 +80,10 @@ export default {
         foreground: "hsl(var(--alert-foreground))",
         heading: "hsl(var(--alert-heading))",
       },
-      "confirm-button": {
-        DEFAULT: "hsl(var(--confirm-button))",
-        hover: "hsl(var(--confirm-button-hover))",
-        foreground: "hsl(var(--confirm-button-foreground))",
-      },
-      "save-button": {
-        DEFAULT: "hsl(var(--save-button))",
-        hover: "hsl(var(--save-button-hover))",
-        foreground: "hsl(var(--save-button-foreground))",
+      "primary-button": {
+        DEFAULT: "hsl(var(--primary-button))",
+        hover: "hsl(var(--primary-button-hover))",
+        foreground: "hsl(var(--primary-button-foreground))",
       },
       "editor-header": {
         DEFAULT: "hsl(var(--editor-header))",

@@ -5,9 +5,12 @@ export default function Icon({
 }: {
   className?: string;
   name:
+    | "icon-close"
+    | "icon-dark-mode"
     | "icon-delete"
     | "icon-document"
     | "icon-hide-preview"
+    | "icon-light-mode"
     | "icon-menu"
     | "icon-save"
     | "icon-show-preview"
