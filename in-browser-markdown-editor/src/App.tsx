@@ -40,98 +40,103 @@ function App({ docs, doc }: { docs: Docs; doc: Doc | Template }) {
           </Dialog.Trigger>
           <Dialog.Portal>
             <Dialog.Overlay />
-            <Dialog.Content className="bg-sidebar text-sidebar-foreground text-heading-m fixed top-0 bottom-0 left-0 w-full max-w-[15.625rem] overflow-y-auto px-6 pt-7 pb-8 grid grid-rows-[1fr_max-content] gap-8">
-              <div>
-                <Dialog.Close>
+            <Dialog.Content>
+              <div className="fixed top-0 bottom-0 left-0 w-[15.625rem]">
+                <Dialog.Close className="absolute top-0 right-0 translate-x-full bg-menu-trigger text-menu-trigger-foreground hocus:bg-menu-trigger-hover size-14 tablet:size-[4.5rem] grid place-items-center transition-colors">
                   <Icon
                     className="size-[1.125rem] tablet:size-[1.4375rem]"
                     name="icon-close"
                   />
                   <span className="sr-only">Close menu</span>
                 </Dialog.Close>
-                <Dialog.Title className="sr-only">
-                  Documents and mode
-                </Dialog.Title>
-                <Dialog.Description className="sr-only">
-                  Browse documents and switch mode.
-                </Dialog.Description>
-                <p className="desktop:hidden">
-                  <Icon className="w-[8.125rem] h-3" name="logo" />
-                  <span className="sr-only">Markdown</span>
-                </p>
-                <h3 className="text-sidebar-muted text-heading-s uppercase mt-7">
-                  My documents
-                </h3>
-                <button
-                  className="mt-7 bg-primary-button text-primary-button-foreground hocus:bg-primary-button-hover py-[0.6875rem] px-4 rounded w-full transition-colors"
-                  onClick={() => {
-                    submit({ intent: "new-document" }, { method: "post" });
-                  }}
-                >
-                  <span aria-hidden="true">+ </span>New document
-                </button>
-                <ul className="mt-6">
-                  {docs.map((doc) => {
-                    const createdAt = new Date(doc.createdAt);
-                    return (
-                      <li
-                        className="first:mt-0 mt-6 grid grid-cols-[max-content_1fr] items-center gap-4"
-                        key={doc.id}
-                      >
-                        <Icon className="size-4" name="icon-document" />
-                        <div className="flex flex-col-reverse gap-1">
-                          <Link
-                            className="hocus:text-sidebar-active transition-colors"
-                            to={`/${doc.id}`}
-                          >
-                            {doc.name}
-                          </Link>
-                          <p className="text-sidebar-muted text-body-s">
-                            <time dateTime={createdAt.toISOString()}>
-                              {createdAt.toLocaleDateString(undefined, {
-                                dateStyle: "long",
-                              })}
-                            </time>
-                          </p>
-                        </div>
-                      </li>
-                    );
-                  })}
-                </ul>
               </div>
-              <div>
-                <h3 className="sr-only">Switch mode</h3>
-                <form
-                  onSubmit={(ev) => {
-                    ev.preventDefault();
-                    selectMode(mode === "light" ? "dark" : "light");
-                  }}
-                >
-                  <button
-                    className="grid grid-cols-[max-content_max-content_max-content] items-center gap-3"
-                    type="submit"
-                  >
-                    <Icon
-                      className="size-[1.0625rem] text-sidebar-inactive dark:text-[inherit] transition-colors"
-                      name="icon-dark-mode"
-                    />
-                    <span className="grid items-center w-12 h-6 rounded-full bg-sidebar-toggle text-sidebar-toggle-foreground before:block before:w-3 before:h-3 before:border-t-[0.75rem] before:rounded-full dark:before:translate-x-[0.375rem] before:translate-x-[1.875rem] before:transition-transform"></span>
-                    <Icon
-                      className="size-[1.125rem] dark:text-sidebar-inactive transition-colors"
-                      name="icon-light-mode"
-                    />
-                    <span className="sr-only">
-                      Switch to {mode === "light" ? "dark" : "light"} mode
-                    </span>
-                  </button>
-                  <p className="sr-only">
-                    <output>
-                      <span>
-                        {mode === "light" ? "Light" : "Dark"} mode is now active
-                      </span>
-                    </output>
+              <div className="fixed top-0 bottom-0 left-0 w-[15.625rem] bg-sidebar text-sidebar-foreground text-heading-m overflow-y-auto px-6 pt-7 pb-8 grid grid-rows-[1fr_max-content] gap-8">
+                <div>
+                  <Dialog.Title className="sr-only">
+                    Documents and mode
+                  </Dialog.Title>
+                  <Dialog.Description className="sr-only">
+                    Browse documents and switch mode.
+                  </Dialog.Description>
+                  <p className="desktop:hidden">
+                    <Icon className="w-[8.125rem] h-3" name="logo" />
+                    <span className="sr-only">Markdown</span>
                   </p>
-                </form>
+                  <h3 className="text-sidebar-muted text-heading-s uppercase mt-7 desktop:mt-0">
+                    My documents
+                  </h3>
+                  <button
+                    className="mt-7 bg-primary-button text-primary-button-foreground hocus:bg-primary-button-hover py-[0.6875rem] px-4 rounded w-full transition-colors"
+                    onClick={() => {
+                      submit({ intent: "new-document" }, { method: "post" });
+                    }}
+                  >
+                    <span aria-hidden="true">+ </span>New document
+                  </button>
+                  <ul className="mt-6">
+                    {docs.map((doc) => {
+                      const createdAt = new Date(doc.createdAt);
+                      return (
+                        <li
+                          className="first:mt-0 mt-6 grid grid-cols-[max-content_1fr] items-center gap-4"
+                          key={doc.id}
+                        >
+                          <Icon className="size-4" name="icon-document" />
+                          <div className="flex flex-col-reverse gap-1">
+                            <Link
+                              className="hocus:text-sidebar-active transition-colors"
+                              to={`/${doc.id}`}
+                            >
+                              {doc.name}
+                            </Link>
+                            <p className="text-sidebar-muted text-body-s">
+                              <time dateTime={createdAt.toISOString()}>
+                                {createdAt.toLocaleDateString(undefined, {
+                                  dateStyle: "long",
+                                })}
+                              </time>
+                            </p>
+                          </div>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </div>
+                <div>
+                  <h3 className="sr-only">Switch mode</h3>
+                  <form
+                    onSubmit={(ev) => {
+                      ev.preventDefault();
+                      selectMode(mode === "light" ? "dark" : "light");
+                    }}
+                  >
+                    <button
+                      className="grid grid-cols-[max-content_max-content_max-content] items-center gap-3"
+                      type="submit"
+                    >
+                      <Icon
+                        className="size-[1.0625rem] text-sidebar-inactive dark:text-[inherit] transition-colors"
+                        name="icon-dark-mode"
+                      />
+                      <span className="grid items-center w-12 h-6 rounded-full bg-sidebar-toggle text-sidebar-toggle-foreground before:block before:w-3 before:h-3 before:border-t-[0.75rem] before:rounded-full dark:before:translate-x-[0.375rem] before:translate-x-[1.875rem] before:transition-transform"></span>
+                      <Icon
+                        className="size-[1.125rem] dark:text-sidebar-inactive transition-colors"
+                        name="icon-light-mode"
+                      />
+                      <span className="sr-only">
+                        Switch to {mode === "light" ? "dark" : "light"} mode
+                      </span>
+                    </button>
+                    <p className="sr-only">
+                      <output>
+                        <span>
+                          {mode === "light" ? "Light" : "Dark"} mode is now
+                          active
+                        </span>
+                      </output>
+                    </p>
+                  </form>
+                </div>
               </div>
             </Dialog.Content>
           </Dialog.Portal>
