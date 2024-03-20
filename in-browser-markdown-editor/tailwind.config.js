@@ -112,7 +112,22 @@ export default {
         disc: "hsl(var(--preview-disc))",
       },
     },
-    extend: {},
+    extend: {
+      keyframes: {
+        slideIn: {
+          "0%": { transform: "translateX(-15.625rem)" },
+          "100%": { transform: "translateX(0)" },
+        },
+        slideOut: {
+          "0%": { transform: "translateX(0)" },
+          "100%": { transform: "translateX(-15.625rem)" },
+        },
+      },
+      animation: {
+        "slide-in": "slideIn 500ms cubic-bezier(0.4, 0, 0.2, 1)",
+        "slide-out": "slideOut 500ms cubic-bezier(0.4, 0, 0.2, 1)",
+      },
+    },
   },
   plugins: [
     plugin(({ addVariant }) => {
