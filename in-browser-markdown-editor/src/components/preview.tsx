@@ -2,7 +2,7 @@ import { micromark } from "micromark";
 import { useMemo } from "react";
 
 export default function Preview({
-  className,
+  className = "",
   content,
 }: {
   className?: string;
@@ -14,7 +14,7 @@ export default function Preview({
 
   return (
     <div
-      className={`${className} preview w-full max-w-[45rem] mx-auto`}
+      className={`${className} preview max-w-[45rem] mx-auto`}
       dangerouslySetInnerHTML={{
         __html: markdown,
       }}

@@ -8,7 +8,7 @@ export default function DocumentPreviewRoute() {
   const { doc, content } = useAppContext();
 
   return (
-    <div className="grid grid-rows-[max-content_1fr]">
+    <div className="grid grid-cols-1 grid-rows-[max-content_1fr]">
       <div className="bg-editor-header text-editor-header-foreground grid grid-cols-[1fr_max-content] items-center text-heading-s uppercase py-3 px-4">
         <h3>Preview</h3>
         <Link
@@ -19,7 +19,9 @@ export default function DocumentPreviewRoute() {
           <span className="sr-only">Document editor</span>
         </Link>
       </div>
-      <Preview content={content} />
+      <div>
+        <Preview content={content} />
+      </div>
     </div>
   );
 }
