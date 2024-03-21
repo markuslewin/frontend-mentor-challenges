@@ -63,7 +63,7 @@ function App({ docs, doc }: { docs: Docs; doc: Doc | Template }) {
 
   return (
     <animated.div
-      className="grid grid-rows-[max-content_1fr] min-h-screen"
+      className="grid grid-rows-[max-content_minmax(0,1fr)] h-screen"
       style={appSlideStyle}
     >
       <header className="bg-header text-header-foreground text-heading-m grid grid-cols-[max-content_1fr]">
@@ -303,7 +303,7 @@ function App({ docs, doc }: { docs: Docs; doc: Doc | Template }) {
           </ul>
         </div>
       </header>
-      <main className="grid">
+      <main className="grid grid-rows-[minmax(0,1fr)]">
         <h2 className="sr-only">Document</h2>
         <Outlet
           context={

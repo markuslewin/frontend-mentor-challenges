@@ -45,7 +45,7 @@ export default function Editor({
           <span className="sr-only">Document preview</span>
         </Link>
       </div>
-      <div className="hidden tablet:block border-l-[1px] border-editor-separator">
+      <div className="hidden tablet:block border-l-[1px] border-editor-separator overflow-y-auto">
         <Preview content={content} />
       </div>
     </div>
