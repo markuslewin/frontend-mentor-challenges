@@ -19,7 +19,7 @@ export default function DocumentPreviewRoute() {
           <span className="sr-only">Document editor</span>
         </Link>
       </div>
-      <Preview content={doc.content} />;
+      <Preview content={doc.content} />
     </div>
   );
 }
