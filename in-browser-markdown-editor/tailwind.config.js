@@ -113,6 +113,7 @@ export default {
         },
         code: "hsl(var(--preview-code))",
         disc: "hsl(var(--preview-disc))",
+        "strong-foreground": "hsl(var(--preview-strong-foreground))",
       },
     },
     extend: {},
