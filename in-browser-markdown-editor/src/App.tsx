@@ -12,8 +12,10 @@ import {
   useSpringRef,
   useTransition,
 } from "@react-spring/web";
+import { usePreviewing } from "./utils/preview";
 
 function App({ docs, doc }: { docs: Docs; doc: Doc | Template }) {
+  const { previewing } = usePreviewing();
   const [drawerOpen, setDrawerOpen] = useState(false);
   const appSlideRef = useSpringRef();
   const appSlideStyle = useSpring({
@@ -124,7 +126,11 @@ function App({ docs, doc }: { docs: Docs; doc: Doc | Template }) {
                                 <div className="flex flex-col-reverse gap-1">
                                   <Link
                                     className="hocus:text-sidebar-active transition-colors"
-                                    to={`/${doc.id}`}
+                                    to={
+                                      previewing
+                                        ? `/${doc.id}/preview`
+                                        : `/${doc.id}`
+                                    }
                                   >
                                     {doc.name}
                                   </Link>

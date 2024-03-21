@@ -8,6 +8,7 @@ import DocumentRoute, {
 import "./index.css";
 import DocumentPreviewRoute from "./routes/$documentId.preview.tsx";
 import DocumentIndexRoute from "./routes/$documentId.index.tsx";
+import { getPreviewingHandle } from "./utils/preview.ts";
 
 const router = createBrowserRouter([
   {
@@ -17,7 +18,11 @@ const router = createBrowserRouter([
     action: documentAction,
     children: [
       { index: true, element: <DocumentIndexRoute /> },
-      { path: "preview", element: <DocumentPreviewRoute /> },
+      {
+        path: "preview",
+        element: <DocumentPreviewRoute />,
+        handle: { ...getPreviewingHandle() },
+      },
     ],
   },
 ]);
