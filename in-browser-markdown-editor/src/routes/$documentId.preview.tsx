@@ -1,11 +1,11 @@
 import { Link } from "react-router-dom";
-import { useDoc } from "../App";
+import { useAppContext } from "../App";
 import Preview from "../components/preview";
 import { isDoc } from "../utils/documents";
 import Icon from "../components/icon";
 
 export default function DocumentPreviewRoute() {
-  const { doc } = useDoc();
+  const { doc, content } = useAppContext();
 
   return (
     <div className="grid grid-rows-[max-content_1fr]">
@@ -19,7 +19,7 @@ export default function DocumentPreviewRoute() {
           <span className="sr-only">Document editor</span>
         </Link>
       </div>
-      <Preview content={doc.content} />
+      <Preview content={content} />
     </div>
   );
 }

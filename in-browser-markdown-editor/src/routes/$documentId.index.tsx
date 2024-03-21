@@ -1,9 +1,8 @@
-import { useDoc } from "../App";
+import { useAppContext } from "../App";
 import Editor from "../components/editor";
-import { isDoc } from "../utils/documents";
 
 export default function DocumentIndexRoute() {
-  const { doc, contentRef } = useDoc();
+  const { doc, content, handleContentChange } = useAppContext();
 
-  return <Editor key={isDoc(doc) ? doc.id : null} ref={contentRef} doc={doc} />;
+  return <Editor doc={doc} content={content} onChange={handleContentChange} />;
 }

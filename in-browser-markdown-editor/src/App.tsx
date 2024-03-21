@@ -1,4 +1,4 @@
-import { RefObject, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useMode } from "./utils/mode";
 import * as Dialog from "@radix-ui/react-dialog";
 import { Link, Outlet, useOutletContext, useSubmit } from "react-router-dom";
@@ -49,13 +49,17 @@ function App({ docs, doc }: { docs: Docs; doc: Doc | Template }) {
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const headingRef = useRef<HTMLHeadingElement>(null);
   const nameRef = useRef<HTMLInputElement>(null);
-  const contentRef = useRef<HTMLTextAreaElement>(null);
+  const [content, setContent] = useState(doc.content);
   const submit = useSubmit();
   const { mode, selectMode } = useMode();
 
   useEffect(() => {
     document.body.dataset.mode = mode;
   }, [mode]);
+
+  useEffect(() => {
+    setContent(doc.content);
+  }, [doc.content]);
 
   return (
     <animated.div
@@ -274,13 +278,12 @@ function App({ docs, doc }: { docs: Docs; doc: Doc | Template }) {
                 className="bg-primary-button hocus:bg-primary-button-hover transition-colors text-primary-button-foreground desktop:px-4 desktop:py-[0.6875rem] grid place-items-center size-10 rounded desktop:size-auto desktop:flex desktop:gap-2 capitalize"
                 onClick={() => {
                   invariant(nameRef.current, "No name element");
-                  invariant(contentRef.current, "No content element");
                   submit(
                     {
                       intent: "save-document",
                       ...(isDoc(doc) ? { id: doc.id } : {}),
                       name: nameRef.current.value,
-                      content: contentRef.current.value,
+                      content,
                     },
                     { method: "post" }
                   );
@@ -297,7 +300,15 @@ function App({ docs, doc }: { docs: Docs; doc: Doc | Template }) {
       </header>
       <main className="grid">
         <h2 className="sr-only">Document</h2>
-        <Outlet context={{ doc, contentRef } satisfies ContextType} />
+        <Outlet
+          context={
+            {
+              doc,
+              content,
+              handleContentChange: setContent,
+            } satisfies ContextType
+          }
+        />
       </main>
     </animated.div>
   );
@@ -305,10 +316,11 @@ function App({ docs, doc }: { docs: Docs; doc: Doc | Template }) {
 
 type ContextType = {
   doc: Doc | Template;
-  contentRef: RefObject<HTMLTextAreaElement>;
+  content: string;
+  handleContentChange(content: string): void;
 };
 
-export function useDoc() {
+export function useAppContext() {
   return useOutletContext<ContextType>();
 }
 
