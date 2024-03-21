@@ -1,10 +1,9 @@
-import { useEffect, useRef, useState } from "react";
+import { RefObject, useEffect, useRef, useState } from "react";
 import { useMode } from "./utils/mode";
 import * as Dialog from "@radix-ui/react-dialog";
-import { Link, useSubmit } from "react-router-dom";
+import { Link, Outlet, useOutletContext, useSubmit } from "react-router-dom";
 import { Doc, Docs, Template, isDoc } from "./utils/documents";
 import { invariant } from "@epic-web/invariant";
-import Editor from "./components/editor";
 import Icon from "./components/icon";
 import {
   animated,
@@ -292,14 +291,19 @@ function App({ docs, doc }: { docs: Docs; doc: Doc | Template }) {
       </header>
       <main className="grid">
         <h2 className="sr-only">Document</h2>
-        <Editor
-          key={isDoc(doc) ? doc.id : null}
-          ref={contentRef}
-          initialContent={doc.content}
-        />
+        <Outlet context={{ doc, contentRef } satisfies ContextType} />
       </main>
     </animated.div>
   );
+}
+
+type ContextType = {
+  doc: Doc | Template;
+  contentRef: RefObject<HTMLTextAreaElement>;
+};
+
+export function useDoc() {
+  return useOutletContext<ContextType>();
 }
 
 export default App;

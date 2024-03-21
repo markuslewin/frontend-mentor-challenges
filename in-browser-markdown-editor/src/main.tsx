@@ -6,19 +6,19 @@ import DocumentRoute, {
   loader as documentLoader,
 } from "./routes/$documentId.tsx";
 import "./index.css";
+import DocumentPreviewRoute from "./routes/$documentId.preview.tsx";
+import DocumentIndexRoute from "./routes/$documentId.index.tsx";
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: ":documentId?",
     element: <DocumentRoute />,
     loader: documentLoader,
     action: documentAction,
-  },
-  {
-    path: ":documentId",
-    element: <DocumentRoute />,
-    loader: documentLoader,
-    action: documentAction,
+    children: [
+      { index: true, element: <DocumentIndexRoute /> },
+      { path: "preview", element: <DocumentPreviewRoute /> },
+    ],
   },
 ]);
 
