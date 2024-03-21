@@ -32,7 +32,7 @@ const Editor = forwardRef<HTMLTextAreaElement, { doc: Doc | Template }>(
             }}
           />
         </label>
-        <div className="bg-editor-header text-editor-header-foreground hidden tablet:grid col-start-2 row-start-1 grid-cols-[1fr_max-content] items-center text-heading-s uppercase py-3 px-4">
+        <div className="bg-editor-header text-editor-header-foreground hidden tablet:grid col-start-2 row-start-1 grid-cols-[1fr_max-content] items-center text-heading-s uppercase py-3 px-4 border-l-[1px] border-editor-separator">
           <h3>Preview</h3>
           <Link
             to={isDoc(doc) ? `/${doc.id}/preview` : "/preview"}
@@ -42,7 +42,9 @@ const Editor = forwardRef<HTMLTextAreaElement, { doc: Doc | Template }>(
             <span className="sr-only">Document preview</span>
           </Link>
         </div>
-        <Preview className="hidden tablet:block" content={content} />
+        <div className="hidden tablet:block border-l-[1px] border-editor-separator">
+          <Preview content={content} />
+        </div>
       </div>
     );
   }

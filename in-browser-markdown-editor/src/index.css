@@ -57,6 +57,7 @@
     --editor-header: var(--color-200);
     --editor-header-foreground: var(--color-500);
     --editor-header-preview-hover: var(--color-orange);
+    --editor-separator: var(--color-300);
     --content: transparent;
     --content-foreground: inherit;
     --preview: var(--color-100);
@@ -83,6 +84,7 @@
     --editor-header: var(--color-900);
     --editor-header-foreground: var(--color-400);
     --editor-header-preview-hover: var(--color-orange);
+    --editor-separator: var(--color-600);
     --content: transparent;
     --content-foreground: inherit;
     --preview: var(--color-1000);
