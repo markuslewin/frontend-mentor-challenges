@@ -111,7 +111,7 @@ function App({ docs, doc }: { docs: Docs; doc: Doc | Template }) {
                           className="mt-7 bg-primary-button text-primary-button-foreground hocus:bg-primary-button-hover py-[0.6875rem] px-4 rounded w-full transition-colors"
                           onClick={() => {
                             submit(
-                              { intent: "new-document" },
+                              { intent: "new-document", previewing },
                               { method: "post" }
                             );
                           }}
@@ -261,7 +261,11 @@ function App({ docs, doc }: { docs: Docs; doc: Doc | Template }) {
                           // todo: Wait for RR to signal success
                           invariant(isDoc(doc), "Must be a document");
                           submit(
-                            { intent: "delete-document", id: doc.id },
+                            {
+                              intent: "delete-document",
+                              id: doc.id,
+                              previewing,
+                            },
                             { method: "post" }
                           );
                         }}
@@ -284,6 +288,7 @@ function App({ docs, doc }: { docs: Docs; doc: Doc | Template }) {
                       ...(isDoc(doc) ? { id: doc.id } : {}),
                       name: nameRef.current.value,
                       content,
+                      previewing,
                     },
                     { method: "post" }
                   );

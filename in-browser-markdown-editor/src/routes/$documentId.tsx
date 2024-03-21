@@ -35,14 +35,23 @@ export async function loader({ params }: LoaderFunctionArgs) {
   return { docs, doc };
 }
 
+const TrueStringSchema = z.preprocess((val) => {
+  return val === "true";
+}, z.boolean());
+
 export async function action({ request }: ActionFunctionArgs) {
   const formData = await request.formData();
   const payload = Object.fromEntries(formData);
 
   switch (payload.intent) {
     case "new-document": {
+      const data = z
+        .object({
+          previewing: TrueStringSchema,
+        })
+        .parse(payload);
       const doc = createDocument(templates.new);
-      return redirect(`/${doc.id}`);
+      return redirect(data.previewing ? `/${doc.id}/preview` : `/${doc.id}`);
     }
     case "save-document": {
       const data = z
@@ -51,24 +60,27 @@ export async function action({ request }: ActionFunctionArgs) {
             id: z.string(),
             name: z.string().optional(),
             content: z.string().optional(),
+            previewing: TrueStringSchema,
           }),
           z.object({
             name: z.string(),
             content: z.string(),
+            previewing: TrueStringSchema,
           }),
         ])
         .parse(payload);
       const doc = "id" in data ? updateDocument(data) : createDocument(data);
-      return redirect(`/${doc.id}`);
+      return redirect(data.previewing ? `/${doc.id}/preview` : `/${doc.id}`);
     }
     case "delete-document": {
       const data = z
         .object({
           id: z.string(),
+          previewing: TrueStringSchema,
         })
         .parse(payload);
       deleteDocument(data.id);
-      return redirect("/");
+      return redirect(data.previewing ? "/preview" : "/");
     }
     default:
       throw new Error("Invalid intent");
