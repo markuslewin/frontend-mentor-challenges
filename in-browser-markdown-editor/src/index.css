@@ -105,7 +105,7 @@
   }
 
   .preview > * + * {
-    @apply mt-5;
+    @apply mt-5 mb-5;
   }
 
   .preview h1 {
@@ -133,42 +133,48 @@
   }
 
   .preview ol {
-    @apply list-decimal pl-6 grid gap-1;
+    @apply pl-11;
 
     counter-reset: list-counter;
   }
 
   .preview ol li {
     counter-increment: list-counter;
-    display: grid;
-    grid-template-columns: max-content 1fr;
-    gap: 0.5625rem;
+    position: relative;
   }
 
   .preview ol li::before {
     content: counter(list-counter) ".";
+    position: absolute;
+    left: -0.5625rem;
+    transform: translateX(-100%);
   }
 
   .preview ul {
-    @apply list-disc pl-6 grid gap-1;
+    @apply pl-11;
   }
 
   .preview ul li {
-    display: grid;
-    grid-template-columns: max-content 1fr;
-    gap: 1rem;
+    position: relative;
   }
 
   .preview ul li::before {
     @apply text-preview-disc;
 
     content: "";
+    position: absolute;
+    top: 0.6875rem;
+    left: -1rem;
+    transform: translateX(-100%);
     display: block;
     border-top: 0.1875rem solid;
     border-radius: 50%;
-    margin-top: 0.6875rem;
     width: 0.1875rem;
     height: 0.1875rem;
+  }
+
+  .preview li {
+    margin-block: 0.25rem;
   }
 
   .preview blockquote {
