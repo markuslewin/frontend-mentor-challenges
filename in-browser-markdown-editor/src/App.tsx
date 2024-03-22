@@ -13,8 +13,17 @@ import {
   useTransition,
 } from "@react-spring/web";
 import { usePreviewing } from "./utils/preview";
+import { Flash } from "./utils/flash";
 
-function App({ docs, doc }: { docs: Docs; doc: Doc | Template }) {
+function App({
+  docs,
+  doc,
+  flash,
+}: {
+  docs: Docs;
+  doc: Doc | Template;
+  flash: Flash | null;
+}) {
   const { previewing } = usePreviewing();
   const [drawerOpen, setDrawerOpen] = useState(false);
   const appSlideRef = useSpringRef();
@@ -47,6 +56,10 @@ function App({ docs, doc }: { docs: Docs; doc: Doc | Template }) {
   });
   useChain([drawerSlideRef, appSlideRef], [0, 0]);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const nextAnnouncementId = useRef(0);
+  const [announcements, setAnnouncements] = useState<
+    { id: number; message: string }[]
+  >([]);
   const headingRef = useRef<HTMLHeadingElement>(null);
   const nameRef = useRef<HTMLInputElement>(null);
   const [content, setContent] = useState(doc.content);
@@ -60,6 +73,27 @@ function App({ docs, doc }: { docs: Docs; doc: Doc | Template }) {
   useEffect(() => {
     setContent(doc.content);
   }, [doc.content]);
+
+  useEffect(() => {
+    let timeout: ReturnType<typeof setTimeout> | undefined;
+    if (flash && flash.type === "delete-document") {
+      setDeleteDialogOpen(false);
+      const id = nextAnnouncementId.current++;
+      setAnnouncements((announcements) => {
+        return [...announcements, { id, message: flash.message }];
+      });
+      setTimeout(() => {
+        setAnnouncements((announcements) => {
+          return announcements.filter((a) => {
+            return a.id !== id;
+          });
+        });
+      }, 5000);
+    }
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, [flash]);
 
   return (
     <animated.div
@@ -255,10 +289,10 @@ function App({ docs, doc }: { docs: Docs; doc: Doc | Template }) {
                         document and its contents? This action cannot be
                         reversed.
                       </Dialog.Description>
-                      <Dialog.Close
+                      <button
                         className="mt-4 bg-primary-button text-primary-button-foreground hocus:bg-primary-button-hover transition-colors py-[0.6875rem] px-4 block w-full rounded capitalize font-roboto text-heading-m"
+                        type="button"
                         onClick={() => {
-                          // todo: Wait for RR to signal success
                           invariant(isDoc(doc), "Must be a document");
                           submit(
                             {
@@ -271,7 +305,7 @@ function App({ docs, doc }: { docs: Docs; doc: Doc | Template }) {
                         }}
                       >
                         Confirm & delete
-                      </Dialog.Close>
+                      </button>
                     </Dialog.Content>
                   </Dialog.Overlay>
                 </Dialog.Portal>
@@ -315,6 +349,11 @@ function App({ docs, doc }: { docs: Docs; doc: Doc | Template }) {
           }
         />
       </main>
+      <div className="sr-only" aria-live="assertive">
+        {announcements.map((announcement) => {
+          return <p key={announcement.id}>{announcement.message}</p>;
+        })}
+      </div>
     </animated.div>
   );
 }

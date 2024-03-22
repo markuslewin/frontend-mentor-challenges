@@ -14,6 +14,7 @@ import {
   updateDocument,
 } from "../utils/documents";
 import { z } from "zod";
+import { getFlash, setFlash } from "../utils/flash";
 
 export async function loader({ params }: LoaderFunctionArgs) {
   const { documentId } = params;
@@ -24,7 +25,7 @@ export async function loader({ params }: LoaderFunctionArgs) {
     if (docs.length) {
       return redirect(`/${docs[0].id}`);
     }
-    return { docs, doc: templates.welcome };
+    return { docs, doc: templates.welcome, flash: getFlash() };
   }
 
   const doc = docs.find((d) => {
@@ -32,7 +33,7 @@ export async function loader({ params }: LoaderFunctionArgs) {
   });
   invariant(doc, "Document not found");
 
-  return { docs, doc };
+  return { docs, doc, flash: getFlash() };
 }
 
 const TrueStringSchema = z.preprocess((val) => {
@@ -80,6 +81,7 @@ export async function action({ request }: ActionFunctionArgs) {
         })
         .parse(payload);
       deleteDocument(data.id);
+      setFlash({ type: "delete-document", message: "Deleted document" });
       const docs = getDocuments();
       if (docs.length) {
         const doc = docs[0];
@@ -93,7 +95,7 @@ export async function action({ request }: ActionFunctionArgs) {
 }
 
 export default function DocumentRoute() {
-  const { docs, doc } = useLoaderData() as Awaited<
+  const data = useLoaderData() as Awaited<
     ReturnType<typeof loader>
   > extends infer MaybeData
     ? MaybeData extends Response
@@ -101,5 +103,5 @@ export default function DocumentRoute() {
       : MaybeData
     : never;
 
-  return <App docs={docs} doc={doc} />;
+  return <App {...data} />;
 }
