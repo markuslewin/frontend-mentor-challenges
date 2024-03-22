@@ -27,7 +27,7 @@ export default function Editor({
       <label className="col-start-1 grid">
         <span className="sr-only">Markdown</span>
         <textarea
-          className="bg-content text-content-foreground text-markdown-code font-roboto-mono p-4 tablet:pt-2 resize-none"
+          className="bg-transparent text-inherit text-markdown-code font-roboto-mono p-4 tablet:pt-2 resize-none"
           name="markdown"
           value={content}
           onChange={(ev) => {

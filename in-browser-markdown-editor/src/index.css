@@ -32,6 +32,10 @@
     --header-foreground: var(--color-100);
     --header-muted: var(--color-500);
     --header-separator: var(--color-600);
+    --header-name-foreground: var(--color-100);
+    --header-name-caret: var(--color-orange);
+    --header-delete-foreground: var(--color-500);
+    --header-delete-hover: var(--color-orange);
     --sidebar: var(--color-900);
     --sidebar-foreground: var(--color-100);
     --sidebar-active: var(--color-orange);
@@ -42,12 +46,6 @@
     --menu-trigger: var(--color-700);
     --menu-trigger-hover: var(--color-orange);
     --menu-trigger-foreground: var(--color-100);
-    --name-field: transparent;
-    --name-field-foreground: var(--color-100);
-    --name-field-caret: var(--color-orange);
-    --delete-button: transparent;
-    --delete-button-foreground: var(--color-500);
-    --delete-button-hover: var(--color-orange);
     --alert: var(--color-100);
     --alert-foreground: var(--color-500);
     --alert-heading: var(--color-700);
@@ -58,8 +56,6 @@
     --editor-header-foreground: var(--color-500);
     --editor-header-preview-hover: var(--color-orange);
     --editor-separator: var(--color-300);
-    --content: transparent;
-    --content-foreground: inherit;
     --preview: var(--color-100);
     --preview-foreground: var(--color-500);
     --preview-h: var(--color-700);
@@ -86,8 +82,6 @@
     --editor-header-foreground: var(--color-400);
     --editor-header-preview-hover: var(--color-orange);
     --editor-separator: var(--color-600);
-    --content: transparent;
-    --content-foreground: inherit;
     --preview: var(--color-1000);
     --preview-foreground: var(--color-400);
     --preview-h: var(--color-100);

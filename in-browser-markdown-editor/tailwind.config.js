@@ -36,6 +36,7 @@ export default {
       "markdown-code": [rem(14), { lineHeight: rem(24), fontWeight: 400 }],
     },
     colors: {
+      inherit: "inherit",
       current: "currentColor",
       transparent: "transparent",
       body: {
@@ -48,6 +49,10 @@ export default {
         foreground: "hsl(var(--header-foreground))",
         muted: "hsl(var(--header-muted))",
         separator: "hsl(var(--header-separator))",
+        "name-foreground": "hsl(var(--header-name-foreground))",
+        "name-caret": "hsl(var(--header-name-caret))",
+        "delete-foreground": "hsl(var(--header-delete-foreground))",
+        "delete-hover": "hsl(var(--header-delete-hover))",
       },
       sidebar: {
         DEFAULT: "hsl(var(--sidebar))",
@@ -64,16 +69,6 @@ export default {
         DEFAULT: "hsl(var(--menu-trigger))",
         hover: "hsl(var(--menu-trigger-hover))",
         foreground: "hsl(var(--menu-trigger-foreground))",
-      },
-      "name-field": {
-        DEFAULT: "hsl(var(--name-field))",
-        foreground: "hsl(var(--name-field-foreground))",
-        caret: "hsl(var(--name-field-caret))",
-      },
-      "delete-button": {
-        DEFAULT: "hsl(var(--delete-button))",
-        foreground: "hsl(var(--delete-button-foreground))",
-        hover: "hsl(var(--delete-button-hover))",
       },
       alert: {
         DEFAULT: "hsl(var(--alert))",
@@ -92,10 +87,6 @@ export default {
       },
       editor: {
         separator: "hsl(var(--editor-separator))",
-      },
-      content: {
-        DEFAULT: "hsl(var(--content))",
-        foreground: "hsl(var(--content-foreground))",
       },
       preview: {
         DEFAULT: "hsl(var(--preview))",

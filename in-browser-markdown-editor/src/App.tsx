@@ -209,7 +209,7 @@ function App({ docs, doc }: { docs: Docs; doc: Doc | Template }) {
                   Document name
                 </span>
                 <input
-                  className="bg-name-field text-name-field-foreground caret-name-field-caret border-b-[1px] border-transparent hocus:border-current transition-colors focus-visible:outline-none w-full"
+                  className="bg-transparent text-header-name-foreground caret-header-name-caret border-b-[1px] border-transparent hocus:border-current transition-colors focus-visible:outline-none w-full"
                   key={isDoc(doc) ? doc.id : null}
                   ref={nameRef}
                   name="document-name"
@@ -227,7 +227,7 @@ function App({ docs, doc }: { docs: Docs; doc: Doc | Template }) {
                 }}
               >
                 <Dialog.Trigger
-                  className="bg-delete-button text-delete-button-foreground hocus:text-delete-button-hover transition-colors size-10 grid place-items-center"
+                  className="bg-transparent text-header-delete-foreground hocus:text-header-delete-hover transition-colors size-10 grid place-items-center"
                   aria-disabled={!isDoc(doc)}
                 >
                   <Icon className="size-5" name="icon-delete" />
