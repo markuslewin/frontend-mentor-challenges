@@ -80,6 +80,11 @@ export async function action({ request }: ActionFunctionArgs) {
         })
         .parse(payload);
       deleteDocument(data.id);
+      const docs = getDocuments();
+      if (docs.length) {
+        const doc = docs[0];
+        return redirect(data.previewing ? `/${doc.id}/preview` : `/${doc.id}`);
+      }
       return redirect(data.previewing ? "/preview" : "/");
     }
     default:
