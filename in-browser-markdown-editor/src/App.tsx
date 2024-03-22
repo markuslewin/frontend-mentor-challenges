@@ -118,7 +118,7 @@ function App({ docs, doc }: { docs: Docs; doc: Doc | Template }) {
                         >
                           <span aria-hidden="true">+ </span>New document
                         </button>
-                        <ul className="mt-6">
+                        <ul className="mt-6" role="list">
                           {docs.map((doc) => {
                             const createdAt = new Date(doc.createdAt);
                             return (
@@ -218,7 +218,7 @@ function App({ docs, doc }: { docs: Docs; doc: Doc | Template }) {
               </div>
             </label>
           </div>
-          <ul className="flex gap-3">
+          <ul className="flex gap-3" role="list">
             <li>
               <Dialog.Root
                 open={deleteDialogOpen}
