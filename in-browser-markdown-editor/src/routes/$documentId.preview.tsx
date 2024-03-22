@@ -13,7 +13,7 @@ export default function DocumentPreviewRoute() {
         <h3>Preview</h3>
         <Link
           to={isDoc(doc) ? `/${doc.id}` : "/"}
-          className="hocus:text-editor-header-preview-hover transition-colors"
+          className="hocus:text-editor-header-preview-hover transition-colors clickable"
         >
           <Icon className="size-4" name="icon-hide-preview" />
           <span className="sr-only">Document editor</span>

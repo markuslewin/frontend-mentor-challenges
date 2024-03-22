@@ -18,7 +18,7 @@ export default function Editor({
         <h3>Markdown</h3>
         <Link
           to={isDoc(doc) ? `/${doc.id}/preview` : "/preview"}
-          className="tablet:hidden hocus:text-editor-header-preview-hover transition-colors"
+          className="tablet:hidden hocus:text-editor-header-preview-hover transition-colors clickable"
         >
           <Icon className="size-4" name="icon-show-preview" />
           <span className="sr-only">Document preview</span>
@@ -39,7 +39,7 @@ export default function Editor({
         <h3>Preview</h3>
         <Link
           to={isDoc(doc) ? `/${doc.id}/preview` : "/preview"}
-          className="hocus:text-editor-header-preview-hover transition-colors"
+          className="hocus:text-editor-header-preview-hover transition-colors clickable"
         >
           <Icon className="size-4" name="icon-show-preview" />
           <span className="sr-only">Document preview</span>
