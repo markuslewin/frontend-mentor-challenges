@@ -5,13 +5,14 @@ export default function Home() {
     <>
       <header>
         <h1>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img alt="Tic-tac-toe" src="/assets/logo.svg" />
         </h1>
       </header>
       <main>
         <form>
           <fieldset aria-describedby="player-1-reminder">
-            <legend>Pick player 1's mark</legend>
+            <legend>Pick player 1&apos;s mark</legend>
             <label>
               <input type="radio" name="player-1" value="X" />
               <span> X</span>
@@ -19,6 +20,7 @@ export default function Home() {
             </label>
             <label>
               <input type="radio" name="player-1" value="O" />{" "}
+              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img alt="O" src="/assets/icon-o.svg" />
             </label>
             <p id="player-1-reminder">Remember: X goes first</p>
