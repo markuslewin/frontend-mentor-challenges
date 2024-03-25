@@ -1,7 +1,9 @@
+import Icon from "../components/icon";
+
 export default function Home() {
   return (
     <>
-      {/* <header>
+      <header>
         <h1>
           <img alt="Tic-tac-toe" src="/assets/logo.svg" />
         </h1>
@@ -11,8 +13,9 @@ export default function Home() {
           <fieldset aria-describedby="player-1-reminder">
             <legend>Pick player 1's mark</legend>
             <label>
-              <input type="radio" name="player-1" value="X" />{" "}
-              <img alt="X" src="/assets/icon-x.svg" />
+              <input type="radio" name="player-1" value="X" />
+              <span> X</span>
+              <Icon className="text-red-700" name="icon-x" />
             </label>
             <label>
               <input type="radio" name="player-1" value="O" />{" "}
@@ -27,9 +30,9 @@ export default function Home() {
             New Game (vs player)
           </button>
         </form>
-      </main> */}
+      </main>
 
-      <header>
+      {/* <header>
         <h1>
           <img alt="Tic-tac-toe" src="/assets/logo.svg" />
         </h1>
@@ -42,7 +45,7 @@ export default function Home() {
       </header>
       <main>
         <h2>Game</h2>
-        {/* https://react-spectrum.adobe.com/react-aria/Table.html */}
+        https://react-spectrum.adobe.com/react-aria/Table.html
         <table>
           <thead>
             <tr>
@@ -105,14 +108,14 @@ export default function Home() {
         </ul>
       </footer>
 
-      {/* https://www.radix-ui.com/primitives/docs/components/alert-dialog */}
+      https://www.radix-ui.com/primitives/docs/components/alert-dialog
       <div>
-        {/* <h2>Oh no, you lost</h2> */}
-        {/* <h2>You won!</h2> */}
-        {/* <h2>Round tied</h2> */}
+        <h2>Oh no, you lost</h2>
+        <h2>You won!</h2>
+        <h2>Round tied</h2>
         <h2>Player 1/2 wins!</h2>
-        {/* <p>Oh no, you lost</p> */}
-        {/* <p>You won!</p> */}
+        <p>Oh no, you lost</p>
+        <p>You won!</p>
         <p>x/o icon takes the round</p>
         <ul>
           <li>
@@ -124,7 +127,7 @@ export default function Home() {
         </ul>
       </div>
 
-      {/* https://www.radix-ui.com/primitives/docs/components/dialog */}
+      https://www.radix-ui.com/primitives/docs/components/dialog
       <div>
         <h2>Restart game?</h2>
         <ul>
@@ -135,7 +138,7 @@ export default function Home() {
             <button type="button">Yes, restart</button>
           </li>
         </ul>
-      </div>
+      </div> */}
     </>
   );
 }
