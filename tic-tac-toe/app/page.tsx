@@ -1,16 +1,34 @@
 export default function Home() {
   return (
     <>
+      <header>
+        <h1>
+          <img alt="Tic-tac-toe" src="/assets/logo.svg" />
+        </h1>
+      </header>
+      <main>
+        <form>
+          <fieldset aria-describedby="player-1-reminder">
+            <legend>Pick player 1's mark</legend>
+            <label>
+              <input type="radio" name="player-1" value="X" />{" "}
+              <img alt="X" src="/assets/icon-x.svg" />
+            </label>
+            <label>
+              <input type="radio" name="player-1" value="O" />{" "}
+              <img alt="O" src="/assets/icon-o.svg" />
+            </label>
+            <p id="player-1-reminder">Remember: X goes first</p>
+          </fieldset>
+          <button type="submit" name="opponent" value="cpu">
+            New Game (vs CPU)
+          </button>
+          <button type="submit" name="opponent" value="player">
+            New Game (vs player)
+          </button>
+        </form>
+      </main>
       {/*
-    <!-- New game menu start -->
-
-   Pick player 1's mark
-   Remember: X goes first
-
-   New Game (vs CPU)
-   New Game (vs player)
-
-   <!-- New game menu end -->
 
    <!-- Game board start -->
 
