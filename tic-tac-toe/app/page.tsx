@@ -1,7 +1,7 @@
 export default function Home() {
   return (
     <>
-      <header>
+      {/* <header>
         <h1>
           <img alt="Tic-tac-toe" src="/assets/logo.svg" />
         </h1>
@@ -27,32 +27,115 @@ export default function Home() {
             New Game (vs player)
           </button>
         </form>
+      </main> */}
+
+      <header>
+        <h1>
+          <img alt="Tic-tac-toe" src="/assets/logo.svg" />
+        </h1>
+        <p>
+          <img alt="X's" src="/assets/icon-x.svg" /> turn
+        </p>
+        <button type="button">
+          <img alt="Restart game" src="/assets/icon-restart.svg" />
+        </button>
+      </header>
+      <main>
+        <h2>Game</h2>
+        {/* https://react-spectrum.adobe.com/react-aria/Table.html */}
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Row</th>
+              <th scope="col">A</th>
+              <th scope="col">B</th>
+              <th scope="col">C</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">3</th>
+              <td>
+                <button type="button">Choose 3A</button>
+              </td>
+              <td>
+                <button type="button">Choose 3B</button>
+              </td>
+              <td>
+                <button type="button">Choose 3C</button>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">2</th>
+              <td>
+                <button type="button">Choose 2A</button>
+              </td>
+              <td>
+                <button type="button">Choose 2B</button>
+              </td>
+              <td>
+                <button type="button">Choose 2C</button>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">1</th>
+              <td>
+                <button type="button">Choose 1A</button>
+              </td>
+              <td>
+                <button type="button">Choose 1B</button>
+              </td>
+              <td>
+                <button type="button">Choose 1C</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </main>
-      {/*
+      <footer>
+        <h2>Points</h2>
+        <ul>
+          <li>X (You): 0</li>
+        </ul>
+        <ul>
+          <li>Ties: 0</li>
+        </ul>
+        <ul>
+          <li>O (CPU): 0</li>
+        </ul>
+      </footer>
 
-   <!-- Game board start -->
+      {/* https://www.radix-ui.com/primitives/docs/components/alert-dialog */}
+      <div>
+        {/* <h2>Oh no, you lost</h2> */}
+        {/* <h2>You won!</h2> */}
+        {/* <h2>Round tied</h2> */}
+        <h2>Player 1/2 wins!</h2>
+        {/* <p>Oh no, you lost</p> */}
+        {/* <p>You won!</p> */}
+        <p>x/o icon takes the round</p>
+        <ul>
+          <li>
+            <button type="button">Quit</button>
+          </li>
+          <li>
+            <button type="button">Next round</button>
+          </li>
+        </ul>
+      </div>
 
-   <!-- x/o icon --> turn
-
-   X (You) <!-- Your score -->
-   Ties <!-- Ties score -->
-   X (CPU) <!-- CPU score -->
-
-   Oh no, you lost
-   You won!
-   Player <!-- 1/2 --> wins!
-
-   <!-- x/o icon --> takes the round
-   Round tied
-   Restart game?
-
-   Quit
-   Next round
-   No, cancel
-   Yes, restart
-
-   <!-- Game board end -->
-   */}
+      {/* https://www.radix-ui.com/primitives/docs/components/dialog */}
+      <div>
+        <h2>Restart game?</h2>
+        <ul>
+          <li>
+            <button type="button">No, cancel</button>
+          </li>
+          <li>
+            <button type="button">Yes, restart</button>
+          </li>
+        </ul>
+      </div>
     </>
   );
 }
