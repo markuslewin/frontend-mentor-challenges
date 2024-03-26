@@ -4,8 +4,21 @@ import logo from "@/app/logo.svg";
 import Image from "next/image";
 import Icon from "../../components/icon";
 import * as Dialog from "@radix-ui/react-dialog";
+import * as AlertDialog from "@radix-ui/react-alert-dialog";
+import { useEffect, useState } from "react";
 
 export default function Play() {
+  const [winOpen, setWinOpen] = useState(false);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setWinOpen((open) => !open);
+    }, 3000);
+    return () => {
+      clearInterval(timeout);
+    };
+  }, []);
+
   return (
     <div className="min-h-screen grid grid-cols-[minmax(0,28.75rem)] grid-rows-[1fr_auto_1fr] justify-center items-start tablet:grid-rows-none tablet:place-content-center p-6">
       <header className="grid grid-cols-3 gap-5 items-center">
@@ -98,7 +111,7 @@ export default function Play() {
                       ) : null}
                       {marker ? null : (
                         <Icon
-                          className="size-10 tablet:size-16 opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100 data-[marker=x]:text-light-blue data-[marker=o]:text-light-yellow transition-opacity"
+                          className="size-10 tablet:size-16 opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100 data-[marker=x]:text-light-blue data-[marker=o]:text-light-yellow"
                           name="x-outline"
                           data-marker={"x"}
                           // name="o-outline"
@@ -136,28 +149,59 @@ export default function Play() {
             </li>
           </ul>
         </footer>
-        {/*
-
-      https://www.radix-ui.com/primitives/docs/components/alert-dialog
-      <div>
-        <h2>Oh no, you lost</h2>
-        <h2>You won!</h2>
-        <h2>Round tied</h2>
-        <h2>Player 1/2 wins!</h2>
-        <p>Oh no, you lost</p>
-        <p>You won!</p>
-        <p>x/o icon takes the round</p>
-        <ul>
-          <li>
-            <button type="button">Quit</button>
-          </li>
-          <li>
-            <button type="button">Next round</button>
-          </li>
-        </ul>
       </div>
-       */}
-      </div>
+      <AlertDialog.Root open={winOpen}>
+        <AlertDialog.Portal>
+          <AlertDialog.Overlay className="bg-[hsl(0_0%_0%/50%)] fixed inset-0 overflow-y-auto grid items-center">
+            <AlertDialog.Content className="bg-semi-dark-navy text-silver pt-10 pb-12 px-6 tablet:py-11 text-center">
+              <AlertDialog.Title className="font-bold tablet:text-heading-xs">
+                {/*
+                  Oh no, you lost
+                  You won!
+                  Round tied
+                */}
+                Player 2 wins!
+              </AlertDialog.Title>
+              <AlertDialog.Description
+                className="mt-4 text-heading-m tablet:text-heading-l flex flex-wrap gap-2 tablet:gap-6 justify-center items-center data-[marker=x]:text-light-blue data-[marker=o]:text-light-yellow"
+                data-marker="x"
+              >
+                <Icon
+                  className="size-7 tablet:size-16"
+                  name="x"
+                  // name="o"
+                />
+                <span className="sr-only">X </span>takes the round
+              </AlertDialog.Description>
+              <ul
+                className="mt-6 tablet:mt-8 flex flex-wrap gap-4 justify-center"
+                role="list"
+              >
+                <li>
+                  <AlertDialog.Cancel
+                    className="bg-silver hocus:bg-silver-hover shadow-inner-small shadow-[hsl(198_17%_50%)] text-dark-navy text-heading-xs uppercase px-4 pt-[0.9375rem] pb-[1.0625rem] rounded-[0.625rem] transition-colors"
+                    onClick={() => {
+                      console.log("Navigate to menu");
+                    }}
+                  >
+                    Quit
+                  </AlertDialog.Cancel>
+                </li>
+                <li>
+                  <AlertDialog.Action
+                    className="bg-light-yellow hocus:bg-light-yellow-hover shadow-inner-small shadow-[hsl(39_83%_44%)] text-dark-navy text-heading-xs uppercase px-4 pt-[0.9375rem] pb-[1.0625rem] rounded-[0.625rem] transition-colors"
+                    onClick={() => {
+                      setWinOpen(false);
+                    }}
+                  >
+                    Next round
+                  </AlertDialog.Action>
+                </li>
+              </ul>
+            </AlertDialog.Content>
+          </AlertDialog.Overlay>
+        </AlertDialog.Portal>
+      </AlertDialog.Root>
     </div>
   );
 }
