@@ -20,7 +20,9 @@ export default function RootLayout({
       <head>
         <SpritePreload />
       </head>
-      <body className={`${outfit.className} bg-dark-navy`}>{children}</body>
+      <body className={`${outfit.className} text-body uppercase bg-dark-navy`}>
+        {children}
+      </body>
     </html>
   );
 }

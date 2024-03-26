@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import plugin from "tailwindcss/plugin";
 
 function rem(px: number) {
   return `${px / 16}rem`;
@@ -11,6 +12,10 @@ const config: Config = {
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
+    screens: {
+      tablet: "40em",
+      desktop: "64em",
+    },
     colors: {
       "light-blue": "hsl(178 60% 48%)",
       "light-blue-hover": "hsl(178 75% 65%)",
@@ -43,8 +48,16 @@ const config: Config = {
         { fontWeight: 500, letterSpacing: rem(0.8), lineHeight: rem(18) },
       ],
     },
+    boxShadow: {
+      "inner-large": `inset 0 -${rem(8)}`,
+    },
+
     extend: {},
   },
-  plugins: [],
+  plugins: [
+    plugin(({ addVariant }) => {
+      addVariant("hocus", ["&:hover", "&:focus-visible"]);
+    }),
+  ],
 };
 export default config;

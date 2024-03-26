@@ -4,7 +4,7 @@ export function SpritePreload() {
   return <link rel="preload" as="image" href={sprite.src} />;
 }
 
-type Name = "o-outline" | "o" | "restart" | "x-outline" | "icon-x";
+type Name = "o-outline" | "o" | "restart" | "x-outline" | "x";
 
 export default function Icon({
   name,
