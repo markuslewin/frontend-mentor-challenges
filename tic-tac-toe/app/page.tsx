@@ -16,7 +16,7 @@ export default function Home() {
             <label>
               <input type="radio" name="player-1" value="X" />
               <span> X</span>
-              <Icon className="text-red-700" name="icon-x" />
+              <Icon name="icon-x" />
             </label>
             <label>
               <input type="radio" name="player-1" value="O" />{" "}
