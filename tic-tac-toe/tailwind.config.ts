@@ -50,6 +50,7 @@ const config: Config = {
     },
     boxShadow: {
       "inner-large": `inset 0 -${rem(8)}`,
+      "inner-small": `inset 0 -${rem(4)}`,
     },
 
     extend: {},
