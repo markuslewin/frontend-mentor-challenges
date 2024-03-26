@@ -3,6 +3,7 @@
 import logo from "@/app/logo.svg";
 import Image from "next/image";
 import Icon from "../../components/icon";
+import * as Dialog from "@radix-ui/react-dialog";
 
 export default function Play() {
   return (
@@ -17,16 +18,44 @@ export default function Play() {
             <span className="sr-only">X&apos;s </span> turn
           </p>
         </div>
-        <button
-          className="justify-self-end bg-silver text-semi-dark-navy size-10 tablet:size-[3.25rem] rounded-[0.3125rem] tablet:rounded-[0.625rem] grid place-items-center shadow-inner-small shadow-[hsl(198_17%_50%)] hocus:bg-silver-hover transition-colors"
-          type="button"
-          onClick={() => {
-            console.log("Restart game");
-          }}
-        >
-          <Icon className="size-4 tablet:size-5" name="restart" />
-          <span className="sr-only"> Restart game</span>
-        </button>
+        <Dialog.Root>
+          <Dialog.Trigger className="justify-self-end bg-silver text-semi-dark-navy size-10 tablet:size-[3.25rem] rounded-[0.3125rem] tablet:rounded-[0.625rem] grid place-items-center shadow-inner-small shadow-[hsl(198_17%_50%)] hocus:bg-silver-hover transition-colors">
+            <Icon className="size-4 tablet:size-5" name="restart" />
+            <span className="sr-only"> Restart game</span>
+          </Dialog.Trigger>
+          <Dialog.Portal>
+            <Dialog.Overlay className="bg-[hsl(0_0%_0%/50%)] fixed inset-0 overflow-y-auto grid items-center">
+              <Dialog.Content className="bg-semi-dark-navy text-silver py-16 px-6 text-center">
+                <Dialog.Title className="text-heading-m tablet:text-heading-l">
+                  Restart game?
+                </Dialog.Title>
+                <Dialog.Description className="sr-only">
+                  Are you sure you want to restart the game?
+                </Dialog.Description>
+                <ul
+                  className="mt-6 tablet:mt-8 flex flex-wrap gap-4 justify-center"
+                  role="list"
+                >
+                  <li>
+                    <Dialog.Close className="bg-silver hocus:bg-silver-hover shadow-inner-small shadow-[hsl(198_17%_50%)] text-dark-navy text-heading-xs uppercase px-4 pt-[0.9375rem] pb-[1.0625rem] rounded-[0.625rem] transition-colors">
+                      No, cancel
+                    </Dialog.Close>
+                  </li>
+                  <li>
+                    <Dialog.Close
+                      className="bg-light-yellow hocus:bg-light-yellow-hover shadow-inner-small shadow-[hsl(39_83%_44%)] text-dark-navy text-heading-xs uppercase px-4 pt-[0.9375rem] pb-[1.0625rem] rounded-[0.625rem] transition-colors"
+                      onClick={() => {
+                        console.log("Restart game");
+                      }}
+                    >
+                      Yes, restart
+                    </Dialog.Close>
+                  </li>
+                </ul>
+              </Dialog.Content>
+            </Dialog.Overlay>
+          </Dialog.Portal>
+        </Dialog.Root>
       </header>
       <div>
         <main className="mt-5">
@@ -127,19 +156,7 @@ export default function Play() {
           </li>
         </ul>
       </div>
-
-      https://www.radix-ui.com/primitives/docs/components/dialog
-      <div>
-        <h2>Restart game?</h2>
-        <ul>
-          <li>
-            <button type="button">No, cancel</button>
-          </li>
-          <li>
-            <button type="button">Yes, restart</button>
-          </li>
-        </ul>
-      </div> */}
+       */}
       </div>
     </div>
   );
