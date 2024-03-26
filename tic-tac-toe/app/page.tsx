@@ -7,7 +7,12 @@ export default function Home() {
     <div className="min-h-screen grid grid-cols-[minmax(0,28.75rem)] place-content-center p-6">
       <header>
         <h1>
-          <Image className="w-[4.5rem] mx-auto" alt="Tic-tac-toe" src={logo} />
+          <Image
+            className="w-[4.5rem] mx-auto"
+            alt="Tic-tac-toe"
+            src={logo}
+            priority
+          />
         </h1>
       </header>
       <main className="mt-10">

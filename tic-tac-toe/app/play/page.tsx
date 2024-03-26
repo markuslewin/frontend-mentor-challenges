@@ -1,3 +1,5 @@
+"use client";
+
 import logo from "@/app/logo.svg";
 import Image from "next/image";
 import Icon from "../../components/icon";
@@ -7,7 +9,7 @@ export default function Play() {
     <div className="min-h-screen grid grid-cols-[minmax(0,28.75rem)] grid-rows-[1fr_auto_1fr] justify-center items-start tablet:grid-rows-none tablet:place-content-center p-6">
       <header className="grid grid-cols-3 gap-5 items-center">
         <h1>
-          <Image className="w-[4.5rem]" alt="Tic-tac-toe" src={logo} />
+          <Image className="w-[4.5rem]" alt="Tic-tac-toe" src={logo} priority />
         </h1>
         <div className="bg-semi-dark-navy text-silver font-bold tablet:text-heading-xs p-[0.5625rem] pb-[0.8125rem] tablet:p-[0.8125rem] tablet:pb-[1.1875rem] shadow-inner-small shadow-[hsl(201_45%_11%)] rounded-[0.625rem] grid justify-center">
           <p className="grid grid-cols-[max-content_1fr] gap-2 tablet:gap-3 items-center">
@@ -18,6 +20,9 @@ export default function Play() {
         <button
           className="justify-self-end bg-silver text-semi-dark-navy size-10 tablet:size-[3.25rem] rounded-[0.3125rem] tablet:rounded-[0.625rem] grid place-items-center shadow-inner-small shadow-[hsl(198_17%_50%)] hocus:bg-silver-hover transition-colors"
           type="button"
+          onClick={() => {
+            console.log("Restart game");
+          }}
         >
           <Icon className="size-4 tablet:size-5" name="restart" />
           <span className="sr-only"> Restart game</span>
@@ -26,55 +31,58 @@ export default function Play() {
       <div>
         <main className="mt-5">
           <h2 className="sr-only">Game</h2>
-          {/* https://react-spectrum.adobe.com/react-aria/Table.html */}
-          <table>
-            <thead>
-              <tr>
-                <th scope="col">Row</th>
-                <th scope="col">A</th>
-                <th scope="col">B</th>
-                <th scope="col">C</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row">3</th>
-                <td>
-                  <button type="button">Choose 3A</button>
-                </td>
-                <td>
-                  <button type="button">Choose 3B</button>
-                </td>
-                <td>
-                  <button type="button">Choose 3C</button>
-                </td>
-              </tr>
-              <tr>
-                <th scope="row">2</th>
-                <td>
-                  <button type="button">Choose 2A</button>
-                </td>
-                <td>
-                  <button type="button">Choose 2B</button>
-                </td>
-                <td>
-                  <button type="button">Choose 2C</button>
-                </td>
-              </tr>
-              <tr>
-                <th scope="row">1</th>
-                <td>
-                  <button type="button">Choose 1A</button>
-                </td>
-                <td>
-                  <button type="button">Choose 1B</button>
-                </td>
-                <td>
-                  <button type="button">Choose 1C</button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+          <ul className="grid grid-cols-3 gap-5" role="list">
+            {(["o", "x", null, null, null, null, null, "o", null] as const).map(
+              (marker, i) => {
+                const position = [
+                  "3A",
+                  "3B",
+                  "3C",
+                  "2A",
+                  "2B",
+                  "2C",
+                  "1A",
+                  "1B",
+                  "1C",
+                ][i];
+                const disabled = !!marker;
+
+                return (
+                  <li key={position}>
+                    <button
+                      className="group aspect-square w-full bg-semi-dark-navy rounded-[0.625rem] tablet:rounded-[0.9375rem] shadow-inner-large shadow-[hsl(201_45%_11%)] grid place-items-center"
+                      aria-disabled={disabled}
+                      onClick={
+                        disabled
+                          ? () => {}
+                          : () => {
+                              console.log(`Chose ${position}`);
+                            }
+                      }
+                    >
+                      {marker ? (
+                        <Icon
+                          className="size-10 tablet:size-16 data-[marker=x]:text-light-blue data-[marker=o]:text-light-yellow"
+                          name={marker}
+                          data-marker={marker}
+                        />
+                      ) : null}
+                      {marker ? null : (
+                        <Icon
+                          className="size-10 tablet:size-16 opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100 data-[marker=x]:text-light-blue data-[marker=o]:text-light-yellow transition-opacity"
+                          name="x-outline"
+                          data-marker={"x"}
+                          // name="o-outline"
+                          // data-marker={"o"}
+                        />
+                      )}
+                      <span className="sr-only">Choose {position}</span>
+                    </button>
+                  </li>
+                );
+              }
+            )}
+          </ul>
         </main>
         <footer className="mt-5">
           <h2 className="sr-only">Points</h2>
