@@ -48,7 +48,8 @@ export default function Home() {
             localStorage.setItem(
               "game",
               JSON.stringify({
-                moves: [],
+                marks: Array(9).fill(null),
+                starterMark: "x",
                 opponent: result.opponent,
                 playerOneMark: result["player-one-mark"],
               } satisfies GameState)
