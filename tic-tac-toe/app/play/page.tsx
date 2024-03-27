@@ -6,18 +6,62 @@ import Icon from "../../components/icon";
 import * as Dialog from "@radix-ui/react-dialog";
 import * as AlertDialog from "@radix-ui/react-alert-dialog";
 import { useEffect, useState } from "react";
+import { z } from "zod";
+import { useRouter } from "next/navigation";
 
-export default function Play() {
-  const [winOpen, setWinOpen] = useState(false);
+const GameState = z.object({
+  playerOneMark: z.union([z.literal("x"), z.literal("o")]),
+  opponent: z.union([z.literal("cpu"), z.literal("player")]),
+  moves: z.array(
+    z.object({
+      player: z.union([
+        z.literal("cpu"),
+        z.literal("player-one"),
+        z.literal("player-two"),
+      ]),
+      index: z.number().gte(0).lt(8),
+    })
+  ),
+});
+
+export type GameState = z.infer<typeof GameState>;
+
+export default function PlayRoute() {
+  const [hydrated, setHydrated] = useState(false);
 
   useEffect(() => {
-    const timeout = setTimeout(() => {
-      setWinOpen((open) => !open);
-    }, 3000);
-    return () => {
-      clearInterval(timeout);
-    };
+    setHydrated(true);
   }, []);
+
+  if (!hydrated) {
+    return null;
+  }
+  return <Play />;
+}
+
+function Play() {
+  const router = useRouter();
+  const [winOpen, setWinOpen] = useState(false);
+  const [state, setState] = useState(() => {
+    try {
+      return GameState.parse(JSON.parse(localStorage.getItem("game")!));
+    } catch (error) {
+      console.warn("Failed to parse game state", error);
+      return null;
+    }
+  });
+
+  useEffect(() => {
+    if (state) {
+      return;
+    }
+    router.replace("/");
+  }, [router, state]);
+
+  if (!state) {
+    // Redirecting to menu
+    return null;
+  }
 
   return (
     <div className="min-h-screen grid grid-cols-[minmax(0,28.75rem)] grid-rows-[1fr_auto_1fr] justify-center items-start tablet:grid-rows-none tablet:place-content-center p-6">
