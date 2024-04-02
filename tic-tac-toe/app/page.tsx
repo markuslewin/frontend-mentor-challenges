@@ -1,16 +1,13 @@
-"use client";
-
 import Image from "next/image";
 import logo from "@/app/logo.svg";
 import Icon from "../components/icon";
-import { invariant } from "@epic-web/invariant";
-import { useRouter } from "next/navigation";
+import { redirect } from "next/navigation";
 import { z } from "zod";
 import { GameState } from "./play/page";
+import { cookies } from "next/headers";
+import Button from "./button";
 
 export default function Home() {
-  const router = useRouter();
-
   return (
     <div className="min-h-screen grid grid-cols-[minmax(0,28.75rem)] place-content-center p-6">
       <header>
@@ -26,17 +23,8 @@ export default function Home() {
       <main className="mt-10">
         <form
           className="text-center"
-          onSubmit={(e) => {
-            e.preventDefault();
-            invariant(
-              e.nativeEvent instanceof SubmitEvent,
-              "Event must be SubmitEvent"
-            );
-
-            const formData = new FormData(
-              e.currentTarget,
-              e.nativeEvent.submitter
-            );
+          action={async (formData) => {
+            "use server";
 
             const result = z
               .object({
@@ -45,7 +33,7 @@ export default function Home() {
               })
               .parse(Object.fromEntries(formData));
 
-            localStorage.setItem(
+            cookies().set(
               "game",
               JSON.stringify({
                 marks: Array(9).fill(null),
@@ -54,7 +42,7 @@ export default function Home() {
                 playerOneMark: result["player-one-mark"],
               } satisfies GameState)
             );
-            router.push("/play");
+            redirect("/play");
           }}
         >
           <fieldset
@@ -97,8 +85,8 @@ export default function Home() {
           </fieldset>
           <ul className="mt-10" role="list">
             <li>
-              <button
-                className="rounded-[0.9375rem] w-full bg-[hsl(39_83%_44%)] pt-2 group"
+              <Button
+                className="rounded-[0.9375rem] w-full bg-[hsl(39_83%_44%)] pt-2 group disabled:opacity-50"
                 type="submit"
                 name="opponent"
                 value="cpu"
@@ -106,11 +94,11 @@ export default function Home() {
                 <span className="block bg-light-yellow text-dark-navy p-[0.875rem] tablet:p-[1.0625rem] uppercase text-heading-xs tablet:text-heading-s rounded-[inherit] -translate-y-2 group-focus-visible:bg-light-yellow-hover group-hover:bg-light-yellow-hover transition-colors">
                   New Game (vs CPU)
                 </span>
-              </button>
+              </Button>
             </li>
             <li className="mt-5">
-              <button
-                className="rounded-[0.9375rem] w-full bg-[hsl(178_79%_31%)] pt-2 group"
+              <Button
+                className="rounded-[0.9375rem] w-full bg-[hsl(178_79%_31%)] pt-2 group disabled:opacity-50"
                 type="submit"
                 name="opponent"
                 value="player"
@@ -118,7 +106,7 @@ export default function Home() {
                 <span className="block bg-light-blue text-dark-navy p-[0.875rem] tablet:p-[1.0625rem] uppercase text-heading-xs tablet:text-heading-s rounded-[inherit] -translate-y-2 group-focus-visible:bg-light-blue-hover group-hover:bg-light-blue-hover transition-colors">
                   New Game (vs player)
                 </span>
-              </button>
+              </Button>
             </li>
           </ul>
         </form>
