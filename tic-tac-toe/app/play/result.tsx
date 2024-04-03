@@ -3,7 +3,13 @@
 import * as AlertDialog from "@radix-ui/react-alert-dialog";
 import { GameState, Mark } from "./page";
 import Icon from "../../components/icon";
-import { ReactNode, useEffect, useState, useTransition } from "react";
+import {
+  ReactNode,
+  RefAttributes,
+  useEffect,
+  useState,
+  useTransition,
+} from "react";
 
 export function TieResult({
   onQuit,
@@ -12,6 +18,8 @@ export function TieResult({
   onQuit(): void;
   onNextRound(): void;
 }) {
+  const [isPending, startTransition] = useTransition();
+
   return (
     <Result>
       <AlertDialog.Content
@@ -21,7 +29,22 @@ export function TieResult({
         <AlertDialog.Title className="text-heading-m tablet:text-heading-l">
           Round tied
         </AlertDialog.Title>
-        <ResultActions onQuit={onQuit} onNextRound={onNextRound} />
+        <Actions>
+          <Cancel
+            disabled={isPending}
+            onClick={async () => {
+              startTransition(() => {
+                onQuit();
+              });
+            }}
+          >
+            Quit
+            <span className="sr-only" aria-live="assertive">
+              {isPending ? " Loading." : null}
+            </span>
+          </Cancel>
+          <Action onClick={onNextRound}>Next round</Action>
+        </Actions>
       </AlertDialog.Content>
     </Result>
   );
@@ -40,6 +63,8 @@ export function WinResult({
   onQuit(): void;
   onNextRound(): void;
 }) {
+  const [isPending, startTransition] = useTransition();
+
   return (
     <Result>
       <AlertDialog.Content className="bg-semi-dark-navy text-silver pt-10 pb-12 px-6 tablet:py-11 text-center">
@@ -60,7 +85,22 @@ export function WinResult({
           <span className="sr-only">{mark === "o" ? "O" : "X"} </span>
           takes the round
         </AlertDialog.Description>
-        <ResultActions onQuit={onQuit} onNextRound={onNextRound} />
+        <Actions>
+          <Cancel
+            disabled={isPending}
+            onClick={async () => {
+              startTransition(() => {
+                onQuit();
+              });
+            }}
+          >
+            Quit
+            <span className="sr-only" aria-live="assertive">
+              {isPending ? " Loading." : null}
+            </span>
+          </Cancel>
+          <Action onClick={onNextRound}>Next round</Action>
+        </Actions>
       </AlertDialog.Content>
     </Result>
   );
@@ -84,44 +124,39 @@ function Result({ children }: { children: ReactNode }) {
   );
 }
 
-function ResultActions({
-  onQuit,
-  onNextRound,
-}: {
-  onQuit(): void;
-  onNextRound(): void;
-}) {
-  const [isPending, startTransition] = useTransition();
-
+function Actions({ children }: { children: ReactNode }) {
   return (
     <ul
       className="mt-6 tablet:mt-8 flex flex-wrap gap-4 justify-center"
       role="list"
     >
-      <li>
-        <AlertDialog.Cancel
-          className="bg-silver hocus:bg-silver-hover shadow-inner-small shadow-[hsl(198_17%_50%)] text-dark-navy text-heading-xs uppercase px-4 pt-[0.9375rem] pb-[1.0625rem] rounded-[0.625rem] transition-colors disabled:opacity-50"
-          disabled={isPending}
-          onClick={async () => {
-            startTransition(() => {
-              onQuit();
-            });
-          }}
-        >
-          Quit
-          <span className="sr-only" aria-live="assertive">
-            {isPending ? " Loading." : null}
-          </span>
-        </AlertDialog.Cancel>
-      </li>
-      <li>
-        <AlertDialog.Action
-          className="bg-light-yellow hocus:bg-light-yellow-hover shadow-inner-small shadow-[hsl(39_83%_44%)] text-dark-navy text-heading-xs uppercase px-4 pt-[0.9375rem] pb-[1.0625rem] rounded-[0.625rem] transition-colors"
-          onClick={onNextRound}
-        >
-          Next round
-        </AlertDialog.Action>
-      </li>
+      {children}
     </ul>
+  );
+}
+
+function Cancel(
+  props: AlertDialog.AlertDialogCancelProps & RefAttributes<HTMLButtonElement>
+) {
+  return (
+    <li>
+      <AlertDialog.Cancel
+        className="bg-silver hocus:bg-silver-hover shadow-inner-small shadow-[hsl(198_17%_50%)] text-dark-navy text-heading-xs uppercase px-4 pt-[0.9375rem] pb-[1.0625rem] rounded-[0.625rem] transition-colors disabled:opacity-50"
+        {...props}
+      />
+    </li>
+  );
+}
+
+function Action(
+  props: AlertDialog.AlertDialogActionProps & RefAttributes<HTMLButtonElement>
+) {
+  return (
+    <li>
+      <AlertDialog.Action
+        className="bg-light-yellow hocus:bg-light-yellow-hover shadow-inner-small shadow-[hsl(39_83%_44%)] text-dark-navy text-heading-xs uppercase px-4 pt-[0.9375rem] pb-[1.0625rem] rounded-[0.625rem] transition-colors"
+        {...props}
+      />
+    </li>
   );
 }
