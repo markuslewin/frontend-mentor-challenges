@@ -112,58 +112,68 @@ export function Game({ initialState }: { initialState: GameState }) {
       </header>
       <div>
         <main className="mt-5">
-          <h2 className="sr-only">Game</h2>
-          <form>
-            <ul className="grid grid-cols-3 gap-5" role="list">
-              {state.marks.map((mark, i) => {
-                const position = [
-                  "3A",
-                  "3B",
-                  "3C",
-                  "2A",
-                  "2B",
-                  "2C",
-                  "1A",
-                  "1B",
-                  "1C",
-                ][i];
-                const disabled = !!mark;
+          <h2 className="sr-only" id="board-label">
+            Game
+          </h2>
+          <ul
+            className="grid grid-cols-3 gap-5"
+            role="list"
+            aria-labelledby="board-label"
+          >
+            {state.marks.map((mark, i) => {
+              const position = [
+                "3A",
+                "3B",
+                "3C",
+                "2A",
+                "2B",
+                "2C",
+                "1A",
+                "1B",
+                "1C",
+              ][i];
+              const disabled = !!mark;
 
-                return (
-                  <li key={position}>
-                    <button
-                      className="group aspect-square w-full bg-semi-dark-navy rounded-[0.625rem] tablet:rounded-[0.9375rem] shadow-inner-large shadow-[hsl(201_45%_11%)] grid place-items-center"
-                      type="button"
-                      aria-disabled={disabled}
-                      onClick={
-                        disabled
-                          ? () => {}
-                          : () => {
-                              handleMark(i);
-                            }
-                      }
-                    >
-                      {mark ? (
-                        <Icon
-                          className="size-10 tablet:size-16 data-[mark=x]:text-light-blue data-[mark=o]:text-light-yellow"
-                          name={mark}
-                          data-mark={mark}
-                        />
-                      ) : null}
-                      {mark ? null : (
-                        <Icon
-                          className="size-10 tablet:size-16 opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100 data-[mark=x]:text-light-blue data-[mark=o]:text-light-yellow"
-                          name={nextMark === "o" ? "o-outline" : "x-outline"}
-                          data-mark={nextMark}
-                        />
-                      )}
-                      <span className="sr-only">Choose {position}</span>
-                    </button>
-                  </li>
-                );
-              })}
-            </ul>
-          </form>
+              return (
+                <li key={position}>
+                  <button
+                    className="group aspect-square w-full bg-semi-dark-navy rounded-[0.625rem] tablet:rounded-[0.9375rem] shadow-inner-large shadow-[hsl(201_45%_11%)] grid place-items-center"
+                    type="button"
+                    aria-disabled={disabled}
+                    onClick={
+                      disabled
+                        ? () => {}
+                        : () => {
+                            handleMark(i);
+                          }
+                    }
+                  >
+                    {mark ? (
+                      <Icon
+                        className="size-10 tablet:size-16 data-[mark=x]:text-light-blue data-[mark=o]:text-light-yellow"
+                        name={mark}
+                        data-mark={mark}
+                      />
+                    ) : null}
+                    {mark ? null : (
+                      <Icon
+                        className="size-10 tablet:size-16 opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100 data-[mark=x]:text-light-blue data-[mark=o]:text-light-yellow"
+                        name={nextMark === "o" ? "o-outline" : "x-outline"}
+                        data-mark={nextMark}
+                      />
+                    )}
+                    <span className="sr-only">
+                      {mark === "o"
+                        ? "O"
+                        : mark === "x"
+                        ? "X"
+                        : `Choose ${position}`}
+                    </span>
+                  </button>
+                </li>
+              );
+            })}
+          </ul>
         </main>
         <footer className="mt-5">
           <h2 className="sr-only">Points</h2>
