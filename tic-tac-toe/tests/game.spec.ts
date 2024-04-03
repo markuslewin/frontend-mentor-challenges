@@ -178,3 +178,29 @@ test("restart", async ({ page }) => {
 
   await expect(availablePositions).toHaveCount(9);
 });
+
+test("preserves state between navigations", async ({ page }) => {
+  await page.goto("/");
+  await page.getByRole("radio", { name: /x/i }).click({ force: true });
+  await page.getByRole("button", { name: /vs player/i }).click();
+
+  // ---
+  // -X-
+  // ---
+  const position = page
+    .getByRole("list", { name: "game" })
+    .getByRole("button")
+    .nth(4);
+  position.click();
+  await expect(position).toHaveText(/x/i);
+
+  await page.goto("/");
+  await page.goto("/play");
+
+  await expect(position).toHaveText(/x/i);
+  await expect(
+    page
+      .getByRole("list", { name: "game" })
+      .getByRole("button", { name: "choose" })
+  ).toHaveCount(8);
+});

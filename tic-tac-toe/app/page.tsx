@@ -3,9 +3,27 @@ import logo from "@/app/logo.svg";
 import Icon from "../components/icon";
 import { redirect } from "next/navigation";
 import { z } from "zod";
-import { GameState } from "./play/page";
-import { cookies } from "next/headers";
 import Button from "./button";
+import { persistState } from "../utils/tic-tac-toe/server";
+
+async function start(formData: FormData) {
+  "use server";
+
+  const result = z
+    .object({
+      "player-one-mark": z.union([z.literal("x"), z.literal("o")]),
+      opponent: z.union([z.literal("cpu"), z.literal("player")]),
+    })
+    .parse(Object.fromEntries(formData));
+
+  persistState({
+    marks: Array(9).fill(null),
+    starterMark: "x",
+    opponent: result.opponent,
+    playerOneMark: result["player-one-mark"],
+  });
+  redirect("/play");
+}
 
 export default function Home() {
   return (
@@ -21,30 +39,7 @@ export default function Home() {
         </h1>
       </header>
       <main className="mt-10">
-        <form
-          className="text-center"
-          action={async (formData) => {
-            "use server";
-
-            const result = z
-              .object({
-                "player-one-mark": z.union([z.literal("x"), z.literal("o")]),
-                opponent: z.union([z.literal("cpu"), z.literal("player")]),
-              })
-              .parse(Object.fromEntries(formData));
-
-            cookies().set(
-              "game",
-              JSON.stringify({
-                marks: Array(9).fill(null),
-                starterMark: "x",
-                opponent: result.opponent,
-                playerOneMark: result["player-one-mark"],
-              } satisfies GameState)
-            );
-            redirect("/play");
-          }}
-        >
+        <form className="text-center" action={start}>
           <fieldset
             className="bg-semi-dark-navy text-silver rounded-[0.9375rem] p-6 pb-[1.875rem] grid shadow-inner-large shadow-[hsl(201_45%_11%)]"
             aria-describedby="player-1-reminder"

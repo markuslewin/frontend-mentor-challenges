@@ -1,13 +1,14 @@
 "use client";
 
-import { useEffect, useState, useTransition } from "react";
-import { GameState, Mark } from "./page";
+import { useEffect, useState } from "react";
 import { RestartDialog } from "./restart";
 import Icon from "../../components/icon";
 import Image from "next/image";
 import logo from "@/app/logo.svg";
 import { TieResult, WinResult } from "./result";
 import { useRouter } from "next/navigation";
+import { GameState, Mark } from "../../utils/tic-tac-toe/shared";
+import { persistState } from "../../utils/tic-tac-toe/client";
 
 function opposite(mark: Mark) {
   if (mark === "o") {
@@ -96,7 +97,7 @@ export function Game({ initialState }: { initialState: GameState }) {
     useTicTacToe(initialState);
 
   useEffect(() => {
-    document.cookie = `game=${encodeURIComponent(JSON.stringify(state))}`;
+    persistState(state);
   }, [state]);
 
   function handleQuit() {
