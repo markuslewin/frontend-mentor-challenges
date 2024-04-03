@@ -9,41 +9,36 @@ import logo from "@/app/logo.svg";
 import { TieResult, WinResult } from "./result";
 import { useRouter } from "next/navigation";
 
-export function Game({ initialState }: { initialState: GameState }) {
-  const router = useRouter();
-  const [state, setState] = useState(initialState);
+function opposite(mark: Mark) {
+  if (mark === "o") {
+    return "x";
+  }
+  return "o";
+}
 
-  useEffect(() => {
-    document.cookie = `game=${encodeURIComponent(JSON.stringify(state))}`;
+function hasWon(marks: (Mark | null)[], mark: Mark) {
+  const winningPositions = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8],
+    [2, 4, 6],
+  ];
+
+  return winningPositions.some((winningPosition) => {
+    return winningPosition
+      .map((index) => {
+        return marks[index];
+      })
+      .every((m) => m === mark);
   });
+}
 
-  function opposite(mark: Mark) {
-    if (mark === "o") {
-      return "x";
-    }
-    return "o";
-  }
-
-  function hasWon(marks: (Mark | null)[], mark: Mark) {
-    const winningPositions = [
-      [0, 1, 2],
-      [3, 4, 5],
-      [6, 7, 8],
-      [0, 3, 6],
-      [1, 4, 7],
-      [2, 5, 8],
-      [0, 4, 8],
-      [2, 4, 6],
-    ];
-
-    return winningPositions.some((winningPosition) => {
-      return winningPosition
-        .map((index) => {
-          return marks[index];
-        })
-        .every((m) => m === mark);
-    });
-  }
+function useTicTacToe(initialState: GameState) {
+  const [state, setState] = useState(initialState);
 
   const emptyCount = state.marks.filter((mark) => {
     return mark === null;
@@ -59,38 +54,53 @@ export function Game({ initialState }: { initialState: GameState }) {
     ? ({ status: "tie" } as const)
     : ({ status: "ongoing" } as const);
 
-  function handleRestart() {
-    setState({
-      marks: Array(9).fill(null),
-      starterMark: state.starterMark === "o" ? "x" : "o",
-      opponent: state.opponent,
-      playerOneMark: state.playerOneMark,
-    } satisfies GameState);
-  }
+  return {
+    state,
+    nextMark,
+    result,
+    // todo: Spread old state
+    restart() {
+      setState({
+        marks: Array(9).fill(null),
+        // todo: Don't change starter mark
+        starterMark: state.starterMark === "o" ? "x" : "o",
+        opponent: state.opponent,
+        playerOneMark: state.playerOneMark,
+      });
+    },
+    next() {
+      setState({
+        marks: Array(9).fill(null),
+        starterMark: state.starterMark === "o" ? "x" : "o",
+        opponent: state.opponent,
+        playerOneMark: state.playerOneMark,
+      });
+    },
+    choose(index: number) {
+      setState({
+        ...state,
+        marks: state.marks.map((mark, i) => {
+          if (i === index) {
+            return nextMark;
+          }
+          return mark;
+        }),
+      });
+    },
+  };
+}
+
+export function Game({ initialState }: { initialState: GameState }) {
+  const router = useRouter();
+  const { state, nextMark, result, restart, next, choose } =
+    useTicTacToe(initialState);
+
+  useEffect(() => {
+    document.cookie = `game=${encodeURIComponent(JSON.stringify(state))}`;
+  }, [state]);
 
   function handleQuit() {
     router.replace("/");
-  }
-
-  function handleNextRound() {
-    setState({
-      marks: Array(9).fill(null),
-      starterMark: state.starterMark === "o" ? "x" : "o",
-      opponent: state.opponent,
-      playerOneMark: state.playerOneMark,
-    });
-  }
-
-  function handleMark(index: number) {
-    setState({
-      ...state,
-      marks: state.marks.map((mark, i) => {
-        if (i === index) {
-          return nextMark;
-        }
-        return mark;
-      }),
-    });
   }
 
   return (
@@ -108,7 +118,7 @@ export function Game({ initialState }: { initialState: GameState }) {
             turn
           </p>
         </div>
-        <RestartDialog onRestart={handleRestart} />
+        <RestartDialog onRestart={restart} />
       </header>
       <div>
         <main className="mt-5">
@@ -144,7 +154,7 @@ export function Game({ initialState }: { initialState: GameState }) {
                       disabled
                         ? () => {}
                         : () => {
-                            handleMark(i);
+                            choose(i);
                           }
                     }
                   >
@@ -200,14 +210,14 @@ export function Game({ initialState }: { initialState: GameState }) {
         </footer>
       </div>
       {result.status === "tie" ? (
-        <TieResult onQuit={handleQuit} onNextRound={handleNextRound} />
+        <TieResult onQuit={handleQuit} onNextRound={next} />
       ) : result.status === "win" ? (
         <WinResult
           mark={result.mark}
           opponent={state.opponent}
           playerOneMark={state.playerOneMark}
           onQuit={handleQuit}
-          onNextRound={handleNextRound}
+          onNextRound={next}
         />
       ) : null}
     </div>
