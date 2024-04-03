@@ -150,14 +150,14 @@ export function Game({ initialState }: { initialState: GameState }) {
                   >
                     {mark ? (
                       <Icon
-                        className="size-10 tablet:size-16 data-[mark=x]:text-light-blue data-[mark=o]:text-light-yellow"
+                        className="size-[calc(40/96*100%)] tablet:size-[calc(64/140*100%)] data-[mark=x]:text-light-blue data-[mark=o]:text-light-yellow"
                         name={mark}
                         data-mark={mark}
                       />
                     ) : null}
                     {mark ? null : (
                       <Icon
-                        className="size-10 tablet:size-16 opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100 data-[mark=x]:text-light-blue data-[mark=o]:text-light-yellow"
+                        className="size-[calc(40/96*100%)] tablet:size-[calc(64/140*100%)] opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100 data-[mark=x]:text-light-blue data-[mark=o]:text-light-yellow"
                         name={nextMark === "o" ? "o-outline" : "x-outline"}
                         data-mark={nextMark}
                       />
