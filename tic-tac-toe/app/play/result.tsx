@@ -1,7 +1,6 @@
 "use client";
 
 import * as AlertDialog from "@radix-ui/react-alert-dialog";
-import { GameState, Mark } from "./page";
 import Icon from "../../components/icon";
 import {
   ReactNode,
@@ -10,6 +9,7 @@ import {
   useState,
   useTransition,
 } from "react";
+import { GameState, Mark } from "../../utils/tic-tac-toe/shared";
 
 export function TieResult({
   onQuit,
