@@ -177,6 +177,7 @@ test("restart", async ({ page }) => {
   await page.getByRole("button", { name: "yes" }).click();
 
   await expect(availablePositions).toHaveCount(9);
+  await expect(page.getByText("x's turn")).toBeVisible();
 });
 
 test("preserves state between navigations", async ({ page }) => {

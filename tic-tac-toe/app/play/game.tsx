@@ -47,6 +47,7 @@ function useTicTacToe(initialState: GameState) {
   const nextMark =
     emptyCount % 2 ? state.starterMark : opposite(state.starterMark);
 
+  // todo: status: 'playing' | 'finished.winner' | 'finished.tie'?
   const result = hasWon(state.marks, "x")
     ? ({ status: "win", mark: "x" } as const)
     : hasWon(state.marks, "o")
@@ -59,22 +60,17 @@ function useTicTacToe(initialState: GameState) {
     state,
     nextMark,
     result,
-    // todo: Spread old state
     restart() {
       setState({
+        ...state,
         marks: Array(9).fill(null),
-        // todo: Don't change starter mark
-        starterMark: state.starterMark === "o" ? "x" : "o",
-        opponent: state.opponent,
-        playerOneMark: state.playerOneMark,
       });
     },
     next() {
       setState({
+        ...state,
         marks: Array(9).fill(null),
         starterMark: state.starterMark === "o" ? "x" : "o",
-        opponent: state.opponent,
-        playerOneMark: state.playerOneMark,
       });
     },
     choose(index: number) {
