@@ -10,83 +10,6 @@ import { useRouter } from "next/navigation";
 import { GameState, Mark } from "../../utils/tic-tac-toe/shared";
 import { persistState } from "../../utils/tic-tac-toe/client";
 
-function opposite(mark: Mark) {
-  if (mark === "o") {
-    return "x";
-  }
-  return "o";
-}
-
-function hasWon(marks: (Mark | null)[], mark: Mark) {
-  const winningPositions = [
-    [0, 1, 2],
-    [3, 4, 5],
-    [6, 7, 8],
-    [0, 3, 6],
-    [1, 4, 7],
-    [2, 5, 8],
-    [0, 4, 8],
-    [2, 4, 6],
-  ];
-
-  return winningPositions.some((winningPosition) => {
-    return winningPosition
-      .map((index) => {
-        return marks[index];
-      })
-      .every((m) => m === mark);
-  });
-}
-
-function useTicTacToe(initialState: GameState) {
-  const [state, setState] = useState(initialState);
-
-  const emptyCount = state.marks.filter((mark) => {
-    return mark === null;
-  }).length;
-  const nextMark =
-    emptyCount % 2 ? state.starterMark : opposite(state.starterMark);
-
-  // todo: status: 'playing' | 'finished.winner' | 'finished.tie'?
-  const result = hasWon(state.marks, "x")
-    ? ({ status: "win", mark: "x" } as const)
-    : hasWon(state.marks, "o")
-    ? ({ status: "win", mark: "o" } as const)
-    : emptyCount <= 0
-    ? ({ status: "tie" } as const)
-    : ({ status: "ongoing" } as const);
-
-  return {
-    state,
-    nextMark,
-    result,
-    restart() {
-      setState({
-        ...state,
-        marks: Array(9).fill(null),
-      });
-    },
-    next() {
-      setState({
-        ...state,
-        marks: Array(9).fill(null),
-        starterMark: state.starterMark === "o" ? "x" : "o",
-      });
-    },
-    choose(index: number) {
-      setState({
-        ...state,
-        marks: state.marks.map((mark, i) => {
-          if (i === index) {
-            return nextMark;
-          }
-          return mark;
-        }),
-      });
-    },
-  };
-}
-
 export function Game({ initialState }: { initialState: GameState }) {
   const router = useRouter();
   const { state, nextMark, result, restart, next, choose } =
@@ -183,24 +106,45 @@ export function Game({ initialState }: { initialState: GameState }) {
           </ul>
         </main>
         <footer className="mt-5">
-          <h2 className="sr-only">Points</h2>
-          <ul className="grid grid-cols-3 gap-5 text-center text-[0.75rem] leading-[0.9375rem] tracking-[0.046875rem] font-medium tablet:text-body">
+          <h2 className="sr-only" id="score-label">
+            Score
+          </h2>
+          <ul
+            className="grid grid-cols-3 gap-5 text-center text-[0.75rem] leading-[0.9375rem] tracking-[0.046875rem] font-medium tablet:text-body"
+            aria-labelledby="score-label"
+          >
             <li className="bg-light-blue text-dark-navy rounded-[0.625rem] tablet:rounded-[0.9375rem] p-3 grid">
-              X (You):{" "}
+              X (
+              {state.opponent === "cpu"
+                ? state.playerOneMark === "o"
+                  ? "CPU"
+                  : "You"
+                : state.playerOneMark === "o"
+                ? "P2"
+                : "P1"}
+              ):{" "}
               <strong className="text-heading-s tablet:text-heading-m">
-                0
+                {state.score.x}
               </strong>
             </li>
             <li className="bg-silver text-dark-navy rounded-[0.625rem] tablet:rounded-[0.9375rem] p-3 grid">
               Ties:{" "}
               <strong className="text-heading-s tablet:text-heading-m">
-                0
+                {state.score.ties}
               </strong>
             </li>
             <li className="bg-light-yellow text-dark-navy rounded-[0.625rem] tablet:rounded-[0.9375rem] p-3 grid">
-              O (CPU):{" "}
+              O (
+              {state.opponent === "cpu"
+                ? state.playerOneMark === "o"
+                  ? "You"
+                  : "CPU"
+                : state.playerOneMark === "o"
+                ? "P1"
+                : "P2"}
+              ):{" "}
               <strong className="text-heading-s tablet:text-heading-m">
-                0
+                {state.score.o}
               </strong>
             </li>
           </ul>
@@ -219,4 +163,95 @@ export function Game({ initialState }: { initialState: GameState }) {
       ) : null}
     </div>
   );
+}
+
+function opposite(mark: Mark) {
+  if (mark === "o") {
+    return "x";
+  }
+  return "o";
+}
+
+function hasWon(marks: (Mark | null)[], mark: Mark) {
+  const winningPositions = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8],
+    [2, 4, 6],
+  ];
+
+  return winningPositions.some((winningPosition) => {
+    return winningPosition
+      .map((index) => {
+        return marks[index];
+      })
+      .every((m) => m === mark);
+  });
+}
+
+function useTicTacToe(initialState: GameState) {
+  const [state, setState] = useState(initialState);
+
+  const emptyCount = state.marks.filter((mark) => {
+    return mark === null;
+  }).length;
+  const nextMark =
+    emptyCount % 2 ? state.starterMark : opposite(state.starterMark);
+
+  // todo: status: 'playing' | 'finished.winner' | 'finished.tie'?
+  const result = hasWon(state.marks, "x")
+    ? ({ status: "win", mark: "x" } as const)
+    : hasWon(state.marks, "o")
+    ? ({ status: "win", mark: "o" } as const)
+    : emptyCount <= 0
+    ? ({ status: "tie" } as const)
+    : ({ status: "ongoing" } as const);
+
+  return {
+    state,
+    nextMark,
+    result,
+    restart() {
+      setState({
+        ...state,
+        marks: Array(9).fill(null),
+      });
+    },
+    next() {
+      setState({
+        ...state,
+        marks: Array(9).fill(null),
+        starterMark: state.starterMark === "o" ? "x" : "o",
+      });
+    },
+    choose(index: number) {
+      // todo: Assert valid index
+
+      const nextMarks = state.marks.map((mark, i) => {
+        if (i === index) {
+          return nextMark;
+        }
+        return mark;
+      });
+
+      // todo: const status = parseStatus(marks)
+      const didWin = hasWon(nextMarks, nextMark);
+      const didTie = nextMarks.every((mark) => mark !== null);
+      const nextScore = didWin
+        ? { ...state.score, [nextMark]: state.score[nextMark] + 1 }
+        : didTie
+        ? { ...state.score, ties: state.score.ties + 1 }
+        : state.score;
+
+      setState({
+        ...state,
+        marks: nextMarks,
+        score: nextScore,
+      });
+    },
+  };
 }

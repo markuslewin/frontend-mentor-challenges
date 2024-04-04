@@ -51,6 +51,15 @@ test("player 1 win", async ({ page }) => {
     page.getByRole("heading", { name: "player 1 wins" })
   ).toBeVisible();
   await expect(page.getByText("x takes the round")).toBeVisible();
+
+  await page.getByRole("button", { name: "next" }).click();
+  await expect(
+    page
+      .getByRole("list", { name: "score" })
+      .getByRole("listitem")
+      .filter({ hasText: "p1" })
+      .getByRole("strong")
+  ).toHaveText("1");
 });
 
 test("player 2 win", async ({ page }) => {
@@ -71,6 +80,15 @@ test("player 2 win", async ({ page }) => {
     page.getByRole("heading", { name: "player 2 wins" })
   ).toBeVisible();
   await expect(page.getByText("o takes the round")).toBeVisible();
+
+  await page.getByRole("button", { name: "next" }).click();
+  await expect(
+    page
+      .getByRole("list", { name: "score" })
+      .getByRole("listitem")
+      .filter({ hasText: "p2" })
+      .getByRole("strong")
+  ).toHaveText("1");
 });
 
 test("tie", async ({ page }) => {
@@ -98,6 +116,15 @@ test("tie", async ({ page }) => {
   }
 
   await expect(page.getByRole("heading", { name: "round tied" })).toBeVisible();
+
+  await page.getByRole("button", { name: "next" }).click();
+  await expect(
+    page
+      .getByRole("list", { name: "score" })
+      .getByRole("listitem")
+      .filter({ hasText: "ties" })
+      .getByRole("strong")
+  ).toHaveText("1");
 });
 
 test("quit", async ({ page }) => {

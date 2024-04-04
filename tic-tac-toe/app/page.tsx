@@ -21,6 +21,11 @@ async function start(formData: FormData) {
     starterMark: "x",
     opponent: result.opponent,
     playerOneMark: result["player-one-mark"],
+    score: {
+      o: 0,
+      ties: 0,
+      x: 0,
+    },
   });
   redirect("/play");
 }
