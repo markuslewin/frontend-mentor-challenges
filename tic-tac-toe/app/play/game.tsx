@@ -9,6 +9,7 @@ import { TieResult, WinResult } from "./result";
 import { useRouter } from "next/navigation";
 import { GameState, Mark } from "../../utils/tic-tac-toe/shared";
 import { persistState } from "../../utils/tic-tac-toe/client";
+import { invariant } from "@epic-web/invariant";
 
 export function Game({ initialState }: { initialState: GameState }) {
   const router = useRouter();
@@ -62,21 +63,16 @@ export function Game({ initialState }: { initialState: GameState }) {
                 "1B",
                 "1C",
               ][i];
-              const disabled = !!mark;
 
               return (
                 <li key={position}>
                   <button
                     className="group aspect-square w-full bg-semi-dark-navy rounded-[0.625rem] tablet:rounded-[0.9375rem] shadow-inner-large shadow-[hsl(201_45%_11%)] grid place-items-center"
                     type="button"
-                    aria-disabled={disabled}
-                    onClick={
-                      disabled
-                        ? () => {}
-                        : () => {
-                            choose(i);
-                          }
-                    }
+                    aria-disabled={!!mark}
+                    onClick={() => {
+                      choose(i);
+                    }}
                   >
                     {mark ? (
                       <Icon
@@ -229,7 +225,11 @@ function useTicTacToe(initialState: GameState) {
       });
     },
     choose(index: number) {
-      // todo: Assert valid index
+      invariant(0 <= index && index < 9, "Invalid index range");
+
+      if (state.marks[index] !== null) {
+        return;
+      }
 
       const nextMarks = state.marks.map((mark, i) => {
         if (i === index) {

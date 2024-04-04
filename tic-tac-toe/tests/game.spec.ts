@@ -232,3 +232,22 @@ test("preserves state between navigations", async ({ page }) => {
       .getByRole("button", { name: "choose" })
   ).toHaveCount(8);
 });
+
+test("can't mark already marked position", async ({ page }) => {
+  await page.goto("/");
+  await page.getByRole("radio", { name: /x/i }).click({ force: true });
+  await page.getByRole("button", { name: /vs player/i }).click();
+
+  const position = page
+    .getByRole("list", { name: "game" })
+    .getByRole("button")
+    .first();
+  await position.click();
+
+  await expect(position).toHaveText(/x/i);
+
+  // Force click on disabled button
+  await position.click({ force: true });
+
+  await expect(position).toHaveText(/x/i);
+});
