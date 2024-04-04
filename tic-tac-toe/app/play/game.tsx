@@ -13,8 +13,7 @@ import { invariant } from "@epic-web/invariant";
 
 export function Game({ initialState }: { initialState: GameState }) {
   const router = useRouter();
-  const { state, nextMark, result, restart, next, choose } =
-    useTicTacToe(initialState);
+  const { state, result, restart, next, choose } = useTicTacToe(initialState);
 
   useEffect(() => {
     persistState(state);
@@ -23,6 +22,15 @@ export function Game({ initialState }: { initialState: GameState }) {
   function handleQuit() {
     router.replace("/");
   }
+
+  let nextMark: Mark | null = null;
+  if (result.status === "finished") {
+    // The last mark
+    nextMark = getNextMark(state.marks, state.starterMark) === "o" ? "x" : "o";
+  } else if (result.status === "playing") {
+    nextMark = getNextMark(state.marks, state.starterMark);
+  }
+  invariant(nextMark, "Invalid next mark");
 
   return (
     <div className="min-h-screen grid grid-cols-[minmax(0,28.75rem)] grid-rows-[1fr_auto_1fr] justify-center items-start tablet:grid-rows-none tablet:place-content-center p-6">
@@ -146,70 +154,30 @@ export function Game({ initialState }: { initialState: GameState }) {
           </ul>
         </footer>
       </div>
-      {result.status === "tie" ? (
-        <TieResult onQuit={handleQuit} onNextRound={next} />
-      ) : result.status === "win" ? (
-        <WinResult
-          mark={result.mark}
-          opponent={state.opponent}
-          playerOneMark={state.playerOneMark}
-          onQuit={handleQuit}
-          onNextRound={next}
-        />
+      {result.status === "finished" ? (
+        result.data.type === "tie" ? (
+          <TieResult onQuit={handleQuit} onNextRound={next} />
+        ) : result.data.type === "win" ? (
+          <WinResult
+            mark={result.data.data.winner}
+            opponent={state.opponent}
+            playerOneMark={state.playerOneMark}
+            onQuit={handleQuit}
+            onNextRound={next}
+          />
+        ) : null
       ) : null}
     </div>
   );
 }
 
-function opposite(mark: Mark) {
-  if (mark === "o") {
-    return "x";
-  }
-  return "o";
-}
-
-function hasWon(marks: (Mark | null)[], mark: Mark) {
-  const winningPositions = [
-    [0, 1, 2],
-    [3, 4, 5],
-    [6, 7, 8],
-    [0, 3, 6],
-    [1, 4, 7],
-    [2, 5, 8],
-    [0, 4, 8],
-    [2, 4, 6],
-  ];
-
-  return winningPositions.some((winningPosition) => {
-    return winningPosition
-      .map((index) => {
-        return marks[index];
-      })
-      .every((m) => m === mark);
-  });
-}
-
 function useTicTacToe(initialState: GameState) {
   const [state, setState] = useState(initialState);
 
-  const emptyCount = state.marks.filter((mark) => {
-    return mark === null;
-  }).length;
-  const nextMark =
-    emptyCount % 2 ? state.starterMark : opposite(state.starterMark);
-
-  // todo: status: 'playing' | 'finished.winner' | 'finished.tie'?
-  const result = hasWon(state.marks, "x")
-    ? ({ status: "win", mark: "x" } as const)
-    : hasWon(state.marks, "o")
-    ? ({ status: "win", mark: "o" } as const)
-    : emptyCount <= 0
-    ? ({ status: "tie" } as const)
-    : ({ status: "ongoing" } as const);
+  const result = parseStatus(state.marks);
 
   return {
     state,
-    nextMark,
     result,
     restart() {
       setState({
@@ -231,21 +199,24 @@ function useTicTacToe(initialState: GameState) {
         return;
       }
 
-      const nextMarks = state.marks.map((mark, i) => {
-        if (i === index) {
-          return nextMark;
-        }
-        return mark;
-      });
+      const nextMark = getNextMark(state.marks, state.starterMark);
 
-      // todo: const status = parseStatus(marks)
-      const didWin = hasWon(nextMarks, nextMark);
-      const didTie = nextMarks.every((mark) => mark !== null);
-      const nextScore = didWin
-        ? { ...state.score, [nextMark]: state.score[nextMark] + 1 }
-        : didTie
-        ? { ...state.score, ties: state.score.ties + 1 }
-        : state.score;
+      const nextMarks = [...state.marks];
+      nextMarks[index] = nextMark;
+
+      const nextResult = parseStatus(nextMarks);
+
+      const nextScore = { ...state.score };
+      if (nextResult.status === "finished") {
+        if (nextResult.data.type === "tie") {
+          nextScore.ties += 1;
+        } else if (nextResult.data.type === "win") {
+          const { winner } = nextResult.data.data;
+          nextScore[winner] += 1;
+        } else {
+          throw new Error("Invalid finished type");
+        }
+      }
 
       setState({
         ...state,
@@ -254,4 +225,75 @@ function useTicTacToe(initialState: GameState) {
       });
     },
   };
+}
+
+function parseStatus(marks: (Mark | null)[]) {
+  const winningPositions = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8],
+    [2, 4, 6],
+  ];
+
+  const isXWin = winningPositions.some((winningPosition) => {
+    return winningPosition
+      .map((index) => {
+        return marks[index];
+      })
+      .every((mark) => {
+        return mark === "x";
+      });
+  });
+  if (isXWin) {
+    return {
+      status: "finished",
+      data: {
+        type: "win",
+        data: {
+          winner: "x",
+        },
+      },
+    } as const;
+  }
+
+  const isOWin = winningPositions.some((winningPosition) => {
+    return winningPosition
+      .map((index) => {
+        return marks[index];
+      })
+      .every((mark) => {
+        return mark === "o";
+      });
+  });
+  if (isOWin) {
+    return {
+      status: "finished",
+      data: {
+        type: "win",
+        data: { winner: "o" },
+      },
+    } as const;
+  }
+
+  const isTie = marks.every((mark) => {
+    return mark !== null;
+  });
+  if (isTie) {
+    return { status: "finished", data: { type: "tie" } } as const;
+  }
+
+  return {
+    status: "playing",
+  } as const;
+}
+
+function getNextMark(marks: (Mark | null)[], starterMark: Mark) {
+  const markedCount = marks.filter((mark) => {
+    return mark !== null;
+  }).length;
+  return markedCount % 2 === 0 ? starterMark : starterMark === "o" ? "x" : "o";
 }

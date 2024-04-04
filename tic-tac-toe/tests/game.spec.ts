@@ -251,3 +251,19 @@ test("can't mark already marked position", async ({ page }) => {
 
   await expect(position).toHaveText(/x/i);
 });
+
+test("displays turn", async ({ page }) => {
+  await page.goto("/");
+  await page.getByRole("radio", { name: /x/i }).click({ force: true });
+  await page.getByRole("button", { name: /vs player/i }).click();
+
+  await expect(page.getByText("x's turn")).toBeVisible();
+
+  await page.getByRole("button", { name: "3a" }).click();
+
+  await expect(page.getByText("o's turn")).toBeVisible();
+
+  await page.getByRole("button", { name: "3b" }).click();
+
+  await expect(page.getByText("x's turn")).toBeVisible();
+});
