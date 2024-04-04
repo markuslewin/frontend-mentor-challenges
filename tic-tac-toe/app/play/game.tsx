@@ -7,7 +7,7 @@ import Image from "next/image";
 import logo from "@/app/logo.svg";
 import { TieResult, WinResult } from "./result";
 import { useRouter } from "next/navigation";
-import { GameState, Mark } from "../../utils/tic-tac-toe/shared";
+import { GameState, Mark, getCpuIndex } from "../../utils/tic-tac-toe/shared";
 import { persistState } from "../../utils/tic-tac-toe/client";
 import { invariant } from "@epic-web/invariant";
 
@@ -186,10 +186,16 @@ function useTicTacToe(initialState: GameState) {
       });
     },
     next() {
+      const nextStarterMark = state.starterMark === "o" ? "x" : "o";
+      const marks: (Mark | null)[] = Array(9).fill(null);
+      if (state.opponent === "cpu" && nextStarterMark !== state.playerOneMark) {
+        marks[getCpuIndex(marks)] = state.playerOneMark === "o" ? "x" : "o";
+      }
+
       setState({
         ...state,
-        marks: Array(9).fill(null),
-        starterMark: state.starterMark === "o" ? "x" : "o",
+        marks,
+        starterMark: nextStarterMark,
       });
     },
     choose(index: number) {
@@ -204,17 +210,21 @@ function useTicTacToe(initialState: GameState) {
       const nextMarks = [...state.marks];
       nextMarks[index] = nextMark;
 
-      const nextResult = parseStatus(nextMarks);
+      const playerResult = parseStatus(nextMarks);
 
-      const nextScore = { ...state.score };
-      if (nextResult.status === "finished") {
-        if (nextResult.data.type === "tie") {
-          nextScore.ties += 1;
-        } else if (nextResult.data.type === "win") {
-          const { winner } = nextResult.data.data;
-          nextScore[winner] += 1;
-        } else {
-          throw new Error("Invalid finished type");
+      let nextScore = { ...state.score };
+      if (playerResult.status === "finished") {
+        nextScore = incrementScore(state.score, playerResult.data);
+      }
+
+      if (playerResult.status === "playing" && state.opponent === "cpu") {
+        nextMarks[getCpuIndex(nextMarks)] =
+          state.playerOneMark === "o" ? "x" : "o";
+
+        const cpuResult = parseStatus(nextMarks);
+
+        if (cpuResult.status === "finished") {
+          nextScore = incrementScore(state.score, cpuResult.data);
         }
       }
 
@@ -225,6 +235,21 @@ function useTicTacToe(initialState: GameState) {
       });
     },
   };
+}
+
+function incrementScore(
+  score: GameState["score"],
+  result: Exclude<ReturnType<typeof parseStatus>, { status: "playing" }>["data"]
+) {
+  const nextScore = { ...score };
+  if (result.type === "tie") {
+    nextScore.ties += 1;
+  } else if (result.type === "win") {
+    nextScore[result.data.winner] += 1;
+  } else {
+    throw new Error("Invalid finished type");
+  }
+  return nextScore;
 }
 
 function parseStatus(marks: (Mark | null)[]) {

@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { z } from "zod";
 import Button from "./button";
 import { persistState } from "../utils/tic-tac-toe/server";
+import { Mark, getCpuIndex } from "../utils/tic-tac-toe/shared";
 
 async function start(formData: FormData) {
   "use server";
@@ -16,8 +17,13 @@ async function start(formData: FormData) {
     })
     .parse(Object.fromEntries(formData));
 
+  const marks: (Mark | null)[] = Array(9).fill(null);
+  if (result.opponent === "cpu" && result["player-one-mark"] === "o") {
+    marks[getCpuIndex(marks)] = "x";
+  }
+
   persistState({
-    marks: Array(9).fill(null),
+    marks,
     starterMark: "x",
     opponent: result.opponent,
     playerOneMark: result["player-one-mark"],

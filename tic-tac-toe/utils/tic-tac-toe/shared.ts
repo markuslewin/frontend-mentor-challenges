@@ -18,3 +18,17 @@ export type GameState = z.infer<typeof gameState>;
 export type Mark = z.infer<typeof Mark>;
 
 export const stateKey = "game";
+
+export function getCpuIndex(marks: (Mark | null)[]) {
+  const availableIndexes = marks
+    .map((mark, i) => {
+      return { mark, i };
+    })
+    .filter((option) => {
+      return option.mark === null;
+    })
+    .map((available) => {
+      return available.i;
+    });
+  return availableIndexes[Math.floor(Math.random() * availableIndexes.length)];
+}
