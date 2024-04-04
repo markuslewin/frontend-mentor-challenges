@@ -44,9 +44,10 @@ export default function Home() {
             className="bg-semi-dark-navy text-silver rounded-[0.9375rem] p-6 pb-[1.875rem] grid shadow-inner-large shadow-[hsl(201_45%_11%)]"
             aria-describedby="player-1-reminder"
           >
-            <legend className="float-start text-heading-xs">
+            <legend className="sr-only">Pick player 1&apos;s mark</legend>
+            <p className="text-heading-xs" aria-hidden="true">
               Pick player 1&apos;s mark
-            </legend>
+            </p>
             <div className="bg-dark-navy rounded-[0.625rem] px-2 py-[0.5625rem] grid grid-cols-2 mt-6">
               <label>
                 <input
@@ -54,6 +55,7 @@ export default function Home() {
                   type="radio"
                   name="player-one-mark"
                   value="x"
+                  required
                 />
                 <span className="sr-only"> X</span>
                 <span className="peer-checked:bg-silver peer-checked:text-dark-navy rounded-[0.625rem] grid place-items-center p-[0.6875rem] hover:bg-semi-dark-navy peer-focus-visible:outline outline-[white] transition-colors">
