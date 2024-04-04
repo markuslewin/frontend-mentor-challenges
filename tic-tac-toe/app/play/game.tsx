@@ -32,6 +32,11 @@ export function Game({ initialState }: { initialState: GameState }) {
   }
   invariant(nextMark, "Invalid next mark");
 
+  const winningIndexes =
+    result.status === "finished" && result.data.type === "win"
+      ? result.data.data.indexes
+      : null;
+
   return (
     <div className="min-h-screen grid grid-cols-[minmax(0,28.75rem)] grid-rows-[1fr_auto_1fr] justify-center items-start tablet:grid-rows-none tablet:place-content-center p-6">
       <header className="grid grid-cols-3 gap-5 items-center">
@@ -75,18 +80,21 @@ export function Game({ initialState }: { initialState: GameState }) {
               return (
                 <li key={position}>
                   <button
-                    className="group aspect-square w-full bg-semi-dark-navy rounded-[0.625rem] tablet:rounded-[0.9375rem] shadow-inner-large shadow-[hsl(201_45%_11%)] grid place-items-center"
+                    className="group aspect-square w-full bg-semi-dark-navy rounded-[0.625rem] tablet:rounded-[0.9375rem] shadow-inner-large shadow-[hsl(201_45%_11%)] grid place-items-center data-[mark=x]:text-light-blue data-[mark=o]:text-light-yellow data-[mark=x]:data-[winning=true]:bg-light-blue data-[mark=x]:data-[winning=true]:shadow-[hsl(178_78%_31%)] data-[mark=o]:data-[winning=true]:bg-light-yellow data-[mark=o]:data-[winning=true]:shadow-[hsl(39_83%_44%)]"
                     type="button"
                     aria-disabled={!!mark}
                     onClick={() => {
                       choose(i);
                     }}
+                    data-winning={
+                      winningIndexes ? winningIndexes.includes(i) : false
+                    }
+                    data-mark={mark}
                   >
                     {mark ? (
                       <Icon
-                        className="size-[calc(40/96*100%)] tablet:size-[calc(64/140*100%)] data-[mark=x]:text-light-blue data-[mark=o]:text-light-yellow"
+                        className="size-[calc(40/96*100%)] tablet:size-[calc(64/140*100%)] group-data-[winning=true]:text-semi-dark-navy"
                         name={mark}
-                        data-mark={mark}
                       />
                     ) : null}
                     {mark ? null : (
@@ -264,42 +272,47 @@ function parseStatus(marks: (Mark | null)[]) {
     [2, 4, 6],
   ];
 
-  const isXWin = winningPositions.some((winningPosition) => {
-    return winningPosition
-      .map((index) => {
-        return marks[index];
-      })
-      .every((mark) => {
-        return mark === "x";
-      });
-  });
-  if (isXWin) {
+  const xWinningIndexes = winningPositions
+    .filter((winningPosition) => {
+      return winningPosition
+        .map((index) => {
+          return marks[index];
+        })
+        .every((mark) => {
+          return mark === "x";
+        });
+    })
+    .flat();
+  if (xWinningIndexes.length) {
     return {
       status: "finished",
       data: {
         type: "win",
         data: {
           winner: "x",
+          indexes: xWinningIndexes,
         },
       },
     } as const;
   }
 
-  const isOWin = winningPositions.some((winningPosition) => {
-    return winningPosition
-      .map((index) => {
-        return marks[index];
-      })
-      .every((mark) => {
-        return mark === "o";
-      });
-  });
-  if (isOWin) {
+  const oWinningIndexes = winningPositions
+    .filter((winningPosition) => {
+      return winningPosition
+        .map((index) => {
+          return marks[index];
+        })
+        .every((mark) => {
+          return mark === "o";
+        });
+    })
+    .flat();
+  if (oWinningIndexes.length) {
     return {
       status: "finished",
       data: {
         type: "win",
-        data: { winner: "o" },
+        data: { winner: "o", indexes: oWinningIndexes },
       },
     } as const;
   }
