@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { RestartDialog } from "./restart";
 import Icon from "../../components/icon";
 import Image from "next/image";
@@ -10,10 +10,13 @@ import { useRouter } from "next/navigation";
 import { GameState, Mark, getCpuIndex } from "../../utils/tic-tac-toe/shared";
 import { persistState } from "../../utils/tic-tac-toe/client";
 import { invariant } from "@epic-web/invariant";
+import { useCursor } from "../../utils/cursor";
 
 export function Game({ initialState }: { initialState: GameState }) {
   const router = useRouter();
   const { state, result, restart, next, choose } = useTicTacToe(initialState);
+  const cursor = useCursor();
+  const buttonRefs = useRef<HTMLButtonElement[]>([]);
 
   useEffect(() => {
     persistState(state);
@@ -63,6 +66,25 @@ export function Game({ initialState }: { initialState: GameState }) {
             className="grid grid-cols-3 gap-5"
             role="list"
             aria-labelledby="board-label"
+            onKeyDown={(e) => {
+              let nextIndex = -1;
+              if (e.key === "ArrowUp") {
+                nextIndex = cursor.up();
+              } else if (e.key === "ArrowRight") {
+                nextIndex = cursor.right();
+              } else if (e.key === "ArrowDown") {
+                nextIndex = cursor.down();
+              } else if (e.key === "ArrowLeft") {
+                nextIndex = cursor.left();
+              }
+              if (nextIndex === -1) {
+                return;
+              }
+              const nextButton = buttonRefs.current[nextIndex];
+              invariant(nextButton, "Couldn't find next button");
+              nextButton.focus();
+              e.preventDefault();
+            }}
           >
             {state.marks.map((mark, i) => {
               const position = [
@@ -82,6 +104,12 @@ export function Game({ initialState }: { initialState: GameState }) {
                   <button
                     className="group aspect-square w-full bg-semi-dark-navy rounded-[0.625rem] tablet:rounded-[0.9375rem] shadow-inner-large shadow-[hsl(201_45%_11%)] grid place-items-center data-[mark=x]:text-light-blue data-[mark=o]:text-light-yellow data-[mark=x]:data-[winning=true]:bg-light-blue data-[mark=x]:data-[winning=true]:shadow-[hsl(178_78%_31%)] data-[mark=o]:data-[winning=true]:bg-light-yellow data-[mark=o]:data-[winning=true]:shadow-[hsl(39_83%_44%)]"
                     type="button"
+                    ref={(ref) => {
+                      if (ref) {
+                        buttonRefs.current.push(ref);
+                      }
+                    }}
+                    tabIndex={cursor.value === i ? 0 : -1}
                     aria-disabled={!!mark}
                     onClick={() => {
                       choose(i);
