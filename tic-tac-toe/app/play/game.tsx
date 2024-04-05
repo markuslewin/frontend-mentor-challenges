@@ -14,8 +14,8 @@ import { useCursor } from "../../utils/cursor";
 
 export function Game({ initialState }: { initialState: GameState }) {
   const router = useRouter();
-  const { state, result, restart, next, choose } = useTicTacToe(initialState);
-  const cursor = useCursor();
+  const { state, result, cursor, restart, next, choose } =
+    useTicTacToe(initialState);
   const buttonRefs = useRef<(HTMLButtonElement | null)[]>(Array(9));
 
   useEffect(() => {
@@ -205,17 +205,20 @@ export function Game({ initialState }: { initialState: GameState }) {
 
 function useTicTacToe(initialState: GameState) {
   const [state, setState] = useState(initialState);
+  const cursor = useCursor();
 
   const result = parseStatus(state.marks);
 
   return {
     state,
     result,
+    cursor,
     restart() {
       setState({
         ...state,
         marks: Array(9).fill(null),
       });
+      cursor.reset();
     },
     next() {
       const nextStarterMark = state.starterMark === "o" ? "x" : "o";
@@ -229,6 +232,7 @@ function useTicTacToe(initialState: GameState) {
         marks,
         starterMark: nextStarterMark,
       });
+      cursor.reset();
     },
     choose(index: number) {
       invariant(0 <= index && index < 9, "Invalid index range");

@@ -10,8 +10,10 @@ function getRowCol(index: number) {
 // todo: Round to bounds
 function round() {}
 
+const initialValue = 4;
+
 export function useCursor() {
-  const [value, setValue] = useState(0);
+  const [value, setValue] = useState(initialValue);
   const { row } = getRowCol(value);
 
   return {
@@ -51,6 +53,9 @@ export function useCursor() {
         return nextValue;
       }
       return value;
+    },
+    reset() {
+      setValue(initialValue);
     },
   };
 }
