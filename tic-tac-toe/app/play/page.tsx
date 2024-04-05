@@ -1,6 +1,11 @@
 import { redirect } from "next/navigation";
 import { Game } from "./game";
 import { getState } from "../../utils/tic-tac-toe/server";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Play",
+};
 
 export default function Play() {
   const result = getState();

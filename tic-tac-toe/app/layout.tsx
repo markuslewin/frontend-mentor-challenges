@@ -6,7 +6,10 @@ import { SpritePreload } from "@/components/icon";
 const outfit = Outfit({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Frontend Mentor | Tic Tac Toe",
+  title: {
+    template: "Frontend Mentor | Tic Tac Toe | %s",
+    default: "Frontend Mentor | Tic Tac Toe",
+  },
   description: "Play tic-tac-toe",
 };
 
