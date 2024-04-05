@@ -16,7 +16,7 @@ export function Game({ initialState }: { initialState: GameState }) {
   const router = useRouter();
   const { state, result, restart, next, choose } = useTicTacToe(initialState);
   const cursor = useCursor();
-  const buttonRefs = useRef<HTMLButtonElement[]>([]);
+  const buttonRefs = useRef<(HTMLButtonElement | null)[]>(Array(9));
 
   useEffect(() => {
     persistState(state);
@@ -62,9 +62,9 @@ export function Game({ initialState }: { initialState: GameState }) {
           <h2 className="sr-only" id="board-label">
             Game
           </h2>
-          <ul
-            className="grid grid-cols-3 gap-5"
-            role="list"
+          <div
+            className="grid gap-5"
+            role="grid"
             aria-labelledby="board-label"
             onKeyDown={(e) => {
               let nextIndex = -1;
@@ -86,64 +86,60 @@ export function Game({ initialState }: { initialState: GameState }) {
               e.preventDefault();
             }}
           >
-            {state.marks.map((mark, i) => {
-              const position = [
-                "3A",
-                "3B",
-                "3C",
-                "2A",
-                "2B",
-                "2C",
-                "1A",
-                "1B",
-                "1C",
-              ][i];
-
+            {[0, 1, 2].map((row) => {
+              const start = row * 3;
+              const end = start + 3;
+              const rowMarks = state.marks.slice(start, end);
               return (
-                <li key={position}>
-                  <button
-                    className="group aspect-square w-full bg-semi-dark-navy rounded-[0.625rem] tablet:rounded-[0.9375rem] shadow-inner-large shadow-[hsl(201_45%_11%)] grid place-items-center data-[mark=x]:text-light-blue data-[mark=o]:text-light-yellow data-[mark=x]:data-[winning=true]:bg-light-blue data-[mark=x]:data-[winning=true]:shadow-[hsl(178_78%_31%)] data-[mark=o]:data-[winning=true]:bg-light-yellow data-[mark=o]:data-[winning=true]:shadow-[hsl(39_83%_44%)]"
-                    type="button"
-                    ref={(ref) => {
-                      if (ref) {
-                        buttonRefs.current.push(ref);
-                      }
-                    }}
-                    tabIndex={cursor.value === i ? 0 : -1}
-                    aria-disabled={!!mark}
-                    onClick={() => {
-                      choose(i);
-                    }}
-                    data-winning={
-                      winningIndexes ? winningIndexes.includes(i) : false
-                    }
-                    data-mark={mark}
-                  >
-                    {mark ? (
-                      <Icon
-                        className="size-[calc(40/96*100%)] tablet:size-[calc(64/140*100%)] group-data-[winning=true]:text-semi-dark-navy"
-                        name={mark}
-                      />
-                    ) : null}
-                    {mark ? null : (
-                      <Icon
-                        className="size-[calc(40/96*100%)] tablet:size-[calc(64/140*100%)] opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100 data-[mark=x]:text-light-blue data-[mark=o]:text-light-yellow"
-                        name={nextMark === "o" ? "o-outline" : "x-outline"}
-                        data-mark={nextMark}
-                      />
-                    )}
-                    <span className="sr-only">
-                      {mark === "o"
-                        ? "O"
-                        : mark === "x"
-                        ? "X"
-                        : `Choose ${position}`}
-                    </span>
-                  </button>
-                </li>
+                <div className="grid grid-cols-3 gap-5" key={row} role="row">
+                  {rowMarks.map((mark, col) => {
+                    const index = row * 3 + col;
+                    return (
+                      <div key={col} role="gridcell">
+                        <button
+                          className="group aspect-square w-full bg-semi-dark-navy rounded-[0.625rem] tablet:rounded-[0.9375rem] shadow-inner-large shadow-[hsl(201_45%_11%)] grid place-items-center data-[mark=x]:text-light-blue data-[mark=o]:text-light-yellow data-[mark=x]:data-[winning=true]:bg-light-blue data-[mark=x]:data-[winning=true]:shadow-[hsl(178_78%_31%)] data-[mark=o]:data-[winning=true]:bg-light-yellow data-[mark=o]:data-[winning=true]:shadow-[hsl(39_83%_44%)]"
+                          type="button"
+                          ref={(node) => {
+                            buttonRefs.current[index] = node;
+                          }}
+                          tabIndex={cursor.value === index ? 0 : -1}
+                          aria-disabled={!!mark}
+                          onClick={() => {
+                            choose(index);
+                          }}
+                          data-winning={
+                            winningIndexes
+                              ? winningIndexes.includes(index)
+                              : false
+                          }
+                          data-mark={mark}
+                        >
+                          {mark ? (
+                            <Icon
+                              className="size-[calc(40/96*100%)] tablet:size-[calc(64/140*100%)] group-data-[winning=true]:text-semi-dark-navy"
+                              name={mark}
+                            />
+                          ) : null}
+                          {mark ? null : (
+                            <Icon
+                              className="size-[calc(40/96*100%)] tablet:size-[calc(64/140*100%)] opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100 data-[mark=x]:text-light-blue data-[mark=o]:text-light-yellow"
+                              name={
+                                nextMark === "o" ? "o-outline" : "x-outline"
+                              }
+                              data-mark={nextMark}
+                            />
+                          )}
+                          <span className="sr-only">
+                            {mark === "o" ? "O" : mark === "x" ? "X" : "Blank"}
+                          </span>
+                        </button>
+                      </div>
+                    );
+                  })}
+                </div>
               );
             })}
-          </ul>
+          </div>
         </main>
         <footer className="mt-5">
           <h2 className="sr-only" id="score-label">

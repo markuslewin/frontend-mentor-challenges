@@ -24,7 +24,7 @@ test("place mark", async ({ page }) => {
   await page.getByRole("button", { name: /vs player/i }).click();
 
   const position = page
-    .getByRole("list", { name: /game/i })
+    .getByRole("grid", { name: /game/i })
     .getByRole("button")
     .first();
   await position.click();
@@ -38,13 +38,12 @@ test("player 1 win", async ({ page }) => {
   await page.getByRole("radio", { name: /x/i }).click({ force: true });
   await page.getByRole("button", { name: /vs player/i }).click();
 
-  /*
-    XXX
-    OO-
-    ---
-  */
-  for (const position of ["3A", "2A", "3B", "2B", "3C"]) {
-    await page.getByRole("button", { name: position }).click();
+  // XXX
+  // OO-
+  // ---
+  const cells = page.getByRole("grid", { name: "game" }).getByRole("button");
+  for (const index of [0, 3, 1, 4, 2]) {
+    await cells.nth(index).click();
   }
 
   await expect(
@@ -67,13 +66,12 @@ test("player 2 win", async ({ page }) => {
   await page.getByRole("radio", { name: /x/i }).click({ force: true });
   await page.getByRole("button", { name: /vs player/i }).click();
 
-  /*
-    XXO
-    XO-
-    O--
-  */
-  for (const position of ["3A", "3C", "3B", "2B", "2A", "1A"]) {
-    await page.getByRole("button", { name: position }).click();
+  // XXO
+  // XO-
+  // O--
+  const cells = page.getByRole("grid", { name: "game" }).getByRole("button");
+  for (const index of [0, 2, 1, 4, 3, 6]) {
+    await cells.nth(index).click();
   }
 
   await expect(
@@ -96,23 +94,12 @@ test("tie", async ({ page }) => {
   await page.getByRole("radio", { name: /x/i }).click({ force: true });
   await page.getByRole("button", { name: /vs player/i }).click();
 
-  /*
-    XOX
-    OOX
-    XXO
-  */
-  for (const position of [
-    "3A",
-    "3B",
-    "3C",
-    "2A",
-    "2C",
-    "2B",
-    "1A",
-    "1C",
-    "1B",
-  ]) {
-    await page.getByRole("button", { name: position }).click();
+  // XOX
+  // OOX
+  // XXO
+  const cells = page.getByRole("grid", { name: "game" }).getByRole("button");
+  for (const index of [0, 1, 2, 3, 5, 4, 6, 8, 7]) {
+    await cells.nth(index).click();
   }
 
   await expect(page.getByRole("heading", { name: "round tied" })).toBeVisible();
@@ -131,23 +118,12 @@ test("quit", async ({ page }) => {
   await page.goto("/");
   await page.getByRole("radio", { name: /x/i }).click({ force: true });
   await page.getByRole("button", { name: /vs player/i }).click();
-  /*
-    XOX
-    OOX
-    XXO
-  */
-  for (const position of [
-    "3A",
-    "3B",
-    "3C",
-    "2A",
-    "2C",
-    "2B",
-    "1A",
-    "1C",
-    "1B",
-  ]) {
-    await page.getByRole("button", { name: position }).click();
+  // XOX
+  // OOX
+  // XXO
+  const cells = page.getByRole("grid", { name: "game" }).getByRole("button");
+  for (const index of [0, 1, 2, 3, 5, 4, 6, 8, 7]) {
+    await cells.nth(index).click();
   }
 
   await page.getByRole("button", { name: "quit" }).click();
@@ -161,31 +137,20 @@ test("next round", async ({ page }) => {
   await page.goto("/");
   await page.getByRole("radio", { name: /x/i }).click({ force: true });
   await page.getByRole("button", { name: /vs player/i }).click();
-  /*
-    XOX
-    OOX
-    XXO
-  */
-  for (const position of [
-    "3A",
-    "3B",
-    "3C",
-    "2A",
-    "2C",
-    "2B",
-    "1A",
-    "1C",
-    "1B",
-  ]) {
-    await page.getByRole("button", { name: position }).click();
+  // XOX
+  // OOX
+  // XXO
+  const cells = page.getByRole("grid", { name: "game" }).getByRole("button");
+  for (const index of [0, 1, 2, 3, 5, 4, 6, 8, 7]) {
+    await cells.nth(index).click();
   }
 
   await page.getByRole("button", { name: "next round" }).click();
 
   await expect(
     page
-      .getByRole("list", { name: "game" })
-      .getByRole("button", { name: "choose" })
+      .getByRole("grid", { name: "game" })
+      .getByRole("button", { name: "blank" })
   ).toHaveCount(9);
 });
 
@@ -193,11 +158,15 @@ test("restart", async ({ page }) => {
   await page.goto("/");
   await page.getByRole("radio", { name: /x/i }).click({ force: true });
   await page.getByRole("button", { name: /vs player/i }).click();
-  await page.getByRole("button", { name: "3a" }).click();
+  await page
+    .getByRole("grid", { name: "game" })
+    .getByRole("button")
+    .first()
+    .click();
 
   const availablePositions = page
-    .getByRole("list", { name: "game" })
-    .getByRole("button", { name: "choose" });
+    .getByRole("grid", { name: "game" })
+    .getByRole("button", { name: "blank" });
   await expect(availablePositions).toHaveCount(8);
 
   await page.getByRole("button", { name: "restart" }).click();
@@ -216,7 +185,7 @@ test("preserves state between navigations", async ({ page }) => {
   // -X-
   // ---
   const position = page
-    .getByRole("list", { name: "game" })
+    .getByRole("grid", { name: "game" })
     .getByRole("button")
     .nth(4);
   position.click();
@@ -228,8 +197,8 @@ test("preserves state between navigations", async ({ page }) => {
   await expect(position).toHaveText(/x/i);
   await expect(
     page
-      .getByRole("list", { name: "game" })
-      .getByRole("button", { name: "choose" })
+      .getByRole("grid", { name: "game" })
+      .getByRole("button", { name: "blank" })
   ).toHaveCount(8);
 });
 
@@ -239,7 +208,7 @@ test("can't mark already marked position", async ({ page }) => {
   await page.getByRole("button", { name: /vs player/i }).click();
 
   const position = page
-    .getByRole("list", { name: "game" })
+    .getByRole("grid", { name: "game" })
     .getByRole("button")
     .first();
   await position.click();
@@ -259,11 +228,12 @@ test("displays turn", async ({ page }) => {
 
   await expect(page.getByText("x's turn")).toBeVisible();
 
-  await page.getByRole("button", { name: "3a" }).click();
+  const cells = page.getByRole("grid", { name: "game" }).getByRole("button");
+  await cells.nth(0).click();
 
   await expect(page.getByText("o's turn")).toBeVisible();
 
-  await page.getByRole("button", { name: "3b" }).click();
+  await cells.nth(1).click();
 
   await expect(page.getByText("x's turn")).toBeVisible();
 });
