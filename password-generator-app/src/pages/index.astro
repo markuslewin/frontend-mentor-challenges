@@ -3,6 +3,7 @@ import Layout from "../layouts/Layout.astro";
 import { GenerateSchema, GenerateSchemaValues } from "../utils/generate-form";
 import { generatePassword } from "../utils/password";
 import { Icon } from "../components/ui/icon";
+import { renderPassword } from "../utils/render";
 
 const { errors, data, payload } = await (async function () {
   const { request } = Astro;
@@ -19,7 +20,7 @@ const { errors, data, payload } = await (async function () {
 
     return { payload, data: { password } };
   }
-  return { data: { password: "PTx1f5DaFX" } };
+  return { data: { password: null } };
 })();
 
 const values = GenerateSchemaValues.parse(payload);
@@ -51,7 +52,13 @@ if (errors) {
             id="result-password"
             aria-labelledby="result-heading"
           >
-            {data?.password ?? "\u00A0"}
+            {
+              data?.password === null ? (
+                <span class="opacity-25">P4$5W0rD!</span>
+              ) : (
+                renderPassword(data?.password)
+              )
+            }
           </output>
         </p>
         <form id="result-copy-password" hidden>
@@ -181,7 +188,7 @@ if (errors) {
             </output>
           </p>
           <button
-            class="mt-4 tablet:mt-8 bg-neon-green transition-all text-dark-grey uppercase w-full flex gap-4 tablet:gap-6 items-center shape-p-[1.0625rem] justify-center [&:not([aria-disabled=true])]:hocus:bg-transparent [&:not([aria-disabled=true])]:hocus:text-neon-green tablet:shape-p-5 shape-border-2 border-neon-green outline-offset-4 aria-disabled:opacity-50"
+            class="mt-4 tablet:mt-8 bg-neon-green transition-all text-dark-grey uppercase w-full flex gap-4 tablet:gap-6 items-center shape-p-[1.0625rem] justify-center hocus:bg-transparent hocus:text-neon-green tablet:shape-p-5 shape-border-2 border-neon-green outline-offset-4"
             id="generate-submit"
           >
             Generate <Icon className="size-3" name="icon-arrow-right" />
@@ -193,13 +200,10 @@ if (errors) {
 </Layout>
 
 <script>
-  import {
-    GenerateSchema,
-    GenerateSchemaValues,
-    validateCategories,
-  } from "../utils/generate-form";
+  import { GenerateSchema, GenerateSchemaValues } from "../utils/generate-form";
   import { generatePassword, getStrength } from "../utils/password";
   import { invariant } from "@epic-web/invariant";
+  import { renderPassword } from "../utils/render";
 
   let copyMessageTimeout: ReturnType<typeof setTimeout> | undefined;
   function setCopyMessage(message: string) {
@@ -259,7 +263,7 @@ if (errors) {
       if ($copyBtn) {
         $copyBtn.focus();
       }
-      $resultPassword.textContent = password;
+      $resultPassword.textContent = renderPassword(password);
 
       ev.preventDefault();
     });
@@ -285,21 +289,17 @@ if (errors) {
       const values = GenerateSchemaValues.parse(Object.fromEntries(formData));
 
       const strength = getStrength(values);
-      const isValid = validateCategories(values);
 
       $generateStrength.dataset.strength = strength.id;
       $generateStrengthValue.textContent = strength.text;
-      $generateButton.setAttribute("aria-disabled", String(!isValid));
     });
     const formData = new FormData($generate);
     const values = GenerateSchemaValues.parse(Object.fromEntries(formData));
 
     const strength = getStrength(values);
-    const isValid = validateCategories(values);
 
     $generateStrength.dataset.strength = strength.id;
     $generateStrengthValue.textContent = strength.text;
-    $generateButton.setAttribute("aria-disabled", String(!isValid));
 
     $generateStrength.hidden = false;
   } catch (e) {
