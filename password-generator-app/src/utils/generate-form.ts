@@ -34,7 +34,7 @@ export function validateCategories(val: {
 export const GenerateSchemaValues = z.preprocess(
   (val) => (typeof val === "object" ? val : {}),
   z.object({
-    length: z.coerce.number().default(10),
+    length: z.coerce.number().default(0),
     "include-uppercase": z.coerce.boolean(),
     "include-lowercase": z.coerce.boolean(),
     "include-numbers": z.coerce.boolean(),

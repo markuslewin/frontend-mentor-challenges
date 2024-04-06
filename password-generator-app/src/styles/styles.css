@@ -11,7 +11,8 @@ body {
 /*Range Reset*/
 input[type="range"] {
   --range-track-split: calc(
-    (var(--value, 0) / 20) * 100% - var(--range-thumb-size) / 2
+    (100% - var(--range-thumb-size) - 0.25rem) / 20 * var(--value) +
+      var(--range-thumb-size) / 2 + 0.125rem
   );
   --range-track-color: linear-gradient(
     to right,
