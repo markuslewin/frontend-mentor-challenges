@@ -2,7 +2,7 @@ import { currentUser, comments } from "./data/data.json";
 
 function App() {
   return (
-    <>
+    <main>
       <h1>Interactive comments section</h1>
       {comments.map((comment) => (
         <Comment key={comment.id} comment={comment} />
@@ -21,7 +21,7 @@ function App() {
           <button type="submit">Send</button>
         </form>
       </section>
-    </>
+    </main>
   );
 }
 
