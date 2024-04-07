@@ -67,6 +67,10 @@ export function Game({ initialState }: { initialState: GameState }) {
             role="grid"
             aria-labelledby="board-label"
             onKeyDown={(e) => {
+              if (e.ctrlKey || e.altKey || e.shiftKey || e.metaKey) {
+                return;
+              }
+
               let nextIndex = -1;
               if (e.key === "ArrowUp") {
                 nextIndex = cursor.up();
@@ -80,8 +84,12 @@ export function Game({ initialState }: { initialState: GameState }) {
               if (nextIndex === -1) {
                 return;
               }
+
               const nextButton = buttonRefs.current[nextIndex];
-              invariant(nextButton, "Couldn't find next button");
+              if (!nextButton) {
+                return;
+              }
+
               nextButton.focus();
               e.preventDefault();
             }}
