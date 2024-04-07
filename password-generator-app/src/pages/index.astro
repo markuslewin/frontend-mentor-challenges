@@ -172,7 +172,7 @@ if (errors) {
                   id="generate-strength-value"></span>
                 <span class="flex gap-2">
                   <span
-                    class="border-2 group-data-[strength=too-weak]:text-red group-data-[strength=weak]:text-orange group-data-[strength=medium]:text-yellow group-data-[strength=strong]:text-neon-green border-t-[1.625rem] border-l-[0.5rem]"
+                    class="w-[0.625rem] h-7 border-2 group-data-[strength=too-weak]:border-t-[1.625rem] group-data-[strength=too-weak]:border-l-[0.5rem] group-data-[strength=weak]:border-t-[1.625rem] group-data-[strength=weak]:border-l-[0.5rem] group-data-[strength=medium]:border-t-[1.625rem] group-data-[strength=medium]:border-l-[0.5rem] group-data-[strength=strong]:border-t-[1.625rem] group-data-[strength=strong]:border-l-[0.5rem] group-data-[strength=too-weak]:text-red group-data-[strength=weak]:text-orange group-data-[strength=medium]:text-yellow group-data-[strength=strong]:text-neon-green"
                   ></span>
                   <span
                     class="w-[0.625rem] h-7 border-2 group-data-[strength=weak]:border-t-[1.625rem] group-data-[strength=weak]:border-l-[0.5rem] group-data-[strength=medium]:border-t-[1.625rem] group-data-[strength=medium]:border-l-[0.5rem] group-data-[strength=strong]:border-t-[1.625rem] group-data-[strength=strong]:border-l-[0.5rem] group-data-[strength=weak]:text-orange group-data-[strength=medium]:text-yellow group-data-[strength=strong]:text-neon-green"
@@ -293,13 +293,6 @@ if (errors) {
       $generateStrength.dataset.strength = strength.id;
       $generateStrengthValue.textContent = strength.text;
     });
-    const formData = new FormData($generate);
-    const values = GenerateSchemaValues.parse(Object.fromEntries(formData));
-
-    const strength = getStrength(values);
-
-    $generateStrength.dataset.strength = strength.id;
-    $generateStrengthValue.textContent = strength.text;
 
     $generateStrength.hidden = false;
   } catch (e) {
