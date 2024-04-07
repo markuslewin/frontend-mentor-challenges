@@ -10,15 +10,7 @@ body {
 /********** Range Input Styles **********/
 /*Range Reset*/
 input[type="range"] {
-  --range-track-split: calc(
-    (100% - var(--range-thumb-size) - 0.25rem) / 20 * var(--value) +
-      var(--range-thumb-size) / 2 + 0.125rem
-  );
-  --range-track-color: linear-gradient(
-    to right,
-    hsl(127 100% 82%) var(--range-track-split),
-    hsl(248 15% 11%) var(--range-track-split)
-  );
+  --range-track-color: hsl(248 15% 11%);
   --range-track-height: 0.5rem;
   --range-thumb-color: hsl(252 11% 91%);
   --range-thumb-size: 1.75rem;
@@ -30,6 +22,18 @@ input[type="range"] {
   appearance: none;
   background: transparent;
   cursor: pointer;
+}
+
+input[type="range"][data-enhanced="true"] {
+  --range-track-split: calc(
+    (100% - var(--range-thumb-size) - 0.25rem) / 20 * var(--value) +
+      var(--range-thumb-size) / 2 + 0.125rem
+  );
+  --range-track-color: linear-gradient(
+    to right,
+    hsl(127 100% 82%) var(--range-track-split),
+    hsl(248 15% 11%) var(--range-track-split)
+  );
 }
 
 /* Removes default focus */
