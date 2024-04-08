@@ -149,11 +149,11 @@ function Score({ id, score }: { id: number; score: number }) {
       <form>
         <input type="hidden" name="intent" value="upvote-message" />
         <input type="hidden" name="id" value={id} />
-        <button type="submit">
-          <Icon
-            className="size-[0.625rem] text-light-grayish-blue"
-            name="plus"
-          />
+        <button
+          className="text-light-grayish-blue hocus:text-moderate-blue transition-colors"
+          type="submit"
+        >
+          <Icon className="size-[0.625rem]" name="plus" />
           <span className="sr-only">Upvote</span>
         </button>
       </form>
@@ -164,11 +164,11 @@ function Score({ id, score }: { id: number; score: number }) {
       <form>
         <input type="hidden" name="intent" value="downvote-message" />
         <input type="hidden" name="id" value={id} />
-        <button type="submit">
-          <Icon
-            className="size-[0.625rem] text-light-grayish-blue"
-            name="minus"
-          />
+        <button
+          className="text-light-grayish-blue hocus:text-moderate-blue transition-colors"
+          type="submit"
+        >
+          <Icon className="size-[0.625rem]" name="minus" />
           <span className="sr-only">Downvote</span>
         </button>
       </form>
