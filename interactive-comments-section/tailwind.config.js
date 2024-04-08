@@ -1,3 +1,5 @@
+import plugin from "tailwindcss/plugin";
+
 function rem(px) {
   return `${px / 16}rem`;
 }
@@ -11,6 +13,7 @@ export default {
       desktop: "64em",
     },
     colors: {
+      transparent: "transparent",
       // Primary
       "moderate-blue": "hsl(238 40% 52%)",
       "soft-red": "hsl(358 79% 66%)",
@@ -33,5 +36,56 @@ export default {
     },
     extend: {},
   },
-  plugins: [],
+  plugins: [
+    plugin(({ addVariant }) => {
+      addVariant("hocus", ["&:hover", "&:focus-visible"]);
+    }),
+    plugin(({ matchUtilities, theme }) => {
+      matchUtilities(
+        {
+          "shape-p": (padding) => {
+            return {
+              padding: `calc(${padding} - var(--shape-border-width, 0px))`,
+              borderWidth: "var(--shape-border-width)",
+            };
+          },
+        },
+        { values: theme("size") }
+      );
+      matchUtilities(
+        {
+          "shape-py": (padding) => {
+            return {
+              "padding-top": `calc(${padding} - var(--shape-border-width, 0px))`,
+              "padding-bottom": `calc(${padding} - var(--shape-border-width, 0px))`,
+              borderWidth: "var(--shape-border-width)",
+            };
+          },
+        },
+        { values: theme("size") }
+      );
+      matchUtilities(
+        {
+          "shape-px": (padding) => {
+            return {
+              "padding-left": `calc(${padding} - var(--shape-border-width, 0px))`,
+              "padding-right": `calc(${padding} - var(--shape-border-width, 0px))`,
+              borderWidth: "var(--shape-border-width)",
+            };
+          },
+        },
+        { values: theme("size") }
+      );
+      matchUtilities(
+        {
+          "shape-border": (borderWidth) => {
+            return {
+              "--shape-border-width": borderWidth,
+            };
+          },
+        },
+        { values: theme("borderWidth") }
+      );
+    }),
+  ],
 };
