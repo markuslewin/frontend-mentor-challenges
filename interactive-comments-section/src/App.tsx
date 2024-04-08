@@ -18,17 +18,20 @@ function App() {
           <h2 className="sr-only" id="add-comment-label">
             Add a comment
           </h2>
-          <form className="bg-white rounded-lg shape-p-4 shape-border-[1px] border-transparent tablet:shape-p-6">
-            <label>
+          <form className="grid grid-cols-[max-content_1fr] items-center gap-4 bg-white rounded-lg shape-p-4 shape-border-[1px] border-transparent tablet:grid-cols-[max-content_1fr_max-content] tablet:items-start tablet:shape-p-6">
+            <label className="col-span-full tablet:col-start-2 tablet:col-span-1">
               <span className="sr-only">Add a comment </span>
               <textarea
-                className="resize-none rounded-lg shape-py-3 shape-px-6 shape-border-[1px] border-light-gray text-dark-blue placeholder:text-grayish-blue hocus:border-moderate-blue transition-colors"
+                className="h-24 w-full resize-none rounded-lg shape-py-3 shape-px-6 shape-border-[1px] border-light-gray text-dark-blue placeholder:text-grayish-blue hocus:border-moderate-blue transition-colors"
                 name="content"
                 placeholder="Add a comment…"
                 aria-describedby="commenting-as"
               ></textarea>
             </label>
-            <p id="commenting-as">
+            <p
+              className="row-start-2 tablet:col-start-1 tablet:row-start-1"
+              id="commenting-as"
+            >
               <span className="sr-only">Commenting as </span>
               <Avatar
                 className="tablet:size-10"
@@ -36,12 +39,14 @@ function App() {
                 image={currentUser.image}
               />
             </p>
-            <button
-              className="font-medium uppercase rounded-lg shape-py-3 shape-px-8 shape-border-[1px] border-transparent bg-moderate-blue text-white hocus:bg-light-grayish-blue transition-colors"
-              type="submit"
-            >
-              Send
-            </button>
+            <p className="row-start-2 grid justify-end tablet:col-start-3 tablet:row-start-1">
+              <button
+                className="font-medium uppercase rounded-lg shape-py-3 shape-px-8 shape-border-[1px] border-transparent bg-moderate-blue text-white hocus:bg-light-grayish-blue transition-colors"
+                type="submit"
+              >
+                Send
+              </button>
+            </p>
           </form>
         </section>
       </div>
