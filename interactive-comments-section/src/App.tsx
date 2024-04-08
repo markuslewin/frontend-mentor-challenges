@@ -1,4 +1,5 @@
 import { currentUser, comments } from "./data/data.json";
+import spriteUrl from "./images/sprite.svg";
 
 function App() {
   return (
@@ -138,7 +139,11 @@ function Score({ id, score }: { id: number; score: number }) {
             <input type="hidden" name="intent" value="upvote-message" />
             <input type="hidden" name="id" value={id} />
             <button type="submit">
-              <img alt="Upvote" src="/images/icon-plus.svg" />
+              <Icon
+                className="size-[0.625rem] text-light-grayish-blue"
+                name="plus"
+              />
+              <span className="sr-only">Upvote</span>
             </button>
           </form>
         </li>
@@ -147,7 +152,11 @@ function Score({ id, score }: { id: number; score: number }) {
             <input type="hidden" name="intent" value="downvote-message" />
             <input type="hidden" name="id" value={id} />
             <button type="submit">
-              <img alt="Downvote" src="/images/icon-minus.svg" />
+              <Icon
+                className="size-[0.625rem] text-light-grayish-blue"
+                name="minus"
+              />
+              <span className="sr-only">Downvote</span>
             </button>
           </form>
         </li>
@@ -167,7 +176,7 @@ function Mutate({ id }: { id: number }) {
             className="font-medium text-soft-red hocus:text-pale-red transition-colors"
             type="submit"
           >
-            <img alt="" src="/images/icon-delete.svg" /> Delete
+            <Icon className="size-[0.875rem]" name="delete" /> Delete
           </button>
         </form>
       </li>
@@ -179,11 +188,31 @@ function Mutate({ id }: { id: number }) {
             className="font-medium text-moderate-blue hocus:text-light-grayish-blue transition-colors"
             type="submit"
           >
-            <img alt="" src="/images/icon-edit.svg" /> Edit
+            <Icon className="size-[0.875rem]" name="edit" /> Edit
           </button>
         </form>
       </li>
     </ul>
+  );
+}
+
+function Icon({
+  name,
+  className,
+  ...props
+}: {
+  className?: string;
+  name: "delete" | "edit" | "minus" | "plus" | "reply";
+} & React.SVGAttributes<HTMLOrSVGElement>) {
+  return (
+    <svg
+      aria-hidden="true"
+      focusable="false"
+      className={`forced-color-adjust-auto ${className}`}
+      {...props}
+    >
+      <use href={`${spriteUrl}#${name}`} />
+    </svg>
   );
 }
 
