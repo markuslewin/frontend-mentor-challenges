@@ -54,17 +54,23 @@ type Comment = (typeof comments)[number];
 function Comment({ comment }: { comment: Comment }) {
   return (
     <article>
-      <div className="bg-white rounded-lg shape-p-4 shape-border-[1px] border-transparent tablet:shape-p-6">
-        <footer>
+      <div className="message-layout bg-white rounded-lg shape-p-4 shape-border-[1px] border-transparent tablet:shape-p-6">
+        <footer className="message-layout__footer flex items-center gap-y-1 gap-x-4 flex-wrap">
           <Avatar alt="" image={comment.user.image} />
-          <p className="text-heading-m text-dark-blue">
-            {comment.user.username}
-          </p>
-          <p>{comment.createdAt}</p>
+          <div className="flex items-baseline gap-y-1 gap-x-4 flex-wrap">
+            <p className="text-heading-m text-dark-blue">
+              {comment.user.username}
+            </p>
+            <p>{comment.createdAt}</p>
+          </div>
         </footer>
-        <p>{comment.content}</p>
-        <Score id={comment.id} score={comment.score} />
-        <Mutate id={comment.id} />
+        <p className="message-layout__content">{comment.content}</p>
+        <div className="message-layout__score">
+          <Score id={comment.id} score={comment.score} />
+        </div>
+        <div className="message-layout__mutate">
+          <Mutate id={comment.id} />
+        </div>
       </div>
       {comment.replies.length ? (
         <div className="mt-4 grid grid-cols-[2px_1fr] gap-4 tablet:mt-5 tablet:grid-cols-[5.5rem_1fr] tablet:justify-items-center tablet:gap-y-5 tablet:gap-x-0">
@@ -84,18 +90,24 @@ type Reply = Comment["replies"][number];
 
 function Reply({ reply }: { reply: Reply }) {
   return (
-    <article className="bg-white rounded-lg shape-p-4 shape-border-[1px] border-transparent tablet:shape-p-6">
-      <footer>
+    <article className="message-layout bg-white rounded-lg shape-p-4 shape-border-[1px] border-transparent tablet:shape-p-6">
+      <footer className="message-layout__footer flex items-center gap-y-1 gap-x-4 flex-wrap">
         <Avatar alt="" image={reply.user.image} />
-        <p>{reply.user.username}</p>
-        <p>{reply.createdAt}</p>
+        <div className="flex items-baseline gap-y-1 gap-x-4 flex-wrap">
+          <p className="text-heading-m text-dark-blue">{reply.user.username}</p>
+          <p>{reply.createdAt}</p>
+        </div>
       </footer>
-      <p>
+      <p className="message-layout__content">
         <b className="font-medium text-moderate-blue">@{reply.replyingTo}</b>{" "}
         {reply.content}
       </p>
-      <Score id={reply.id} score={reply.score} />
-      <Mutate id={reply.id} />
+      <div className="message-layout__score">
+        <Score id={reply.id} score={reply.score} />
+      </div>
+      <div className="message-layout__mutate">
+        <Mutate id={reply.id} />
+      </div>
     </article>
   );
 }
@@ -128,52 +140,49 @@ function Avatar({
 
 function Score({ id, score }: { id: number; score: number }) {
   return (
-    <div className="font-medium rounded-[0.625rem] bg-very-light-gray text-moderate-blue">
+    <div className="h-10 min-w-[6.25rem] px-3 border-[1px] border-transparent grid grid-cols-[max-content_1fr_max-content] items-center text-center font-medium rounded-[0.625rem] bg-very-light-gray text-moderate-blue tablet:h-[6.25rem] tablet:px-0 tablet:min-w-10 tablet:grid-cols-none">
+      <form>
+        <input type="hidden" name="intent" value="upvote-message" />
+        <input type="hidden" name="id" value={id} />
+        <button type="submit">
+          <Icon
+            className="size-[0.625rem] text-light-grayish-blue"
+            name="plus"
+          />
+          <span className="sr-only">Upvote</span>
+        </button>
+      </form>
       <p>
         {score}
         <span className="sr-only"> points</span>
       </p>
-      <ul role="list">
-        <li>
-          <form>
-            <input type="hidden" name="intent" value="upvote-message" />
-            <input type="hidden" name="id" value={id} />
-            <button type="submit">
-              <Icon
-                className="size-[0.625rem] text-light-grayish-blue"
-                name="plus"
-              />
-              <span className="sr-only">Upvote</span>
-            </button>
-          </form>
-        </li>
-        <li>
-          <form>
-            <input type="hidden" name="intent" value="downvote-message" />
-            <input type="hidden" name="id" value={id} />
-            <button type="submit">
-              <Icon
-                className="size-[0.625rem] text-light-grayish-blue"
-                name="minus"
-              />
-              <span className="sr-only">Downvote</span>
-            </button>
-          </form>
-        </li>
-      </ul>
+      <form>
+        <input type="hidden" name="intent" value="downvote-message" />
+        <input type="hidden" name="id" value={id} />
+        <button type="submit">
+          <Icon
+            className="size-[0.625rem] text-light-grayish-blue"
+            name="minus"
+          />
+          <span className="sr-only">Downvote</span>
+        </button>
+      </form>
     </div>
   );
 }
 
 function Mutate({ id }: { id: number }) {
   return (
-    <ul role="list">
+    <ul
+      className="flex flex-wrap justify-end gap-y-1 gap-x-4 tablet:gap-y-1 tablet:gap-x-6"
+      role="list"
+    >
       <li>
         <form>
           <input type="hidden" name="intent" value="delete-message" />
           <input type="hidden" name="id" value={id} />
           <button
-            className="font-medium text-soft-red hocus:text-pale-red transition-colors"
+            className="grid grid-cols-[max-content_1fr] gap-2 items-baseline font-medium text-soft-red hocus:text-pale-red transition-colors"
             type="submit"
           >
             <Icon className="size-[0.875rem]" name="delete" /> Delete
@@ -185,7 +194,7 @@ function Mutate({ id }: { id: number }) {
           <input type="hidden" name="intent" value="edit-message" />
           <input type="hidden" name="id" value={id} />
           <button
-            className="font-medium text-moderate-blue hocus:text-light-grayish-blue transition-colors"
+            className="grid grid-cols-[max-content_1fr] gap-2 items-baseline font-medium text-moderate-blue hocus:text-light-grayish-blue transition-colors"
             type="submit"
           >
             <Icon className="size-[0.875rem]" name="edit" /> Edit

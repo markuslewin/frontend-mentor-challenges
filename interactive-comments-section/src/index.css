@@ -1,3 +1,47 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  .message-layout {
+    display: grid;
+    grid-template-areas:
+      "footer footer"
+      "content content"
+      "score mutate";
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .message-layout__footer {
+    grid-area: footer;
+  }
+
+  .message-layout__content {
+    grid-area: content;
+  }
+
+  .message-layout__score {
+    grid-area: score;
+    display: grid;
+    justify-content: start;
+  }
+
+  .message-layout__mutate {
+    grid-area: mutate;
+  }
+
+  @screen tablet {
+    .message-layout {
+      grid-template-areas:
+        "score footer mutate"
+        "score content content";
+      grid-template-columns: max-content 1fr auto;
+    }
+
+    .message-layout__score {
+      margin-right: 0.5rem;
+      align-self: start;
+    }
+  }
+}
