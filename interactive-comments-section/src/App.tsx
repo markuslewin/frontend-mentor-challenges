@@ -2,41 +2,48 @@ import { currentUser, comments } from "./data/data.json";
 
 function App() {
   return (
-    <main className="min-h-screen px-4 py-8">
-      <h1 className="sr-only">Interactive comments section</h1>
-      {comments.map((comment) => (
-        <Comment key={comment.id} comment={comment} />
-      ))}
-      <section aria-labelledby="add-comment-label">
-        <h2 className="sr-only" id="add-comment-label">
-          Add a comment
-        </h2>
-        <form className="bg-white rounded-lg shape-p-4 shape-border-[1px] border-transparent tablet:shape-p-6">
-          <label>
-            <span className="sr-only">Add a comment </span>
-            <textarea
-              className="resize-none rounded-lg shape-py-3 shape-px-6 shape-border-[1px] border-light-gray text-dark-blue placeholder:text-grayish-blue hocus:border-moderate-blue transition-colors"
-              name="content"
-              placeholder="Add a comment…"
-              aria-describedby="commenting-as"
-            ></textarea>
-          </label>
-          <p id="commenting-as">
-            <span className="sr-only">Commenting as </span>
-            <Avatar
-              className="tablet:size-10"
-              alt={currentUser.username}
-              image={currentUser.image}
-            />
-          </p>
-          <button
-            className="font-medium uppercase rounded-lg shape-py-3 shape-px-8 shape-border-[1px] border-transparent bg-moderate-blue text-white hocus:bg-light-grayish-blue transition-colors"
-            type="submit"
-          >
-            Send
-          </button>
-        </form>
-      </section>
+    <main className="min-h-screen px-4 py-8 tablet:p-16">
+      <div className="max-w-[45.625rem] box-content mx-auto">
+        <h1 className="sr-only">Interactive comments section</h1>
+        <div className="grid gap-4 tablet:gap-5">
+          {comments.map((comment) => (
+            <Comment key={comment.id} comment={comment} />
+          ))}
+        </div>
+        <section
+          className="mt-4 tablet:mt-5"
+          aria-labelledby="add-comment-label"
+        >
+          <h2 className="sr-only" id="add-comment-label">
+            Add a comment
+          </h2>
+          <form className="bg-white rounded-lg shape-p-4 shape-border-[1px] border-transparent tablet:shape-p-6">
+            <label>
+              <span className="sr-only">Add a comment </span>
+              <textarea
+                className="resize-none rounded-lg shape-py-3 shape-px-6 shape-border-[1px] border-light-gray text-dark-blue placeholder:text-grayish-blue hocus:border-moderate-blue transition-colors"
+                name="content"
+                placeholder="Add a comment…"
+                aria-describedby="commenting-as"
+              ></textarea>
+            </label>
+            <p id="commenting-as">
+              <span className="sr-only">Commenting as </span>
+              <Avatar
+                className="tablet:size-10"
+                alt={currentUser.username}
+                image={currentUser.image}
+              />
+            </p>
+            <button
+              className="font-medium uppercase rounded-lg shape-py-3 shape-px-8 shape-border-[1px] border-transparent bg-moderate-blue text-white hocus:bg-light-grayish-blue transition-colors"
+              type="submit"
+            >
+              Send
+            </button>
+          </form>
+        </section>
+      </div>
     </main>
   );
 }
@@ -58,9 +65,16 @@ function Comment({ comment }: { comment: Comment }) {
         <Score id={comment.id} score={comment.score} />
         <Mutate id={comment.id} />
       </div>
-      {comment.replies.map((reply) => (
-        <Reply key={reply.id} reply={reply} />
-      ))}
+      {comment.replies.length ? (
+        <div className="mt-4 grid grid-cols-[2px_1fr] gap-4 tablet:mt-5 tablet:grid-cols-[5.5rem_1fr] tablet:justify-items-center tablet:gap-y-5 tablet:gap-x-0">
+          <div className="border-l-2 text-light-gray"></div>
+          <div className="grid gap-4 tablet:gap-5">
+            {comment.replies.map((reply) => (
+              <Reply key={reply.id} reply={reply} />
+            ))}
+          </div>
+        </div>
+      ) : null}
     </article>
   );
 }
