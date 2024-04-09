@@ -6,3 +6,24 @@ test("has title", async ({ page }) => {
   // Expect a title "to contain" a substring.
   await expect(page).toHaveTitle(/interactive comments section/i);
 });
+
+test("has initial data", async ({ page }) => {
+  await page.goto("/");
+
+  await expect(
+    page
+      .getByRole("article")
+      .filter({ has: page.getByRole("button", { name: "upvote" }) })
+  ).not.toHaveCount(0);
+});
+
+test("add a comment", async ({ page }) => {
+  await page.goto("/");
+
+  await page
+    .getByRole("textbox", { name: "add a comment" })
+    .fill("A new comment");
+  await page.getByRole("button", { name: "send" }).click();
+
+  await expect(page.getByRole("article").last()).toHaveText(/a new comment/i);
+});
