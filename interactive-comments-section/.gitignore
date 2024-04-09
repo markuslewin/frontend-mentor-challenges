@@ -39,3 +39,9 @@ dist-ssr
 # Avoid your project being littered with annoying .DS_Store files!
 .DS_Store
 .prettierignore
+
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
