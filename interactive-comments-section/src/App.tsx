@@ -2,9 +2,10 @@ import { z } from "zod";
 import spriteUrl from "./images/sprite.svg";
 import { useComments } from "./utils/comments";
 import type { Comment, Reply } from "./utils/comments";
-import { useRef } from "react";
+import { ReactNode, useRef } from "react";
 import { flushSync } from "react-dom";
 import { useUser } from "./utils/user";
+import * as AlertDialog from "@radix-ui/react-alert-dialog";
 
 function App() {
   const { comments, create, remove } = useComments();
@@ -168,11 +169,7 @@ function Score({ id, score }: { id: number; score: number }) {
   );
 }
 
-const DeleteMessageSchema = z.object({
-  id: z.coerce.number(),
-});
-
-type OnDeleteMessage = (data: z.infer<typeof DeleteMessageSchema>) => void;
+type OnDeleteMessage = (data: { id: number }) => void;
 
 function Mutate({ id, onDelete }: { id: number; onDelete: OnDeleteMessage }) {
   return (
@@ -181,28 +178,14 @@ function Mutate({ id, onDelete }: { id: number; onDelete: OnDeleteMessage }) {
       role="list"
     >
       <li>
-        <form
-          method="post"
-          onSubmit={(event) => {
-            const formData = new FormData(event.currentTarget);
-            const result = DeleteMessageSchema.safeParse(
-              Object.fromEntries(formData)
-            );
-            if (!result.success) return;
-
-            event.preventDefault();
-            onDelete(result.data);
+        <DeleteMessage
+          className="grid grid-cols-[max-content_1fr] gap-2 items-baseline font-medium text-soft-red hocus:text-pale-red transition-colors"
+          onDelete={() => {
+            onDelete({ id });
           }}
         >
-          <input type="hidden" name="intent" value="delete-message" />
-          <input type="hidden" name="id" value={id} />
-          <button
-            className="grid grid-cols-[max-content_1fr] gap-2 items-baseline font-medium text-soft-red hocus:text-pale-red transition-colors"
-            type="submit"
-          >
-            <Icon className="size-[0.875rem]" name="delete" /> Delete
-          </button>
-        </form>
+          <Icon className="size-[0.875rem]" name="delete" /> Delete
+        </DeleteMessage>
       </li>
       <li>
         <form>
@@ -217,6 +200,48 @@ function Mutate({ id, onDelete }: { id: number; onDelete: OnDeleteMessage }) {
         </form>
       </li>
     </ul>
+  );
+}
+
+function DeleteMessage({
+  className,
+  children,
+  onDelete,
+}: {
+  className?: string;
+  children: ReactNode;
+  onDelete(): void;
+}) {
+  return (
+    <AlertDialog.Root>
+      <AlertDialog.Trigger className={className}>
+        {children}
+      </AlertDialog.Trigger>
+      <AlertDialog.Portal>
+        <AlertDialog.Overlay className="fixed inset-0 p-4 overflow-y-scroll grid place-items-center bg-[hsl(0_0%_0%_/_50%)]">
+          <AlertDialog.Content className="grid gap-4 w-full max-w-[25rem] rounded-lg shape-py-6 shape-px-7 shape-border-[1px] border-transparent bg-white text-grayish-blue tablet:gap-5 tablet:shape-p-8">
+            <AlertDialog.Title className="text-[1.25rem] font-medium leading-[1.5rem] text-dark-blue tablet:text-heading-l">
+              Are you absolutely sure?
+            </AlertDialog.Title>
+            <AlertDialog.Description>
+              This action cannot be undone. This will permanently delete your
+              account and remove your data from our servers.
+            </AlertDialog.Description>
+            <div className="grid grid-cols-2 gap-3 tablet:gap-[0.875rem]">
+              <AlertDialog.Cancel className="uppercase p-3 rounded-lg bg-grayish-blue text-white hocus:bg-[hsl(211_10%_80%)] transition-colors">
+                No, cancel
+              </AlertDialog.Cancel>
+              <AlertDialog.Action
+                className="uppercase p-3 rounded-lg bg-soft-red text-white hocus:bg-pale-red transition-colors"
+                onClick={onDelete}
+              >
+                Yes, delete
+              </AlertDialog.Action>
+            </div>
+          </AlertDialog.Content>
+        </AlertDialog.Overlay>
+      </AlertDialog.Portal>
+    </AlertDialog.Root>
   );
 }
 
