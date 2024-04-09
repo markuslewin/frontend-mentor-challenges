@@ -1,6 +1,7 @@
 import { useLocalStorage } from "./local-storage";
 import { comments as initialComments } from "../data/data.json";
 import { z } from "zod";
+import { useUser } from "./user";
 
 const CommentsSchema = z.array(
   z.object({
@@ -56,6 +57,7 @@ function parseComments(value: unknown) {
 
 export function useComments() {
   const [item, setItem] = useLocalStorage("comments");
+  const { user } = useUser();
 
   const result = parseComments(item);
   const comments = result.success ? result.data : initialComments;
@@ -74,14 +76,7 @@ export function useComments() {
             createdAt: "Just now",
             id: nextId,
             score: 0,
-            // todo: Current user
-            user: {
-              image: {
-                png: "./images/avatars/image-juliusomo.png",
-                webp: "./images/avatars/image-juliusomo.webp",
-              },
-              username: "juliusomo",
-            },
+            user,
             replies: [],
           } satisfies Comment,
         ])

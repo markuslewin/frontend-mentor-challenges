@@ -1,10 +1,10 @@
 import { z } from "zod";
-import { currentUser } from "./data/data.json";
 import spriteUrl from "./images/sprite.svg";
 import { useComments } from "./utils/comments";
 import type { Comment, Reply } from "./utils/comments";
 import { useRef } from "react";
 import { flushSync } from "react-dom";
+import { useUser } from "./utils/user";
 
 function App() {
   const { comments, create } = useComments();
@@ -191,6 +191,7 @@ function AddComment({
 }: {
   onSend(data: z.infer<typeof AddCommentSchema>): void;
 }) {
+  const { user } = useUser();
   const contentRef = useRef<HTMLTextAreaElement>(null);
 
   return (
@@ -228,8 +229,8 @@ function AddComment({
         <span className="sr-only">Commenting as </span>
         <Avatar
           className="tablet:size-10"
-          alt={currentUser.username}
-          image={currentUser.image}
+          alt={user.username}
+          image={user.image}
         />
       </p>
       <p className="row-start-2 grid justify-end tablet:col-start-3 tablet:row-start-1">
