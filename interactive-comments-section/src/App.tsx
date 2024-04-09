@@ -7,7 +7,7 @@ import { flushSync } from "react-dom";
 import { useUser } from "./utils/user";
 
 function App() {
-  const { comments, create } = useComments();
+  const { comments, create, remove } = useComments();
 
   return (
     <main className="min-h-screen px-4 py-8 tablet:p-16">
@@ -15,7 +15,13 @@ function App() {
         <h1 className="sr-only">Interactive comments section</h1>
         <div className="grid gap-4 tablet:gap-5">
           {comments.map((comment) => (
-            <Comment key={comment.id} comment={comment} />
+            <Comment
+              key={comment.id}
+              comment={comment}
+              onDelete={(data) => {
+                remove(data.id);
+              }}
+            />
           ))}
         </div>
         <section
@@ -32,7 +38,13 @@ function App() {
   );
 }
 
-function Comment({ comment }: { comment: Comment }) {
+function Comment({
+  comment,
+  onDelete,
+}: {
+  comment: Comment;
+  onDelete: OnDeleteMessage;
+}) {
   return (
     <article>
       <div className="message-layout bg-white rounded-lg shape-p-4 shape-border-[1px] border-transparent tablet:shape-p-6">
@@ -50,7 +62,7 @@ function Comment({ comment }: { comment: Comment }) {
           <Score id={comment.id} score={comment.score} />
         </div>
         <div className="message-layout__mutate">
-          <Mutate id={comment.id} />
+          <Mutate id={comment.id} onDelete={onDelete} />
         </div>
       </div>
       {comment.replies.length ? (
@@ -58,7 +70,7 @@ function Comment({ comment }: { comment: Comment }) {
           <div className="border-l-2 text-light-gray"></div>
           <div className="grid gap-4 tablet:gap-5">
             {comment.replies.map((reply) => (
-              <Reply key={reply.id} reply={reply} />
+              <Reply key={reply.id} reply={reply} onDelete={onDelete} />
             ))}
           </div>
         </div>
@@ -67,7 +79,13 @@ function Comment({ comment }: { comment: Comment }) {
   );
 }
 
-function Reply({ reply }: { reply: Reply }) {
+function Reply({
+  reply,
+  onDelete,
+}: {
+  reply: Reply;
+  onDelete: OnDeleteMessage;
+}) {
   return (
     <article className="message-layout bg-white rounded-lg shape-p-4 shape-border-[1px] border-transparent tablet:shape-p-6">
       <footer className="message-layout__footer flex items-center gap-y-1 gap-x-4 flex-wrap">
@@ -85,7 +103,7 @@ function Reply({ reply }: { reply: Reply }) {
         <Score id={reply.id} score={reply.score} />
       </div>
       <div className="message-layout__mutate">
-        <Mutate id={reply.id} />
+        <Mutate id={reply.id} onDelete={onDelete} />
       </div>
     </article>
   );
@@ -150,14 +168,32 @@ function Score({ id, score }: { id: number; score: number }) {
   );
 }
 
-function Mutate({ id }: { id: number }) {
+const DeleteMessageSchema = z.object({
+  id: z.coerce.number(),
+});
+
+type OnDeleteMessage = (data: z.infer<typeof DeleteMessageSchema>) => void;
+
+function Mutate({ id, onDelete }: { id: number; onDelete: OnDeleteMessage }) {
   return (
     <ul
       className="flex flex-wrap justify-end gap-y-1 gap-x-4 tablet:gap-y-1 tablet:gap-x-6"
       role="list"
     >
       <li>
-        <form>
+        <form
+          method="post"
+          onSubmit={(event) => {
+            const formData = new FormData(event.currentTarget);
+            const result = DeleteMessageSchema.safeParse(
+              Object.fromEntries(formData)
+            );
+            if (!result.success) return;
+
+            event.preventDefault();
+            onDelete(result.data);
+          }}
+        >
           <input type="hidden" name="intent" value="delete-message" />
           <input type="hidden" name="id" value={id} />
           <button

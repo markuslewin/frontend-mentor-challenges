@@ -2,6 +2,7 @@ import { useLocalStorage } from "./local-storage";
 import { comments as initialComments } from "../data/data.json";
 import { z } from "zod";
 import { useUser } from "./user";
+import { invariant } from "@epic-web/invariant";
 
 const CommentsSchema = z.array(
   z.object({
@@ -81,6 +82,13 @@ export function useComments() {
           } satisfies Comment,
         ])
       );
+    },
+    remove(id: number) {
+      const comment = comments.find((comment) => comment.id === id);
+      invariant(comment, "Comment not found");
+      invariant(comment.user.username === user.username, "Forbidden");
+
+      setItem(JSON.stringify(comments.filter((c) => c.id !== comment.id)));
     },
   };
 }
