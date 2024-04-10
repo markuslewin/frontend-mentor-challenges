@@ -1,7 +1,7 @@
 import spriteUrl from "./images/sprite.svg";
 import { useComments } from "./utils/comments";
 import type { Comment, Reply } from "./utils/comments";
-import { ReactNode, useRef, useState } from "react";
+import { ReactNode, useId, useRef, useState } from "react";
 import { flushSync } from "react-dom";
 import { useUser } from "./utils/user";
 import * as AlertDialog from "@radix-ui/react-alert-dialog";
@@ -9,6 +9,9 @@ import * as Collapsible from "@radix-ui/react-collapsible";
 import * as Toggle from "@radix-ui/react-toggle";
 import * as CreateMessage from "./components/create-message";
 import { Avatar } from "./components/avatar";
+import { Textarea } from "./components/textarea";
+import { z } from "zod";
+import { Button } from "./components/button";
 
 function App() {
   const { comments, create, reply, remove } = useComments();
@@ -77,6 +80,10 @@ function Comment({
   onDelete: OnDeleteMessage;
 }) {
   const { user } = useUser();
+  const { update } = useComments();
+  const [isEditing, setIsEditing] = useState(false);
+  const editContentId = useId();
+  const editContentRef = useRef<HTMLTextAreaElement>(null);
   const [isReplying, setIsReplying] = useState(false);
   const replyContentRef = useRef<HTMLTextAreaElement>(null);
   const [replyContent, setReplyContent] = useState("");
@@ -94,13 +101,59 @@ function Comment({
               <p>{comment.createdAt}</p>
             </div>
           </footer>
-          <p className="message-layout__content">{comment.content}</p>
+          <div className="message-layout__content">
+            {isEditing ? (
+              <form
+                className="grid justify-items-end gap-2 tablet:gap-4"
+                onSubmit={(event) => {
+                  const formData = new FormData(event.currentTarget);
+                  const result = z
+                    .object({
+                      content: z.string(),
+                    })
+                    .safeParse(Object.fromEntries(formData));
+                  if (!result.success) return;
+
+                  update({ id: comment.id, content: result.data.content });
+                  setIsEditing(false);
+                  event.preventDefault();
+                }}
+              >
+                <label className="sr-only" htmlFor={editContentId}>
+                  Edit comment
+                </label>
+                <Textarea
+                  ref={editContentRef}
+                  id={editContentId}
+                  name="content"
+                  defaultValue={comment.content}
+                />
+                <Button type="submit">Update</Button>
+              </form>
+            ) : (
+              <p>{comment.content}</p>
+            )}
+          </div>
           <div className="message-layout__score">
             <Score id={comment.id} score={comment.score} />
           </div>
           <div className="message-layout__mutate">
             {user.username === comment.user.username ? (
-              <Mutate id={comment.id} onDelete={onDelete} />
+              <Mutate
+                id={comment.id}
+                isEditing={isEditing}
+                onIsEditingChange={(next) => {
+                  if (next) {
+                    flushSync(() => {
+                      setIsEditing(true);
+                    });
+                    editContentRef.current?.select();
+                  } else {
+                    setIsEditing(false);
+                  }
+                }}
+                onDelete={onDelete}
+              />
             ) : (
               <div className="flex justify-end">
                 <Collapsible.Trigger
@@ -192,7 +245,13 @@ function Reply({
         <Score id={reply.id} score={reply.score} />
       </div>
       <div className="message-layout__mutate">
-        <Mutate id={reply.id} onDelete={onDelete} />
+        {/* todo: Edit replies */}
+        <Mutate
+          id={reply.id}
+          isEditing={false}
+          onIsEditingChange={() => {}}
+          onDelete={onDelete}
+        />
       </div>
     </article>
   );
@@ -241,7 +300,17 @@ function Score({ id, score }: { id: number; score: number }) {
 
 type OnDeleteMessage = (data: { id: number }) => void;
 
-function Mutate({ id, onDelete }: { id: number; onDelete: OnDeleteMessage }) {
+function Mutate({
+  id,
+  isEditing,
+  onDelete,
+  onIsEditingChange,
+}: {
+  id: number;
+  isEditing: boolean;
+  onDelete: OnDeleteMessage;
+  onIsEditingChange(isEditing: boolean): void;
+}) {
   return (
     <ul
       className="flex flex-wrap justify-end gap-y-1 gap-x-4 tablet:gap-y-1 tablet:gap-x-6"
@@ -258,16 +327,15 @@ function Mutate({ id, onDelete }: { id: number; onDelete: OnDeleteMessage }) {
         </DeleteMessage>
       </li>
       <li>
-        <form>
-          <input type="hidden" name="intent" value="edit-message" />
-          <input type="hidden" name="id" value={id} />
-          <button
-            className="grid grid-cols-[max-content_1fr] gap-2 items-baseline font-medium text-moderate-blue hocus:text-light-grayish-blue transition-colors"
-            type="submit"
-          >
-            <Icon className="size-[0.875rem]" name="edit" /> Edit
-          </button>
-        </form>
+        <Toggle.Root
+          className="grid grid-cols-[max-content_1fr] gap-2 items-baseline font-medium text-moderate-blue hocus:text-light-grayish-blue transition-colors"
+          pressed={isEditing}
+          onClick={() => {
+            onIsEditingChange(!isEditing);
+          }}
+        >
+          <Icon className="size-[0.875rem]" name="edit" /> Edit
+        </Toggle.Root>
       </li>
     </ul>
   );

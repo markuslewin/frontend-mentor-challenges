@@ -89,6 +89,7 @@ const CommentsContext = createContext<{
   comments: Comments;
   votes: Votes;
   create(content: string): void;
+  update(data: { id: number; content: string }): void;
   upvote(data: { id: number; on: boolean }): void;
   downvote(data: { id: number; on: boolean }): void;
   reply(data: { id: number; content: string }): void;
@@ -104,8 +105,8 @@ export function CommentsProvider({ children }: { children: ReactNode }) {
   const votes = voteResult.success ? voteResult.data : [];
 
   const result = parseComments(item);
-  const parsedComments = result.success ? result.data : initialComments;
-  const comments = parsedComments.map((comment) => {
+  const sourceComments = result.success ? result.data : initialComments;
+  const comments = sourceComments.map((comment) => {
     const score = votes
       .filter((vote) => vote.commentId === comment.id)
       .reduce(
@@ -115,10 +116,13 @@ export function CommentsProvider({ children }: { children: ReactNode }) {
     return { ...comment, score };
   });
 
-  const nextCommentId = Math.max(...comments.map((comment) => comment.id)) + 1;
+  const nextCommentId =
+    Math.max(...sourceComments.map((comment) => comment.id)) + 1;
   const nextReplyId =
     Math.max(
-      ...comments.flatMap((comment) => comment.replies.map((reply) => reply.id))
+      ...sourceComments.flatMap((comment) =>
+        comment.replies.map((reply) => reply.id)
+      )
     ) + 1;
 
   return (
@@ -129,7 +133,7 @@ export function CommentsProvider({ children }: { children: ReactNode }) {
         create(content) {
           setItem(
             JSON.stringify([
-              ...comments,
+              ...sourceComments,
               {
                 content,
                 // todo: Timestamp
@@ -140,6 +144,19 @@ export function CommentsProvider({ children }: { children: ReactNode }) {
                 replies: [],
               } satisfies Comment,
             ])
+          );
+        },
+        update({ id, content }) {
+          const comment = sourceComments.find((comment) => comment.id === id);
+          invariant(comment, "Comment not found");
+
+          const nextComment = { ...comment, content };
+          setItem(
+            JSON.stringify(
+              sourceComments.map((comment) =>
+                comment.id === nextComment.id ? nextComment : comment
+              ) satisfies Comments
+            )
           );
         },
         upvote({ id, on }) {
@@ -165,12 +182,12 @@ export function CommentsProvider({ children }: { children: ReactNode }) {
           setRawVotes(JSON.stringify(nextVotes satisfies Votes));
         },
         reply({ id, content }) {
-          const comment = comments.find((comment) => comment.id === id);
+          const comment = sourceComments.find((comment) => comment.id === id);
           invariant(comment, "Comment not found");
 
           setItem(
             JSON.stringify(
-              comments.map((c) =>
+              sourceComments.map((c) =>
                 c.id === comment.id
                   ? {
                       ...comment,
@@ -193,11 +210,13 @@ export function CommentsProvider({ children }: { children: ReactNode }) {
           );
         },
         remove(id) {
-          const comment = comments.find((comment) => comment.id === id);
+          const comment = sourceComments.find((comment) => comment.id === id);
           invariant(comment, "Comment not found");
           invariant(comment.user.username === user.username, "Forbidden");
 
-          setItem(JSON.stringify(comments.filter((c) => c.id !== comment.id)));
+          setItem(
+            JSON.stringify(sourceComments.filter((c) => c.id !== comment.id))
+          );
         },
       }}
     >

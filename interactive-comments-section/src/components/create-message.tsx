@@ -10,6 +10,8 @@ import { Avatar } from "./avatar";
 import { invariant } from "@epic-web/invariant";
 import { useUser } from "../utils/user";
 import { z } from "zod";
+import { Textarea } from "./textarea";
+import { Button } from "./button";
 
 const CreateMessageContext = createContext<{
   textareaId: string;
@@ -87,15 +89,14 @@ export function Label({ children }: { children: ReactNode }) {
   );
 }
 
-export const Textarea = forwardRef<
+const CreateMessageTextarea = forwardRef<
   HTMLTextAreaElement,
   TextareaHTMLAttributes<HTMLTextAreaElement>
 >((props, ref) => {
   const { textareaId, commentingAsId } = useCreateMessage();
 
   return (
-    <textarea
-      className="h-24 w-full resize-none rounded-lg shape-py-3 shape-px-6 shape-border-[1px] border-light-gray text-dark-blue placeholder:text-grayish-blue caret-moderate-blue hocus:border-moderate-blue transition-colors"
+    <Textarea
       ref={ref}
       name="content"
       id={textareaId}
@@ -104,6 +105,8 @@ export const Textarea = forwardRef<
     />
   );
 });
+
+export { CreateMessageTextarea as Textarea };
 
 export function CommentingAs() {
   const { commentingAsId } = useCreateMessage();
@@ -127,12 +130,7 @@ export function CommentingAs() {
 export function Create({ children }: { children: ReactNode }) {
   return (
     <p className="row-start-2 grid justify-end tablet:col-start-3 tablet:row-start-1">
-      <button
-        className="font-medium uppercase rounded-lg shape-py-3 shape-px-8 shape-border-[1px] border-transparent bg-moderate-blue text-white hocus:bg-light-grayish-blue transition-colors"
-        type="submit"
-      >
-        {children}
-      </button>
+      <Button type="submit">{children}</Button>
     </p>
   );
 }

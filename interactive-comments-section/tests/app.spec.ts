@@ -99,3 +99,23 @@ test("vote on comment", async ({ page }) => {
   await downvote.click();
   await expect(score).toHaveText(/12/i);
 });
+
+test("edit comment", async ({ page }) => {
+  await page.goto("/");
+
+  await page
+    .getByRole("textbox", { name: "add a comment" })
+    .fill("A new comment");
+  await page.getByRole("button", { name: "send" }).click();
+
+  const comment = page.getByTestId("comment").last();
+  await expect(comment).toHaveText(/a new comment/i);
+
+  comment.getByRole("button", { name: "edit" }).click();
+  comment
+    .getByRole("textbox", { name: "edit comment" })
+    .fill("An updated comment");
+  comment.getByRole("button", { name: "update" }).click();
+
+  await expect(comment).toHaveText(/an updated comment/i);
+});
