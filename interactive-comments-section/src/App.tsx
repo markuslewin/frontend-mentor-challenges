@@ -1,14 +1,17 @@
-import { z } from "zod";
 import spriteUrl from "./images/sprite.svg";
 import { useComments } from "./utils/comments";
 import type { Comment, Reply } from "./utils/comments";
-import { ReactNode, useRef } from "react";
+import { ReactNode, useRef, useState } from "react";
 import { flushSync } from "react-dom";
 import { useUser } from "./utils/user";
 import * as AlertDialog from "@radix-ui/react-alert-dialog";
+import * as Collapsible from "@radix-ui/react-collapsible";
+import * as CreateMessage from "./components/create-message";
+import { Avatar } from "./components/avatar";
 
 function App() {
   const { comments, create, remove } = useComments();
+  const addCommentContentRef = useRef<HTMLTextAreaElement>(null);
 
   return (
     <main className="min-h-screen px-4 py-8 tablet:p-16">
@@ -32,7 +35,22 @@ function App() {
           <h2 className="sr-only" id="add-comment-label">
             Add a comment
           </h2>
-          <AddComment onSend={(data) => create(data.content)} />
+          <CreateMessage.Form
+            onCreateMessage={(data) => {
+              flushSync(() => {
+                create(data.content);
+              });
+              const $content = addCommentContentRef.current;
+              if (!$content) return;
+
+              $content.focus();
+              $content.scrollIntoView(false);
+            }}
+          >
+            <CreateMessage.Textarea ref={addCommentContentRef} />
+            <CreateMessage.CommentingAs />
+            <CreateMessage.Create>Send</CreateMessage.Create>
+          </CreateMessage.Form>
         </section>
       </div>
     </main>
@@ -46,26 +64,77 @@ function Comment({
   comment: Comment;
   onDelete: OnDeleteMessage;
 }) {
+  const { user } = useUser();
+  const [isReplying, setIsReplying] = useState(false);
+  const replyContentRef = useRef<HTMLTextAreaElement>(null);
+  const [replyContent, setReplyContent] = useState("");
+
   return (
     <article>
-      <div className="message-layout bg-white rounded-lg shape-p-4 shape-border-[1px] border-transparent tablet:shape-p-6">
-        <footer className="message-layout__footer flex items-center gap-y-1 gap-x-4 flex-wrap">
-          <Avatar alt="" image={comment.user.image} />
-          <div className="flex items-baseline gap-y-1 gap-x-4 flex-wrap">
-            <p className="text-heading-m text-dark-blue">
-              {comment.user.username}
-            </p>
-            <p>{comment.createdAt}</p>
+      <Collapsible.Root open={isReplying}>
+        <div className="message-layout bg-white rounded-lg shape-p-4 shape-border-[1px] border-transparent tablet:shape-p-6">
+          <footer className="message-layout__footer flex items-center gap-y-1 gap-x-4 flex-wrap">
+            <Avatar alt="" image={comment.user.image} />
+            <div className="flex items-baseline gap-y-1 gap-x-4 flex-wrap">
+              <p className="text-heading-m text-dark-blue">
+                {comment.user.username}
+              </p>
+              <p>{comment.createdAt}</p>
+            </div>
+          </footer>
+          <p className="message-layout__content">{comment.content}</p>
+          <div className="message-layout__score">
+            <Score id={comment.id} score={comment.score} />
           </div>
-        </footer>
-        <p className="message-layout__content">{comment.content}</p>
-        <div className="message-layout__score">
-          <Score id={comment.id} score={comment.score} />
+          <div className="message-layout__mutate">
+            {user.username === comment.user.username ? (
+              <Mutate id={comment.id} onDelete={onDelete} />
+            ) : (
+              <div className="flex justify-end">
+                <Collapsible.Trigger
+                  className="grid grid-cols-[max-content_1fr] gap-2 items-center font-medium text-moderate-blue hocus:text-light-grayish-blue transition-colors"
+                  onClick={() => {
+                    if (isReplying) {
+                      setIsReplying(false);
+                    } else {
+                      flushSync(() => {
+                        setIsReplying(true);
+                      });
+                      const $content = replyContentRef.current;
+                      if (!$content) return;
+
+                      $content.focus();
+                      const length = $content.value.length;
+                      $content.setSelectionRange(length, length);
+                    }
+                  }}
+                >
+                  <Icon className="size-[0.875rem]" name="reply" /> Reply
+                </Collapsible.Trigger>
+              </div>
+            )}
+          </div>
         </div>
-        <div className="message-layout__mutate">
-          <Mutate id={comment.id} onDelete={onDelete} />
-        </div>
-      </div>
+        <Collapsible.Content className="mt-2">
+          <CreateMessage.Form
+            onCreateMessage={() => {
+              console.log("Append:", { content: replyContent });
+            }}
+          >
+            <CreateMessage.Textarea
+              ref={replyContentRef}
+              value={`@${comment.user.username} ${replyContent}`}
+              onChange={(event) =>
+                setReplyContent(
+                  event.target.value.slice(`@${comment.user.username} `.length)
+                )
+              }
+            />
+            <CreateMessage.CommentingAs />
+            <CreateMessage.Create>Reply</CreateMessage.Create>
+          </CreateMessage.Form>
+        </Collapsible.Content>
+      </Collapsible.Root>
       {comment.replies.length ? (
         <div className="mt-4 grid grid-cols-[2px_1fr] gap-4 tablet:mt-5 tablet:grid-cols-[5.5rem_1fr] tablet:justify-items-center tablet:gap-y-5 tablet:gap-x-0">
           <div className="border-l-2 text-light-gray"></div>
@@ -107,32 +176,6 @@ function Reply({
         <Mutate id={reply.id} onDelete={onDelete} />
       </div>
     </article>
-  );
-}
-
-function Avatar({
-  className,
-  alt,
-  image,
-}: {
-  className?: string;
-  alt: string;
-  image: {
-    webp: string;
-    png: string;
-  };
-}) {
-  return (
-    <picture>
-      <source type="image/webp" srcSet={image.webp} />
-      <img
-        className={`size-8 rounded-full ${className}`}
-        alt={alt}
-        width={64}
-        height={64}
-        src={image.png}
-      />
-    </picture>
   );
 }
 
@@ -242,67 +285,6 @@ function DeleteMessage({
         </AlertDialog.Overlay>
       </AlertDialog.Portal>
     </AlertDialog.Root>
-  );
-}
-
-const AddCommentSchema = z.object({ content: z.string() });
-
-function AddComment({
-  onSend,
-}: {
-  onSend(data: z.infer<typeof AddCommentSchema>): void;
-}) {
-  const { user } = useUser();
-  const contentRef = useRef<HTMLTextAreaElement>(null);
-
-  return (
-    <form
-      className="grid grid-cols-[max-content_1fr] items-center gap-4 bg-white rounded-lg shape-p-4 shape-border-[1px] border-transparent tablet:grid-cols-[max-content_1fr_max-content] tablet:items-start tablet:shape-p-6"
-      method="post"
-      onSubmit={(event) => {
-        const formData = new FormData(event.currentTarget);
-        const result = AddCommentSchema.safeParse(Object.fromEntries(formData));
-        if (!result.success) return;
-
-        flushSync(() => {
-          onSend(result.data);
-        });
-        event.preventDefault();
-        event.currentTarget.reset();
-        contentRef.current?.focus();
-        event.currentTarget.scrollIntoView(false);
-      }}
-    >
-      <label className="col-span-full tablet:col-start-2 tablet:col-span-1">
-        <span className="sr-only">Add a comment </span>
-        <textarea
-          className="h-24 w-full resize-none rounded-lg shape-py-3 shape-px-6 shape-border-[1px] border-light-gray text-dark-blue placeholder:text-grayish-blue hocus:border-moderate-blue transition-colors"
-          ref={contentRef}
-          name="content"
-          placeholder="Add a comment…"
-          aria-describedby="commenting-as"
-        ></textarea>
-      </label>
-      <p
-        className="row-start-2 tablet:col-start-1 tablet:row-start-1"
-        id="commenting-as"
-      >
-        <span className="sr-only">Commenting as </span>
-        <Avatar
-          className="tablet:size-10"
-          alt={user.username}
-          image={user.image}
-        />
-      </p>
-      <p className="row-start-2 grid justify-end tablet:col-start-3 tablet:row-start-1">
-        <button
-          className="font-medium uppercase rounded-lg shape-py-3 shape-px-8 shape-border-[1px] border-transparent bg-moderate-blue text-white hocus:bg-light-grayish-blue transition-colors"
-          type="submit"
-        >
-          Send
-        </button>
-      </p>
-    </form>
   );
 }
 
