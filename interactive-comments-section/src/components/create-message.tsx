@@ -11,9 +11,10 @@ import { invariant } from "@epic-web/invariant";
 import { useUser } from "../utils/user";
 import { z } from "zod";
 
-const CreateMessageContext = createContext<{ commentingAsId: string } | null>(
-  null
-);
+const CreateMessageContext = createContext<{
+  textareaId: string;
+  commentingAsId: string;
+} | null>(null);
 
 function useCreateMessage() {
   const value = useContext(CreateMessageContext);
@@ -24,9 +25,10 @@ function useCreateMessage() {
 
 function CreateMessageProvider({ children }: { children: ReactNode }) {
   const commentingAsId = useId();
+  const textareaId = useId();
 
   return (
-    <CreateMessageContext.Provider value={{ commentingAsId }}>
+    <CreateMessageContext.Provider value={{ textareaId, commentingAsId }}>
       {children}
     </CreateMessageContext.Provider>
   );
@@ -67,23 +69,39 @@ export function Form({
   );
 }
 
+export function TextareaContainer({ children }: { children: ReactNode }) {
+  return (
+    <div className="col-span-full tablet:col-start-2 tablet:col-span-1">
+      {children}
+    </div>
+  );
+}
+
+export function Label({ children }: { children: ReactNode }) {
+  const { textareaId } = useCreateMessage();
+
+  return (
+    <label className="sr-only" htmlFor={textareaId}>
+      {children}
+    </label>
+  );
+}
+
 export const Textarea = forwardRef<
   HTMLTextAreaElement,
   TextareaHTMLAttributes<HTMLTextAreaElement>
 >((props, ref) => {
-  const { commentingAsId } = useCreateMessage();
+  const { textareaId, commentingAsId } = useCreateMessage();
 
   return (
-    <label className="col-span-full tablet:col-start-2 tablet:col-span-1">
-      <span className="sr-only">Add a comment </span>
-      <textarea
-        className="h-24 w-full resize-none rounded-lg shape-py-3 shape-px-6 shape-border-[1px] border-light-gray text-dark-blue placeholder:text-grayish-blue hocus:border-moderate-blue transition-colors"
-        ref={ref}
-        name="content"
-        aria-describedby={commentingAsId}
-        {...props}
-      />
-    </label>
+    <textarea
+      className="h-24 w-full resize-none rounded-lg shape-py-3 shape-px-6 shape-border-[1px] border-light-gray text-dark-blue placeholder:text-grayish-blue caret-moderate-blue hocus:border-moderate-blue transition-colors"
+      ref={ref}
+      name="content"
+      id={textareaId}
+      aria-describedby={commentingAsId}
+      {...props}
+    />
   );
 });
 

@@ -63,7 +63,11 @@ export function useComments() {
   const result = parseComments(item);
   const comments = result.success ? result.data : initialComments;
 
-  const nextId = Math.max(...comments.map((comment) => comment.id)) + 1;
+  const nextCommentId = Math.max(...comments.map((comment) => comment.id)) + 1;
+  const nextReplyId =
+    Math.max(
+      ...comments.flatMap((comment) => comment.replies.map((reply) => reply.id))
+    ) + 1;
 
   return {
     comments,
@@ -75,12 +79,40 @@ export function useComments() {
             content,
             // todo: Timestamp
             createdAt: "Just now",
-            id: nextId,
+            id: nextCommentId,
             score: 0,
             user,
             replies: [],
           } satisfies Comment,
         ])
+      );
+    },
+    reply({ id, content }: { id: number; content: string }) {
+      const comment = comments.find((comment) => comment.id === id);
+      invariant(comment, "Comment not found");
+
+      setItem(
+        JSON.stringify(
+          comments.map((c) =>
+            c.id === comment.id
+              ? {
+                  ...comment,
+                  replies: [
+                    ...comment.replies,
+                    {
+                      content,
+                      // todo: Timestamp
+                      createdAt: "Just now",
+                      id: nextReplyId,
+                      replyingTo: comment.user.username,
+                      score: 0,
+                      user,
+                    },
+                  ],
+                }
+              : c
+          ) satisfies Comment[]
+        )
       );
     },
     remove(id: number) {

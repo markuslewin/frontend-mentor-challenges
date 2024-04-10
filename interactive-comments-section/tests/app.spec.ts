@@ -39,7 +39,7 @@ test("delete comment", async ({ page }) => {
     .getByRole("article")
     .filter({ hasText: /delete this comment/i });
 
-  const comments = await page
+  const comments = page
     .getByRole("article")
     .filter({ has: page.getByRole("button", { name: "delete" }) });
   const commentsCount = await comments.count();
@@ -49,4 +49,29 @@ test("delete comment", async ({ page }) => {
 
   await expect(comment).not.toBeAttached();
   await expect(comments).toHaveCount(commentsCount - 1);
+});
+
+test("reply to comment", async ({ page }) => {
+  page.goto("/");
+
+  const comment = page.getByRole("article").first();
+
+  await comment.getByRole("button", { name: "reply" }).first().click();
+
+  const replyTextbox = comment.getByRole("textbox", { name: "reply" });
+  await expect(replyTextbox).toHaveValue("@amyrobson ");
+
+  // `.fill` gets overwritten by React state
+  await replyTextbox.pressSequentially("This is a reply");
+
+  await comment.getByRole("button", { name: "reply" }).nth(1).click();
+
+  await expect(replyTextbox).not.toBeAttached();
+  await expect(comment.getByRole("article").first()).toHaveText(
+    /this is a reply/i
+  );
+
+  await comment.getByRole("button", { name: "reply" }).first().click();
+
+  await expect(replyTextbox).toHaveValue("@amyrobson ");
 });

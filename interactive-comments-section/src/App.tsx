@@ -10,7 +10,7 @@ import * as CreateMessage from "./components/create-message";
 import { Avatar } from "./components/avatar";
 
 function App() {
-  const { comments, create, remove } = useComments();
+  const { comments, create, reply, remove } = useComments();
   const addCommentContentRef = useRef<HTMLTextAreaElement>(null);
 
   return (
@@ -24,6 +24,9 @@ function App() {
               comment={comment}
               onDelete={(data) => {
                 remove(data.id);
+              }}
+              onReply={(data) => {
+                reply(data);
               }}
             />
           ))}
@@ -47,7 +50,13 @@ function App() {
               $content.scrollIntoView(false);
             }}
           >
-            <CreateMessage.Textarea ref={addCommentContentRef} />
+            <CreateMessage.TextareaContainer>
+              <CreateMessage.Label>Add a comment</CreateMessage.Label>
+              <CreateMessage.Textarea
+                ref={addCommentContentRef}
+                placeholder="Add a comment…"
+              />
+            </CreateMessage.TextareaContainer>
             <CreateMessage.CommentingAs />
             <CreateMessage.Create>Send</CreateMessage.Create>
           </CreateMessage.Form>
@@ -60,9 +69,11 @@ function App() {
 function Comment({
   comment,
   onDelete,
+  onReply,
 }: {
   comment: Comment;
   onDelete: OnDeleteMessage;
+  onReply: (data: { id: number; content: string }) => void;
 }) {
   const { user } = useUser();
   const [isReplying, setIsReplying] = useState(false);
@@ -118,18 +129,25 @@ function Comment({
         <Collapsible.Content className="mt-2">
           <CreateMessage.Form
             onCreateMessage={() => {
-              console.log("Append:", { content: replyContent });
+              onReply({ id: comment.id, content: replyContent });
+              setIsReplying(false);
+              setReplyContent("");
             }}
           >
-            <CreateMessage.Textarea
-              ref={replyContentRef}
-              value={`@${comment.user.username} ${replyContent}`}
-              onChange={(event) =>
-                setReplyContent(
-                  event.target.value.slice(`@${comment.user.username} `.length)
-                )
-              }
-            />
+            <CreateMessage.TextareaContainer>
+              <CreateMessage.Label>Reply to comment</CreateMessage.Label>
+              <CreateMessage.Textarea
+                ref={replyContentRef}
+                value={`@${comment.user.username} ${replyContent}`}
+                onChange={(event) =>
+                  setReplyContent(
+                    event.target.value.slice(
+                      `@${comment.user.username} `.length
+                    )
+                  )
+                }
+              />
+            </CreateMessage.TextareaContainer>
             <CreateMessage.CommentingAs />
             <CreateMessage.Create>Reply</CreateMessage.Create>
           </CreateMessage.Form>
@@ -138,7 +156,7 @@ function Comment({
       {comment.replies.length ? (
         <div className="mt-4 grid grid-cols-[2px_1fr] gap-4 tablet:mt-5 tablet:grid-cols-[5.5rem_1fr] tablet:justify-items-center tablet:gap-y-5 tablet:gap-x-0">
           <div className="border-l-2 text-light-gray"></div>
-          <div className="grid gap-4 tablet:gap-5">
+          <div className="w-full grid gap-4 tablet:gap-5">
             {comment.replies.map((reply) => (
               <Reply key={reply.id} reply={reply} onDelete={onDelete} />
             ))}
