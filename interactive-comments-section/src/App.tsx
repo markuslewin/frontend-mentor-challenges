@@ -359,11 +359,11 @@ function DeleteMessage({
         <AlertDialog.Overlay className="fixed inset-0 p-4 overflow-y-scroll grid place-items-center bg-[hsl(0_0%_0%_/_50%)]">
           <AlertDialog.Content className="grid gap-4 w-full max-w-[25rem] rounded-lg shape-py-6 shape-px-7 shape-border-[1px] border-transparent bg-white text-grayish-blue tablet:gap-5 tablet:shape-p-8">
             <AlertDialog.Title className="text-[1.25rem] font-medium leading-[1.5rem] text-dark-blue tablet:text-heading-l">
-              Are you absolutely sure?
+              Delete comment
             </AlertDialog.Title>
             <AlertDialog.Description>
-              This action cannot be undone. This will permanently delete your
-              account and remove your data from our servers.
+              Are you sure you want to delete this comment? This will remove the
+              comment and can’t be undone.
             </AlertDialog.Description>
             <div className="grid grid-cols-2 gap-3 tablet:gap-[0.875rem]">
               <AlertDialog.Cancel className="uppercase p-3 rounded-lg bg-grayish-blue text-white hocus:bg-[hsl(211_10%_80%)] transition-colors">
