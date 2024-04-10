@@ -6,6 +6,7 @@ import { flushSync } from "react-dom";
 import { useUser } from "./utils/user";
 import * as AlertDialog from "@radix-ui/react-alert-dialog";
 import * as Collapsible from "@radix-ui/react-collapsible";
+import * as Toggle from "@radix-ui/react-toggle";
 import * as CreateMessage from "./components/create-message";
 import { Avatar } from "./components/avatar";
 
@@ -22,11 +23,11 @@ function App() {
             <Comment
               key={comment.id}
               comment={comment}
-              onDelete={(data) => {
-                remove(data.id);
-              }}
               onReply={(data) => {
                 reply(data);
+              }}
+              onDelete={(data) => {
+                remove(data.id);
               }}
             />
           ))}
@@ -68,12 +69,12 @@ function App() {
 
 function Comment({
   comment,
-  onDelete,
   onReply,
+  onDelete,
 }: {
   comment: Comment;
-  onDelete: OnDeleteMessage;
   onReply: (data: { id: number; content: string }) => void;
+  onDelete: OnDeleteMessage;
 }) {
   const { user } = useUser();
   const [isReplying, setIsReplying] = useState(false);
@@ -81,7 +82,7 @@ function Comment({
   const [replyContent, setReplyContent] = useState("");
 
   return (
-    <article>
+    <article data-testid="comment">
       <Collapsible.Root open={isReplying}>
         <div className="message-layout bg-white rounded-lg shape-p-4 shape-border-[1px] border-transparent tablet:shape-p-6">
           <footer className="message-layout__footer flex items-center gap-y-1 gap-x-4 flex-wrap">
@@ -198,34 +199,42 @@ function Reply({
 }
 
 function Score({ id, score }: { id: number; score: number }) {
+  const { votes, upvote, downvote } = useComments();
+
+  const vote = votes.find((vote) => vote.commentId === id);
+  const isUpvoted = vote?.type === "upvote";
+  const isDownvoted = vote?.type === "downvote";
+
   return (
     <div className="h-10 min-w-[6.25rem] px-3 border-[1px] border-transparent grid grid-cols-[max-content_1fr_max-content] items-center text-center font-medium rounded-[0.625rem] bg-very-light-gray text-moderate-blue tablet:h-[6.25rem] tablet:px-0 tablet:min-w-10 tablet:grid-cols-none">
-      <form>
-        <input type="hidden" name="intent" value="upvote-message" />
-        <input type="hidden" name="id" value={id} />
-        <button
-          className="text-light-grayish-blue hocus:text-moderate-blue transition-colors"
-          type="submit"
+      <div>
+        <Toggle.Root
+          className="text-light-grayish-blue hocus:text-moderate-blue data-[state=on]:text-moderate-blue transition-colors"
+          pressed={isUpvoted}
+          onClick={() => {
+            upvote({ id, on: !isUpvoted });
+          }}
         >
           <Icon className="size-[0.625rem]" name="plus" />
           <span className="sr-only">Upvote</span>
-        </button>
-      </form>
-      <p>
+        </Toggle.Root>
+      </div>
+      <p data-testid="score">
         {score}
         <span className="sr-only"> points</span>
       </p>
-      <form>
-        <input type="hidden" name="intent" value="downvote-message" />
-        <input type="hidden" name="id" value={id} />
-        <button
-          className="text-light-grayish-blue hocus:text-moderate-blue transition-colors"
-          type="submit"
+      <div>
+        <Toggle.Root
+          className="text-light-grayish-blue hocus:text-moderate-blue data-[state=on]:text-moderate-blue transition-colors"
+          pressed={isDownvoted}
+          onClick={() => {
+            downvote({ id, on: !isDownvoted });
+          }}
         >
           <Icon className="size-[0.625rem]" name="minus" />
           <span className="sr-only">Downvote</span>
-        </button>
-      </form>
+        </Toggle.Root>
+      </div>
     </div>
   );
 }

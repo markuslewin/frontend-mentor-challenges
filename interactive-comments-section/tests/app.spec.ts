@@ -52,7 +52,7 @@ test("delete comment", async ({ page }) => {
 });
 
 test("reply to comment", async ({ page }) => {
-  page.goto("/");
+  await page.goto("/");
 
   const comment = page.getByRole("article").first();
 
@@ -74,4 +74,28 @@ test("reply to comment", async ({ page }) => {
   await comment.getByRole("button", { name: "reply" }).first().click();
 
   await expect(replyTextbox).toHaveValue("@amyrobson ");
+});
+
+test("vote on comment", async ({ page }) => {
+  await page.goto("/");
+
+  const comment = page.getByTestId("comment").first();
+  const score = comment.getByTestId("score");
+
+  await expect(score).toHaveText(/12/i);
+
+  const upvote = comment.getByRole("button", { name: "upvote" });
+  const downvote = comment.getByRole("button", { name: "downvote" });
+  await upvote.click();
+
+  await expect(score).toHaveText(/13/i);
+  await upvote.click();
+  await expect(score).toHaveText(/12/i);
+  await upvote.click();
+  await expect(score).toHaveText(/13/i);
+  await downvote.click();
+  // -1 (unpress upvote) + -1 (downvote) = -2
+  await expect(score).toHaveText(/11/i);
+  await downvote.click();
+  await expect(score).toHaveText(/12/i);
 });
