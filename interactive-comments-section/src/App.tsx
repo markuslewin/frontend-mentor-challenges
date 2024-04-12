@@ -131,7 +131,11 @@ function Comment({
                 <Button type="submit">Update</Button>
               </form>
             ) : (
-              <p>{comment.content}</p>
+              <div className="grid gap-2">
+                {comment.content.split("\n").map((paragraph, i) => (
+                  <p key={i}>{paragraph}</p>
+                ))}
+              </div>
             )}
           </div>
           <div className="message-layout__score">
