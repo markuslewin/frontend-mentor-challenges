@@ -106,15 +106,17 @@ export function CommentsProvider({ children }: { children: ReactNode }) {
 
   const result = parseComments(item);
   const sourceComments = result.success ? result.data : initialComments;
-  const comments = sourceComments.map((comment) => {
-    const score = votes
-      .filter((vote) => vote.commentId === comment.id)
-      .reduce(
-        (score, vote) => score + (vote.type === "upvote" ? 1 : -1),
-        comment.score
-      );
-    return { ...comment, score };
-  });
+  const comments = sourceComments
+    .map((comment) => {
+      const score = votes
+        .filter((vote) => vote.commentId === comment.id)
+        .reduce(
+          (score, vote) => score + (vote.type === "upvote" ? 1 : -1),
+          comment.score
+        );
+      return { ...comment, score };
+    })
+    .sort((a, b) => b.score - a.score);
 
   const nextCommentId =
     Math.max(...sourceComments.map((comment) => comment.id)) + 1;

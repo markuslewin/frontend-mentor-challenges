@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { test, expect, Page } from "@playwright/test";
 
 test("has title", async ({ page }) => {
   await page.goto("/");
@@ -147,3 +147,36 @@ test("new comment has 0 points", async ({ page }) => {
 
   await expect(anotherComment.getByTestId("score")).toHaveText(/0/i);
 });
+
+test("sort comments by score", async ({ page }) => {
+  await createComments(page, ["Number three", "Number two", "Number one"]);
+
+  const three = page
+    .getByTestId("comment")
+    .filter({ hasText: /number three/i });
+  const one = page.getByTestId("comment").filter({ hasText: /number one/i });
+
+  const first = page.getByTestId("comment").nth(-3);
+  const second = page.getByTestId("comment").nth(-2);
+  const third = page.getByTestId("comment").nth(-1);
+
+  await expect(first).toHaveText(/number three/i);
+  await expect(second).toHaveText(/number two/i);
+  await expect(third).toHaveText(/number one/i);
+
+  three.getByRole("button", { name: "downvote" }).click();
+  one.getByRole("button", { name: "upvote" }).click();
+
+  await expect(first).toHaveText(/number one/i);
+  await expect(second).toHaveText(/number two/i);
+  await expect(third).toHaveText(/number three/i);
+});
+
+async function createComments(page: Page, contents: string[]) {
+  page.goto("/");
+
+  for (const content of contents) {
+    await page.getByRole("textbox", { name: "add a comment" }).fill(content);
+    await page.getByRole("button", { name: "send" }).click();
+  }
+}
