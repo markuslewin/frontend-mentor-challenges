@@ -129,11 +129,7 @@ function Comment({
                 <Button type="submit">Update</Button>
               </form>
             ) : (
-              <div className="grid gap-2">
-                {comment.content.split("\n").map((paragraph, i) => (
-                  <p key={i}>{paragraph}</p>
-                ))}
-              </div>
+              <p className="whitespace-pre-wrap">{comment.content}</p>
             )}
           </div>
           <div className="message-layout__score">
@@ -239,7 +235,7 @@ function Reply({
           <p>{reply.createdAt}</p>
         </div>
       </footer>
-      <p className="message-layout__content">
+      <p className="message-layout__content whitespace-pre-wrap">
         <b className="font-medium text-moderate-blue">@{reply.replyingTo}</b>{" "}
         {reply.content}
       </p>
