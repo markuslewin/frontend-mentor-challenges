@@ -8,9 +8,9 @@ import * as AlertDialog from "@radix-ui/react-alert-dialog";
 import * as Collapsible from "@radix-ui/react-collapsible";
 import * as Toggle from "@radix-ui/react-toggle";
 import * as CreateMessage from "./components/create-message";
+import { CreateMessageSchema } from "./components/create-message";
 import { Avatar } from "./components/avatar";
 import { Textarea } from "./components/textarea";
-import { z } from "zod";
 import { Button } from "./components/button";
 
 function App() {
@@ -106,17 +106,15 @@ function Comment({
               <form
                 className="grid justify-items-end gap-2 tablet:gap-4"
                 onSubmit={(event) => {
+                  event.preventDefault();
                   const formData = new FormData(event.currentTarget);
-                  const result = z
-                    .object({
-                      content: z.string(),
-                    })
-                    .safeParse(Object.fromEntries(formData));
+                  const result = CreateMessageSchema.safeParse(
+                    Object.fromEntries(formData)
+                  );
                   if (!result.success) return;
 
                   update({ id: comment.id, content: result.data.content });
                   setIsEditing(false);
-                  event.preventDefault();
                 }}
               >
                 <label className="sr-only" htmlFor={editContentId}>

@@ -36,8 +36,8 @@ function CreateMessageProvider({ children }: { children: ReactNode }) {
   );
 }
 
-const CreateMessageSchema = z.object({
-  content: z.string(),
+export const CreateMessageSchema = z.object({
+  content: z.string().refine((val) => val.trim().length > 0),
 });
 
 export function Form({
@@ -53,6 +53,7 @@ export function Form({
         className="grid grid-cols-[max-content_1fr] items-center gap-4 bg-white rounded-lg shape-p-4 shape-border-[1px] border-transparent tablet:grid-cols-[max-content_1fr_max-content] tablet:items-start tablet:shape-p-6"
         method="post"
         onSubmit={(event) => {
+          event.preventDefault();
           const formData = new FormData(event.currentTarget);
           const result = CreateMessageSchema.safeParse(
             Object.fromEntries(formData)
@@ -61,7 +62,6 @@ export function Form({
           if (!result.success) return;
 
           onCreateMessage(result.data);
-          event.preventDefault();
           event.currentTarget.reset();
         }}
       >
