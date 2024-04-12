@@ -9,7 +9,7 @@
       "footer footer"
       "content content"
       "score mutate";
-    align-items: center;
+    grid-template-rows: max-content 1fr max-content;
     gap: 1rem;
   }
 
@@ -29,6 +29,7 @@
 
   .message-layout__mutate {
     grid-area: mutate;
+    align-self: center;
   }
 
   @screen tablet {
@@ -37,11 +38,11 @@
         "score footer mutate"
         "score content content";
       grid-template-columns: max-content 1fr auto;
+      grid-template-rows: max-content 1fr;
     }
 
     .message-layout__score {
       margin-right: 0.5rem;
-      align-self: start;
     }
   }
 }
