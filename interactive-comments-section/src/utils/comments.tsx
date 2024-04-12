@@ -217,6 +217,11 @@ export function CommentsProvider({ children }: { children: ReactNode }) {
           setItem(
             JSON.stringify(sourceComments.filter((c) => c.id !== comment.id))
           );
+          setRawVotes(
+            JSON.stringify(
+              votes.filter((vote) => vote.commentId !== id) satisfies Votes
+            )
+          );
         },
       }}
     >

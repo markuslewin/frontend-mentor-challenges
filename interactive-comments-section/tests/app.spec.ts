@@ -119,3 +119,31 @@ test("edit comment", async ({ page }) => {
 
   await expect(comment).toHaveText(/an updated comment/i);
 });
+
+test("new comment has 0 points", async ({ page }) => {
+  await page.goto("/");
+
+  // Create
+  await page
+    .getByRole("textbox", { name: "add a comment" })
+    .fill("Delete this comment");
+  await page.getByRole("button", { name: "send" }).click();
+  const comment = page
+    .getByTestId("comment")
+    .filter({ hasText: /delete this comment/i });
+  // Upvote
+  await comment.getByRole("button", { name: "upvote" }).click();
+  // Delete
+  await comment.getByRole("button", { name: "delete" }).click();
+  await page.getByRole("button", { name: "delete" }).click();
+
+  await page
+    .getByRole("textbox", { name: "add a comment" })
+    .fill("Another comment");
+  await page.getByRole("button", { name: "send" }).click();
+  const anotherComment = page
+    .getByTestId("comment")
+    .filter({ hasText: /another comment/i });
+
+  await expect(anotherComment.getByTestId("score")).toHaveText(/0/i);
+});
