@@ -14,7 +14,7 @@ import { Textarea } from "./components/textarea";
 import { Button } from "./components/button";
 
 function App() {
-  const { comments, create, reply, remove } = useComments();
+  const { comments, create } = useComments();
   const addCommentContentRef = useRef<HTMLTextAreaElement>(null);
 
   return (
@@ -23,16 +23,7 @@ function App() {
         <h1 className="sr-only">Interactive comments section</h1>
         <div className="grid gap-4 tablet:gap-5">
           {comments.map((comment) => (
-            <Comment
-              key={comment.id}
-              comment={comment}
-              onReply={(data) => {
-                reply(data);
-              }}
-              onDelete={(data) => {
-                remove(data.id);
-              }}
-            />
+            <Comment key={comment.id} comment={comment} />
           ))}
         </div>
         <section
@@ -70,17 +61,9 @@ function App() {
   );
 }
 
-function Comment({
-  comment,
-  onReply,
-  onDelete,
-}: {
-  comment: Comment;
-  onReply: (data: { id: number; content: string }) => void;
-  onDelete: OnDeleteMessage;
-}) {
+function Comment({ comment }: { comment: Comment }) {
   const { user } = useUser();
-  const { update } = useComments();
+  const { update, reply, remove } = useComments();
   const [isEditing, setIsEditing] = useState(false);
   const editContentId = useId();
   const editContentRef = useRef<HTMLTextAreaElement>(null);
@@ -137,7 +120,6 @@ function Comment({
           <div className="message-layout__mutate">
             {user.username === comment.user.username ? (
               <Mutate
-                id={comment.id}
                 isEditing={isEditing}
                 onIsEditingChange={(next) => {
                   if (next) {
@@ -149,7 +131,9 @@ function Comment({
                     setIsEditing(false);
                   }
                 }}
-                onDelete={onDelete}
+                onDelete={() => {
+                  remove(comment.id);
+                }}
               />
             ) : (
               <div className="flex justify-end">
@@ -180,7 +164,7 @@ function Comment({
         <Collapsible.Content className="mt-2">
           <CreateMessage.Form
             onCreateMessage={(data) => {
-              onReply({ ...data, id: comment.id });
+              reply({ ...data, id: comment.id });
               setIsReplying(false);
             }}
           >
@@ -201,7 +185,7 @@ function Comment({
           <div className="border-l-2 text-light-gray"></div>
           <div className="w-full grid gap-4 tablet:gap-5">
             {comment.replies.map((reply) => (
-              <Reply key={reply.id} reply={reply} onDelete={onDelete} />
+              <Reply key={reply.id} reply={reply} />
             ))}
           </div>
         </div>
@@ -210,13 +194,7 @@ function Comment({
   );
 }
 
-function Reply({
-  reply,
-  onDelete,
-}: {
-  reply: Reply;
-  onDelete: OnDeleteMessage;
-}) {
+function Reply({ reply }: { reply: Reply }) {
   const replyingToPrefix = `@${reply.replyingTo} `;
 
   return (
@@ -246,10 +224,11 @@ function Reply({
       <div className="message-layout__mutate">
         {/* todo: Edit replies */}
         <Mutate
-          id={reply.id}
           isEditing={false}
           onIsEditingChange={() => {}}
-          onDelete={onDelete}
+          onDelete={() => {
+            console.log("todo: Delete reply");
+          }}
         />
       </div>
     </article>
@@ -297,17 +276,13 @@ function Score({ id, score }: { id: number; score: number }) {
   );
 }
 
-type OnDeleteMessage = (data: { id: number }) => void;
-
 function Mutate({
-  id,
   isEditing,
   onDelete,
   onIsEditingChange,
 }: {
-  id: number;
   isEditing: boolean;
-  onDelete: OnDeleteMessage;
+  onDelete(): void;
   onIsEditingChange(isEditing: boolean): void;
 }) {
   return (
@@ -319,7 +294,7 @@ function Mutate({
         <DeleteMessage
           className="grid grid-cols-[max-content_1fr] gap-2 items-baseline font-medium text-soft-red hocus:text-pale-red transition-colors"
           onDelete={() => {
-            onDelete({ id });
+            onDelete();
           }}
         >
           <Icon className="size-[0.875rem]" name="delete" /> Delete
