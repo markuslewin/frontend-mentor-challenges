@@ -86,7 +86,6 @@ function Comment({
   const editContentRef = useRef<HTMLTextAreaElement>(null);
   const [isReplying, setIsReplying] = useState(false);
   const replyContentRef = useRef<HTMLTextAreaElement>(null);
-  const [replyContent, setReplyContent] = useState("");
 
   return (
     <article data-testid="comment">
@@ -180,24 +179,16 @@ function Comment({
         </div>
         <Collapsible.Content className="mt-2">
           <CreateMessage.Form
-            onCreateMessage={() => {
-              onReply({ id: comment.id, content: replyContent });
+            onCreateMessage={(data) => {
+              onReply({ ...data, id: comment.id });
               setIsReplying(false);
-              setReplyContent("");
             }}
           >
             <CreateMessage.TextareaContainer>
               <CreateMessage.Label>Reply to comment</CreateMessage.Label>
               <CreateMessage.Textarea
                 ref={replyContentRef}
-                value={`@${comment.user.username} ${replyContent}`}
-                onChange={(event) =>
-                  setReplyContent(
-                    event.target.value.slice(
-                      `@${comment.user.username} `.length
-                    )
-                  )
-                }
+                defaultValue={`@${comment.user.username} `}
               />
             </CreateMessage.TextareaContainer>
             <CreateMessage.CommentingAs />
@@ -226,6 +217,8 @@ function Reply({
   reply: Reply;
   onDelete: OnDeleteMessage;
 }) {
+  const replyingToPrefix = `@${reply.replyingTo} `;
+
   return (
     <article className="message-layout bg-white rounded-lg shape-p-4 shape-border-[1px] border-transparent tablet:shape-p-6">
       <footer className="message-layout__footer flex items-center gap-y-1 gap-x-4 flex-wrap">
@@ -236,8 +229,16 @@ function Reply({
         </div>
       </footer>
       <p className="message-layout__content whitespace-pre-wrap">
-        <b className="font-medium text-moderate-blue">@{reply.replyingTo}</b>{" "}
-        {reply.content}
+        {reply.content.startsWith(replyingToPrefix) ? (
+          <>
+            <b className="font-medium text-moderate-blue">
+              @{reply.replyingTo}
+            </b>{" "}
+            {reply.content.slice(replyingToPrefix.length)}
+          </>
+        ) : (
+          reply.content
+        )}
       </p>
       <div className="message-layout__score">
         <Score id={reply.id} score={reply.score} />
