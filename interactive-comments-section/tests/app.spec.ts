@@ -164,8 +164,8 @@ test("sort comments by score", async ({ page }) => {
   await expect(second).toHaveText(/number two/i);
   await expect(third).toHaveText(/number one/i);
 
-  three.getByRole("button", { name: "downvote" }).click();
-  one.getByRole("button", { name: "upvote" }).click();
+  await three.getByRole("button", { name: "downvote" }).click();
+  await one.getByRole("button", { name: "upvote" }).click();
 
   await expect(first).toHaveText(/number one/i);
   await expect(second).toHaveText(/number two/i);

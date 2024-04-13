@@ -364,14 +364,11 @@ function DeleteMessage({
               comment and can’t be undone.
             </AlertDialog.Description>
             <div className="grid grid-cols-2 gap-3 tablet:gap-[0.875rem]">
-              <AlertDialog.Cancel className="uppercase p-3 rounded-lg bg-grayish-blue text-white hocus:bg-[hsl(211_10%_80%)] transition-colors">
-                No, cancel
+              <AlertDialog.Cancel asChild>
+                <Button bgColor="grayish-blue">No, cancel</Button>
               </AlertDialog.Cancel>
-              <AlertDialog.Action
-                className="uppercase p-3 rounded-lg bg-soft-red text-white hocus:bg-pale-red transition-colors"
-                onClick={onDelete}
-              >
-                Yes, delete
+              <AlertDialog.Action asChild onClick={onDelete}>
+                <Button bgColor="soft-red">Yes, delete</Button>
               </AlertDialog.Action>
             </div>
           </AlertDialog.Content>
