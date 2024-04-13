@@ -267,7 +267,7 @@ function Score({ id, score }: { id: number; score: number }) {
     <div className="h-10 min-w-[6.25rem] px-3 border-[1px] border-transparent grid grid-cols-[max-content_1fr_max-content] items-center text-center font-medium rounded-[0.625rem] bg-very-light-gray text-moderate-blue tablet:h-[6.25rem] tablet:px-0 tablet:min-w-10 tablet:grid-cols-none">
       <div>
         <Toggle.Root
-          className="text-light-grayish-blue hocus:text-moderate-blue data-[state=on]:text-moderate-blue transition-colors"
+          className="clickable outline-offset-8 text-light-grayish-blue hocus:text-moderate-blue data-[state=on]:text-moderate-blue transition-colors"
           pressed={isUpvoted}
           onClick={() => {
             upvote({ id, on: !isUpvoted });
@@ -283,7 +283,7 @@ function Score({ id, score }: { id: number; score: number }) {
       </p>
       <div>
         <Toggle.Root
-          className="text-light-grayish-blue hocus:text-moderate-blue data-[state=on]:text-moderate-blue transition-colors"
+          className="clickable outline-offset-8 text-light-grayish-blue hocus:text-moderate-blue data-[state=on]:text-moderate-blue transition-colors"
           pressed={isDownvoted}
           onClick={() => {
             downvote({ id, on: !isDownvoted });
