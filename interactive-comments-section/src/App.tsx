@@ -14,7 +14,7 @@ import { Textarea } from "./components/textarea";
 import { Button } from "./components/button";
 
 function App() {
-  const { comments, create } = useComments();
+  const { comments, db } = useComments();
   const addCommentContentRef = useRef<HTMLTextAreaElement>(null);
 
   return (
@@ -36,7 +36,7 @@ function App() {
           <CreateMessage.Form
             onCreateMessage={(data) => {
               flushSync(() => {
-                create(data.content);
+                db.comment.create(data.content);
               });
               const $content = addCommentContentRef.current;
               if (!$content) return;
@@ -63,7 +63,7 @@ function App() {
 
 function Comment({ comment }: { comment: Comment }) {
   const { user } = useUser();
-  const { update, reply, remove } = useComments();
+  const { db } = useComments();
   const [isEditing, setIsEditing] = useState(false);
   const editContentId = useId();
   const editContentRef = useRef<HTMLTextAreaElement>(null);
@@ -95,7 +95,10 @@ function Comment({ comment }: { comment: Comment }) {
                   );
                   if (!result.success) return;
 
-                  update({ id: comment.id, content: result.data.content });
+                  db.comment.update({
+                    id: comment.id,
+                    content: result.data.content,
+                  });
                   setIsEditing(false);
                 }}
               >
@@ -132,7 +135,7 @@ function Comment({ comment }: { comment: Comment }) {
                   }
                 }}
                 onDelete={() => {
-                  remove(comment.id);
+                  db.comment.remove(comment.id);
                 }}
               />
             ) : (
@@ -164,7 +167,7 @@ function Comment({ comment }: { comment: Comment }) {
         <Collapsible.Content className="mt-2">
           <CreateMessage.Form
             onCreateMessage={(data) => {
-              reply({ ...data, id: comment.id });
+              db.reply.create({ ...data, id: comment.id });
               setIsReplying(false);
             }}
           >
@@ -236,7 +239,7 @@ function Reply({ reply }: { reply: Reply }) {
 }
 
 function Score({ id, score }: { id: number; score: number }) {
-  const { votes, upvote, downvote } = useComments();
+  const { votes, db } = useComments();
 
   const vote = votes.find((vote) => vote.commentId === id);
   const isUpvoted = vote?.type === "upvote";
@@ -249,7 +252,7 @@ function Score({ id, score }: { id: number; score: number }) {
           className="clickable outline-offset-8 text-light-grayish-blue hocus:text-moderate-blue data-[state=on]:text-moderate-blue transition-colors"
           pressed={isUpvoted}
           onClick={() => {
-            upvote({ id, on: !isUpvoted });
+            db.comment.upvote({ id, on: !isUpvoted });
           }}
         >
           <Icon className="size-[0.625rem]" name="plus" />
@@ -265,7 +268,7 @@ function Score({ id, score }: { id: number; score: number }) {
           className="clickable outline-offset-8 text-light-grayish-blue hocus:text-moderate-blue data-[state=on]:text-moderate-blue transition-colors"
           pressed={isDownvoted}
           onClick={() => {
-            downvote({ id, on: !isDownvoted });
+            db.comment.downvote({ id, on: !isDownvoted });
           }}
         >
           <Icon className="size-[0.625rem]" name="minus" />
