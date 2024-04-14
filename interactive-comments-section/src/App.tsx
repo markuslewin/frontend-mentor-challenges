@@ -103,7 +103,7 @@ function Comment({ comment }: { comment: Comment }) {
                 }}
               >
                 <label className="sr-only" htmlFor={editContentId}>
-                  Edit comment
+                  Edit message
                 </label>
                 <Textarea
                   ref={editContentRef}
@@ -200,6 +200,9 @@ function Comment({ comment }: { comment: Comment }) {
 function Reply({ reply }: { reply: Reply }) {
   const { user } = useUser();
   const { db } = useComments();
+  const [isEditing, setIsEditing] = useState(false);
+  const editContentId = useId();
+  const editContentRef = useRef<HTMLTextAreaElement>(null);
   const [isReplying, setIsReplying] = useState(false);
   const replyContentRef = useRef<HTMLTextAreaElement>(null);
 
@@ -218,26 +221,68 @@ function Reply({ reply }: { reply: Reply }) {
               <p>{reply.createdAt}</p>
             </div>
           </footer>
-          <p className="message-layout__content whitespace-pre-wrap">
-            {reply.content.startsWith(replyingToPrefix) ? (
-              <>
-                <b className="font-medium text-moderate-blue">
-                  @{reply.replyingTo}
-                </b>{" "}
-                {reply.content.slice(replyingToPrefix.length)}
-              </>
+          <div className="message-layout__content">
+            {isEditing ? (
+              <form
+                className="grid justify-items-end gap-2 tablet:gap-4"
+                onSubmit={(event) => {
+                  event.preventDefault();
+                  const formData = new FormData(event.currentTarget);
+                  const result = CreateMessageSchema.safeParse(
+                    Object.fromEntries(formData)
+                  );
+                  if (!result.success) return;
+
+                  db.reply.update({
+                    id: reply.id,
+                    content: result.data.content,
+                  });
+                  setIsEditing(false);
+                }}
+              >
+                <label className="sr-only" htmlFor={editContentId}>
+                  Edit message
+                </label>
+                <Textarea
+                  ref={editContentRef}
+                  id={editContentId}
+                  name="content"
+                  defaultValue={reply.content}
+                />
+                <Button type="submit">Update</Button>
+              </form>
             ) : (
-              reply.content
+              <p className="whitespace-pre-wrap">
+                {reply.content.startsWith(replyingToPrefix) ? (
+                  <>
+                    <b className="font-medium text-moderate-blue">
+                      @{reply.replyingTo}
+                    </b>{" "}
+                    {reply.content.slice(replyingToPrefix.length)}
+                  </>
+                ) : (
+                  reply.content
+                )}
+              </p>
             )}
-          </p>
+          </div>
           <div className="message-layout__score">
             <Score id={reply.id} score={reply.score} />
           </div>
           <div className="message-layout__mutate">
             {user.username === reply.user.username ? (
               <Mutate
-                isEditing={false}
-                onIsEditingChange={() => {}}
+                isEditing={isEditing}
+                onIsEditingChange={(next) => {
+                  if (next) {
+                    flushSync(() => {
+                      setIsEditing(true);
+                    });
+                    editContentRef.current?.select();
+                  } else {
+                    setIsEditing(false);
+                  }
+                }}
                 onDelete={() => {
                   console.log("todo: Delete reply");
                 }}
