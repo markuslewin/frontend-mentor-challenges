@@ -172,7 +172,7 @@ function Comment({ comment }: { comment: Comment }) {
             }}
           >
             <CreateMessage.TextareaContainer>
-              <CreateMessage.Label>Reply to comment</CreateMessage.Label>
+              <CreateMessage.Label>Reply to message</CreateMessage.Label>
               <CreateMessage.Textarea
                 ref={replyContentRef}
                 defaultValue={`@${comment.user.username} `}
@@ -198,42 +198,95 @@ function Comment({ comment }: { comment: Comment }) {
 }
 
 function Reply({ reply }: { reply: Reply }) {
+  const { user } = useUser();
+  const { db } = useComments();
+  const [isReplying, setIsReplying] = useState(false);
+  const replyContentRef = useRef<HTMLTextAreaElement>(null);
+
   const replyingToPrefix = `@${reply.replyingTo} `;
 
   return (
-    <article className="message-layout bg-white rounded-lg shape-p-4 shape-border-[1px] border-transparent tablet:shape-p-6">
-      <footer className="message-layout__footer flex items-center gap-y-1 gap-x-4 flex-wrap">
-        <Avatar alt="" image={reply.user.image} />
-        <div className="flex items-baseline gap-y-1 gap-x-4 flex-wrap">
-          <p className="text-heading-m text-dark-blue">{reply.user.username}</p>
-          <p>{reply.createdAt}</p>
+    <article>
+      <Collapsible.Root open={isReplying}>
+        <div className="message-layout bg-white rounded-lg shape-p-4 shape-border-[1px] border-transparent tablet:shape-p-6">
+          <footer className="message-layout__footer flex items-center gap-y-1 gap-x-4 flex-wrap">
+            <Avatar alt="" image={reply.user.image} />
+            <div className="flex items-baseline gap-y-1 gap-x-4 flex-wrap">
+              <p className="text-heading-m text-dark-blue">
+                {reply.user.username}
+              </p>
+              <p>{reply.createdAt}</p>
+            </div>
+          </footer>
+          <p className="message-layout__content whitespace-pre-wrap">
+            {reply.content.startsWith(replyingToPrefix) ? (
+              <>
+                <b className="font-medium text-moderate-blue">
+                  @{reply.replyingTo}
+                </b>{" "}
+                {reply.content.slice(replyingToPrefix.length)}
+              </>
+            ) : (
+              reply.content
+            )}
+          </p>
+          <div className="message-layout__score">
+            <Score id={reply.id} score={reply.score} />
+          </div>
+          <div className="message-layout__mutate">
+            {user.username === reply.user.username ? (
+              <Mutate
+                isEditing={false}
+                onIsEditingChange={() => {}}
+                onDelete={() => {
+                  console.log("todo: Delete reply");
+                }}
+              />
+            ) : (
+              <div className="flex justify-end">
+                <Collapsible.Trigger
+                  className="grid grid-cols-[max-content_1fr] gap-2 items-center font-medium text-moderate-blue hocus:text-light-grayish-blue transition-colors"
+                  onClick={() => {
+                    if (isReplying) {
+                      setIsReplying(false);
+                    } else {
+                      flushSync(() => {
+                        setIsReplying(true);
+                      });
+                      const $content = replyContentRef.current;
+                      if (!$content) return;
+
+                      $content.focus();
+                      const length = $content.value.length;
+                      $content.setSelectionRange(length, length);
+                    }
+                  }}
+                >
+                  <Icon className="size-[0.875rem]" name="reply" /> Reply
+                </Collapsible.Trigger>
+              </div>
+            )}
+          </div>
         </div>
-      </footer>
-      <p className="message-layout__content whitespace-pre-wrap">
-        {reply.content.startsWith(replyingToPrefix) ? (
-          <>
-            <b className="font-medium text-moderate-blue">
-              @{reply.replyingTo}
-            </b>{" "}
-            {reply.content.slice(replyingToPrefix.length)}
-          </>
-        ) : (
-          reply.content
-        )}
-      </p>
-      <div className="message-layout__score">
-        <Score id={reply.id} score={reply.score} />
-      </div>
-      <div className="message-layout__mutate">
-        {/* todo: Edit replies */}
-        <Mutate
-          isEditing={false}
-          onIsEditingChange={() => {}}
-          onDelete={() => {
-            console.log("todo: Delete reply");
-          }}
-        />
-      </div>
+        <Collapsible.Content className="mt-2">
+          <CreateMessage.Form
+            onCreateMessage={(data) => {
+              db.reply.create({ ...data, id: reply.id });
+              setIsReplying(false);
+            }}
+          >
+            <CreateMessage.TextareaContainer>
+              <CreateMessage.Label>Reply to message</CreateMessage.Label>
+              <CreateMessage.Textarea
+                ref={replyContentRef}
+                defaultValue={`@${reply.user.username} `}
+              />
+            </CreateMessage.TextareaContainer>
+            <CreateMessage.CommentingAs />
+            <CreateMessage.Create>Reply</CreateMessage.Create>
+          </CreateMessage.Form>
+        </Collapsible.Content>
+      </Collapsible.Root>
     </article>
   );
 }

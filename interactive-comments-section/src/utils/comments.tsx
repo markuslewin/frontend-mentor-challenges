@@ -94,6 +94,7 @@ const CommentsContext = createContext<{
       update(data: { id: number; content: string }): void;
       upvote(data: { id: number; on: boolean }): void;
       downvote(data: { id: number; on: boolean }): void;
+      reply(data: { id: number; content: string }): void;
       remove(id: number): void;
     };
     reply: {
@@ -197,27 +198,7 @@ export function CommentsProvider({ children }: { children: ReactNode }) {
 
               setRawVotes(JSON.stringify(nextVotes satisfies Votes));
             },
-            remove(id) {
-              const comment = sourceComments.find(
-                (comment) => comment.id === id
-              );
-              invariant(comment, "Comment not found");
-              invariant(comment.user.username === user.username, "Forbidden");
-
-              setItem(
-                JSON.stringify(
-                  sourceComments.filter((c) => c.id !== comment.id)
-                )
-              );
-              setRawVotes(
-                JSON.stringify(
-                  votes.filter((vote) => vote.commentId !== id) satisfies Votes
-                )
-              );
-            },
-          },
-          reply: {
-            create({ id, content }) {
+            reply({ id, content }) {
               const comment = sourceComments.find(
                 (comment) => comment.id === id
               );
@@ -245,6 +226,57 @@ export function CommentsProvider({ children }: { children: ReactNode }) {
                       : c
                   ) satisfies Comment[]
                 )
+              );
+            },
+            remove(id) {
+              const comment = sourceComments.find(
+                (comment) => comment.id === id
+              );
+              invariant(comment, "Comment not found");
+              invariant(comment.user.username === user.username, "Forbidden");
+
+              setItem(
+                JSON.stringify(
+                  sourceComments.filter((c) => c.id !== comment.id)
+                )
+              );
+              setRawVotes(
+                JSON.stringify(
+                  votes.filter((vote) => vote.commentId !== id) satisfies Votes
+                )
+              );
+            },
+          },
+          reply: {
+            create({ content, id }) {
+              const comment = sourceComments.find((comment) =>
+                comment.replies.find((reply) => reply.id === id)
+              );
+              invariant(comment, "Parent comment not found");
+              const reply = comment.replies.find((reply) => reply.id === id);
+              invariant(reply, "Reply not found");
+
+              setItem(
+                JSON.stringify([
+                  ...sourceComments.map((c) =>
+                    c.id === comment.id
+                      ? {
+                          ...comment,
+                          replies: [
+                            ...comment.replies,
+                            {
+                              content,
+                              createdAt: "Just now",
+                              id: nextReplyId,
+                              replyingTo: reply.user.username,
+                              score: 0,
+                              user,
+                            } satisfies Reply,
+                          ],
+                        }
+                      : c
+                  ),
+                ] satisfies Comments)
               );
             },
           },
