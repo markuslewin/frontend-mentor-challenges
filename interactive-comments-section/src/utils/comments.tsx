@@ -100,6 +100,7 @@ const CommentsContext = createContext<{
     reply: {
       create(data: { id: number; content: string }): void;
       update(data: { id: number; content: string }): void;
+      remove(data: { id: number }): void;
     };
   };
 } | null>(null);
@@ -297,6 +298,25 @@ export function CommentsProvider({ children }: { children: ReactNode }) {
                           replies: comment.replies.map((r) =>
                             r.id === reply.id ? { ...reply, content } : r
                           ),
+                        }
+                      : c
+                  ),
+                ])
+              );
+            },
+            remove({ id }) {
+              const comment = sourceComments.find((comment) =>
+                comment.replies.find((reply) => reply.id === id)
+              );
+              invariant(comment, "Parent comment not found");
+
+              setItem(
+                JSON.stringify([
+                  ...sourceComments.map((c) =>
+                    c.id === comment.id
+                      ? {
+                          ...comment,
+                          replies: comment.replies.filter((r) => r.id !== id),
                         }
                       : c
                   ),

@@ -284,7 +284,7 @@ function Reply({ reply }: { reply: Reply }) {
                   }
                 }}
                 onDelete={() => {
-                  console.log("todo: Delete reply");
+                  db.reply.remove({ id: reply.id });
                 }}
               />
             ) : (
