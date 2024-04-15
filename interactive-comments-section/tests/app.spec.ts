@@ -172,6 +172,84 @@ test("sort comments by score", async ({ page }) => {
   await expect(third).toHaveText(/number three/i);
 });
 
+test("reply to reply", async ({ page }) => {
+  await page.goto("/");
+
+  const comment = page.getByTestId("comment").nth(1);
+  const reply = comment
+    .getByRole("article")
+    .filter({ hasText: "focusing on the fundamentals" });
+
+  await reply.getByRole("button", { name: "reply" }).click();
+
+  const textbox = reply.getByRole("textbox", { name: "reply" });
+
+  // `.fill` overwrites default value
+  await textbox.pressSequentially("This is a reply");
+  await reply.getByRole("button", { name: "reply" }).nth(1).click();
+
+  const newReply = comment.getByRole("article").last();
+
+  await expect(textbox).not.toBeAttached();
+  await expect(newReply).toHaveText(/this is a reply/i);
+  await expect(newReply.getByTestId("score")).toHaveText(/0/i);
+});
+
+test("edit reply", async ({ page }) => {
+  await page.goto("/");
+
+  const comment = page.getByTestId("comment").nth(1);
+  const reply = comment
+    .getByRole("article")
+    .filter({ hasText: "focusing on the fundamentals" });
+
+  await reply.getByRole("button", { name: "reply" }).click();
+
+  const textbox = reply.getByRole("textbox", { name: "reply" });
+
+  // `.fill` overwrites default value
+  await textbox.pressSequentially("This is a bad reply");
+  await reply.getByRole("button", { name: "reply" }).nth(1).click();
+
+  const newReply = comment.getByRole("article").last();
+
+  await newReply.getByRole("button", { name: "edit" }).click();
+
+  const editTextbox = newReply.getByRole("textbox", { name: "edit" });
+
+  await editTextbox.fill("This is a great reply");
+  await newReply.getByRole("button", { name: "update" }).click();
+
+  await expect(editTextbox).not.toBeAttached();
+  await expect(newReply).toHaveText(/this is a great reply/i);
+});
+
+test("delete reply", async ({ page }) => {
+  await page.goto("/");
+
+  const comment = page.getByTestId("comment").nth(1);
+  const reply = comment
+    .getByRole("article")
+    .filter({ hasText: "focusing on the fundamentals" });
+
+  await reply.getByRole("button", { name: "reply" }).click();
+
+  const textbox = reply.getByRole("textbox", { name: "reply" });
+
+  // `.fill` overwrites default value
+  await textbox.pressSequentially("This is a reply");
+  await reply.getByRole("button", { name: "reply" }).nth(1).click();
+
+  const newReply = comment
+    .getByRole("article")
+    .filter({ hasText: /this is a reply/i });
+
+  await newReply.getByRole("button", { name: "delete" }).click();
+  await page.getByRole("button", { name: "delete" }).click();
+
+  await expect(newReply).not.toBeAttached();
+});
+
 async function createComments(page: Page, contents: string[]) {
   await page.goto("/");
 
