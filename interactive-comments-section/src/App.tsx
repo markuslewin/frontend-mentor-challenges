@@ -21,6 +21,7 @@ function App() {
     <main className="min-h-screen px-4 py-8 tablet:p-16">
       <div className="max-w-[45.625rem] box-content mx-auto">
         <h1 className="sr-only">Interactive comments section</h1>
+        <h2 className="sr-only">Comments</h2>
         <div className="grid gap-4 tablet:gap-5">
           {comments.map((comment) => (
             <Comment key={comment.id} comment={comment} />
@@ -82,15 +83,17 @@ function Comment({ comment }: { comment: Comment }) {
     <article data-testid="comment">
       <Collapsible.Root open={isReplying}>
         <div className="message-layout bg-white rounded-lg shape-p-4 shape-border-[1px] border-transparent tablet:shape-p-6">
-          <footer className="message-layout__footer flex items-center gap-y-1 gap-x-4 flex-wrap">
-            <Avatar alt="" image={comment.user.image} />
-            <div className="flex items-baseline gap-y-1 gap-x-4 flex-wrap">
-              <p className="text-heading-m text-dark-blue flex flex-wrap gap-x-2">
-                {comment.user.username}
-                {comment.user.username === user.username ? <You /> : null}
-              </p>
-              <p>{comment.createdAt}</p>
-            </div>
+          <footer className="message-layout__footer">
+            <h3 className="flex items-center gap-y-1 gap-x-4 flex-wrap">
+              <Avatar alt="" image={comment.user.image} />
+              <span className="flex items-baseline gap-y-1 gap-x-4 flex-wrap">
+                <span className="text-heading-m text-dark-blue flex flex-wrap gap-x-2">
+                  {comment.user.username}
+                  {comment.user.username === user.username ? <You /> : null}
+                </span>
+                <p>{comment.createdAt}</p>
+              </span>
+            </h3>
           </footer>
           <div className="message-layout__content">
             {isEditing ? (
@@ -241,15 +244,17 @@ function Reply({ reply }: { reply: Reply }) {
     <article>
       <Collapsible.Root open={isReplying}>
         <div className="message-layout bg-white rounded-lg shape-p-4 shape-border-[1px] border-transparent tablet:shape-p-6">
-          <footer className="message-layout__footer flex items-center gap-y-1 gap-x-4 flex-wrap">
-            <Avatar alt="" image={reply.user.image} />
-            <div className="flex items-baseline gap-y-1 gap-x-4 flex-wrap">
-              <p className="text-heading-m text-dark-blue flex flex-wrap gap-x-2">
-                {reply.user.username}
-                {reply.user.username === user.username ? <You /> : null}
-              </p>
-              <p>{reply.createdAt}</p>
-            </div>
+          <footer className="message-layout__footer">
+            <h4 className="flex items-center gap-y-1 gap-x-4 flex-wrap">
+              <Avatar alt="" image={reply.user.image} />
+              <span className="flex items-baseline gap-y-1 gap-x-4 flex-wrap">
+                <span className="text-heading-m text-dark-blue flex flex-wrap gap-x-2">
+                  {reply.user.username}
+                  {reply.user.username === user.username ? <You /> : null}
+                </span>
+                <p>{reply.createdAt}</p>
+              </span>
+            </h4>
           </footer>
           <div className="message-layout__content">
             {isEditing ? (
