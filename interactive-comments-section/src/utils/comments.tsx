@@ -61,7 +61,7 @@ function parseComments(value: unknown) {
 const VotesSchema = z.array(
   z.object({
     type: z.union([z.literal("upvote"), z.literal("downvote")]),
-    commentId: z.number(),
+    messageId: z.number(),
   })
 );
 
@@ -98,8 +98,11 @@ const CommentsContext = createContext<{
       remove(id: number): void;
     };
     reply: {
+      votes: Votes;
       create(data: { id: number; content: string }): void;
       update(data: { id: number; content: string }): void;
+      upvote(data: { id: number; on: boolean }): void;
+      downvote(data: { id: number; on: boolean }): void;
       remove(data: { id: number }): void;
     };
   };
@@ -108,22 +111,38 @@ const CommentsContext = createContext<{
 export function CommentsProvider({ children }: { children: ReactNode }) {
   const [item, setItem] = useLocalStorage("comments");
   const [rawVotes, setRawVotes] = useLocalStorage("votes");
+  const [rawReplyVotes, setRawReplyVotes] = useLocalStorage("reply-votes");
   const { user } = useUser();
 
   const voteResult = parseVotes(rawVotes);
   const votes = voteResult.success ? voteResult.data : [];
+
+  const replyVoteResult = parseVotes(rawReplyVotes);
+  const replyVotes = replyVoteResult.success ? replyVoteResult.data : [];
 
   const result = parseComments(item);
   const sourceComments = result.success ? result.data : initialComments;
   const comments = sourceComments
     .map((comment) => {
       const score = votes
-        .filter((vote) => vote.commentId === comment.id)
+        .filter((vote) => vote.messageId === comment.id)
         .reduce(
           (score, vote) => score + (vote.type === "upvote" ? 1 : -1),
           comment.score
         );
-      return { ...comment, score };
+      return {
+        ...comment,
+        score,
+        replies: comment.replies.map((reply) => {
+          const score = replyVotes
+            .filter((vote) => vote.messageId === reply.id)
+            .reduce(
+              (score, vote) => score + (vote.type === "upvote" ? 1 : -1),
+              reply.score
+            );
+          return { ...reply, score };
+        }),
+      };
     })
     .sort((a, b) => b.score - a.score);
 
@@ -176,12 +195,12 @@ export function CommentsProvider({ children }: { children: ReactNode }) {
             },
             upvote({ id, on }) {
               const filteredVotes = votes.filter(
-                (vote) => vote.commentId !== id
+                (vote) => vote.messageId !== id
               );
               const nextVotes = on
                 ? [
                     ...filteredVotes,
-                    { commentId: id, type: "upvote" } satisfies Vote,
+                    { messageId: id, type: "upvote" } satisfies Vote,
                   ]
                 : filteredVotes;
 
@@ -189,12 +208,12 @@ export function CommentsProvider({ children }: { children: ReactNode }) {
             },
             downvote({ id, on }) {
               const filteredVotes = votes.filter(
-                (vote) => vote.commentId !== id
+                (vote) => vote.messageId !== id
               );
               const nextVotes = on
                 ? [
                     ...filteredVotes,
-                    { commentId: id, type: "downvote" } satisfies Vote,
+                    { messageId: id, type: "downvote" } satisfies Vote,
                   ]
                 : filteredVotes;
 
@@ -244,12 +263,13 @@ export function CommentsProvider({ children }: { children: ReactNode }) {
               );
               setRawVotes(
                 JSON.stringify(
-                  votes.filter((vote) => vote.commentId !== id) satisfies Votes
+                  votes.filter((vote) => vote.messageId !== id) satisfies Votes
                 )
               );
             },
           },
           reply: {
+            votes: replyVotes,
             create({ content, id }) {
               const comment = sourceComments.find((comment) =>
                 comment.replies.find((reply) => reply.id === id)
@@ -304,6 +324,32 @@ export function CommentsProvider({ children }: { children: ReactNode }) {
                 ])
               );
             },
+            upvote({ id, on }) {
+              const filteredVotes = replyVotes.filter(
+                (vote) => vote.messageId !== id
+              );
+              const nextVotes = on
+                ? [
+                    ...filteredVotes,
+                    { messageId: id, type: "upvote" } satisfies Vote,
+                  ]
+                : filteredVotes;
+
+              setRawReplyVotes(JSON.stringify(nextVotes satisfies Votes));
+            },
+            downvote({ id, on }) {
+              const filteredVotes = replyVotes.filter(
+                (vote) => vote.messageId !== id
+              );
+              const nextVotes = on
+                ? [
+                    ...filteredVotes,
+                    { messageId: id, type: "downvote" } satisfies Vote,
+                  ]
+                : filteredVotes;
+
+              setRawReplyVotes(JSON.stringify(nextVotes satisfies Votes));
+            },
             remove({ id }) {
               const comment = sourceComments.find((comment) =>
                 comment.replies.find((reply) => reply.id === id)
@@ -321,6 +367,11 @@ export function CommentsProvider({ children }: { children: ReactNode }) {
                       : c
                   ),
                 ])
+              );
+              setRawReplyVotes(
+                JSON.stringify(
+                  replyVotes.filter((vote) => vote.messageId !== id)
+                )
               );
             },
           },

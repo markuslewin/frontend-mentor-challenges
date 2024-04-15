@@ -63,12 +63,20 @@ function App() {
 
 function Comment({ comment }: { comment: Comment }) {
   const { user } = useUser();
-  const { db } = useComments();
+  const { votes, db } = useComments();
   const [isEditing, setIsEditing] = useState(false);
   const editContentId = useId();
   const editContentRef = useRef<HTMLTextAreaElement>(null);
   const [isReplying, setIsReplying] = useState(false);
   const replyContentRef = useRef<HTMLTextAreaElement>(null);
+
+  const vote = votes.find((vote) => vote.messageId === comment.id);
+  const state =
+    vote?.type === "upvote"
+      ? "upvoted"
+      : vote?.type === "downvote"
+      ? "downvoted"
+      : "none";
 
   return (
     <article data-testid="comment">
@@ -118,7 +126,19 @@ function Comment({ comment }: { comment: Comment }) {
             )}
           </div>
           <div className="message-layout__score">
-            <Score id={comment.id} score={comment.score} />
+            <Score
+              score={comment.score}
+              state={state}
+              onToggleUpvote={() => {
+                db.comment.upvote({ id: comment.id, on: state !== "upvoted" });
+              }}
+              onToggleDownvote={() => {
+                db.comment.downvote({
+                  id: comment.id,
+                  on: state !== "downvoted",
+                });
+              }}
+            />
           </div>
           <div className="message-layout__mutate">
             {user.username === comment.user.username ? (
@@ -208,6 +228,14 @@ function Reply({ reply }: { reply: Reply }) {
 
   const replyingToPrefix = `@${reply.replyingTo} `;
 
+  const vote = db.reply.votes.find((vote) => vote.messageId === reply.id);
+  const state =
+    vote?.type === "upvote"
+      ? "upvoted"
+      : vote?.type === "downvote"
+      ? "downvoted"
+      : "none";
+
   return (
     <article>
       <Collapsible.Root open={isReplying}>
@@ -267,7 +295,16 @@ function Reply({ reply }: { reply: Reply }) {
             )}
           </div>
           <div className="message-layout__score">
-            <Score id={reply.id} score={reply.score} />
+            <Score
+              score={reply.score}
+              state={state}
+              onToggleUpvote={() => {
+                db.reply.upvote({ id: reply.id, on: state !== "upvoted" });
+              }}
+              onToggleDownvote={() => {
+                db.reply.downvote({ id: reply.id, on: state !== "downvoted" });
+              }}
+            />
           </div>
           <div className="message-layout__mutate">
             {user.username === reply.user.username ? (
@@ -336,22 +373,24 @@ function Reply({ reply }: { reply: Reply }) {
   );
 }
 
-function Score({ id, score }: { id: number; score: number }) {
-  const { votes, db } = useComments();
-
-  const vote = votes.find((vote) => vote.commentId === id);
-  const isUpvoted = vote?.type === "upvote";
-  const isDownvoted = vote?.type === "downvote";
-
+function Score({
+  score,
+  state,
+  onToggleUpvote,
+  onToggleDownvote,
+}: {
+  score: number;
+  state: "upvoted" | "downvoted" | "none";
+  onToggleUpvote(): void;
+  onToggleDownvote(): void;
+}) {
   return (
     <div className="h-10 min-w-[6.25rem] px-3 border-[1px] border-transparent grid grid-cols-[max-content_1fr_max-content] items-center text-center font-medium rounded-[0.625rem] bg-very-light-gray text-moderate-blue tablet:h-[6.25rem] tablet:px-0 tablet:min-w-10 tablet:grid-cols-none">
       <div>
         <Toggle.Root
           className="clickable outline-offset-8 text-light-grayish-blue hocus:text-moderate-blue data-[state=on]:text-moderate-blue transition-colors"
-          pressed={isUpvoted}
-          onClick={() => {
-            db.comment.upvote({ id, on: !isUpvoted });
-          }}
+          pressed={state === "upvoted"}
+          onClick={onToggleUpvote}
         >
           <Icon className="size-[0.625rem]" name="plus" />
           <span className="sr-only">Upvote</span>
@@ -364,10 +403,8 @@ function Score({ id, score }: { id: number; score: number }) {
       <div>
         <Toggle.Root
           className="clickable outline-offset-8 text-light-grayish-blue hocus:text-moderate-blue data-[state=on]:text-moderate-blue transition-colors"
-          pressed={isDownvoted}
-          onClick={() => {
-            db.comment.downvote({ id, on: !isDownvoted });
-          }}
+          pressed={state === "downvoted"}
+          onClick={onToggleDownvote}
         >
           <Icon className="size-[0.625rem]" name="minus" />
           <span className="sr-only">Downvote</span>
