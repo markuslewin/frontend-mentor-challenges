@@ -85,8 +85,9 @@ function Comment({ comment }: { comment: Comment }) {
           <footer className="message-layout__footer flex items-center gap-y-1 gap-x-4 flex-wrap">
             <Avatar alt="" image={comment.user.image} />
             <div className="flex items-baseline gap-y-1 gap-x-4 flex-wrap">
-              <p className="text-heading-m text-dark-blue">
+              <p className="text-heading-m text-dark-blue flex flex-wrap gap-x-2">
                 {comment.user.username}
+                {comment.user.username === user.username ? <You /> : null}
               </p>
               <p>{comment.createdAt}</p>
             </div>
@@ -243,8 +244,9 @@ function Reply({ reply }: { reply: Reply }) {
           <footer className="message-layout__footer flex items-center gap-y-1 gap-x-4 flex-wrap">
             <Avatar alt="" image={reply.user.image} />
             <div className="flex items-baseline gap-y-1 gap-x-4 flex-wrap">
-              <p className="text-heading-m text-dark-blue">
+              <p className="text-heading-m text-dark-blue flex flex-wrap gap-x-2">
                 {reply.user.username}
+                {reply.user.username === user.username ? <You /> : null}
               </p>
               <p>{reply.createdAt}</p>
             </div>
@@ -370,6 +372,15 @@ function Reply({ reply }: { reply: Reply }) {
         </Collapsible.Content>
       </Collapsible.Root>
     </article>
+  );
+}
+
+function You() {
+  return (
+    <span className="leading-[0.9375rem] text-[0.8125rem] lowercase shape-py-[0.125rem] shape-px-[0.375rem] shape-border-[1px] border-transparent rounded-sm bg-moderate-blue text-white">
+      <span className="sr-only"> (</span>You
+      <span className="sr-only">)</span>
+    </span>
   );
 }
 
