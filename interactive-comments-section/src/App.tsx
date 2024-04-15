@@ -187,7 +187,7 @@ function Comment({ comment }: { comment: Comment }) {
         <Collapsible.Content className="mt-2">
           <CreateMessage.Form
             onCreateMessage={(data) => {
-              db.reply.create({ ...data, id: comment.id });
+              db.comment.reply({ ...data, id: comment.id });
               setIsReplying(false);
             }}
           >

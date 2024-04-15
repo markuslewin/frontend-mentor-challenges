@@ -111,11 +111,11 @@ test("edit comment", async ({ page }) => {
   const comment = page.getByTestId("comment").last();
   await expect(comment).toHaveText(/a new comment/i);
 
-  comment.getByRole("button", { name: "edit" }).click();
-  comment
-    .getByRole("textbox", { name: "edit comment" })
+  await comment.getByRole("button", { name: "edit" }).click();
+  await comment
+    .getByRole("textbox", { name: "edit message" })
     .fill("An updated comment");
-  comment.getByRole("button", { name: "update" }).click();
+  await comment.getByRole("button", { name: "update" }).click();
 
   await expect(comment).toHaveText(/an updated comment/i);
 });
@@ -173,7 +173,7 @@ test("sort comments by score", async ({ page }) => {
 });
 
 async function createComments(page: Page, contents: string[]) {
-  page.goto("/");
+  await page.goto("/");
 
   for (const content of contents) {
     await page.getByRole("textbox", { name: "add a comment" }).fill(content);
