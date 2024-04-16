@@ -1,7 +1,14 @@
 import spriteUrl from "./images/sprite.svg";
 import { useComments } from "./utils/comments";
 import type { Comment, Reply } from "./utils/comments";
-import { ReactNode, forwardRef, useId, useRef, useState } from "react";
+import {
+  ReactNode,
+  RefObject,
+  forwardRef,
+  useId,
+  useRef,
+  useState,
+} from "react";
 import { flushSync } from "react-dom";
 import { useUser } from "./utils/user";
 import * as AlertDialog from "@radix-ui/react-alert-dialog";
@@ -18,6 +25,8 @@ function App() {
   const addCommentContentRef = useRef<HTMLTextAreaElement>(null);
   const [lastCommentId, setLastCommentId] = useState<number | null>(null);
   const lastCommentRef = useRef<HTMLHeadingElement>(null);
+  const [lastReplyId, setLastReplyId] = useState<number | null>(null);
+  const lastReplyRef = useRef<HTMLHeadingElement>(null);
 
   return (
     <main className="min-h-screen px-4 py-8 tablet:p-16">
@@ -30,6 +39,9 @@ function App() {
               key={comment.id}
               ref={comment.id === lastCommentId ? lastCommentRef : null}
               comment={comment}
+              lastReplyRef={lastReplyRef}
+              lastReplyId={lastReplyId}
+              setLastReplyId={setLastReplyId}
             />
           ))}
         </div>
@@ -67,177 +79,200 @@ function App() {
   );
 }
 
-const Comment = forwardRef<HTMLHeadingElement, { comment: Comment }>(
-  ({ comment }, ref) => {
-    const { user } = useUser();
-    const { votes, db } = useComments();
-    const [isEditing, setIsEditing] = useState(false);
-    const editContentId = useId();
-    const editContentRef = useRef<HTMLTextAreaElement>(null);
-    const [isReplying, setIsReplying] = useState(false);
-    const replyContentRef = useRef<HTMLTextAreaElement>(null);
+const Comment = forwardRef<
+  HTMLHeadingElement,
+  {
+    comment: Comment;
+    lastReplyRef: RefObject<HTMLHeadingElement>;
+    lastReplyId: number | null;
+    setLastReplyId(id: number): void;
+  }
+>(({ comment, lastReplyId, lastReplyRef, setLastReplyId }, ref) => {
+  const { user } = useUser();
+  const { votes, db } = useComments();
+  const [isEditing, setIsEditing] = useState(false);
+  const editContentId = useId();
+  const editContentRef = useRef<HTMLTextAreaElement>(null);
+  const [isReplying, setIsReplying] = useState(false);
+  const replyContentRef = useRef<HTMLTextAreaElement>(null);
 
-    const vote = votes.find((vote) => vote.messageId === comment.id);
-    const state =
-      vote?.type === "upvote"
-        ? "upvoted"
-        : vote?.type === "downvote"
-        ? "downvoted"
-        : "none";
+  const vote = votes.find((vote) => vote.messageId === comment.id);
+  const state =
+    vote?.type === "upvote"
+      ? "upvoted"
+      : vote?.type === "downvote"
+      ? "downvoted"
+      : "none";
 
-    return (
-      <article data-testid="comment">
-        <Collapsible.Root open={isReplying}>
-          <div className="message-layout bg-white rounded-lg shape-p-4 shape-border-[1px] border-transparent tablet:shape-p-6">
-            <footer className="message-layout__footer">
-              <h3
-                ref={ref}
-                tabIndex={-1}
-                className="flex items-center gap-y-1 gap-x-4 flex-wrap"
-              >
-                <Avatar alt="" image={comment.user.image} />
-                <span className="flex items-baseline gap-y-1 gap-x-4 flex-wrap">
-                  <span className="text-heading-m text-dark-blue flex flex-wrap gap-x-2">
-                    {comment.user.username}
-                    {comment.user.username === user.username ? <You /> : null}
-                  </span>
-                  <p>{comment.createdAt}</p>
+  return (
+    <article data-testid="comment">
+      <Collapsible.Root open={isReplying}>
+        <div className="message-layout bg-white rounded-lg shape-p-4 shape-border-[1px] border-transparent tablet:shape-p-6">
+          <footer className="message-layout__footer">
+            <h3
+              ref={ref}
+              tabIndex={-1}
+              className="flex items-center gap-y-1 gap-x-4 flex-wrap"
+            >
+              <Avatar alt="" image={comment.user.image} />
+              <span className="flex items-baseline gap-y-1 gap-x-4 flex-wrap">
+                <span className="text-heading-m text-dark-blue flex flex-wrap gap-x-2">
+                  {comment.user.username}
+                  {comment.user.username === user.username ? <You /> : null}
                 </span>
-              </h3>
-            </footer>
-            <div className="message-layout__content">
-              {isEditing ? (
-                <form
-                  className="grid justify-items-end gap-2 tablet:gap-4"
-                  onSubmit={(event) => {
-                    event.preventDefault();
-                    const formData = new FormData(event.currentTarget);
-                    const result = CreateMessageSchema.safeParse(
-                      Object.fromEntries(formData)
-                    );
-                    if (!result.success) return;
+                <p>{comment.createdAt}</p>
+              </span>
+            </h3>
+          </footer>
+          <div className="message-layout__content">
+            {isEditing ? (
+              <form
+                className="grid justify-items-end gap-2 tablet:gap-4"
+                onSubmit={(event) => {
+                  event.preventDefault();
+                  const formData = new FormData(event.currentTarget);
+                  const result = CreateMessageSchema.safeParse(
+                    Object.fromEntries(formData)
+                  );
+                  if (!result.success) return;
 
-                    db.comment.update({
-                      id: comment.id,
-                      content: result.data.content,
-                    });
-                    setIsEditing(false);
-                  }}
-                >
-                  <label className="sr-only" htmlFor={editContentId}>
-                    Edit message
-                  </label>
-                  <Textarea
-                    ref={editContentRef}
-                    id={editContentId}
-                    name="content"
-                    defaultValue={comment.content}
-                  />
-                  <Button type="submit">Update</Button>
-                </form>
-              ) : (
-                <p className="whitespace-pre-wrap">{comment.content}</p>
-              )}
-            </div>
-            <div className="message-layout__score">
-              <Score
-                score={comment.score}
-                state={state}
-                onToggleUpvote={() => {
-                  db.comment.upvote({
+                  db.comment.update({
                     id: comment.id,
-                    on: state !== "upvoted",
+                    content: result.data.content,
                   });
+                  setIsEditing(false);
                 }}
-                onToggleDownvote={() => {
-                  db.comment.downvote({
-                    id: comment.id,
-                    on: state !== "downvoted",
-                  });
+              >
+                <label className="sr-only" htmlFor={editContentId}>
+                  Edit message
+                </label>
+                <Textarea
+                  ref={editContentRef}
+                  id={editContentId}
+                  name="content"
+                  defaultValue={comment.content}
+                />
+                <Button type="submit">Update</Button>
+              </form>
+            ) : (
+              <p className="whitespace-pre-wrap">{comment.content}</p>
+            )}
+          </div>
+          <div className="message-layout__score">
+            <Score
+              score={comment.score}
+              state={state}
+              onToggleUpvote={() => {
+                db.comment.upvote({
+                  id: comment.id,
+                  on: state !== "upvoted",
+                });
+              }}
+              onToggleDownvote={() => {
+                db.comment.downvote({
+                  id: comment.id,
+                  on: state !== "downvoted",
+                });
+              }}
+            />
+          </div>
+          <div className="message-layout__mutate">
+            {user.username === comment.user.username ? (
+              <Mutate
+                isEditing={isEditing}
+                onIsEditingChange={(next) => {
+                  if (next) {
+                    flushSync(() => {
+                      setIsEditing(true);
+                    });
+                    editContentRef.current?.select();
+                  } else {
+                    setIsEditing(false);
+                  }
+                }}
+                onDelete={() => {
+                  db.comment.remove(comment.id);
                 }}
               />
-            </div>
-            <div className="message-layout__mutate">
-              {user.username === comment.user.username ? (
-                <Mutate
-                  isEditing={isEditing}
-                  onIsEditingChange={(next) => {
-                    if (next) {
-                      flushSync(() => {
-                        setIsEditing(true);
-                      });
-                      editContentRef.current?.select();
+            ) : (
+              <div className="flex justify-end">
+                <Collapsible.Trigger
+                  className="grid grid-cols-[max-content_1fr] gap-2 items-center font-medium text-moderate-blue hocus:text-light-grayish-blue transition-colors"
+                  onClick={() => {
+                    if (isReplying) {
+                      setIsReplying(false);
                     } else {
-                      setIsEditing(false);
+                      flushSync(() => {
+                        setIsReplying(true);
+                      });
+                      const $content = replyContentRef.current;
+                      if (!$content) return;
+
+                      $content.focus();
+                      const length = $content.value.length;
+                      $content.setSelectionRange(length, length);
                     }
                   }}
-                  onDelete={() => {
-                    db.comment.remove(comment.id);
-                  }}
-                />
-              ) : (
-                <div className="flex justify-end">
-                  <Collapsible.Trigger
-                    className="grid grid-cols-[max-content_1fr] gap-2 items-center font-medium text-moderate-blue hocus:text-light-grayish-blue transition-colors"
-                    onClick={() => {
-                      if (isReplying) {
-                        setIsReplying(false);
-                      } else {
-                        flushSync(() => {
-                          setIsReplying(true);
-                        });
-                        const $content = replyContentRef.current;
-                        if (!$content) return;
-
-                        $content.focus();
-                        const length = $content.value.length;
-                        $content.setSelectionRange(length, length);
-                      }
-                    }}
-                  >
-                    <Icon className="size-[0.875rem]" name="reply" /> Reply
-                  </Collapsible.Trigger>
-                </div>
-              )}
-            </div>
+                >
+                  <Icon className="size-[0.875rem]" name="reply" /> Reply
+                </Collapsible.Trigger>
+              </div>
+            )}
           </div>
-          <Collapsible.Content className="mt-2">
-            <CreateMessage.Root>
-              <CreateMessage.Form
-                onCreateMessage={(data) => {
-                  db.comment.reply({ ...data, id: comment.id });
+        </div>
+        <Collapsible.Content className="mt-2">
+          <CreateMessage.Root>
+            <CreateMessage.Form
+              onCreateMessage={(data) => {
+                flushSync(() => {
+                  const reply = db.comment.reply({ ...data, id: comment.id });
                   setIsReplying(false);
-                }}
-              >
-                <CreateMessage.TextareaContainer>
-                  <CreateMessage.Label>Reply to message</CreateMessage.Label>
-                  <CreateMessage.Textarea
-                    ref={replyContentRef}
-                    defaultValue={`@${comment.user.username} `}
-                  />
-                </CreateMessage.TextareaContainer>
-                <CreateMessage.CommentingAs />
-                <CreateMessage.Create>Reply</CreateMessage.Create>
-              </CreateMessage.Form>
-            </CreateMessage.Root>
-          </Collapsible.Content>
-        </Collapsible.Root>
-        {comment.replies.length ? (
-          <div className="mt-4 grid grid-cols-[2px_1fr] gap-4 tablet:mt-5 tablet:grid-cols-[5.5rem_1fr] tablet:justify-items-center tablet:gap-y-5 tablet:gap-x-0">
-            <div className="border-l-2 text-light-gray"></div>
-            <div className="w-full grid gap-4 tablet:gap-5">
-              {comment.replies.map((reply) => (
-                <Reply key={reply.id} reply={reply} />
-              ))}
-            </div>
+                  setLastReplyId(reply.id);
+                });
+                lastReplyRef.current?.focus();
+              }}
+            >
+              <CreateMessage.TextareaContainer>
+                <CreateMessage.Label>Reply to message</CreateMessage.Label>
+                <CreateMessage.Textarea
+                  ref={replyContentRef}
+                  defaultValue={`@${comment.user.username} `}
+                />
+              </CreateMessage.TextareaContainer>
+              <CreateMessage.CommentingAs />
+              <CreateMessage.Create>Reply</CreateMessage.Create>
+            </CreateMessage.Form>
+          </CreateMessage.Root>
+        </Collapsible.Content>
+      </Collapsible.Root>
+      {comment.replies.length ? (
+        <div className="mt-4 grid grid-cols-[2px_1fr] gap-4 tablet:mt-5 tablet:grid-cols-[5.5rem_1fr] tablet:justify-items-center tablet:gap-y-5 tablet:gap-x-0">
+          <div className="border-l-2 text-light-gray"></div>
+          <div className="w-full grid gap-4 tablet:gap-5">
+            {comment.replies.map((reply) => (
+              <Reply
+                key={reply.id}
+                ref={reply.id === lastReplyId ? lastReplyRef : null}
+                reply={reply}
+                lastReplyRef={lastReplyRef}
+                setLastReplyId={setLastReplyId}
+              />
+            ))}
           </div>
-        ) : null}
-      </article>
-    );
-  }
-);
+        </div>
+      ) : null}
+    </article>
+  );
+});
 
-function Reply({ reply }: { reply: Reply }) {
+const Reply = forwardRef<
+  HTMLHeadingElement,
+  {
+    reply: Reply;
+    lastReplyRef: RefObject<HTMLHeadingElement>;
+    setLastReplyId(id: number): void;
+  }
+>(({ reply, lastReplyRef, setLastReplyId }, ref) => {
   const { user } = useUser();
   const { db } = useComments();
   const [isEditing, setIsEditing] = useState(false);
@@ -261,7 +296,11 @@ function Reply({ reply }: { reply: Reply }) {
       <Collapsible.Root open={isReplying}>
         <div className="message-layout bg-white rounded-lg shape-p-4 shape-border-[1px] border-transparent tablet:shape-p-6">
           <footer className="message-layout__footer">
-            <h4 className="flex items-center gap-y-1 gap-x-4 flex-wrap">
+            <h4
+              className="flex items-center gap-y-1 gap-x-4 flex-wrap"
+              ref={ref}
+              tabIndex={-1}
+            >
               <Avatar alt="" image={reply.user.image} />
               <span className="flex items-baseline gap-y-1 gap-x-4 flex-wrap">
                 <span className="text-heading-m text-dark-blue flex flex-wrap gap-x-2">
@@ -325,7 +364,10 @@ function Reply({ reply }: { reply: Reply }) {
                 db.reply.upvote({ id: reply.id, on: state !== "upvoted" });
               }}
               onToggleDownvote={() => {
-                db.reply.downvote({ id: reply.id, on: state !== "downvoted" });
+                db.reply.downvote({
+                  id: reply.id,
+                  on: state !== "downvoted",
+                });
               }}
             />
           </div>
@@ -377,8 +419,12 @@ function Reply({ reply }: { reply: Reply }) {
           <CreateMessage.Root>
             <CreateMessage.Form
               onCreateMessage={(data) => {
-                db.reply.create({ ...data, id: reply.id });
-                setIsReplying(false);
+                flushSync(() => {
+                  const newReply = db.reply.create({ ...data, id: reply.id });
+                  setIsReplying(false);
+                  setLastReplyId(newReply.id);
+                });
+                lastReplyRef.current?.focus();
               }}
             >
               <CreateMessage.TextareaContainer>
@@ -396,7 +442,7 @@ function Reply({ reply }: { reply: Reply }) {
       </Collapsible.Root>
     </article>
   );
-}
+});
 
 function You() {
   return (

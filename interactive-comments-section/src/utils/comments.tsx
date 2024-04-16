@@ -94,12 +94,12 @@ const CommentsContext = createContext<{
       update(data: { id: number; content: string }): void;
       upvote(data: { id: number; on: boolean }): void;
       downvote(data: { id: number; on: boolean }): void;
-      reply(data: { id: number; content: string }): void;
+      reply(data: { id: number; content: string }): Reply;
       remove(id: number): void;
     };
     reply: {
       votes: Votes;
-      create(data: { id: number; content: string }): void;
+      create(data: { id: number; content: string }): Reply;
       update(data: { id: number; content: string }): void;
       upvote(data: { id: number; on: boolean }): void;
       downvote(data: { id: number; on: boolean }): void;
@@ -224,29 +224,29 @@ export function CommentsProvider({ children }: { children: ReactNode }) {
               );
               invariant(comment, "Comment not found");
 
+              const reply: Reply = {
+                content,
+                // todo: Timestamp
+                createdAt: "Just now",
+                id: nextReplyId,
+                replyingTo: comment.user.username,
+                score: 0,
+                user,
+              };
+
               setItem(
                 JSON.stringify(
                   sourceComments.map((c) =>
                     c.id === comment.id
                       ? {
                           ...comment,
-                          replies: [
-                            ...comment.replies,
-                            {
-                              content,
-                              // todo: Timestamp
-                              createdAt: "Just now",
-                              id: nextReplyId,
-                              replyingTo: comment.user.username,
-                              score: 0,
-                              user,
-                            },
-                          ],
+                          replies: [...comment.replies, reply],
                         }
                       : c
-                  ) satisfies Comment[]
+                  ) satisfies Comments
                 )
               );
+              return reply;
             },
             remove(id) {
               const comment = sourceComments.find(
@@ -277,28 +277,28 @@ export function CommentsProvider({ children }: { children: ReactNode }) {
               const reply = comment.replies.find((reply) => reply.id === id);
               invariant(reply, "Reply not found");
 
+              const newReply: Reply = {
+                content,
+                createdAt: "Just now",
+                id: nextReplyId,
+                replyingTo: reply.user.username,
+                score: 0,
+                user,
+              };
+
               setItem(
                 JSON.stringify([
                   ...sourceComments.map((c) =>
                     c.id === comment.id
                       ? {
                           ...comment,
-                          replies: [
-                            ...comment.replies,
-                            {
-                              content,
-                              createdAt: "Just now",
-                              id: nextReplyId,
-                              replyingTo: reply.user.username,
-                              score: 0,
-                              user,
-                            } satisfies Reply,
-                          ],
+                          replies: [...comment.replies, newReply],
                         }
                       : c
                   ),
                 ] satisfies Comments)
               );
+              return newReply;
             },
             update({ content, id }) {
               const comment = sourceComments.find((comment) =>
