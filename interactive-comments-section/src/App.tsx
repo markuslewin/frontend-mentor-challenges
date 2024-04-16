@@ -34,28 +34,30 @@ function App() {
           <h2 className="sr-only" id="add-comment-label">
             Add a comment
           </h2>
-          <CreateMessage.Form
-            onCreateMessage={(data) => {
-              flushSync(() => {
-                db.comment.create(data.content);
-              });
-              const $content = addCommentContentRef.current;
-              if (!$content) return;
+          <CreateMessage.Root>
+            <CreateMessage.Form
+              onCreateMessage={(data) => {
+                flushSync(() => {
+                  db.comment.create(data.content);
+                });
+                const $content = addCommentContentRef.current;
+                if (!$content) return;
 
-              $content.focus();
-              $content.scrollIntoView(false);
-            }}
-          >
-            <CreateMessage.TextareaContainer>
-              <CreateMessage.Label>Add a comment</CreateMessage.Label>
-              <CreateMessage.Textarea
-                ref={addCommentContentRef}
-                placeholder="Add a comment…"
-              />
-            </CreateMessage.TextareaContainer>
-            <CreateMessage.CommentingAs />
-            <CreateMessage.Create>Send</CreateMessage.Create>
-          </CreateMessage.Form>
+                $content.focus();
+                $content.scrollIntoView(false);
+              }}
+            >
+              <CreateMessage.TextareaContainer>
+                <CreateMessage.Label>Add a comment</CreateMessage.Label>
+                <CreateMessage.Textarea
+                  ref={addCommentContentRef}
+                  placeholder="Add a comment…"
+                />
+              </CreateMessage.TextareaContainer>
+              <CreateMessage.CommentingAs />
+              <CreateMessage.Create>Send</CreateMessage.Create>
+            </CreateMessage.Form>
+          </CreateMessage.Root>
         </section>
       </div>
     </main>
@@ -189,22 +191,24 @@ function Comment({ comment }: { comment: Comment }) {
           </div>
         </div>
         <Collapsible.Content className="mt-2">
-          <CreateMessage.Form
-            onCreateMessage={(data) => {
-              db.comment.reply({ ...data, id: comment.id });
-              setIsReplying(false);
-            }}
-          >
-            <CreateMessage.TextareaContainer>
-              <CreateMessage.Label>Reply to message</CreateMessage.Label>
-              <CreateMessage.Textarea
-                ref={replyContentRef}
-                defaultValue={`@${comment.user.username} `}
-              />
-            </CreateMessage.TextareaContainer>
-            <CreateMessage.CommentingAs />
-            <CreateMessage.Create>Reply</CreateMessage.Create>
-          </CreateMessage.Form>
+          <CreateMessage.Root>
+            <CreateMessage.Form
+              onCreateMessage={(data) => {
+                db.comment.reply({ ...data, id: comment.id });
+                setIsReplying(false);
+              }}
+            >
+              <CreateMessage.TextareaContainer>
+                <CreateMessage.Label>Reply to message</CreateMessage.Label>
+                <CreateMessage.Textarea
+                  ref={replyContentRef}
+                  defaultValue={`@${comment.user.username} `}
+                />
+              </CreateMessage.TextareaContainer>
+              <CreateMessage.CommentingAs />
+              <CreateMessage.Create>Reply</CreateMessage.Create>
+            </CreateMessage.Form>
+          </CreateMessage.Root>
         </Collapsible.Content>
       </Collapsible.Root>
       {comment.replies.length ? (
@@ -358,22 +362,24 @@ function Reply({ reply }: { reply: Reply }) {
           </div>
         </div>
         <Collapsible.Content className="mt-2">
-          <CreateMessage.Form
-            onCreateMessage={(data) => {
-              db.reply.create({ ...data, id: reply.id });
-              setIsReplying(false);
-            }}
-          >
-            <CreateMessage.TextareaContainer>
-              <CreateMessage.Label>Reply to message</CreateMessage.Label>
-              <CreateMessage.Textarea
-                ref={replyContentRef}
-                defaultValue={`@${reply.user.username} `}
-              />
-            </CreateMessage.TextareaContainer>
-            <CreateMessage.CommentingAs />
-            <CreateMessage.Create>Reply</CreateMessage.Create>
-          </CreateMessage.Form>
+          <CreateMessage.Root>
+            <CreateMessage.Form
+              onCreateMessage={(data) => {
+                db.reply.create({ ...data, id: reply.id });
+                setIsReplying(false);
+              }}
+            >
+              <CreateMessage.TextareaContainer>
+                <CreateMessage.Label>Reply to message</CreateMessage.Label>
+                <CreateMessage.Textarea
+                  ref={replyContentRef}
+                  defaultValue={`@${reply.user.username} `}
+                />
+              </CreateMessage.TextareaContainer>
+              <CreateMessage.CommentingAs />
+              <CreateMessage.Create>Reply</CreateMessage.Create>
+            </CreateMessage.Form>
+          </CreateMessage.Root>
         </Collapsible.Content>
       </Collapsible.Root>
     </article>

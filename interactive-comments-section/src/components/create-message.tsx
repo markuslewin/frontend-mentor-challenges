@@ -5,6 +5,7 @@ import {
   forwardRef,
   useContext,
   useId,
+  useState,
 } from "react";
 import { Avatar } from "./avatar";
 import { invariant } from "@epic-web/invariant";
@@ -15,7 +16,9 @@ import { Button } from "./button";
 
 const CreateMessageContext = createContext<{
   textareaId: string;
+  textareaKey: string;
   commentingAsId: string;
+  resetForm(): void;
 } | null>(null);
 
 function useCreateMessage() {
@@ -28,9 +31,19 @@ function useCreateMessage() {
 function CreateMessageProvider({ children }: { children: ReactNode }) {
   const commentingAsId = useId();
   const textareaId = useId();
+  const [textareaKey, setTextareaKey] = useState(Math.random().toString());
 
   return (
-    <CreateMessageContext.Provider value={{ textareaId, commentingAsId }}>
+    <CreateMessageContext.Provider
+      value={{
+        textareaId,
+        textareaKey,
+        commentingAsId,
+        resetForm() {
+          setTextareaKey(Math.random().toString());
+        },
+      }}
+    >
       {children}
     </CreateMessageContext.Provider>
   );
@@ -40,6 +53,10 @@ export const CreateMessageSchema = z.object({
   content: z.string().refine((val) => val.trim().length > 0),
 });
 
+export function Root({ children }: { children: ReactNode }) {
+  return <CreateMessageProvider>{children}</CreateMessageProvider>;
+}
+
 export function Form({
   children,
   onCreateMessage,
@@ -47,27 +64,27 @@ export function Form({
   children: ReactNode;
   onCreateMessage(data: z.infer<typeof CreateMessageSchema>): void;
 }) {
-  return (
-    <CreateMessageProvider>
-      <form
-        className="grid grid-cols-[max-content_1fr] items-center gap-4 bg-white rounded-lg shape-p-4 shape-border-[1px] border-transparent tablet:grid-cols-[max-content_1fr_max-content] tablet:items-start tablet:shape-p-6"
-        method="post"
-        onSubmit={(event) => {
-          event.preventDefault();
-          const formData = new FormData(event.currentTarget);
-          const result = CreateMessageSchema.safeParse(
-            Object.fromEntries(formData)
-          );
-          // todo: Don't abort?
-          if (!result.success) return;
+  const { resetForm } = useCreateMessage();
 
-          onCreateMessage(result.data);
-          event.currentTarget.reset();
-        }}
-      >
-        {children}
-      </form>
-    </CreateMessageProvider>
+  return (
+    <form
+      className="grid grid-cols-[max-content_1fr] items-center gap-4 bg-white rounded-lg shape-p-4 shape-border-[1px] border-transparent tablet:grid-cols-[max-content_1fr_max-content] tablet:items-start tablet:shape-p-6"
+      method="post"
+      onSubmit={(event) => {
+        event.preventDefault();
+        const formData = new FormData(event.currentTarget);
+        const result = CreateMessageSchema.safeParse(
+          Object.fromEntries(formData)
+        );
+        // todo: Don't abort?
+        if (!result.success) return;
+
+        resetForm();
+        onCreateMessage(result.data);
+      }}
+    >
+      {children}
+    </form>
   );
 }
 
@@ -93,11 +110,12 @@ const CreateMessageTextarea = forwardRef<
   HTMLTextAreaElement,
   TextareaHTMLAttributes<HTMLTextAreaElement>
 >((props, ref) => {
-  const { textareaId, commentingAsId } = useCreateMessage();
+  const { textareaId, textareaKey, commentingAsId } = useCreateMessage();
 
   return (
     <Textarea
       ref={ref}
+      key={textareaKey}
       name="content"
       id={textareaId}
       aria-describedby={commentingAsId}
