@@ -90,7 +90,7 @@ const CommentsContext = createContext<{
   votes: Votes;
   db: {
     comment: {
-      create(content: string): void;
+      create(content: string): Comment;
       update(data: { id: number; content: string }): void;
       upvote(data: { id: number; on: boolean }): void;
       downvote(data: { id: number; on: boolean }): void;
@@ -163,20 +163,19 @@ export function CommentsProvider({ children }: { children: ReactNode }) {
         db: {
           comment: {
             create(content) {
+              const comment: Comment = {
+                content,
+                // todo: Timestamp
+                createdAt: "Just now",
+                id: nextCommentId,
+                score: 0,
+                user,
+                replies: [],
+              };
               setItem(
-                JSON.stringify([
-                  ...sourceComments,
-                  {
-                    content,
-                    // todo: Timestamp
-                    createdAt: "Just now",
-                    id: nextCommentId,
-                    score: 0,
-                    user,
-                    replies: [],
-                  } satisfies Comment,
-                ])
+                JSON.stringify([...sourceComments, comment] satisfies Comments)
               );
+              return comment;
             },
             update({ id, content }) {
               const comment = sourceComments.find(
