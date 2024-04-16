@@ -292,16 +292,16 @@ function Reply({ reply }: { reply: Reply }) {
               </form>
             ) : (
               <p className="whitespace-pre-wrap">
-                {reply.content.startsWith(replyingToPrefix) ? (
+                {
                   <>
                     <b className="font-medium text-moderate-blue">
                       @{reply.replyingTo}
                     </b>{" "}
-                    {reply.content.slice(replyingToPrefix.length)}
+                    {reply.content.startsWith(replyingToPrefix)
+                      ? reply.content.slice(replyingToPrefix.length)
+                      : reply.content}
                   </>
-                ) : (
-                  reply.content
-                )}
+                }
               </p>
             )}
           </div>
