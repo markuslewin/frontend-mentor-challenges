@@ -12,26 +12,13 @@ import { CreateMessageSchema } from "./components/create-message";
 import { Avatar } from "./components/avatar";
 import { Textarea } from "./components/textarea";
 import { Button } from "./components/button";
+import { useMapRef } from "./utils/map";
 
 function App() {
   const { comments, db } = useComments();
   const addCommentContentRef = useRef<HTMLTextAreaElement>(null);
-  const commentsRef = useRef<Map<number, HTMLHeadingElement> | null>(null);
-  const repliesRef = useRef<Map<number, HTMLHeadingElement> | null>(null);
-
-  function getCommentsMap() {
-    if (!commentsRef.current) {
-      commentsRef.current = new Map<number, HTMLHeadingElement>();
-    }
-    return commentsRef.current;
-  }
-
-  function getRepliesMap() {
-    if (!repliesRef.current) {
-      repliesRef.current = new Map<number, HTMLHeadingElement>();
-    }
-    return repliesRef.current;
-  }
+  const commentsMap = useMapRef<number, HTMLHeadingElement>();
+  const repliesMap = useMapRef<number, HTMLHeadingElement>();
 
   return (
     <main className="min-h-screen px-4 py-8 tablet:p-16">
@@ -43,22 +30,10 @@ function App() {
             <Comment
               key={comment.id}
               ref={(node) => {
-                const map = getCommentsMap();
-                if (node) {
-                  map.set(comment.id, node);
-                } else {
-                  map.delete(comment.id);
-                }
+                commentsMap.setOrDelete(comment.id, node);
               }}
               comment={comment}
-              updateReplyRef={(id, node) => {
-                const map = getRepliesMap();
-                if (node) {
-                  map.set(id, node);
-                } else {
-                  map.delete(id);
-                }
-              }}
+              updateReplyRef={repliesMap.setOrDelete}
               onReply={(data) => {
                 let id: number | null = null;
                 flushSync(() => {
@@ -68,8 +43,7 @@ function App() {
                 // Should never happen
                 if (id === null) return;
 
-                const map = getRepliesMap();
-                const $reply = map.get(id);
+                const $reply = repliesMap.get(id);
                 $reply?.focus();
               }}
               onReplyReply={(data) => {
@@ -81,8 +55,7 @@ function App() {
                 // Should never happen
                 if (id === null) return;
 
-                const map = getRepliesMap();
-                const $reply = map.get(id);
+                const $reply = repliesMap.get(id);
                 $reply?.focus();
               }}
             />
@@ -106,7 +79,7 @@ function App() {
                 // Should never happen
                 if (id === null) return;
 
-                const $comment = getCommentsMap().get(id);
+                const $comment = commentsMap.get(id);
                 $comment?.focus();
               }}
             >
