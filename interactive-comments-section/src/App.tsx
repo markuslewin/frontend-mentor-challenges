@@ -1,14 +1,7 @@
 import spriteUrl from "./images/sprite.svg";
 import { useComments } from "./utils/comments";
 import type { Comment, Reply } from "./utils/comments";
-import {
-  ReactNode,
-  RefObject,
-  forwardRef,
-  useId,
-  useRef,
-  useState,
-} from "react";
+import { ReactNode, forwardRef, useId, useRef, useState } from "react";
 import { flushSync } from "react-dom";
 import { useUser } from "./utils/user";
 import * as AlertDialog from "@radix-ui/react-alert-dialog";
@@ -23,10 +16,22 @@ import { Button } from "./components/button";
 function App() {
   const { comments, db } = useComments();
   const addCommentContentRef = useRef<HTMLTextAreaElement>(null);
-  const [lastCommentId, setLastCommentId] = useState<number | null>(null);
-  const lastCommentRef = useRef<HTMLHeadingElement>(null);
-  const [lastReplyId, setLastReplyId] = useState<number | null>(null);
-  const lastReplyRef = useRef<HTMLHeadingElement>(null);
+  const commentsRef = useRef<Map<number, HTMLHeadingElement> | null>(null);
+  const repliesRef = useRef<Map<number, HTMLHeadingElement> | null>(null);
+
+  function getCommentsMap() {
+    if (!commentsRef.current) {
+      commentsRef.current = new Map<number, HTMLHeadingElement>();
+    }
+    return commentsRef.current;
+  }
+
+  function getRepliesMap() {
+    if (!repliesRef.current) {
+      repliesRef.current = new Map<number, HTMLHeadingElement>();
+    }
+    return repliesRef.current;
+  }
 
   return (
     <main className="min-h-screen px-4 py-8 tablet:p-16">
@@ -37,11 +42,49 @@ function App() {
           {comments.map((comment) => (
             <Comment
               key={comment.id}
-              ref={comment.id === lastCommentId ? lastCommentRef : null}
+              ref={(node) => {
+                const map = getCommentsMap();
+                if (node) {
+                  map.set(comment.id, node);
+                } else {
+                  map.delete(comment.id);
+                }
+              }}
               comment={comment}
-              lastReplyRef={lastReplyRef}
-              lastReplyId={lastReplyId}
-              setLastReplyId={setLastReplyId}
+              updateReplyRef={(id, node) => {
+                const map = getRepliesMap();
+                if (node) {
+                  map.set(id, node);
+                } else {
+                  map.delete(id);
+                }
+              }}
+              onReply={(data) => {
+                let id: number | null = null;
+                flushSync(() => {
+                  const reply = db.comment.reply(data);
+                  id = reply.id;
+                });
+                // Should never happen
+                if (id === null) return;
+
+                const map = getRepliesMap();
+                const $reply = map.get(id);
+                $reply?.focus();
+              }}
+              onReplyReply={(data) => {
+                let id: number | null = null;
+                flushSync(() => {
+                  const reply = db.reply.create(data);
+                  id = reply.id;
+                });
+                // Should never happen
+                if (id === null) return;
+
+                const map = getRepliesMap();
+                const $reply = map.get(id);
+                $reply?.focus();
+              }}
             />
           ))}
         </div>
@@ -55,11 +98,16 @@ function App() {
           <CreateMessage.Root>
             <CreateMessage.Form
               onCreateMessage={(data) => {
+                let id: number | null = null;
                 flushSync(() => {
                   const comment = db.comment.create(data.content);
-                  setLastCommentId(comment.id);
+                  id = comment.id;
                 });
-                lastCommentRef.current?.focus();
+                // Should never happen
+                if (id === null) return;
+
+                const $comment = getCommentsMap().get(id);
+                $comment?.focus();
               }}
             >
               <CreateMessage.TextareaContainer>
@@ -83,11 +131,11 @@ const Comment = forwardRef<
   HTMLHeadingElement,
   {
     comment: Comment;
-    lastReplyRef: RefObject<HTMLHeadingElement>;
-    lastReplyId: number | null;
-    setLastReplyId(id: number): void;
+    updateReplyRef(id: number, node: HTMLHeadingElement | null): void;
+    onReply(data: { id: number; content: string }): void;
+    onReplyReply(data: { id: number; content: string }): void;
   }
->(({ comment, lastReplyId, lastReplyRef, setLastReplyId }, ref) => {
+>(({ comment, updateReplyRef, onReply, onReplyReply }, ref) => {
   const { user } = useUser();
   const { votes, db } = useComments();
   const [isEditing, setIsEditing] = useState(false);
@@ -224,12 +272,8 @@ const Comment = forwardRef<
           <CreateMessage.Root>
             <CreateMessage.Form
               onCreateMessage={(data) => {
-                flushSync(() => {
-                  const reply = db.comment.reply({ ...data, id: comment.id });
-                  setIsReplying(false);
-                  setLastReplyId(reply.id);
-                });
-                lastReplyRef.current?.focus();
+                setIsReplying(false);
+                onReply({ ...data, id: comment.id });
               }}
             >
               <CreateMessage.TextareaContainer>
@@ -252,10 +296,11 @@ const Comment = forwardRef<
             {comment.replies.map((reply) => (
               <Reply
                 key={reply.id}
-                ref={reply.id === lastReplyId ? lastReplyRef : null}
+                ref={(node) => {
+                  updateReplyRef(reply.id, node);
+                }}
                 reply={reply}
-                lastReplyRef={lastReplyRef}
-                setLastReplyId={setLastReplyId}
+                onReply={onReplyReply}
               />
             ))}
           </div>
@@ -269,10 +314,9 @@ const Reply = forwardRef<
   HTMLHeadingElement,
   {
     reply: Reply;
-    lastReplyRef: RefObject<HTMLHeadingElement>;
-    setLastReplyId(id: number): void;
+    onReply(data: { id: number; content: string }): void;
   }
->(({ reply, lastReplyRef, setLastReplyId }, ref) => {
+>(({ reply, onReply }, ref) => {
   const { user } = useUser();
   const { db } = useComments();
   const [isEditing, setIsEditing] = useState(false);
@@ -419,12 +463,8 @@ const Reply = forwardRef<
           <CreateMessage.Root>
             <CreateMessage.Form
               onCreateMessage={(data) => {
-                flushSync(() => {
-                  const newReply = db.reply.create({ ...data, id: reply.id });
-                  setIsReplying(false);
-                  setLastReplyId(newReply.id);
-                });
-                lastReplyRef.current?.focus();
+                setIsReplying(false);
+                onReply({ ...data, id: reply.id });
               }}
             >
               <CreateMessage.TextareaContainer>
