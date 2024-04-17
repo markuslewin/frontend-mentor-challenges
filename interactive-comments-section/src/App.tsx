@@ -165,7 +165,7 @@ const Comment = forwardRef<
                     {comment.user.username}
                     {comment.user.username === user.username ? <You /> : null}
                   </Author>
-                  <p>{comment.createdAt}</p>
+                  <span>{comment.createdAt}</span>
                 </Meta>
               </h3>
             </MessageLayout.Footer>
@@ -328,7 +328,7 @@ const Reply = forwardRef<
                   {reply.user.username}
                   {reply.user.username === user.username ? <You /> : null}
                 </Author>
-                <p>{reply.createdAt}</p>
+                <span>{reply.createdAt}</span>
               </Meta>
             </h4>
           </MessageLayout.Footer>
