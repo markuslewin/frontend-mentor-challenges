@@ -9,6 +9,7 @@
       "footer footer"
       "content content"
       "score mutate";
+    grid-template-columns: auto 1fr;
     grid-template-rows: max-content 1fr max-content;
     gap: 1rem;
   }

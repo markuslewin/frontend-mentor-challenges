@@ -137,7 +137,7 @@ export function CommentingAs() {
     >
       <span className="sr-only">Commenting as </span>
       <Avatar
-        className="tablet:size-10"
+        className="tablet:mt-1 tablet:size-10"
         alt={user.username}
         image={user.image}
       />
