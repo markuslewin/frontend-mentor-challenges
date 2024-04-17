@@ -90,7 +90,7 @@ function serializedState<T>(
 }
 
 export function CommentsProvider({ children }: { children: ReactNode }) {
-  const [sourceComments, setSourceComments] = serializedState<Comments>(
+  const [comments, setComments] = serializedState<Comments>(
     useLocalStorage("comments"),
     {
       serialize(value) {
@@ -108,8 +108,8 @@ export function CommentsProvider({ children }: { children: ReactNode }) {
       },
     }
   );
-  const [votes, setRawVotes] = serializedState<Votes>(
-    useLocalStorage("votes"),
+  const [commentVotes, setCommentVotes] = serializedState<Votes>(
+    useLocalStorage("comment-votes"),
     {
       serialize(value) {
         return JSON.stringify(value);
@@ -126,7 +126,7 @@ export function CommentsProvider({ children }: { children: ReactNode }) {
       },
     }
   );
-  const [replyVotes, setRawReplyVotes] = serializedState<Votes>(
+  const [replyVotes, setReplyVotes] = serializedState<Votes>(
     useLocalStorage("reply-votes"),
     {
       serialize(value) {
@@ -146,9 +146,9 @@ export function CommentsProvider({ children }: { children: ReactNode }) {
   );
   const { user } = useUser();
 
-  const comments = sourceComments
+  const scoredComments = comments
     .map((comment) => {
-      const score = votes
+      const score = commentVotes
         .filter((vote) => vote.messageId === comment.id)
         .reduce(
           (score, vote) => score + (vote.type === "upvote" ? 1 : -1),
@@ -170,19 +170,16 @@ export function CommentsProvider({ children }: { children: ReactNode }) {
     })
     .sort((a, b) => b.score - a.score);
 
-  const nextCommentId =
-    Math.max(...sourceComments.map((comment) => comment.id)) + 1;
+  const nextCommentId = Math.max(...comments.map((comment) => comment.id)) + 1;
   const nextReplyId =
     Math.max(
-      ...sourceComments.flatMap((comment) =>
-        comment.replies.map((reply) => reply.id)
-      )
+      ...comments.flatMap((comment) => comment.replies.map((reply) => reply.id))
     ) + 1;
 
   return (
     <CommentsContext.Provider
       value={{
-        comments,
+        comments: scoredComments,
         comment({ content }) {
           const comment: Comment = {
             content,
@@ -194,38 +191,43 @@ export function CommentsProvider({ children }: { children: ReactNode }) {
             replies: [],
           };
 
-          setSourceComments([...sourceComments, comment]);
+          setComments([...comments, comment]);
           return comment;
         },
         updateComment({ id, content }) {
-          const comment = sourceComments.find((comment) => comment.id === id);
+          const comment = comments.find((comment) => comment.id === id);
           invariant(comment, "Comment not found");
 
           const nextComment: Comment = { ...comment, content };
-          setSourceComments(
-            sourceComments.map((comment) =>
+
+          setComments(
+            comments.map((comment) =>
               comment.id === nextComment.id ? nextComment : comment
             )
           );
         },
         upvoteComment({ id, on }) {
-          const filteredVotes = votes.filter((vote) => vote.messageId !== id);
+          const filteredVotes = commentVotes.filter(
+            (vote) => vote.messageId !== id
+          );
           const nextVotes: Votes = on
             ? [...filteredVotes, { messageId: id, type: "upvote" }]
             : filteredVotes;
 
-          setRawVotes(nextVotes);
+          setCommentVotes(nextVotes);
         },
         downvoteComment({ id, on }) {
-          const filteredVotes = votes.filter((vote) => vote.messageId !== id);
+          const filteredVotes = commentVotes.filter(
+            (vote) => vote.messageId !== id
+          );
           const nextVotes: Votes = on
             ? [...filteredVotes, { messageId: id, type: "downvote" }]
             : filteredVotes;
 
-          setRawVotes(nextVotes);
+          setCommentVotes(nextVotes);
         },
         replyToComment({ id, content }) {
-          const comment = sourceComments.find((comment) => comment.id === id);
+          const comment = comments.find((comment) => comment.id === id);
           invariant(comment, "Comment not found");
 
           const reply: Reply = {
@@ -238,8 +240,8 @@ export function CommentsProvider({ children }: { children: ReactNode }) {
             user,
           };
 
-          setSourceComments(
-            sourceComments.map((c) =>
+          setComments(
+            comments.map((c) =>
               c.id === comment.id
                 ? {
                     ...comment,
@@ -251,15 +253,15 @@ export function CommentsProvider({ children }: { children: ReactNode }) {
           return reply;
         },
         removeComment({ id }) {
-          const comment = sourceComments.find((comment) => comment.id === id);
+          const comment = comments.find((comment) => comment.id === id);
           invariant(comment, "Comment not found");
           invariant(comment.user.username === user.username, "Forbidden");
 
-          setSourceComments(sourceComments.filter((c) => c.id !== comment.id));
-          setRawVotes(votes.filter((vote) => vote.messageId !== id));
+          setComments(comments.filter((c) => c.id !== comment.id));
+          setCommentVotes(commentVotes.filter((vote) => vote.messageId !== id));
         },
         getVoteStateForComment({ id }) {
-          const vote = votes.find((vote) => vote.messageId === id);
+          const vote = commentVotes.find((vote) => vote.messageId === id);
           return vote?.type === "upvote"
             ? "upvoted"
             : vote?.type === "downvote"
@@ -268,7 +270,7 @@ export function CommentsProvider({ children }: { children: ReactNode }) {
         },
 
         replyToReply({ content, id }) {
-          const comment = sourceComments.find((comment) =>
+          const comment = comments.find((comment) =>
             comment.replies.find((reply) => reply.id === id)
           );
           invariant(comment, "Parent comment not found");
@@ -284,8 +286,8 @@ export function CommentsProvider({ children }: { children: ReactNode }) {
             user,
           };
 
-          setSourceComments([
-            ...sourceComments.map((c) =>
+          setComments([
+            ...comments.map((c) =>
               c.id === comment.id
                 ? {
                     ...comment,
@@ -297,15 +299,15 @@ export function CommentsProvider({ children }: { children: ReactNode }) {
           return newReply;
         },
         updateReply({ content, id }) {
-          const comment = sourceComments.find((comment) =>
+          const comment = comments.find((comment) =>
             comment.replies.find((reply) => reply.id === id)
           );
           invariant(comment, "Parent comment not found");
           const reply = comment.replies.find((reply) => reply.id === id);
           invariant(reply, "Reply not found");
 
-          setSourceComments([
-            ...sourceComments.map((c) =>
+          setComments([
+            ...comments.map((c) =>
               c.id === comment.id
                 ? {
                     ...comment,
@@ -325,7 +327,7 @@ export function CommentsProvider({ children }: { children: ReactNode }) {
             ? [...filteredVotes, { messageId: id, type: "upvote" }]
             : filteredVotes;
 
-          setRawReplyVotes(nextVotes);
+          setReplyVotes(nextVotes);
         },
         downvoteReply({ id, on }) {
           const filteredVotes = replyVotes.filter(
@@ -335,16 +337,16 @@ export function CommentsProvider({ children }: { children: ReactNode }) {
             ? [...filteredVotes, { messageId: id, type: "downvote" }]
             : filteredVotes;
 
-          setRawReplyVotes(nextVotes);
+          setReplyVotes(nextVotes);
         },
         removeReply({ id }) {
-          const comment = sourceComments.find((comment) =>
+          const comment = comments.find((comment) =>
             comment.replies.find((reply) => reply.id === id)
           );
           invariant(comment, "Parent comment not found");
 
-          setSourceComments([
-            ...sourceComments.map((c) =>
+          setComments([
+            ...comments.map((c) =>
               c.id === comment.id
                 ? {
                     ...comment,
@@ -353,7 +355,7 @@ export function CommentsProvider({ children }: { children: ReactNode }) {
                 : c
             ),
           ]);
-          setRawReplyVotes(replyVotes.filter((vote) => vote.messageId !== id));
+          setReplyVotes(replyVotes.filter((vote) => vote.messageId !== id));
         },
         getVoteStateForReply({ id }) {
           const vote = replyVotes.find((vote) => vote.messageId === id);
