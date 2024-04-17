@@ -41,23 +41,6 @@ export type Comments = z.infer<typeof CommentsSchema>;
 export type Comment = Comments[number];
 export type Reply = Comment["replies"][number];
 
-function parseComments(value: unknown) {
-  if (typeof value !== "string")
-    return { success: false, error: "Value was not string" } as const;
-
-  let object;
-  try {
-    object = JSON.parse(value);
-  } catch (error) {
-    return { success: false, error } as const;
-  }
-
-  const result = CommentsSchema.safeParse(object);
-  if (!result.success) return { success: false, error: result.error } as const;
-
-  return { success: true, data: result.data } as const;
-}
-
 const VotesSchema = z.array(
   z.object({
     type: z.union([z.literal("upvote"), z.literal("downvote")]),
@@ -66,24 +49,6 @@ const VotesSchema = z.array(
 );
 
 type Votes = z.infer<typeof VotesSchema>;
-type Vote = Votes[number];
-
-function parseVotes(value: unknown) {
-  if (typeof value !== "string")
-    return { success: false, error: "Value was not string" } as const;
-
-  let object;
-  try {
-    object = JSON.parse(value);
-  } catch (error) {
-    return { success: false, error } as const;
-  }
-
-  const result = VotesSchema.safeParse(object);
-  if (!result.success) return { success: false, error: result.error } as const;
-
-  return { success: true, data: result.data } as const;
-}
 
 const CommentsContext = createContext<{
   comments: Comments;
@@ -108,20 +73,81 @@ const CommentsContext = createContext<{
   };
 } | null>(null);
 
+function serializedState<T>(
+  [value, setValue]: readonly [string | null, (value: string | null) => void],
+  {
+    serialize,
+    deserialize,
+  }: {
+    serialize(value: T): string;
+    deserialize(value: string | null): T;
+  }
+) {
+  return [
+    deserialize(value),
+    (value: T) => {
+      setValue(serialize(value));
+    },
+  ] as const;
+}
+
 export function CommentsProvider({ children }: { children: ReactNode }) {
-  const [item, setItem] = useLocalStorage("comments");
-  const [rawVotes, setRawVotes] = useLocalStorage("votes");
-  const [rawReplyVotes, setRawReplyVotes] = useLocalStorage("reply-votes");
+  const [sourceComments, setSourceComments] = serializedState<Comments>(
+    useLocalStorage("comments"),
+    {
+      serialize(value) {
+        return JSON.stringify(value);
+      },
+      deserialize(value) {
+        if (typeof value !== "string") return initialComments;
+        try {
+          const parsed = JSON.parse(value);
+          const comments = CommentsSchema.parse(parsed);
+          return comments;
+        } catch (error) {
+          return initialComments;
+        }
+      },
+    }
+  );
+  const [votes, setRawVotes] = serializedState<Votes>(
+    useLocalStorage("votes"),
+    {
+      serialize(value) {
+        return JSON.stringify(value);
+      },
+      deserialize(value) {
+        if (typeof value !== "string") return [];
+        try {
+          const parsed = JSON.parse(value);
+          const votes = VotesSchema.parse(parsed);
+          return votes;
+        } catch (error) {
+          return [];
+        }
+      },
+    }
+  );
+  const [replyVotes, setRawReplyVotes] = serializedState<Votes>(
+    useLocalStorage("reply-votes"),
+    {
+      serialize(value) {
+        return JSON.stringify(value);
+      },
+      deserialize(value) {
+        if (typeof value !== "string") return [];
+        try {
+          const parsed = JSON.parse(value);
+          const votes = VotesSchema.parse(parsed);
+          return votes;
+        } catch (error) {
+          return [];
+        }
+      },
+    }
+  );
   const { user } = useUser();
 
-  const voteResult = parseVotes(rawVotes);
-  const votes = voteResult.success ? voteResult.data : [];
-
-  const replyVoteResult = parseVotes(rawReplyVotes);
-  const replyVotes = replyVoteResult.success ? replyVoteResult.data : [];
-
-  const result = parseComments(item);
-  const sourceComments = result.success ? result.data : initialComments;
   const comments = sourceComments
     .map((comment) => {
       const score = votes
@@ -172,9 +198,7 @@ export function CommentsProvider({ children }: { children: ReactNode }) {
                 user,
                 replies: [],
               };
-              setItem(
-                JSON.stringify([...sourceComments, comment] satisfies Comments)
-              );
+              setSourceComments([...sourceComments, comment]);
               return comment;
             },
             update({ id, content }) {
@@ -184,11 +208,9 @@ export function CommentsProvider({ children }: { children: ReactNode }) {
               invariant(comment, "Comment not found");
 
               const nextComment = { ...comment, content };
-              setItem(
-                JSON.stringify(
-                  sourceComments.map((comment) =>
-                    comment.id === nextComment.id ? nextComment : comment
-                  ) satisfies Comments
+              setSourceComments(
+                sourceComments.map((comment) =>
+                  comment.id === nextComment.id ? nextComment : comment
                 )
               );
             },
@@ -196,27 +218,21 @@ export function CommentsProvider({ children }: { children: ReactNode }) {
               const filteredVotes = votes.filter(
                 (vote) => vote.messageId !== id
               );
-              const nextVotes = on
-                ? [
-                    ...filteredVotes,
-                    { messageId: id, type: "upvote" } satisfies Vote,
-                  ]
+              const nextVotes: Votes = on
+                ? [...filteredVotes, { messageId: id, type: "upvote" }]
                 : filteredVotes;
 
-              setRawVotes(JSON.stringify(nextVotes satisfies Votes));
+              setRawVotes(nextVotes);
             },
             downvote({ id, on }) {
               const filteredVotes = votes.filter(
                 (vote) => vote.messageId !== id
               );
-              const nextVotes = on
-                ? [
-                    ...filteredVotes,
-                    { messageId: id, type: "downvote" } satisfies Vote,
-                  ]
+              const nextVotes: Votes = on
+                ? [...filteredVotes, { messageId: id, type: "downvote" }]
                 : filteredVotes;
 
-              setRawVotes(JSON.stringify(nextVotes satisfies Votes));
+              setRawVotes(nextVotes);
             },
             reply({ id, content }) {
               const comment = sourceComments.find(
@@ -234,16 +250,14 @@ export function CommentsProvider({ children }: { children: ReactNode }) {
                 user,
               };
 
-              setItem(
-                JSON.stringify(
-                  sourceComments.map((c) =>
-                    c.id === comment.id
-                      ? {
-                          ...comment,
-                          replies: [...comment.replies, reply],
-                        }
-                      : c
-                  ) satisfies Comments
+              setSourceComments(
+                sourceComments.map((c) =>
+                  c.id === comment.id
+                    ? {
+                        ...comment,
+                        replies: [...comment.replies, reply],
+                      }
+                    : c
                 )
               );
               return reply;
@@ -255,16 +269,10 @@ export function CommentsProvider({ children }: { children: ReactNode }) {
               invariant(comment, "Comment not found");
               invariant(comment.user.username === user.username, "Forbidden");
 
-              setItem(
-                JSON.stringify(
-                  sourceComments.filter((c) => c.id !== comment.id)
-                )
+              setSourceComments(
+                sourceComments.filter((c) => c.id !== comment.id)
               );
-              setRawVotes(
-                JSON.stringify(
-                  votes.filter((vote) => vote.messageId !== id) satisfies Votes
-                )
-              );
+              setRawVotes(votes.filter((vote) => vote.messageId !== id));
             },
           },
           reply: {
@@ -286,18 +294,16 @@ export function CommentsProvider({ children }: { children: ReactNode }) {
                 user,
               };
 
-              setItem(
-                JSON.stringify([
-                  ...sourceComments.map((c) =>
-                    c.id === comment.id
-                      ? {
-                          ...comment,
-                          replies: [...comment.replies, newReply],
-                        }
-                      : c
-                  ),
-                ] satisfies Comments)
-              );
+              setSourceComments([
+                ...sourceComments.map((c) =>
+                  c.id === comment.id
+                    ? {
+                        ...comment,
+                        replies: [...comment.replies, newReply],
+                      }
+                    : c
+                ),
+              ]);
               return newReply;
             },
             update({ content, id }) {
@@ -308,46 +314,38 @@ export function CommentsProvider({ children }: { children: ReactNode }) {
               const reply = comment.replies.find((reply) => reply.id === id);
               invariant(reply, "Reply not found");
 
-              setItem(
-                JSON.stringify([
-                  ...sourceComments.map((c) =>
-                    c.id === comment.id
-                      ? {
-                          ...comment,
-                          replies: comment.replies.map((r) =>
-                            r.id === reply.id ? { ...reply, content } : r
-                          ),
-                        }
-                      : c
-                  ),
-                ])
-              );
+              setSourceComments([
+                ...sourceComments.map((c) =>
+                  c.id === comment.id
+                    ? {
+                        ...comment,
+                        replies: comment.replies.map((r) =>
+                          r.id === reply.id ? { ...reply, content } : r
+                        ),
+                      }
+                    : c
+                ),
+              ]);
             },
             upvote({ id, on }) {
               const filteredVotes = replyVotes.filter(
                 (vote) => vote.messageId !== id
               );
-              const nextVotes = on
-                ? [
-                    ...filteredVotes,
-                    { messageId: id, type: "upvote" } satisfies Vote,
-                  ]
+              const nextVotes: Votes = on
+                ? [...filteredVotes, { messageId: id, type: "upvote" }]
                 : filteredVotes;
 
-              setRawReplyVotes(JSON.stringify(nextVotes satisfies Votes));
+              setRawReplyVotes(nextVotes);
             },
             downvote({ id, on }) {
               const filteredVotes = replyVotes.filter(
                 (vote) => vote.messageId !== id
               );
-              const nextVotes = on
-                ? [
-                    ...filteredVotes,
-                    { messageId: id, type: "downvote" } satisfies Vote,
-                  ]
+              const nextVotes: Votes = on
+                ? [...filteredVotes, { messageId: id, type: "downvote" }]
                 : filteredVotes;
 
-              setRawReplyVotes(JSON.stringify(nextVotes satisfies Votes));
+              setRawReplyVotes(nextVotes);
             },
             remove({ id }) {
               const comment = sourceComments.find((comment) =>
@@ -355,22 +353,18 @@ export function CommentsProvider({ children }: { children: ReactNode }) {
               );
               invariant(comment, "Parent comment not found");
 
-              setItem(
-                JSON.stringify([
-                  ...sourceComments.map((c) =>
-                    c.id === comment.id
-                      ? {
-                          ...comment,
-                          replies: comment.replies.filter((r) => r.id !== id),
-                        }
-                      : c
-                  ),
-                ])
-              );
+              setSourceComments([
+                ...sourceComments.map((c) =>
+                  c.id === comment.id
+                    ? {
+                        ...comment,
+                        replies: comment.replies.filter((r) => r.id !== id),
+                      }
+                    : c
+                ),
+              ]);
               setRawReplyVotes(
-                JSON.stringify(
-                  replyVotes.filter((vote) => vote.messageId !== id)
-                )
+                replyVotes.filter((vote) => vote.messageId !== id)
               );
             },
           },
