@@ -11,5 +11,19 @@ export function useLocalStorage(key: string) {
     }
   }, [key, value]);
 
+  useEffect(() => {
+    function handleStorageEvent(event: StorageEvent) {
+      // Key is null when storage gets cleared
+      if (event.key === key || event.key === null) {
+        setValue(event.newValue);
+      }
+    }
+
+    addEventListener("storage", handleStorageEvent);
+    return () => {
+      removeEventListener("storage", handleStorageEvent);
+    };
+  }, [key]);
+
   return [value, setValue] as const;
 }
