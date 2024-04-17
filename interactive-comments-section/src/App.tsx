@@ -15,7 +15,14 @@ import { Author, Meta, Mutate, Score, You } from "./components/message";
 import { Icon } from "./components/icon";
 
 function App() {
-  const { comments, db } = useComments();
+  const {
+    comments,
+    comment,
+    replyToComment,
+    replyToReply,
+    updateComment,
+    updateReply,
+  } = useComments();
   const addCommentContentRef = useRef<HTMLTextAreaElement>(null);
   const commentsMap = useMapRef<number, HTMLHeadingElement>();
   const repliesMap = useMapRef<number, HTMLHeadingElement>();
@@ -37,7 +44,7 @@ function App() {
               onReply={(data) => {
                 let id: number | null = null;
                 flushSync(() => {
-                  const reply = db.comment.reply(data);
+                  const reply = replyToComment(data);
                   id = reply.id;
                 });
                 // Should never happen
@@ -49,7 +56,7 @@ function App() {
               onReplyReply={(data) => {
                 let id: number | null = null;
                 flushSync(() => {
-                  const reply = db.reply.create(data);
+                  const reply = replyToReply(data);
                   id = reply.id;
                 });
                 // Should never happen
@@ -59,12 +66,12 @@ function App() {
                 $reply?.focus();
               }}
               onEdit={(data) => {
-                db.comment.update(data);
+                updateComment(data);
                 const $comment = commentsMap.get(data.id);
                 $comment?.focus();
               }}
               onEditReply={(data) => {
-                db.reply.update(data);
+                updateReply(data);
                 const $reply = repliesMap.get(data.id);
                 $reply?.focus();
               }}
@@ -83,8 +90,8 @@ function App() {
               onCreateMessage={(data) => {
                 let id: number | null = null;
                 flushSync(() => {
-                  const comment = db.comment.create(data.content);
-                  id = comment.id;
+                  const newComment = comment(data);
+                  id = newComment.id;
                 });
                 // Should never happen
                 if (id === null) return;
@@ -126,19 +133,18 @@ const Comment = forwardRef<
     ref
   ) => {
     const { user } = useUser();
-    const { votes, db } = useComments();
+    const {
+      upvoteComment,
+      downvoteComment,
+      getVoteStateForComment,
+      removeComment,
+    } = useComments();
     const [isEditing, setIsEditing] = useState(false);
     const editContentId = useId();
     const editContentRef = useRef<HTMLTextAreaElement>(null);
     const [isReplying, setIsReplying] = useState(false);
 
-    const vote = votes.find((vote) => vote.messageId === comment.id);
-    const state =
-      vote?.type === "upvote"
-        ? "upvoted"
-        : vote?.type === "downvote"
-        ? "downvoted"
-        : "none";
+    const state = getVoteStateForComment({ id: comment.id });
 
     return (
       <article data-testid="comment">
@@ -199,13 +205,13 @@ const Comment = forwardRef<
                 score={comment.score}
                 state={state}
                 onToggleUpvote={() => {
-                  db.comment.upvote({
+                  upvoteComment({
                     id: comment.id,
                     on: state !== "upvoted",
                   });
                 }}
                 onToggleDownvote={() => {
-                  db.comment.downvote({
+                  downvoteComment({
                     id: comment.id,
                     on: state !== "downvoted",
                   });
@@ -227,7 +233,7 @@ const Comment = forwardRef<
                     }
                   }}
                   onDelete={() => {
-                    db.comment.remove(comment.id);
+                    removeComment({ id: comment.id });
                   }}
                 />
               ) : (
@@ -293,21 +299,15 @@ const Reply = forwardRef<
   }
 >(({ reply, onReply, onEdit }, ref) => {
   const { user } = useUser();
-  const { db } = useComments();
+  const { upvoteReply, downvoteReply, removeReply, getVoteStateForReply } =
+    useComments();
   const [isEditing, setIsEditing] = useState(false);
   const editContentId = useId();
   const editContentRef = useRef<HTMLTextAreaElement>(null);
   const [isReplying, setIsReplying] = useState(false);
 
   const replyingToPrefix = `@${reply.replyingTo} `;
-
-  const vote = db.reply.votes.find((vote) => vote.messageId === reply.id);
-  const state =
-    vote?.type === "upvote"
-      ? "upvoted"
-      : vote?.type === "downvote"
-      ? "downvoted"
-      : "none";
+  const state = getVoteStateForReply({ id: reply.id });
 
   return (
     <article>
@@ -379,10 +379,10 @@ const Reply = forwardRef<
               score={reply.score}
               state={state}
               onToggleUpvote={() => {
-                db.reply.upvote({ id: reply.id, on: state !== "upvoted" });
+                upvoteReply({ id: reply.id, on: state !== "upvoted" });
               }}
               onToggleDownvote={() => {
-                db.reply.downvote({
+                downvoteReply({
                   id: reply.id,
                   on: state !== "downvoted",
                 });
@@ -404,7 +404,7 @@ const Reply = forwardRef<
                   }
                 }}
                 onDelete={() => {
-                  db.reply.remove({ id: reply.id });
+                  removeReply({ id: reply.id });
                 }}
               />
             ) : (

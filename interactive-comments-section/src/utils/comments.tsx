@@ -52,25 +52,23 @@ type Votes = z.infer<typeof VotesSchema>;
 
 const CommentsContext = createContext<{
   comments: Comments;
-  votes: Votes;
-  db: {
-    comment: {
-      create(content: string): Comment;
-      update(data: { id: number; content: string }): void;
-      upvote(data: { id: number; on: boolean }): void;
-      downvote(data: { id: number; on: boolean }): void;
-      reply(data: { id: number; content: string }): Reply;
-      remove(id: number): void;
-    };
-    reply: {
-      votes: Votes;
-      create(data: { id: number; content: string }): Reply;
-      update(data: { id: number; content: string }): void;
-      upvote(data: { id: number; on: boolean }): void;
-      downvote(data: { id: number; on: boolean }): void;
-      remove(data: { id: number }): void;
-    };
-  };
+
+  comment(data: { content: string }): Comment;
+  updateComment(data: { id: number; content: string }): void;
+  upvoteComment(data: { id: number; on: boolean }): void;
+  downvoteComment(data: { id: number; on: boolean }): void;
+  replyToComment(data: { id: number; content: string }): Reply;
+  removeComment(data: { id: number }): void;
+  getVoteStateForComment(data: {
+    id: number;
+  }): "upvoted" | "downvoted" | "none";
+
+  replyToReply(data: { id: number; content: string }): Reply;
+  updateReply(data: { id: number; content: string }): void;
+  upvoteReply(data: { id: number; on: boolean }): void;
+  downvoteReply(data: { id: number; on: boolean }): void;
+  removeReply(data: { id: number }): void;
+  getVoteStateForReply(data: { id: number }): "upvoted" | "downvoted" | "none";
 } | null>(null);
 
 function serializedState<T>(
@@ -185,189 +183,185 @@ export function CommentsProvider({ children }: { children: ReactNode }) {
     <CommentsContext.Provider
       value={{
         comments,
-        votes,
-        db: {
-          comment: {
-            create(content) {
-              const comment: Comment = {
-                content,
-                // todo: Timestamp
-                createdAt: "Just now",
-                id: nextCommentId,
-                score: 0,
-                user,
-                replies: [],
-              };
-              setSourceComments([...sourceComments, comment]);
-              return comment;
-            },
-            update({ id, content }) {
-              const comment = sourceComments.find(
-                (comment) => comment.id === id
-              );
-              invariant(comment, "Comment not found");
+        comment({ content }) {
+          const comment: Comment = {
+            content,
+            // todo: Timestamp
+            createdAt: "Just now",
+            id: nextCommentId,
+            score: 0,
+            user,
+            replies: [],
+          };
 
-              const nextComment = { ...comment, content };
-              setSourceComments(
-                sourceComments.map((comment) =>
-                  comment.id === nextComment.id ? nextComment : comment
-                )
-              );
-            },
-            upvote({ id, on }) {
-              const filteredVotes = votes.filter(
-                (vote) => vote.messageId !== id
-              );
-              const nextVotes: Votes = on
-                ? [...filteredVotes, { messageId: id, type: "upvote" }]
-                : filteredVotes;
+          setSourceComments([...sourceComments, comment]);
+          return comment;
+        },
+        updateComment({ id, content }) {
+          const comment = sourceComments.find((comment) => comment.id === id);
+          invariant(comment, "Comment not found");
 
-              setRawVotes(nextVotes);
-            },
-            downvote({ id, on }) {
-              const filteredVotes = votes.filter(
-                (vote) => vote.messageId !== id
-              );
-              const nextVotes: Votes = on
-                ? [...filteredVotes, { messageId: id, type: "downvote" }]
-                : filteredVotes;
+          const nextComment: Comment = { ...comment, content };
+          setSourceComments(
+            sourceComments.map((comment) =>
+              comment.id === nextComment.id ? nextComment : comment
+            )
+          );
+        },
+        upvoteComment({ id, on }) {
+          const filteredVotes = votes.filter((vote) => vote.messageId !== id);
+          const nextVotes: Votes = on
+            ? [...filteredVotes, { messageId: id, type: "upvote" }]
+            : filteredVotes;
 
-              setRawVotes(nextVotes);
-            },
-            reply({ id, content }) {
-              const comment = sourceComments.find(
-                (comment) => comment.id === id
-              );
-              invariant(comment, "Comment not found");
+          setRawVotes(nextVotes);
+        },
+        downvoteComment({ id, on }) {
+          const filteredVotes = votes.filter((vote) => vote.messageId !== id);
+          const nextVotes: Votes = on
+            ? [...filteredVotes, { messageId: id, type: "downvote" }]
+            : filteredVotes;
 
-              const reply: Reply = {
-                content,
-                // todo: Timestamp
-                createdAt: "Just now",
-                id: nextReplyId,
-                replyingTo: comment.user.username,
-                score: 0,
-                user,
-              };
+          setRawVotes(nextVotes);
+        },
+        replyToComment({ id, content }) {
+          const comment = sourceComments.find((comment) => comment.id === id);
+          invariant(comment, "Comment not found");
 
-              setSourceComments(
-                sourceComments.map((c) =>
-                  c.id === comment.id
-                    ? {
-                        ...comment,
-                        replies: [...comment.replies, reply],
-                      }
-                    : c
-                )
-              );
-              return reply;
-            },
-            remove(id) {
-              const comment = sourceComments.find(
-                (comment) => comment.id === id
-              );
-              invariant(comment, "Comment not found");
-              invariant(comment.user.username === user.username, "Forbidden");
+          const reply: Reply = {
+            content,
+            // todo: Timestamp
+            createdAt: "Just now",
+            id: nextReplyId,
+            replyingTo: comment.user.username,
+            score: 0,
+            user,
+          };
 
-              setSourceComments(
-                sourceComments.filter((c) => c.id !== comment.id)
-              );
-              setRawVotes(votes.filter((vote) => vote.messageId !== id));
-            },
-          },
-          reply: {
-            votes: replyVotes,
-            create({ content, id }) {
-              const comment = sourceComments.find((comment) =>
-                comment.replies.find((reply) => reply.id === id)
-              );
-              invariant(comment, "Parent comment not found");
-              const reply = comment.replies.find((reply) => reply.id === id);
-              invariant(reply, "Reply not found");
+          setSourceComments(
+            sourceComments.map((c) =>
+              c.id === comment.id
+                ? {
+                    ...comment,
+                    replies: [...comment.replies, reply],
+                  }
+                : c
+            )
+          );
+          return reply;
+        },
+        removeComment({ id }) {
+          const comment = sourceComments.find((comment) => comment.id === id);
+          invariant(comment, "Comment not found");
+          invariant(comment.user.username === user.username, "Forbidden");
 
-              const newReply: Reply = {
-                content,
-                createdAt: "Just now",
-                id: nextReplyId,
-                replyingTo: reply.user.username,
-                score: 0,
-                user,
-              };
+          setSourceComments(sourceComments.filter((c) => c.id !== comment.id));
+          setRawVotes(votes.filter((vote) => vote.messageId !== id));
+        },
+        getVoteStateForComment({ id }) {
+          const vote = votes.find((vote) => vote.messageId === id);
+          return vote?.type === "upvote"
+            ? "upvoted"
+            : vote?.type === "downvote"
+            ? "downvoted"
+            : "none";
+        },
 
-              setSourceComments([
-                ...sourceComments.map((c) =>
-                  c.id === comment.id
-                    ? {
-                        ...comment,
-                        replies: [...comment.replies, newReply],
-                      }
-                    : c
-                ),
-              ]);
-              return newReply;
-            },
-            update({ content, id }) {
-              const comment = sourceComments.find((comment) =>
-                comment.replies.find((reply) => reply.id === id)
-              );
-              invariant(comment, "Parent comment not found");
-              const reply = comment.replies.find((reply) => reply.id === id);
-              invariant(reply, "Reply not found");
+        replyToReply({ content, id }) {
+          const comment = sourceComments.find((comment) =>
+            comment.replies.find((reply) => reply.id === id)
+          );
+          invariant(comment, "Parent comment not found");
+          const reply = comment.replies.find((reply) => reply.id === id);
+          invariant(reply, "Reply not found");
 
-              setSourceComments([
-                ...sourceComments.map((c) =>
-                  c.id === comment.id
-                    ? {
-                        ...comment,
-                        replies: comment.replies.map((r) =>
-                          r.id === reply.id ? { ...reply, content } : r
-                        ),
-                      }
-                    : c
-                ),
-              ]);
-            },
-            upvote({ id, on }) {
-              const filteredVotes = replyVotes.filter(
-                (vote) => vote.messageId !== id
-              );
-              const nextVotes: Votes = on
-                ? [...filteredVotes, { messageId: id, type: "upvote" }]
-                : filteredVotes;
+          const newReply: Reply = {
+            content,
+            createdAt: "Just now",
+            id: nextReplyId,
+            replyingTo: reply.user.username,
+            score: 0,
+            user,
+          };
 
-              setRawReplyVotes(nextVotes);
-            },
-            downvote({ id, on }) {
-              const filteredVotes = replyVotes.filter(
-                (vote) => vote.messageId !== id
-              );
-              const nextVotes: Votes = on
-                ? [...filteredVotes, { messageId: id, type: "downvote" }]
-                : filteredVotes;
+          setSourceComments([
+            ...sourceComments.map((c) =>
+              c.id === comment.id
+                ? {
+                    ...comment,
+                    replies: [...comment.replies, newReply],
+                  }
+                : c
+            ),
+          ]);
+          return newReply;
+        },
+        updateReply({ content, id }) {
+          const comment = sourceComments.find((comment) =>
+            comment.replies.find((reply) => reply.id === id)
+          );
+          invariant(comment, "Parent comment not found");
+          const reply = comment.replies.find((reply) => reply.id === id);
+          invariant(reply, "Reply not found");
 
-              setRawReplyVotes(nextVotes);
-            },
-            remove({ id }) {
-              const comment = sourceComments.find((comment) =>
-                comment.replies.find((reply) => reply.id === id)
-              );
-              invariant(comment, "Parent comment not found");
+          setSourceComments([
+            ...sourceComments.map((c) =>
+              c.id === comment.id
+                ? {
+                    ...comment,
+                    replies: comment.replies.map((r) =>
+                      r.id === reply.id ? { ...reply, content } : r
+                    ),
+                  }
+                : c
+            ),
+          ]);
+        },
+        upvoteReply({ id, on }) {
+          const filteredVotes = replyVotes.filter(
+            (vote) => vote.messageId !== id
+          );
+          const nextVotes: Votes = on
+            ? [...filteredVotes, { messageId: id, type: "upvote" }]
+            : filteredVotes;
 
-              setSourceComments([
-                ...sourceComments.map((c) =>
-                  c.id === comment.id
-                    ? {
-                        ...comment,
-                        replies: comment.replies.filter((r) => r.id !== id),
-                      }
-                    : c
-                ),
-              ]);
-              setRawReplyVotes(
-                replyVotes.filter((vote) => vote.messageId !== id)
-              );
-            },
-          },
+          setRawReplyVotes(nextVotes);
+        },
+        downvoteReply({ id, on }) {
+          const filteredVotes = replyVotes.filter(
+            (vote) => vote.messageId !== id
+          );
+          const nextVotes: Votes = on
+            ? [...filteredVotes, { messageId: id, type: "downvote" }]
+            : filteredVotes;
+
+          setRawReplyVotes(nextVotes);
+        },
+        removeReply({ id }) {
+          const comment = sourceComments.find((comment) =>
+            comment.replies.find((reply) => reply.id === id)
+          );
+          invariant(comment, "Parent comment not found");
+
+          setSourceComments([
+            ...sourceComments.map((c) =>
+              c.id === comment.id
+                ? {
+                    ...comment,
+                    replies: comment.replies.filter((r) => r.id !== id),
+                  }
+                : c
+            ),
+          ]);
+          setRawReplyVotes(replyVotes.filter((vote) => vote.messageId !== id));
+        },
+        getVoteStateForReply({ id }) {
+          const vote = replyVotes.find((vote) => vote.messageId === id);
+          return vote?.type === "upvote"
+            ? "upvoted"
+            : vote?.type === "downvote"
+            ? "downvoted"
+            : "none";
         },
       }}
     >
