@@ -23,7 +23,7 @@ export function Layout() {
         </nav>
       </header>
       <main>
-        <div className="max-w-3xl mx-auto py-6 tablet:py-20">
+        <div className="py-6 tablet:py-20">
           <Outlet />
         </div>
       </main>

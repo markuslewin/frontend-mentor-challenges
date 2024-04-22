@@ -1,9 +1,35 @@
 export function Home() {
   return (
-    <>
-      <h1 className="text-heading-l">My React template</h1>
-      <p className="mt-8">This is my React template.</p>
-    </>
+    <div className="bg-0B0D17 text-FFFFFF">
+      <h1>My React template</h1>
+      <p className="font-bellefair text-heading-1">
+        So, you want to travel to space?
+      </p>
+      <p className="font-bellefair text-heading-2">
+        So, you want to travel to space?
+      </p>
+      <p className="font-bellefair text-heading-3">
+        So, you want to travel to space?
+      </p>
+      <p className="font-bellefair text-heading-4">
+        So, you want to travel to space?
+      </p>
+      <p className="font-barlow-condensed text-heading-5">
+        So, you want to travel to space?
+      </p>
+      <p className="font-bellefair text-subheading-1">
+        So, you want to travel to space?
+      </p>
+      <p className="font-barlow-condensed text-subheading-2">
+        So, you want to travel to space?
+      </p>
+      <p className="font-barlow-condensed text-nav-text">
+        So, you want to travel to space?
+      </p>
+      <p className="font-barlow text-body-text">
+        So, you want to travel to space?
+      </p>
+    </div>
   );
 }
 

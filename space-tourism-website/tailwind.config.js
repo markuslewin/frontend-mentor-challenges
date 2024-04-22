@@ -11,19 +11,35 @@ export default {
       tablet: "40em",
       desktop: "64em",
     },
-    // todo: Add colors
-    // colors: {
-    //   "moderate-blue": "hsl(238 40% 52%)",
-    // },
+    colors: {
+      "0B0D17": "hsl(230 35% 7%)",
+      D0D6F9: "hsl(231 77% 90%)",
+      FFFFFF: "hsl(0 0% 100%)",
+    },
     fontFamily: {
-      // todo: Add font from Fontsource
-      base: "Inter, system-ui, Avenir, Helvetica, Arial, sans-serif",
+      bellefair: "'Bellefair', serif",
+      "barlow-condensed": "'Barlow Condensed', sans-serif",
+      barlow: "'Barlow', sans-serif",
     },
     fontSize: {
-      // todo: Add font sizes
-      "heading-l": [rem(48), { fontWeight: 500, lineHeight: rem(48) }],
-      "heading-m": [rem(39), { fontWeight: 500, lineHeight: rem(39) }],
-      body: [rem(20), { lineHeight: rem(24) }],
+      "heading-1": [rem(150), { fontWeight: 400, lineHeight: rem(172) }],
+      "heading-2": [rem(100), { fontWeight: 400, lineHeight: rem(115) }],
+      "heading-3": [rem(56), { fontWeight: 400, lineHeight: rem(64) }],
+      "heading-4": [rem(32), { fontWeight: 400, lineHeight: rem(37) }],
+      "heading-5": [
+        rem(28),
+        { fontWeight: 400, lineHeight: rem(34), letterSpacing: rem(4.72) },
+      ],
+      "subheading-1": [rem(28), { fontWeight: 400, lineHeight: rem(32) }],
+      "subheading-2": [
+        rem(14),
+        { fontWeight: 400, lineHeight: rem(17), letterSpacing: rem(2.36) },
+      ],
+      "nav-text": [
+        rem(16),
+        { fontWeight: 400, lineHeight: rem(19), letterSpacing: rem(2.7) },
+      ],
+      "body-text": [rem(18), { fontWeight: 400, lineHeight: rem(32) }],
     },
     extend: {},
   },
