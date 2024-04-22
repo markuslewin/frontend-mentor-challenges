@@ -1,27 +1,15 @@
-import { NavLink, Outlet } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 
 export function DestinationRoute() {
   return (
-    <>
-      <h1>Destination</h1>
-      {/* todo: Name nav */}
-      <nav>
-        <ul className="flex flex-wrap gap-4">
-          <li>
-            <NavLink to="/destination">Moon</NavLink>
-          </li>
-          <li>
-            <NavLink to="/destination/mars">Mars</NavLink>
-          </li>
-          <li>
-            <NavLink to="/destination/europa">Europa</NavLink>
-          </li>
-          <li>
-            <NavLink to="/destination/titan">Titan</NavLink>
-          </li>
-        </ul>
-      </nav>
+    <div className="mt-6 tablet:mt-10 desktop:mt-[4.75rem] max-w-[74.25rem] w-full mx-auto px-6 tablet:px-10">
+      <h1 className="text-FFFFFF font-barlow-condensed text-nav-text tablet:text-[1.25rem] tablet:leading-[1.5rem] tablet:tracking-[0.21125rem] desktop:text-heading-5 uppercase flex gap-[1.125rem] desktop:gap-7">
+        <span className="text-FFFFFF/25 font-bold" aria-hidden="true">
+          01
+        </span>
+        Pick your destination
+      </h1>
       <Outlet />
-    </>
+    </div>
   );
 }
