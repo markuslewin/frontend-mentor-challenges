@@ -5,3 +5,17 @@
 :root {
   color-scheme: dark;
 }
+
+body {
+  @apply bg-0B0D17 text-D0D6F9 font-barlow desktop:text-body-text;
+
+  font-size: 0.9375rem;
+  line-height: 1.5625rem;
+}
+
+@screen tablet {
+  body {
+    font-size: 1rem;
+    line-height: 1.75rem;
+  }
+}

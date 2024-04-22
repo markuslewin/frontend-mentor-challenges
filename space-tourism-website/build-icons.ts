@@ -22,6 +22,7 @@ import { $ } from "execa";
 import fsExtra from "fs-extra";
 import { glob } from "glob";
 import { parse } from "node-html-parser";
+import { invariant } from "@epic-web/invariant";
 
 const cwd = process.cwd();
 const inputDir = path.join(cwd, "svg-icons");
@@ -134,6 +135,17 @@ async function generateSvgSprite({
 
       const svg = root.querySelector("svg");
       if (!svg) throw new Error("No SVG element found");
+
+      if (!svg.getAttribute("viewBox")) {
+        const width = svg.getAttribute("width");
+        const height = svg.getAttribute("height");
+        invariant(
+          typeof width === "string" && typeof height === "string",
+          "SVG element missing required attributes. Make sure it has either viewBox or width and height"
+        );
+
+        svg.setAttribute("viewBox", `0 0 ${width} ${height}`);
+      }
 
       svg.tagName = "symbol";
       svg.setAttribute("id", iconName(file));
