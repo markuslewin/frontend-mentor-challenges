@@ -11,16 +11,13 @@ export function Layout() {
               <MyNavLink to="/">Home</MyNavLink>
             </li>
             <li>
-              <MyNavLink to="/api-endpoint">API endpoint</MyNavLink>
+              <MyNavLink to="/destination">Destination</MyNavLink>
             </li>
             <li>
-              <MyNavLink to="/form-validation">Form validation</MyNavLink>
+              <MyNavLink to="/crew">Crew</MyNavLink>
             </li>
             <li>
-              <MyNavLink to="/nested-routes">Nested routes</MyNavLink>
-            </li>
-            <li>
-              <MyNavLink to="/optimized-image">Optimized image</MyNavLink>
+              <MyNavLink to="/technology">Technology</MyNavLink>
             </li>
           </ul>
         </nav>
