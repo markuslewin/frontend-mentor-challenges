@@ -4,7 +4,7 @@ import { ReactNode } from "react";
 
 export function Layout() {
   return (
-    <div className="min-h-screen grid grid-rows-[max-content_1fr]">
+    <div className="min-h-[min(100vh,63rem)] grid grid-rows-[max-content_1fr]">
       <header className="mt-6 tablet:mt-0 desktop:mt-10 px-6 tablet:px-10 flex flex-wrap justify-between items-center">
         <Link to="/">
           <Icon className="size-10 tablet:size-12" name="logo" />
