@@ -2,20 +2,20 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { Layout } from "./components/layout";
 import { Home } from "./routes/home";
 import { OptimizedImage } from "./routes/optimized-image";
-import { DestinationLayout } from "./components/destination-layout";
-import { CrewRoute } from "./routes/crew";
-import { TechnologyRoute } from "./routes/technology";
+import {
+  DestinationLayout,
+  CrewLayout,
+  TechnologyLayout,
+} from "./components/sublayout";
 import {
   DestinationRoute,
   loader as destinationLoader,
 } from "./routes/destination.($slug)";
-import { TechnologyLaunchVehicleRoute } from "./routes/technology.launch-vehicle";
-import { TechnologySpaceportRoute } from "./routes/technology.spaceport";
-import { TechnologySpaceCapsuleRoute } from "./routes/technology.space-capsule";
-import { CrewAnoushehAnsariRoute } from "./routes/crew.anousheh-ansari";
-import { CrewVictorGloverRoute } from "./routes/crew.victor-glover";
-import { CrewMarkShuttleworthRoute } from "./routes/crew.mark-shuttleworth";
-import { CrewDouglasHurleyRoute } from "./routes/crew.douglas-hurley";
+import { CrewRoute, loader as crewLoader } from "./routes/crew.($slug)";
+import {
+  TechnologyRoute,
+  loader as technologyLoader,
+} from "./routes/technology.($slug)";
 
 const router = createBrowserRouter([
   {
@@ -37,44 +37,22 @@ const router = createBrowserRouter([
         ],
       },
       {
-        path: "crew",
-        Component: CrewRoute,
+        Component: CrewLayout,
         children: [
           {
-            // todo: Douglas Hurley
-            index: true,
-            Component: CrewDouglasHurleyRoute,
-          },
-          {
-            path: "mark-shuttleworth",
-            Component: CrewMarkShuttleworthRoute,
-          },
-          {
-            path: "victor-glover",
-            Component: CrewVictorGloverRoute,
-          },
-          {
-            path: "anousheh-ansari",
-            Component: CrewAnoushehAnsariRoute,
+            path: "crew/:slug?",
+            loader: crewLoader,
+            Component: CrewRoute,
           },
         ],
       },
       {
-        path: "technology",
-        Component: TechnologyRoute,
+        Component: TechnologyLayout,
         children: [
           {
-            // todo: launch-vehicle
-            index: true,
-            Component: TechnologyLaunchVehicleRoute,
-          },
-          {
-            path: "spaceport",
-            Component: TechnologySpaceportRoute,
-          },
-          {
-            path: "space-capsule",
-            Component: TechnologySpaceCapsuleRoute,
+            path: "technology/:slug?",
+            loader: technologyLoader,
+            Component: TechnologyRoute,
           },
         ],
       },

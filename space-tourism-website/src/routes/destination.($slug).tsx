@@ -4,10 +4,10 @@ import {
   LoaderFunctionArgs,
   NavLink,
   NavLinkProps,
-  redirect,
   useLoaderData,
 } from "react-router-dom";
 import data from "../data/data.json";
+import { assertValidSlug } from "../utils/assert-valid-slug";
 
 interface LoaderData {
   destination: (typeof data)["destinations"][number];
@@ -15,16 +15,7 @@ interface LoaderData {
 
 export function loader({ params }: LoaderFunctionArgs) {
   const { slug } = params;
-  if (slug === undefined) return redirect("/destination/moon");
-
-  invariantResponse(
-    slug === ("moon" as const) ||
-      slug === ("mars" as const) ||
-      slug === ("europa" as const) ||
-      slug === ("titan" as const),
-    "Not found",
-    { status: 404 }
-  );
+  assertValidSlug(["moon", "mars", "europa", "titan"] as const, slug);
 
   const name = (
     { moon: "Moon", mars: "Mars", europa: "Europa", titan: "Titan" } as const
