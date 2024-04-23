@@ -8,6 +8,7 @@ import {
 } from "react-router-dom";
 import data from "../data/data.json";
 import { assertValidSlug } from "../utils/assert-valid-slug";
+import { toRootAbsolute } from "../utils/to-root-absolute";
 
 interface LoaderData {
   destination: (typeof data)["destinations"][number];
@@ -31,8 +32,8 @@ export function loader({ params }: LoaderFunctionArgs) {
     destination: {
       ...destination,
       images: {
-        webp: images.webp.replace(/^\.\//, "/"),
-        png: images.png.replace(/^\.\//, "/"),
+        webp: toRootAbsolute(images.webp),
+        png: toRootAbsolute(images.png),
       },
     },
   } satisfies LoaderData;

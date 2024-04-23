@@ -19,3 +19,20 @@ body {
     line-height: 1.75rem;
   }
 }
+
+.dot::before {
+  --dot-size: 0.625rem;
+
+  content: "";
+  display: block;
+  width: var(--dot-size);
+  height: var(--dot-size);
+  border-top: var(--dot-size) solid;
+  border-radius: 50%;
+}
+
+@screen desktop {
+  .dot::before {
+    --dot-size: 0.9375rem;
+  }
+}
