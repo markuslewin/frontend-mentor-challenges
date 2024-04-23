@@ -1,20 +1,66 @@
+import { invariantResponse } from "@epic-web/invariant";
 import { ReactNode, useId } from "react";
-import { NavLink, NavLinkProps } from "react-router-dom";
+import {
+  LoaderFunctionArgs,
+  NavLink,
+  NavLinkProps,
+  redirect,
+  useLoaderData,
+} from "react-router-dom";
+import data from "../data/data.json";
 
-export function DestinationMoonRoute() {
+interface LoaderData {
+  destination: (typeof data)["destinations"][number];
+}
+
+export function loader({ params }: LoaderFunctionArgs) {
+  const { slug } = params;
+  if (slug === undefined) return redirect("/destination/moon");
+
+  invariantResponse(
+    slug === ("moon" as const) ||
+      slug === ("mars" as const) ||
+      slug === ("europa" as const) ||
+      slug === ("titan" as const),
+    "Not found",
+    { status: 404 }
+  );
+
+  const name = (
+    { moon: "Moon", mars: "Mars", europa: "Europa", titan: "Titan" } as const
+  )[slug];
+  const destination = data.destinations.find(
+    (destination) => destination.name === name
+  );
+  invariantResponse(destination, "Not found", { status: 404 });
+
+  const { images } = destination;
+
+  return {
+    destination: {
+      ...destination,
+      images: {
+        webp: images.webp.replace(/^\.\//, "/"),
+        png: images.png.replace(/^\.\//, "/"),
+      },
+    },
+  } satisfies LoaderData;
+}
+
+export function DestinationRoute() {
+  const { destination } = useLoaderData() as LoaderData;
   const destinationsHeadingId = useId();
 
   return (
     <div className="mt-8 tablet:mt-[3.75rem] desktop:mt-16 pb-14 tablet:pb-16 desktop:pb-28 desktop:grid desktop:grid-cols-[minmax(0,31.8125rem)_minmax(0,27.8125rem)] desktop:justify-between desktop:gap-12">
       <picture className="place-self-end">
-        <source
-          type="image/webp"
-          srcSet="/assets/destination/image-moon.webp"
-        />
+        <source type="image/webp" srcSet={destination.images.webp} />
         <img
-          className="mx-auto desktop:mx-0 max-w-[10.625rem] tablet:max-w-[18.75rem] desktop:max-w-full"
+          className="mx-auto desktop:mx-0 w-[10.625rem] tablet:w-[18.75rem] desktop:w-full"
           alt=""
-          src="/assets/destination/image-moon.png"
+          width={445}
+          height={445}
+          src={destination.images.png}
         />
       </picture>
       <article className="mt-7 tablet:mt-14 desktop:mt-0 mx-auto desktop:mx-0 max-w-[35.8125rem] desktop:max-w-[27.8125rem]">
@@ -28,7 +74,9 @@ export function DestinationMoonRoute() {
             </h2>
             <ul className="mx-auto desktop:mx-0 max-w-[14.875rem] tablet:max-w-[17.875rem] flex justify-between">
               <li>
-                <DestinationNavLink to="/destination">Moon</DestinationNavLink>
+                <DestinationNavLink to="/destination/moon">
+                  Moon
+                </DestinationNavLink>
               </li>
               <li>
                 <DestinationNavLink to="/destination/mars">
@@ -50,24 +98,19 @@ export function DestinationMoonRoute() {
         </header>
         <div className="text-center desktop:text-start">
           <h2 className="text-FFFFFF mt-5 tablet:mt-8 desktop:mt-9 font-bellefair text-heading-3 tablet:text-[5rem] tablet:leading-[5.75rem] desktop:text-heading-2 uppercase">
-            Moon
+            {destination.name}
           </h2>
-          <p className="tablet:mt-2 desktop:mt-4">
-            See our planet as you’ve never seen it before. A perfect relaxing
-            trip away to help regain perspective and come back refreshed. While
-            you’re there, take in some history by visiting the Luna 2 and Apollo
-            11 landing sites.
-          </p>
+          <p className="tablet:mt-2 desktop:mt-4">{destination.description}</p>
         </div>
         <hr className="text-[hsl(231,15%,26%)] mt-8 tablet:mt-12 desktop:mt-14" />
         <div className="mt-8 tablet:mt-7 tablet:mx-auto desktop:mx-0 tablet:max-w-[22.5rem] desktop:max-w-none grid tablet:grid-cols-[auto_auto] tablet:justify-between desktop:grid-cols-2 gap-8 tablet:gap-0 text-center desktop:text-start">
           <Stat>
             <StatKey>Avg. distance</StatKey>
-            <StatValue>384,400 km</StatValue>
+            <StatValue>{destination.distance}</StatValue>
           </Stat>
           <Stat>
             <StatKey>Est. travel time</StatKey>
-            <StatValue>3 days</StatValue>
+            <StatValue>{destination.travel}</StatValue>
           </Stat>
         </div>
       </article>

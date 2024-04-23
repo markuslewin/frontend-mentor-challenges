@@ -2,13 +2,13 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { Layout } from "./components/layout";
 import { Home } from "./routes/home";
 import { OptimizedImage } from "./routes/optimized-image";
-import { DestinationRoute } from "./routes/destination";
+import { DestinationLayout } from "./components/destination-layout";
 import { CrewRoute } from "./routes/crew";
 import { TechnologyRoute } from "./routes/technology";
-import { DestinationMoonRoute } from "./routes/destination.moon";
-import { DestinationMarsRoute } from "./routes/destination.mars";
-import { DestinationEuropaRoute } from "./routes/destination.europa";
-import { DestinationTitanRoute } from "./routes/destination.titan";
+import {
+  DestinationRoute,
+  loader as destinationLoader,
+} from "./routes/destination.($slug)";
 import { TechnologyLaunchVehicleRoute } from "./routes/technology.launch-vehicle";
 import { TechnologySpaceportRoute } from "./routes/technology.spaceport";
 import { TechnologySpaceCapsuleRoute } from "./routes/technology.space-capsule";
@@ -27,25 +27,12 @@ const router = createBrowserRouter([
         Component: Home,
       },
       {
-        path: "destination",
-        Component: DestinationRoute,
+        Component: DestinationLayout,
         children: [
           {
-            // todo: Moon
-            index: true,
-            Component: DestinationMoonRoute,
-          },
-          {
-            path: "mars",
-            Component: DestinationMarsRoute,
-          },
-          {
-            path: "europa",
-            Component: DestinationEuropaRoute,
-          },
-          {
-            path: "titan",
-            Component: DestinationTitanRoute,
+            path: "destination/:slug?",
+            loader: destinationLoader,
+            Component: DestinationRoute,
           },
         ],
       },
