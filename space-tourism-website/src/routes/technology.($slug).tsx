@@ -11,6 +11,10 @@ import { useId } from "react";
 import { toRootAbsolute } from "../utils/to-root-absolute";
 import { screens } from "../utils/screens";
 
+export const handle = {
+  name: "technology",
+};
+
 interface LoaderData {
   technology: (typeof data)["technology"][number];
 }

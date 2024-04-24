@@ -10,10 +10,16 @@ import {
 import {
   DestinationRoute,
   loader as destinationLoader,
+  handle as destinationHandle,
 } from "./routes/destination.($slug)";
-import { CrewRoute, loader as crewLoader } from "./routes/crew.($slug)";
+import {
+  CrewRoute,
+  loader as crewLoader,
+  handle as crewHandle,
+} from "./routes/crew.($slug)";
 import {
   TechnologyRoute,
+  handle as technologyHandle,
   loader as technologyLoader,
 } from "./routes/technology.($slug)";
 
@@ -31,6 +37,7 @@ const router = createBrowserRouter([
         children: [
           {
             path: "destination/:slug?",
+            handle: destinationHandle,
             loader: destinationLoader,
             Component: DestinationRoute,
           },
@@ -41,6 +48,7 @@ const router = createBrowserRouter([
         children: [
           {
             path: "crew/:slug?",
+            handle: crewHandle,
             loader: crewLoader,
             Component: CrewRoute,
           },
@@ -51,6 +59,7 @@ const router = createBrowserRouter([
         children: [
           {
             path: "technology/:slug?",
+            handle: technologyHandle,
             loader: technologyLoader,
             Component: TechnologyRoute,
           },

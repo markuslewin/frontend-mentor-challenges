@@ -10,6 +10,10 @@ import data from "../data/data.json";
 import { assertValidSlug } from "../utils/assert-valid-slug";
 import { toRootAbsolute } from "../utils/to-root-absolute";
 
+export const handle = {
+  name: "destination",
+};
+
 interface LoaderData {
   destination: (typeof data)["destinations"][number];
 }
