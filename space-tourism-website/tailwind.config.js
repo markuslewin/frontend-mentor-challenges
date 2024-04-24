@@ -2,15 +2,13 @@ import { clickable } from "./tailwind/clickable";
 import { hocus } from "./tailwind/hocus";
 import { rem } from "./tailwind/rem";
 import { shape } from "./tailwind/shape";
+import { screens } from "./src/utils/screens";
 
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
-    screens: {
-      tablet: "40em",
-      desktop: "64em",
-    },
+    screens,
     colors: {
       "0B0D17": "hsl(230 35% 7%)",
       D0D6F9: "hsl(231 77% 90%)",

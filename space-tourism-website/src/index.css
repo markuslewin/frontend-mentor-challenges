@@ -36,3 +36,30 @@ body {
     --dot-size: 0.9375rem;
   }
 }
+
+@screen desktop {
+  .technology-layout {
+    display: grid;
+    grid-template-areas:
+      ". . . . image"
+      "nav . text . image";
+    grid-template-columns:
+      max-content 80fr minmax(auto, 29.375rem)
+      130fr
+      21.875rem;
+    grid-template-rows: 6.9375rem 1fr;
+    column-gap: 1rem;
+  }
+
+  .technology-layout__nav {
+    grid-area: nav;
+  }
+
+  .technology-layout__text {
+    grid-area: text;
+  }
+
+  .technology-layout__image {
+    grid-area: image;
+  }
+}

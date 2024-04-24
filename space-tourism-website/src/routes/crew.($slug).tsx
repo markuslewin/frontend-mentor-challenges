@@ -63,7 +63,7 @@ export function CrewRoute() {
   const crewHeadingId = useId();
 
   return (
-    <div className="mt-8 tablet:mt-[3.75rem] desktop:mt-0 pb-28 tablet:pb-0 grid desktop:grid-cols-2">
+    <div className="mt-8 tablet:mt-[3.75rem] desktop:mt-0 mx-auto max-w-[74.25rem] px-6 tablet:px-10 pb-28 tablet:pb-0 grid desktop:grid-cols-2">
       <div className="order-3 tablet:order-1 mt-8 tablet:mt-0 mx-auto desktop:mx-0 max-w-[28.625rem] desktop:max-w-none text-center desktop:text-start">
         <h2 className="text-FFFFFF/50 font-bellefair text-[1rem] leading-[1.125rem] tablet:text-[1.5rem] tablet:leading-[1.75rem] desktop:text-heading-4 uppercase">
           {member.role}{" "}

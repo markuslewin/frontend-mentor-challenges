@@ -44,7 +44,7 @@ export function DestinationRoute() {
   const destinationsHeadingId = useId();
 
   return (
-    <div className="mt-8 tablet:mt-[3.75rem] desktop:mt-16 pb-14 tablet:pb-16 desktop:pb-28 desktop:grid desktop:grid-cols-[minmax(0,31.8125rem)_minmax(0,27.8125rem)] desktop:justify-between desktop:gap-12">
+    <div className="mt-8 tablet:mt-[3.75rem] desktop:mt-16 mx-auto max-w-[74.25rem] px-6 tablet:px-10 pb-14 tablet:pb-16 desktop:pb-28 desktop:grid desktop:grid-cols-[minmax(0,31.8125rem)_minmax(0,27.8125rem)] desktop:justify-between desktop:gap-12">
       <picture className="place-self-end">
         <source type="image/webp" srcSet={destination.images.webp} />
         <img

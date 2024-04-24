@@ -39,15 +39,13 @@ export function TechnologyLayout() {
 
 function Sublayout({ children }: { children: ReactNode }) {
   return (
-    <div className="mt-6 tablet:mt-10 desktop:mt-[4.75rem] max-w-[74.25rem] w-full mx-auto px-6 tablet:px-10">
-      {children}
-    </div>
+    <div className="mt-6 tablet:mt-10 desktop:mt-[4.75rem]">{children}</div>
   );
 }
 
 function SublayoutHeading({ children }: { children: ReactNode }) {
   return (
-    <h1 className="text-FFFFFF font-barlow-condensed text-nav-text tablet:text-[1.25rem] tablet:leading-[1.5rem] tablet:tracking-[0.21125rem] desktop:text-heading-5 uppercase flex gap-[1.125rem] desktop:gap-7">
+    <h1 className="text-FFFFFF mx-auto max-w-[74.25rem] font-barlow-condensed text-nav-text tablet:text-[1.25rem] tablet:leading-[1.5rem] tablet:tracking-[0.21125rem] desktop:text-heading-5 px-6 tablet:px-10 uppercase flex justify-center tablet:justify-normal gap-[1.125rem] desktop:gap-7">
       {children}
     </h1>
   );

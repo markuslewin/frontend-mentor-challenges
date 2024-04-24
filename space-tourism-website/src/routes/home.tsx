@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 export function Home() {
   return (
-    <div className="mt-12 tablet:mt-[6.625rem] desktop:mt-48 max-w-[72.25rem] mx-auto w-full pb-12 tablet:pb-[5.625rem] desktop:pb-[8.1875rem] px-6 desktop:grid desktop:grid-cols-2 desktop:items-end">
+    <div className="mt-12 tablet:mt-[6.625rem] desktop:mt-48 max-w-[72.25rem] mx-auto w-full pb-12 tablet:pb-[5.625rem] desktop:pb-[8.1875rem] px-6 tablet:px-10 desktop:grid desktop:grid-cols-2 desktop:items-end">
       <div className="mx-auto desktop:mx-0 max-w-[28.125rem] text-center desktop:text-start">
         <h1 className="font-barlow-condensed text-subheading-2 tablet:text-[1.25rem] tablet:leading-[1.5rem] desktop:text-heading-5 uppercase">
           So, you want to travel to{" "}
