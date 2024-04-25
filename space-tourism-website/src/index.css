@@ -235,12 +235,34 @@ body {
   }
 }
 
+.crew-layout {
+  grid-template-areas:
+    "image"
+    "nav"
+    "text";
+}
+
 .crew-layout__text {
+  grid-area: text;
   margin-top: 2rem;
 }
 
+.crew-layout__image {
+  grid-area: image;
+}
+
 .crew-layout__nav {
+  grid-area: nav;
   margin-top: 2rem;
+}
+
+@screen tablet {
+  .crew-layout {
+    grid-template-areas:
+      "text"
+      "nav"
+      "image";
+  }
 }
 
 @screen tablet {
