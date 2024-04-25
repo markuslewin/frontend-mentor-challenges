@@ -9,18 +9,21 @@ export function Layout() {
   return (
     <div className="background" data-name={name ?? undefined}>
       <div className="min-h-[min(100vh,63rem)] grid grid-rows-[max-content_1fr]">
-        <header className="mt-6 tablet:mt-0 desktop:mt-10 px-6 tablet:px-10 flex flex-wrap justify-between items-center">
-          <Link to="/">
+        <header className="header glassy mt-6 tablet:mt-0 desktop:mt-10 px-6 tablet:pr-0 tablet:pl-10 desktop:px-10">
+          <Link
+            className="desktop:justify-self-end desktop:grid desktop:grid-cols-[max-content,minmax(2rem,4rem)]"
+            to="/"
+          >
             <Icon className="size-10 tablet:size-12" name="logo" />
             <span className="sr-only">Home</span>
           </Link>
-          <nav className="font-barlow-condensed text-nav-text uppercase">
+          <nav className="flex items-center font-barlow-condensed text-nav-text uppercase desktop:before:h-px desktop:before:bg-FFFFFF/25 desktop:before:grow desktop:before:-mr-8 desktop:before:z-10">
             <button className="tablet:hidden" type="button">
               <Icon className="w-6 h-[1.3125rem]" name="icon-hamburger" />
               {/* <Icon className="w-5 h-[1.3125rem]" name="icon-close" /> */}
               <span className="sr-only">Open menu</span>
             </button>
-            <ul className="bg-FFFFFF/[4%] text-FFFFFF hidden tablet:flex gap-12 h-24 px-12 desktop:px-[7.6875rem]">
+            <ul className="glassy__surface text-FFFFFF hidden tablet:flex gap-12 h-24 px-12 desktop:pl-[7.6875rem] desktop:pr-0">
               <li className="grid">
                 <MyNavLink to="/">
                   <Number>00</Number>

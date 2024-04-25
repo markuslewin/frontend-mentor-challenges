@@ -75,6 +75,52 @@ body {
   }
 }
 
+.header {
+  display: grid;
+  grid-template-columns: max-content max-content;
+  justify-content: space-between;
+  align-items: center;
+}
+
+@screen tablet {
+  .glassy__surface {
+    @apply bg-FFFFFF/5;
+
+    backdrop-filter: blur(22px);
+  }
+}
+
+@screen desktop {
+  .header {
+    padding-inline: 40px;
+    display: grid;
+    grid-template-columns: minmax(auto, 1fr) minmax(auto, 69.25rem) 1fr;
+    align-items: center;
+  }
+
+  .glassy {
+    overflow: hidden;
+  }
+
+  .glassy__surface {
+    position: relative;
+    isolation: isolate;
+    background: none;
+    backdrop-filter: none;
+  }
+
+  .glassy__surface::before {
+    @apply bg-FFFFFF/5;
+
+    content: "";
+    position: absolute;
+    z-index: -1;
+    inset: 0;
+    width: 100vw;
+    backdrop-filter: blur(22px);
+  }
+}
+
 .dot::before {
   --dot-size: 0.625rem;
 
