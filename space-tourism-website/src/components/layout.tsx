@@ -23,7 +23,7 @@ export function Layout() {
               {/* <Icon className="w-5 h-[1.3125rem]" name="icon-close" /> */}
               <span className="sr-only">Open menu</span>
             </button>
-            <ul className="glassy__surface text-FFFFFF hidden tablet:flex gap-12 h-24 px-12 desktop:pl-[7.6875rem] desktop:pr-0">
+            <ol className="glassy__surface text-FFFFFF hidden tablet:flex gap-12 h-24 px-12 desktop:pl-[7.6875rem] desktop:pr-0">
               <li className="grid">
                 <MyNavLink to="/">
                   <Number>00</Number>
@@ -48,7 +48,7 @@ export function Layout() {
                   Technology
                 </MyNavLink>
               </li>
-            </ul>
+            </ol>
           </nav>
         </header>
         <main className="grid">
@@ -74,8 +74,6 @@ function MyNavLink(props: MyNavLinkProps) {
 
 function Number({ children }: { children: ReactNode }) {
   return (
-    <span className="tablet:hidden desktop:inline font-bold" aria-hidden="true">
-      {children}
-    </span>
+    <span className="tablet:hidden desktop:inline font-bold">{children}</span>
   );
 }

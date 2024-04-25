@@ -53,9 +53,5 @@ function SublayoutHeading({ children }: { children: ReactNode }) {
 }
 
 function SublayoutHeadingNumber({ children }: { children: ReactNode }) {
-  return (
-    <span className="text-FFFFFF/25 font-bold" aria-hidden="true">
-      {children}
-    </span>
-  );
+  return <span className="text-FFFFFF/25 font-bold">{children}</span>;
 }
