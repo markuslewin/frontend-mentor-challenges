@@ -108,7 +108,10 @@ export function CrewRoute() {
           {member.bio}
         </p>
       </div>
-      <picture className="crew-layout__image tablet:mt-10 desktop:mt-0 border-b-[1px] border-[hsl(231,15%,26%)] tablet:border-b-0">
+      <picture
+        className="crew-layout__image tablet:mt-10 desktop:mt-0 border-b-[1px] border-[hsl(231,15%,26%)] tablet:border-b-0"
+        key={member.name}
+      >
         <source type="image/webp" srcSet={member.images.webp} />
         <img
           className="mx-auto w-auto max-h-56 tablet:max-h-[33.25rem] desktop:max-h-none desktop:max-w-[34rem]"

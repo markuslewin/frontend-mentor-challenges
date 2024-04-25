@@ -100,7 +100,7 @@ export function DestinationRoute() {
           </Stat>
         </div>
       </div>
-      <picture className="destination-layout__image">
+      <picture className="destination-layout__image" key={destination.name}>
         <source type="image/webp" srcSet={destination.images.webp} />
         <img
           className="mx-auto desktop:mx-0 w-[10.625rem] tablet:w-[18.75rem] desktop:w-full"

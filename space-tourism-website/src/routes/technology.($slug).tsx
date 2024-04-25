@@ -56,7 +56,7 @@ export function TechnologyRoute() {
   return (
     <div className="mt-8 tablet:mt-16 desktop:mt-7 pb-20 tablet:pb-24 desktop:pb-28 desktop:overflow-hidden">
       <div className="technology-layout mx-auto max-w-[74.25rem] desktop:tablet:px-10">
-        <picture className="technology-layout__image">
+        <picture className="technology-layout__image" key={technology.name}>
           <source
             media={`(min-width: ${screens.desktop})`}
             srcSet={technology.images.portrait}
