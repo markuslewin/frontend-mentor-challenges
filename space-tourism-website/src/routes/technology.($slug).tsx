@@ -114,7 +114,7 @@ function TechnologyNavLink(props: NavLinkProps) {
   return (
     <NavLink
       className={({ isActive }) =>
-        `grid place-items-center rounded-full size-10 tablet:size-[3.75rem] desktop:size-20 border-[1px] font-bellefair text-[1rem] leading-[1.125rem] tracking-[0.0625rem] tablet:text-[1.5rem] tablet:leading-[1.75rem] tablet:tracking-[0.09375rem] desktop:text-heading-4 transition-colors ${isActive ? "bg-FFFFFF text-0B0D17 border-[transparent]" : "text-FFFFFF border-FFFFFF/25 hocus:border-FFFFFF"}`
+        `grid place-items-center rounded-full size-10 tablet:size-[3.75rem] desktop:size-20 border-[1px] font-bellefair text-[1rem] leading-[1.125rem] tracking-[0.0625rem] tablet:text-[1.5rem] tablet:leading-[1.75rem] tablet:tracking-[0.09375rem] desktop:text-heading-4 clickable-12 transition-colors ${isActive ? "bg-FFFFFF text-0B0D17 border-[transparent]" : "text-FFFFFF border-FFFFFF/25 hocus:border-FFFFFF"}`
       }
       {...props}
     />

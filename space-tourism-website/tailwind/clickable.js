@@ -8,7 +8,7 @@ export const clickable = plugin(({ matchUtilities, theme }) => {
         return {
           position: "relative",
           isolation: "isolate",
-          "&::before": {
+          "&::after": {
             content: "''",
             display: "block",
             width: size,
