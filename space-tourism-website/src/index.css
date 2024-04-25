@@ -259,8 +259,9 @@ body {
     grid-template-areas:
       "text image"
       "nav image";
-    grid-template-columns: minmax(auto, 38.5rem) minmax(auto, 1fr);
+    grid-template-columns: 1fr auto;
     grid-template-rows: 1fr max-content;
+    column-gap: 1rem;
   }
 
   .crew-layout__text {

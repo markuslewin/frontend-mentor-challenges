@@ -82,7 +82,7 @@ export function CrewRoute() {
       <picture className="crew-layout__image order-1 tablet:order-3 desktop:col-start-2 desktop:row-start-1 desktop:row-span-2 tablet:mt-10 desktop:mt-0 border-b-[1px] border-[hsl(231,15%,26%)] tablet:border-b-0">
         <source type="image/webp" srcSet={member.images.webp} />
         <img
-          className="mx-auto w-auto max-h-56 tablet:max-h-[33.25rem] desktop:max-h-none"
+          className="mx-auto w-auto max-h-56 tablet:max-h-[33.25rem] desktop:max-h-none desktop:max-w-[34rem]"
           alt=""
           width={member.images.meta.width}
           height={member.images.meta.height}
