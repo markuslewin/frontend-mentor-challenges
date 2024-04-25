@@ -14,14 +14,15 @@ export function DestinationLayout() {
 }
 
 export function CrewLayout() {
+  // todo: Make this main sub layout
   return (
-    <Sublayout>
-      <SublayoutHeading>
+    <div className="mt-6 tablet:mt-10 desktop:mt-[4.75rem] desktop:grid desktop:grid-rows-[max-content_1fr]">
+      <h1 className="text-FFFFFF mx-auto desktop:w-full max-w-[74.25rem] font-barlow-condensed text-nav-text tablet:text-[1.25rem] tablet:leading-[1.5rem] tablet:tracking-[0.21125rem] desktop:text-heading-5 px-6 tablet:px-10 uppercase flex justify-center tablet:justify-normal gap-[1.125rem] desktop:gap-7">
         <SublayoutHeadingNumber>02</SublayoutHeadingNumber>
         Meet your crew
-      </SublayoutHeading>
+      </h1>
       <Outlet />
-    </Sublayout>
+    </div>
   );
 }
 

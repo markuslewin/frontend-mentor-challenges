@@ -7,7 +7,7 @@
 }
 
 body {
-  @apply bg-0B0D17 text-D0D6F9 font-barlow desktop:text-body-text;
+  @apply bg-0B0D17 text-D0D6F9 font-barlow;
 
   font-size: 0.9375rem;
   line-height: 1.5625rem;
@@ -17,6 +17,12 @@ body {
   body {
     font-size: 1rem;
     line-height: 1.75rem;
+  }
+}
+
+@screen desktop {
+  body {
+    @apply text-body-text;
   }
 }
 
@@ -82,6 +88,15 @@ body {
   align-items: center;
 }
 
+@screen desktop {
+  .header {
+    padding-inline: 40px;
+    display: grid;
+    grid-template-columns: minmax(auto, 1fr) minmax(auto, 69.25rem) 1fr;
+    align-items: center;
+  }
+}
+
 @screen tablet {
   .glassy__surface {
     @apply bg-FFFFFF/5;
@@ -91,13 +106,6 @@ body {
 }
 
 @screen desktop {
-  .header {
-    padding-inline: 40px;
-    display: grid;
-    grid-template-columns: minmax(auto, 1fr) minmax(auto, 69.25rem) 1fr;
-    align-items: center;
-  }
-
   .glassy {
     overflow: hidden;
   }
@@ -162,5 +170,50 @@ body {
 
   .technology-layout__image {
     grid-area: image;
+  }
+}
+
+.crew-layout__text {
+  margin-top: 2rem;
+}
+
+.crew-layout__nav {
+  margin-top: 2rem;
+}
+
+@screen tablet {
+  .crew-layout__text {
+    margin-top: 0;
+  }
+
+  .crew-layout__nav {
+    margin-top: 2.5rem;
+  }
+}
+
+@screen desktop {
+  .crew-layout {
+    display: grid;
+    grid-template-areas:
+      "text image"
+      "nav image";
+    grid-template-columns: minmax(auto, 38.5rem) minmax(auto, 1fr);
+    grid-template-rows: 1fr max-content;
+  }
+
+  .crew-layout__text {
+    grid-area: text;
+    margin: 9.625rem 0 0;
+  }
+
+  .crew-layout__image {
+    grid-area: image;
+    align-self: end;
+  }
+
+  .crew-layout__nav {
+    grid-area: nav;
+    margin: 5rem 0 0;
+    padding-bottom: 5.875rem;
   }
 }
