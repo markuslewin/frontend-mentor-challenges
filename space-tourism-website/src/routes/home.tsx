@@ -18,7 +18,7 @@ export function Home() {
         </p>
       </div>
       <Link
-        className="bg-FFFFFF text-0B0D17 mx-auto desktop:mx-0 desktop:justify-self-end mt-16 tablet:mt-24 grid place-items-center rounded-full size-[9.375rem] tablet:size-[15.125rem] desktop:size-[17.125rem] font-bellefair text-[1.25rem] leading-[1.4375rem] tablet:text-heading-4 tracking-[0.078125rem] tablet:tracking-[0.125rem] uppercase"
+        className="explore-btn bg-FFFFFF text-0B0D17 mx-auto desktop:mx-0 desktop:justify-self-end mt-16 tablet:mt-24 grid place-items-center rounded-full size-[9.375rem] tablet:size-[15.125rem] desktop:size-[17.125rem] font-bellefair text-[1.25rem] leading-[1.4375rem] tablet:text-heading-4 tracking-[0.078125rem] tablet:tracking-[0.125rem] uppercase"
         to="/destination"
       >
         Explore

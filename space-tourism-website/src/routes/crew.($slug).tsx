@@ -127,7 +127,7 @@ function CrewNavLink(props: NavLinkProps) {
   return (
     <NavLink
       className={({ isActive }) =>
-        `dot ${isActive ? "text-FFFFFF" : "text-FFFFFF/[17.44%]"}`
+        `dot transition-colors ${isActive ? "text-FFFFFF" : "text-FFFFFF/[17.44%] hocus:text-FFFFFF/50"}`
       }
       {...props}
     />

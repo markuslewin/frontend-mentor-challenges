@@ -120,7 +120,7 @@ function DestinationNavLink(props: DestinationNavLinkProps) {
   return (
     <NavLink
       className={({ isActive }) =>
-        `block ${isActive ? "text-FFFFFF border-b-[3px] pb-3" : ""}`
+        `block pb-3 ${isActive ? "text-FFFFFF border-b-[3px]" : "hocus:border-FFFFFF/50 hocus:border-b-[3px]"}`
       }
       {...props}
     />

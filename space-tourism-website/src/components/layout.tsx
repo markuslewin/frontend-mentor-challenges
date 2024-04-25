@@ -66,7 +66,7 @@ function MyNavLink(props: MyNavLinkProps) {
     <NavLink
       {...props}
       className={({ isActive }) =>
-        `flex items-center gap-3 ${isActive ? "border-b-FFFFFF border-b-[3px] pt-[3px]" : "py-[3px]"}`
+        `flex items-center gap-3 ${isActive ? "border-b-FFFFFF border-b-[3px] pt-[3px]" : "hocus:border-b-FFFFFF/50 hocus:border-b-[3px] py-[3px] hocus:pt-[3px] hocus:pb-0"}`
       }
     />
   );

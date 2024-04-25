@@ -129,6 +129,31 @@ body {
   }
 }
 
+.explore-btn {
+  @apply transition-shadow;
+}
+
+.explore-btn:focus-visible,
+.explore-btn:hover {
+  --explore-btn-shadow-size: 3rem;
+
+  box-shadow: 0 0 0 var(--explore-btn-shadow-size) hsl(0 0% 100% / 10%);
+}
+
+@screen tablet {
+  .explore-btn:focus-visible,
+  .explore-btn:hover {
+    --explore-btn-shadow-size: 5rem;
+  }
+}
+
+@screen desktop {
+  .explore-btn:focus-visible,
+  .explore-btn:hover {
+    --explore-btn-shadow-size: 5.5rem;
+  }
+}
+
 .dot::before {
   --dot-size: 0.625rem;
 
