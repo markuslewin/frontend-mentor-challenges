@@ -171,6 +171,43 @@ body {
   }
 }
 
+.destination-layout {
+  display: grid;
+  grid-template-areas:
+    "image"
+    "nav"
+    "text";
+}
+
+.destination-layout__nav {
+  grid-area: nav;
+}
+
+.destination-layout__text {
+  grid-area: text;
+}
+
+.destination-layout__image {
+  grid-area: image;
+}
+
+@screen desktop {
+  .destination-layout {
+    grid-template-areas:
+      "image nav"
+      "image text";
+    grid-template-columns: minmax(0, 31.8125rem) minmax(0, 27.8125rem);
+    grid-template-rows: max-content 1fr;
+    justify-content: space-between;
+    column-gap: 3rem;
+  }
+
+  .destination-layout__image {
+    grid-area: image;
+    place-self: end;
+  }
+}
+
 @screen desktop {
   .technology-layout {
     display: grid;

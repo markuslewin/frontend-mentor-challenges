@@ -48,50 +48,40 @@ export function DestinationRoute() {
   const destinationsHeadingId = useId();
 
   return (
-    <div className="mt-8 tablet:mt-[3.75rem] desktop:mt-16 mx-auto max-w-[74.25rem] px-6 tablet:px-10 pb-14 tablet:pb-16 desktop:pb-28 desktop:grid desktop:grid-cols-[minmax(0,31.8125rem)_minmax(0,27.8125rem)] desktop:justify-between desktop:gap-12">
-      <picture className="place-self-end">
-        <source type="image/webp" srcSet={destination.images.webp} />
-        <img
-          className="mx-auto desktop:mx-0 w-[10.625rem] tablet:w-[18.75rem] desktop:w-full"
-          alt=""
-          width={445}
-          height={445}
-          src={destination.images.png}
-        />
-      </picture>
-      <article className="mt-7 tablet:mt-14 desktop:mt-0 mx-auto desktop:mx-0 max-w-[35.8125rem] desktop:max-w-[27.8125rem]">
-        <header>
-          <nav
-            className="font-barlow-condensed text-nav-text uppercase"
-            aria-labelledby={destinationsHeadingId}
-          >
-            <h2 className="sr-only" id={destinationsHeadingId}>
-              Destinations
-            </h2>
-            <ul className="mx-auto desktop:mx-0 max-w-[14.875rem] tablet:max-w-[17.875rem] flex justify-between">
-              <li>
-                <DestinationNavLink to="/destination/moon">
-                  Moon
-                </DestinationNavLink>
-              </li>
-              <li>
-                <DestinationNavLink to="/destination/mars">
-                  Mars
-                </DestinationNavLink>
-              </li>
-              <li>
-                <DestinationNavLink to="/destination/europa">
-                  Europa
-                </DestinationNavLink>
-              </li>
-              <li>
-                <DestinationNavLink to="/destination/titan">
-                  Titan
-                </DestinationNavLink>
-              </li>
-            </ul>
-          </nav>
-        </header>
+    <article className="destination-layout mt-8 tablet:mt-[3.75rem] desktop:mt-16 mx-auto max-w-[74.25rem] px-6 tablet:px-10 pb-14 tablet:pb-16 desktop:pb-28">
+      <header className="destination-layout__nav mt-7 tablet:mt-14 desktop:mt-0 desktop:mx-0">
+        <nav
+          className="font-barlow-condensed text-nav-text uppercase"
+          aria-labelledby={destinationsHeadingId}
+        >
+          <h2 className="sr-only" id={destinationsHeadingId}>
+            Destinations
+          </h2>
+          <ul className="mx-auto desktop:mx-0 max-w-[14.875rem] tablet:max-w-[17.875rem] flex justify-between">
+            <li>
+              <DestinationNavLink to="/destination/moon">
+                Moon
+              </DestinationNavLink>
+            </li>
+            <li>
+              <DestinationNavLink to="/destination/mars">
+                Mars
+              </DestinationNavLink>
+            </li>
+            <li>
+              <DestinationNavLink to="/destination/europa">
+                Europa
+              </DestinationNavLink>
+            </li>
+            <li>
+              <DestinationNavLink to="/destination/titan">
+                Titan
+              </DestinationNavLink>
+            </li>
+          </ul>
+        </nav>
+      </header>
+      <div className="destination-layout__text mx-auto max-w-[35.8125rem] desktop:max-w-[27.8125rem]">
         <div className="text-center desktop:text-start">
           <h2 className="text-FFFFFF mt-5 tablet:mt-8 desktop:mt-9 font-bellefair text-heading-3 tablet:text-[5rem] tablet:leading-[5.75rem] desktop:text-heading-2 uppercase">
             {destination.name}
@@ -109,8 +99,18 @@ export function DestinationRoute() {
             <StatValue>{destination.travel}</StatValue>
           </Stat>
         </div>
-      </article>
-    </div>
+      </div>
+      <picture className="destination-layout__image">
+        <source type="image/webp" srcSet={destination.images.webp} />
+        <img
+          className="mx-auto desktop:mx-0 w-[10.625rem] tablet:w-[18.75rem] desktop:w-full"
+          alt=""
+          width={445}
+          height={445}
+          src={destination.images.png}
+        />
+      </picture>
+    </article>
   );
 }
 
