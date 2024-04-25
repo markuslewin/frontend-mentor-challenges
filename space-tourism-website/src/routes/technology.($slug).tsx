@@ -81,17 +81,26 @@ export function TechnologyRoute() {
           <ul className="flex justify-center desktop:justify-normal gap-4 desktop:gap-8 desktop:flex-col">
             <li>
               <TechnologyNavLink to="/technology/launch-vehicle">
-                1<span className="sr-only">, Launch vehicle</span>
+                <span className="translate-x-px desktop:translate-x-[2px]">
+                  1
+                </span>
+                <span className="sr-only">, Launch vehicle</span>
               </TechnologyNavLink>
             </li>
             <li>
               <TechnologyNavLink to="/technology/spaceport">
-                2<span className="sr-only">, Spaceport</span>
+                <span className="translate-x-px desktop:translate-x-[2px]">
+                  2
+                </span>
+                <span className="sr-only">, Spaceport</span>
               </TechnologyNavLink>
             </li>
             <li>
               <TechnologyNavLink to="/technology/space-capsule">
-                3<span className="sr-only">, Space capsule</span>
+                <span className="translate-x-px desktop:translate-x-[2px]">
+                  3
+                </span>
+                <span className="sr-only">, Space capsule</span>
               </TechnologyNavLink>
             </li>
           </ul>
@@ -114,7 +123,7 @@ function TechnologyNavLink(props: NavLinkProps) {
   return (
     <NavLink
       className={({ isActive }) =>
-        `grid place-items-center rounded-full size-10 tablet:size-[3.75rem] desktop:size-20 border-[1px] font-bellefair text-[1rem] leading-[1.125rem] tracking-[0.0625rem] tablet:text-[1.5rem] tablet:leading-[1.75rem] tablet:tracking-[0.09375rem] desktop:text-heading-4 clickable-12 transition-colors ${isActive ? "bg-FFFFFF text-0B0D17 border-[transparent]" : "text-FFFFFF border-FFFFFF/25 hocus:border-FFFFFF"}`
+        `grid place-items-center rounded-full size-10 tablet:size-[3.75rem] desktop:size-20 border-[1px] font-bellefair text-[1rem] leading-[1.125rem] tracking-[0.0625rem] tablet:text-[1.5rem] tablet:leading-[1.75rem] tablet:tracking-[0.09375rem] desktop:text-heading-4 desktop:tracking-[0.125rem] clickable-12 transition-colors ${isActive ? "bg-FFFFFF text-0B0D17 border-[transparent]" : "text-FFFFFF border-FFFFFF/25 hocus:border-FFFFFF"}`
       }
       {...props}
     />
