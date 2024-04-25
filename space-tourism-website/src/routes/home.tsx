@@ -4,9 +4,9 @@ export function Home() {
   return (
     <div className="mt-12 tablet:mt-[6.625rem] desktop:mt-48 max-w-[74.25rem] mx-auto w-full pb-12 tablet:pb-[5.625rem] desktop:pb-[8.1875rem] px-6 tablet:px-10 desktop:grid desktop:grid-cols-2 desktop:items-end">
       <div className="mx-auto desktop:mx-0 max-w-[28.125rem] text-center desktop:text-start">
-        <h1 className="font-barlow-condensed text-subheading-2 tablet:text-[1.25rem] tablet:leading-[1.5rem] desktop:text-heading-5 uppercase">
+        <h1 className="font-barlow-condensed text-subheading-2 tablet:text-[1.25rem] tablet:tracking-[0.21125rem] tablet:leading-[1.5rem] desktop:text-heading-5 uppercase">
           So, you want to travel to{" "}
-          <span className="text-FFFFFF mt-4 tablet:mt-6 block font-bellefair text-[5rem] leading-[6.25rem] tablet:text-[9.375rem] tablet:leading-[9.375rem] desktop:text-heading-1">
+          <span className="text-FFFFFF mt-4 tablet:mt-6 block font-bellefair text-[5rem] tracking-normal leading-[6.25rem] tablet:text-[9.375rem] tablet:leading-[9.375rem] desktop:text-heading-1">
             Space
           </span>
         </h1>
