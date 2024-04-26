@@ -114,7 +114,7 @@ export function CrewRoute() {
       >
         <source type="image/webp" srcSet={member.images.webp} />
         <img
-          className="mx-auto w-auto max-h-56 tablet:max-h-[33.25rem] desktop:max-h-none desktop:max-w-[34rem]"
+          className="mx-auto w-auto max-w-none desktop:max-w-[34rem] h-56 tablet:h-[33.25rem] desktop:h-auto"
           alt=""
           width={member.images.meta.width}
           height={member.images.meta.height}
