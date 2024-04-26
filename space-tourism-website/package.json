@@ -25,6 +25,7 @@
     "@fontsource/barlow-condensed": "^5.0.13",
     "@fontsource/bellefair": "^5.0.13",
     "@paralleldrive/cuid2": "^2.2.2",
+    "@radix-ui/react-dialog": "^1.0.5",
     "execa": "^8.0.1",
     "glob": "^10.3.12",
     "prettier": "^3.2.5",

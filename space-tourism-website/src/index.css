@@ -97,12 +97,10 @@ body {
   }
 }
 
-@screen tablet {
-  .glassy__surface {
-    @apply bg-FFFFFF/5;
+.glassy__surface {
+  @apply bg-FFFFFF/5;
 
-    backdrop-filter: blur(22px);
-  }
+  backdrop-filter: blur(22px);
 }
 
 @screen desktop {

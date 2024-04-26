@@ -2,9 +2,13 @@ import { Link, NavLink, NavLinkProps, Outlet } from "react-router-dom";
 import { Icon } from "./icon";
 import { ReactNode } from "react";
 import { useName } from "../utils/use-name";
+import { MobileMenu } from "./menu";
+import { useMedia } from "../utils/use-media";
+import { screens } from "../utils/screens";
 
 export function Layout() {
   const { name } = useName();
+  const { matches: tabletMatches } = useMedia(`(min-width: ${screens.tablet})`);
 
   return (
     <div className="background" data-name={name ?? undefined}>
@@ -18,37 +22,36 @@ export function Layout() {
             <span className="sr-only">Home</span>
           </Link>
           <nav className="flex items-center font-barlow-condensed text-nav-text uppercase desktop:before:h-px desktop:before:bg-FFFFFF/25 desktop:before:grow desktop:before:-mr-8 desktop:before:z-10">
-            <button className="tablet:hidden" type="button">
-              <Icon className="w-6 h-[1.3125rem]" name="icon-hamburger" />
-              {/* <Icon className="w-5 h-[1.3125rem]" name="icon-close" /> */}
-              <span className="sr-only">Open menu</span>
-            </button>
-            <ol className="glassy__surface text-FFFFFF hidden tablet:flex gap-12 h-24 px-12 desktop:pl-[7.6875rem] desktop:pr-0">
-              <li className="grid">
-                <MyNavLink to="/">
-                  <Number>00</Number>
-                  Home
-                </MyNavLink>
-              </li>
-              <li className="grid">
-                <MyNavLink to="/destination">
-                  <Number>01</Number>
-                  Destination
-                </MyNavLink>
-              </li>
-              <li className="grid">
-                <MyNavLink to="/crew">
-                  <Number>02</Number>
-                  Crew
-                </MyNavLink>
-              </li>
-              <li className="grid">
-                <MyNavLink to="/technology">
-                  <Number>03</Number>
-                  Technology
-                </MyNavLink>
-              </li>
-            </ol>
+            {tabletMatches ? (
+              <ol className="glassy__surface text-FFFFFF tablet:flex gap-12 h-24 px-12 desktop:pl-[7.6875rem] desktop:pr-0">
+                <li className="grid">
+                  <MyNavLink to="/">
+                    <Number>00</Number>
+                    Home
+                  </MyNavLink>
+                </li>
+                <li className="grid">
+                  <MyNavLink to="/destination">
+                    <Number>01</Number>
+                    Destination
+                  </MyNavLink>
+                </li>
+                <li className="grid">
+                  <MyNavLink to="/crew">
+                    <Number>02</Number>
+                    Crew
+                  </MyNavLink>
+                </li>
+                <li className="grid">
+                  <MyNavLink to="/technology">
+                    <Number>03</Number>
+                    Technology
+                  </MyNavLink>
+                </li>
+              </ol>
+            ) : (
+              <MobileMenu />
+            )}
           </nav>
         </header>
         <main className="grid">
