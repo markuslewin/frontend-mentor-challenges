@@ -108,7 +108,7 @@ export function TechnologyRoute() {
             </li>
           </ul>
         </nav>
-        <div className="technology-layout__text mt-7 tablet:mt-11 desktop:mt-0 mx-auto px-6 tablet:px-10 desktop:px-0 max-w-[28.625rem] desktop:max-w-none text-center desktop:text-start">
+        <div className="technology-layout__text mt-7 tablet:mt-11 desktop:mt-0 mx-auto px-6 tablet:px-10 desktop:px-0 tablet:max-w-[33.625rem] desktop:max-w-none text-center desktop:text-start">
           <h2 className="font-barlow-condensed text-subheading-2 tablet:text-nav-text uppercase">
             The terminology…{" "}
             <span className="text-FFFFFF mt-2 tablet:mt-4 desktop:mt-3 block font-bellefair tracking-normal text-[1.5rem] leading-[1.75rem] tablet:text-[2.5rem] tablet:leading-[2.875rem] desktop:text-heading-3">
