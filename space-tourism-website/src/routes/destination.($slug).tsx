@@ -122,6 +122,7 @@ function DestinationNavLink(props: DestinationNavLinkProps) {
       className={({ isActive }) =>
         `block pb-3 ${isActive ? "text-FFFFFF border-b-[3px]" : "hocus:border-FFFFFF/50 hocus:border-b-[3px]"}`
       }
+      replace
       {...props}
     />
   );
