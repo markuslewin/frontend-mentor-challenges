@@ -10,15 +10,18 @@ import { assertValidSlug } from "../utils/assert-valid-slug";
 import { useId } from "react";
 import { toRootAbsolute } from "../utils/to-root-absolute";
 
-export const handle = {
-  name: "crew",
-};
-
 interface LoaderData {
   member: (typeof data)["crew"][number] & {
     images: { meta: { width: number; height: number } };
   };
 }
+
+export const handle = {
+  name: "crew",
+  announcement(data: LoaderData) {
+    return data.member.name;
+  },
+};
 
 export function loader({ params }: LoaderFunctionArgs) {
   const { slug } = params;

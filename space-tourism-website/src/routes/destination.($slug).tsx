@@ -10,13 +10,16 @@ import data from "../data/data.json";
 import { assertValidSlug } from "../utils/assert-valid-slug";
 import { toRootAbsolute } from "../utils/to-root-absolute";
 
-export const handle = {
-  name: "destination",
-};
-
 interface LoaderData {
   destination: (typeof data)["destinations"][number];
 }
+
+export const handle = {
+  name: "destination",
+  announcement(data: LoaderData) {
+    return data.destination.name;
+  },
+};
 
 export function loader({ params }: LoaderFunctionArgs) {
   const { slug } = params;

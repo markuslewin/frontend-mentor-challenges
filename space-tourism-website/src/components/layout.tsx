@@ -5,6 +5,7 @@ import { useName } from "../utils/use-name";
 import { MobileMenu } from "./menu";
 import { useMedia } from "../utils/use-media";
 import { screens } from "../utils/screens";
+import { RouteAnnouncer } from "./route-announcer";
 
 export function Layout() {
   const { name } = useName();
@@ -58,6 +59,7 @@ export function Layout() {
           <Outlet />
         </main>
       </div>
+      <RouteAnnouncer />
     </div>
   );
 }

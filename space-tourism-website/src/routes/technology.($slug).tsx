@@ -11,13 +11,16 @@ import { useId } from "react";
 import { toRootAbsolute } from "../utils/to-root-absolute";
 import { screens } from "../utils/screens";
 
-export const handle = {
-  name: "technology",
-};
-
 interface LoaderData {
   technology: (typeof data)["technology"][number];
 }
+
+export const handle = {
+  name: "technology",
+  announcement(data: LoaderData) {
+    return data.technology.name;
+  },
+};
 
 export function loader({ params }: LoaderFunctionArgs) {
   const { slug } = params;

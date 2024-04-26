@@ -30,6 +30,11 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
+        handle: {
+          announcement() {
+            return "So, you want to travel to space?";
+          },
+        },
         Component: Home,
       },
       {
