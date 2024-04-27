@@ -8,7 +8,7 @@ export function MobileMenu() {
 
   return (
     <Dialog.Root open={isOpen} onOpenChange={setIsOpen}>
-      <Dialog.Trigger className="tablet:hidden">
+      <Dialog.Trigger className="tablet:hidden clickable-12">
         <Icon className="w-6 h-[1.3125rem]" name="icon-hamburger" />
         <span className="sr-only">Open menu</span>
       </Dialog.Trigger>
@@ -19,7 +19,7 @@ export function MobileMenu() {
           aria-describedby={undefined}
         >
           <div className="grid justify-end">
-            <Dialog.Close className="translate-x-[0.375rem] translate-y-[0.0625rem]">
+            <Dialog.Close className="translate-x-[0.375rem] translate-y-[0.0625rem] clickable-12">
               <Icon className="w-5 h-[1.3125rem]" name="icon-close" />
               <span className="sr-only">Close menu</span>
             </Dialog.Close>
