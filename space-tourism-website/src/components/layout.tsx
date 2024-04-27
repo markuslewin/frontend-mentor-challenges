@@ -19,7 +19,11 @@ export function Layout() {
             className="desktop:justify-self-end desktop:grid desktop:grid-cols-[max-content,minmax(2rem,4rem)]"
             to="/"
           >
-            <Icon className="size-10 tablet:size-12" name="logo" />
+            <Icon
+              className="size-10 tablet:size-12"
+              name="logo"
+              changeColor={false}
+            />
             <span className="sr-only">Home</span>
           </Link>
           <nav className="flex items-center font-barlow-condensed text-nav-text uppercase desktop:before:h-px desktop:before:bg-FFFFFF/25 desktop:before:grow desktop:before:-mr-8 desktop:before:z-10">
