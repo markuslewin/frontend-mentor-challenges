@@ -1,7 +1,6 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { Layout } from "./components/layout";
 import { Home } from "./routes/home";
-import { OptimizedImage } from "./routes/optimized-image";
 import {
   DestinationLayout,
   CrewLayout,
@@ -69,10 +68,6 @@ const router = createBrowserRouter([
             Component: TechnologyRoute,
           },
         ],
-      },
-      {
-        path: "optimized-image",
-        Component: OptimizedImage,
       },
     ],
   },
