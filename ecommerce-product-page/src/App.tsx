@@ -4,8 +4,8 @@ function App() {
   return (
     <>
       <header>
-        <div className="flex flex-wrap">
-          <div className="flex flex-wrap">
+        <div className="flex justify-between items-center flex-wrap tablet:flex-nowrap">
+          <div className="flex items-center flex-wrap gap-14 tablet:flex-nowrap">
             <div>
               <Icon className="w-[8.625rem] h-5" name="logo" />
               <p className="sr-only">Sneakers</p>
@@ -15,7 +15,10 @@ function App() {
                 <Icon className="w-4 h-[0.9375rem]" name="icon-menu" />
                 <span className="sr-only"> Menu</span>
               </button>
-              <ul className="hidden tablet:flex" role="list">
+              <ul
+                className="hidden gap-5 tablet:py-[2.5625rem] tablet:flex tablet:gap-8"
+                role="list"
+              >
                 <li>
                   <a href="#">Collections</a>
                 </li>
@@ -34,14 +37,14 @@ function App() {
               </ul>
             </nav>
           </div>
-          <div className="flex flex-wrap">
+          <div className="flex items-center flex-wrap gap-10">
             <p>
               <button type="button">
                 <Icon className="w-[1.375rem] h-5" name="icon-cart" />
                 <span className="sr-only"> Cart</span>
               </button>
             </p>
-            <p>
+            <p className="shrink-0">
               <a href="#">
                 <img
                   className="size-5 tablet:size-[3.125rem]"
@@ -56,20 +59,20 @@ function App() {
         </div>
       </header>
       <main>
-        <div className="grid tablet:grid-cols-2">
+        <div className="grid gap-6 tablet:grid-cols-2 tablet:gap-0">
           <div className="order-1">
-            <h1 className="grid">
+            <h1 className="tablet:mt-16 grid gap-5 tablet:gap-7">
               Sneaker Company<span className="sr-only">: </span>
               <span>Fall Limited Edition Sneakers</span>
             </h1>
-            <p>
+            <p className="mt-4 tablet:mt-8">
               These low-profile sneakers are your perfect casual wear companion.
               Featuring a durable rubber outer sole, they’ll withstand
               everything the weather can offer.
             </p>
             <h2 className="sr-only">Price</h2>
-            <div className="flex flex-wrap tablet:flex-col">
-              <p className="flex flex-wrap">
+            <div className="mt-6 flex flex-wrap gap-4 tablet:mt-7 tablet:flex-col tablet:gap-[0.625rem]">
+              <p className="flex flex-wrap gap-4">
                 <span className="sr-only">Current price: </span>
                 <strong>$125.00</strong>
                 <span>
@@ -83,7 +86,7 @@ function App() {
               </p>
             </div>
             <h2 className="sr-only">Add to cart</h2>
-            <div className="flex flex-col flex-wrap tablet:flex-row">
+            <div className="mt-6 flex flex-col flex-wrap gap-4 tablet:mt-8 tablet:flex-row">
               <p className="grid grid-cols-3">
                 <button type="button">
                   <Icon className="w-3 h-1" name="icon-minus" />
@@ -113,7 +116,10 @@ function App() {
                 src="/images/image-product-1.jpg"
               />
             </p>
-            <ul className="hidden tablet:grid grid-cols-4" role="list">
+            <ul
+              className="mt-8 hidden tablet:grid grid-cols-4 gap-8"
+              role="list"
+            >
               <li>
                 <button type="button">
                   <img
