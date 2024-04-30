@@ -1,0 +1,21 @@
+.header {
+  border-bottom: 0.0625rem solid hsl(219 35% 92%);
+}
+
+@screen tablet {
+  .product__columns {
+    grid-template-columns: repeat(2, minmax(auto, 27.8125rem));
+    justify-content: space-between;
+  }
+}
+
+@screen tablet {
+  .product__text {
+    display: grid;
+    grid-template-rows: 62fr max-content 77fr;
+  }
+
+  .product__text > * {
+    grid-row-start: 2;
+  }
+}
