@@ -6,7 +6,6 @@ import {
   useLoaderData,
 } from "react-router-dom";
 import { deleteMessage, getMessages } from "../utils/messages";
-import { Icon } from "../components/icon";
 import { getFormProps, getInputProps, useForm } from "@conform-to/react";
 import { z } from "zod";
 import { getZodConstraint, parseWithZod } from "@conform-to/zod";
@@ -73,7 +72,6 @@ function Delete({ id }: { id: string }) {
         className="size-10 grid place-items-center text-red-500 hocus:text-red-200 transition-colors"
         type="submit"
       >
-        <Icon className="size-5" name="trash" />
         <span className="sr-only">Delete message</span>
       </button>
     </Form>
