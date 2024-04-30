@@ -27,6 +27,29 @@ export default {
     fontSize: {
       body: [rem(15), { lineHeight: rem(25) }],
       "body-tablet": [rem(16), { lineHeight: rem(26) }],
+      nav: [rem(18), { lineHeight: rem(26), fontWeight: 700 }],
+      "nav-tablet": [rem(15), { lineHeight: rem(26), fontWeight: 400 }],
+      subheading: [
+        rem(12),
+        { lineHeight: rem(12), fontWeight: 700, letterSpacing: rem(1.85) },
+      ],
+      "subheading-tablet": [
+        rem(13),
+        { lineHeight: rem(13), fontWeight: 700, letterSpacing: rem(2) },
+      ],
+      heading: [
+        rem(28),
+        { lineHeight: rem(32), fontWeight: 700, letterSpacing: 0 },
+      ],
+      "heading-tablet": [
+        rem(44),
+        { lineHeight: rem(48), fontWeight: 700, letterSpacing: 0 },
+      ],
+      "current-price": [rem(28), { lineHeight: rem(28), fontWeight: 700 }],
+      discount: [rem(16), { lineHeight: rem(16), fontWeight: 700 }],
+      "original-price": [rem(16), { lineHeight: rem(26), fontWeight: 700 }],
+      quantity: [rem(16), { lineHeight: rem(16), fontWeight: 700 }],
+      "primary-button": [rem(16), { lineHeight: rem(16), fontWeight: 700 }],
     },
     extend: {},
   },

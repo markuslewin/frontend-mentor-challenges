@@ -8,7 +8,7 @@
   }
 
   body {
-    @apply font-kumbh-sans text-body bg-white text-very-dark-blue;
+    @apply font-kumbh-sans text-body bg-white text-dark-grayish-blue;
   }
 
   @screen tablet {
