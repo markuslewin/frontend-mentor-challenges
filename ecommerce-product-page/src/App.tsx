@@ -2,9 +2,9 @@ import { Icon } from "./components/icon";
 
 function App() {
   return (
-    <>
+    <div className="pb-20 tablet:pb-32">
       <header>
-        <div className="flex justify-between items-center flex-wrap tablet:flex-nowrap">
+        <div className="center px-6 flex justify-between items-center flex-wrap tablet:px-10 tablet:flex-nowrap">
           <div className="flex items-center flex-wrap gap-14 tablet:flex-nowrap">
             <div>
               <Icon className="w-[8.625rem] h-5" name="logo" />
@@ -59,8 +59,8 @@ function App() {
         </div>
       </header>
       <main>
-        <div className="grid gap-6 tablet:grid-cols-2 tablet:gap-0">
-          <div className="order-1">
+        <div className="center center-md tablet:gutter grid gap-6 tablet:grid-cols-2 tablet:gap-0">
+          <div className="order-1 gutter tablet:gutter-none">
             <h1 className="tablet:mt-16 grid gap-5 tablet:gap-7">
               Sneaker Company<span className="sr-only">: </span>
               <span>Fall Limited Edition Sneakers</span>
@@ -164,7 +164,7 @@ function App() {
           </div>
         </div>
       </main>
-    </>
+    </div>
   );
 }
 

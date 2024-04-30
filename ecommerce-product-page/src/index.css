@@ -2,16 +2,48 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  color-scheme: dark;
-}
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
 
-body {
-  @apply font-kumbh-sans text-body bg-white text-very-dark-blue;
-}
-
-@screen tablet {
   body {
-    @apply text-body-tablet;
+    @apply font-kumbh-sans text-body bg-white text-very-dark-blue;
+  }
+
+  @screen tablet {
+    body {
+      @apply text-body-tablet;
+    }
+  }
+}
+
+@layer utilities {
+  .center {
+    box-sizing: content-box;
+    margin-inline: auto;
+    max-width: var(--center-size, 69.375rem);
+  }
+
+  .center-md {
+    --center-size: 63.4375rem;
+  }
+
+  .gutter {
+    padding-inline: var(--gutter-size, 1.5rem);
+  }
+
+  .gutter-none {
+    --gutter-size: 0;
+  }
+
+  @screen tablet {
+    .gutter {
+      --gutter-size: 2.5rem;
+    }
+
+    .gutter-none {
+      --gutter-size: 0;
+    }
   }
 }
