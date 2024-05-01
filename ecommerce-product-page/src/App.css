@@ -2,11 +2,14 @@
   @apply text-dark-grayish-blue text-nav;
 
   border-bottom: 0.0625rem solid hsl(219 35% 92%);
+  padding-block: 1rem 1.625rem;
 }
 
 @screen tablet {
   .header {
     @apply text-nav-tablet;
+
+    padding-block: 0;
   }
 }
 

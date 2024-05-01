@@ -7,13 +7,16 @@ function App() {
       <header>
         <div className="center gutter">
           <div className="header flex justify-between items-center flex-wrap tablet:flex-nowrap">
-            <div className="flex items-center flex-wrap gap-14 tablet:flex-nowrap">
-              <div className="header__logo">
+            <div className="flex items-center flex-wrap gap-4 tablet:flex-nowrap tablet:gap-14">
+              <div className="header__logo order-1 tablet:order-none">
                 <Icon className="w-[8.625rem] h-5" name="logo" />
                 <p className="sr-only">Sneakers</p>
               </div>
               <nav>
-                <button className="tablet:hidden" type="button">
+                <button
+                  className="translate-y-[0.1875rem] tablet:hidden"
+                  type="button"
+                >
                   <Icon className="w-4 h-[0.9375rem]" name="icon-menu" />
                   <span className="sr-only"> Menu</span>
                 </button>
@@ -39,7 +42,7 @@ function App() {
                 </ul>
               </nav>
             </div>
-            <div className="flex items-center flex-wrap gap-10">
+            <div className="flex items-center flex-wrap gap-4 tablet:flex-nowrap tablet:gap-10">
               <p>
                 <button type="button">
                   <Icon className="w-[1.375rem] h-5" name="icon-cart" />
@@ -49,7 +52,7 @@ function App() {
               <p className="shrink-0">
                 <a href="#">
                   <img
-                    className="size-5 tablet:size-[3.125rem]"
+                    className="size-6 tablet:size-[3.125rem]"
                     alt="Profile"
                     width={100}
                     height={100}
