@@ -1,10 +1,11 @@
 import { Icon } from "./components/icon";
 import "./App.css";
-import { Lightbox } from "./components/lightbox";
+import * as Lightbox from "./components/lightbox";
 import { images, useCurrentImage } from "./utils/product-images/images";
 
 function App() {
-  const { index, current, setIndex } = useCurrentImage(images);
+  const productImage = useCurrentImage(images);
+  const lightboxImage = useCurrentImage(images);
 
   return (
     <div className="pb-20 tablet:pb-32">
@@ -128,15 +129,28 @@ function App() {
           <div>
             <h2 className="sr-only">Images</h2>
             <p aria-live="polite">
-              <Lightbox>
-                <img
-                  className="images__main"
-                  alt={current.description}
-                  width={current.width}
-                  height={current.height}
-                  src={current.src}
+              <Lightbox.Root>
+                <Lightbox.Trigger
+                  className="block"
+                  aria-description="Opens lightbox gallery"
+                  onClick={() => lightboxImage.setIndex(productImage.index)}
+                >
+                  <img
+                    className="images__main"
+                    alt={productImage.current.description}
+                    width={productImage.current.width}
+                    height={productImage.current.height}
+                    src={productImage.current.src}
+                  />
+                </Lightbox.Trigger>
+                <Lightbox.Portal
+                  index={lightboxImage.index}
+                  current={lightboxImage.current}
+                  onPrevious={lightboxImage.previous}
+                  onNext={lightboxImage.next}
+                  onImageClick={lightboxImage.setIndex}
                 />
-              </Lightbox>
+              </Lightbox.Root>
             </p>
             <ul className="images__thumbnails mt-8" role="list">
               {images.map((image, i) => (
@@ -144,8 +158,8 @@ function App() {
                   <button
                     className="block"
                     type="button"
-                    aria-current={i === index}
-                    onClick={() => setIndex(i)}
+                    aria-current={i === productImage.index}
+                    onClick={() => productImage.setIndex(i)}
                   >
                     <img
                       className="images__thumbnail"
