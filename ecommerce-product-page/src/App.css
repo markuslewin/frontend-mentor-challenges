@@ -16,7 +16,7 @@
 
 @screen tablet {
   .product__columns {
-    grid-template-columns: repeat(2, minmax(auto, 27.8125rem));
+    grid-template-columns: repeat(2, minmax(0, 27.8125rem));
     justify-content: space-between;
   }
 }
@@ -109,4 +109,25 @@
   justify-content: center;
   flex-wrap: wrap;
   gap: 1rem;
+}
+
+.images__thumbnails {
+  display: none;
+}
+
+@screen tablet {
+  .images__main {
+    border-radius: 0.9375rem;
+  }
+
+  .images__thumbnails {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 5.5rem));
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .images__thumbnail {
+    border-radius: 0.625rem;
+  }
 }

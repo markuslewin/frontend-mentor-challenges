@@ -122,19 +122,18 @@ function App() {
             <h2 className="sr-only">Images</h2>
             <p aria-live="assertive">
               <img
+                className="images__main"
                 alt="todo: Description of image 1"
                 width={1000}
                 height={1000}
                 src="/images/image-product-1.jpg"
               />
             </p>
-            <ul
-              className="mt-8 hidden tablet:grid grid-cols-4 gap-8"
-              role="list"
-            >
+            <ul className="images__thumbnails mt-8" role="list">
               <li>
                 <button type="button">
                   <img
+                    className="images__thumbnail"
                     alt="Image 1"
                     width={176}
                     height={176}
@@ -145,6 +144,7 @@ function App() {
               <li>
                 <button type="button">
                   <img
+                    className="images__thumbnail"
                     alt="Image 2"
                     width={176}
                     height={176}
@@ -155,6 +155,7 @@ function App() {
               <li>
                 <button type="button">
                   <img
+                    className="images__thumbnail"
                     alt="Image 3"
                     width={176}
                     height={176}
@@ -165,6 +166,7 @@ function App() {
               <li>
                 <button type="button">
                   <img
+                    className="images__thumbnail"
                     alt="Image 4"
                     width={176}
                     height={176}
