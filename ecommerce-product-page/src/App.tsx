@@ -1,7 +1,11 @@
 import { Icon } from "./components/icon";
 import "./App.css";
+import { Lightbox } from "./components/lightbox";
+import { images } from "./utils/product-images/images";
 
 function App() {
+  const large = images[0];
+
   return (
     <div className="pb-20 tablet:pb-32">
       <header>
@@ -123,60 +127,31 @@ function App() {
           </div>
           <div>
             <h2 className="sr-only">Images</h2>
-            <p aria-live="assertive">
-              <img
-                className="images__main"
-                alt="todo: Description of image 1"
-                width={1000}
-                height={1000}
-                src="/images/image-product-1.jpg"
-              />
+            <p>
+              <Lightbox>
+                <img
+                  className="images__main"
+                  alt="todo"
+                  width={large.width}
+                  height={large.height}
+                  src={large.src}
+                />
+              </Lightbox>
             </p>
             <ul className="images__thumbnails mt-8" role="list">
-              <li>
-                <button type="button">
-                  <img
-                    className="images__thumbnail"
-                    alt="Image 1"
-                    width={176}
-                    height={176}
-                    src="/images/image-product-1-thumbnail.jpg"
-                  />
-                </button>
-              </li>
-              <li>
-                <button type="button">
-                  <img
-                    className="images__thumbnail"
-                    alt="Image 2"
-                    width={176}
-                    height={176}
-                    src="/images/image-product-2-thumbnail.jpg"
-                  />
-                </button>
-              </li>
-              <li>
-                <button type="button">
-                  <img
-                    className="images__thumbnail"
-                    alt="Image 3"
-                    width={176}
-                    height={176}
-                    src="/images/image-product-3-thumbnail.jpg"
-                  />
-                </button>
-              </li>
-              <li>
-                <button type="button">
-                  <img
-                    className="images__thumbnail"
-                    alt="Image 4"
-                    width={176}
-                    height={176}
-                    src="/images/image-product-4-thumbnail.jpg"
-                  />
-                </button>
-              </li>
+              {images.map((image, i) => (
+                <li key={i}>
+                  <button className="block" type="button">
+                    <img
+                      className="images__thumbnail"
+                      alt="todo"
+                      width={image.thumbnail.width}
+                      height={image.thumbnail.height}
+                      src={image.thumbnail.src}
+                    />
+                  </button>
+                </li>
+              ))}
             </ul>
           </div>
         </div>

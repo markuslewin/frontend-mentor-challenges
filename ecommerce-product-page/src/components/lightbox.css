@@ -1,0 +1,68 @@
+.lightbox__overlay {
+  position: fixed;
+  inset: 0;
+  overflow-y: auto;
+  padding: 1.5rem;
+  display: grid;
+  place-items: center;
+  background: hsl(0 0% 0% / 75%);
+}
+
+@screen tablet {
+  .lightbox__overlay {
+    padding: 2.5rem;
+  }
+}
+
+.lightbox__content {
+  --lightbox-padding-inline: 1.75rem;
+}
+
+.lightbox__padding {
+  padding-inline: var(--lightbox-padding-inline);
+}
+
+.lightbox__close {
+  color: hsl(0 0 85%);
+}
+
+.lightbox__gallery {
+  display: grid;
+  align-items: center;
+  isolation: isolate;
+}
+
+.lightbox__header {
+  grid-column: 1;
+  grid-row: 1;
+  z-index: 1;
+}
+
+.lightbox__controls {
+  display: grid;
+  grid-template-columns: repeat(2, max-content);
+  justify-content: space-between;
+}
+
+.lightbox__stage {
+  grid-column: 1;
+  grid-row: 1;
+  padding-inline: var(--lightbox-padding-inline);
+}
+
+.lightbox__large {
+  border-radius: 0.9375rem;
+}
+
+.lightbox__thumbnails {
+  margin-top: 2.5rem;
+  padding-inline: var(--lightbox-padding-inline);
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 5.5rem));
+  justify-content: center;
+  gap: 2rem;
+}
+
+.lightbox__thumbnail {
+  border-radius: 0.625rem;
+}

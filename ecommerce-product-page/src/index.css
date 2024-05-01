@@ -29,6 +29,10 @@
     --center-size: 63.4375rem;
   }
 
+  .center-sm {
+    --center-size: 37.875rem;
+  }
+
   .gutter {
     padding-inline: var(--gutter-size, 1.5rem);
   }
