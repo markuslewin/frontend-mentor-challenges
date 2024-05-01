@@ -2,10 +2,10 @@ import * as Dialog from "@radix-ui/react-dialog";
 import { ReactNode } from "react";
 import { Icon } from "./icon";
 import "./lightbox.css";
-import { images } from "../utils/product-images/images";
+import { images, useCurrentImage } from "../utils/product-images/images";
 
 export function Lightbox({ children }: { children: ReactNode }) {
-  const large = images[0];
+  const { index, current, next, previous, setIndex } = useCurrentImage(images);
 
   return (
     <Dialog.Root>
@@ -30,6 +30,7 @@ export function Lightbox({ children }: { children: ReactNode }) {
                     <button
                       className="bg-white text-very-dark-blue rounded-full size-14 grid place-items-center"
                       type="button"
+                      onClick={() => previous()}
                     >
                       <Icon
                         className="w-[0.8125rem] h-[1.125rem]"
@@ -42,6 +43,7 @@ export function Lightbox({ children }: { children: ReactNode }) {
                     <button
                       className="bg-white text-very-dark-blue rounded-full size-14 grid place-items-center"
                       type="button"
+                      onClick={() => next()}
                     >
                       <Icon
                         className="w-[0.8125rem] h-[1.125rem]"
@@ -52,22 +54,27 @@ export function Lightbox({ children }: { children: ReactNode }) {
                   </li>
                 </ul>
               </header>
-              <div className="lightbox__stage">
+              <p className="lightbox__stage" aria-live="polite">
                 <img
                   className="lightbox__large"
-                  alt="todo"
-                  width={large.width}
-                  height={large.height}
-                  src={large.src}
+                  alt={current.description}
+                  width={current.width}
+                  height={current.height}
+                  src={current.src}
                 />
-              </div>
+              </p>
               <ul className="lightbox__thumbnails" role="list">
                 {images.map((image, i) => (
                   <li key={i}>
-                    <button className="block" type="button">
+                    <button
+                      className="block"
+                      type="button"
+                      aria-current={i === index}
+                      onClick={() => setIndex(i)}
+                    >
                       <img
                         className="lightbox__thumbnail"
-                        alt="todo"
+                        alt={`Product image ${i + 1}`}
                         width={image.thumbnail.width}
                         height={image.thumbnail.height}
                         src={image.thumbnail.src}

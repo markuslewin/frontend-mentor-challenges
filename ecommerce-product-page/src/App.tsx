@@ -1,10 +1,10 @@
 import { Icon } from "./components/icon";
 import "./App.css";
 import { Lightbox } from "./components/lightbox";
-import { images } from "./utils/product-images/images";
+import { images, useCurrentImage } from "./utils/product-images/images";
 
 function App() {
-  const large = images[0];
+  const { index, current, setIndex } = useCurrentImage(images);
 
   return (
     <div className="pb-20 tablet:pb-32">
@@ -127,24 +127,29 @@ function App() {
           </div>
           <div>
             <h2 className="sr-only">Images</h2>
-            <p>
+            <p aria-live="polite">
               <Lightbox>
                 <img
                   className="images__main"
-                  alt="todo"
-                  width={large.width}
-                  height={large.height}
-                  src={large.src}
+                  alt={current.description}
+                  width={current.width}
+                  height={current.height}
+                  src={current.src}
                 />
               </Lightbox>
             </p>
             <ul className="images__thumbnails mt-8" role="list">
               {images.map((image, i) => (
                 <li key={i}>
-                  <button className="block" type="button">
+                  <button
+                    className="block"
+                    type="button"
+                    aria-current={i === index}
+                    onClick={() => setIndex(i)}
+                  >
                     <img
                       className="images__thumbnail"
-                      alt="todo"
+                      alt={`Product image ${i + 1}`}
                       width={image.thumbnail.width}
                       height={image.thumbnail.height}
                       src={image.thumbnail.src}
