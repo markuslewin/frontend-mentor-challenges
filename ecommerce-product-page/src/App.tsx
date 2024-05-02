@@ -5,8 +5,11 @@ import * as Cart from "./components/cart";
 import { images, useCurrentImage } from "./utils/product-images/images";
 import { useCart, useQuantity } from "./utils/cart";
 import { PrimaryButton } from "./components/buttons";
+import { useMedia } from "./utils/use-media";
+import { screens } from "./utils/screens";
 
 function App() {
+  const tabletMatches = useMedia(`(min-width: ${screens.tablet})`);
   const productImage = useCurrentImage(images);
   const lightboxImage = useCurrentImage(images);
   const cart = useCart();
@@ -164,13 +167,86 @@ function App() {
           </div>
           <div>
             <h2 className="sr-only">Images</h2>
-            <p aria-live="polite">
-              <Lightbox.Root>
-                <Lightbox.Trigger
-                  className="block"
-                  aria-description="Opens lightbox gallery"
-                  onClick={() => lightboxImage.setIndex(productImage.index)}
-                >
+            {tabletMatches ? (
+              <>
+                <Lightbox.Root>
+                  <Lightbox.Trigger
+                    className="block"
+                    aria-description="Opens lightbox gallery"
+                    onClick={() => lightboxImage.setIndex(productImage.index)}
+                  >
+                    <p aria-live="polite">
+                      <img
+                        className="images__main"
+                        alt={productImage.current.description}
+                        width={productImage.current.width}
+                        height={productImage.current.height}
+                        src={productImage.current.src}
+                      />
+                    </p>
+                  </Lightbox.Trigger>
+                  <Lightbox.Portal
+                    index={lightboxImage.index}
+                    current={lightboxImage.current}
+                    onPrevious={lightboxImage.previous}
+                    onNext={lightboxImage.next}
+                    onImageClick={lightboxImage.setIndex}
+                  />
+                </Lightbox.Root>
+                <ul className="images__thumbnails mt-8" role="list">
+                  {images.map((image, i) => (
+                    <li key={i}>
+                      <button
+                        className="block"
+                        type="button"
+                        aria-current={i === productImage.index}
+                        onClick={() => productImage.setIndex(i)}
+                      >
+                        <img
+                          className="images__thumbnail"
+                          alt={`Product image ${i + 1}`}
+                          width={image.thumbnail.width}
+                          height={image.thumbnail.height}
+                          src={image.thumbnail.src}
+                        />
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </>
+            ) : (
+              <article className="images">
+                <header className="images__header">
+                  <ul className="images__controls" role="list">
+                    <li>
+                      <button
+                        className="bg-white text-very-dark-blue rounded-full size-10 grid place-items-center"
+                        type="button"
+                        onClick={() => productImage.previous()}
+                      >
+                        <Icon
+                          className="w-[0.625rem] h-[0.875rem]"
+                          name="icon-previous"
+                        />
+                        <span className="sr-only">Previous image</span>
+                      </button>
+                    </li>
+                    <li>
+                      <button
+                        className="bg-white text-very-dark-blue rounded-full size-10 grid place-items-center"
+                        type="button"
+                        onClick={() => productImage.next()}
+                      >
+                        <Icon
+                          className="w-[0.625rem] h-[0.875rem]"
+                          name="icon-next"
+                        />
+                        <span className="sr-only">Next image</span>
+                      </button>
+                    </li>
+                  </ul>
+                </header>
+                <p className="images__stage" aria-live="polite">
                   <img
                     className="images__main"
                     alt={productImage.current.description}
@@ -178,36 +254,9 @@ function App() {
                     height={productImage.current.height}
                     src={productImage.current.src}
                   />
-                </Lightbox.Trigger>
-                <Lightbox.Portal
-                  index={lightboxImage.index}
-                  current={lightboxImage.current}
-                  onPrevious={lightboxImage.previous}
-                  onNext={lightboxImage.next}
-                  onImageClick={lightboxImage.setIndex}
-                />
-              </Lightbox.Root>
-            </p>
-            <ul className="images__thumbnails mt-8" role="list">
-              {images.map((image, i) => (
-                <li key={i}>
-                  <button
-                    className="block"
-                    type="button"
-                    aria-current={i === productImage.index}
-                    onClick={() => productImage.setIndex(i)}
-                  >
-                    <img
-                      className="images__thumbnail"
-                      alt={`Product image ${i + 1}`}
-                      width={image.thumbnail.width}
-                      height={image.thumbnail.height}
-                      src={image.thumbnail.src}
-                    />
-                  </button>
-                </li>
-              ))}
-            </ul>
+                </p>
+              </article>
+            )}
           </div>
         </div>
       </main>

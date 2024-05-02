@@ -125,8 +125,28 @@
   }
 }
 
-.images__thumbnails {
-  display: none;
+.images {
+  display: grid;
+  align-items: center;
+  isolation: isolate;
+}
+
+.images__header {
+  grid-column: 1;
+  grid-row: 1;
+  z-index: 1;
+  padding-inline: 1rem;
+}
+
+.images__stage {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.images__controls {
+  display: grid;
+  grid-template-columns: repeat(2, max-content);
+  justify-content: space-between;
 }
 
 @screen tablet {
