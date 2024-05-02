@@ -1,0 +1,11 @@
+.primary-button {
+  @apply bg-orange text-white text-primary-button shape-px-6 shape-py-5 shape-border-[0.0625rem];
+
+  width: 100%;
+  border-color: transparent;
+  border-radius: 0.625rem;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}

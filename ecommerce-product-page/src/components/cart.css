@@ -1,0 +1,40 @@
+.cart__content {
+  @apply bg-white text-dark-grayish-blue shadow-[0_1.25rem_3.125rem_-1.25rem] shadow-very-dark-blue/50;
+
+  width: min(22.5rem, var(--radix-popover-content-available-width));
+  border-radius: 0.625rem;
+}
+
+.cart__header {
+  border-bottom: 0.0625rem solid hsl(219 35% 92%);
+  padding: 1.5rem;
+  padding-bottom: 1.75rem;
+}
+
+.cart__main {
+  min-height: 11.75rem;
+  padding: 1.5rem;
+}
+
+.cart__main[data-empty="true"] {
+  @apply text-cart-empty;
+
+  display: grid;
+  place-items: center;
+}
+
+.cart__item {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 1rem;
+}
+
+.cart__thumbnail {
+  border-radius: 0.25rem;
+  width: 3.125rem;
+}
+
+.cart__delete {
+  align-self: center;
+  color: hsl(219 23% 81%);
+}

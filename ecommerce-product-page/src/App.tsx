@@ -1,8 +1,10 @@
 import { Icon } from "./components/icon";
 import "./App.css";
 import * as Lightbox from "./components/lightbox";
+import * as Cart from "./components/cart";
 import { images, useCurrentImage } from "./utils/product-images/images";
 import { useCart, useQuantity } from "./utils/cart";
+import { PrimaryButton } from "./components/buttons";
 
 function App() {
   const productImage = useCurrentImage(images);
@@ -52,18 +54,26 @@ function App() {
             </div>
             <div className="flex items-center flex-wrap gap-4 tablet:flex-nowrap tablet:gap-10">
               <p aria-live="polite">
-                <button className="cart-button" type="button">
-                  <Icon
-                    className="cart-button__icon w-[1.375rem] h-5"
-                    name="icon-cart"
+                <Cart.Root>
+                  <Cart.Trigger className="cart-button">
+                    <Icon
+                      className="cart-button__icon w-[1.375rem] h-5"
+                      name="icon-cart"
+                    />
+                    {cart.quantity ? (
+                      <span className="cart-button__badge">
+                        {cart.quantity}
+                      </span>
+                    ) : (
+                      <span className="sr-only">0</span>
+                    )}
+                    <span className="sr-only"> items in the cart</span>
+                  </Cart.Trigger>
+                  <Cart.Portal
+                    quantity={cart.quantity}
+                    onRemove={() => cart.reset()}
                   />
-                  {cart.quantity ? (
-                    <span className="cart-button__badge">{cart.quantity}</span>
-                  ) : (
-                    <span className="sr-only">0</span>
-                  )}
-                  <span className="sr-only"> items in the cart</span>
-                </button>
+                </Cart.Root>
               </p>
               <p className="shrink-0">
                 <a href="#">
@@ -138,8 +148,7 @@ function App() {
                   </button>
                 </p>
                 <p className="grow">
-                  <button
-                    className="primary-button"
+                  <PrimaryButton
                     type="button"
                     onClick={() => {
                       cart.add(quantity.value);
@@ -148,7 +157,7 @@ function App() {
                   >
                     <Icon className="w-[1.1rem] h-4" name="icon-cart" /> Add to
                     cart
-                  </button>
+                  </PrimaryButton>
                 </p>
               </div>
             </div>

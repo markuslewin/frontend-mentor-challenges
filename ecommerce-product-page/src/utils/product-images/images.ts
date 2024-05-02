@@ -17,8 +17,22 @@ import fourThumbnail from "./image-product-4-thumbnail.jpg?as=metadata";
 import { useState } from "react";
 import { clamp } from "../math";
 
+interface ProductImage {
+  src: string;
+  description: string;
+  width: number;
+  height: number;
+  thumbnail: { src: string; width: number; height: number };
+}
+
+export const primaryImage = {
+  ...one,
+  description: "<Description of image 1>",
+  thumbnail: oneThumbnail,
+} as ProductImage;
+
 export const images = [
-  { ...one, description: "<Description of image 1>", thumbnail: oneThumbnail },
+  primaryImage,
   { ...two, description: "<Description of image 2>", thumbnail: twoThumbnail },
   {
     ...three,
@@ -30,13 +44,7 @@ export const images = [
     description: "<Description of image 4>",
     thumbnail: fourThumbnail,
   },
-] as {
-  src: string;
-  description: string;
-  width: number;
-  height: number;
-  thumbnail: { src: string; width: number; height: number };
-}[];
+] as ProductImage[];
 
 export function useCurrentImage<T>(images: T[]) {
   const [index, _setIndex] = useState(0);

@@ -11,6 +11,9 @@ export function useCart() {
 
       setQuantity(_quantity + quantity);
     },
+    reset() {
+      setQuantity(0);
+    },
   };
 }
 

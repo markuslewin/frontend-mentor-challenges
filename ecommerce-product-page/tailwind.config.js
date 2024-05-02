@@ -46,6 +46,7 @@ export default {
         { lineHeight: rem(48), fontWeight: 700, letterSpacing: 0 },
       ],
       "cart-quantity": [rem(10), { lineHeight: rem(10), fontWeight: 700 }],
+      "cart-empty": [rem(16), { lineHeight: rem(26), fontWeight: 700 }],
       "current-price": [rem(28), { lineHeight: rem(28), fontWeight: 700 }],
       discount: [rem(16), { lineHeight: rem(16), fontWeight: 700 }],
       "original-price": [rem(16), { lineHeight: rem(26), fontWeight: 700 }],
