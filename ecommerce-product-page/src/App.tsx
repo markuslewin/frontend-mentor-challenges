@@ -2,10 +2,13 @@ import { Icon } from "./components/icon";
 import "./App.css";
 import * as Lightbox from "./components/lightbox";
 import { images, useCurrentImage } from "./utils/product-images/images";
+import { useCart, useQuantity } from "./utils/cart";
 
 function App() {
   const productImage = useCurrentImage(images);
   const lightboxImage = useCurrentImage(images);
+  const cart = useCart();
+  const quantity = useQuantity();
 
   return (
     <div className="pb-20 tablet:pb-32">
@@ -48,10 +51,18 @@ function App() {
               </nav>
             </div>
             <div className="flex items-center flex-wrap gap-4 tablet:flex-nowrap tablet:gap-10">
-              <p>
-                <button type="button">
-                  <Icon className="w-[1.375rem] h-5" name="icon-cart" />
-                  <span className="sr-only"> Cart</span>
+              <p aria-live="polite">
+                <button className="cart-button" type="button">
+                  <Icon
+                    className="cart-button__icon w-[1.375rem] h-5"
+                    name="icon-cart"
+                  />
+                  {cart.quantity ? (
+                    <span className="cart-button__badge">{cart.quantity}</span>
+                  ) : (
+                    <span className="sr-only">0</span>
+                  )}
+                  <span className="sr-only"> items in the cart</span>
                 </button>
               </p>
               <p className="shrink-0">
@@ -102,23 +113,39 @@ function App() {
               <h2 className="sr-only">Add to cart</h2>
               <div className="mt-6 flex flex-col flex-wrap gap-4 tablet:mt-8 tablet:flex-row">
                 <p className="quantity-selector">
-                  <button className="quantity-selector__button" type="button">
+                  <button
+                    className="quantity-selector__button"
+                    type="button"
+                    onClick={() => quantity.decrement()}
+                  >
                     <Icon className="w-3 h-1" name="icon-minus" />
                     <span className="sr-only"> Decrement quantity</span>
                   </button>
                   <span
                     className="quantity-selector__quantity"
-                    aria-live="assertive"
+                    aria-live="polite"
                   >
-                    0
+                    <span className="sr-only">Quantity: </span>
+                    {quantity.value}
                   </span>
-                  <button className="quantity-selector__button" type="button">
+                  <button
+                    className="quantity-selector__button"
+                    type="button"
+                    onClick={() => quantity.increment()}
+                  >
                     <Icon className="size-3" name="icon-plus" />
                     <span className="sr-only"> Increment quantity</span>
                   </button>
                 </p>
                 <p className="grow">
-                  <button className="primary-button" type="button">
+                  <button
+                    className="primary-button"
+                    type="button"
+                    onClick={() => {
+                      cart.add(quantity.value);
+                      quantity.reset();
+                    }}
+                  >
                     <Icon className="w-[1.1rem] h-4" name="icon-cart" /> Add to
                     cart
                   </button>
