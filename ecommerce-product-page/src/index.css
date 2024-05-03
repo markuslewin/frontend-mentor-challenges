@@ -25,11 +25,11 @@
     max-width: var(--center-size, 69.375rem);
   }
 
-  .center-md {
+  .center--md {
     --center-size: 63.4375rem;
   }
 
-  .center-sm {
+  .center--sm {
     --center-size: 37.875rem;
   }
 

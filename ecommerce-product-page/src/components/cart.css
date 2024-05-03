@@ -2,6 +2,7 @@
   @apply bg-white text-dark-grayish-blue shadow-[0_1.25rem_3.125rem_-1.25rem] shadow-very-dark-blue/50;
 
   width: min(22.5rem, var(--radix-popover-content-available-width));
+  border: 0.0625rem solid transparent;
   border-radius: 0.625rem;
 }
 

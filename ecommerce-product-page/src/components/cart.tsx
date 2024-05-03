@@ -36,8 +36,7 @@ export function Portal({
       >
         <article>
           <header className="cart__header" ref={headerRef} tabIndex={-1}>
-            {/* todo: Heading? */}
-            <p>Cart</p>
+            <h2 className="text-cart-heading text-very-dark-blue">Cart</h2>
           </header>
           <div className="cart__main" data-empty={!quantity}>
             {quantity ? (
@@ -52,12 +51,13 @@ export function Portal({
                       src={primaryImage.src}
                     />
                     <div>
-                      {/* todo: Heading? */}
-                      <p>Fall Limited Edition Sneakers</p>
+                      <h3>Fall Limited Edition Sneakers</h3>
                       <p>
                         $125.00 x {quantity}{" "}
                         <span className="sr-only">for a total price of </span>
-                        <strong className="text-very-dark-blue">$375.00</strong>
+                        <strong className="text-very-dark-blue">
+                          ${(quantity * 125).toFixed(2)}
+                        </strong>
                       </p>
                     </div>
                     <p className="cart__delete">

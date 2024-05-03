@@ -14,6 +14,7 @@
   @apply bg-white text-very-dark-blue hocus:text-orange transition-colors clickable-12;
 
   border-radius: 50%;
+  border: 0.0625rem solid transparent;
   width: 2.5rem;
   aspect-ratio: 1;
   display: grid;

@@ -25,7 +25,7 @@ export function Portal({
     <Dialog.Portal>
       <Dialog.Overlay className="lightbox__overlay">
         <Dialog.Content
-          className="lightbox__content center center-sm w-full"
+          className="lightbox__content center center--sm w-full"
           aria-describedby={undefined}
         >
           <Dialog.Title className="sr-only">Lightbox gallery</Dialog.Title>
@@ -41,7 +41,7 @@ export function Portal({
                 <li>
                   <ControlButton type="button" onClick={onPrevious}>
                     <Icon
-                      className="w-[0.8125rem] h-[1.125rem]"
+                      className="w-[0.8125rem] h-[1.125rem] -translate-x-[0.0625rem]"
                       name="icon-previous"
                     />
                     <span className="sr-only">Previous image</span>
@@ -50,7 +50,7 @@ export function Portal({
                 <li>
                   <ControlButton type="button" onClick={onNext}>
                     <Icon
-                      className="w-[0.8125rem] h-[1.125rem]"
+                      className="w-[0.8125rem] h-[1.125rem] translate-x-[0.0625rem]"
                       name="icon-next"
                     />
                     <span className="sr-only">Next image</span>

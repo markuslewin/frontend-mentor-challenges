@@ -18,7 +18,7 @@ function App() {
 
   return (
     <div className="pb-20 tablet:pb-32">
-      <header>
+      <header className="border-b-[0.0625rem] border-b-[hsl(219_35%_92%)] tablet:border-none">
         <div className="center gutter">
           <div className="header flex justify-between items-center flex-wrap tablet:flex-nowrap">
             <div className="flex items-center flex-wrap gap-4 tablet:flex-nowrap tablet:gap-14">
@@ -109,7 +109,7 @@ function App() {
         </div>
       </header>
       <main className="tablet:mt-[5.625rem]">
-        <div className="product__columns center center-md tablet:gutter grid gap-6">
+        <div className="product__columns center center--md tablet:gutter grid gap-6">
           <div className="product__text order-1 gutter tablet:gutter-none">
             <div>
               <h1 className="product__subheading grid gap-5 tablet:gap-7">
@@ -239,7 +239,7 @@ function App() {
                         onClick={() => productImage.previous()}
                       >
                         <Icon
-                          className="w-[0.625rem] h-[0.875rem]"
+                          className="w-[0.625rem] h-[0.875rem] -translate-x-[0.0625rem]"
                           name="icon-previous"
                         />
                         <span className="sr-only">Previous image</span>
@@ -251,7 +251,7 @@ function App() {
                         onClick={() => productImage.next()}
                       >
                         <Icon
-                          className="w-[0.625rem] h-[0.875rem]"
+                          className="w-[0.625rem] h-[0.875rem] translate-x-[0.0625rem]"
                           name="icon-next"
                         />
                         <span className="sr-only">Next image</span>
