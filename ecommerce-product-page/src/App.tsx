@@ -7,6 +7,7 @@ import { useCart, useQuantity } from "./utils/cart";
 import { ControlButton, PrimaryButton } from "./components/buttons";
 import { useMedia } from "./utils/use-media";
 import { screens } from "./utils/screens";
+import { Menu } from "./components/menu";
 
 function App() {
   const tabletMatches = useMedia(`(min-width: ${screens.tablet})`);
@@ -26,48 +27,45 @@ function App() {
                 <p className="sr-only">Sneakers</p>
               </div>
               <nav>
-                <button
-                  className="translate-y-[0.1875rem] tablet:hidden"
-                  type="button"
-                >
-                  <Icon className="w-4 h-[0.9375rem]" name="icon-menu" />
-                  <span className="sr-only"> Menu</span>
-                </button>
-                <ul
-                  className="hidden gap-5 tablet:flex tablet:gap-8"
-                  role="list"
-                >
-                  <li>
-                    <a className="nav__item" href="#">
-                      Collections
-                      <span />
-                    </a>
-                  </li>
-                  <li>
-                    <a className="nav__item" href="#">
-                      Men
-                      <span />
-                    </a>
-                  </li>
-                  <li>
-                    <a className="nav__item" href="#">
-                      Women
-                      <span />
-                    </a>
-                  </li>
-                  <li>
-                    <a className="nav__item" href="#">
-                      About
-                      <span />
-                    </a>
-                  </li>
-                  <li>
-                    <a className="nav__item" href="#">
-                      Contact
-                      <span />
-                    </a>
-                  </li>
-                </ul>
+                {tabletMatches ? (
+                  <ul
+                    className="hidden gap-5 tablet:flex tablet:gap-8"
+                    role="list"
+                  >
+                    <li>
+                      <a className="nav__item" href="#">
+                        Collections
+                        <span />
+                      </a>
+                    </li>
+                    <li>
+                      <a className="nav__item" href="#">
+                        Men
+                        <span />
+                      </a>
+                    </li>
+                    <li>
+                      <a className="nav__item" href="#">
+                        Women
+                        <span />
+                      </a>
+                    </li>
+                    <li>
+                      <a className="nav__item" href="#">
+                        About
+                        <span />
+                      </a>
+                    </li>
+                    <li>
+                      <a className="nav__item" href="#">
+                        Contact
+                        <span />
+                      </a>
+                    </li>
+                  </ul>
+                ) : (
+                  <Menu />
+                )}
               </nav>
             </div>
             <div className="flex items-center flex-wrap gap-4 tablet:flex-nowrap tablet:gap-10">

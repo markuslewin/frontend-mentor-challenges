@@ -62,6 +62,7 @@ export function Portal({
                     </div>
                     <p className="cart__delete">
                       <button
+                        className="clickable-12"
                         type="button"
                         onClick={() => {
                           flushSync(() => {

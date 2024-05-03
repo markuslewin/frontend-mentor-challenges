@@ -1,0 +1,44 @@
+.menu__trigger {
+  @apply clickable-12 hocus:text-very-dark-blue transition-colors;
+
+  transform: translateY(0.1875rem);
+}
+
+.menu__overlay {
+  @apply bg-black/75;
+
+  position: fixed;
+  inset: 0;
+}
+
+.menu__content {
+  @apply text-very-dark-blue text-nav;
+
+  overflow-y: auto;
+  position: fixed;
+  inset: 0 auto 0 0;
+  width: 15.625rem;
+  max-width: 100%;
+  padding: 1.5rem;
+  background: white;
+}
+
+.menu__close {
+  @apply text-dark-grayish-blue hocus:text-very-dark-blue transition-colors clickable-12;
+
+  display: block;
+}
+
+.menu__close-icon {
+  width: 1rem;
+  aspect-ratio: 1;
+}
+
+.menu__items {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.menu__item {
+  @apply hocus:text-orange transition-colors;
+}
