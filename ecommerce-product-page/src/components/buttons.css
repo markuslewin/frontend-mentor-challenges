@@ -10,6 +10,10 @@
   gap: 1rem;
 }
 
+.primary-button[data-glowing="true"] {
+  @apply shadow-[0_1.25rem_3.125rem_-1.25rem] shadow-orange;
+}
+
 .control-button {
   @apply bg-white text-very-dark-blue hocus:text-orange transition-colors clickable-12;
 

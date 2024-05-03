@@ -168,6 +168,7 @@ function App() {
                 <p className="grow">
                   <PrimaryButton
                     type="button"
+                    data-glowing={true}
                     onClick={() => {
                       cart.add(quantity.value);
                       quantity.reset();
