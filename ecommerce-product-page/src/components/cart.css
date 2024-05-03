@@ -38,3 +38,7 @@
   align-self: center;
   color: hsl(219 23% 81%);
 }
+
+.cart__delete button {
+  @apply hocus:text-very-dark-blue transition-colors;
+}

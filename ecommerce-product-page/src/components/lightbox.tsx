@@ -2,6 +2,7 @@ import * as Dialog from "@radix-ui/react-dialog";
 import { Icon } from "./icon";
 import "./lightbox.css";
 import { images } from "../utils/product-images/images";
+import { ControlButton } from "./buttons";
 
 export const Root = Dialog.Root;
 
@@ -38,30 +39,22 @@ export function Portal({
             <header className="lightbox__header">
               <ul className="lightbox__controls" role="list">
                 <li>
-                  <button
-                    className="bg-white text-very-dark-blue rounded-full size-14 grid place-items-center"
-                    type="button"
-                    onClick={onPrevious}
-                  >
+                  <ControlButton type="button" onClick={onPrevious}>
                     <Icon
                       className="w-[0.8125rem] h-[1.125rem]"
                       name="icon-previous"
                     />
                     <span className="sr-only">Previous image</span>
-                  </button>
+                  </ControlButton>
                 </li>
                 <li>
-                  <button
-                    className="bg-white text-very-dark-blue rounded-full size-14 grid place-items-center"
-                    type="button"
-                    onClick={onNext}
-                  >
+                  <ControlButton type="button" onClick={onNext}>
                     <Icon
                       className="w-[0.8125rem] h-[1.125rem]"
                       name="icon-next"
                     />
                     <span className="sr-only">Next image</span>
-                  </button>
+                  </ControlButton>
                 </li>
               </ul>
             </header>
@@ -78,13 +71,13 @@ export function Portal({
               {images.map((image, i) => (
                 <li key={i}>
                   <button
-                    className="block"
+                    className="thumbnail block"
                     type="button"
                     aria-current={i === index}
                     onClick={() => onImageClick(i)}
                   >
                     <img
-                      className="lightbox__thumbnail"
+                      className="lightbox__thumbnail thumbnail__img"
                       alt={`Product image ${i + 1}`}
                       width={image.thumbnail.width}
                       height={image.thumbnail.height}

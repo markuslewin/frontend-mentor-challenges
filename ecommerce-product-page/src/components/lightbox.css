@@ -23,6 +23,8 @@
 }
 
 .lightbox__close {
+  @apply hocus:text-orange transition-colors clickable-12;
+
   color: hsl(0 0 85%);
 }
 

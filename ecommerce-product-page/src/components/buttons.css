@@ -1,5 +1,5 @@
 .primary-button {
-  @apply bg-orange text-white text-primary-button shape-px-6 shape-py-5 shape-border-[0.0625rem];
+  @apply bg-orange text-white text-primary-button shape-px-6 shape-py-5 shape-border-[0.0625rem] hocus:bg-[hsl(26_100%_71%)] transition-colors;
 
   width: 100%;
   border-color: transparent;
@@ -8,4 +8,20 @@
   justify-content: center;
   flex-wrap: wrap;
   gap: 1rem;
+}
+
+.control-button {
+  @apply bg-white text-very-dark-blue hocus:text-orange transition-colors clickable-12;
+
+  border-radius: 50%;
+  width: 2.5rem;
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+}
+
+@screen tablet {
+  .control-button {
+    width: 3.5rem;
+  }
 }

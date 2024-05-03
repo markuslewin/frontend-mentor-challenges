@@ -4,7 +4,7 @@ import * as Lightbox from "./components/lightbox";
 import * as Cart from "./components/cart";
 import { images, useCurrentImage } from "./utils/product-images/images";
 import { useCart, useQuantity } from "./utils/cart";
-import { PrimaryButton } from "./components/buttons";
+import { ControlButton, PrimaryButton } from "./components/buttons";
 import { useMedia } from "./utils/use-media";
 import { screens } from "./utils/screens";
 
@@ -34,23 +34,38 @@ function App() {
                   <span className="sr-only"> Menu</span>
                 </button>
                 <ul
-                  className="hidden gap-5 tablet:py-[2.5625rem] tablet:flex tablet:gap-8"
+                  className="hidden gap-5 tablet:flex tablet:gap-8"
                   role="list"
                 >
                   <li>
-                    <a href="#">Collections</a>
+                    <a className="nav__item" href="#">
+                      Collections
+                      <span />
+                    </a>
                   </li>
                   <li>
-                    <a href="#">Men</a>
+                    <a className="nav__item" href="#">
+                      Men
+                      <span />
+                    </a>
                   </li>
                   <li>
-                    <a href="#">Women</a>
+                    <a className="nav__item" href="#">
+                      Women
+                      <span />
+                    </a>
                   </li>
                   <li>
-                    <a href="#">About</a>
+                    <a className="nav__item" href="#">
+                      About
+                      <span />
+                    </a>
                   </li>
                   <li>
-                    <a href="#">Contact</a>
+                    <a className="nav__item" href="#">
+                      Contact
+                      <span />
+                    </a>
                   </li>
                 </ul>
               </nav>
@@ -79,14 +94,16 @@ function App() {
                 </Cart.Root>
               </p>
               <p className="shrink-0">
-                <a href="#">
-                  <img
-                    className="size-6 tablet:size-[3.125rem]"
-                    alt="Profile"
-                    width={100}
-                    height={100}
-                    src="/images/image-avatar.png"
-                  />
+                <a className="avatar" href="#">
+                  <span className="avatar__outline">
+                    <img
+                      className="avatar__img"
+                      alt="Profile"
+                      width={100}
+                      height={100}
+                      src="/images/image-avatar.png"
+                    />
+                  </span>
                 </a>
               </p>
             </div>
@@ -197,13 +214,13 @@ function App() {
                   {images.map((image, i) => (
                     <li key={i}>
                       <button
-                        className="block"
+                        className="thumbnail block"
                         type="button"
                         aria-current={i === productImage.index}
                         onClick={() => productImage.setIndex(i)}
                       >
                         <img
-                          className="images__thumbnail"
+                          className="images__thumbnail thumbnail__img"
                           alt={`Product image ${i + 1}`}
                           width={image.thumbnail.width}
                           height={image.thumbnail.height}
@@ -219,8 +236,7 @@ function App() {
                 <header className="images__header">
                   <ul className="images__controls" role="list">
                     <li>
-                      <button
-                        className="bg-white text-very-dark-blue rounded-full size-10 grid place-items-center"
+                      <ControlButton
                         type="button"
                         onClick={() => productImage.previous()}
                       >
@@ -229,11 +245,10 @@ function App() {
                           name="icon-previous"
                         />
                         <span className="sr-only">Previous image</span>
-                      </button>
+                      </ControlButton>
                     </li>
                     <li>
-                      <button
-                        className="bg-white text-very-dark-blue rounded-full size-10 grid place-items-center"
+                      <ControlButton
                         type="button"
                         onClick={() => productImage.next()}
                       >
@@ -242,7 +257,7 @@ function App() {
                           name="icon-next"
                         />
                         <span className="sr-only">Next image</span>
-                      </button>
+                      </ControlButton>
                     </li>
                   </ul>
                 </header>
