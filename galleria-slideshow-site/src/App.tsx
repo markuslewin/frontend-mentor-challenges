@@ -5,11 +5,6 @@ import { ApiEndpoint } from "./routes/api-endpoint";
 import { FormValidation } from "./routes/form-validation";
 import { NestedRoutes } from "./routes/nested-routes";
 import {
-  NestedRoutesIndex,
-  action as nestedRoutesIndexAction,
-  loader as nestedRoutesIndexLoader,
-} from "./routes/nested-routes.index";
-import {
   NestedRoutesCreate,
   action as nestedRoutesCreateAction,
 } from "./routes/nested-routes.create";
@@ -45,12 +40,6 @@ const router = createBrowserRouter([
         path: "nested-routes",
         Component: NestedRoutes,
         children: [
-          {
-            index: true,
-            loader: nestedRoutesIndexLoader,
-            action: nestedRoutesIndexAction,
-            Component: NestedRoutesIndex,
-          },
           {
             path: "create",
             action: nestedRoutesCreateAction,
