@@ -9,19 +9,28 @@ export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     screens,
-    // todo: Add colors
     // colors: {
     //   "moderate-blue": "hsl(238 40% 52%)",
     // },
-    fontFamily: {
-      // todo: Add font from Fontsource
-      base: "Inter, system-ui, Avenir, Helvetica, Arial, sans-serif",
-    },
+    // fontFamily: {
+    //   base: "Inter, system-ui, Avenir, Helvetica, Arial, sans-serif",
+    // },
     fontSize: {
-      // todo: Add font sizes
-      "heading-l": [rem(48), { fontWeight: 500, lineHeight: rem(48) }],
-      "heading-m": [rem(39), { fontWeight: 500, lineHeight: rem(39) }],
-      body: [rem(20), { lineHeight: rem(24) }],
+      display: [rem(200), { fontWeight: 700, lineHeight: rem(150) }],
+      "heading-1": [rem(56), { fontWeight: 700, lineHeight: rem(64) }],
+      "heading-2": [rem(24), { fontWeight: 700, lineHeight: rem(29) }],
+      "heading-3": [rem(18), { fontWeight: 700, lineHeight: rem(22) }],
+      "subheading-1": [rem(15), { lineHeight: rem(19) }],
+      "subheading-2": [rem(13), { lineHeight: rem(17) }],
+      "link-1": [
+        rem(12),
+        { fontWeight: 700, lineHeight: rem(15), letterSpacing: rem(2.5) },
+      ],
+      "link-2": [
+        rem(9),
+        { fontWeight: 700, lineHeight: rem(11), letterSpacing: rem(2) },
+      ],
+      body: [rem(14), { fontWeight: 700, lineHeight: rem(28) }],
     },
     extend: {},
   },
