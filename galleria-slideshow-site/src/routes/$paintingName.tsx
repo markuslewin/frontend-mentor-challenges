@@ -1,6 +1,6 @@
 import { LoaderFunctionArgs, useLoaderData } from "react-router-dom";
 import { invariantResponse } from "@epic-web/invariant";
-import paintings from "../data/paintings.json";
+import { paintings } from "../utils/paintings";
 
 export function loader({ params }: LoaderFunctionArgs) {
   const { paintingName } = params;
