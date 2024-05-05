@@ -4,8 +4,6 @@ import tabletImg from "../assets/nattu-adnan-vvHRdOwqHcg-unsplash.jpg?format=web
 import mobileImg from "../assets/nattu-adnan-vvHRdOwqHcg-unsplash.jpg?format=webp&w=300&as=metadata";
 import { screens } from "../utils/screens";
 
-console.log({ mobile: mobileImg.src, tablet: tabletImg.src });
-
 export function OptimizedImage() {
   return (
     <>

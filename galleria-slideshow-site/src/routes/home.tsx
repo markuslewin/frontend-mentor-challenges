@@ -1,8 +1,12 @@
+import { Link } from "react-router-dom";
+
 export function Home() {
   return (
     <>
-      <h1 className="text-heading-l">My React template</h1>
-      <p className="mt-8">This is my React template.</p>
+      <h1>Galleria</h1>
+      <p>
+        <Link to="/starry night">Starry Night</Link>
+      </p>
     </>
   );
 }

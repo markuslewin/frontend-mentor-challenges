@@ -14,10 +14,9 @@ import {
   action as nestedRoutesCreateAction,
 } from "./routes/nested-routes.create";
 import {
-  NestedRoutesUpdate,
-  loader as nestedRoutesUpdateLoader,
-  action as nestedRoutesUpdateAction,
-} from "./routes/nested-routes.update.$id";
+  PaintingRoute,
+  loader as paintingLoader,
+} from "./routes/$paintingName";
 import { OptimizedImage } from "./routes/optimized-image";
 
 const router = createBrowserRouter([
@@ -28,6 +27,11 @@ const router = createBrowserRouter([
       {
         index: true,
         Component: Home,
+      },
+      {
+        path: ":paintingName",
+        loader: paintingLoader,
+        Component: PaintingRoute,
       },
       {
         path: "api-endpoint",
@@ -51,12 +55,6 @@ const router = createBrowserRouter([
             path: "create",
             action: nestedRoutesCreateAction,
             Component: NestedRoutesCreate,
-          },
-          {
-            path: "update/:id",
-            loader: nestedRoutesUpdateLoader,
-            action: nestedRoutesUpdateAction,
-            Component: NestedRoutesUpdate,
           },
         ],
       },
