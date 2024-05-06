@@ -41,7 +41,7 @@ body {
   box-sizing: content-box;
   margin-inline: auto;
   max-width: 85rem;
-  padding-inline: 1.5rem;
+  padding-inline: var(--center-gutter);
 }
 
 .gallery {
@@ -62,7 +62,131 @@ body {
     20.625rem
     32.8125rem
     21.25rem;
-  gap: 1.5rem;
+  gap: var(--gallery-gutter);
+}
+
+@screen tablet {
+  .gallery {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template:
+      "one two" 15.625rem
+      ". two" var(--gallery-gutter)
+      "three two" 6.875rem
+      "three ." var(--gallery-gutter)
+      "three four" 8.4375rem
+      ". four" var(--gallery-gutter)
+      "five four" 4.6875rem
+      "five ." var(--gallery-gutter)
+      "five six" 14.0625rem
+      ". six" var(--gallery-gutter)
+      "seven six" 0.9375rem
+      "seven ." var(--gallery-gutter)
+      "seven eight" 15.625rem
+      "seven ." var(--gallery-gutter)
+      "seven ten" 9.6875rem
+      ". ten" var(--gallery-gutter)
+      "nine ten" 4.0625rem
+      "nine ." var(--gallery-gutter)
+      "nine eleven" 19.6875rem
+      ". eleven" var(--gallery-gutter)
+      "twelve eleven" 4.6875rem
+      "twelve ." var(--gallery-gutter)
+      "twelve thirteen" 9.0625rem
+      ". thirteen" var(--gallery-gutter)
+      "fourteen thirteen" 9.0625rem
+      "fourteen ." var(--gallery-gutter)
+      "fourteen fifteen" 21.25rem;
+    gap: 0 var(--gallery-gutter);
+  }
+
+  .gallery > :nth-child(1) {
+    grid-area: one;
+  }
+
+  .gallery > :nth-child(2) {
+    grid-area: two;
+  }
+
+  .gallery > :nth-child(3) {
+    grid-area: three;
+  }
+
+  .gallery > :nth-child(4) {
+    grid-area: four;
+  }
+
+  .gallery > :nth-child(5) {
+    grid-area: five;
+  }
+
+  .gallery > :nth-child(6) {
+    grid-area: six;
+  }
+
+  .gallery > :nth-child(7) {
+    grid-area: seven;
+  }
+
+  .gallery > :nth-child(8) {
+    grid-area: eight;
+  }
+
+  .gallery > :nth-child(9) {
+    grid-area: nine;
+  }
+
+  .gallery > :nth-child(10) {
+    grid-area: ten;
+  }
+
+  .gallery > :nth-child(11) {
+    grid-area: eleven;
+  }
+
+  .gallery > :nth-child(12) {
+    grid-area: twelve;
+  }
+
+  .gallery > :nth-child(13) {
+    grid-area: thirteen;
+  }
+
+  .gallery > :nth-child(14) {
+    grid-area: fourteen;
+  }
+
+  .gallery > :nth-child(15) {
+    grid-area: fifteen;
+  }
+}
+
+@screen desktop {
+  .gallery {
+    grid-template-columns: repeat(4, 1fr);
+    grid-template:
+      "one two three four" 15.625rem
+      ". two three ." 2.1875rem
+      ". two . ." 0.3125rem
+      "five two . eight" 2.1875rem
+      "five two seven eight" 4.6875rem
+      "five . seven eight" 2.5rem
+      "five six seven eight" 6.25rem
+      "five six seven ." 2.5rem
+      "five six seven eleven" 3.125rem
+      ". six seven eleven" 2.5rem
+      "nine six seven eleven" 3.125rem
+      "nine . seven eleven" 2.5rem
+      "nine ten seven eleven" 4.0625rem
+      "nine ten . eleven" 2.5rem
+      "nine ten fourteen eleven" 9.0625rem
+      "nine ten fourteen ." 0.625rem
+      "nine . fourteen ." 1.875rem
+      "nine . fourteen fifteen" 0.625rem
+      "nine thirteen fourteen fifteen" 1.875rem
+      ". thirteen fourteen fifteen" 2.5rem
+      "twelve thirteen fourteen fifteen" 16.25rem;
+    gap: 0 var(--gallery-gutter);
+  }
 }
 
 /* Blocks */
@@ -115,7 +239,16 @@ body {
 }
 
 .home {
-  padding-block: 1.5rem;
+  --gallery-gutter: 1.5rem;
+  --center-gutter: var(--gallery-gutter);
+
+  padding-block: var(--gallery-gutter);
+}
+
+@screen tablet {
+  .home {
+    --gallery-gutter: 2.5rem;
+  }
 }
 
 .card {
