@@ -9,7 +9,7 @@
   --color-000000: 0 0% 0%;
   --color-7D7D7D: hsl(0 0% 49%);
   --color-E5E5E5: hsl(0 0% 90%);
-  --color-F3F3F3: hsl(0 0% 95%);
+  --color-F3F3F3: 0 0% 95%;
   --color-FFFFFF: 0 0% 100%;
 
   --font-base: "Libre Baskerville", serif;
