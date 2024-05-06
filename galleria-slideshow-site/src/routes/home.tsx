@@ -9,8 +9,8 @@ export function Home() {
         {paintings.map((painting) => (
           <li className="card" key={painting.name}>
             <div>
-              <Link to={`/${painting.name}`}>
-                <h2 className="card__name">{painting.name}</h2>
+              <Link className="card__name" to={`/${painting.name}`}>
+                <h2>{painting.name}</h2>
               </Link>
               <p className="card__artist">
                 <span className="sr-only">By: </span>
