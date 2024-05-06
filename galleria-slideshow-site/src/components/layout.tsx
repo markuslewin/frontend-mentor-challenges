@@ -3,14 +3,18 @@ import { Icon } from "./icon";
 
 export function Layout() {
   return (
-    <div>
-      <header>
-        <p>
-          <Icon name="logo" />
-          <span className="sr-only">Galleria</span>
+    <div className="screen">
+      <header className="[ header ] [ repel ]">
+        <p className="header__logo">
+          <Link to="/">
+            <Icon className="logo" name="logo" width="170" height="48" />
+            <span className="sr-only">Home</span>
+          </Link>
         </p>
         <nav>
-          <Link to="/starry night">Start slideshow</Link>
+          <Link className="header__start" to="/starry night">
+            Start slideshow
+          </Link>
         </nav>
       </header>
       <main>

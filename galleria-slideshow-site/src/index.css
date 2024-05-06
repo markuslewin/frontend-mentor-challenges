@@ -22,3 +22,66 @@ body {
   background: var(--color-FFFFFF);
   color: var(--color-7D7D7D);
 }
+
+/* Compositions */
+
+.screen {
+  min-height: 100vh;
+}
+
+.repel {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+/* Blocks */
+
+.header {
+  border-bottom: 0.0625rem solid var(--color-E5E5E5);
+  padding: 1.5rem;
+}
+
+.header__logo {
+  --logo-size: 2rem;
+
+  color: var(--color-000000);
+}
+
+.header__start {
+  @apply text-link-2 transition-colors;
+
+  text-transform: uppercase;
+}
+
+.header__start:hover,
+.header__start:focus-visible {
+  color: var(--color-000000);
+}
+
+@screen tablet {
+  .header {
+    padding: 1.75rem 2.5rem;
+  }
+
+  .header__start {
+    @apply text-link-1;
+  }
+}
+
+@screen desktop {
+  .header {
+    padding: 2.5rem;
+  }
+
+  .header__logo {
+    --logo-size: 3rem;
+  }
+}
+
+.logo {
+  width: auto;
+  height: var(--logo-size);
+}
