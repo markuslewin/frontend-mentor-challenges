@@ -20,8 +20,8 @@ export default {
       "heading-1": [rem(56), { fontWeight: 700, lineHeight: rem(64) }],
       "heading-2": [rem(24), { fontWeight: 700, lineHeight: rem(29) }],
       "heading-3": [rem(18), { fontWeight: 700, lineHeight: rem(22) }],
-      "subheading-1": [rem(15), { lineHeight: rem(19) }],
-      "subheading-2": [rem(13), { lineHeight: rem(17) }],
+      "subheading-1": [rem(15), { fontWeight: 400, lineHeight: rem(19) }],
+      "subheading-2": [rem(13), { fontWeight: 400, lineHeight: rem(17) }],
       "link-1": [
         rem(12),
         { fontWeight: 700, lineHeight: rem(15), letterSpacing: rem(2.5) },

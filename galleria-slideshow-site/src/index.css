@@ -6,7 +6,7 @@
 @tailwind utilities;
 
 :root {
-  --color-000000: hsl(0 0% 0%);
+  --color-000000: 0 0% 0%;
   --color-7D7D7D: hsl(0 0% 49%);
   --color-E5E5E5: hsl(0 0% 90%);
   --color-F3F3F3: hsl(0 0% 95%);
@@ -37,6 +37,34 @@ body {
   gap: 1rem;
 }
 
+.center {
+  box-sizing: content-box;
+  margin-inline: auto;
+  max-width: 85rem;
+  padding-inline: 1.5rem;
+}
+
+.gallery {
+  display: grid;
+  grid-template-rows:
+    15.625rem
+    25rem
+    17.8125rem
+    15.625rem
+    21.25rem
+    17.5rem
+    31.25rem
+    15.625rem
+    26.25rem
+    16.25rem
+    26.875rem
+    16.25rem
+    20.625rem
+    32.8125rem
+    21.25rem;
+  gap: 1.5rem;
+}
+
 /* Blocks */
 
 .header {
@@ -47,7 +75,7 @@ body {
 .header__logo {
   --logo-size: 2rem;
 
-  color: var(--color-000000);
+  color: hsl(var(--color-000000));
 }
 
 .header__start {
@@ -58,7 +86,7 @@ body {
 
 .header__start:hover,
 .header__start:focus-visible {
-  color: var(--color-000000);
+  color: hsl(var(--color-000000));
 }
 
 @screen tablet {
@@ -84,4 +112,49 @@ body {
 .logo {
   width: auto;
   height: var(--logo-size);
+}
+
+.home {
+  padding-block: 1.5rem;
+}
+
+.card {
+  position: relative;
+  isolation: isolate;
+  padding: 2rem;
+  display: grid;
+  place-items: end start;
+  color: var(--color-FFFFFF);
+}
+
+.card::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    hsl(var(--color-000000) / 84%),
+    hsl(var(--color-000000) / 0%) 10.625rem
+  );
+}
+
+.card__name {
+  @apply text-heading-2;
+}
+
+.card__artist {
+  @apply text-subheading-2;
+
+  margin-top: 0.5rem;
+  opacity: 75%;
+}
+
+.card__painting {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
