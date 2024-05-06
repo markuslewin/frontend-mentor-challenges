@@ -5,12 +5,12 @@ export function Home() {
   return (
     <>
       <h1>Paintings</h1>
-      <ul>
+      <ul role="list">
         {paintings.map((painting) => (
           <li key={painting.name}>
-            <a href={`/${painting.name}`}>
+            <Link to={`/${painting.name}`}>
               <h2>{painting.name}</h2>
-            </a>
+            </Link>
             <p>
               <span>By: </span>
               {painting.artist.name}
@@ -24,9 +24,6 @@ export function Home() {
           </li>
         ))}
       </ul>
-      <p>
-        <Link to="/starry night">Starry Night</Link>
-      </p>
     </>
   );
 }
