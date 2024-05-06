@@ -25,6 +25,13 @@
   isolation: isolate;
 }
 
+@screen tablet {
+  .layout {
+    grid-template-columns: 243fr 14.5rem 1.875rem 8rem 55fr;
+    grid-template-rows: auto minmax(auto, 1fr) 4rem auto;
+  }
+}
+
 .title {
   grid-column: 1;
   grid-row: 1 / 3;
@@ -48,6 +55,9 @@
 
 @screen tablet {
   .title {
+    grid-column: 2 / -1;
+    grid-row: 1;
+    align-self: start;
     padding: 0 0 4.0625rem 4.0625rem;
   }
 
@@ -72,7 +82,9 @@
 
 @screen tablet {
   .artist {
-    width: 8rem;
+    grid-column: 4;
+    grid-row: 2;
+    width: 100%;
   }
 }
 
@@ -125,6 +137,11 @@
 }
 
 @screen tablet {
+  .hero {
+    grid-column: 1 / 3;
+    grid-row: 1 / 3;
+  }
+
   .hero__button-container {
     place-self: end start;
   }
@@ -172,15 +189,22 @@
 
 @screen tablet {
   .description-container {
+    grid-column: 1 / -1;
+    grid-row: 4;
     display: grid;
     grid-template:
-      ". ." 4.6875rem
-      ". text" auto / 7.1875rem auto;
+      ". . ." 4.6875rem
+      ". text ." auto / 7.1875rem auto minmax(0, 7.1875rem);
     justify-items: start;
   }
 
   .description__year {
     @apply text-display;
+  }
+
+  .description__text {
+    justify-self: center;
+    max-width: 28.5625rem;
   }
 
   .description__source-container {
