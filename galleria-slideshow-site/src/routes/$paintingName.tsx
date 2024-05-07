@@ -29,7 +29,11 @@ export function loader({ params }: LoaderFunctionArgs) {
   const nextPainting =
     nextIndex >= paintings.length ? null : paintings[nextIndex];
 
-  return { previousPainting, currentPainting, nextPainting };
+  return {
+    previousPainting,
+    currentPainting: { ...currentPainting, index },
+    nextPainting,
+  };
 }
 
 export function PaintingRoute() {
@@ -39,7 +43,19 @@ export function PaintingRoute() {
   return (
     <article className={styles.route}>
       <header className={styles["current-info"]}>
-        <progress className="w-full" />
+        <div
+          className={styles["progress-root"]}
+          style={{
+            ["--progress-value" as string]:
+              (currentPainting.index + 1) / paintings.length,
+          }}
+        >
+          <div className={styles["progress-indicator"]}>
+            <p className="sr-only" aria-live="polite">
+              Painting {currentPainting.index + 1} out of {paintings.length}
+            </p>
+          </div>
+        </div>
         <div className="repel center section">
           <div className="stack">
             <p className={styles["current-info__name"]}>

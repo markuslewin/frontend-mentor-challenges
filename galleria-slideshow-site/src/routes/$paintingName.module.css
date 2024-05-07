@@ -76,6 +76,16 @@
   }
 }
 
+.progress-root {
+  background: hsl(var(--color-E5E5E5));
+}
+
+.progress-indicator {
+  border-top: 0.0625rem solid hsl(var(--color-000000));
+  transform: scaleX(var(--progress-value, 0));
+  transform-origin: left;
+}
+
 .layout {
   display: grid;
   grid-template-columns: auto minmax(0, 3rem);

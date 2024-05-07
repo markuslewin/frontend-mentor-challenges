@@ -8,7 +8,7 @@
 :root {
   --color-000000: 0 0% 0%;
   --color-7D7D7D: hsl(0 0% 49%);
-  --color-E5E5E5: hsl(0 0% 90%);
+  --color-E5E5E5: 0 0% 90%;
   --color-F3F3F3: 0 0% 95%;
   --color-FFFFFF: 0 0% 100%;
 
@@ -216,7 +216,7 @@ body {
 /* Blocks */
 
 .header {
-  border-bottom: 0.0625rem solid var(--color-E5E5E5);
+  border-bottom: 0.0625rem solid hsl(var(--color-E5E5E5));
   padding: 1.5rem;
 }
 
