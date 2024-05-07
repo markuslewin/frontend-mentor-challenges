@@ -48,6 +48,10 @@
   --icon-height: 1rem;
 }
 
+.current-info__control {
+  @apply clickable-10;
+}
+
 .current-info__control[aria-disabled="true"] {
   color: hsl(var(--color-000000) / 15%);
 }

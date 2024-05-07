@@ -13,18 +13,28 @@ export function loader({ params }: LoaderFunctionArgs) {
     "Painting must be a string"
   );
 
-  const painting = paintings.find(
+  const index = paintings.findIndex(
     (p) => p.name.toLowerCase() === paintingName.toLowerCase()
   );
-  invariantResponse(painting, "Painting not found", {
+  invariantResponse(index !== -1, "Painting not found", {
     status: 404,
   });
 
-  return { painting };
+  const previousIndex = index - 1;
+  const previousPainting = previousIndex < 0 ? null : paintings[previousIndex];
+
+  const currentPainting = paintings[index];
+
+  const nextIndex = index + 1;
+  const nextPainting =
+    nextIndex >= paintings.length ? null : paintings[nextIndex];
+
+  return { previousPainting, currentPainting, nextPainting };
 }
 
 export function PaintingRoute() {
-  const { painting } = useLoaderData() as ReturnType<typeof loader>;
+  const { previousPainting, currentPainting, nextPainting } =
+    useLoaderData() as ReturnType<typeof loader>;
 
   return (
     <article className={styles.route}>
@@ -34,11 +44,11 @@ export function PaintingRoute() {
           <div className="stack">
             <p className={styles["current-info__name"]}>
               <span className="sr-only">Painting: </span>
-              {painting.name}
+              {currentPainting.name}
             </p>
             <p className={styles["current-info__artist"]}>
               <span className="sr-only">Artist: </span>
-              {painting.artist.name}
+              {currentPainting.artist.name}
             </p>
           </div>
           <nav>
@@ -49,8 +59,8 @@ export function PaintingRoute() {
               <li>
                 <Link
                   className={styles["current-info__control"]}
-                  to="#"
-                  aria-disabled="true"
+                  to={previousPainting ? `/${previousPainting.name}` : "#"}
+                  aria-disabled={!previousPainting}
                 >
                   <Icon
                     className="icon"
@@ -64,7 +74,8 @@ export function PaintingRoute() {
               <li>
                 <Link
                   className={styles["current-info__control"]}
-                  to="/Girl with a Pearl Earring"
+                  to={nextPainting ? `/${nextPainting.name}` : "#"}
+                  aria-disabled={!nextPainting}
                 >
                   <Icon
                     className="icon"
@@ -81,32 +92,32 @@ export function PaintingRoute() {
       </header>
       <div className={`[ ${styles.layout} ] [ center ]`}>
         <div className={styles.title}>
-          <h1 className={styles["title__name"]}>{painting.name}</h1>
+          <h1 className={styles["title__name"]}>{currentPainting.name}</h1>
           <p className={styles["title__artist"]}>
             <span className="sr-only">By: </span>
-            {painting.artist.name}
+            {currentPainting.artist.name}
           </p>
         </div>
         <img
           className={styles.artist}
           alt=""
-          width={painting.artist.image.width}
-          height={painting.artist.image.height}
-          src={painting.artist.image.src}
+          width={currentPainting.artist.image.width}
+          height={currentPainting.artist.image.height}
+          src={currentPainting.artist.image.src}
         />
         <div className={styles.hero}>
           <picture className={styles["hero__image"]}>
             <source
               media={`(min-width: ${screens.tablet})`}
-              width={painting.images.hero.large.width}
-              height={painting.images.hero.large.height}
-              srcSet={painting.images.hero.large.src}
+              width={currentPainting.images.hero.large.width}
+              height={currentPainting.images.hero.large.height}
+              srcSet={currentPainting.images.hero.large.src}
             />
             <img
-              alt={`todo: Visual description of "${painting.name}"`}
-              width={painting.images.hero.small.width}
-              height={painting.images.hero.small.height}
-              src={painting.images.hero.small.src}
+              alt={`todo: Visual description of "${currentPainting.name}"`}
+              width={currentPainting.images.hero.small.width}
+              height={currentPainting.images.hero.small.height}
+              src={currentPainting.images.hero.small.src}
             />
           </picture>
           <p className={styles["hero__button-container"]}>
@@ -125,16 +136,16 @@ export function PaintingRoute() {
                     aria-describedby={undefined}
                   >
                     <Dialog.Title className="sr-only">
-                      {painting.name}
+                      {currentPainting.name}
                     </Dialog.Title>
                     <Dialog.Close className={styles["lightbox__close"]}>
                       Close
                     </Dialog.Close>
                     <img
-                      alt={`todo: Visual description of ${painting.name}`}
-                      width={painting.images.gallery.width}
-                      height={painting.images.gallery.height}
-                      src={painting.images.gallery.src}
+                      alt={`todo: Visual description of ${currentPainting.name}`}
+                      width={currentPainting.images.gallery.width}
+                      height={currentPainting.images.gallery.height}
+                      src={currentPainting.images.gallery.src}
                     />
                   </Dialog.Content>
                 </Dialog.Overlay>
@@ -143,13 +154,13 @@ export function PaintingRoute() {
           </p>
         </div>
         <div className={styles["description-container"]}>
-          <p className={styles["description__year"]}>{painting.year}</p>
+          <p className={styles["description__year"]}>{currentPainting.year}</p>
           <div className={styles["description__text"]}>
-            <p>{painting.description}</p>
+            <p>{currentPainting.description}</p>
             <p className={styles["description__source-container"]}>
               <Link
                 className={styles["description__source"]}
-                to={painting.source}
+                to={currentPainting.source}
               >
                 Go to source
               </Link>

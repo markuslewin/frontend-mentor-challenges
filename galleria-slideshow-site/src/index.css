@@ -208,7 +208,8 @@ body {
 }
 
 .stack {
-  display: grid;
+  display: flex;
+  flex-direction: column;
   gap: var(--stack-space);
 }
 
