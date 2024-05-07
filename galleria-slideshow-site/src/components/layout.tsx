@@ -27,7 +27,7 @@ export function Layout() {
           )}
         </nav>
       </header>
-      <main>
+      <main className="main">
         <Outlet />
       </main>
     </div>

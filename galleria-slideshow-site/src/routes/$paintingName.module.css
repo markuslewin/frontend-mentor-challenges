@@ -2,6 +2,9 @@
   --center-gutter: 1.5rem;
 
   padding-top: 1.5rem;
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: space-between;
 }
 
 @screen tablet {
@@ -15,6 +18,57 @@
 @screen desktop {
   .route {
     padding-top: 6.25rem;
+  }
+}
+
+.current-info {
+  --section-space: 1rem;
+  --stack-space: 0.5rem;
+
+  margin-top: 1.5rem;
+  color: hsl(var(--color-000000));
+}
+
+.current-info__name {
+  font-size: 0.875rem;
+  font-weight: 700;
+  line-height: 1.0625rem;
+}
+
+.current-info__artist {
+  font-size: 0.625rem;
+  font-weight: 400;
+  line-height: 0.75rem;
+  color: hsl(var(--color-000000) / 75%);
+}
+
+.current-info__controls {
+  --cluster-space: 1.5rem;
+  --icon-width: auto;
+  --icon-height: 1rem;
+}
+
+.current-info__control[aria-disabled="true"] {
+  color: hsl(var(--color-000000) / 15%);
+}
+
+@screen tablet {
+  .current-info {
+    --section-space: 1.5rem;
+  }
+
+  .current-info__name {
+    @apply text-heading-3;
+  }
+
+  .current-info__artist {
+    font-size: 0.8125rem;
+    line-height: 1rem;
+  }
+
+  .current-info__controls {
+    --cluster-space: 2.5rem;
+    --icon-height: 1.5rem;
   }
 }
 

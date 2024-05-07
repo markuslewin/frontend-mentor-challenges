@@ -27,6 +27,8 @@ body {
 
 .screen {
   min-height: 100vh;
+  display: grid;
+  grid-template-rows: max-content 1fr;
 }
 
 .repel {
@@ -189,6 +191,27 @@ body {
   }
 }
 
+.icon {
+  width: var(--icon-width);
+  height: var(--icon-height);
+}
+
+.cluster {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--cluster-space);
+}
+
+.section {
+  padding-block: var(--section-space);
+}
+
+.stack {
+  display: grid;
+  gap: var(--stack-space);
+}
+
 /* Blocks */
 
 .header {
@@ -236,6 +259,10 @@ body {
 .logo {
   width: auto;
   height: var(--logo-size);
+}
+
+.main {
+  display: grid;
 }
 
 .home {

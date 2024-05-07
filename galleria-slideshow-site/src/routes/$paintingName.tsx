@@ -27,37 +27,59 @@ export function PaintingRoute() {
   const { painting } = useLoaderData() as ReturnType<typeof loader>;
 
   return (
-    <div className={`[ ${styles.route} ] [ center ]`}>
-      <article className={styles.layout}>
-        {/* <header>
-        <progress />
-        <div>
-        <p>
-        <span>Painting: </span>
-        {painting.name}
-        </p>
-        <p>
-        <span>Artist: </span>
-        {painting.artist.name}
-          </p>
+    <article className={styles.route}>
+      <header className={styles["current-info"]}>
+        <progress className="w-full" />
+        <div className="repel center section">
+          <div className="stack">
+            <p className={styles["current-info__name"]}>
+              <span className="sr-only">Painting: </span>
+              {painting.name}
+            </p>
+            <p className={styles["current-info__artist"]}>
+              <span className="sr-only">Artist: </span>
+              {painting.artist.name}
+            </p>
           </div>
           <nav>
-          <ul role="list">
-            <li>
-            <Link to="#" aria-disabled="true">
-            <Icon name="icon-back-button" />
-            <span>Previous painting</span>
-            </Link>
-            </li>
-            <li>
-            <Link to="/Girl with a Pearl Earring">
-            <Icon name="icon-next-button" />
-            <span>Next painting</span>
-            </Link>
-            </li>
+            <ul
+              className={`[ ${styles["current-info__controls"]} ] [ cluster ]`}
+              role="list"
+            >
+              <li>
+                <Link
+                  className={styles["current-info__control"]}
+                  to="#"
+                  aria-disabled="true"
+                >
+                  <Icon
+                    className="icon"
+                    name="icon-back-button"
+                    width="26"
+                    height="24"
+                  />
+                  <span className="sr-only">Previous painting</span>
+                </Link>
+              </li>
+              <li>
+                <Link
+                  className={styles["current-info__control"]}
+                  to="/Girl with a Pearl Earring"
+                >
+                  <Icon
+                    className="icon"
+                    name="icon-next-button"
+                    width="26"
+                    height="24"
+                  />
+                  <span className="sr-only">Next painting</span>
+                </Link>
+              </li>
             </ul>
-            </nav>
-          </header> */}
+          </nav>
+        </div>
+      </header>
+      <div className={`[ ${styles.layout} ] [ center ]`}>
         <div className={styles.title}>
           <h1 className={styles["title__name"]}>{painting.name}</h1>
           <p className={styles["title__artist"]}>
@@ -134,7 +156,7 @@ export function PaintingRoute() {
             </p>
           </div>
         </div>
-      </article>
-    </div>
+      </div>
+    </article>
   );
 }
