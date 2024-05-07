@@ -32,6 +32,15 @@
   }
 }
 
+@screen desktop {
+  .layout {
+    grid-template-columns:
+      minmax(0, 25.625rem) 4.0625rem 1.875rem 8rem minmax(min-content, 1fr)
+      1.875rem auto;
+    grid-template-rows: auto 4rem auto;
+  }
+}
+
 .title {
   grid-column: 1;
   grid-row: 1 / 3;
@@ -72,6 +81,13 @@
   }
 }
 
+@screen desktop {
+  .title {
+    grid-column: 2 / 6;
+    grid-row: 1;
+  }
+}
+
 .artist {
   grid-column: 1 / -1;
   grid-row: 3 / 5;
@@ -85,6 +101,13 @@
     grid-column: 4;
     grid-row: 2;
     width: 100%;
+  }
+}
+
+@screen desktop {
+  .artist {
+    grid-column: 4;
+    grid-row: 2 / -1;
   }
 }
 
@@ -144,6 +167,13 @@
 
   .hero__button-container {
     place-self: end start;
+  }
+}
+
+@screen desktop {
+  .hero {
+    grid-column: 1 / 3;
+    grid-row: 1 / 3;
   }
 }
 
@@ -214,11 +244,18 @@
 
 @screen desktop {
   .description-container {
+    grid-column: 7 / -1;
+    grid-row: 1 / -1;
     display: grid;
     grid-template:
       ". ." 7.1875rem
       "text ." auto / auto 7.8125rem;
     justify-items: end;
+  }
+
+  .description__text {
+    justify-self: start;
+    max-width: 21.875rem;
   }
 
   .description__source-container {
