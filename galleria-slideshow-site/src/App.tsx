@@ -13,6 +13,7 @@ import {
   loader as paintingLoader,
 } from "./routes/$paintingName";
 import { OptimizedImage } from "./routes/optimized-image";
+import { SlideshowHandle } from "./utils/slideshow";
 
 const router = createBrowserRouter([
   {
@@ -25,6 +26,9 @@ const router = createBrowserRouter([
       },
       {
         path: ":paintingName",
+        handle: {
+          isSlideshow: true,
+        } satisfies SlideshowHandle,
         loader: paintingLoader,
         Component: PaintingRoute,
       },

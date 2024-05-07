@@ -1,7 +1,11 @@
 import { Link, Outlet } from "react-router-dom";
 import { Icon } from "./icon";
+import { paintings } from "../utils/paintings";
+import { useSlideshow } from "../utils/slideshow";
 
 export function Layout() {
+  const { isSlideshow } = useSlideshow();
+
   return (
     <div className="screen">
       <header className="[ header ] [ repel ]">
@@ -12,9 +16,15 @@ export function Layout() {
           </Link>
         </p>
         <nav>
-          <Link className="header__start" to="/starry night">
-            Start slideshow
-          </Link>
+          {isSlideshow ? (
+            <Link className="header__start" to="/">
+              Stop slideshow
+            </Link>
+          ) : (
+            <Link className="header__start" to={`${paintings[0].name}`}>
+              Start slideshow
+            </Link>
+          )}
         </nav>
       </header>
       <main>
