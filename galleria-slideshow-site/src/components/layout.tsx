@@ -1,4 +1,4 @@
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, ScrollRestoration } from "react-router-dom";
 import { Icon } from "./icon";
 import { paintings } from "../utils/paintings";
 import { useSlideshow } from "../utils/slideshow";
@@ -30,6 +30,7 @@ export function Layout() {
       <main className="main">
         <Outlet />
       </main>
+      <ScrollRestoration />
     </div>
   );
 }

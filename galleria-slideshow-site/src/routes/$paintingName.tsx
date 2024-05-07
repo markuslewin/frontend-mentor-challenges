@@ -1,10 +1,16 @@
-import { Link, LoaderFunctionArgs, useLoaderData } from "react-router-dom";
+import {
+  Link,
+  LoaderFunctionArgs,
+  useLoaderData,
+  useNavigate,
+} from "react-router-dom";
 import { invariantResponse } from "@epic-web/invariant";
 import * as Dialog from "@radix-ui/react-dialog";
 import { paintings } from "../utils/paintings";
 import { screens } from "../utils/screens";
 import { Icon } from "../components/icon";
 import styles from "./$paintingName.module.css";
+import { flushSync } from "react-dom";
 
 export function loader({ params }: LoaderFunctionArgs) {
   const { paintingName } = params;
@@ -39,6 +45,7 @@ export function loader({ params }: LoaderFunctionArgs) {
 export function PaintingRoute() {
   const { previousPainting, currentPainting, nextPainting } =
     useLoaderData() as ReturnType<typeof loader>;
+  const navigate = useNavigate();
 
   return (
     <article className={styles.route}>
@@ -73,9 +80,19 @@ export function PaintingRoute() {
               role="list"
             >
               <li>
-                <Link
+                <button
                   className={styles["current-info__control"]}
-                  to={previousPainting ? `/${previousPainting.name}` : "#"}
+                  type="button"
+                  onClick={() => {
+                    if (previousPainting) {
+                      flushSync(() => {
+                        navigate(`/${previousPainting.name}`, {
+                          preventScrollReset: true,
+                        });
+                      });
+                      scrollTo(0, document.body.scrollHeight);
+                    }
+                  }}
                   aria-disabled={!previousPainting}
                 >
                   <Icon
@@ -85,12 +102,22 @@ export function PaintingRoute() {
                     height="24"
                   />
                   <span className="sr-only">Previous painting</span>
-                </Link>
+                </button>
               </li>
               <li>
-                <Link
+                <button
                   className={styles["current-info__control"]}
-                  to={nextPainting ? `/${nextPainting.name}` : "#"}
+                  type="button"
+                  onClick={() => {
+                    if (nextPainting) {
+                      flushSync(() => {
+                        navigate(`/${nextPainting.name}`, {
+                          preventScrollReset: true,
+                        });
+                      });
+                      scrollTo(0, document.body.scrollHeight);
+                    }
+                  }}
                   aria-disabled={!nextPainting}
                 >
                   <Icon
@@ -100,7 +127,7 @@ export function PaintingRoute() {
                     height="24"
                   />
                   <span className="sr-only">Next painting</span>
-                </Link>
+                </button>
               </li>
             </ul>
           </nav>

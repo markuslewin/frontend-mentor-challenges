@@ -50,6 +50,8 @@
 
 .current-info__control {
   @apply clickable-10 transition-colors;
+
+  display: block;
 }
 
 .current-info__control:hover,
