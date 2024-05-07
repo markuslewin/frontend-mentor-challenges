@@ -1,5 +1,6 @@
 import { Link, LoaderFunctionArgs, useLoaderData } from "react-router-dom";
 import { invariantResponse } from "@epic-web/invariant";
+import * as Dialog from "@radix-ui/react-dialog";
 import { paintings } from "../utils/paintings";
 import { screens } from "../utils/screens";
 import { Icon } from "../components/icon";
@@ -87,13 +88,36 @@ export function PaintingRoute() {
             />
           </picture>
           <p className={styles["hero__button-container"]}>
-            <button className={styles["hero__button"]} type="button">
-              <Icon
-                className={styles["hero__button-icon"]}
-                name="icon-view-image"
-              />
-              <span className={styles["hero__button-text"]}>View image</span>
-            </button>
+            <Dialog.Root>
+              <Dialog.Trigger className={styles["hero__button"]}>
+                <Icon
+                  className={styles["hero__button-icon"]}
+                  name="icon-view-image"
+                />
+                <span className={styles["hero__button-text"]}>View image</span>
+              </Dialog.Trigger>
+              <Dialog.Portal>
+                <Dialog.Overlay className={styles["lightbox__overlay"]}>
+                  <Dialog.Content
+                    className={styles["lightbox__content"]}
+                    aria-describedby={undefined}
+                  >
+                    <Dialog.Title className="sr-only">
+                      {painting.name}
+                    </Dialog.Title>
+                    <Dialog.Close className={styles["lightbox__close"]}>
+                      Close
+                    </Dialog.Close>
+                    <img
+                      alt={`todo: Visual description of ${painting.name}`}
+                      width={painting.images.gallery.width}
+                      height={painting.images.gallery.height}
+                      src={painting.images.gallery.src}
+                    />
+                  </Dialog.Content>
+                </Dialog.Overlay>
+              </Dialog.Portal>
+            </Dialog.Root>
           </p>
         </div>
         <div className={styles["description-container"]}>
