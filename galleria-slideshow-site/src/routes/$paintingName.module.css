@@ -49,7 +49,12 @@
 }
 
 .current-info__control {
-  @apply clickable-10;
+  @apply clickable-10 transition-colors;
+}
+
+.current-info__control:hover,
+.current-info__control:focus-visible {
+  color: hsl(var(--color-000000) / 50%);
 }
 
 .current-info__control[aria-disabled="true"] {
@@ -81,6 +86,8 @@
 }
 
 .progress-indicator {
+  @apply transition-transform;
+
   border-top: 0.0625rem solid hsl(var(--color-000000));
   transform: scaleX(var(--progress-value, 0));
   transform-origin: left;
