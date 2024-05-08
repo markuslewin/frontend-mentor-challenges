@@ -133,81 +133,87 @@ export function PaintingRoute() {
           </nav>
         </div>
       </header>
-      <div className={`[ ${styles.layout} ] [ center ]`}>
-        <div className={styles.title}>
-          <h1 className={styles["title__name"]}>{currentPainting.name}</h1>
-          <p className={styles["title__artist"]}>
-            <span className="sr-only">By: </span>
-            {currentPainting.artist.name}
-          </p>
-        </div>
-        <img
-          className={styles.artist}
-          alt=""
-          width={currentPainting.artist.image.width}
-          height={currentPainting.artist.image.height}
-          src={currentPainting.artist.image.src}
-        />
-        <div className={styles.hero}>
-          <picture className={styles["hero__image"]}>
-            <source
-              media={`(min-width: ${screens.tablet})`}
-              width={currentPainting.images.hero.large.width}
-              height={currentPainting.images.hero.large.height}
-              srcSet={currentPainting.images.hero.large.src}
-            />
-            <img
-              alt={`todo: Visual description of "${currentPainting.name}"`}
-              width={currentPainting.images.hero.small.width}
-              height={currentPainting.images.hero.small.height}
-              src={currentPainting.images.hero.small.src}
-            />
-          </picture>
-          <p className={styles["hero__button-container"]}>
-            <Dialog.Root>
-              <Dialog.Trigger className={styles["hero__button"]}>
-                <Icon
-                  className={styles["hero__button-icon"]}
-                  name="icon-view-image"
-                />
-                <span className={styles["hero__button-text"]}>View image</span>
-              </Dialog.Trigger>
-              <Dialog.Portal>
-                <Dialog.Overlay className={styles["lightbox__overlay"]}>
-                  <Dialog.Content
-                    className={styles["lightbox__content"]}
-                    aria-describedby={undefined}
-                  >
-                    <Dialog.Title className="sr-only">
-                      {currentPainting.name}
-                    </Dialog.Title>
-                    <Dialog.Close className={styles["lightbox__close"]}>
-                      Close
-                    </Dialog.Close>
-                    <img
-                      alt={`todo: Visual description of ${currentPainting.name}`}
-                      width={currentPainting.images.gallery.width}
-                      height={currentPainting.images.gallery.height}
-                      src={currentPainting.images.gallery.src}
-                    />
-                  </Dialog.Content>
-                </Dialog.Overlay>
-              </Dialog.Portal>
-            </Dialog.Root>
-          </p>
-        </div>
-        <div className={styles["description-container"]}>
-          <p className={styles["description__year"]}>{currentPainting.year}</p>
-          <div className={styles["description__text"]}>
-            <p>{currentPainting.description}</p>
-            <p className={styles["description__source-container"]}>
-              <Link
-                className={styles["description__source"]}
-                to={currentPainting.source}
-              >
-                Go to source
-              </Link>
+      <div>
+        <div className={`[ ${styles.layout} ] [ center ]`}>
+          <div className={styles.title}>
+            <h1 className={styles["title__name"]}>{currentPainting.name}</h1>
+            <p className={styles["title__artist"]}>
+              <span className="sr-only">By: </span>
+              {currentPainting.artist.name}
             </p>
+          </div>
+          <img
+            className={styles.artist}
+            alt=""
+            width={currentPainting.artist.image.width}
+            height={currentPainting.artist.image.height}
+            src={currentPainting.artist.image.src}
+          />
+          <div className={styles.hero}>
+            <picture className={styles["hero__image"]}>
+              <source
+                media={`(min-width: ${screens.tablet})`}
+                width={currentPainting.images.hero.large.width}
+                height={currentPainting.images.hero.large.height}
+                srcSet={currentPainting.images.hero.large.src}
+              />
+              <img
+                alt={`todo: Visual description of "${currentPainting.name}"`}
+                width={currentPainting.images.hero.small.width}
+                height={currentPainting.images.hero.small.height}
+                src={currentPainting.images.hero.small.src}
+              />
+            </picture>
+            <p className={styles["hero__button-container"]}>
+              <Dialog.Root>
+                <Dialog.Trigger className={styles["hero__button"]}>
+                  <Icon
+                    className={styles["hero__button-icon"]}
+                    name="icon-view-image"
+                  />
+                  <span className={styles["hero__button-text"]}>
+                    View image
+                  </span>
+                </Dialog.Trigger>
+                <Dialog.Portal>
+                  <Dialog.Overlay className={styles["lightbox__overlay"]}>
+                    <Dialog.Content
+                      className={styles["lightbox__content"]}
+                      aria-describedby={undefined}
+                    >
+                      <Dialog.Title className="sr-only">
+                        {currentPainting.name}
+                      </Dialog.Title>
+                      <Dialog.Close className={styles["lightbox__close"]}>
+                        Close
+                      </Dialog.Close>
+                      <img
+                        alt={`todo: Visual description of ${currentPainting.name}`}
+                        width={currentPainting.images.gallery.width}
+                        height={currentPainting.images.gallery.height}
+                        src={currentPainting.images.gallery.src}
+                      />
+                    </Dialog.Content>
+                  </Dialog.Overlay>
+                </Dialog.Portal>
+              </Dialog.Root>
+            </p>
+          </div>
+          <div className={styles["description-container"]}>
+            <p className={styles["description__year"]}>
+              {currentPainting.year}
+            </p>
+            <div className={styles["description__text"]}>
+              <p>{currentPainting.description}</p>
+              <p className={styles["description__source-container"]}>
+                <Link
+                  className={styles["description__source"]}
+                  to={currentPainting.source}
+                >
+                  Go to source
+                </Link>
+              </p>
+            </div>
           </div>
         </div>
       </div>
