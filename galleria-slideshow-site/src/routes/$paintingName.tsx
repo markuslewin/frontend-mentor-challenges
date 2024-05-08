@@ -143,6 +143,7 @@ export function PaintingRoute() {
             </p>
           </div>
           <img
+            key={currentPainting.name}
             className={styles.artist}
             alt=""
             width={currentPainting.artist.image.width}
@@ -150,7 +151,10 @@ export function PaintingRoute() {
             src={currentPainting.artist.image.src}
           />
           <div className={styles.hero}>
-            <picture className={styles["hero__image"]}>
+            <picture
+              key={currentPainting.name}
+              className={styles["hero__image"]}
+            >
               <source
                 media={`(min-width: ${screens.tablet})`}
                 width={currentPainting.images.hero.large.width}
