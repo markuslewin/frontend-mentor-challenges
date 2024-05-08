@@ -3,10 +3,12 @@ import { Icon } from "./icon";
 import { paintings } from "../utils/paintings";
 import { useSlideshow } from "../utils/slideshow";
 import { RouteAnnouncer } from "./route-announcer";
+import { useId } from "react";
 
 export function Layout() {
   const { isSlideshow } = useSlideshow();
   const navigate = useNavigate();
+  const navHeadingId = useId();
 
   return (
     <div className="screen">
@@ -17,7 +19,10 @@ export function Layout() {
             <span className="sr-only">Home</span>
           </Link>
         </p>
-        <nav>
+        <nav aria-labelledby={navHeadingId}>
+          <h2 className="sr-only" id={navHeadingId}>
+            Primary navigation
+          </h2>
           {isSlideshow ? (
             <button
               className="header__start"

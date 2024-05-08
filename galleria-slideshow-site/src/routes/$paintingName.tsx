@@ -13,6 +13,7 @@ import styles from "./$paintingName.module.css";
 import { flushSync } from "react-dom";
 import { AnnouncementHandle } from "../components/route-announcer";
 import { SlideshowHandle } from "../utils/slideshow";
+import { useId } from "react";
 
 type LoaderData = ReturnType<typeof loader>;
 
@@ -57,10 +58,12 @@ export function PaintingRoute() {
   const { previousPainting, currentPainting, nextPainting } =
     useLoaderData() as LoaderData;
   const navigate = useNavigate();
+  const controlsHeadingId = useId();
 
   return (
     <article className={styles.route}>
       <header className={styles["current-info"]}>
+        <h2 className="sr-only">Slideshow</h2>
         <div
           className={styles["progress-root"]}
           style={{
@@ -69,6 +72,7 @@ export function PaintingRoute() {
           }}
         >
           <div className={styles["progress-indicator"]}>
+            <h3 className="sr-only">Progress</h3>
             <p className="sr-only" aria-live="polite">
               Painting {currentPainting.index + 1} out of {paintings.length}
             </p>
@@ -76,16 +80,19 @@ export function PaintingRoute() {
         </div>
         <div className="repel center section">
           <div className="stack">
+            <h3 className="sr-only">Painting</h3>
             <p className={styles["current-info__name"]}>
-              <span className="sr-only">Painting: </span>
               {currentPainting.name}
             </p>
+            <h3 className="sr-only">Artist</h3>
             <p className={styles["current-info__artist"]}>
-              <span className="sr-only">Artist: </span>
               {currentPainting.artist.name}
             </p>
           </div>
-          <nav>
+          <nav aria-labelledby={controlsHeadingId}>
+            <h3 className="sr-only" id={controlsHeadingId}>
+              Controls
+            </h3>
             <ul
               className={`[ ${styles["current-info__controls"]} ] [ cluster ]`}
               role="list"
@@ -148,8 +155,8 @@ export function PaintingRoute() {
         <div className={`[ ${styles.layout} ] [ center ]`}>
           <div className={styles.title}>
             <h1 className={styles["title__name"]}>{currentPainting.name}</h1>
+            <h2 className="sr-only">Artist</h2>
             <p className={styles["title__artist"]}>
-              <span className="sr-only">By: </span>
               {currentPainting.artist.name}
             </p>
           </div>
@@ -162,6 +169,7 @@ export function PaintingRoute() {
             src={currentPainting.artist.image.src}
           />
           <div className={styles.hero}>
+            <h2 className="sr-only">Image</h2>
             <picture
               key={currentPainting.name}
               className={styles["hero__image"]}
@@ -215,11 +223,14 @@ export function PaintingRoute() {
             </p>
           </div>
           <div className={styles["description-container"]}>
+            <h2 className="sr-only">Year</h2>
             <p className={styles["description__year"]}>
               {currentPainting.year}
             </p>
             <div className={styles["description__text"]}>
+              <h2 className="sr-only">Description</h2>
               <p>{currentPainting.description}</p>
+              <h2 className="sr-only">Source</h2>
               <p className={styles["description__source-container"]}>
                 <Link
                   className={styles["description__source"]}
