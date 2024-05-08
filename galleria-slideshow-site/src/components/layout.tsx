@@ -2,6 +2,7 @@ import { Link, Outlet, ScrollRestoration, useNavigate } from "react-router-dom";
 import { Icon } from "./icon";
 import { paintings } from "../utils/paintings";
 import { useSlideshow } from "../utils/slideshow";
+import { RouteAnnouncer } from "./route-announcer";
 
 export function Layout() {
   const { isSlideshow } = useSlideshow();
@@ -44,6 +45,7 @@ export function Layout() {
         <Outlet />
       </main>
       <ScrollRestoration />
+      <RouteAnnouncer />
     </div>
   );
 }

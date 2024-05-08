@@ -1,6 +1,6 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { Layout } from "./components/layout";
-import { Home } from "./routes/home";
+import { Home, handle as homeHandle } from "./routes/home";
 import { ApiEndpoint } from "./routes/api-endpoint";
 import { FormValidation } from "./routes/form-validation";
 import { NestedRoutes } from "./routes/nested-routes";
@@ -10,10 +10,10 @@ import {
 } from "./routes/nested-routes.create";
 import {
   PaintingRoute,
+  handle as paintingHandle,
   loader as paintingLoader,
 } from "./routes/$paintingName";
 import { OptimizedImage } from "./routes/optimized-image";
-import { SlideshowHandle } from "./utils/slideshow";
 
 const router = createBrowserRouter([
   {
@@ -22,13 +22,12 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
+        handle: homeHandle,
         Component: Home,
       },
       {
         path: ":paintingName",
-        handle: {
-          isSlideshow: true,
-        } satisfies SlideshowHandle,
+        handle: paintingHandle,
         loader: paintingLoader,
         Component: PaintingRoute,
       },

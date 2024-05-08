@@ -11,6 +11,17 @@ import { screens } from "../utils/screens";
 import { Icon } from "../components/icon";
 import styles from "./$paintingName.module.css";
 import { flushSync } from "react-dom";
+import { AnnouncementHandle } from "../components/route-announcer";
+import { SlideshowHandle } from "../utils/slideshow";
+
+type LoaderData = ReturnType<typeof loader>;
+
+export const handle = {
+  announcement(data) {
+    return data.currentPainting.name;
+  },
+  isSlideshow: true,
+} satisfies AnnouncementHandle<LoaderData> & SlideshowHandle;
 
 export function loader({ params }: LoaderFunctionArgs) {
   const { paintingName } = params;
@@ -44,7 +55,7 @@ export function loader({ params }: LoaderFunctionArgs) {
 
 export function PaintingRoute() {
   const { previousPainting, currentPainting, nextPainting } =
-    useLoaderData() as ReturnType<typeof loader>;
+    useLoaderData() as LoaderData;
   const navigate = useNavigate();
 
   return (

@@ -1,5 +1,12 @@
 import { Link } from "react-router-dom";
 import { paintings } from "../utils/paintings";
+import { AnnouncementHandle } from "../components/route-announcer";
+
+export const handle = {
+  announcement() {
+    return "Home | Galleria";
+  },
+} satisfies AnnouncementHandle;
 
 export function Home() {
   return (
