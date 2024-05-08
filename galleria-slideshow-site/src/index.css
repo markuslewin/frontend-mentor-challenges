@@ -229,6 +229,7 @@ body {
 .header__start {
   @apply text-link-2 transition-colors;
 
+  display: block;
   text-transform: uppercase;
 }
 

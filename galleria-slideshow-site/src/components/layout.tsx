@@ -1,10 +1,11 @@
-import { Link, Outlet, ScrollRestoration } from "react-router-dom";
+import { Link, Outlet, ScrollRestoration, useNavigate } from "react-router-dom";
 import { Icon } from "./icon";
 import { paintings } from "../utils/paintings";
 import { useSlideshow } from "../utils/slideshow";
 
 export function Layout() {
   const { isSlideshow } = useSlideshow();
+  const navigate = useNavigate();
 
   return (
     <div className="screen">
@@ -17,13 +18,25 @@ export function Layout() {
         </p>
         <nav>
           {isSlideshow ? (
-            <Link className="header__start" to="/">
+            <button
+              className="header__start"
+              type="button"
+              onClick={() => {
+                navigate("/");
+              }}
+            >
               Stop slideshow
-            </Link>
+            </button>
           ) : (
-            <Link className="header__start" to={`${paintings[0].name}`}>
+            <button
+              className="header__start"
+              type="button"
+              onClick={() => {
+                navigate(`${paintings[0].name}`);
+              }}
+            >
               Start slideshow
-            </Link>
+            </button>
           )}
         </nav>
       </header>
