@@ -69,7 +69,6 @@ body {
 
 @screen tablet {
   .gallery {
-    grid-template-columns: repeat(2, 1fr);
     grid-template:
       "one two" 15.625rem
       ". two" var(--gallery-gutter)
@@ -97,7 +96,7 @@ body {
       ". thirteen" var(--gallery-gutter)
       "fourteen thirteen" 9.0625rem
       "fourteen ." var(--gallery-gutter)
-      "fourteen fifteen" 21.25rem;
+      "fourteen fifteen" 21.25rem / 1fr 1fr;
     gap: 0 var(--gallery-gutter);
   }
 
@@ -164,7 +163,6 @@ body {
 
 @screen desktop {
   .gallery {
-    grid-template-columns: repeat(4, 1fr);
     grid-template:
       "one two three four" 15.625rem
       ". two three ." 2.1875rem
@@ -186,7 +184,7 @@ body {
       "nine . fourteen fifteen" 0.625rem
       "nine thirteen fourteen fifteen" 1.875rem
       ". thirteen fourteen fifteen" 2.5rem
-      "twelve thirteen fourteen fifteen" 16.25rem;
+      "twelve thirteen fourteen fifteen" 16.25rem / 1fr 1fr 1fr 1fr;
     gap: 0 var(--gallery-gutter);
   }
 }
