@@ -15,12 +15,12 @@
     --color-838391: 240 6% 54%;
     --color-419EBB: 194 48% 49%;
     --color-EDA249: 33 82% 61%;
-    --color-6f2ed6: 263 67% 51%;
+    --color-6D2ED5: 263 67% 51%;
     --color-D14C32: 10 63% 51%;
     --color-D83A34: 2 68% 53%;
     --color-CD5120: 17 73% 46%;
-    --color-1ec2a4: 169 73% 44%;
-    --color-2d68f0: 222 87% 56%;
+    --color-1EC1A2: 169 73% 44%;
+    --color-2D68F0: 222 87% 56%;
 
     color-scheme: dark;
   }
@@ -28,13 +28,35 @@
   body {
     @apply font-spartan text-body;
 
+    --gutter: 1.5rem;
+    --color-mercury: var(--color-419EBB);
+    --color-venus: var(--color-EDA249);
+    --color-earth: var(--color-6D2ED5);
+    --color-mars: var(--color-D14C32);
+    --color-jupiter: var(--color-D83A34);
+    --color-saturn: var(--color-CD5120);
+    --color-uranus: var(--color-1EC1A2);
+    --color-neptune: var(--color-2D68F0);
+
     background: hsl(var(--color-070724));
     color: var(--color-FFFFFF);
+  }
+
+  @screen tablet {
+    body {
+      --gutter: 2.5rem;
+    }
   }
 }
 
 @layer components {
-  /* Components here */
+  .cluster {
+    display: flex;
+    justify-content: var(--cluster-justify);
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--cluster-space);
+  }
 
   .menu__overlay {
     @apply bg-black/85;

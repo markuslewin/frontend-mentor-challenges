@@ -3,6 +3,8 @@ import * as Dialog from "@radix-ui/react-dialog";
 import { RouteAnnouncer } from "./route-announcer";
 import { useMedia } from "../utils/use-media";
 import { screens } from "../utils/screens";
+import styles from "./layout.module.css";
+import { Icon } from "./icon";
 
 export function Layout() {
   const tabletMatches = useMedia(`(min-width: ${screens.tablet})`);
@@ -10,39 +12,119 @@ export function Layout() {
   return (
     <>
       <div>
-        <header>
-          <p>The Planets</p>
-          <nav>
+        <header className={styles.header}>
+          <p className={styles["header__name"]}>The Planets</p>
+          <nav className={styles["header__nav"]}>
             {tabletMatches ? (
-              <ul>
+              <ul className={`[ ${styles["header__links"]} ] [ cluster ]`}>
                 <li>
-                  <NavLink to="/mercury">Mercury</NavLink>
+                  <NavLink
+                    className={styles["header__link"]}
+                    style={{
+                      ["--header-link-color" as string]:
+                        "hsl(var(--color-mercury))",
+                    }}
+                    to="/mercury"
+                  >
+                    Mercury
+                  </NavLink>
                 </li>
                 <li>
-                  <NavLink to="/venus">Venus</NavLink>
+                  <NavLink
+                    className={styles["header__link"]}
+                    style={{
+                      ["--header-link-color" as string]:
+                        "hsl(var(--color-venus))",
+                    }}
+                    to="/venus"
+                  >
+                    Venus
+                  </NavLink>
                 </li>
                 <li>
-                  <NavLink to="/earth">Earth</NavLink>
+                  <NavLink
+                    className={styles["header__link"]}
+                    style={{
+                      ["--header-link-color" as string]:
+                        "hsl(var(--color-earth))",
+                    }}
+                    to="/earth"
+                  >
+                    Earth
+                  </NavLink>
                 </li>
                 <li>
-                  <NavLink to="/mars">Mars</NavLink>
+                  <NavLink
+                    className={styles["header__link"]}
+                    style={{
+                      ["--header-link-color" as string]:
+                        "hsl(var(--color-mars))",
+                    }}
+                    to="/mars"
+                  >
+                    Mars
+                  </NavLink>
                 </li>
                 <li>
-                  <NavLink to="/jupiter">Jupiter</NavLink>
+                  <NavLink
+                    className={styles["header__link"]}
+                    style={{
+                      ["--header-link-color" as string]:
+                        "hsl(var(--color-jupiter))",
+                    }}
+                    to="/jupiter"
+                  >
+                    Jupiter
+                  </NavLink>
                 </li>
                 <li>
-                  <NavLink to="/saturn">Saturn</NavLink>
+                  <NavLink
+                    className={styles["header__link"]}
+                    style={{
+                      ["--header-link-color" as string]:
+                        "hsl(var(--color-saturn))",
+                    }}
+                    to="/saturn"
+                  >
+                    Saturn
+                  </NavLink>
                 </li>
                 <li>
-                  <NavLink to="/uranus">Uranus</NavLink>
+                  <NavLink
+                    className={styles["header__link"]}
+                    style={{
+                      ["--header-link-color" as string]:
+                        "hsl(var(--color-uranus))",
+                    }}
+                    to="/uranus"
+                  >
+                    Uranus
+                  </NavLink>
                 </li>
                 <li>
-                  <NavLink to="/neptune">Neptune</NavLink>
+                  <NavLink
+                    className={styles["header__link"]}
+                    style={{
+                      ["--header-link-color" as string]:
+                        "hsl(var(--color-neptune))",
+                    }}
+                    to="/neptune"
+                  >
+                    Neptune
+                  </NavLink>
                 </li>
               </ul>
             ) : (
               <Dialog.Root>
-                <Dialog.Trigger>Open menu</Dialog.Trigger>
+                <Dialog.Trigger className={styles["header__trigger"]}>
+                  <Icon
+                    className="w-6 h-auto"
+                    name="icon-hamburger"
+                    width="24"
+                    height="17"
+                  />
+                  <span className="sr-only">Open menu</span>
+                </Dialog.Trigger>
                 <Dialog.Portal>
                   <Dialog.Overlay className="menu__overlay" />
                   <Dialog.Content

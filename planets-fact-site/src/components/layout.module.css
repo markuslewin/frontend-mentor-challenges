@@ -1,0 +1,91 @@
+.header {
+  --cluster-justify: space-around;
+  --cluster-space: 1rem;
+
+  border-bottom: 0.0625rem solid hsl(var(--color-FFFFFF) / 20%);
+  padding-block: 1rem;
+  padding-inline: var(--gutter);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.header__name {
+  @apply font-antonio;
+
+  font-size: 1.75rem;
+  font-weight: 500;
+  line-height: 2.25rem;
+  letter-spacing: -0.065625rem;
+  text-transform: uppercase;
+}
+
+.header__trigger {
+  display: block;
+}
+
+.header__nav {
+  display: flex;
+}
+
+.header__links {
+  color: hsl(var(--color-FFFFFF) / 75%);
+}
+
+.header__link {
+  @apply text-h4 transition-colors;
+
+  display: block;
+  text-transform: uppercase;
+}
+
+.header__link:hover,
+.header__link:focus-visible {
+  color: hsl(var(--color-FFFFFF));
+}
+
+@screen tablet {
+  .header {
+    --cluster-space: 2rem;
+
+    padding-block: 2rem 1.75rem;
+    flex-direction: column;
+    gap: 2.5rem;
+  }
+}
+
+@screen desktop {
+  .header {
+    --cluster-justify: start;
+
+    padding-block: 0;
+    flex-direction: row;
+    gap: 1rem;
+  }
+
+  .header__name {
+    transform: translateY(-0.1875rem);
+  }
+
+  .header__link {
+    position: relative;
+    padding-block: 2.0625rem 1.6875rem;
+  }
+
+  .header__link::before {
+    @apply transition-opacity;
+
+    content: "";
+    opacity: 0;
+    position: absolute;
+    border-top: 0.25rem solid var(--header-link-color);
+    inset: 0 0 auto 0;
+  }
+
+  .header__link:hover::before,
+  .header__link:focus-visible::before {
+    opacity: 1;
+  }
+}
