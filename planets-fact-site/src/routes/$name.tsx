@@ -22,9 +22,10 @@ export function loader({ params }: LoaderFunctionArgs) {
   const { name } = params;
   invariantResponse(typeof name === "string", "Name must be a string");
 
-  // const planet = planets.find
-  // invariantResponse(message, "Planet not found", { status: 404 });
-  const planet = planets[0];
+  const planet = planets.find(
+    (p) => p.name.toLowerCase() === name.toLowerCase()
+  );
+  invariantResponse(planet, "Planet not found", { status: 404 });
 
   return { planet };
 }
