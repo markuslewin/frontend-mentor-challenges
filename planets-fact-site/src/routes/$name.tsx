@@ -1,8 +1,9 @@
 import {
-  Link,
   LoaderFunctionArgs,
   NavLink,
+  Outlet,
   useLoaderData,
+  useOutletContext,
 } from "react-router-dom";
 import { invariantResponse } from "@epic-web/invariant";
 import { AnnouncementHandle } from "../components/route-announcer";
@@ -29,7 +30,7 @@ export function loader({ params }: LoaderFunctionArgs) {
 }
 
 export function PlanetRoute() {
-  const { planet } = useLoaderData() as LoaderData;
+  const data = useLoaderData() as LoaderData;
   const navHeadingId = useId();
 
   return (
@@ -50,28 +51,13 @@ export function PlanetRoute() {
           </ol>
         </nav>
       </header>
-      <h1 className="font-antonio text-h1">{planet.name}</h1>
-      <h2>Description</h2>
-      <p>{planet.overview.content}</p>
-      <h2>Source</h2>
-      <p>
-        : <Link to={planet.overview.source}>Wikipedia</Link>
-      </p>
-      <h2>Image</h2>
-      {/* todo: `width`, `height` */}
-      <img
-        alt={`todo: Visual description of "${planet.name}"`}
-        src={planet.images.planet}
-      />
-      <h2>Characteristics</h2>
-      <h3>Rotation time</h3>
-      <p>{planet.rotation}</p>
-      <h3>Revolution time</h3>
-      <p>{planet.revolution}</p>
-      <h3>Radius</h3>
-      <p>{planet.radius}</p>
-      <h3>Average temp.</h3>
-      <p>{planet.temperature}</p>
+      <Outlet context={data satisfies Context} />
     </article>
   );
+}
+
+interface Context extends LoaderData {}
+
+export function usePlanetContext() {
+  return useOutletContext<Context>();
 }

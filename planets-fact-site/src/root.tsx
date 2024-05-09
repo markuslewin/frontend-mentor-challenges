@@ -9,6 +9,9 @@ import {
   handle as planetHandle,
   PlanetRoute,
 } from "./routes/$name";
+import { PlanetIndexRoute } from "./routes/$name.index";
+import { PlanetInternalStructureRoute } from "./routes/$name.internal-structure";
+import { PlanetSurfaceGeologyRoute } from "./routes/$name.surface-geology";
 
 const router = createBrowserRouter([
   {
@@ -26,6 +29,14 @@ const router = createBrowserRouter([
         handle: planetHandle,
         loader: planetLoader,
         Component: PlanetRoute,
+        children: [
+          { index: true, Component: PlanetIndexRoute },
+          {
+            path: "internal-structure",
+            Component: PlanetInternalStructureRoute,
+          },
+          { path: "surface-geology", Component: PlanetSurfaceGeologyRoute },
+        ],
       },
     ],
   },
