@@ -1,14 +1,35 @@
+/* Supports weights 100-700 */
+@import "@fontsource-variable/antonio";
+/* Supports weights 100-900 */
+@import "@fontsource-variable/league-spartan";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
+    --color-FFFFFF: 0 0% 100%;
+    --color-070724: 240 67% 8%;
+    --color-38384F: 240 17% 26%;
+    --color-838391: 240 6% 54%;
+    --color-419EBB: 194 48% 49%;
+    --color-EDA249: 33 82% 61%;
+    --color-6f2ed6: 263 67% 51%;
+    --color-D14C32: 10 63% 51%;
+    --color-D83A34: 2 68% 53%;
+    --color-CD5120: 17 73% 46%;
+    --color-1ec2a4: 169 73% 44%;
+    --color-2d68f0: 222 87% 56%;
+
     color-scheme: dark;
   }
 
   body {
-    @apply font-base text-body bg-slate-950 text-white;
+    @apply font-spartan text-body;
+
+    background: hsl(var(--color-070724));
+    color: var(--color-FFFFFF);
   }
 }
 

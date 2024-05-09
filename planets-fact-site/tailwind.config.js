@@ -9,19 +9,28 @@ export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     screens,
-    // todo: Add colors
     // colors: {
     //   "moderate-blue": "hsl(238 40% 52%)",
     // },
     fontFamily: {
-      // todo: Add font from Fontsource
-      base: "Inter, system-ui, Avenir, Helvetica, Arial, sans-serif",
+      antonio: "'Antonio Variable', sans-serif",
+      spartan: "'League Spartan Variable', sans-serif",
     },
     fontSize: {
-      // todo: Add font sizes
-      "heading-l": [rem(48), { fontWeight: 500, lineHeight: rem(48) }],
-      "heading-m": [rem(39), { fontWeight: 500, lineHeight: rem(39) }],
-      body: [rem(20), { lineHeight: rem(24) }],
+      h1: [rem(80), { lineHeight: rem(103), fontWeight: 500 }],
+      h2: [
+        rem(40),
+        { lineHeight: rem(52), fontWeight: 500, letterSpacing: rem(-1.5) },
+      ],
+      h3: [
+        rem(12),
+        { lineHeight: rem(25), fontWeight: 700, letterSpacing: rem(2.6) },
+      ],
+      h4: [
+        rem(11),
+        { lineHeight: rem(25), fontWeight: 700, letterSpacing: rem(1) },
+      ],
+      body: [rem(14), { lineHeight: rem(25), fontWeight: 400 }],
     },
     extend: {},
   },
