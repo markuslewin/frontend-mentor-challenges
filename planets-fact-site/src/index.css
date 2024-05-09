@@ -1,0 +1,35 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+
+  body {
+    @apply font-base text-body bg-slate-950 text-white;
+  }
+}
+
+@layer components {
+  /* Components here */
+
+  .menu__overlay {
+    @apply bg-black/85;
+
+    position: fixed;
+    inset: 0;
+  }
+
+  .menu__content {
+    @apply bg-slate-950;
+
+    overflow-y: auto;
+    position: fixed;
+    inset: 0 auto 0 0;
+    max-width: 100%;
+    width: 16.25rem;
+    padding: 1.5rem;
+  }
+}
