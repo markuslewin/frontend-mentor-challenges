@@ -71,6 +71,7 @@
 
   .header__link {
     position: relative;
+    isolation: isolate;
     padding-block: 2.0625rem 1.6875rem;
   }
 

@@ -7,8 +7,11 @@ import {
 } from "react-router-dom";
 import { invariantResponse } from "@epic-web/invariant";
 import { AnnouncementHandle } from "../components/route-announcer";
-import { planets } from "../utils/planets/planets";
+import { colorByPlanet, planets } from "../utils/planets/planets";
 import { useId } from "react";
+import styles from "./$name.module.css";
+import { useMedia } from "../utils/use-media";
+import { screens } from "../utils/screens";
 
 type LoaderData = ReturnType<typeof loader>;
 
@@ -33,23 +36,73 @@ export function loader({ params }: LoaderFunctionArgs) {
 export function PlanetRoute() {
   const data = useLoaderData() as LoaderData;
   const navHeadingId = useId();
+  const matchesTablet = useMedia(`(min-width: ${screens.tablet})`);
 
   return (
-    <article>
-      <header>
+    <article
+      style={{ ["--planet-color" as string]: colorByPlanet[data.planet.name] }}
+    >
+      <header className={styles.header}>
         <nav aria-labelledby={navHeadingId}>
-          <h2 id={navHeadingId}>Planet navigation</h2>
-          <ol>
+          <h2 className="sr-only" id={navHeadingId}>
+            Planet navigation
+          </h2>
+          <ul className={styles["header__views"]}>
             <li>
-              <NavLink to="">Overview</NavLink>
+              <NavLink className={styles["header__view"]} to="" end>
+                {matchesTablet ? (
+                  <>
+                    <span
+                      className={styles["header__view-number"]}
+                      aria-hidden="true"
+                    >
+                      01
+                    </span>
+                    Overview
+                  </>
+                ) : (
+                  "Overview"
+                )}
+              </NavLink>
             </li>
             <li>
-              <NavLink to="internal-structure">Internal structure</NavLink>
+              <NavLink
+                className={styles["header__view"]}
+                to="internal-structure"
+              >
+                {matchesTablet ? (
+                  <>
+                    <span
+                      className={styles["header__view-number"]}
+                      aria-hidden="true"
+                    >
+                      02
+                    </span>
+                    Internal structure
+                  </>
+                ) : (
+                  "Structure"
+                )}
+              </NavLink>
             </li>
             <li>
-              <NavLink to="surface-geology">Surface geology</NavLink>
+              <NavLink className={styles["header__view"]} to="surface-geology">
+                {matchesTablet ? (
+                  <>
+                    <span
+                      className={styles["header__view-number"]}
+                      aria-hidden="true"
+                    >
+                      03
+                    </span>
+                    Surface geology
+                  </>
+                ) : (
+                  "Surface"
+                )}
+              </NavLink>
             </li>
-          </ol>
+          </ul>
         </nav>
       </header>
       <Outlet context={data satisfies Context} />

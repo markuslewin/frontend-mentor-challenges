@@ -5,6 +5,7 @@ import { useMedia } from "../utils/use-media";
 import { screens } from "../utils/screens";
 import styles from "./layout.module.css";
 import { Icon } from "./icon";
+import { colorByPlanet } from "../utils/planets/planets";
 
 export function Layout() {
   const tabletMatches = useMedia(`(min-width: ${screens.tablet})`);
@@ -21,8 +22,7 @@ export function Layout() {
                   <NavLink
                     className={styles["header__link"]}
                     style={{
-                      ["--header-link-color" as string]:
-                        "hsl(var(--color-mercury))",
+                      ["--header-link-color" as string]: colorByPlanet.Mercury,
                     }}
                     to="/mercury"
                   >
@@ -33,8 +33,7 @@ export function Layout() {
                   <NavLink
                     className={styles["header__link"]}
                     style={{
-                      ["--header-link-color" as string]:
-                        "hsl(var(--color-venus))",
+                      ["--header-link-color" as string]: colorByPlanet.Venus,
                     }}
                     to="/venus"
                   >
@@ -45,8 +44,7 @@ export function Layout() {
                   <NavLink
                     className={styles["header__link"]}
                     style={{
-                      ["--header-link-color" as string]:
-                        "hsl(var(--color-earth))",
+                      ["--header-link-color" as string]: colorByPlanet.Earth,
                     }}
                     to="/earth"
                   >
@@ -57,8 +55,7 @@ export function Layout() {
                   <NavLink
                     className={styles["header__link"]}
                     style={{
-                      ["--header-link-color" as string]:
-                        "hsl(var(--color-mars))",
+                      ["--header-link-color" as string]: colorByPlanet.Mars,
                     }}
                     to="/mars"
                   >
@@ -69,8 +66,7 @@ export function Layout() {
                   <NavLink
                     className={styles["header__link"]}
                     style={{
-                      ["--header-link-color" as string]:
-                        "hsl(var(--color-jupiter))",
+                      ["--header-link-color" as string]: colorByPlanet.Jupiter,
                     }}
                     to="/jupiter"
                   >
@@ -81,8 +77,7 @@ export function Layout() {
                   <NavLink
                     className={styles["header__link"]}
                     style={{
-                      ["--header-link-color" as string]:
-                        "hsl(var(--color-saturn))",
+                      ["--header-link-color" as string]: colorByPlanet.Saturn,
                     }}
                     to="/saturn"
                   >
@@ -93,8 +88,7 @@ export function Layout() {
                   <NavLink
                     className={styles["header__link"]}
                     style={{
-                      ["--header-link-color" as string]:
-                        "hsl(var(--color-uranus))",
+                      ["--header-link-color" as string]: colorByPlanet.Uranus,
                     }}
                     to="/uranus"
                   >
@@ -105,8 +99,7 @@ export function Layout() {
                   <NavLink
                     className={styles["header__link"]}
                     style={{
-                      ["--header-link-color" as string]:
-                        "hsl(var(--color-neptune))",
+                      ["--header-link-color" as string]: colorByPlanet.Neptune,
                     }}
                     to="/neptune"
                   >
@@ -141,9 +134,7 @@ export function Layout() {
           </nav>
         </header>
         <main>
-          <div className="max-w-3xl mx-auto py-6 tablet:py-20">
-            <Outlet />
-          </div>
+          <Outlet />
         </main>
       </div>
       <ScrollRestoration />
