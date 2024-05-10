@@ -40,16 +40,22 @@ export function PlanetRoute() {
 
   return (
     <article
+      className={styles.article}
       style={{ ["--planet-color" as string]: colorByPlanet[data.planet.name] }}
     >
-      <header className={styles.header}>
+      <header className={[styles["article__header"], styles.header].join(" ")}>
         <nav aria-labelledby={navHeadingId}>
           <h2 className="sr-only" id={navHeadingId}>
             Planet navigation
           </h2>
           <ul className={styles["header__views"]}>
             <li>
-              <NavLink className={styles["header__view"]} to="" end>
+              <NavLink
+                className={styles["header__view"]}
+                to=""
+                end
+                preventScrollReset
+              >
                 {matchesTablet ? (
                   <>
                     <span
@@ -69,6 +75,7 @@ export function PlanetRoute() {
               <NavLink
                 className={styles["header__view"]}
                 to="internal-structure"
+                preventScrollReset
               >
                 {matchesTablet ? (
                   <>
@@ -86,7 +93,11 @@ export function PlanetRoute() {
               </NavLink>
             </li>
             <li>
-              <NavLink className={styles["header__view"]} to="surface-geology">
+              <NavLink
+                className={styles["header__view"]}
+                to="surface-geology"
+                preventScrollReset
+              >
                 {matchesTablet ? (
                   <>
                     <span

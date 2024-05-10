@@ -13,4 +13,15 @@ export const colorByPlanet = {
   Neptune: "hsl(var(--color-2D68F0))",
 };
 
+export const widthByPlanet = {
+  Mercury: 290,
+  Venus: 400,
+  Earth: 450,
+  Mars: 336,
+  Jupiter: 582,
+  Saturn: 668,
+  Uranus: 458,
+  Neptune: 450,
+};
+
 export { planets };

@@ -26,10 +26,12 @@
   }
 
   body {
-    @apply font-spartan text-body;
+    @apply font-spartan;
 
     --gutter: 1.5rem;
 
+    font-size: 0.6875rem;
+    line-height: 1.375rem;
     background: hsl(var(--color-070724));
     color: var(--color-FFFFFF);
   }
@@ -37,6 +39,12 @@
   @screen tablet {
     body {
       --gutter: 2.5rem;
+    }
+  }
+
+  @screen desktop {
+    body {
+      @apply text-body;
     }
   }
 }
