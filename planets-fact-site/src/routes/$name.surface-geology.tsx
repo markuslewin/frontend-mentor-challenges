@@ -10,10 +10,8 @@ export function PlanetSurfaceGeologyRoute() {
         ...planet,
         content: planet.geology.content,
         source: planet.geology.source,
-        image: {
-          geology: planet.images.geology,
-          planet: planet.images.planet,
-        },
+        image: planet.images.planet,
+        popover: planet.images.geology,
       }}
     />
   );

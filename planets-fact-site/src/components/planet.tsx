@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { widthByPlanet, type Planet } from "../utils/planets/planets";
+import { Image, widthByPlanet, type Planet } from "../utils/planets/planets";
 import styles from "../routes/$name.module.css";
 import { Icon } from "./icon";
 
@@ -7,7 +7,8 @@ interface PlanetProps {
   planet: Omit<Planet, "overview" | "structure" | "geology" | "images"> & {
     content: string;
     source: string;
-    image: string | { planet: string; geology: string };
+    image: Image;
+    popover?: Image;
   };
 }
 
@@ -41,24 +42,23 @@ export function Planet({ planet }: PlanetProps) {
       </div>
       <div className={styles["article__image"]}>
         <h2 className="sr-only">Image</h2>
-        {/* todo: `width`, `height` */}
-        {typeof planet.image === "string" ? (
+        <img
+          className={styles.image}
+          alt={`todo: Visual description of "${planet.name}"`}
+          style={{
+            width: `${(widthByPlanet[planet.name] / widthByPlanet.Saturn) * 100}%`,
+          }}
+          src={planet.image.src}
+          width={planet.image.width}
+          height={planet.image.height}
+        />
+        {planet.popover && (
           <img
-            style={{
-              width: `${(widthByPlanet[planet.name] / widthByPlanet.Saturn) * 100}%`,
-            }}
-            className={styles.image}
-            alt={`todo: Visual description of "${planet.name}"`}
-            src={planet.image}
-          />
-        ) : (
-          <img
-            style={{
-              width: `${(widthByPlanet[planet.name] / widthByPlanet.Saturn) * 100}%`,
-            }}
-            className={styles.image}
-            alt={`todo: Visual description of "${planet.name}"`}
-            src={planet.image.geology}
+            className="absolute size-16"
+            alt={`todo: Visual description of the geology of "${planet.name}"`}
+            src={planet.popover.src}
+            width={planet.popover.width}
+            height={planet.popover.height}
           />
         )}
       </div>

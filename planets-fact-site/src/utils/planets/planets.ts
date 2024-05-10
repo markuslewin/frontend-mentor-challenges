@@ -1,6 +1,36 @@
-import planets from "./data";
+import data from "./data";
+import { z } from "zod";
 
-export type Planet = (typeof planets)[number];
+const images = import.meta.glob("./**/*.png", {
+  query: "?as=metadata",
+  eager: true,
+});
+
+const ImageSchema = z.object({
+  src: z.string(),
+  width: z.number(),
+  height: z.number(),
+});
+
+export type Image = z.infer<typeof ImageSchema>;
+
+function getImage(path: string) {
+  const image = images[path];
+  return ImageSchema.parse(image);
+}
+
+const svgs = import.meta.glob("./**/*.svg", {
+  eager: true,
+});
+
+const SvgSchema = z.object({
+  default: z.string(),
+});
+
+function getSvg(path: string) {
+  const svg = svgs[path];
+  return SvgSchema.parse(svg).default;
+}
 
 export const colorByPlanet = {
   Mercury: "hsl(var(--color-419EBB))",
@@ -24,4 +54,25 @@ export const widthByPlanet = {
   Neptune: 450,
 };
 
+const planets = data.map((planet) => {
+  return {
+    ...planet,
+    images: {
+      planet: {
+        src: getSvg(planet.images.planet),
+        width: widthByPlanet[planet.name],
+        height: widthByPlanet[planet.name],
+      },
+      internal: {
+        src: getSvg(planet.images.internal),
+        width: widthByPlanet[planet.name],
+        height: widthByPlanet[planet.name],
+      },
+      geology: getImage(planet.images.geology),
+    },
+  };
+});
+
 export { planets };
+
+export type Planet = (typeof planets)[number];
