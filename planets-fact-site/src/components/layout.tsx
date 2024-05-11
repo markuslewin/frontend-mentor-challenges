@@ -25,6 +25,7 @@ export function Layout() {
                       ["--header-link-color" as string]: colorByPlanet.Mercury,
                     }}
                     to="/mercury"
+                    preventScrollReset
                   >
                     Mercury
                   </NavLink>
@@ -36,6 +37,7 @@ export function Layout() {
                       ["--header-link-color" as string]: colorByPlanet.Venus,
                     }}
                     to="/venus"
+                    preventScrollReset
                   >
                     Venus
                   </NavLink>
@@ -47,6 +49,7 @@ export function Layout() {
                       ["--header-link-color" as string]: colorByPlanet.Earth,
                     }}
                     to="/earth"
+                    preventScrollReset
                   >
                     Earth
                   </NavLink>
@@ -58,6 +61,7 @@ export function Layout() {
                       ["--header-link-color" as string]: colorByPlanet.Mars,
                     }}
                     to="/mars"
+                    preventScrollReset
                   >
                     Mars
                   </NavLink>
@@ -69,6 +73,7 @@ export function Layout() {
                       ["--header-link-color" as string]: colorByPlanet.Jupiter,
                     }}
                     to="/jupiter"
+                    preventScrollReset
                   >
                     Jupiter
                   </NavLink>
@@ -80,6 +85,7 @@ export function Layout() {
                       ["--header-link-color" as string]: colorByPlanet.Saturn,
                     }}
                     to="/saturn"
+                    preventScrollReset
                   >
                     Saturn
                   </NavLink>
@@ -91,6 +97,7 @@ export function Layout() {
                       ["--header-link-color" as string]: colorByPlanet.Uranus,
                     }}
                     to="/uranus"
+                    preventScrollReset
                   >
                     Uranus
                   </NavLink>
@@ -102,6 +109,7 @@ export function Layout() {
                       ["--header-link-color" as string]: colorByPlanet.Neptune,
                     }}
                     to="/neptune"
+                    preventScrollReset
                   >
                     Neptune
                   </NavLink>
