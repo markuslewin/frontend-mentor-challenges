@@ -90,6 +90,7 @@
   .article__image {
     margin-top: 0;
     width: min(41.75rem, 100%);
+    transform: translateX(-1.125rem);
   }
 
   .article__heading {
