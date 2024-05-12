@@ -32,7 +32,8 @@
 
     font-size: 0.6875rem;
     line-height: 1.375rem;
-    background: hsl(var(--color-070724));
+    background: url(/assets/background-stars.svg) center/cover
+      hsl(var(--color-070724));
     color: var(--color-FFFFFF);
   }
 
