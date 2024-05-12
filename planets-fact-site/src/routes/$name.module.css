@@ -236,6 +236,18 @@
   text-align: center;
 }
 
+.planet__image {
+  position: relative;
+  isolation: isolate;
+}
+
+.planet__popover {
+  position: absolute;
+  inset: 50% 50%;
+  width: 5rem;
+  transform: translate(-50%, 2rem);
+}
+
 @screen tablet {
   .planet__name {
     font-size: 3rem;
@@ -249,11 +261,21 @@
     gap: 1rem;
     text-align: start;
   }
+
+  .planet__popover {
+    width: 8rem;
+    transform: translate(-50%, 3rem);
+  }
 }
 
 @screen desktop {
   .planet__name {
     @apply text-h1;
+  }
+
+  .planet__popover {
+    width: 24.4%;
+    transform: translate(-50%, 5.0625rem);
   }
 }
 

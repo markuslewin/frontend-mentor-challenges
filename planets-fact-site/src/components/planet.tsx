@@ -40,7 +40,11 @@ export function Planet({ planet }: PlanetProps) {
           </p>
         </div>
       </div>
-      <div className={styles["article__image"]}>
+      <div
+        className={[styles["article__image"], styles["planet__image"]].join(
+          " "
+        )}
+      >
         <h2 className="sr-only">Image</h2>
         <img
           className={styles.image}
@@ -54,7 +58,7 @@ export function Planet({ planet }: PlanetProps) {
         />
         {planet.popover && (
           <img
-            className="absolute size-16"
+            className={styles["planet__popover"]}
             alt={`todo: Visual description of the geology of "${planet.name}"`}
             src={planet.popover.src}
             width={planet.popover.width}
