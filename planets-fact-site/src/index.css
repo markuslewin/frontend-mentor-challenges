@@ -59,20 +59,16 @@
   }
 
   .menu__overlay {
-    @apply bg-black/85;
-
     position: fixed;
     inset: 0;
   }
 
   .menu__content {
-    @apply bg-slate-950;
-
     overflow-y: auto;
     position: fixed;
-    inset: 0 auto 0 0;
-    max-width: 100%;
-    width: 16.25rem;
-    padding: 1.5rem;
+    inset: 0;
+    top: 4.3125rem;
+    padding: 2.75rem 1.5rem;
+    background: hsl(var(--color-070724));
   }
 }
