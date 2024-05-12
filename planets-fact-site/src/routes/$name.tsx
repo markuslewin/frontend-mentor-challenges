@@ -40,7 +40,7 @@ export function PlanetRoute() {
 
   return (
     <article
-      className={styles.article}
+      className={[styles.article, "center"].join(" ")}
       style={{ ["--planet-color" as string]: colorByPlanet[data.planet.name] }}
     >
       <header className={[styles["article__header"], styles.header].join(" ")}>

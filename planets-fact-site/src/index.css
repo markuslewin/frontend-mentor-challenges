@@ -51,6 +51,13 @@
 }
 
 @layer components {
+  .center {
+    box-sizing: content-box;
+    margin-inline: auto;
+    max-width: var(--center-size);
+    padding-inline: var(--center-gutter);
+  }
+
   .cluster {
     display: flex;
     justify-content: var(--cluster-justify);

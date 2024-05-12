@@ -40,17 +40,19 @@
 
 @screen tablet {
   .article {
+    --center-size: 43.0625rem;
+    --center-gutter: var(--gutter);
+
     margin-top: 1.75rem;
     padding-bottom: 2.25rem;
     grid-template:
-      ". image image image ."
-      ". heading . . ."
-      ". content . header ."
-      ". characteristics characteristics characteristics ." / minmax(
-        var(--gutter),
-        1fr
-      )
-      minmax(auto, 21.25rem) minmax(1rem, 4.3125rem) minmax(auto, 17.5rem) minmax(var(--gutter), 1fr);
+      "image image"
+      "heading ."
+      "content header"
+      "characteristics characteristics " / minmax(auto, 21.25rem)
+      minmax(auto, 17.5rem);
+    justify-content: space-between;
+    column-gap: 1rem;
   }
 
   .article__image {
@@ -68,19 +70,18 @@
 
 @screen desktop {
   .article {
+    --center-size: 69.375rem;
+
     margin-top: 4.375rem;
     padding-bottom: 3.5rem;
     grid-template:
-      ". image . . ." 56fr
-      ". image . heading ." auto
-      ". image . content ." auto
-      ". image . header ." auto
-      ". image . . ." 69fr
-      ". characteristics characteristics characteristics ." auto / minmax(
-        var(--gutter),
-        1fr
-      )
-      minmax(0, 41.75rem) minmax(1rem, 5.75rem) minmax(0, 21.875rem) minmax(var(--gutter), 1fr);
+      "image ." 56fr
+      "image heading"
+      "image content"
+      "image header"
+      "image ." 69fr
+      "characteristics characteristics" /
+      minmax(0, 41.75rem) minmax(0, 21.875rem);
   }
 
   .article__header {
