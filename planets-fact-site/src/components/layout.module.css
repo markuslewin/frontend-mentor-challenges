@@ -23,7 +23,7 @@
 }
 
 .header__trigger {
-  @apply transition-colors;
+  @apply transition-colors clickable-12;
 
   display: block;
 }
