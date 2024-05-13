@@ -48,6 +48,7 @@ export function Planet({ planet }: PlanetProps) {
         <h2 className="sr-only">Image</h2>
         <img
           className={styles.image}
+          key={planet.name}
           alt={`todo: Visual description of "${planet.name}"`}
           style={{
             width: `${(widthByPlanet[planet.name] / widthByPlanet.Saturn) * 100}%`,
@@ -59,6 +60,7 @@ export function Planet({ planet }: PlanetProps) {
         {planet.popover && (
           <img
             className={styles["planet__popover"]}
+            key={planet.name}
             alt={`todo: Visual description of the geology of "${planet.name}"`}
             src={planet.popover.src}
             width={planet.popover.width}
