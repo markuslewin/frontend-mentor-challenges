@@ -46,7 +46,7 @@ export function PlanetRoute() {
       <header className={[styles["article__header"], styles.header].join(" ")}>
         <nav aria-labelledby={navHeadingId}>
           <h2 className="sr-only" id={navHeadingId}>
-            Planet navigation
+            {data.planet.name} navigation
           </h2>
           <ul className={styles["header__views"]}>
             <li>

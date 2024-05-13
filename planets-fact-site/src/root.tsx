@@ -10,8 +10,14 @@ import {
   PlanetRoute,
 } from "./routes/$name";
 import { PlanetIndexRoute } from "./routes/$name.index";
-import { PlanetInternalStructureRoute } from "./routes/$name.internal-structure";
-import { PlanetSurfaceGeologyRoute } from "./routes/$name.surface-geology";
+import {
+  PlanetInternalStructureRoute,
+  handle as planetInternalStructureHandle,
+} from "./routes/$name.internal-structure";
+import {
+  PlanetSurfaceGeologyRoute,
+  handle as planetSurfaceGeologyHandle,
+} from "./routes/$name.surface-geology";
 
 const router = createBrowserRouter([
   {
@@ -30,12 +36,20 @@ const router = createBrowserRouter([
         loader: planetLoader,
         Component: PlanetRoute,
         children: [
-          { index: true, Component: PlanetIndexRoute },
+          {
+            index: true,
+            Component: PlanetIndexRoute,
+          },
           {
             path: "internal-structure",
+            handle: planetInternalStructureHandle,
             Component: PlanetInternalStructureRoute,
           },
-          { path: "surface-geology", Component: PlanetSurfaceGeologyRoute },
+          {
+            path: "surface-geology",
+            handle: planetSurfaceGeologyHandle,
+            Component: PlanetSurfaceGeologyRoute,
+          },
         ],
       },
     ],

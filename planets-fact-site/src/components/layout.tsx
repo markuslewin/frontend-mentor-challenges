@@ -6,9 +6,10 @@ import { screens } from "../utils/screens";
 import styles from "./layout.module.css";
 import { Icon } from "./icon";
 import { colorByPlanet } from "../utils/planets/planets";
-import { ReactNode, useState } from "react";
+import { ReactNode, useId, useState } from "react";
 
 export function Layout() {
+  const navHeadingId = useId();
   const tabletMatches = useMedia(`(min-width: ${screens.tablet})`);
 
   return (
@@ -16,7 +17,10 @@ export function Layout() {
       <div>
         <header className={styles.header}>
           <p className={styles["header__name"]}>The Planets</p>
-          <nav className={styles["header__nav"]}>
+          <nav className={styles["header__nav"]} aria-labelledby={navHeadingId}>
+            <h2 className="sr-only" id={navHeadingId}>
+              Planets navigation
+            </h2>
             {tabletMatches ? (
               <ul className={`[ ${styles["header__links"]} ] [ cluster ]`}>
                 <li>
