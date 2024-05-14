@@ -1,0 +1,76 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* todo: Add colors */
+    --color-slate-300: 213 27% 84%;
+    --color-slate-800: 217 33% 17%;
+    --color-slate-950: 229 84% 5%;
+    --color-blue-500: 217 91% 60%;
+    --color-blue-700: 224 76% 48%;
+    --color-blue-800: 226 71% 40%;
+    --color-red-200: 0 96% 89%;
+    --color-red-500: 0 84% 60%;
+    --color-white: 0 0% 100%;
+    --color-black: 0 0% 0%;
+
+    --background: var(--color-white);
+    --foreground: var(--color-slate-950);
+    --overlay: var(--color-black);
+    --menu: var(--color-white);
+    --menu-foreground: var(--color-slate-950);
+    --button: var(--color-blue-700);
+    --button-hocus: var(--color-blue-500);
+    --button-foreground: var(--color-white);
+    --input: var(--color-slate-300);
+    --input-border-hocus: var(--color-slate-950);
+    --pill: var(--color-slate-950);
+    --pill-foreground: var(--color-white);
+    --delete-foreground: var(--color-red-500);
+    --delete-foreground-hocus: var(--color-red-200);
+    --error-foreground: var(--color-red-500);
+
+    color-scheme: light;
+  }
+
+  body {
+    @apply font-base text-body bg-background text-foreground;
+  }
+
+  :root[data-theme="dark"] {
+    --background: var(--color-slate-950);
+    --foreground: var(--color-white);
+    --menu: var(--color-slate-950);
+    --menu-foreground: var(--color-white);
+    --input: var(--color-slate-800);
+    --input-border-hocus: var(--color-white);
+    --pill: var(--color-white);
+    --pill-foreground: var(--color-slate-950);
+
+    color-scheme: dark;
+  }
+}
+
+@layer components {
+  /* Components here */
+
+  .menu__overlay {
+    @apply bg-overlay/85;
+
+    position: fixed;
+    inset: 0;
+  }
+
+  .menu__content {
+    @apply bg-menu text-menu-foreground;
+
+    overflow-y: auto;
+    position: fixed;
+    inset: 0 auto 0 0;
+    max-width: 100%;
+    width: 16.25rem;
+    padding: 1.5rem;
+  }
+}
