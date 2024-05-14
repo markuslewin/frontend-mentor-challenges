@@ -8,7 +8,7 @@
   targetPort = 5173
 
 [build]
-  base = "/"
+  base = "calculator-app"
   publish = "dist"
   command = "npm run build"
 
