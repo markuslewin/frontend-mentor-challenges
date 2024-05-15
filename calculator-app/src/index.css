@@ -1,3 +1,6 @@
+/* Supports weights 100-900 */
+@import "@fontsource-variable/league-spartan";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -61,7 +64,7 @@
   }
 
   body {
-    @apply font-base text-body bg-main text-main-foreground;
+    @apply font-base bg-main text-main-foreground;
   }
 }
 

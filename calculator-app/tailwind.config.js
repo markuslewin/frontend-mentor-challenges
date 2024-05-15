@@ -11,7 +11,6 @@ export default {
   theme: {
     screens,
     colors: {
-      // todo: Add colors
       main: {
         DEFAULT: "hsl(var(--main))",
         foreground: "hsl(var(--main-foreground))",
@@ -44,14 +43,36 @@ export default {
       },
     },
     fontFamily: {
-      // todo: Add font from Fontsource
-      base: "Inter, system-ui, Avenir, Helvetica, Arial, sans-serif",
+      base: "'League Spartan Variable', sans-serif",
     },
+    /* @link https://utopia.fyi/clamp/calculator?a=375,1024,40—56|37—52|-0.67—-0.93|32—40|-0.53—-0.67|20—28|-0.33—-0.47 */
     fontSize: {
-      // todo: Add font sizes
-      "heading-l": [rem(48), { fontWeight: 500, lineHeight: rem(48) }],
-      "heading-m": [rem(39), { fontWeight: 500, lineHeight: rem(39) }],
-      body: [rem(20), { lineHeight: rem(24) }],
+      fcalc: [rem(32), { lineHeight: rem(29), letterSpacing: rem(-0.53) }],
+      ftheme: [rem(12), { lineHeight: rem(11), letterSpacing: rem(1) }],
+      fscreen: [
+        "clamp(2.5rem, 1.9222rem + 2.4653vi, 3.5rem)",
+        {
+          lineHeight: "clamp(2.3125rem, 1.7708rem + 2.3112vi, 3.25rem)",
+          letterSpacing:
+            "clamp(-0.0581rem, -0.0325rem + -0.0401vi, -0.0419rem)",
+        },
+      ],
+      fkey: [
+        "clamp(2rem, 1.7111rem + 1.2327vi, 2.5rem)",
+        {
+          lineHeight: rem(40),
+          letterSpacing:
+            "clamp(-0.0419rem, -0.0281rem + -0.0216vi, -0.0331rem)",
+        },
+      ],
+      "fkey-special": [
+        "clamp(1.25rem, 0.9611rem + 1.2327vi, 1.75rem)",
+        {
+          lineHeight: rem(40),
+          letterSpacing:
+            "clamp(-0.0294rem, -0.0156rem + -0.0216vi, -0.0206rem)",
+        },
+      ],
     },
     extend: {},
   },
