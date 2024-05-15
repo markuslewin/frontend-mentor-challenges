@@ -4,52 +4,64 @@
 
 @layer base {
   :root {
-    /* todo: Add colors */
-    --color-slate-300: 213 27% 84%;
-    --color-slate-800: 217 33% 17%;
-    --color-slate-950: 229 84% 5%;
-    --color-blue-500: 217 91% 60%;
-    --color-blue-700: 224 76% 48%;
-    --color-blue-800: 226 71% 40%;
-    --color-red-200: 0 96% 89%;
-    --color-red-500: 0 84% 60%;
-    --color-white: 0 0% 100%;
-    --color-black: 0 0% 0%;
+    --main: 222 26% 31%;
+    --main-foreground: 0 0% 100%;
+    --toggle: 223 31% 20%;
+    --toggle-foreground: 6 63% 50%;
+    --keypad: 223 31% 20%;
+    --screen: 224 36% 15%;
+    --screen-foreground: 0 0% 100%;
+    --key-default: 30 25% 89%;
+    --key-default-foreground: 221 14% 31%;
+    --key-default-shadow: 28 16% 65%;
+    --key-reset: 225 21% 49%;
+    --key-reset-foreground: 0 0% 100%;
+    --key-reset-shadow: 224 28% 35%;
+    --key-equals: 6 63% 50%;
+    --key-equals-foreground: 0 0% 100%;
+    --key-equals-shadow: 6 70% 34%;
+  }
 
-    --background: var(--color-white);
-    --foreground: var(--color-slate-950);
-    --overlay: var(--color-black);
-    --menu: var(--color-white);
-    --menu-foreground: var(--color-slate-950);
-    --button: var(--color-blue-700);
-    --button-hocus: var(--color-blue-500);
-    --button-foreground: var(--color-white);
-    --input: var(--color-slate-300);
-    --input-border-hocus: var(--color-slate-950);
-    --pill: var(--color-slate-950);
-    --pill-foreground: var(--color-white);
-    --delete-foreground: var(--color-red-500);
-    --delete-foreground-hocus: var(--color-red-200);
-    --error-foreground: var(--color-red-500);
+  :root[data-theme="2"] {
+    --main: 0 0% 90%;
+    --main-foreground: 60 10% 19%;
+    --toggle: 0 5% 81%;
+    --toggle-foreground: 25 98% 40%;
+    --keypad: 0 5% 81%;
+    --screen: 0 0% 93%;
+    --screen-foreground: 60 10% 19%;
+    --key-default: 45 7% 89%;
+    --key-default-foreground: 60 10% 19%;
+    --key-default-shadow: 35 11% 61%;
+    --key-reset: 185 42% 37%;
+    --key-reset-foreground: 0 0% 100%;
+    --key-reset-shadow: 185 58% 25%;
+    --key-equals: 25 98% 40%;
+    --key-equals-foreground: 0 0% 100%;
+    --key-equals-shadow: 25 99% 27%;
+  }
 
-    color-scheme: light;
+  :root[data-theme="3"] {
+    --main: 268 75% 9%;
+    --main-foreground: 52 100% 62%;
+    --toggle: 268 71% 12%;
+    --toggle-foreground: 176 100% 44%;
+    --keypad: 268 71% 12%;
+    --screen: 268 71% 12%;
+    --screen-foreground: 52 100% 62%;
+    --key-default: 268 47% 21%;
+    --key-default-foreground: 52 100% 62%;
+    --key-default-shadow: 290 70% 36%;
+    --key-reset: 281 89% 26%;
+    --key-reset-foreground: 0 0% 100%;
+    --key-reset-shadow: 285 91% 52%;
+    --key-equals: 176 100% 44%;
+    --key-equals-foreground: 198 20% 13%;
+    --key-equals-shadow: 177 92% 70%;
   }
 
   body {
-    @apply font-base text-body bg-background text-foreground;
-  }
-
-  :root[data-theme="dark"] {
-    --background: var(--color-slate-950);
-    --foreground: var(--color-white);
-    --menu: var(--color-slate-950);
-    --menu-foreground: var(--color-white);
-    --input: var(--color-slate-800);
-    --input-border-hocus: var(--color-white);
-    --pill: var(--color-white);
-    --pill-foreground: var(--color-slate-950);
-
-    color-scheme: dark;
+    @apply font-base text-body bg-main text-main-foreground;
   }
 }
 
@@ -57,14 +69,14 @@
   /* Components here */
 
   .menu__overlay {
-    @apply bg-overlay/85;
+    /* @apply bg-overlay/85; */
 
     position: fixed;
     inset: 0;
   }
 
   .menu__content {
-    @apply bg-menu text-menu-foreground;
+    /* @apply bg-menu text-menu-foreground; */
 
     overflow-y: auto;
     position: fixed;

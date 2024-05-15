@@ -12,32 +12,35 @@ export default {
     screens,
     colors: {
       // todo: Add colors
-      background: "hsl(var(--background))",
-      foreground: "hsl(var(--foreground))",
-      overlay: "hsl(var(--overlay))",
-      menu: {
-        DEFAULT: "hsl(var(--menu))",
-        foreground: "hsl(var(--menu-foreground))",
+      main: {
+        DEFAULT: "hsl(var(--main))",
+        foreground: "hsl(var(--main-foreground))",
       },
-      button: {
-        DEFAULT: "hsl(var(--button))",
-        foreground: "hsl(var(--button-foreground))",
-        hocus: "hsl(var(--button-hocus))",
+      toggle: {
+        DEFAULT: "hsl(var(--toggle))",
+        foreground: "hsl(var(--toggle-foreground))",
       },
-      input: {
-        DEFAULT: "hsl(var(--input))",
-        "border-hocus": "hsl(var(--input-border-hocus))",
+      keypad: {
+        DEFAULT: "hsl(var(--keypad))",
       },
-      pill: {
-        DEFAULT: "hsl(var(--pill))",
-        foreground: "hsl(var(--pill-foreground))",
+      screen: {
+        DEFAULT: "hsl(var(--screen))",
+        foreground: "hsl(var(--screen-foreground))",
       },
-      delete: {
-        foreground: "hsl(var(--delete-foreground))",
-        "foreground-hocus": "hsl(var(--delete-foreground-hocus))",
+      "key-default": {
+        DEFAULT: "hsl(var(--key-default))",
+        foreground: "hsl(var(--key-default-foreground))",
+        shadow: "hsl(var(--key-default-shadow))",
       },
-      error: {
-        foreground: "hsl(var(--error-foreground))",
+      "key-reset": {
+        DEFAULT: "hsl(var(--key-reset))",
+        foreground: "hsl(var(--key-reset-foreground))",
+        shadow: "hsl(var(--key-reset-shadow))",
+      },
+      "key-equals": {
+        DEFAULT: "hsl(var(--key-equals))",
+        foreground: "hsl(var(--key-equals-foreground))",
+        shadow: "hsl(var(--key-equals-shadow))",
       },
     },
     fontFamily: {

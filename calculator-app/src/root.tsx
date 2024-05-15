@@ -1,8 +1,13 @@
-import { useId } from "react";
+import { useEffect, useId, useState } from "react";
 
 function App() {
-  const resultHeadingId = useId();
+  const screenHeadingId = useId();
   const keypadHeadingId = useId();
+  const [theme, setTheme] = useState(1);
+
+  useEffect(() => {
+    document.documentElement.dataset.theme = theme.toString();
+  }, [theme]);
 
   return (
     <div>
@@ -11,19 +16,40 @@ function App() {
         <fieldset>
           <legend>Theme</legend>
           <label>
-            <input type="radio" name="theme" value="1" checked readOnly /> 1
+            <input
+              type="radio"
+              name="theme"
+              value="1"
+              checked={theme === 1}
+              onChange={() => setTheme(1)}
+            />
+            1
           </label>
           <label>
-            <input type="radio" name="theme" value="2" /> 2
+            <input
+              type="radio"
+              name="theme"
+              value="2"
+              checked={theme === 2}
+              onChange={() => setTheme(2)}
+            />
+            2
           </label>
           <label>
-            <input type="radio" name="theme" value="3" /> 3
+            <input
+              type="radio"
+              name="theme"
+              value="3"
+              checked={theme === 3}
+              onChange={() => setTheme(3)}
+            />
+            3
           </label>
         </fieldset>
       </header>
       <main>
-        <section aria-labelledby={resultHeadingId}>
-          <h2 id={resultHeadingId}>Result</h2>
+        <section aria-labelledby={screenHeadingId}>
+          <h2 id={screenHeadingId}>Screen</h2>
           <p>
             <output>399,981</output>
           </p>
