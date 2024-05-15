@@ -64,12 +64,21 @@
   }
 
   body {
-    @apply font-base bg-main text-main-foreground;
+    @apply font-base font-bold bg-main text-main-foreground;
   }
 }
 
 @layer components {
-  /* Components here */
+  .center {
+    display: grid;
+    grid-template-columns: 1fr minmax(0, 33.75rem) 1fr;
+    align-content: center;
+    row-gap: 2rem;
+  }
+
+  .center > * {
+    grid-column: 2;
+  }
 
   .menu__overlay {
     /* @apply bg-overlay/85; */

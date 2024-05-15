@@ -1,4 +1,12 @@
-import { useEffect, useId, useState } from "react";
+import { cva } from "class-variance-authority";
+import {
+  ReactNode,
+  createContext,
+  useContext,
+  useEffect,
+  useId,
+  useState,
+} from "react";
 
 function App() {
   const screenHeadingId = useId();
@@ -10,9 +18,9 @@ function App() {
   }, [theme]);
 
   return (
-    <div>
-      <header>
-        <h1>calc</h1>
+    <div className="center min-h-screen px-6 py-8">
+      <header className="flex flex-wrap justify-between items-center">
+        <h1 className="text-fcalc">calc</h1>
         <fieldset>
           <legend>Theme</legend>
           <label>
@@ -47,131 +55,236 @@ function App() {
           </label>
         </fieldset>
       </header>
-      <main>
+      <main className="grid gap-6">
         <section aria-labelledby={screenHeadingId}>
-          <h2 id={screenHeadingId}>Screen</h2>
+          <h2 className="sr-only" id={screenHeadingId}>
+            Screen
+          </h2>
           <p>
-            <output>399,981</output>
+            <output className="bg-screen text-screen-foreground text-fscreen text-end rounded block p-6 pt-7 tablet:p-8 tablet:pt-10 tablet:pb-9">
+              399,981
+            </output>
           </p>
         </section>
         <section aria-labelledby={keypadHeadingId}>
-          <h2 id={keypadHeadingId}>Keypad</h2>
-          <div role="grid">
-            <div role="row">
+          <h2 className="sr-only" id={keypadHeadingId}>
+            Keypad
+          </h2>
+          <div
+            className="bg-keypad rounded grid grid-cols-4 gap-3 tablet:gap-6 p-6 tablet:p-8"
+            role="grid"
+          >
+            <Row>
               <div role="gridcell">
-                <button type="button" onClick={() => console.log(7)}>
-                  7
-                </button>
+                <Button onClick={() => console.log(7)}>
+                  <ButtonLabel>7</ButtonLabel>
+                </Button>
               </div>
               <div role="gridcell">
-                <button type="button" onClick={() => console.log(8)}>
-                  8
-                </button>
+                <Button onClick={() => console.log(8)}>
+                  <ButtonLabel>8</ButtonLabel>
+                </Button>
               </div>
               <div role="gridcell">
-                <button type="button" onClick={() => console.log(9)}>
-                  9
-                </button>
+                <Button onClick={() => console.log(9)}>
+                  <ButtonLabel>9</ButtonLabel>
+                </Button>
               </div>
               <div role="gridcell">
-                <button type="button" onClick={() => console.log("Delete")}>
-                  <span aria-hidden="true">del</span>
-                  <span className="sr-only">Delete</span>
-                </button>
-              </div>
-            </div>
-            <div role="row">
-              <div role="gridcell">
-                <button type="button" onClick={() => console.log(4)}>
-                  4
-                </button>
-              </div>
-              <div role="gridcell">
-                <button type="button" onClick={() => console.log(5)}>
-                  5
-                </button>
-              </div>
-              <div role="gridcell">
-                <button type="button" onClick={() => console.log(6)}>
-                  6
-                </button>
-              </div>
-              <div role="gridcell">
-                <button type="button" onClick={() => console.log("Add")}>
-                  <span aria-hidden="true">+</span>
-                  <span className="sr-only">Add</span>
-                </button>
-              </div>
-            </div>
-            <div role="row">
-              <div role="gridcell">
-                <button type="button" onClick={() => console.log(1)}>
-                  1
-                </button>
-              </div>
-              <div role="gridcell">
-                <button type="button" onClick={() => console.log(2)}>
-                  2
-                </button>
-              </div>
-              <div role="gridcell">
-                <button type="button" onClick={() => console.log(3)}>
-                  3
-                </button>
-              </div>
-              <div role="gridcell">
-                <button type="button" onClick={() => console.log("Subtract")}>
-                  <span aria-hidden="true">-</span>
-                  <span className="sr-only">Subtract</span>
-                </button>
-              </div>
-            </div>
-            <div role="row">
-              <div role="gridcell">
-                <button
-                  type="button"
-                  onClick={() => console.log("Decimal separator")}
+                <Button
+                  className="uppercase"
+                  variant="destructive"
+                  onClick={() => console.log("Delete")}
                 >
-                  <span aria-hidden="true">.</span>
-                  <span className="sr-only">Decimal separator</span>
-                </button>
+                  <ButtonLabel>
+                    <span aria-hidden="true">del</span>
+                    <span className="sr-only">Delete</span>
+                  </ButtonLabel>
+                </Button>
+              </div>
+            </Row>
+            <Row>
+              <div role="gridcell">
+                <Button onClick={() => console.log(4)}>
+                  <ButtonLabel>4</ButtonLabel>
+                </Button>
               </div>
               <div role="gridcell">
-                <button type="button" onClick={() => console.log("0")}>
-                  0
-                </button>
+                <Button onClick={() => console.log(5)}>
+                  <ButtonLabel>5</ButtonLabel>
+                </Button>
               </div>
               <div role="gridcell">
-                <button type="button" onClick={() => console.log("Divide")}>
-                  <span aria-hidden="true">/</span>
-                  <span className="sr-only">Divide</span>
-                </button>
+                <Button onClick={() => console.log(6)}>
+                  <ButtonLabel>6</ButtonLabel>
+                </Button>
               </div>
               <div role="gridcell">
-                <button type="button" onClick={() => console.log("Multiply")}>
-                  <span aria-hidden="true">x</span>
-                  <span className="sr-only">Multiply</span>
-                </button>
+                <Button onClick={() => console.log("Add")}>
+                  <ButtonLabel>
+                    <span aria-hidden="true">+</span>
+                    <span className="sr-only">Add</span>
+                  </ButtonLabel>
+                </Button>
               </div>
-            </div>
-            <div role="row">
+            </Row>
+            <Row>
               <div role="gridcell">
-                <button type="button" onClick={() => console.log("Reset")}>
-                  Reset
-                </button>
+                <Button onClick={() => console.log(1)}>
+                  <ButtonLabel>1</ButtonLabel>
+                </Button>
               </div>
               <div role="gridcell">
-                <button type="button" onClick={() => console.log("Equals")}>
-                  <span aria-hidden="true">=</span>
-                  <span className="sr-only">Equals</span>
-                </button>
+                <Button onClick={() => console.log(2)}>
+                  <ButtonLabel>2</ButtonLabel>
+                </Button>
               </div>
-            </div>
+              <div role="gridcell">
+                <Button onClick={() => console.log(3)}>
+                  <ButtonLabel>3</ButtonLabel>
+                </Button>
+              </div>
+              <div role="gridcell">
+                <Button onClick={() => console.log("Subtract")}>
+                  <ButtonLabel>
+                    <span aria-hidden="true">-</span>
+                    <span className="sr-only">Subtract</span>
+                  </ButtonLabel>
+                </Button>
+              </div>
+            </Row>
+            <Row>
+              <div role="gridcell">
+                <Button onClick={() => console.log("Decimal separator")}>
+                  <ButtonLabel>
+                    <span aria-hidden="true">.</span>
+                    <span className="sr-only">Decimal separator</span>
+                  </ButtonLabel>
+                </Button>
+              </div>
+              <div role="gridcell">
+                <Button onClick={() => console.log("0")}>
+                  <ButtonLabel>0</ButtonLabel>
+                </Button>
+              </div>
+              <div role="gridcell">
+                <Button onClick={() => console.log("Divide")}>
+                  <ButtonLabel>
+                    <span aria-hidden="true">/</span>
+                    <span className="sr-only">Divide</span>
+                  </ButtonLabel>
+                </Button>
+              </div>
+              <div role="gridcell">
+                <Button onClick={() => console.log("Multiply")}>
+                  <ButtonLabel>
+                    <span aria-hidden="true">x</span>
+                    <span className="sr-only">Multiply</span>
+                  </ButtonLabel>
+                </Button>
+              </div>
+            </Row>
+            <Row>
+              <div className="col-span-2" role="gridcell">
+                <Button
+                  className="uppercase"
+                  variant="destructive"
+                  onClick={() => console.log("Reset")}
+                >
+                  <ButtonLabel>Reset</ButtonLabel>
+                </Button>
+              </div>
+              <div className="col-span-2" role="gridcell">
+                <Button variant="equals" onClick={() => console.log("Equals")}>
+                  <ButtonLabel>
+                    <span aria-hidden="true">=</span>
+                    <span className="sr-only">Equals</span>
+                  </ButtonLabel>
+                </Button>
+              </div>
+            </Row>
           </div>
         </section>
       </main>
     </div>
   );
+}
+
+function Row({ children }: { children: ReactNode }) {
+  return (
+    <div className="contents" role="row">
+      {children}
+    </div>
+  );
+}
+
+const buttonVariants = cva(
+  "shadow w-full h-16 rounded-sm grid place-items-center tablet:rounded",
+  {
+    variants: {
+      variant: {
+        default:
+          "bg-key-default text-key-default-foreground shadow-key-default-shadow text-fkey",
+        destructive:
+          "bg-key-reset text-key-reset-foreground shadow-key-reset-shadow text-fkey-special",
+        equals:
+          "bg-key-equals text-key-equals-foreground shadow-key-equals-shadow text-fkey-special",
+      },
+    },
+  }
+);
+
+interface ButtonProps {
+  className?: string;
+  variant?: "default" | "destructive" | "equals";
+  children: ReactNode;
+  onClick(): void;
+}
+
+function Button({
+  className,
+  variant = "default",
+  children,
+  onClick,
+}: ButtonProps) {
+  return (
+    <buttonContext.Provider value={{ variant }}>
+      <button
+        className={buttonVariants({ className, variant })}
+        type="button"
+        onClick={onClick}
+      >
+        {children}
+      </button>
+    </buttonContext.Provider>
+  );
+}
+
+const buttonContext = createContext<{
+  variant: "default" | "destructive" | "equals";
+} | null>(null);
+
+function useButtonContext() {
+  const value = useContext(buttonContext);
+  if (value === null) {
+    throw new Error("useButtonContext must be used inside of a button context");
+  }
+  return value;
+}
+
+const buttonLabelVariants = cva("", {
+  variants: {
+    variant: {
+      default: "translate-y-[0.125rem]",
+      destructive: "tablet:translate-y-[0.0625rem]",
+      equals: "tablet:translate-y-[0.0625rem]",
+    },
+  },
+});
+
+function ButtonLabel({ children }: { children: ReactNode }) {
+  const { variant } = useButtonContext();
+  return <span className={buttonLabelVariants({ variant })}>{children}</span>;
 }
 
 export default App;

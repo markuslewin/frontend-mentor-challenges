@@ -74,6 +74,13 @@ export default {
         },
       ],
     },
+    borderRadius: {
+      sm: rem(5),
+      DEFAULT: rem(10),
+    },
+    boxShadow: {
+      DEFAULT: `inset 0 ${rem(-4)}`,
+    },
     extend: {},
   },
   plugins: [hocus, shape, clickable],
