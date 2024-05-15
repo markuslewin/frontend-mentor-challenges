@@ -19,40 +19,51 @@ function App() {
 
   return (
     <div className="center min-h-screen px-6 py-8">
-      <header className="flex flex-wrap justify-between items-center">
+      <header className="flex flex-wrap justify-between items-end">
         <h1 className="text-fcalc">calc</h1>
         <fieldset>
-          <legend>Theme</legend>
-          <label>
-            <input
-              type="radio"
-              name="theme"
-              value="1"
-              checked={theme === 1}
-              onChange={() => setTheme(1)}
-            />
-            1
-          </label>
-          <label>
-            <input
-              type="radio"
-              name="theme"
-              value="2"
-              checked={theme === 2}
-              onChange={() => setTheme(2)}
-            />
-            2
-          </label>
-          <label>
-            <input
-              type="radio"
-              name="theme"
-              value="3"
-              checked={theme === 3}
-              onChange={() => setTheme(3)}
-            />
-            3
-          </label>
+          <legend className="sr-only">Theme</legend>
+          <div className="toggle text-ftheme uppercase" data-theme={theme}>
+            <p className="toggle__legend" aria-hidden="true">
+              Theme
+            </p>
+            <div className="toggle__gutter">
+              <div className="toggle__thumb" />
+            </div>
+            <label className="toggle__one">
+              <input
+                className="sr-only"
+                type="radio"
+                name="theme"
+                value="1"
+                checked={theme === 1}
+                onChange={() => setTheme(1)}
+              />
+              <Nudge x={1}>1</Nudge>
+            </label>
+            <label className="toggle__two">
+              <input
+                className="sr-only"
+                type="radio"
+                name="theme"
+                value="2"
+                checked={theme === 2}
+                onChange={() => setTheme(2)}
+              />
+              <Nudge x={1}>2</Nudge>
+            </label>
+            <label className="toggle__three">
+              <input
+                className="sr-only"
+                type="radio"
+                name="theme"
+                value="3"
+                checked={theme === 3}
+                onChange={() => setTheme(3)}
+              />
+              <Nudge x={-1}>3</Nudge>
+            </label>
+          </div>
         </fieldset>
       </header>
       <main className="grid gap-6">
@@ -285,6 +296,12 @@ const buttonLabelVariants = cva("", {
 function ButtonLabel({ children }: { children: ReactNode }) {
   const { variant } = useButtonContext();
   return <span className={buttonLabelVariants({ variant })}>{children}</span>;
+}
+
+function Nudge({ x, children }: { x: number; children: ReactNode }) {
+  return (
+    <span style={{ transform: `translateX(${x / 16}rem)` }}>{children}</span>
+  );
 }
 
 export default App;
