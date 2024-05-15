@@ -230,16 +230,16 @@ function Row({ children }: { children: ReactNode }) {
 }
 
 const buttonVariants = cva(
-  "shadow w-full h-16 rounded-sm grid place-items-center tablet:rounded",
+  "shadow w-full h-16 rounded-sm grid place-items-center transition-colors tablet:rounded",
   {
     variants: {
       variant: {
         default:
-          "bg-key-default text-key-default-foreground shadow-key-default-shadow text-fkey",
+          "bg-key-default text-key-default-foreground shadow-key-default-shadow text-fkey hocus:bg-key-default-hocus",
         destructive:
-          "bg-key-reset text-key-reset-foreground shadow-key-reset-shadow text-fkey-special",
+          "bg-key-reset text-key-reset-foreground shadow-key-reset-shadow text-fkey-special hocus:bg-key-reset-hocus",
         equals:
-          "bg-key-equals text-key-equals-foreground shadow-key-equals-shadow text-fkey-special",
+          "bg-key-equals text-key-equals-foreground shadow-key-equals-shadow text-fkey-special hocus:bg-key-equals-hocus",
       },
     },
   }

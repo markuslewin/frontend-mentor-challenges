@@ -11,18 +11,22 @@
     --main-foreground: 0 0% 100%;
     --toggle: 223 31% 20%;
     --toggle-foreground: 6 63% 50%;
+    --toggle-foreground-hocus: 6 93% 67%;
     --keypad: 223 31% 20%;
     --screen: 224 36% 15%;
     --screen-foreground: 0 0% 100%;
     --key-default: 30 25% 89%;
     --key-default-foreground: 221 14% 31%;
     --key-default-shadow: 28 16% 65%;
+    --key-default-hocus: 31 100% 100%;
     --key-reset: 225 21% 49%;
     --key-reset-foreground: 0 0% 100%;
     --key-reset-shadow: 224 28% 35%;
+    --key-reset-hocus: 224 51% 76%;
     --key-equals: 6 63% 50%;
     --key-equals-foreground: 0 0% 100%;
     --key-equals-shadow: 6 70% 34%;
+    --key-equals-hocus: 6 93% 67%;
   }
 
   :root[data-theme="2"] {
@@ -30,18 +34,22 @@
     --main-foreground: 60 10% 19%;
     --toggle: 0 5% 81%;
     --toggle-foreground: 25 98% 40%;
+    --toggle-foreground-hocus: 25 100% 61%;
     --keypad: 0 5% 81%;
     --screen: 0 0% 93%;
     --screen-foreground: 60 10% 19%;
     --key-default: 45 7% 89%;
     --key-default-foreground: 60 10% 19%;
     --key-default-shadow: 35 11% 61%;
+    --key-default-hocus: 0 0% 100%;
     --key-reset: 185 42% 37%;
     --key-reset-foreground: 0 0% 100%;
     --key-reset-shadow: 185 58% 25%;
+    --key-reset-hocus: 184 40% 56%;
     --key-equals: 25 98% 40%;
     --key-equals-foreground: 0 0% 100%;
     --key-equals-shadow: 25 99% 27%;
+    --key-equals-hocus: 25 100% 61%;
   }
 
   :root[data-theme="3"] {
@@ -49,18 +57,22 @@
     --main-foreground: 52 100% 62%;
     --toggle: 268 71% 12%;
     --toggle-foreground: 176 100% 44%;
+    --toggle-foreground-hocus: 176 100% 79%;
     --keypad: 268 71% 12%;
     --screen: 268 71% 12%;
     --screen-foreground: 52 100% 62%;
     --key-default: 268 47% 21%;
     --key-default-foreground: 52 100% 62%;
     --key-default-shadow: 290 70% 36%;
+    --key-default-hocus: 268 54% 44%;
     --key-reset: 281 89% 26%;
     --key-reset-foreground: 0 0% 100%;
     --key-reset-shadow: 285 91% 52%;
+    --key-reset-hocus: 280 56% 44%;
     --key-equals: 176 100% 44%;
     --key-equals-foreground: 198 20% 13%;
     --key-equals-shadow: 177 92% 70%;
+    --key-equals-hocus: 176 100% 79%;
   }
 
   body {
@@ -123,7 +135,7 @@
   }
 
   .toggle__thumb {
-    @apply text-toggle-foreground transition-transform;
+    @apply text-toggle-foreground transition-all;
 
     width: 1rem;
     aspect-ratio: 1;
@@ -138,5 +150,10 @@
 
   .toggle[data-theme="3"] .toggle__thumb {
     transform: translateX(3.125rem);
+  }
+
+  .toggle:hover .toggle__thumb,
+  .toggle:has(:focus-visible) .toggle__thumb {
+    @apply text-toggle-foreground-hocus;
   }
 }

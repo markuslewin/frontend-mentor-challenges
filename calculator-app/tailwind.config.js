@@ -18,6 +18,7 @@ export default {
       toggle: {
         DEFAULT: "hsl(var(--toggle))",
         foreground: "hsl(var(--toggle-foreground))",
+        "foreground-hocus": "hsl(var(--toggle-foreground-hocus))",
       },
       keypad: {
         DEFAULT: "hsl(var(--keypad))",
@@ -30,16 +31,19 @@ export default {
         DEFAULT: "hsl(var(--key-default))",
         foreground: "hsl(var(--key-default-foreground))",
         shadow: "hsl(var(--key-default-shadow))",
+        hocus: "hsl(var(--key-default-hocus))",
       },
       "key-reset": {
         DEFAULT: "hsl(var(--key-reset))",
         foreground: "hsl(var(--key-reset-foreground))",
         shadow: "hsl(var(--key-reset-shadow))",
+        hocus: "hsl(var(--key-reset-hocus))",
       },
       "key-equals": {
         DEFAULT: "hsl(var(--key-equals))",
         foreground: "hsl(var(--key-equals-foreground))",
         shadow: "hsl(var(--key-equals-shadow))",
+        hocus: "hsl(var(--key-equals-hocus))",
       },
     },
     fontFamily: {
