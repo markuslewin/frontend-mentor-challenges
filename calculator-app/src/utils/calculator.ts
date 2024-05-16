@@ -1,3 +1,5 @@
+import { useCallback, useRef, useSyncExternalStore } from "react";
+
 export type CalculatorNumber = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
 
 export type Operator = "+" | "-" | "/" | "x";
@@ -12,6 +14,7 @@ export class Calculator {
   private operand2: string;
   private operator: Operator | null;
   private _display: string;
+  private _listeners: (() => void)[];
 
   constructor() {
     this.state = "operand1.new";
@@ -19,10 +22,25 @@ export class Calculator {
     this.operand2 = "";
     this.operator = null;
     this._display = "0";
+    this._listeners = [];
   }
 
   get display() {
     return this._display;
+  }
+
+  subscribe(listener: () => void) {
+    this._listeners.push(listener);
+    return () => {
+      this._listeners = this._listeners.filter((l) => l !== listener);
+    };
+  }
+
+  private _setDisplay(value: string) {
+    this._display = value;
+    for (const listener of this._listeners) {
+      listener();
+    }
   }
 
   private get _operation() {
@@ -52,28 +70,28 @@ export class Calculator {
     this.operand1 = "";
     this.operand2 = "";
     this.operator = null;
-    this._display = "0";
+    this._setDisplay("0");
   }
 
   typeNumber(number: CalculatorNumber) {
     switch (this.state) {
       case "operand1.new":
         this.operand1 = number.toString();
-        this._display = this.operand1;
+        this._setDisplay(this.operand1);
         this.state = "operand1.append";
         break;
       case "operand1.append":
         this.operand1 += number;
-        this._display = this.operand1;
+        this._setDisplay(this.operand1);
         break;
       case "operand2.new":
         this.operand2 = number.toString();
-        this._display = this.operand2;
+        this._setDisplay(this.operand2);
         this.state = "operand2.append";
         break;
       case "operand2.append":
         this.operand2 += number;
-        this._display = this.operand2;
+        this._setDisplay(this.operand2);
         break;
     }
   }
@@ -82,7 +100,7 @@ export class Calculator {
     switch (this.state) {
       case "operand1.new":
         this.operand1 = "0.";
-        this._display = this.operand1;
+        this._setDisplay(this.operand1);
         this.state = "operand1.append";
         break;
       case "operand1.append":
@@ -90,11 +108,11 @@ export class Calculator {
           break;
         }
         this.operand1 += ".";
-        this._display = this.operand1;
+        this._setDisplay(this.operand1);
         break;
       case "operand2.new":
         this.operand2 = "0.";
-        this._display = this.operand2;
+        this._setDisplay(this.operand2);
         this.state = "operand2.append";
         break;
       case "operand2.append":
@@ -102,7 +120,7 @@ export class Calculator {
           break;
         }
         this.operand2 += ".";
-        this._display = this.operand2;
+        this._setDisplay(this.operand2);
         break;
     }
   }
@@ -113,7 +131,7 @@ export class Calculator {
       const result = this.calculate();
       // todo: Throw in `calculate`?
       if (result !== null) {
-        this._display = result.toString();
+        this._setDisplay(result.toString());
         this.operand1 = result.toString();
         this.operand2 = result.toString();
       }
@@ -136,10 +154,39 @@ export class Calculator {
     const result = this.calculate();
     if (result === null) return;
 
-    this._display = result.toString();
+    this._setDisplay(result.toString());
     this.operand1 = result.toString();
     this.state = "operand1.new";
   }
 
   del() {}
+}
+
+type Subscribe = Parameters<typeof useSyncExternalStore>[0];
+
+export function useCalculator() {
+  const calculatorRef = useRef(new Calculator());
+  const subscribe = useCallback<Subscribe>((callback) => {
+    return calculatorRef.current.subscribe(callback);
+  }, []);
+  const display = useSyncExternalStore(
+    subscribe,
+    () => calculatorRef.current.display
+  );
+
+  return {
+    display,
+    typeDecimal() {
+      calculatorRef.current.typeDecimal();
+    },
+    typeNumber(number: CalculatorNumber) {
+      calculatorRef.current.typeNumber(number);
+    },
+    typeOperator(operator: Operator) {
+      calculatorRef.current.typeOperator(operator);
+    },
+    equals() {
+      calculatorRef.current.equals();
+    },
+  };
 }

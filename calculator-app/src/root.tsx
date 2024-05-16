@@ -7,11 +7,13 @@ import {
   useId,
   useState,
 } from "react";
+import { useCalculator } from "./utils/calculator";
 
 function App() {
   const screenHeadingId = useId();
   const keypadHeadingId = useId();
   const [theme, setTheme] = useState(1);
+  const calculator = useCalculator();
 
   useEffect(() => {
     document.documentElement.dataset.theme = theme.toString();
@@ -73,7 +75,7 @@ function App() {
           </h2>
           <p>
             <output className="bg-screen text-screen-foreground text-fscreen text-end rounded block p-6 pt-7 tablet:p-8 tablet:pt-10 tablet:pb-9">
-              399,981
+              {calculator.display}
             </output>
           </p>
         </section>
@@ -87,17 +89,17 @@ function App() {
           >
             <Row>
               <div role="gridcell">
-                <Button onClick={() => console.log(7)}>
+                <Button onClick={() => calculator.typeNumber(7)}>
                   <ButtonLabel>7</ButtonLabel>
                 </Button>
               </div>
               <div role="gridcell">
-                <Button onClick={() => console.log(8)}>
+                <Button onClick={() => calculator.typeNumber(8)}>
                   <ButtonLabel>8</ButtonLabel>
                 </Button>
               </div>
               <div role="gridcell">
-                <Button onClick={() => console.log(9)}>
+                <Button onClick={() => calculator.typeNumber(9)}>
                   <ButtonLabel>9</ButtonLabel>
                 </Button>
               </div>
@@ -116,22 +118,22 @@ function App() {
             </Row>
             <Row>
               <div role="gridcell">
-                <Button onClick={() => console.log(4)}>
+                <Button onClick={() => calculator.typeNumber(4)}>
                   <ButtonLabel>4</ButtonLabel>
                 </Button>
               </div>
               <div role="gridcell">
-                <Button onClick={() => console.log(5)}>
+                <Button onClick={() => calculator.typeNumber(5)}>
                   <ButtonLabel>5</ButtonLabel>
                 </Button>
               </div>
               <div role="gridcell">
-                <Button onClick={() => console.log(6)}>
+                <Button onClick={() => calculator.typeNumber(6)}>
                   <ButtonLabel>6</ButtonLabel>
                 </Button>
               </div>
               <div role="gridcell">
-                <Button onClick={() => console.log("Add")}>
+                <Button onClick={() => calculator.typeOperator("+")}>
                   <ButtonLabel>
                     <span aria-hidden="true">+</span>
                     <span className="sr-only">Add</span>
@@ -141,22 +143,22 @@ function App() {
             </Row>
             <Row>
               <div role="gridcell">
-                <Button onClick={() => console.log(1)}>
+                <Button onClick={() => calculator.typeNumber(1)}>
                   <ButtonLabel>1</ButtonLabel>
                 </Button>
               </div>
               <div role="gridcell">
-                <Button onClick={() => console.log(2)}>
+                <Button onClick={() => calculator.typeNumber(2)}>
                   <ButtonLabel>2</ButtonLabel>
                 </Button>
               </div>
               <div role="gridcell">
-                <Button onClick={() => console.log(3)}>
+                <Button onClick={() => calculator.typeNumber(3)}>
                   <ButtonLabel>3</ButtonLabel>
                 </Button>
               </div>
               <div role="gridcell">
-                <Button onClick={() => console.log("Subtract")}>
+                <Button onClick={() => calculator.typeOperator("-")}>
                   <ButtonLabel>
                     <span aria-hidden="true">-</span>
                     <span className="sr-only">Subtract</span>
@@ -166,7 +168,7 @@ function App() {
             </Row>
             <Row>
               <div role="gridcell">
-                <Button onClick={() => console.log("Decimal separator")}>
+                <Button onClick={() => calculator.typeDecimal()}>
                   <ButtonLabel>
                     <span aria-hidden="true">.</span>
                     <span className="sr-only">Decimal separator</span>
@@ -174,12 +176,12 @@ function App() {
                 </Button>
               </div>
               <div role="gridcell">
-                <Button onClick={() => console.log("0")}>
+                <Button onClick={() => calculator.typeNumber(0)}>
                   <ButtonLabel>0</ButtonLabel>
                 </Button>
               </div>
               <div role="gridcell">
-                <Button onClick={() => console.log("Divide")}>
+                <Button onClick={() => calculator.typeOperator("/")}>
                   <ButtonLabel>
                     <span aria-hidden="true">/</span>
                     <span className="sr-only">Divide</span>
@@ -187,7 +189,7 @@ function App() {
                 </Button>
               </div>
               <div role="gridcell">
-                <Button onClick={() => console.log("Multiply")}>
+                <Button onClick={() => calculator.typeOperator("x")}>
                   <ButtonLabel>
                     <span aria-hidden="true">x</span>
                     <span className="sr-only">Multiply</span>
@@ -206,7 +208,7 @@ function App() {
                 </Button>
               </div>
               <div className="col-span-2" role="gridcell">
-                <Button variant="equals" onClick={() => console.log("Equals")}>
+                <Button variant="equals" onClick={() => calculator.equals()}>
                   <ButtonLabel>
                     <span aria-hidden="true">=</span>
                     <span className="sr-only">Equals</span>
