@@ -10,8 +10,9 @@
     "build": "run-s build:*",
     "build:icons": "tsx build-icons.ts",
     "build:vite": "tsc && vite build",
-    "test": "playwright test",
-    "test:dev": "playwright test --ui",
+    "test": "vitest",
+    "test:e2e": "playwright test",
+    "test:e2e:dev": "playwright test --ui",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
@@ -54,6 +55,7 @@
     "tsx": "^4.7.2",
     "typescript": "^5.2.2",
     "vite": "^5.2.0",
-    "vite-imagetools": "^7.0.1"
+    "vite-imagetools": "^7.0.1",
+    "vitest": "^1.6.0"
   }
 }
