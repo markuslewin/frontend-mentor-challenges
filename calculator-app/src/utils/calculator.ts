@@ -76,11 +76,15 @@ export class Calculator {
   typeNumber(number: CalculatorNumber) {
     switch (this.state) {
       case "operand1.new":
+        if (number === 0) break;
+
         this.operand1 = number.toString();
         this._setDisplay(this.operand1);
         this.state = "operand1.append";
         break;
       case "operand1.append":
+        if (number === 0 && this.operand1 === "0") break;
+
         this.operand1 += number;
         this._setDisplay(this.operand1);
         break;
@@ -90,7 +94,11 @@ export class Calculator {
         this.state = "operand2.append";
         break;
       case "operand2.append":
-        this.operand2 += number;
+        if (number === 0 && this.operand2 === "0") break;
+
+        // todo: Merge `*.new` and `*.append` states?
+        this.operand2 =
+          this.operand2 === "0" ? number.toString() : this.operand2 + number;
         this._setDisplay(this.operand2);
         break;
     }

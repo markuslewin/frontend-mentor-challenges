@@ -22,6 +22,24 @@ test("starts at 0", () => {
 });
 
 test.each([
+  ["00", "0"],
+  ["00.", "0."],
+  ["00.0", "0.0"],
+  ["00.00", "0.00"],
+  ["1+0", "0"],
+  ["1+00", "0"],
+  ["1+00.0", "0.0"],
+  ["01", "1"],
+  ["1+01", "1"],
+])("Zero handling: %s -> %s", (sequence, expected) => {
+  const calculator = new Calculator();
+
+  runSequence(calculator, sequence);
+
+  expect(calculator.display).toBe(expected);
+});
+
+test.each([
   ["1+1+", "2"],
   ["1+1+=", "4"],
   ["1+2+3+", "6"],
