@@ -1,127 +1,116 @@
-import {
-  NavLink,
-  NavLinkProps,
-  Outlet,
-  ScrollRestoration,
-} from "react-router-dom";
+import { Link, NavLink, Outlet, ScrollRestoration } from "react-router-dom";
 import * as Dialog from "@radix-ui/react-dialog";
 import { RouteAnnouncer } from "./route-announcer";
 import { useMedia } from "../utils/use-media";
 import { screens } from "../utils/screens";
-import { cva } from "class-variance-authority";
-import { useTheme } from "../utils/theme";
+import { Icon } from "./icon";
+import { useId } from "react";
 
 export function Layout() {
-  const { theme, setTheme } = useTheme();
+  const headerNavHeading = useId();
+  const footerNavHeading = useId();
   const tabletMatches = useMedia(`(min-width: ${screens.tablet})`);
-
-  const nextTheme = theme === "dark" ? "light" : "dark";
 
   return (
     <>
-      <div className="min-h-screen px-4 tablet:px-10">
-        <header className="max-w-5xl mx-auto py-6 flex flex-wrap justify-between gap-6">
-          <p>Logo</p>
-          <div className="flex items-center flex-wrap gap-4">
-            <button type="button" onClick={() => setTheme(nextTheme)}>
-              Switch to {nextTheme} mode
-            </button>
-            <p className="sr-only" aria-live="assertive">
-              {theme} mode is enabled.
-            </p>
-            <nav>
-              {tabletMatches ? (
-                <ul className="flex flex-wrap gap-4">
-                  <li>
-                    <MyNavLink to="/">Home</MyNavLink>
-                  </li>
-                  <li>
-                    <MyNavLink to="/api-endpoint">API endpoint</MyNavLink>
-                  </li>
-                  <li>
-                    <MyNavLink to="/form-validation">Form validation</MyNavLink>
-                  </li>
-                  <li>
-                    <MyNavLink to="/nested-routes">Nested routes</MyNavLink>
-                  </li>
-                  <li>
-                    <MyNavLink to="/optimized-image">Optimized image</MyNavLink>
-                  </li>
-                </ul>
-              ) : (
-                <Dialog.Root>
-                  <Dialog.Trigger>Open menu</Dialog.Trigger>
-                  <Dialog.Portal>
-                    <Dialog.Overlay className="menu__overlay" />
-                    <Dialog.Content
-                      className="menu__content"
-                      aria-describedby={undefined}
-                    >
-                      <Dialog.Title className="sr-only">Menu</Dialog.Title>
-                      {/* <Dialog.Description /> */}
-                      <Dialog.Close>Close menu</Dialog.Close>
-                      <ul className="mt-16 grid gap-6">
-                        <li>
-                          <MyNavLink to="/">Home</MyNavLink>
-                        </li>
-                        <li>
-                          <MyNavLink to="/api-endpoint">API endpoint</MyNavLink>
-                        </li>
-                        <li>
-                          <MyNavLink to="/form-validation">
-                            Form validation
-                          </MyNavLink>
-                        </li>
-                        <li>
-                          <MyNavLink to="/nested-routes">
-                            Nested routes
-                          </MyNavLink>
-                        </li>
-                        <li>
-                          <MyNavLink to="/optimized-image">
-                            Optimized image
-                          </MyNavLink>
-                        </li>
-                      </ul>
-                    </Dialog.Content>
-                  </Dialog.Portal>
-                </Dialog.Root>
-              )}
-            </nav>
-          </div>
+      <div className="min-h-screen">
+        <header>
+          <p>
+            <Icon name="logo" />
+            <span>Coffeeroasters</span>
+          </p>
+          <nav aria-labelledby={headerNavHeading}>
+            <h2 id={headerNavHeading}>Header navigation</h2>
+            {tabletMatches ? (
+              <ul role="list">
+                <li>
+                  <NavLink to="/">Home</NavLink>
+                </li>
+                <li>
+                  <NavLink to="/about">About us</NavLink>
+                </li>
+                <li>
+                  <NavLink to="/plan">Create your plan</NavLink>
+                </li>
+              </ul>
+            ) : (
+              <Dialog.Root>
+                <Dialog.Trigger>
+                  <Icon name="icon-hamburger" />
+                  <span>Open menu</span>
+                </Dialog.Trigger>
+                <Dialog.Portal>
+                  <Dialog.Overlay />
+                  <Dialog.Content aria-describedby={undefined}>
+                    <Dialog.Title className="sr-only">Menu</Dialog.Title>
+                    <Dialog.Close>
+                      <Icon name="icon-close" />
+                      <span>Close menu</span>
+                    </Dialog.Close>
+                    <ul role="list">
+                      <li>
+                        <NavLink to="/">Home</NavLink>
+                      </li>
+                      <li>
+                        <NavLink to="/about">About us</NavLink>
+                      </li>
+                      <li>
+                        <NavLink to="/plan">Create your plan</NavLink>
+                      </li>
+                    </ul>
+                  </Dialog.Content>
+                </Dialog.Portal>
+              </Dialog.Root>
+            )}
+          </nav>
         </header>
         <main>
-          <div className="max-w-3xl mx-auto py-6 tablet:py-20">
-            <Outlet />
-          </div>
+          <Outlet />
         </main>
+        <footer>
+          <p>
+            <Icon name="logo" />
+            <span>Coffeeroasters</span>
+          </p>
+          <nav aria-labelledby={footerNavHeading}>
+            <h2 id={footerNavHeading}>Footer navigation</h2>
+            <ul role="list">
+              <li>
+                <NavLink to="/">Home</NavLink>
+              </li>
+              <li>
+                <NavLink to="/about">About us</NavLink>
+              </li>
+              <li>
+                <NavLink to="/plan">Create your plan</NavLink>
+              </li>
+            </ul>
+          </nav>
+          <h2>Coffeeroasters on social media</h2>
+          <ul role="list">
+            <li>
+              <Link to="#">
+                <Icon name="icon-facebook" />
+                <span>Coffeeroasters on Facebook</span>
+              </Link>
+            </li>
+            <li>
+              <Link to="#">
+                <Icon name="icon-twitter" />
+                <span>Coffeeroasters on Twitter</span>
+              </Link>
+            </li>
+            <li>
+              <Link to="#">
+                <Icon name="icon-instagram" />
+                <span>Coffeeroasters on Instagram</span>
+              </Link>
+            </li>
+          </ul>
+        </footer>
       </div>
       <ScrollRestoration />
       <RouteAnnouncer />
     </>
-  );
-}
-
-const navLinkVariants = cva("hocus:underline hocus:underline-offset-4", {
-  variants: {
-    state: { active: "underline underline-offset-4" },
-  },
-});
-
-interface MyNavLinkProps extends Omit<NavLinkProps, "className"> {
-  className?: string;
-}
-
-function MyNavLink({ className, ...props }: MyNavLinkProps) {
-  return (
-    <NavLink
-      {...props}
-      className={({ isActive }) =>
-        navLinkVariants({
-          className,
-          state: isActive ? "active" : null,
-        })
-      }
-    />
   );
 }
