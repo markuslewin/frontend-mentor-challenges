@@ -135,6 +135,10 @@ export class Calculator {
 
   // todo: Starting with `-`
   typeOperator(operator: Operator) {
+    // todo: Always write from display to operand1 here
+    if (this.operand1 === "") {
+      this.operand1 = "0";
+    }
     if (this.state === "operand2.append") {
       const result = this.calculate();
       // todo: Throw in `calculate`?
