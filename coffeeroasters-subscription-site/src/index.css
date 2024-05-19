@@ -1,55 +1,36 @@
+/* Supports weights 100-900 */
+@import "@fontsource-variable/fraunces/full.css";
+@import "@fontsource/barlow/400.css";
+@import "@fontsource/barlow/700.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
-    /* todo: Add colors */
-    --color-slate-300: 213 27% 84%;
-    --color-slate-800: 217 33% 17%;
-    --color-slate-950: 229 84% 5%;
-    --color-blue-500: 217 91% 60%;
-    --color-blue-700: 224 76% 48%;
-    --color-blue-800: 226 71% 40%;
-    --color-red-200: 0 96% 89%;
-    --color-red-500: 0 84% 60%;
-    --color-white: 0 0% 100%;
-    --color-black: 0 0% 0%;
+    --color-dark-cyan: 179 81% 29%;
+    --color-dark-grey-blue: 215 19% 25%;
+    --color-pale-orange: 25 94% 86%;
+    --color-light-cream: 43 78% 98%;
+    --color-grey: 215 5% 54%;
 
-    --background: var(--color-white);
-    --foreground: var(--color-slate-950);
-    --overlay: var(--color-black);
-    --menu: var(--color-white);
-    --menu-foreground: var(--color-slate-950);
-    --button: var(--color-blue-700);
-    --button-hocus: var(--color-blue-500);
-    --button-foreground: var(--color-white);
-    --input: var(--color-slate-300);
-    --input-border-hocus: var(--color-slate-950);
-    --pill: var(--color-slate-950);
-    --pill-foreground: var(--color-white);
-    --delete-foreground: var(--color-red-500);
-    --delete-foreground-hocus: var(--color-red-200);
-    --error-foreground: var(--color-red-500);
+    /* https://utopia.fyi/clamp/calculator?a=375,1240,15—16|28—32|28—40|40—72|40—150 */
+    --size-15-16: clamp(0.9375rem, 0.9104rem + 0.1156vi, 1rem);
+    --size-28-32: clamp(1.75rem, 1.6416rem + 0.4624vi, 2rem);
+    --size-28-40: clamp(1.75rem, 1.4249rem + 1.3873vi, 2.5rem);
+    --size-40-72: clamp(2.5rem, 1.6329rem + 3.6994vi, 4.5rem);
+    --size-40-150: clamp(2.5rem, -0.4805rem + 12.7168vi, 9.375rem);
 
-    color-scheme: light;
+    /* https://utopia.fyi/clamp/calculator?a=375,1240,25—26|28—48|32—36|40—72 */
+    --leading-25-26: clamp(1.5625rem, 1.5354rem + 0.1156vi, 1.625rem);
+    --leading-28-48: clamp(1.75rem, 1.2081rem + 2.3121vi, 3rem);
+    --leading-32-36: clamp(2rem, 1.8916rem + 0.4624vi, 2.25rem);
+    --leading-40-72: clamp(2.5rem, 1.6329rem + 3.6994vi, 4.5rem);
   }
 
   body {
-    @apply font-base text-body bg-background text-foreground;
-  }
-
-  :root[data-theme="dark"] {
-    --background: var(--color-slate-950);
-    --foreground: var(--color-white);
-    --menu: var(--color-slate-950);
-    --menu-foreground: var(--color-white);
-    --input: var(--color-slate-800);
-    --input-border-hocus: var(--color-white);
-    --pill: var(--color-white);
-    --pill-foreground: var(--color-slate-950);
-
-    color-scheme: dark;
+    @apply font-barlow text-body bg-light-cream text-dark-grey-blue;
   }
 }
 
@@ -57,14 +38,14 @@
   /* Components here */
 
   .menu__overlay {
-    @apply bg-overlay/85;
+    /* @apply bg-overlay/85; */
 
     position: fixed;
     inset: 0;
   }
 
   .menu__content {
-    @apply bg-menu text-menu-foreground;
+    /* @apply bg-menu text-menu-foreground; */
 
     overflow-y: auto;
     position: fixed;

@@ -26,7 +26,7 @@ export const handle = {
 export function HomeRoute() {
   return (
     <>
-      <h1>Great coffee made simple.</h1>
+      <h1 className="font-fraunces text-h1">Great coffee made simple.</h1>
       <p>
         Start your mornings with the world’s best coffees. Try our expertly
         curated artisan coffees from our best roasters delivered directly to

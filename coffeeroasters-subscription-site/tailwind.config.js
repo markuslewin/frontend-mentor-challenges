@@ -11,44 +11,57 @@ export default {
   theme: {
     screens,
     colors: {
-      // todo: Add colors
-      background: "hsl(var(--background))",
-      foreground: "hsl(var(--foreground))",
-      overlay: "hsl(var(--overlay))",
-      menu: {
-        DEFAULT: "hsl(var(--menu))",
-        foreground: "hsl(var(--menu-foreground))",
-      },
-      button: {
-        DEFAULT: "hsl(var(--button))",
-        foreground: "hsl(var(--button-foreground))",
-        hocus: "hsl(var(--button-hocus))",
-      },
-      input: {
-        DEFAULT: "hsl(var(--input))",
-        "border-hocus": "hsl(var(--input-border-hocus))",
-      },
-      pill: {
-        DEFAULT: "hsl(var(--pill))",
-        foreground: "hsl(var(--pill-foreground))",
-      },
-      delete: {
-        foreground: "hsl(var(--delete-foreground))",
-        "foreground-hocus": "hsl(var(--delete-foreground-hocus))",
-      },
-      error: {
-        foreground: "hsl(var(--error-foreground))",
-      },
+      "dark-cyan": "hsl(var(--color-dark-cyan))",
+      "dark-grey-blue": "hsl(var(--color-dark-grey-blue))",
+      "pale-orange": "hsl(var(--color-pale-orange))",
+      "light-cream": "hsl(var(--color-light-cream))",
+      grey: "hsl(var(--color-grey))",
     },
     fontFamily: {
-      // todo: Add font from Fontsource
-      base: "Inter, system-ui, Avenir, Helvetica, Arial, sans-serif",
+      fraunces: [
+        "'Fraunces Variable', serif",
+        { fontVariationSettings: "'opsz' 9" },
+      ],
+      barlow: "'Barlow', sans-serif",
     },
     fontSize: {
-      // todo: Add font sizes
-      "heading-l": [rem(48), { fontWeight: 500, lineHeight: rem(48) }],
-      "heading-m": [rem(39), { fontWeight: 500, lineHeight: rem(39) }],
-      body: [rem(20), { lineHeight: rem(24) }],
+      "title-alternate-big": [
+        "var(--size-40-150)",
+        { fontWeight: 900, lineHeight: rem(72) },
+      ],
+      h1: [
+        "var(--size-40-72)",
+        {
+          fontWeight: 900,
+          lineHeight: "var(--leading-40-72)",
+        },
+      ],
+      h2: [
+        "var(--size-28-40)",
+        {
+          fontWeight: 900,
+          lineHeight: "var(--leading-28-48)",
+        },
+      ],
+      h3: [
+        "var(--size-28-32)",
+        {
+          fontWeight: 900,
+          lineHeight: "var(--leading-32-36)",
+        },
+      ],
+      h4: [rem(24), { fontWeight: 900, lineHeight: rem(32) }],
+      "navigation-menu": [
+        rem(12),
+        { fontWeight: 700, lineHeight: rem(15), letterSpacing: rem(1) },
+      ],
+      body: [
+        "var(--size-15-16)",
+        {
+          fontWeight: 400,
+          lineHeight: "var(--leading-25-26)",
+        },
+      ],
     },
     extend: {},
   },
