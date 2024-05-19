@@ -35,7 +35,25 @@
 }
 
 @layer components {
-  /* Components here */
+  .center {
+    --center-size: 80rem;
+    --center-gutter: 1.5rem;
+
+    display: grid;
+    grid-template-columns:
+      minmax(var(--center-gutter), 1fr) minmax(auto, var(--center-size))
+      minmax(var(--center-gutter), 1fr);
+  }
+
+  .center > * {
+    grid-column: 2;
+  }
+
+  @screen tablet {
+    .center {
+      --center-gutter: 2.5rem;
+    }
+  }
 
   .menu__overlay {
     /* @apply bg-overlay/85; */
