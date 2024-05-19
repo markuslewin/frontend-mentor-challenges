@@ -16,6 +16,8 @@ export default {
       "pale-orange": "hsl(var(--color-pale-orange))",
       "light-cream": "hsl(var(--color-light-cream))",
       grey: "hsl(var(--color-grey))",
+      // ---
+      "light-cyan": "hsl(179 55% 61%)",
     },
     fontFamily: {
       fraunces: [
@@ -62,6 +64,14 @@ export default {
           lineHeight: "var(--leading-25-26)",
         },
       ],
+    },
+    borderRadius: {
+      sm: rem(6),
+      DEFAULT: rem(10),
+    },
+    maxWidth: {
+      5: rem(445),
+      6: rem(540),
     },
     extend: {},
   },
