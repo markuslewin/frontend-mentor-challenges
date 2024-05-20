@@ -203,7 +203,7 @@ function App() {
                 <Button
                   className="uppercase"
                   variant="destructive"
-                  onClick={() => console.log("Reset")}
+                  onClick={() => calculator.reset()}
                 >
                   <ButtonLabel>Reset</ButtonLabel>
                 </Button>

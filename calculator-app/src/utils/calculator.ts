@@ -200,5 +200,8 @@ export function useCalculator() {
     equals() {
       calculatorRef.current.equals();
     },
+    reset() {
+      calculatorRef.current.reset();
+    },
   };
 }

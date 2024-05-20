@@ -11,6 +11,8 @@ function runSequence(calculator: Calculator, sequence: string) {
       calculator.typeDecimal();
     } else if (char === "=") {
       calculator.equals();
+    } else if (char === "r") {
+      calculator.reset();
     }
   }
 }
@@ -32,6 +34,19 @@ test.each([
   ["01", "1"],
   ["1+01", "1"],
 ])("Zero handling: %s -> %s", (sequence, expected) => {
+  const calculator = new Calculator();
+
+  runSequence(calculator, sequence);
+
+  expect(calculator.display).toBe(expected);
+});
+
+test.each([
+  ["9r", "0"],
+  ["9+9r", "0"],
+  ["9+9=r", "0"],
+  ["9+9+r", "0"],
+])("Reset: %s -> %s", (sequence, expected) => {
   const calculator = new Calculator();
 
   runSequence(calculator, sequence);
