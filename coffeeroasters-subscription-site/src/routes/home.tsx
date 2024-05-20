@@ -16,6 +16,8 @@ import { Link } from "react-router-dom";
 import { AnnouncementHandle } from "../components/route-announcer";
 import { screens } from "../utils/screens";
 import { Icon } from "../components/icon";
+import { ImgHTMLAttributes, ReactNode } from "react";
+import { useMedia } from "../utils/use-media";
 
 export const handle = {
   announcement() {
@@ -24,6 +26,8 @@ export const handle = {
 } satisfies AnnouncementHandle;
 
 export function HomeRoute() {
+  const desktopMatches = useMedia(`(min-width: ${screens.desktop})`);
+
   return (
     <div className="center">
       <div>
@@ -64,61 +68,84 @@ export function HomeRoute() {
             />
           </picture>
         </div>
-        <h2>Our collection</h2>
-        <ul role="list">
-          <li>
-            <h3>Gran Espresso</h3>
-            <p>
-              Light and flavorful blend with cocoa and black pepper for an
-              intense experience
-            </p>
-            <img
-              alt='todo: Visual description of "Gran Espresso"'
-              width={granEspresso.width}
-              height={granEspresso.height}
-              src={granEspresso.src}
-            />
-          </li>
-          <li>
-            <h3>Planalto</h3>
-            <p>
-              Brazilian dark roast with rich and velvety body, and hints of
-              fruits and nuts
-            </p>
-            <img
-              alt='todo: Visual description of "Planalto"'
-              width={planalto.width}
-              height={planalto.height}
-              src={planalto.src}
-            />
-          </li>
-          <li>
-            <h3>Piccollo</h3>
-            <p>
-              Mild and smooth blend featuring notes of toasted almond and dried
-              cherry
-            </p>
-            <img
-              alt='todo: Visual description of "Piccollo"'
-              width={piccollo.width}
-              height={piccollo.height}
-              src={piccollo.src}
-            />
-          </li>
-          <li>
-            <h3>Danche</h3>
-            <p>
-              Ethiopian hand-harvested blend densely packed with vibrant fruit
-              notes
-            </p>
-            <img
-              alt='todo: Visual description of "Danche"'
-              width={danche.width}
-              height={danche.height}
-              src={danche.src}
-            />
-          </li>
-        </ul>
+        <h2 className="text-grey/50 font-fraunces text-title-alternate-big text-center lowercase mt-32 relative -z-10 tablet:mt-36 tablet:pt-7 tablet:pb-5 desktop:mt-[8.3125rem] desktop:pt-[5.375rem] desktop:pb-[2.375rem]">
+          Our collection
+          <span className="bg-gradient-to-t from-light-cream absolute inset-0" />
+        </h2>
+        <div
+          className="center"
+          style={{
+            ["--center-size" as string]: desktopMatches
+              ? "69.375rem"
+              : "35.8125rem",
+          }}
+        >
+          <ul
+            className="mt-3 grid gap-12 tablet:-mt-16 desktop:-mt-[4.375rem] desktop:grid-cols-4 desktop:gap-[1.875rem]"
+            role="list"
+          >
+            <CoffeeItem>
+              <CoffeeItemText>
+                <CoffeeItemHeading>Gran Espresso</CoffeeItemHeading>
+                <CoffeeItemDescription>
+                  Light and flavorful blend with cocoa and black pepper for an
+                  intense experience
+                </CoffeeItemDescription>
+              </CoffeeItemText>
+              <CoffeeItemImage
+                alt='todo: Visual description of "Gran Espresso"'
+                width={granEspresso.width}
+                height={granEspresso.height}
+                src={granEspresso.src}
+              />
+            </CoffeeItem>
+            <CoffeeItem>
+              <CoffeeItemText>
+                <CoffeeItemHeading>Planalto</CoffeeItemHeading>
+                <CoffeeItemDescription>
+                  Brazilian dark roast with rich and velvety body, and hints of
+                  fruits and nuts
+                </CoffeeItemDescription>
+              </CoffeeItemText>
+              <CoffeeItemImage
+                alt='todo: Visual description of "Planalto"'
+                width={planalto.width}
+                height={planalto.height}
+                src={planalto.src}
+              />
+            </CoffeeItem>
+            <CoffeeItem>
+              <CoffeeItemText>
+                <CoffeeItemHeading>Piccollo</CoffeeItemHeading>
+                <CoffeeItemDescription>
+                  Mild and smooth blend featuring notes of toasted almond and
+                  dried cherry
+                </CoffeeItemDescription>
+              </CoffeeItemText>
+              <CoffeeItemImage
+                alt='todo: Visual description of "Piccollo"'
+                width={piccollo.width}
+                height={piccollo.height}
+                src={piccollo.src}
+              />
+            </CoffeeItem>
+            <CoffeeItem>
+              <CoffeeItemText>
+                <CoffeeItemHeading>Danche</CoffeeItemHeading>
+                <CoffeeItemDescription>
+                  Ethiopian hand-harvested blend densely packed with vibrant
+                  fruit notes
+                </CoffeeItemDescription>
+              </CoffeeItemText>
+              <CoffeeItemImage
+                alt='todo: Visual description of "Danche"'
+                width={danche.width}
+                height={danche.height}
+                src={danche.src}
+              />
+            </CoffeeItem>
+          </ul>
+        </div>
         <h2>Why choose us?</h2>
         <p>
           A large part of our role is choosing which particular coffees will be
@@ -173,5 +200,40 @@ export function HomeRoute() {
         <Link to="/plan">Create your plan</Link>
       </div>
     </div>
+  );
+}
+
+function CoffeeItem({ children }: { children: ReactNode }) {
+  return (
+    <li className="grid justify-items-center gap-6 tablet:grid-cols-[minmax(0,1fr)_auto] tablet:justify-items-start tablet:gap-9 desktop:grid-cols-none desktop:gap-[4.5rem]">
+      {children}
+    </li>
+  );
+}
+
+function CoffeeItemText({ children }: { children: ReactNode }) {
+  return (
+    <div className="order-2 text-center tablet:text-start tablet:grid tablet:grid-rows-[30fr_auto_auto_58fr] desktop:text-center desktop:block">
+      {children}
+    </div>
+  );
+}
+
+function CoffeeItemHeading({ children }: { children: ReactNode }) {
+  return <h3 className="row-start-2 font-fraunces text-h4">{children}</h3>;
+}
+
+function CoffeeItemDescription({ children }: { children: ReactNode }) {
+  return (
+    <p className="row-start-3 mt-4 max-w-[17.625rem] tablet:mt-6">{children}</p>
+  );
+}
+
+function CoffeeItemImage(props: ImgHTMLAttributes<HTMLImageElement>) {
+  return (
+    <img
+      className="order-1 max-w-[12.5rem] pt-[6%] tablet:max-w-[100%]"
+      {...props}
+    />
   );
 }
