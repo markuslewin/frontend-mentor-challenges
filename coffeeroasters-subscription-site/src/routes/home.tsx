@@ -15,7 +15,7 @@ import danche from "../assets/home/desktop/image-danche.png?as=metadata";
 import { Link } from "react-router-dom";
 import { AnnouncementHandle } from "../components/route-announcer";
 import { screens } from "../utils/screens";
-import { Icon } from "../components/icon";
+import { Icon, IconProps } from "../components/icon";
 import { ImgHTMLAttributes, ReactNode } from "react";
 import { useMedia } from "../utils/use-media";
 
@@ -26,8 +26,6 @@ export const handle = {
 } satisfies AnnouncementHandle;
 
 export function HomeRoute() {
-  const desktopMatches = useMedia(`(min-width: ${screens.desktop})`);
-
   return (
     <div className="center">
       <div>
@@ -40,7 +38,7 @@ export function HomeRoute() {
               directly to your door, at your schedule.
             </p>
             <Link
-              className="bg-dark-cyan text-light-cream font-fraunces font-black text-[1.125rem] leading-[1.5625rem] rounded-sm mt-10 px-8 py-4 inline-block desktop:mt-14 hocus:bg-light-cyan transition-colors"
+              className="bg-dark-cyan text-light-cream font-fraunces font-black text-[1.125rem] leading-[1.5625rem] rounded-xs mt-10 px-8 py-4 inline-block desktop:mt-14 hocus:bg-light-cyan transition-colors"
               to="/plan"
             >
               Create your plan
@@ -72,14 +70,7 @@ export function HomeRoute() {
           Our collection
           <span className="bg-gradient-to-t from-light-cream absolute inset-0" />
         </h2>
-        <div
-          className="center"
-          style={{
-            ["--center-size" as string]: desktopMatches
-              ? "69.375rem"
-              : "35.8125rem",
-          }}
-        >
+        <Center>
           <ul
             className="mt-3 grid gap-12 tablet:-mt-16 desktop:-mt-[4.375rem] desktop:grid-cols-4 desktop:gap-[1.875rem]"
             role="list"
@@ -145,32 +136,60 @@ export function HomeRoute() {
               />
             </CoffeeItem>
           </ul>
+        </Center>
+        <div className="mt-32 grid tablet:mt-36 desktop:mt-[12.5rem]">
+          <div className="bg-darker-grey-blue col-start-1 row-start-1 row-span-2 rounded" />
+          <div className="text-light-cream text-center col-start-1 row-start-1 pt-16 tablet:pt-14 desktop:pt-[6.25rem]">
+            <Center>
+              <h2 className="font-fraunces text-h2">Why choose us?</h2>
+              <p className="mt-6 mb-16 mx-auto max-w-6 tablet:mb-20 desktop:mt-8 desktop:mb-[5.375rem]">
+                A large part of our role is choosing which particular coffees
+                will be featured in our range. This means working closely with
+                the best coffee growers to give you a more impactful experience
+                on every level.
+              </p>
+            </Center>
+          </div>
+          <div className="col-start-1 row-start-2 row-span-2">
+            <Center>
+              <div className="grid auto-rows-fr gap-6 desktop:grid-cols-3 desktop:gap-[1.875rem]">
+                <Reason>
+                  <ReasonIcon name="icon-coffee-bean" width="73" height="72" />
+                  <ReasonText>
+                    <ReasonHeading>Best quality</ReasonHeading>
+                    <ReasonDescription>
+                      Discover an endless variety of the world’s best artisan
+                      coffee from each of our roasters.
+                    </ReasonDescription>
+                  </ReasonText>
+                </Reason>
+                <Reason>
+                  <ReasonIcon name="icon-gift" width="72" height="72" />
+                  <ReasonText>
+                    <ReasonHeading>Exclusive benefits</ReasonHeading>
+                    <ReasonDescription>
+                      Special offers and swag when you subscribe, including 30%
+                      off your first shipment.
+                    </ReasonDescription>
+                  </ReasonText>
+                </Reason>
+                <Reason>
+                  <ReasonIcon name="icon-truck" width="72" height="50" />
+                  <ReasonText>
+                    <ReasonHeading>Free shipping</ReasonHeading>
+                    <ReasonDescription>
+                      We cover the cost and coffee is delivered fast. Peak
+                      freshness: guaranteed.
+                    </ReasonDescription>
+                  </ReasonText>
+                </Reason>
+              </div>
+            </Center>
+          </div>
         </div>
-        <h2>Why choose us?</h2>
-        <p>
-          A large part of our role is choosing which particular coffees will be
-          featured in our range. This means working closely with the best coffee
-          growers to give you a more impactful experience on every level.
-        </p>
-        <Icon name="icon-coffee-bean" />
-        <h3>Best quality</h3>
-        <p>
-          Discover an endless variety of the world’s best artisan coffee from
-          each of our roasters.
-        </p>
-        <Icon name="icon-gift" />
-        <h3>Exclusive benefits</h3>
-        <p>
-          Special offers and swag when you subscribe, including 30% off your
-          first shipment.
-        </p>
-        <Icon name="icon-truck" />
-        <h3>Free shipping</h3>
-        <p>
-          We cover the cost and coffee is delivered fast. Peak freshness:
-          guaranteed.
-        </p>
-        <h2>How it works</h2>
+        <h2 className="mt-32 tablet:mt-36 desktop:mt-[12.5rem]">
+          How it works
+        </h2>
         <ol>
           <li>
             <h3>Pick your coffee</h3>
@@ -199,6 +218,23 @@ export function HomeRoute() {
         </ol>
         <Link to="/plan">Create your plan</Link>
       </div>
+    </div>
+  );
+}
+
+function Center({ children }: { children: ReactNode }) {
+  const desktopMatches = useMedia(`(min-width: ${screens.desktop})`);
+
+  return (
+    <div
+      className="center"
+      style={{
+        ["--center-size" as string]: desktopMatches
+          ? "69.375rem"
+          : "35.8125rem",
+      }}
+    >
+      {children}
     </div>
   );
 }
@@ -236,4 +272,36 @@ function CoffeeItemImage(props: ImgHTMLAttributes<HTMLImageElement>) {
       {...props}
     />
   );
+}
+
+function Reason({ children }: { children: ReactNode }) {
+  return (
+    <div className="bg-dark-cyan text-light-cream rounded-sm px-8 pt-20 pb-12 grid justify-items-center gap-14 tablet:px-12 tablet:py-10 tablet:grid-cols-[4.875rem_1fr] tablet:justify-items-start tablet:items-center desktop:grid-cols-none desktop:grid-rows-[auto_1fr] desktop:justify-items-center desktop:items-start">
+      {children}
+    </div>
+  );
+}
+
+function ReasonIcon(props: IconProps) {
+  return (
+    <div className="text-pale-orange size-[4.5rem] grid place-items-center tablet:justify-self-end tablet:size-14 desktop:justify-self-auto desktop:size-[4.5rem]">
+      <Icon className="w-full h-auto" {...props} />
+    </div>
+  );
+}
+
+function ReasonText({ children }: { children: ReactNode }) {
+  return (
+    <div className="text-center tablet:text-start desktop:text-center">
+      {children}
+    </div>
+  );
+}
+
+function ReasonHeading({ children }: { children: ReactNode }) {
+  return <h3 className="font-fraunces text-h4">{children}</h3>;
+}
+
+function ReasonDescription({ children }: { children: ReactNode }) {
+  return <p className="mt-6 tablet:mt-4 desktop:mt-6">{children}</p>;
 }

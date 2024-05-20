@@ -18,6 +18,7 @@ export default {
       grey: "hsl(var(--color-grey))",
       // ---
       "light-cyan": "hsl(179 55% 61%)",
+      "darker-grey-blue": "hsl(214 17% 19%)",
     },
     fontFamily: {
       fraunces: [
@@ -66,7 +67,8 @@ export default {
       ],
     },
     borderRadius: {
-      sm: rem(6),
+      xs: rem(6),
+      sm: rem(8),
       DEFAULT: rem(10),
     },
     maxWidth: {
