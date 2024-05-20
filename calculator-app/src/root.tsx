@@ -69,14 +69,15 @@ function App() {
         </fieldset>
       </header>
       <main className="grid gap-6">
-        <section aria-labelledby={screenHeadingId}>
+        <section
+          className="overflow-x-hidden"
+          aria-labelledby={screenHeadingId}
+        >
           <h2 className="sr-only" id={screenHeadingId}>
             Screen
           </h2>
-          <p>
-            <output className="bg-screen text-screen-foreground text-fscreen text-end rounded block p-6 pt-7 tablet:p-8 tablet:pt-10 tablet:pb-9">
-              {calculator.display}
-            </output>
+          <p className="bg-screen text-screen-foreground text-fscreen text-end overflow-x-auto rounded p-6 pt-7 tablet:p-8 tablet:pt-10 tablet:pb-9">
+            <output>{calculator.display}</output>
           </p>
         </section>
         <section aria-labelledby={keypadHeadingId}>
