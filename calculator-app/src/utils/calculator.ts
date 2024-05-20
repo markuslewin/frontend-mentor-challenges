@@ -171,7 +171,34 @@ export class Calculator {
     this.state = "operand1.new";
   }
 
-  del() {}
+  delete() {
+    switch (this.state) {
+      case "operand1.append": {
+        const next = this.operand1.slice(0, this.operand1.length - 1);
+        if (next === "") {
+          this._setDisplay("0");
+          this.operand1 = "0";
+          this.state = "operand1.new";
+          break;
+        }
+        this._setDisplay(next);
+        this.operand1 = next;
+        break;
+      }
+      case "operand2.append": {
+        const next = this.operand2.slice(0, this.operand2.length - 1);
+        if (next === "") {
+          this._setDisplay("0");
+          this.operand2 = "0";
+          this.state = "operand2.new";
+          break;
+        }
+        this._setDisplay(next);
+        this.operand2 = next;
+        break;
+      }
+    }
+  }
 }
 
 type Subscribe = Parameters<typeof useSyncExternalStore>[0];
@@ -202,6 +229,9 @@ export function useCalculator() {
     },
     reset() {
       calculatorRef.current.reset();
+    },
+    delete() {
+      calculatorRef.current.delete();
     },
   };
 }

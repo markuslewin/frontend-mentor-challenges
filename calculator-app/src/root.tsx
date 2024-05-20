@@ -108,7 +108,7 @@ function App() {
                 <Button
                   className="uppercase"
                   variant="destructive"
-                  onClick={() => console.log("Delete")}
+                  onClick={() => calculator.delete()}
                 >
                   <ButtonLabel>
                     <span aria-hidden="true">del</span>

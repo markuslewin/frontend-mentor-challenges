@@ -13,6 +13,8 @@ function runSequence(calculator: Calculator, sequence: string) {
       calculator.equals();
     } else if (char === "r") {
       calculator.reset();
+    } else if (char === "d") {
+      calculator.delete();
     }
   }
 }
@@ -46,7 +48,34 @@ test.each([
   ["9+9r", "0"],
   ["9+9=r", "0"],
   ["9+9+r", "0"],
+  ["9+9r8-7=", "1"],
 ])("Reset: %s -> %s", (sequence, expected) => {
+  const calculator = new Calculator();
+
+  runSequence(calculator, sequence);
+
+  expect(calculator.display).toBe(expected);
+});
+
+test.each([
+  ["d", "0"],
+  ["7d", "0"],
+  ["77d", "7"],
+  ["123d", "12"],
+  ["7+d", "7"],
+  ["7+4d", "0"],
+  ["7+44d", "4"],
+  ["7+123d", "12"],
+  ["7+4d1=", "8"],
+  ["7+4d1=d", "8"],
+  ["4+5=", "9"],
+  ["6.d", "6"],
+  ["6.1d", "6."],
+  ["6.12d", "6.1"],
+  ["1+6.d", "6"],
+  ["1+6.1d", "6."],
+  ["1+6.12d", "6.1"],
+])("Delete: %s -> %s", (sequence, expected) => {
   const calculator = new Calculator();
 
   runSequence(calculator, sequence);
