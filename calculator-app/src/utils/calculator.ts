@@ -50,26 +50,34 @@ export class Calculator {
     return (
       {
         "+"(a, b) {
-          return a + b;
+          return `${a + b}`;
         },
         "-"(a, b) {
-          return a - b;
+          return `${a - b}`;
         },
         "/"(a, b) {
-          return a / b;
+          if (b === 0) {
+            if (a === 0) return "Result is undefined";
+            return "Cannot divide by zero";
+          }
+          return `${a / b}`;
         },
         x(a, b) {
-          return a * b;
+          return `${a * b}`;
         },
-      } satisfies { [O in Operator]: (a: number, b: number) => number }
+      } satisfies { [O in Operator]: (a: number, b: number) => string }
     )[this.operator];
   }
 
-  reset() {
+  private _reset() {
     this.state = "operand1.new";
     this.operand1 = "";
     this.operand2 = "";
     this.operator = null;
+  }
+
+  reset() {
+    this._reset();
     this._setDisplay("0");
   }
 
@@ -133,7 +141,6 @@ export class Calculator {
     }
   }
 
-  // todo: Starting with `-`
   typeOperator(operator: Operator) {
     // todo: Always write from display to operand1 here
     if (this.operand1 === "") {
@@ -141,12 +148,18 @@ export class Calculator {
     }
     if (this.state === "operand2.append") {
       const result = this.calculate();
-      // todo: Throw in `calculate`?
-      if (result !== null) {
-        this._setDisplay(result.toString());
-        this.operand1 = result.toString();
-        this.operand2 = result.toString();
+      if (
+        result === "Cannot divide by zero" ||
+        result === "Result is undefined"
+      ) {
+        this._setDisplay(result);
+        this._reset();
+        return;
       }
+
+      this._setDisplay(result);
+      this.operand1 = result;
+      this.operand2 = result;
     }
     this.operator = operator;
     this.state = "operand2.new";
@@ -154,7 +167,12 @@ export class Calculator {
 
   private calculate() {
     const operation = this._operation;
-    if (operation === null) return null;
+    if (operation === null) {
+      // todo: Make operands numbers
+      // todo: Return `result.type`
+      if (this.operand1 === "") return "0";
+      return this.operand1;
+    }
 
     const operand1 = parseFloat(this.operand1);
     const operand2 =
@@ -164,10 +182,18 @@ export class Calculator {
 
   equals() {
     const result = this.calculate();
-    if (result === null) return;
+    // todo: Check `result.type`
+    if (
+      result === "Cannot divide by zero" ||
+      result === "Result is undefined"
+    ) {
+      this._setDisplay(result);
+      this._reset();
+      return;
+    }
 
-    this._setDisplay(result.toString());
-    this.operand1 = result.toString();
+    this._setDisplay(result);
+    this.operand1 = result;
     this.state = "operand1.new";
   }
 

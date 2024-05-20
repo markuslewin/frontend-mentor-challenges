@@ -144,10 +144,39 @@ test.each([
 });
 
 test.each([
+  ["-1-1=", "-2"],
   ["1-1=", "0"],
   ["1-2=", "-1"],
   ["123-321=", "-198"],
 ])("Subtraction: %s -> %s", (sequence, expected) => {
+  const calculator = new Calculator();
+
+  runSequence(calculator, sequence);
+
+  expect(calculator.display).toBe(expected);
+});
+
+test.each([
+  ["1=", "1"],
+  ["1==", "1"],
+])("Equals: %s -> %s", (sequence, expected) => {
+  const calculator = new Calculator();
+
+  runSequence(calculator, sequence);
+
+  expect(calculator.display).toBe(expected);
+});
+
+test.each([
+  ["3/1=", "3"],
+  ["3/2=", "1.5"],
+  ["0/0=", "Result is undefined"],
+  ["0/0==", "0"],
+  ["3/0=", "Cannot divide by zero"],
+  ["3/0==", "0"],
+  ["3/0=100=", "100"],
+  ["3/0-100=", "100"],
+])("Division: %s -> %s", (sequence, expected) => {
   const calculator = new Calculator();
 
   runSequence(calculator, sequence);
