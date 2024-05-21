@@ -183,7 +183,7 @@ export function HomeRoute() {
             </Center>
           </div>
         </div>
-        <div className="grid grid-cols-[minmax(2.5rem,1fr)_minmax(auto,69.375rem)_minmax(2.5rem,1fr)]">
+        <div className="grid desktop:grid-cols-[minmax(2.5rem,1fr)_minmax(auto,69.375rem)_minmax(2.5rem,1fr)]">
           <div className="col-start-2 max-w-[65.3125rem]">
             <h2 className="text-grey font-fraunces text-h4 text-center mt-32 tablet:text-start tablet:mt-36 desktop:mt-[12.5rem]">
               How it works
