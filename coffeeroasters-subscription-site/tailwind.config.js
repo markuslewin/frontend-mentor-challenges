@@ -65,6 +65,7 @@ export default {
           lineHeight: "var(--leading-25-26)",
         },
       ],
+      "step-number": [rem(72), { fontWeight: 900, lineHeight: rem(72) }],
     },
     borderRadius: {
       xs: rem(6),

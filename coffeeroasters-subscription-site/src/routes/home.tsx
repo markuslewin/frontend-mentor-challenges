@@ -18,6 +18,7 @@ import { screens } from "../utils/screens";
 import { Icon, IconProps } from "../components/icon";
 import { ImgHTMLAttributes, ReactNode } from "react";
 import { useMedia } from "../utils/use-media";
+import { cva } from "class-variance-authority";
 
 export const handle = {
   announcement() {
@@ -27,7 +28,7 @@ export const handle = {
 
 export function HomeRoute() {
   return (
-    <div className="center">
+    <div className="center pb-32 tablet:pb-36 desktop:pb-[12.5rem]">
       <div>
         <div className="text-light-cream px-6 py-24 relative tablet:px-14 tablet:py-28 desktop:px-[5.3125rem] desktop:py-[7.25rem]">
           <div className="text-center max-w-6 mx-auto tablet:text-start tablet:mx-0">
@@ -37,12 +38,7 @@ export function HomeRoute() {
               expertly curated artisan coffees from our best roasters delivered
               directly to your door, at your schedule.
             </p>
-            <Link
-              className="bg-dark-cyan text-light-cream font-fraunces font-black text-[1.125rem] leading-[1.5625rem] rounded-xs mt-10 px-8 py-4 inline-block desktop:mt-14 hocus:bg-light-cyan transition-colors"
-              to="/plan"
-            >
-              Create your plan
-            </Link>
+            <CreatePlanButton />
           </div>
           <picture>
             <source
@@ -187,36 +183,55 @@ export function HomeRoute() {
             </Center>
           </div>
         </div>
-        <h2 className="mt-32 tablet:mt-36 desktop:mt-[12.5rem]">
-          How it works
-        </h2>
-        <ol>
-          <li>
-            <h3>Pick your coffee</h3>
-            <p>
-              Select from our evolving range of artisan coffees. Our beans are
-              ethically sourced and we pay fair prices for them. There are new
-              coffees in all profiles every month for you to try out.
+        <div className="grid grid-cols-[minmax(2.5rem,1fr)_minmax(auto,69.375rem)_minmax(2.5rem,1fr)]">
+          <div className="col-start-2 max-w-[65.3125rem]">
+            <h2 className="text-grey font-fraunces text-h4 text-center mt-32 tablet:text-start tablet:mt-36 desktop:mt-[12.5rem]">
+              How it works
+            </h2>
+            <div className="mt-20 hidden tablet:mt-10 grid-cols-3 items-center gap-3 tablet:grid desktop:mt-20 desktop:gap-[5.9375rem]">
+              <div className="text-pale-orange col-start-1 col-span-2 row-start-1 border-t-2 w-[calc(100%+0.75rem)] desktop:w-[calc(100%+5.9375rem)]" />
+              <StepsCircle order={1} />
+              <StepsCircle order={2} />
+              <StepsCircle order={3} />
+            </div>
+            <ol
+              className="mt-12 grid gap-14 tablet:grid-cols-3 tablet:gap-3 desktop:mt-[4.1875rem] desktop:gap-[5.9375rem]"
+              role="list"
+            >
+              <Step>
+                <StepNumber>01</StepNumber>
+                <StepHeading>Pick your coffee</StepHeading>
+                <StepDescription>
+                  Select from our evolving range of artisan coffees. Our beans
+                  are ethically sourced and we pay fair prices for them. There
+                  are new coffees in all profiles every month for you to try
+                  out.
+                </StepDescription>
+              </Step>
+              <Step>
+                <StepNumber>02</StepNumber>
+                <StepHeading>Choose the frequency</StepHeading>
+                <StepDescription>
+                  Customize your order frequency, quantity, even your roast
+                  style and grind type. Pause, skip or cancel your subscription
+                  with no commitment through our online portal.
+                </StepDescription>
+              </Step>
+              <Step>
+                <StepNumber>03</StepNumber>
+                <StepHeading>Receive and enjoy!</StepHeading>
+                <StepDescription>
+                  We ship your package within 48 hours, freshly roasted. Sit
+                  back and enjoy award-winning world-class coffees curated to
+                  provide a distinct tasting experience.
+                </StepDescription>
+              </Step>
+            </ol>
+            <p className="text-center mt-20 tablet:text-start tablet:mt-11 desktop:mt-16">
+              <CreatePlanButton />
             </p>
-          </li>
-          <li>
-            <h3>Choose the frequency</h3>
-            <p>
-              Customize your order frequency, quantity, even your roast style
-              and grind type. Pause, skip or cancel your subscription with no
-              commitment through our online portal.
-            </p>
-          </li>
-          <li>
-            <h3>Receive and enjoy!</h3>
-            <p>
-              We ship your package within 48 hours, freshly roasted. Sit back
-              and enjoy award-winning world-class coffees curated to provide a
-              distinct tasting experience.
-            </p>
-          </li>
-        </ol>
-        <Link to="/plan">Create your plan</Link>
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -236,6 +251,17 @@ function Center({ children }: { children: ReactNode }) {
     >
       {children}
     </div>
+  );
+}
+
+function CreatePlanButton() {
+  return (
+    <Link
+      className="bg-dark-cyan text-light-cream font-fraunces font-black text-[1.125rem] leading-[1.5625rem] rounded-xs mt-10 px-8 py-4 inline-block desktop:mt-14 hocus:bg-light-cyan transition-colors"
+      to="/plan"
+    >
+      Create your plan
+    </Link>
   );
 }
 
@@ -304,4 +330,45 @@ function ReasonHeading({ children }: { children: ReactNode }) {
 
 function ReasonDescription({ children }: { children: ReactNode }) {
   return <p className="mt-6 tablet:mt-4 desktop:mt-6">{children}</p>;
+}
+
+const stepsCircleVariants = cva(
+  "bg-light-cream text-dark-cyan row-start-1 size-[1.9375rem] border-2 rounded-[50%]",
+  {
+    variants: {
+      order: {
+        1: "col-start-1",
+        2: "col-start-2",
+        3: "col-start-3",
+      },
+    },
+  }
+);
+
+function StepsCircle({ order }: { order: 1 | 2 | 3 }) {
+  return <div className={stepsCircleVariants({ order })} />;
+}
+
+function Step({ children }: { children: ReactNode }) {
+  return <li className="text-center tablet:text-start">{children}</li>;
+}
+
+function StepNumber({ children }: { children: ReactNode }) {
+  return (
+    <p className="text-pale-orange font-fraunces text-step-number">
+      {children}
+    </p>
+  );
+}
+
+function StepHeading({ children }: { children: ReactNode }) {
+  return (
+    <p className="font-fraunces text-h3 mt-6 tablet:mt-10 desktop:max-w-[15.9375rem] desktop:mt-[2.375rem]">
+      {children}
+    </p>
+  );
+}
+
+function StepDescription({ children }: { children: ReactNode }) {
+  return <p className="mt-6 tablet:mt-10 desktop:mt-[2.625rem]">{children}</p>;
 }
