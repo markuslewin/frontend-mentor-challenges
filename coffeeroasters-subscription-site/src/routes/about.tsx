@@ -25,6 +25,8 @@ import qualityDesktop from "../assets/about/desktop/image-quality.jpg?as=metadat
 import { AnnouncementHandle } from "../components/route-announcer";
 import { screens } from "../utils/screens";
 import { Icon } from "../components/icon";
+import { ReactNode } from "react";
+import { cx } from "class-variance-authority";
 
 export const handle = {
   announcement() {
@@ -34,7 +36,7 @@ export const handle = {
 
 export function AboutRoute() {
   return (
-    <>
+    <div className="pb-32 tablet:pb-36 desktop:pb-[10.5rem]">
       <h1>About us</h1>
       <p>
         Coffeeroasters began its journey of exotic discovery in 1999,
@@ -62,7 +64,7 @@ export function AboutRoute() {
           src={heroWhitecupMobile.src}
         />
       </picture>
-      <div className="layout-grid mt-32 mx-auto box-content max-w-[69.375rem] px-6 tablet:mt-36 tablet:px-10 desktop:mt-[10.5rem]">
+      <div className="layout-grid t-center-inner px-gutter mt-32 tablet:mt-36 desktop:mt-[10.5rem]">
         <picture className="col-span-9">
           <source
             media={`(min-width: ${screens.desktop})`}
@@ -154,49 +156,114 @@ export function AboutRoute() {
           src={qualityMobile.src}
         />
       </picture>
-      <h2>Our headquarters</h2>
-      <Icon name="illustration-uk" />
-      <h3>United Kingdom</h3>
-      <h4>Address</h4>
-      <p>
-        68 Asfordby Rd
-        <br />
-        Alcaston
-        <br />
-        SY6 1YA
-      </p>
-      <h4>Phone</h4>
-      <p>
-        <a href="tel:+441241918425">+44 1241 918425</a>
-      </p>
-      <Icon name="illustration-canada" />
-      <h3>Canada</h3>
-      <h4>Address</h4>
-      <p>
-        1528 Eglinton Avenue
-        <br />
-        Toronto
-        <br />
-        Ontario M4P 1A6
-      </p>
-      <h4>Phone</h4>
-      <p>
-        <a href="tel:+14164852997">+1 416 485 2997</a>
-      </p>
-      <Icon name="illustration-australia" />
-      <h3>Australia</h3>
-      <h4>Address</h4>
-      <p>
-        36 Swanston Street
-        <br />
-        Kewell
-        <br />
-        Victoria
-      </p>
-      <h4>Phone</h4>
-      <p>
-        <a href="tel:+61499283629">+61 4 9928 3629</a>
-      </p>
-    </>
+      <div className="t-center-inner px-gutter text-center mt-32 tablet:text-start tablet:mt-36 desktop:mt-[10.5rem]">
+        <h2 className="text-grey font-fraunces text-h4">Our headquarters</h2>
+        <div className="layout-grid mt-[4.5rem]">
+          <Headquarter>
+            <HeadquarterIcon>
+              <Icon
+                className="w-[2.625rem] h-auto mx-auto tablet:mx-0"
+                name="illustration-uk"
+                width="42"
+                height="50"
+              />
+            </HeadquarterIcon>
+            <HeadquarterHeading>United Kingdom</HeadquarterHeading>
+            <h4 className="sr-only">Address</h4>
+            <HeadquarterAddress>
+              68 Asfordby Rd
+              <br />
+              Alcaston
+              <br />
+              SY6 1YA
+            </HeadquarterAddress>
+            <h4 className="sr-only">Phone</h4>
+            <p>
+              <a href="tel:+441241918425">+44 1241 918425</a>
+            </p>
+          </Headquarter>
+          <Headquarter className="col-start-9 desktop:col-start-9 mt-20 tablet:mt-0">
+            <HeadquarterIcon>
+              <Icon
+                className="w-[3.25rem] h-auto mx-auto tablet:mx-0"
+                name="illustration-canada"
+                width="52"
+                height="50"
+              />
+            </HeadquarterIcon>
+            <HeadquarterHeading>Canada</HeadquarterHeading>
+            <h4 className="sr-only">Address</h4>
+            <HeadquarterAddress>
+              1528 Eglinton Avenue
+              <br />
+              Toronto
+              <br />
+              Ontario M4P 1A6
+            </HeadquarterAddress>
+            <h4 className="sr-only">Phone</h4>
+            <p>
+              <a href="tel:+14164852997">+1 416 485 2997</a>
+            </p>
+          </Headquarter>
+          <Headquarter className="col-start-[17] desktop:col-start-[17] mt-20 tablet:mt-0">
+            <HeadquarterIcon>
+              <Icon
+                className="w-[3.0625rem] h-auto mx-auto tablet:mx-0"
+                name="illustration-australia"
+                width="49"
+                height="44"
+              />
+            </HeadquarterIcon>
+            <HeadquarterHeading>Australia</HeadquarterHeading>
+            <h4 className="sr-only">Address</h4>
+            <HeadquarterAddress>
+              36 Swanston Street
+              <br />
+              Kewell
+              <br />
+              Victoria
+            </HeadquarterAddress>
+            <h4 className="sr-only">Phone</h4>
+            <p>
+              <a href="tel:+61499283629">+61 4 9928 3629</a>
+            </p>
+          </Headquarter>
+        </div>
+      </div>
+    </div>
   );
+}
+
+function Headquarter({
+  className,
+  children,
+}: {
+  className?: string;
+  children: ReactNode;
+}) {
+  return (
+    <div className={cx("col-span-7 desktop:col-span-6", className)}>
+      {children}
+    </div>
+  );
+}
+
+function HeadquarterIcon({ children }: { children: ReactNode }) {
+  return (
+    <div className="text-dark-cyan h-[3.125rem] inline-grid place-items-center">
+      {children}
+    </div>
+  );
+}
+
+function HeadquarterHeading({ children }: { children: ReactNode }) {
+  return (
+    <h3 className="font-fraunces font-black text-[1.75rem] leading-[2.25rem] mt-[2.8125rem] tablet:text-[1.5rem] desktop:text-[2rem]">
+      {children}
+    </h3>
+  );
+}
+
+function HeadquarterAddress({ children }: { children: ReactNode }) {
+  return <p className="mt-6">{children}</p>;
 }

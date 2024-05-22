@@ -1,4 +1,5 @@
 import { screens } from "./src/utils/screens";
+import { center } from "./tailwind/center";
 import { clickable } from "./tailwind/clickable";
 import { hocus } from "./tailwind/hocus";
 import { rem } from "./tailwind/rem";
@@ -75,8 +76,13 @@ export default {
     maxWidth: {
       5: rem(445),
       6: rem(540),
+      inner: rem(1110),
     },
-    extend: {},
+    extend: {
+      padding: {
+        gutter: "var(--gutter)",
+      },
+    },
   },
-  plugins: [hocus, shape, clickable],
+  plugins: [hocus, shape, clickable, center],
 };

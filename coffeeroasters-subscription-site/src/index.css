@@ -27,6 +27,14 @@
     --leading-28-48: clamp(1.75rem, 1.2081rem + 2.3121vi, 3rem);
     --leading-32-36: clamp(2rem, 1.8916rem + 0.4624vi, 2.25rem);
     --leading-40-72: clamp(2.5rem, 1.6329rem + 3.6994vi, 4.5rem);
+
+    --gutter: 1.5rem;
+  }
+
+  @screen tablet {
+    :root {
+      --gutter: 2.5rem;
+    }
   }
 
   body {
