@@ -1,3 +1,4 @@
+import { invariant } from "@epic-web/invariant";
 import { useCallback, useRef, useSyncExternalStore } from "react";
 
 export type CalculatorNumber = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
@@ -10,7 +11,7 @@ export class Calculator {
     | "operand1.append"
     | "operand2.new"
     | "operand2.append";
-  private operand1: string;
+  private operand1: number;
   private operand2: string;
   private operator: Operator | null;
   private _display: string;
@@ -18,7 +19,7 @@ export class Calculator {
 
   constructor() {
     this.state = "operand1.new";
-    this.operand1 = "";
+    this.operand1 = 0;
     this.operand2 = "";
     this.operator = null;
     this._display = "0";
@@ -71,7 +72,7 @@ export class Calculator {
 
   private _reset() {
     this.state = "operand1.new";
-    this.operand1 = "";
+    this.operand1 = 0;
     this.operand2 = "";
     this.operator = null;
   }
@@ -84,17 +85,14 @@ export class Calculator {
   typeNumber(number: CalculatorNumber) {
     switch (this.state) {
       case "operand1.new":
+        // todo: Merge `*.new` and `*.append` states. Parse valid display
         if (number === 0) break;
 
-        this.operand1 = number.toString();
-        this._setDisplay(this.operand1);
+        this._setDisplay(`${number}`);
         this.state = "operand1.append";
         break;
       case "operand1.append":
-        if (number === 0 && this.operand1 === "0") break;
-
-        this.operand1 += number;
-        this._setDisplay(this.operand1);
+        this._setDisplay(`${this._display}${number}`);
         break;
       case "operand2.new":
         this.operand2 = number.toString();
@@ -104,7 +102,6 @@ export class Calculator {
       case "operand2.append":
         if (number === 0 && this.operand2 === "0") break;
 
-        // todo: Merge `*.new` and `*.append` states?
         this.operand2 =
           this.operand2 === "0" ? number.toString() : this.operand2 + number;
         this._setDisplay(this.operand2);
@@ -115,16 +112,14 @@ export class Calculator {
   typeDecimal() {
     switch (this.state) {
       case "operand1.new":
-        this.operand1 = "0.";
-        this._setDisplay(this.operand1);
+        this._setDisplay("0.");
         this.state = "operand1.append";
         break;
       case "operand1.append":
-        if (this.operand1.includes(".")) {
+        if (this._display.includes(".")) {
           break;
         }
-        this.operand1 += ".";
-        this._setDisplay(this.operand1);
+        this._setDisplay(`${this._display}.`);
         break;
       case "operand2.new":
         this.operand2 = "0.";
@@ -142,10 +137,13 @@ export class Calculator {
   }
 
   typeOperator(operator: Operator) {
-    // todo: Always write from display to operand1 here
-    if (this.operand1 === "") {
-      this.operand1 = "0";
+    if (this.state === "operand1.new" || this.state === "operand1.append") {
+      const operand1 = parseFloat(this._display);
+      invariant(!isNaN(operand1), `Failed to parse string "${this._display}"`);
+      this.operand1 = operand1;
+      this._setDisplay(`${operand1}`);
     }
+
     if (this.state === "operand2.append") {
       const result = this.calculate();
       if (
@@ -158,9 +156,11 @@ export class Calculator {
       }
 
       this._setDisplay(result);
-      this.operand1 = result;
+      // todo: `result` shouldn't be a string
+      this.operand1 = parseFloat(result);
       this.operand2 = result;
     }
+
     this.operator = operator;
     this.state = "operand2.new";
   }
@@ -168,19 +168,42 @@ export class Calculator {
   private calculate() {
     const operation = this._operation;
     if (operation === null) {
-      // todo: Make operands numbers
       // todo: Return `result.type`
-      if (this.operand1 === "") return "0";
-      return this.operand1;
+      if (
+        this._display === "Result is undefined" ||
+        this._display === "Cannot divide by zero"
+      ) {
+        return this.operand1.toString();
+      }
+
+      const display = parseFloat(this._display);
+      invariant(!isNaN(display), `Failed to parse string ${this._display}`);
+
+      return display.toString();
     }
 
-    const operand1 = parseFloat(this.operand1);
     const operand2 =
-      this.operand2 === "" ? operand1 : parseFloat(this.operand2);
-    return operation(operand1, operand2);
+      this.operand2 === "" ? this.operand1 : parseFloat(this.operand2);
+    return operation(this.operand1, operand2);
   }
 
   equals() {
+    // todo: Error state
+    if (
+      this._display === "Result is undefined" ||
+      this._display === "Cannot divide by zero"
+    ) {
+      this._reset();
+      this._setDisplay("0");
+      return;
+    }
+
+    if (this.state === "operand1.new" || this.state === "operand1.append") {
+      const operand1 = parseFloat(this._display);
+      invariant(!isNaN(operand1), `Failed to parse string "${this._display}"`);
+      this.operand1 = operand1;
+    }
+
     const result = this.calculate();
     // todo: Check `result.type`
     if (
@@ -193,22 +216,21 @@ export class Calculator {
     }
 
     this._setDisplay(result);
-    this.operand1 = result;
+    // todo: `result` should be a number
+    this.operand1 = parseFloat(result);
     this.state = "operand1.new";
   }
 
   delete() {
     switch (this.state) {
       case "operand1.append": {
-        const next = this.operand1.slice(0, this.operand1.length - 1);
+        const next = this._display.slice(0, this._display.length - 1);
         if (next === "") {
           this._setDisplay("0");
-          this.operand1 = "0";
           this.state = "operand1.new";
           break;
         }
         this._setDisplay(next);
-        this.operand1 = next;
         break;
       }
       case "operand2.append": {

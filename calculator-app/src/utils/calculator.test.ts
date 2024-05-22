@@ -35,6 +35,7 @@ test.each([
   ["1+00.0", "0.0"],
   ["01", "1"],
   ["1+01", "1"],
+  ["0.+", "0"],
 ])("Zero handling: %s -> %s", (sequence, expected) => {
   const calculator = new Calculator();
 
@@ -177,6 +178,28 @@ test.each([
   ["3/0=100=", "100"],
   ["3/0-100=", "100"],
 ])("Division: %s -> %s", (sequence, expected) => {
+  const calculator = new Calculator();
+
+  runSequence(calculator, sequence);
+
+  expect(calculator.display).toBe(expected);
+});
+
+// todo: Error state
+test.skip.each([
+  ["0/0=", "Result is undefined"],
+  ["0/0=1", "1"],
+  ["0/0/", "Result is undefined"],
+  ["0/0//", "Result is undefined"],
+  ["0/0+", "Result is undefined"],
+  ["0/0++", "Result is undefined"],
+  ["0/0/1", "1"],
+  ["1/0=", "Cannot divide by zero"],
+  ["1/0=1", "1"],
+  ["1/0/", "Cannot divide by zero"],
+  ["1/0//", "Cannot divide by zero"],
+  ["1/0/1", "1"],
+])("Error state: %s -> %s", (sequence, expected) => {
   const calculator = new Calculator();
 
   runSequence(calculator, sequence);
