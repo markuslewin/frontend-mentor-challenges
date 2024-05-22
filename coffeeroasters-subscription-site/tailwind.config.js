@@ -77,6 +77,7 @@ export default {
       5: rem(445),
       6: rem(540),
       inner: rem(1110),
+      outer: rem(1280),
     },
     extend: {
       padding: {

@@ -37,33 +37,42 @@ export const handle = {
 export function AboutRoute() {
   return (
     <div className="pb-32 tablet:pb-36 desktop:pb-[10.5rem]">
-      <h1>About us</h1>
-      <p>
-        Coffeeroasters began its journey of exotic discovery in 1999,
-        highlighting stories of coffee from around the world. We have since been
-        dedicated to bring the perfect cup - from bean to brew - in every
-        shipment.
-      </p>
-      <picture>
-        <source
-          media={`(min-width: ${screens.desktop})`}
-          width={heroWhitecupDesktop.width}
-          height={heroWhitecupDesktop.height}
-          srcSet={heroWhitecupDesktop.src}
-        />
-        <source
-          media={`(min-width: ${screens.tablet})`}
-          width={heroWhitecupTablet.width}
-          height={heroWhitecupTablet.height}
-          srcSet={heroWhitecupTablet.src}
-        />
-        <img
-          alt=""
-          width={heroWhitecupMobile.width}
-          height={heroWhitecupMobile.height}
-          src={heroWhitecupMobile.src}
-        />
-      </picture>
+      <div className="t-center-outer px-gutter">
+        <div className="text-light-cream relative">
+          <picture>
+            <source
+              media={`(min-width: ${screens.desktop})`}
+              width={heroWhitecupDesktop.width}
+              height={heroWhitecupDesktop.height}
+              srcSet={heroWhitecupDesktop.src}
+            />
+            <source
+              media={`(min-width: ${screens.tablet})`}
+              width={heroWhitecupTablet.width}
+              height={heroWhitecupTablet.height}
+              srcSet={heroWhitecupTablet.src}
+            />
+            <img
+              className="absolute inset-0 size-full object-cover -z-10 rounded"
+              alt=""
+              width={heroWhitecupMobile.width}
+              height={heroWhitecupMobile.height}
+              src={heroWhitecupMobile.src}
+            />
+          </picture>
+          <div className="layout-grid t-center-inner px-gutter tablet:px-0 desktop:px-gutter">
+            <div className="col-[3_/_span_13] pt-28 pb-20 text-center tablet:py-32 tablet:text-start desktop:col-start-1 desktop:col-span-9 desktop:py-[8.5625rem]">
+              <h1 className="font-fraunces text-h2 capitalize">About us</h1>
+              <p className="mt-6">
+                Coffeeroasters began its journey of exotic discovery in 1999,
+                highlighting stories of coffee from around the world. We have
+                since been dedicated to bring the perfect cup - from bean to
+                brew - in every shipment.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
       <div className="layout-grid t-center-inner px-gutter mt-32 tablet:mt-36 desktop:mt-[10.5rem]">
         <picture className="col-span-9">
           <source
