@@ -55,6 +55,34 @@
     }
   }
 
+  @screen tablet {
+    .layout-grid {
+      --grid-column: minmax(0, 48fr);
+      --grid-gap: minmax(0, 10fr);
+
+      display: grid;
+      grid-template-columns:
+        var(--grid-column) var(--grid-gap) var(--grid-column)
+        var(--grid-gap) var(--grid-column) var(--grid-gap) var(--grid-column) var(
+          --grid-gap
+        )
+        var(--grid-column) var(--grid-gap) var(--grid-column) var(--grid-gap) var(
+          --grid-column
+        )
+        var(--grid-gap) var(--grid-column) var(--grid-gap) var(--grid-column) var(
+          --grid-gap
+        )
+        var(--grid-column) var(--grid-gap) var(--grid-column) var(--grid-gap) var(--grid-column);
+    }
+  }
+
+  @screen desktop {
+    .layout-grid {
+      --grid-column: minmax(0, 65fr);
+      --grid-gap: minmax(0, 30fr);
+    }
+  }
+
   .menu__overlay {
     /* @apply bg-overlay/85; */
 

@@ -62,69 +62,78 @@ export function AboutRoute() {
           src={heroWhitecupMobile.src}
         />
       </picture>
-      <picture>
-        <source
-          media={`(min-width: ${screens.desktop})`}
-          width={commitmentDesktop.width}
-          height={commitmentDesktop.height}
-          srcSet={commitmentDesktop.src}
-        />
-        <source
-          media={`(min-width: ${screens.tablet})`}
-          width={commitmentTablet.width}
-          height={commitmentTablet.height}
-          srcSet={commitmentTablet.src}
-        />
-        <img
-          alt=""
-          width={commitmentMobile.width}
-          height={commitmentMobile.height}
-          src={commitmentMobile.src}
-        />
-      </picture>
-      <h2>Our commitment</h2>
-      <p>
-        We’re built on a simple mission and a commitment to doing good along the
-        way. We want to make it easy for you to discover and brew the world’s
-        best coffee at home. It all starts at the source. To locate the specific
-        lots we want to purchase, we travel nearly 60 days a year trying to
-        understand the challenges and opportunities in each of these places. We
-        collaborate with exceptional coffee growers and empower a global
-        community of farmers through with well above fair-trade benchmarks. We
-        also offer training, support farm community initiatives, and invest in
-        coffee plant science. Curating only the finest blends, we roast each lot
-        to highlight tasting profiles distinctive to their native growing
-        region.
-      </p>
-      <picture>
-        <source
-          media={`(min-width: ${screens.desktop})`}
-          width={bgQualityDesktop.width}
-          height={bgQualityDesktop.height}
-          srcSet={bgQualityDesktop.src}
-        />
-        <source
-          media={`(min-width: ${screens.tablet})`}
-          width={bgQualityTablet.width}
-          height={bgQualityTablet.height}
-          srcSet={bgQualityTablet.src}
-        />
-        <img
-          alt=""
-          width={bgQualityMobile.width}
-          height={bgQualityMobile.height}
-          src={bgQualityMobile.src}
-        />
-      </picture>
-      <h2>Uncompromising quality</h2>
-      <p>
-        Although we work with growers who pay close attention to all stages of
-        harvest and processing, we employ, on our end, a rigorous quality
-        control program to avoid over-roasting or baking the coffee dry. Every
-        bag of coffee is tagged with a roast date and batch number. Our goal is
-        to roast consistent, user-friendly coffee, so that brewing is easy and
-        enjoyable.
-      </p>
+      <div className="layout-grid mt-32 mx-auto box-content max-w-[69.375rem] px-6 tablet:mt-36 tablet:px-10 desktop:mt-[10.5rem]">
+        <picture className="col-span-9">
+          <source
+            media={`(min-width: ${screens.desktop})`}
+            width={commitmentDesktop.width}
+            height={commitmentDesktop.height}
+            srcSet={commitmentDesktop.src}
+          />
+          <source
+            media={`(min-width: ${screens.tablet})`}
+            width={commitmentTablet.width}
+            height={commitmentTablet.height}
+            srcSet={commitmentTablet.src}
+          />
+          <img
+            className="size-full object-cover rounded-sm"
+            alt=""
+            width={commitmentMobile.width}
+            height={commitmentMobile.height}
+            src={commitmentMobile.src}
+          />
+        </picture>
+        <div className="col-start-13 col-end-[-1] self-center text-center mt-12 tablet:text-start tablet:mt-0">
+          <h2 className="font-fraunces font-black text-[2rem] leading-[3rem] desktop:text-[2.5rem]">
+            Our commitment
+          </h2>
+          <p className="mt-8">
+            We’re built on a simple mission and a commitment to doing good along
+            the way. We want to make it easy for you to discover and brew the
+            world’s best coffee at home. It all starts at the source. To locate
+            the specific lots we want to purchase, we travel nearly 60 days a
+            year trying to understand the challenges and opportunities in each
+            of these places. We collaborate with exceptional coffee growers and
+            empower a global community of farmers through with well above
+            fair-trade benchmarks. We also offer training, support farm
+            community initiatives, and invest in coffee plant science. Curating
+            only the finest blends, we roast each lot to highlight tasting
+            profiles distinctive to their native growing region.
+          </p>
+        </div>
+      </div>
+      <div className="mt-32 tablet:mt-36 desktop:mt-[10.5rem]">
+        <picture>
+          <source
+            media={`(min-width: ${screens.desktop})`}
+            width={bgQualityDesktop.width}
+            height={bgQualityDesktop.height}
+            srcSet={bgQualityDesktop.src}
+          />
+          <source
+            media={`(min-width: ${screens.tablet})`}
+            width={bgQualityTablet.width}
+            height={bgQualityTablet.height}
+            srcSet={bgQualityTablet.src}
+          />
+          <img
+            alt=""
+            width={bgQualityMobile.width}
+            height={bgQualityMobile.height}
+            src={bgQualityMobile.src}
+          />
+        </picture>
+        <h2>Uncompromising quality</h2>
+        <p>
+          Although we work with growers who pay close attention to all stages of
+          harvest and processing, we employ, on our end, a rigorous quality
+          control program to avoid over-roasting or baking the coffee dry. Every
+          bag of coffee is tagged with a roast date and batch number. Our goal
+          is to roast consistent, user-friendly coffee, so that brewing is easy
+          and enjoyable.
+        </p>
+      </div>
       <picture>
         <source
           media={`(min-width: ${screens.desktop})`}
