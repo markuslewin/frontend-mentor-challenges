@@ -114,57 +114,73 @@ export function AboutRoute() {
           </p>
         </div>
       </div>
-      <div className="mt-32 tablet:mt-36 desktop:mt-[10.5rem]">
-        <picture>
-          <source
-            media={`(min-width: ${screens.desktop})`}
-            width={bgQualityDesktop.width}
-            height={bgQualityDesktop.height}
-            srcSet={bgQualityDesktop.src}
-          />
-          <source
-            media={`(min-width: ${screens.tablet})`}
-            width={bgQualityTablet.width}
-            height={bgQualityTablet.height}
-            srcSet={bgQualityTablet.src}
-          />
-          <img
-            alt=""
-            width={bgQualityMobile.width}
-            height={bgQualityMobile.height}
-            src={bgQualityMobile.src}
-          />
-        </picture>
-        <h2>Uncompromising quality</h2>
-        <p>
-          Although we work with growers who pay close attention to all stages of
-          harvest and processing, we employ, on our end, a rigorous quality
-          control program to avoid over-roasting or baking the coffee dry. Every
-          bag of coffee is tagged with a roast date and batch number. Our goal
-          is to roast consistent, user-friendly coffee, so that brewing is easy
-          and enjoyable.
-        </p>
+      <div className="t-center-outer mt-32 px-gutter tablet:mt-36 desktop:mt-[10.5rem]">
+        <div className="text-light-cream grid desktop:grid-rows-[5.5rem_5.5rem_auto_5.5rem_5.5rem]">
+          <div className="col-start-1 row-start-1 row-span-2 desktop:row-end-[-2]">
+            <div className="t-center-inner h-full px-gutter layout-grid tablet:px-0 desktop:px-gutter">
+              <picture className="col-start-3 col-end-[-3] desktop:col-[14/-1]">
+                <source
+                  media={`(min-width: ${screens.desktop})`}
+                  width={qualityDesktop.width}
+                  height={qualityDesktop.height}
+                  srcSet={qualityDesktop.src}
+                />
+                <source
+                  media={`(min-width: ${screens.tablet})`}
+                  width={qualityTablet.width}
+                  height={qualityTablet.height}
+                  srcSet={qualityTablet.src}
+                />
+                <img
+                  className="rounded-sm tablet:w-full desktop:size-full desktop:object-cover"
+                  alt=""
+                  width={qualityMobile.width}
+                  height={qualityMobile.height}
+                  src={qualityMobile.src}
+                />
+              </picture>
+            </div>
+          </div>
+          <picture className="col-start-1 row-start-2 row-span-2 relative -z-10 desktop:row-end-[-1]">
+            <source
+              media={`(min-width: ${screens.desktop})`}
+              width={bgQualityDesktop.width}
+              height={bgQualityDesktop.height}
+              srcSet={bgQualityDesktop.src}
+            />
+            <source
+              media={`(min-width: ${screens.tablet})`}
+              width={bgQualityTablet.width}
+              height={bgQualityTablet.height}
+              srcSet={bgQualityTablet.src}
+            />
+            <img
+              className="bg-darker-grey-blue absolute inset-0 size-full object-cover rounded"
+              alt=""
+              width={bgQualityMobile.width}
+              height={bgQualityMobile.height}
+              src={bgQualityMobile.src}
+            />
+          </picture>
+          <div className="col-start-1 row-start-3 t-center-inner layout-grid mt-16 px-gutter pb-16 text-center tablet:px-0 desktop:row-start-3 desktop:mt-0 desktop:px-gutter desktop:pb-0 desktop:text-start">
+            <div className="tablet:col-start-3 tablet:col-end-[-3] desktop:col-start-1 desktop:col-span-11">
+              <div className="t-center-6">
+                <h2 className="font-fraunces text-h2">
+                  Uncompromising quality
+                </h2>
+                <p className="mt-6 desktop:mt-8">
+                  Although we work with growers who pay close attention to all
+                  stages of harvest and processing, we employ, on our end, a
+                  rigorous quality control program to avoid over-roasting or
+                  baking the coffee dry. Every bag of coffee is tagged with a
+                  roast date and batch number. Our goal is to roast consistent,
+                  user-friendly coffee, so that brewing is easy and enjoyable.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      <picture>
-        <source
-          media={`(min-width: ${screens.desktop})`}
-          width={qualityDesktop.width}
-          height={qualityDesktop.height}
-          srcSet={qualityDesktop.src}
-        />
-        <source
-          media={`(min-width: ${screens.tablet})`}
-          width={qualityTablet.width}
-          height={qualityTablet.height}
-          srcSet={qualityTablet.src}
-        />
-        <img
-          alt=""
-          width={qualityMobile.width}
-          height={qualityMobile.height}
-          src={qualityMobile.src}
-        />
-      </picture>
       <div className="t-center-inner px-gutter text-center mt-32 tablet:text-start tablet:mt-36 desktop:mt-[10.5rem]">
         <h2 className="text-grey font-fraunces text-h4">Our headquarters</h2>
         <div className="layout-grid mt-[4.5rem]">
