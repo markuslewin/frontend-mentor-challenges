@@ -19,6 +19,7 @@ import { Icon, IconProps } from "../components/icon";
 import { ImgHTMLAttributes, ReactNode } from "react";
 import { useMedia } from "../utils/use-media";
 import { cva } from "class-variance-authority";
+import * as Hero from "../components/hero";
 
 export const handle = {
   announcement() {
@@ -30,16 +31,7 @@ export function HomeRoute() {
   return (
     <div className="center pb-32 tablet:pb-36 desktop:pb-[12.5rem]">
       <div>
-        <div className="text-light-cream px-6 py-24 relative tablet:px-14 tablet:py-28 desktop:px-[5.3125rem] desktop:py-[7.25rem]">
-          <div className="text-center max-w-6 mx-auto tablet:text-start tablet:mx-0">
-            <h1 className="font-fraunces text-h1">Great coffee made simple.</h1>
-            <p className="mx-auto mt-6 max-w-5 tablet:mx-0 desktop:mt-8">
-              Start your mornings with the world’s best coffees. Try our
-              expertly curated artisan coffees from our best roasters delivered
-              directly to your door, at your schedule.
-            </p>
-            <CreatePlanButton />
-          </div>
+        <Hero.Root>
           <picture>
             <source
               media={`(min-width: ${screens.desktop})`}
@@ -53,15 +45,25 @@ export function HomeRoute() {
               height={heroCoffeepressTablet.height}
               srcSet={heroCoffeepressTablet.src}
             />
-            <img
-              className="absolute -z-10 inset-0 w-full h-full object-cover rounded"
+            <Hero.Image
               alt=""
               width={heroCoffeepressMobile.width}
               height={heroCoffeepressMobile.height}
               src={heroCoffeepressMobile.src}
             />
           </picture>
-        </div>
+          <Hero.Layout>
+            <Hero.Text>
+              <Hero.Heading>Great coffee made simple.</Hero.Heading>
+              <Hero.Body>
+                Start your mornings with the world’s best coffees. Try our
+                expertly curated artisan coffees from our best roasters
+                delivered directly to your door, at your schedule.
+              </Hero.Body>
+              <CreatePlanButton />
+            </Hero.Text>
+          </Hero.Layout>
+        </Hero.Root>
         <h2 className="text-grey/50 font-fraunces text-title-alternate-big text-center lowercase mt-32 relative -z-10 tablet:mt-36 tablet:pt-7 tablet:pb-5 desktop:mt-[8.3125rem] desktop:pt-[5.375rem] desktop:pb-[2.375rem]">
           Our collection
           <span className="bg-gradient-to-t from-light-cream absolute inset-0" />

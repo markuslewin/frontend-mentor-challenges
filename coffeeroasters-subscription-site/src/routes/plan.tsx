@@ -1,8 +1,16 @@
+// @ts-expect-error Search params
+import heroBlackcupMobile from "../assets/plan/mobile/image-hero-blackcup.jpg?as=metadata";
+// @ts-expect-error Search params
+import heroBlackcupTablet from "../assets/plan/tablet/image-hero-blackcup.jpg?as=metadata";
+// @ts-expect-error Search params
+import heroBlackcupDesktop from "../assets/plan/desktop/image-hero-blackcup.jpg?as=metadata";
 import { useId } from "react";
 import * as Collapsible from "@radix-ui/react-collapsible";
 import * as Dialog from "@radix-ui/react-dialog";
 import * as RadioCard from "../components/radio-card";
+import * as Hero from "../components/hero";
 import { AnnouncementHandle } from "../components/route-announcer";
+import { screens } from "../utils/screens";
 
 export const handle = {
   announcement() {
@@ -23,13 +31,41 @@ export function PlanRoute() {
   const checkoutHeadingId = useId();
 
   return (
-    <>
-      <h1>Create a plan</h1>
-      <p>
-        Build a subscription plan that best fits your needs. We offer an
-        assortment of the best artisan coffees from around the globe delivered
-        fresh to your door.
-      </p>
+    <div className="pb-32 tablet:pb-36 desktop:pb-[10.5rem]">
+      <div className="t-center-outer px-gutter">
+        <Hero.Root>
+          <picture>
+            <source
+              media={`(min-width: ${screens.desktop})`}
+              width={heroBlackcupDesktop.width}
+              height={heroBlackcupDesktop.height}
+              srcSet={heroBlackcupDesktop.src}
+            />
+            <source
+              media={`(min-width: ${screens.tablet})`}
+              width={heroBlackcupTablet.width}
+              height={heroBlackcupTablet.height}
+              srcSet={heroBlackcupTablet.src}
+            />
+            <Hero.Image
+              alt=""
+              width={heroBlackcupMobile.width}
+              height={heroBlackcupMobile.height}
+              src={heroBlackcupMobile.src}
+            />
+          </picture>
+          <Hero.Layout>
+            <Hero.Text>
+              <Hero.Heading>Create a plan</Hero.Heading>
+              <Hero.Body>
+                Build a subscription plan that best fits your needs. We offer an
+                assortment of the best artisan coffees from around the globe
+                delivered fresh to your door.
+              </Hero.Body>
+            </Hero.Text>
+          </Hero.Layout>
+        </Hero.Root>
+      </div>
       <h2>How it works</h2>
       <ol>
         <li>
@@ -297,7 +333,7 @@ export function PlanRoute() {
           </Dialog.Portal>
         </Dialog.Root>
       </section>
-    </>
+    </div>
   );
 }
 
