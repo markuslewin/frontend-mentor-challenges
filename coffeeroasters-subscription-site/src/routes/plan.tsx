@@ -9,6 +9,7 @@ import * as Collapsible from "@radix-ui/react-collapsible";
 import * as Dialog from "@radix-ui/react-dialog";
 import * as RadioCard from "../components/radio-card";
 import * as Hero from "../components/hero";
+import * as Steps from "../components/steps";
 import { AnnouncementHandle } from "../components/route-announcer";
 import { screens } from "../utils/screens";
 
@@ -66,33 +67,46 @@ export function PlanRoute() {
           </Hero.Layout>
         </Hero.Root>
       </div>
-      <h2>How it works</h2>
-      <ol>
-        <li>
-          <h3>Pick your coffee</h3>
-          <p>
-            Select from our evolving range of artisan coffees. Our beans are
-            ethically sourced and we pay fair prices for them. There's new
-            coffees in all profiles every month for you to try out.
-          </p>
-        </li>
-        <li>
-          <h3>Choose the frequency</h3>
-          <p>
-            Customize your order frequency, quantity, even your roast style and
-            grind type. Pause, skip or cancel your subscription with no
-            commitment through our online portal.
-          </p>
-        </li>
-        <li>
-          <h3>Receive and enjoy!</h3>
-          <p>
-            We ship your package within 48 hours, freshly roasted. Sit back and
-            enjoy award-winning world-class coffees curated to provide a
-            distinct tasting experience.
-          </p>
-        </li>
-      </ol>
+      <div className="mt-32 t-center-outer tablet:mt-36 desktop:mt-[10.5rem] desktop:px-gutter">
+        <div className="bg-darker-grey-blue text-light-cream rounded py-20 tablet:pt-24 tablet:pb-20 desktop:py-[6.25rem]">
+          <div className="t-center-inner px-gutter">
+            <h2 className="sr-only">How it works</h2>
+            <Steps.Root>
+              <Steps.Circles theme="dark" />
+              <Steps.Steps>
+                <Steps.Step>
+                  <Steps.Number>01</Steps.Number>
+                  <Steps.Heading>Pick your coffee</Steps.Heading>
+                  <Steps.Description>
+                    Select from our evolving range of artisan coffees. Our beans
+                    are ethically sourced and we pay fair prices for them. There
+                    are new coffees in all profiles every month for you to try
+                    out.
+                  </Steps.Description>
+                </Steps.Step>
+                <Steps.Step>
+                  <Steps.Number>02</Steps.Number>
+                  <Steps.Heading>Choose the frequency</Steps.Heading>
+                  <Steps.Description>
+                    Customize your order frequency, quantity, even your roast
+                    style and grind type. Pause, skip or cancel your
+                    subscription with no commitment through our online portal.
+                  </Steps.Description>
+                </Steps.Step>
+                <Steps.Step>
+                  <Steps.Number>03</Steps.Number>
+                  <Steps.Heading>Receive and enjoy!</Steps.Heading>
+                  <Steps.Description>
+                    We ship your package within 48 hours, freshly roasted. Sit
+                    back and enjoy award-winning world-class coffees curated to
+                    provide a distinct tasting experience.
+                  </Steps.Description>
+                </Steps.Step>
+              </Steps.Steps>
+            </Steps.Root>
+          </div>
+        </div>
+      </div>
       <h2>Order</h2>
       <section aria-labelledby={progressHeadingId}>
         <h3 id={progressHeadingId}>Order progress</h3>

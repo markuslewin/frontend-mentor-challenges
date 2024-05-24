@@ -18,8 +18,8 @@ import { screens } from "../utils/screens";
 import { Icon, IconProps } from "../components/icon";
 import { ImgHTMLAttributes, ReactNode } from "react";
 import { useMedia } from "../utils/use-media";
-import { cva } from "class-variance-authority";
 import * as Hero from "../components/hero";
+import * as Steps from "../components/steps";
 
 export const handle = {
   announcement() {
@@ -190,45 +190,41 @@ export function HomeRoute() {
             <h2 className="text-grey font-fraunces text-h4 text-center mt-32 tablet:text-start tablet:mt-36 desktop:mt-[12.5rem]">
               How it works
             </h2>
-            <div className="mt-20 hidden tablet:mt-10 grid-cols-3 items-center gap-3 tablet:grid desktop:mt-20 desktop:gap-[5.9375rem]">
-              <div className="text-pale-orange col-start-1 col-span-2 row-start-1 border-t-2 w-[calc(100%+0.75rem)] desktop:w-[calc(100%+5.9375rem)]" />
-              <StepsCircle order={1} />
-              <StepsCircle order={2} />
-              <StepsCircle order={3} />
+            <div className="mt-20 tablet:mt-10 desktop:mt-20">
+              <Steps.Root>
+                <Steps.Circles />
+                <Steps.Steps>
+                  <Steps.Step>
+                    <Steps.Number>01</Steps.Number>
+                    <Steps.Heading>Pick your coffee</Steps.Heading>
+                    <Steps.Description>
+                      Select from our evolving range of artisan coffees. Our
+                      beans are ethically sourced and we pay fair prices for
+                      them. There are new coffees in all profiles every month
+                      for you to try out.
+                    </Steps.Description>
+                  </Steps.Step>
+                  <Steps.Step>
+                    <Steps.Number>02</Steps.Number>
+                    <Steps.Heading>Choose the frequency</Steps.Heading>
+                    <Steps.Description>
+                      Customize your order frequency, quantity, even your roast
+                      style and grind type. Pause, skip or cancel your
+                      subscription with no commitment through our online portal.
+                    </Steps.Description>
+                  </Steps.Step>
+                  <Steps.Step>
+                    <Steps.Number>03</Steps.Number>
+                    <Steps.Heading>Receive and enjoy!</Steps.Heading>
+                    <Steps.Description>
+                      We ship your package within 48 hours, freshly roasted. Sit
+                      back and enjoy award-winning world-class coffees curated
+                      to provide a distinct tasting experience.
+                    </Steps.Description>
+                  </Steps.Step>
+                </Steps.Steps>
+              </Steps.Root>
             </div>
-            <ol
-              className="mt-12 grid gap-14 tablet:grid-cols-3 tablet:gap-3 desktop:mt-[4.1875rem] desktop:gap-[5.9375rem]"
-              role="list"
-            >
-              <Step>
-                <StepNumber>01</StepNumber>
-                <StepHeading>Pick your coffee</StepHeading>
-                <StepDescription>
-                  Select from our evolving range of artisan coffees. Our beans
-                  are ethically sourced and we pay fair prices for them. There
-                  are new coffees in all profiles every month for you to try
-                  out.
-                </StepDescription>
-              </Step>
-              <Step>
-                <StepNumber>02</StepNumber>
-                <StepHeading>Choose the frequency</StepHeading>
-                <StepDescription>
-                  Customize your order frequency, quantity, even your roast
-                  style and grind type. Pause, skip or cancel your subscription
-                  with no commitment through our online portal.
-                </StepDescription>
-              </Step>
-              <Step>
-                <StepNumber>03</StepNumber>
-                <StepHeading>Receive and enjoy!</StepHeading>
-                <StepDescription>
-                  We ship your package within 48 hours, freshly roasted. Sit
-                  back and enjoy award-winning world-class coffees curated to
-                  provide a distinct tasting experience.
-                </StepDescription>
-              </Step>
-            </ol>
             <p className="text-center mt-20 tablet:text-start tablet:mt-11 desktop:mt-16">
               <CreatePlanButton />
             </p>
@@ -332,45 +328,4 @@ function ReasonHeading({ children }: { children: ReactNode }) {
 
 function ReasonDescription({ children }: { children: ReactNode }) {
   return <p className="mt-6 tablet:mt-4 desktop:mt-6">{children}</p>;
-}
-
-const stepsCircleVariants = cva(
-  "bg-light-cream text-dark-cyan row-start-1 size-[1.9375rem] border-2 rounded-[50%]",
-  {
-    variants: {
-      order: {
-        1: "col-start-1",
-        2: "col-start-2",
-        3: "col-start-3",
-      },
-    },
-  }
-);
-
-function StepsCircle({ order }: { order: 1 | 2 | 3 }) {
-  return <div className={stepsCircleVariants({ order })} />;
-}
-
-function Step({ children }: { children: ReactNode }) {
-  return <li className="text-center tablet:text-start">{children}</li>;
-}
-
-function StepNumber({ children }: { children: ReactNode }) {
-  return (
-    <p className="text-pale-orange font-fraunces text-step-number">
-      {children}
-    </p>
-  );
-}
-
-function StepHeading({ children }: { children: ReactNode }) {
-  return (
-    <p className="font-fraunces text-h3 mt-6 tablet:mt-10 desktop:max-w-[15.9375rem] desktop:mt-[2.375rem]">
-      {children}
-    </p>
-  );
-}
-
-function StepDescription({ children }: { children: ReactNode }) {
-  return <p className="mt-6 tablet:mt-10 desktop:mt-[2.625rem]">{children}</p>;
 }
