@@ -25,6 +25,7 @@
     "@paralleldrive/cuid2": "^2.2.2",
     "@radix-ui/react-collapsible": "^1.0.3",
     "@radix-ui/react-dialog": "^1.0.5",
+    "@radix-ui/react-slot": "^1.0.2",
     "class-variance-authority": "^0.7.0",
     "execa": "^8.0.1",
     "glob": "^10.3.12",

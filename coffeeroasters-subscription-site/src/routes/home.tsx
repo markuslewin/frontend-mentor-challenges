@@ -20,6 +20,7 @@ import { ImgHTMLAttributes, ReactNode } from "react";
 import { useMedia } from "../utils/use-media";
 import * as Hero from "../components/hero";
 import * as Steps from "../components/steps";
+import { Button } from "../components/button";
 
 export const handle = {
   announcement() {
@@ -60,7 +61,11 @@ export function HomeRoute() {
                 expertly curated artisan coffees from our best roasters
                 delivered directly to your door, at your schedule.
               </Hero.Body>
-              <CreatePlanButton />
+              <p className="mt-10 desktop:mt-14">
+                <Button asChild>
+                  <Link to="/plan">Create your plan</Link>
+                </Button>
+              </p>
             </Hero.Text>
           </Hero.Layout>
         </Hero.Root>
@@ -226,7 +231,9 @@ export function HomeRoute() {
               </Steps.Root>
             </div>
             <p className="text-center mt-20 tablet:text-start tablet:mt-11 desktop:mt-16">
-              <CreatePlanButton />
+              <Button asChild>
+                <Link to="/plan">Create your plan</Link>
+              </Button>
             </p>
           </div>
         </div>
@@ -249,17 +256,6 @@ function Center({ children }: { children: ReactNode }) {
     >
       {children}
     </div>
-  );
-}
-
-function CreatePlanButton() {
-  return (
-    <Link
-      className="bg-dark-cyan text-light-cream font-fraunces font-black text-[1.125rem] leading-[1.5625rem] rounded-xs mt-10 px-8 py-4 inline-block desktop:mt-14 hocus:bg-light-cyan transition-colors"
-      to="/plan"
-    >
-      Create your plan
-    </Link>
   );
 }
 
