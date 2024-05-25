@@ -12,6 +12,7 @@ import {
   createContext,
   useContext,
   useId,
+  useState,
 } from "react";
 import * as Collapsible from "@radix-ui/react-collapsible";
 import * as Dialog from "@radix-ui/react-dialog";
@@ -30,6 +31,14 @@ export const handle = {
   },
 } satisfies AnnouncementHandle;
 
+interface CoffeeFormData {
+  preferences: "capsule" | "filter" | "espresso" | null;
+  "bean-type": "single-origin" | "decaf" | "blended" | null;
+  quantity: "250g" | "500g" | "1000g" | null;
+  "grind-option": "wholebean" | "filter" | "cafetiére" | null;
+  deliveries: "every-week" | "every-2-weeks" | "every-month" | null;
+}
+
 export function PlanRoute() {
   const progressHeadingId = useId();
 
@@ -41,6 +50,14 @@ export function PlanRoute() {
   const deliveriesHeadingId = useId();
 
   const checkoutHeadingId = useId();
+
+  const [formData, setFormData] = useState<CoffeeFormData>({
+    preferences: null,
+    "bean-type": null,
+    quantity: null,
+    "grind-option": null,
+    deliveries: null,
+  });
 
   return (
     <div className="pb-32 tablet:pb-36 desktop:pb-[10.5rem]">
@@ -175,7 +192,14 @@ export function PlanRoute() {
                 <QuestionFieldset aria-labelledby={preferencesHeadingId}>
                   <RadioCard.Root>
                     <RadioCard.Label>
-                      <RadioCard.Input name="preferences" value="capsule" />
+                      <RadioCard.Input
+                        name="preferences"
+                        value="capsule"
+                        checked={formData.preferences === "capsule"}
+                        onChange={() =>
+                          setFormData({ ...formData, preferences: "capsule" })
+                        }
+                      />
                       Capsule
                     </RadioCard.Label>
                     <RadioCard.Description>
@@ -184,7 +208,14 @@ export function PlanRoute() {
                   </RadioCard.Root>
                   <RadioCard.Root>
                     <RadioCard.Label>
-                      <RadioCard.Input name="preferences" value="filter" />
+                      <RadioCard.Input
+                        name="preferences"
+                        value="filter"
+                        checked={formData.preferences === "filter"}
+                        onChange={() =>
+                          setFormData({ ...formData, preferences: "filter" })
+                        }
+                      />
                       Filter
                     </RadioCard.Label>
                     <RadioCard.Description>
@@ -194,7 +225,14 @@ export function PlanRoute() {
                   </RadioCard.Root>
                   <RadioCard.Root>
                     <RadioCard.Label>
-                      <RadioCard.Input name="preferences" value="espresso" />
+                      <RadioCard.Input
+                        name="preferences"
+                        value="espresso"
+                        checked={formData.preferences === "espresso"}
+                        onChange={() =>
+                          setFormData({ ...formData, preferences: "espresso" })
+                        }
+                      />
                       Espresso
                     </RadioCard.Label>
                     <RadioCard.Description>
@@ -213,7 +251,17 @@ export function PlanRoute() {
                 <QuestionFieldset aria-labelledby={beanTypeHeadingId}>
                   <RadioCard.Root>
                     <RadioCard.Label>
-                      <RadioCard.Input name="bean-type" value="single-origin" />
+                      <RadioCard.Input
+                        name="bean-type"
+                        value="single-origin"
+                        checked={formData["bean-type"] === "single-origin"}
+                        onChange={() =>
+                          setFormData({
+                            ...formData,
+                            "bean-type": "single-origin",
+                          })
+                        }
+                      />
                       Single origin
                     </RadioCard.Label>
                     <RadioCard.Description>
@@ -223,7 +271,14 @@ export function PlanRoute() {
                   </RadioCard.Root>
                   <RadioCard.Root>
                     <RadioCard.Label>
-                      <RadioCard.Input name="bean-type" value="decaf" />
+                      <RadioCard.Input
+                        name="bean-type"
+                        value="decaf"
+                        checked={formData["bean-type"] === "decaf"}
+                        onChange={() =>
+                          setFormData({ ...formData, "bean-type": "decaf" })
+                        }
+                      />
                       Decaf
                     </RadioCard.Label>
                     <RadioCard.Description>
@@ -233,7 +288,14 @@ export function PlanRoute() {
                   </RadioCard.Root>
                   <RadioCard.Root>
                     <RadioCard.Label>
-                      <RadioCard.Input name="bean-type" value="blended" />
+                      <RadioCard.Input
+                        name="bean-type"
+                        value="blended"
+                        checked={formData["bean-type"] === "blended"}
+                        onChange={() =>
+                          setFormData({ ...formData, "bean-type": "blended" })
+                        }
+                      />
                       Blended
                     </RadioCard.Label>
                     <RadioCard.Description>
@@ -252,7 +314,14 @@ export function PlanRoute() {
                 <QuestionFieldset aria-labelledby={quantityHeadingId}>
                   <RadioCard.Root>
                     <RadioCard.Label>
-                      <RadioCard.Input name="quantity" value="250g" />
+                      <RadioCard.Input
+                        name="quantity"
+                        value="250g"
+                        checked={formData.quantity === "250g"}
+                        onChange={() =>
+                          setFormData({ ...formData, quantity: "250g" })
+                        }
+                      />
                       250g
                     </RadioCard.Label>
                     <RadioCard.Description>
@@ -262,7 +331,14 @@ export function PlanRoute() {
                   </RadioCard.Root>
                   <RadioCard.Root>
                     <RadioCard.Label>
-                      <RadioCard.Input name="quantity" value="500g" />
+                      <RadioCard.Input
+                        name="quantity"
+                        value="500g"
+                        checked={formData.quantity === "500g"}
+                        onChange={() =>
+                          setFormData({ ...formData, quantity: "500g" })
+                        }
+                      />
                       500g
                     </RadioCard.Label>
                     <RadioCard.Description>
@@ -272,7 +348,14 @@ export function PlanRoute() {
                   </RadioCard.Root>
                   <RadioCard.Root>
                     <RadioCard.Label>
-                      <RadioCard.Input name="quantity" value="1000g" />
+                      <RadioCard.Input
+                        name="quantity"
+                        value="1000g"
+                        checked={formData.quantity === "1000g"}
+                        onChange={() =>
+                          setFormData({ ...formData, quantity: "1000g" })
+                        }
+                      />
                       1000g
                     </RadioCard.Label>
                     <RadioCard.Description>
@@ -291,7 +374,17 @@ export function PlanRoute() {
                 <QuestionFieldset aria-labelledby={grindOptionHeadingId}>
                   <RadioCard.Root>
                     <RadioCard.Label>
-                      <RadioCard.Input name="grind-option" value="wholebean" />
+                      <RadioCard.Input
+                        name="grind-option"
+                        value="wholebean"
+                        checked={formData["grind-option"] === "wholebean"}
+                        onChange={() =>
+                          setFormData({
+                            ...formData,
+                            "grind-option": "wholebean",
+                          })
+                        }
+                      />
                       Wholebean
                     </RadioCard.Label>
                     <RadioCard.Description>
@@ -300,7 +393,14 @@ export function PlanRoute() {
                   </RadioCard.Root>
                   <RadioCard.Root>
                     <RadioCard.Label>
-                      <RadioCard.Input name="grind-option" value="filter" />
+                      <RadioCard.Input
+                        name="grind-option"
+                        value="filter"
+                        checked={formData["grind-option"] === "filter"}
+                        onChange={() =>
+                          setFormData({ ...formData, "grind-option": "filter" })
+                        }
+                      />
                       Filter
                     </RadioCard.Label>
                     <RadioCard.Description>
@@ -310,7 +410,17 @@ export function PlanRoute() {
                   </RadioCard.Root>
                   <RadioCard.Root>
                     <RadioCard.Label>
-                      <RadioCard.Input name="grind-option" value="cafetiére" />
+                      <RadioCard.Input
+                        name="grind-option"
+                        value="cafetiére"
+                        checked={formData["grind-option"] === "cafetiére"}
+                        onChange={() =>
+                          setFormData({
+                            ...formData,
+                            "grind-option": "cafetiére",
+                          })
+                        }
+                      />
                       Cafetiére
                     </RadioCard.Label>
                     <RadioCard.Description>
@@ -329,7 +439,14 @@ export function PlanRoute() {
                 <QuestionFieldset aria-labelledby={deliveriesHeadingId}>
                   <RadioCard.Root>
                     <RadioCard.Label>
-                      <RadioCard.Input name="deliveries" value="every-week" />
+                      <RadioCard.Input
+                        name="deliveries"
+                        value="every-week"
+                        checked={formData.deliveries === "every-week"}
+                        onChange={() =>
+                          setFormData({ ...formData, deliveries: "every-week" })
+                        }
+                      />
                       Every week
                     </RadioCard.Label>
                     <RadioCard.Description>
@@ -341,6 +458,13 @@ export function PlanRoute() {
                       <RadioCard.Input
                         name="deliveries"
                         value="every-2-weeks"
+                        checked={formData.deliveries === "every-2-weeks"}
+                        onChange={() =>
+                          setFormData({
+                            ...formData,
+                            deliveries: "every-2-weeks",
+                          })
+                        }
                       />
                       Every 2 weeks
                     </RadioCard.Label>
@@ -350,7 +474,17 @@ export function PlanRoute() {
                   </RadioCard.Root>
                   <RadioCard.Root>
                     <RadioCard.Label>
-                      <RadioCard.Input name="deliveries" value="every-month" />
+                      <RadioCard.Input
+                        name="deliveries"
+                        value="every-month"
+                        checked={formData.deliveries === "every-month"}
+                        onChange={() =>
+                          setFormData({
+                            ...formData,
+                            deliveries: "every-month",
+                          })
+                        }
+                      />
                       Every month
                     </RadioCard.Label>
                     <RadioCard.Description>
@@ -369,7 +503,7 @@ export function PlanRoute() {
               <h4 className="text-[hsl(0_0%_100%/50%)] text-[1rem] leading-[1.625rem] uppercase">
                 Order summary
               </h4>
-              <Summary className="mt-2" />
+              <Summary className="mt-2" data={formData} />
             </div>
             <h4 className="sr-only">Submit order</h4>
             <Dialog.Root>
@@ -383,7 +517,7 @@ export function PlanRoute() {
                   <Dialog.Content aria-labelledby={undefined}>
                     {/* todo: Focus title on open */}
                     <Dialog.Title>Order summary</Dialog.Title>
-                    <Summary />
+                    <Summary data={formData} />
                     <p>
                       Is this correct? You can proceed to checkout or go back to
                       plan selection if something is off. Subscription discount
@@ -513,28 +647,131 @@ function QuestionFieldset(props: FieldsetHTMLAttributes<HTMLFieldSetElement>) {
   return <fieldset {...props} />;
 }
 
-function Summary({ className }: { className?: string }) {
-  // todo: Blockquote..?
-  // todo: `b` or `strong`
+function Summary({
+  className,
+  data,
+}: {
+  className?: string;
+  data: CoffeeFormData;
+}) {
   return (
-    <p
+    <blockquote
       className={cx(
         "font-fraunces font-black text-[1.5rem] leading-[2.5rem]",
         className
       )}
     >
-      “I drink coffee <Blank />, with a <Blank /> type of bean. <Blank /> ground
-      ala <Blank />, sent to me <Blank />
+      “I drink my coffee <Preference value={data.preferences} />, with a{" "}
+      <BeanType value={data["bean-type"]} /> type of bean.{" "}
+      <Quantity value={data.quantity} />
+      {data.preferences === "capsule" ? null : (
+        <>
+          {" "}
+          ground ala <GrindOption value={data["grind-option"]} />
+        </>
+      )}
+      , sent to me <Deliveries value={data.deliveries} />
       .”
-    </p>
+    </blockquote>
   );
+}
+
+function Preference({ value }: { value: CoffeeFormData["preferences"] }) {
+  switch (value) {
+    case null:
+      return <Blank />;
+    case "capsule":
+      return (
+        <>
+          using <Keyword>capsules</Keyword>
+        </>
+      );
+    case "filter":
+      return (
+        <>
+          as <Keyword>filter</Keyword>
+        </>
+      );
+    case "espresso":
+      return (
+        <>
+          as <Keyword>espresso</Keyword>
+        </>
+      );
+    default:
+      throw new Error(`Preference "${value}" not implemented`);
+  }
+}
+
+function BeanType({ value }: { value: CoffeeFormData["bean-type"] }) {
+  switch (value) {
+    case null:
+      return <Blank />;
+    case "single-origin":
+      return <Keyword>single origin</Keyword>;
+    case "decaf":
+      return <Keyword>decaf</Keyword>;
+    case "blended":
+      return <Keyword>blended</Keyword>;
+    default:
+      throw new Error(`Bean type "${value}" not implemented`);
+  }
+}
+
+function Quantity({ value }: { value: CoffeeFormData["quantity"] }) {
+  switch (value) {
+    case null:
+      return <Blank />;
+    case "250g":
+      return <Keyword>250g</Keyword>;
+    case "500g":
+      return <Keyword>500g</Keyword>;
+    case "1000g":
+      return <Keyword>1000g</Keyword>;
+    default:
+      throw new Error(`Quantity "${value}" not implemented`);
+  }
+}
+
+function GrindOption({ value }: { value: CoffeeFormData["grind-option"] }) {
+  switch (value) {
+    case null:
+      return <Blank />;
+    case "wholebean":
+      return <Keyword>wholebean</Keyword>;
+    case "filter":
+      return <Keyword>filter</Keyword>;
+    case "cafetiére":
+      return <Keyword>cafetiére</Keyword>;
+    default:
+      throw new Error(`Grind option "${value}" not implemented`);
+  }
+}
+
+function Deliveries({ value }: { value: CoffeeFormData["deliveries"] }) {
+  switch (value) {
+    case null:
+      return <Blank />;
+    case "every-week":
+      return <Keyword>every week</Keyword>;
+    case "every-2-weeks":
+      return <Keyword>every 2 weeks</Keyword>;
+    case "every-month":
+      return <Keyword>every month</Keyword>;
+    default:
+      throw new Error(`Deliveries "${value}" not implemented`);
+  }
 }
 
 function Blank() {
   return (
     <>
-      <span aria-hidden="true">_____</span>
+      <Keyword aria-hidden="true">_____</Keyword>
       <span className="sr-only">blank</span>
     </>
   );
+}
+
+function Keyword({ children }: { children: ReactNode }) {
+  return <strong className="text-dark-cyan capitalize">{children}</strong>;
 }
