@@ -20,6 +20,8 @@ export default {
       // ---
       "light-cyan": "hsl(179 55% 61%)",
       "darker-grey-blue": "hsl(214 17% 19%)",
+      "lighter-cream": "hsl(43 30% 94%)",
+      white: "hsl(0 0% 100%)",
     },
     fontFamily: {
       fraunces: [
