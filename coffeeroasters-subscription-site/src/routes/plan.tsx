@@ -5,13 +5,15 @@ import heroBlackcupTablet from "../assets/plan/tablet/image-hero-blackcup.jpg?as
 // @ts-expect-error Search params
 import heroBlackcupDesktop from "../assets/plan/desktop/image-hero-blackcup.jpg?as=metadata";
 import {
-  AnchorHTMLAttributes,
+  ButtonHTMLAttributes,
   FieldsetHTMLAttributes,
   HTMLAttributes,
   ReactNode,
   createContext,
+  forwardRef,
   useContext,
   useId,
+  useRef,
   useState,
 } from "react";
 import * as Collapsible from "@radix-ui/react-collapsible";
@@ -24,6 +26,7 @@ import { screens } from "../utils/screens";
 import { Button } from "../components/button";
 import { Icon } from "../components/icon";
 import { VariantProps, cva, cx } from "class-variance-authority";
+import { useNavigate } from "react-router-dom";
 
 export const handle = {
   announcement() {
@@ -40,6 +43,8 @@ interface CoffeeFormData {
 }
 
 export function PlanRoute() {
+  const navigate = useNavigate();
+
   const progressHeadingId = useId();
 
   const orderHeadingId = useId();
@@ -58,6 +63,18 @@ export function PlanRoute() {
     "grind-option": null,
     deliveries: null,
   });
+
+  const preferencesQuestionButtonRef = useRef<HTMLButtonElement>(null);
+  const beanTypeQuestionButtonRef = useRef<HTMLButtonElement>(null);
+  const quantityQuestionButtonRef = useRef<HTMLButtonElement>(null);
+  const grindOptionQuestionButtonRef = useRef<HTMLButtonElement>(null);
+  const deliveriesQuestionButtonRef = useRef<HTMLButtonElement>(null);
+
+  const [preferencesQuestionOpen, setPreferencesQuestionOpen] = useState(true);
+  const [beanTypeQuestionOpen, setBeanTypeQuestionOpen] = useState(false);
+  const [quantityQuestionOpen, setQuantityQuestionOpen] = useState(false);
+  const [grindOptionQuestionOpen, setGrindOptionQuestionOpen] = useState(false);
+  const [deliveriesQuestionOpen, setDeliveriesQuestionOpen] = useState(false);
 
   return (
     <div className="pb-32 tablet:pb-36 desktop:pb-[10.5rem]">
@@ -138,39 +155,70 @@ export function PlanRoute() {
       <div className="t-center-inner layout-grid mt-32 px-gutter tablet:mt-36 desktop:mt-[10.5rem]">
         <h2 className="sr-only">Order</h2>
         <section
-          className="col-start-1 col-span-5 hidden desktop:self-start desktop:sticky desktop:top-6 desktop:block"
+          className="col-start-1 col-span-5 hidden desktop:self-start desktop:sticky desktop:top-14 desktop:block"
           aria-labelledby={progressHeadingId}
         >
           <h3 className="sr-only" id={progressHeadingId}>
             Order progress
           </h3>
-          {/* todo: Nav? */}
           <ol className="font-fraunces text-h4">
             <ProgressItem>
-              <ProgressLink href={`#${preferencesHeadingId}`} variant="active">
+              <ProgressLink
+                variant="active"
+                onClick={() => {
+                  navigate(`#${preferencesHeadingId}`);
+                  setPreferencesQuestionOpen(true);
+                  preferencesQuestionButtonRef.current?.focus();
+                }}
+              >
                 <ProgressNumber>01</ProgressNumber> Preferences
               </ProgressLink>
             </ProgressItem>
             <ProgressItem>
-              <ProgressLink href={`#${beanTypeHeadingId}`} variant="inactive">
+              <ProgressLink
+                variant="inactive"
+                onClick={() => {
+                  navigate(`#${beanTypeHeadingId}`);
+                  setBeanTypeQuestionOpen(true);
+                  beanTypeQuestionButtonRef.current?.focus();
+                }}
+              >
                 <ProgressNumber>02</ProgressNumber> Bean type
               </ProgressLink>
             </ProgressItem>
             <ProgressItem>
-              <ProgressLink href={`#${quantityHeadingId}`} variant="inactive">
+              <ProgressLink
+                variant="inactive"
+                onClick={() => {
+                  navigate(`#${quantityHeadingId}`);
+                  setQuantityQuestionOpen(true);
+                  quantityQuestionButtonRef.current?.focus();
+                }}
+              >
                 <ProgressNumber>03</ProgressNumber> Quantity
               </ProgressLink>
             </ProgressItem>
             <ProgressItem>
               <ProgressLink
-                href={`#${grindOptionHeadingId}`}
                 variant="disabled"
+                onClick={() => {
+                  navigate(`#${grindOptionHeadingId}`);
+                  setGrindOptionQuestionOpen(true);
+                  grindOptionQuestionButtonRef.current?.focus();
+                }}
               >
                 <ProgressNumber>04</ProgressNumber> Grind option
               </ProgressLink>
             </ProgressItem>
             <ProgressItem>
-              <ProgressLink href={`#${deliveriesHeadingId}`} variant="inactive">
+              <ProgressLink
+                variant="inactive"
+                onClick={() => {
+                  navigate(`#${deliveriesHeadingId}`);
+                  setDeliveriesQuestionOpen(true);
+                  deliveriesQuestionButtonRef.current?.focus();
+                }}
+              >
                 <ProgressNumber>05</ProgressNumber> Deliveries
               </ProgressLink>
             </ProgressItem>
@@ -184,8 +232,14 @@ export function PlanRoute() {
             <h3 className="sr-only" id={orderHeadingId}>
               Order options
             </h3>
-            <Question>
-              <QuestionHeading id={preferencesHeadingId}>
+            <Question
+              open={preferencesQuestionOpen}
+              onOpenChange={setPreferencesQuestionOpen}
+            >
+              <QuestionHeading
+                ref={preferencesQuestionButtonRef}
+                id={preferencesHeadingId}
+              >
                 How do you drink your coffee? <QuestionArrow />
               </QuestionHeading>
               <QuestionContent>
@@ -237,8 +291,14 @@ export function PlanRoute() {
                 </QuestionFieldset>
               </QuestionContent>
             </Question>
-            <Question>
-              <QuestionHeading id={beanTypeHeadingId}>
+            <Question
+              open={beanTypeQuestionOpen}
+              onOpenChange={setBeanTypeQuestionOpen}
+            >
+              <QuestionHeading
+                ref={beanTypeQuestionButtonRef}
+                id={beanTypeHeadingId}
+              >
                 What type of coffee? <QuestionArrow />
               </QuestionHeading>
               <QuestionContent>
@@ -294,8 +354,14 @@ export function PlanRoute() {
                 </QuestionFieldset>
               </QuestionContent>
             </Question>
-            <Question>
-              <QuestionHeading id={quantityHeadingId}>
+            <Question
+              open={quantityQuestionOpen}
+              onOpenChange={setQuantityQuestionOpen}
+            >
+              <QuestionHeading
+                ref={quantityQuestionButtonRef}
+                id={quantityHeadingId}
+              >
                 How much would you like? <QuestionArrow />
               </QuestionHeading>
               <QuestionContent>
@@ -348,8 +414,14 @@ export function PlanRoute() {
                 </QuestionFieldset>
               </QuestionContent>
             </Question>
-            <Question>
-              <QuestionHeading id={grindOptionHeadingId}>
+            <Question
+              open={grindOptionQuestionOpen}
+              onOpenChange={setGrindOptionQuestionOpen}
+            >
+              <QuestionHeading
+                ref={grindOptionQuestionButtonRef}
+                id={grindOptionHeadingId}
+              >
                 Want us to grind them? <QuestionArrow />
               </QuestionHeading>
               <QuestionContent>
@@ -407,8 +479,14 @@ export function PlanRoute() {
                 </QuestionFieldset>
               </QuestionContent>
             </Question>
-            <Question>
-              <QuestionHeading id={deliveriesHeadingId}>
+            <Question
+              open={deliveriesQuestionOpen}
+              onOpenChange={setDeliveriesQuestionOpen}
+            >
+              <QuestionHeading
+                ref={deliveriesQuestionButtonRef}
+                id={deliveriesHeadingId}
+              >
                 How often should we deliver? <QuestionArrow />
               </QuestionHeading>
               <QuestionContent>
@@ -545,11 +623,13 @@ function ProgressLink({
   className,
   variant,
   ...props
-}: AnchorHTMLAttributes<HTMLAnchorElement> &
+}: ButtonHTMLAttributes<HTMLButtonElement> &
   VariantProps<typeof progressLinkVariants>) {
   return (
     <progressLinkContext.Provider value={{ variant }}>
-      <a
+      <button
+        type="button"
+        aria-current={variant === "active" ? "step" : undefined}
         {...props}
         className={progressLinkVariants({
           className,
@@ -576,25 +656,28 @@ function ProgressNumber({ children }: { children: ReactNode }) {
   );
 }
 
-function Question({ children }: { children: ReactNode }) {
-  return <Collapsible.Root>{children}</Collapsible.Root>;
+function Question(props: Collapsible.CollapsibleProps) {
+  return <Collapsible.Root {...props} />;
 }
 
-function QuestionHeading({
-  children,
-  ...props
-}: HTMLAttributes<HTMLHeadingElement>) {
+const QuestionHeading = forwardRef<
+  HTMLButtonElement,
+  HTMLAttributes<HTMLHeadingElement>
+>(({ children, ...props }, ref) => {
   return (
     <h4
       {...props}
       className={cx("text-grey font-fraunces text-h2", props.className)}
     >
-      <Collapsible.Trigger className="w-full grid grid-cols-[1fr_max-content] items-center gap-4 text-start">
+      <Collapsible.Trigger
+        className="w-full grid grid-cols-[1fr_max-content] items-center gap-4 text-start"
+        ref={ref}
+      >
         {children}
       </Collapsible.Trigger>
     </h4>
   );
-}
+});
 
 function QuestionArrow() {
   return (
