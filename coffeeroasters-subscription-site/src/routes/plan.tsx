@@ -138,7 +138,7 @@ export function PlanRoute() {
       <div className="t-center-inner layout-grid mt-32 px-gutter tablet:mt-36 desktop:mt-[10.5rem]">
         <h2 className="sr-only">Order</h2>
         <section
-          className="col-start-1 col-span-5 hidden desktop:block"
+          className="col-start-1 col-span-5 hidden desktop:self-start desktop:sticky desktop:top-6 desktop:block"
           aria-labelledby={progressHeadingId}
         >
           <h3 className="sr-only" id={progressHeadingId}>
