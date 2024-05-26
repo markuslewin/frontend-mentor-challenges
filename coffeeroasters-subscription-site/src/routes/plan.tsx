@@ -656,8 +656,21 @@ function ProgressNumber({ children }: { children: ReactNode }) {
   );
 }
 
-function Question(props: Collapsible.CollapsibleProps) {
-  return <Collapsible.Root {...props} />;
+const questionContext = createContext<{ open: boolean } | null>(null);
+
+function useQuestionContext() {
+  const value = useContext(questionContext);
+  if (value === null) throw new Error("Must be used inside Question");
+
+  return value;
+}
+
+function Question(props: Collapsible.CollapsibleProps & { open: boolean }) {
+  return (
+    <questionContext.Provider value={{ open: props.open }}>
+      <Collapsible.Root {...props} />
+    </questionContext.Provider>
+  );
 }
 
 const QuestionHeading = forwardRef<
@@ -680,10 +693,13 @@ const QuestionHeading = forwardRef<
 });
 
 function QuestionArrow() {
+  const { open } = useQuestionContext();
+
   return (
     <span className="text-dark-cyan">
       <Icon
-        className="w-[1.1875rem] h-auto"
+        className="w-[1.1875rem] h-auto transition-transform"
+        style={{ transform: open ? "rotate(180deg)" : undefined }}
         name="icon-arrow"
         width="19"
         height="13"
