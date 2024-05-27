@@ -1,10 +1,44 @@
 import { useState } from "react";
+import { useLocation } from "react-router-dom";
+import { z } from "zod";
+
+const headingIdSchema = z.enum([
+  "preferences",
+  "bean-type",
+  "quantity",
+  "grind-option",
+  "deliveries",
+]);
+
+type HeadingId = z.infer<typeof headingIdSchema>;
+
+const preferencesHeadingId: HeadingId = "preferences";
+const beanTypeHeadingId: HeadingId = "bean-type";
+const quantityHeadingId: HeadingId = "quantity";
+const grindOptionHeadingId: HeadingId = "grind-option";
+const deliveriesHeadingId: HeadingId = "deliveries";
+
+const idByHeadingId = {
+  [preferencesHeadingId]: "preferences",
+  [beanTypeHeadingId]: "bean-type",
+  [quantityHeadingId]: "quantity",
+  [grindOptionHeadingId]: "grind-option",
+  [deliveriesHeadingId]: "deliveries",
+} as const;
 
 export function useQuestions() {
+  const location = useLocation();
+
+  const hash = location.hash.replace(/^#/, "");
+  const result = headingIdSchema.safeParse(hash);
+  const initiallyOpenQuestionId = result.success
+    ? idByHeadingId[result.data]
+    : "preferences";
+
   const [questions, setQuestions] = useState({
     preferences: {
       label: "Preferences",
-      headingId: "preferences",
+      headingId: preferencesHeadingId,
       heading: "How do you drink your coffee?",
       options: [
         {
@@ -25,11 +59,11 @@ export function useQuestions() {
             "Dense and finely ground beans for an intense, flavorful experience",
         },
       ],
-      open: false,
+      open: initiallyOpenQuestionId === "preferences",
     },
     "bean-type": {
       label: "Bean type",
-      headingId: "bean-type",
+      headingId: beanTypeHeadingId,
       heading: "What type of coffee?",
       options: [
         {
@@ -51,11 +85,11 @@ export function useQuestions() {
             "Combination of two or three dark roasted beans of organic coffees",
         },
       ],
-      open: false,
+      open: initiallyOpenQuestionId === "bean-type",
     },
     quantity: {
       label: "Quantity",
-      headingId: "quantity",
+      headingId: quantityHeadingId,
       heading: "How much would you like?",
       options: [
         {
@@ -77,11 +111,11 @@ export function useQuestions() {
             "Perfect for offices and events. Yields about 90 delightful cups.",
         },
       ],
-      open: false,
+      open: initiallyOpenQuestionId === "quantity",
     },
     "grind-option": {
       label: "Grind option",
-      headingId: "grind-option",
+      headingId: grindOptionHeadingId,
       heading: "Want us to grind them?",
       options: [
         {
@@ -102,11 +136,11 @@ export function useQuestions() {
             "Course ground beans specially suited for french press coffee",
         },
       ],
-      open: false,
+      open: initiallyOpenQuestionId === "grind-option",
     },
     deliveries: {
       label: "Deliveries",
-      headingId: "deliveries",
+      headingId: deliveriesHeadingId,
       heading: "How often should we deliver?",
       options: [
         {
@@ -126,7 +160,7 @@ export function useQuestions() {
           description: "$22.50 per shipment. Includes free priority shipping.",
         },
       ],
-      open: false,
+      open: initiallyOpenQuestionId === "deliveries",
     },
   } as const);
 

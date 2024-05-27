@@ -398,7 +398,7 @@ function useQuestionContext() {
   return value;
 }
 
-const questionVariants = cva("", {
+const questionVariants = cva("transition-opacity", {
   variants: { status: { disabled: "opacity-50" } },
 });
 
