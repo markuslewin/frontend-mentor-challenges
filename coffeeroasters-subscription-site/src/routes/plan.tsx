@@ -175,7 +175,7 @@ export function PlanRoute() {
             {orderedQuestions.map((question, i) => (
               <ProgressItem key={question.id}>
                 <ProgressLink
-                  variant={
+                  status={
                     question.id === currentQuestion.id ? "active" : "inactive"
                   }
                   onClick={() => {
@@ -294,7 +294,7 @@ const progressLinkVariants = cva(
   "grid grid-cols-[3.625rem_1fr] transition-opacity",
   {
     variants: {
-      variant: {
+      status: {
         active: "",
         inactive: "opacity-40 hocus:opacity-60",
         disabled: "opacity-20",
@@ -317,19 +317,19 @@ function useProgressLinkContext() {
 
 function ProgressLink({
   className,
-  variant,
+  status,
   ...props
 }: ButtonHTMLAttributes<HTMLButtonElement> &
   VariantProps<typeof progressLinkVariants>) {
   return (
-    <progressLinkContext.Provider value={{ variant }}>
+    <progressLinkContext.Provider value={{ status }}>
       <button
         type="button"
-        aria-current={variant === "active" ? "step" : undefined}
+        aria-current={status === "active" ? "step" : undefined}
         {...props}
         className={progressLinkVariants({
           className,
-          variant,
+          status,
         })}
       />
     </progressLinkContext.Provider>
@@ -341,12 +341,10 @@ const progressNumberVariants = cva("", {
 });
 
 function ProgressNumber({ children }: { children: ReactNode }) {
-  const { variant } = useProgressLinkContext();
+  const { status } = useProgressLinkContext();
 
   return (
-    <span
-      className={progressNumberVariants({ isActive: variant === "active" })}
-    >
+    <span className={progressNumberVariants({ isActive: status === "active" })}>
       {children}
     </span>
   );
