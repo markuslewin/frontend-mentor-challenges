@@ -27,6 +27,7 @@ import { Button } from "../components/button";
 import { Icon } from "../components/icon";
 import { VariantProps, cva, cx } from "class-variance-authority";
 import { useNavigate } from "react-router-dom";
+import { useQuestions } from "../utils/questions";
 
 export const handle = {
   announcement() {
@@ -46,14 +47,7 @@ export function PlanRoute() {
   const navigate = useNavigate();
 
   const progressHeadingId = useId();
-
   const orderHeadingId = useId();
-  const preferencesHeadingId = useId();
-  const beanTypeHeadingId = useId();
-  const quantityHeadingId = useId();
-  const grindOptionHeadingId = useId();
-  const deliveriesHeadingId = useId();
-
   const checkoutHeadingId = useId();
 
   const [formData, setFormData] = useState<CoffeeFormData>({
@@ -64,17 +58,33 @@ export function PlanRoute() {
     deliveries: null,
   });
 
-  const preferencesQuestionButtonRef = useRef<HTMLButtonElement>(null);
-  const beanTypeQuestionButtonRef = useRef<HTMLButtonElement>(null);
-  const quantityQuestionButtonRef = useRef<HTMLButtonElement>(null);
-  const grindOptionQuestionButtonRef = useRef<HTMLButtonElement>(null);
-  const deliveriesQuestionButtonRef = useRef<HTMLButtonElement>(null);
+  const questionsButtonRef = useRef<{
+    preferences: HTMLButtonElement | null;
+    "bean-type": HTMLButtonElement | null;
+    quantity: HTMLButtonElement | null;
+    "grind-option": HTMLButtonElement | null;
+    deliveries: HTMLButtonElement | null;
+  }>({
+    preferences: null,
+    "bean-type": null,
+    quantity: null,
+    "grind-option": null,
+    deliveries: null,
+  });
 
-  const [preferencesQuestionOpen, setPreferencesQuestionOpen] = useState(true);
-  const [beanTypeQuestionOpen, setBeanTypeQuestionOpen] = useState(false);
-  const [quantityQuestionOpen, setQuantityQuestionOpen] = useState(false);
-  const [grindOptionQuestionOpen, setGrindOptionQuestionOpen] = useState(false);
-  const [deliveriesQuestionOpen, setDeliveriesQuestionOpen] = useState(false);
+  const questions = useQuestions();
+
+  const orderedQuestions = [
+    { ...questions.data.preferences, id: "preferences" },
+    { ...questions.data["bean-type"], id: "bean-type" },
+    { ...questions.data.quantity, id: "quantity" },
+    { ...questions.data["grind-option"], id: "grind-option" },
+    { ...questions.data.deliveries, id: "deliveries" },
+  ] as const;
+
+  const currentQuestion =
+    orderedQuestions.find((question) => formData[question.id] === null) ??
+    orderedQuestions[orderedQuestions.length - 1];
 
   return (
     <div className="pb-32 tablet:pb-36 desktop:pb-[10.5rem]">
@@ -162,66 +172,23 @@ export function PlanRoute() {
             Order progress
           </h3>
           <ol className="font-fraunces text-h4">
-            <ProgressItem>
-              <ProgressLink
-                variant="active"
-                onClick={() => {
-                  navigate(`#${preferencesHeadingId}`);
-                  setPreferencesQuestionOpen(true);
-                  preferencesQuestionButtonRef.current?.focus();
-                }}
-              >
-                <ProgressNumber>01</ProgressNumber> Preferences
-              </ProgressLink>
-            </ProgressItem>
-            <ProgressItem>
-              <ProgressLink
-                variant="inactive"
-                onClick={() => {
-                  navigate(`#${beanTypeHeadingId}`);
-                  setBeanTypeQuestionOpen(true);
-                  beanTypeQuestionButtonRef.current?.focus();
-                }}
-              >
-                <ProgressNumber>02</ProgressNumber> Bean type
-              </ProgressLink>
-            </ProgressItem>
-            <ProgressItem>
-              <ProgressLink
-                variant="inactive"
-                onClick={() => {
-                  navigate(`#${quantityHeadingId}`);
-                  setQuantityQuestionOpen(true);
-                  quantityQuestionButtonRef.current?.focus();
-                }}
-              >
-                <ProgressNumber>03</ProgressNumber> Quantity
-              </ProgressLink>
-            </ProgressItem>
-            <ProgressItem>
-              <ProgressLink
-                variant="disabled"
-                onClick={() => {
-                  navigate(`#${grindOptionHeadingId}`);
-                  setGrindOptionQuestionOpen(true);
-                  grindOptionQuestionButtonRef.current?.focus();
-                }}
-              >
-                <ProgressNumber>04</ProgressNumber> Grind option
-              </ProgressLink>
-            </ProgressItem>
-            <ProgressItem>
-              <ProgressLink
-                variant="inactive"
-                onClick={() => {
-                  navigate(`#${deliveriesHeadingId}`);
-                  setDeliveriesQuestionOpen(true);
-                  deliveriesQuestionButtonRef.current?.focus();
-                }}
-              >
-                <ProgressNumber>05</ProgressNumber> Deliveries
-              </ProgressLink>
-            </ProgressItem>
+            {orderedQuestions.map((question, i) => (
+              <ProgressItem key={question.id}>
+                <ProgressLink
+                  variant={
+                    question.id === currentQuestion.id ? "active" : "inactive"
+                  }
+                  onClick={() => {
+                    navigate(`#${question.headingId}`);
+                    questions.open(question.id, true);
+                    questionsButtonRef.current[question.id]?.focus();
+                  }}
+                >
+                  <ProgressNumber>{`0${i + 1}`}</ProgressNumber>{" "}
+                  {question.label}
+                </ProgressLink>
+              </ProgressItem>
+            ))}
           </ol>
         </section>
         <div className="col-span-full desktop:col-start-9 desktop:col-end-[-1]">
@@ -233,17 +200,21 @@ export function PlanRoute() {
               Order options
             </h3>
             <Question
-              open={preferencesQuestionOpen}
-              onOpenChange={setPreferencesQuestionOpen}
+              open={questions.data.preferences.open}
+              onOpenChange={(open) => questions.open("preferences", open)}
             >
               <QuestionHeading
-                ref={preferencesQuestionButtonRef}
-                id={preferencesHeadingId}
+                ref={(node) => {
+                  questionsButtonRef.current.preferences = node;
+                }}
+                id={questions.data.preferences.headingId}
               >
                 How do you drink your coffee? <QuestionArrow />
               </QuestionHeading>
               <QuestionContent>
-                <QuestionFieldset aria-labelledby={preferencesHeadingId}>
+                <QuestionFieldset
+                  aria-labelledby={questions.data.preferences.headingId}
+                >
                   <RadioCard.Root>
                     <RadioCard.Input
                       name="preferences"
@@ -292,17 +263,21 @@ export function PlanRoute() {
               </QuestionContent>
             </Question>
             <Question
-              open={beanTypeQuestionOpen}
-              onOpenChange={setBeanTypeQuestionOpen}
+              open={questions.data["bean-type"].open}
+              onOpenChange={(open) => questions.open("bean-type", open)}
             >
               <QuestionHeading
-                ref={beanTypeQuestionButtonRef}
-                id={beanTypeHeadingId}
+                ref={(node) => {
+                  questionsButtonRef.current["bean-type"] = node;
+                }}
+                id={questions.data["bean-type"].headingId}
               >
                 What type of coffee? <QuestionArrow />
               </QuestionHeading>
               <QuestionContent>
-                <QuestionFieldset aria-labelledby={beanTypeHeadingId}>
+                <QuestionFieldset
+                  aria-labelledby={questions.data["bean-type"].headingId}
+                >
                   <RadioCard.Root>
                     <RadioCard.Input
                       name="bean-type"
@@ -355,17 +330,21 @@ export function PlanRoute() {
               </QuestionContent>
             </Question>
             <Question
-              open={quantityQuestionOpen}
-              onOpenChange={setQuantityQuestionOpen}
+              open={questions.data.quantity.open}
+              onOpenChange={(open) => questions.open("quantity", open)}
             >
               <QuestionHeading
-                ref={quantityQuestionButtonRef}
-                id={quantityHeadingId}
+                ref={(node) => {
+                  questionsButtonRef.current.quantity = node;
+                }}
+                id={questions.data.quantity.headingId}
               >
                 How much would you like? <QuestionArrow />
               </QuestionHeading>
               <QuestionContent>
-                <QuestionFieldset aria-labelledby={quantityHeadingId}>
+                <QuestionFieldset
+                  aria-labelledby={questions.data.quantity.headingId}
+                >
                   <RadioCard.Root>
                     <RadioCard.Input
                       name="quantity"
@@ -415,17 +394,21 @@ export function PlanRoute() {
               </QuestionContent>
             </Question>
             <Question
-              open={grindOptionQuestionOpen}
-              onOpenChange={setGrindOptionQuestionOpen}
+              open={questions.data["grind-option"].open}
+              onOpenChange={(open) => questions.open("grind-option", open)}
             >
               <QuestionHeading
-                ref={grindOptionQuestionButtonRef}
-                id={grindOptionHeadingId}
+                ref={(node) => {
+                  questionsButtonRef.current["grind-option"] = node;
+                }}
+                id={questions.data["grind-option"].headingId}
               >
                 Want us to grind them? <QuestionArrow />
               </QuestionHeading>
               <QuestionContent>
-                <QuestionFieldset aria-labelledby={grindOptionHeadingId}>
+                <QuestionFieldset
+                  aria-labelledby={questions.data["grind-option"].headingId}
+                >
                   <RadioCard.Root>
                     <RadioCard.Input
                       name="grind-option"
@@ -480,17 +463,21 @@ export function PlanRoute() {
               </QuestionContent>
             </Question>
             <Question
-              open={deliveriesQuestionOpen}
-              onOpenChange={setDeliveriesQuestionOpen}
+              open={questions.data.deliveries.open}
+              onOpenChange={(open) => questions.open("deliveries", open)}
             >
               <QuestionHeading
-                ref={deliveriesQuestionButtonRef}
-                id={deliveriesHeadingId}
+                ref={(node) => {
+                  questionsButtonRef.current.deliveries = node;
+                }}
+                id={questions.data.deliveries.headingId}
               >
                 How often should we deliver? <QuestionArrow />
               </QuestionHeading>
               <QuestionContent>
-                <QuestionFieldset aria-labelledby={deliveriesHeadingId}>
+                <QuestionFieldset
+                  aria-labelledby={questions.data.deliveries.headingId}
+                >
                   <RadioCard.Root>
                     <RadioCard.Input
                       name="deliveries"
