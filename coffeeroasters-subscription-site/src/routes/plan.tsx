@@ -75,16 +75,24 @@ export function PlanRoute() {
   const questions = useQuestions();
 
   const orderedQuestions = [
-    { ...questions.data.preferences, id: "preferences" },
-    { ...questions.data["bean-type"], id: "bean-type" },
-    { ...questions.data.quantity, id: "quantity" },
-    { ...questions.data["grind-option"], id: "grind-option" },
-    { ...questions.data.deliveries, id: "deliveries" },
+    { ...questions.data.preferences, id: "preferences", disabled: false },
+    { ...questions.data["bean-type"], id: "bean-type", disabled: false },
+    { ...questions.data.quantity, id: "quantity", disabled: false },
+    {
+      ...questions.data["grind-option"],
+      id: "grind-option",
+      disabled: formData.preferences === "capsule",
+    },
+    { ...questions.data.deliveries, id: "deliveries", disabled: false },
   ] as const;
 
+  const enabledQuestions = orderedQuestions.filter(
+    (question) => !question.disabled
+  );
+
   const currentQuestion =
-    orderedQuestions.find((question) => formData[question.id] === null) ??
-    orderedQuestions[orderedQuestions.length - 1];
+    enabledQuestions.find((question) => formData[question.id] === null) ??
+    enabledQuestions[enabledQuestions.length - 1];
 
   return (
     <div className="pb-32 tablet:pb-36 desktop:pb-[10.5rem]">
@@ -176,15 +184,22 @@ export function PlanRoute() {
               <ProgressItem key={question.id}>
                 <ProgressLink
                   status={
-                    question.id === currentQuestion.id ? "active" : "inactive"
+                    question.disabled
+                      ? "disabled"
+                      : question.id === currentQuestion.id
+                        ? "active"
+                        : "inactive"
                   }
                   onClick={() => {
                     navigate(`#${question.headingId}`);
-                    questions.open(question.id, true);
+                    questions.setOpen(question.id, true);
                     questionsButtonRef.current[question.id]?.focus();
                   }}
                 >
-                  <ProgressNumber>{`0${i + 1}`}</ProgressNumber>{" "}
+                  <ProgressNumber>
+                    <span aria-hidden="true">0</span>
+                    {i + 1}
+                  </ProgressNumber>{" "}
                   {question.label}
                 </ProgressLink>
               </ProgressItem>
@@ -202,8 +217,17 @@ export function PlanRoute() {
             {orderedQuestions.map((question) => (
               <Question
                 key={question.id}
-                open={question.open}
-                onOpenChange={(open) => questions.open(question.id, open)}
+                disabled={question.disabled}
+                open={question.disabled ? false : question.open}
+                onOpenChange={(open) => {
+                  if (
+                    question.id === "grind-option" &&
+                    formData.preferences === "capsule"
+                  )
+                    return;
+
+                  questions.setOpen(question.id, open);
+                }}
               >
                 <QuestionHeading
                   ref={(node) => {
@@ -221,12 +245,18 @@ export function PlanRoute() {
                           name={question.id}
                           value={option.id}
                           checked={formData[question.id] === option.id}
-                          onChange={() =>
+                          onChange={() => {
+                            if (
+                              question.id === "preferences" &&
+                              option.id === "capsule"
+                            ) {
+                              questions.setOpen("grind-option", false);
+                            }
                             setFormData({
                               ...formData,
                               [question.id]: option.id,
-                            })
-                          }
+                            });
+                          }}
                         />
                         <RadioCard.Label>{option.label}</RadioCard.Label>
                         <RadioCard.Description>
@@ -318,19 +348,24 @@ function useProgressLinkContext() {
 function ProgressLink({
   className,
   status,
+  onClick,
   ...props
 }: ButtonHTMLAttributes<HTMLButtonElement> &
   VariantProps<typeof progressLinkVariants>) {
+  const isDisabled = status === "disabled";
+
   return (
     <progressLinkContext.Provider value={{ status }}>
       <button
         type="button"
         aria-current={status === "active" ? "step" : undefined}
+        aria-disabled={isDisabled}
         {...props}
         className={progressLinkVariants({
           className,
           status,
         })}
+        onClick={isDisabled ? undefined : onClick}
       />
     </progressLinkContext.Provider>
   );
@@ -350,7 +385,10 @@ function ProgressNumber({ children }: { children: ReactNode }) {
   );
 }
 
-const questionContext = createContext<{ open: boolean } | null>(null);
+const questionContext = createContext<{
+  disabled: boolean;
+  open: boolean;
+} | null>(null);
 
 function useQuestionContext() {
   const value = useContext(questionContext);
@@ -359,10 +397,25 @@ function useQuestionContext() {
   return value;
 }
 
-function Question(props: Collapsible.CollapsibleProps & { open: boolean }) {
+const questionVariants = cva("", {
+  variants: { status: { disabled: "opacity-50" } },
+});
+
+function Question({
+  className,
+  ...props
+}: Collapsible.CollapsibleProps & { disabled: boolean; open: boolean }) {
   return (
-    <questionContext.Provider value={{ open: props.open }}>
-      <Collapsible.Root {...props} />
+    <questionContext.Provider
+      value={{ disabled: props.disabled, open: props.open }}
+    >
+      <Collapsible.Root
+        {...props}
+        className={questionVariants({
+          className,
+          status: props.disabled ? "disabled" : undefined,
+        })}
+      />
     </questionContext.Provider>
   );
 }
@@ -371,6 +424,8 @@ const QuestionHeading = forwardRef<
   HTMLButtonElement,
   HTMLAttributes<HTMLHeadingElement>
 >(({ children, ...props }, ref) => {
+  const { disabled } = useQuestionContext();
+
   return (
     <h4
       {...props}
@@ -379,6 +434,9 @@ const QuestionHeading = forwardRef<
       <Collapsible.Trigger
         className="w-full grid grid-cols-[1fr_max-content] items-center gap-4 text-start"
         ref={ref}
+        // Use `aria-disabled` for discoverability
+        disabled={undefined}
+        aria-disabled={disabled}
       >
         {children}
       </Collapsible.Trigger>

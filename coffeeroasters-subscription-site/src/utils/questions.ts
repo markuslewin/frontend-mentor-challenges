@@ -132,7 +132,7 @@ export function useQuestions() {
 
   return {
     data: questions,
-    open(id: keyof typeof questions, next: boolean) {
+    setOpen(id: keyof typeof questions, next: boolean) {
       setQuestions({
         ...questions,
         [id]: {
