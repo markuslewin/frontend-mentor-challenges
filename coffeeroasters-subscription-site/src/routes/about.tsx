@@ -54,6 +54,7 @@ export function AboutRoute() {
               srcSet={heroWhitecupTablet.src}
             />
             <Hero.Image
+              className="bg-[hsl(0_8%_15%)]"
               alt=""
               width={heroWhitecupMobile.width}
               height={heroWhitecupMobile.height}

@@ -47,6 +47,7 @@ export function HomeRoute() {
               srcSet={heroCoffeepressTablet.src}
             />
             <Hero.Image
+              className="bg-[hsl(0_0%_10%)]"
               alt=""
               width={heroCoffeepressMobile.width}
               height={heroCoffeepressMobile.height}

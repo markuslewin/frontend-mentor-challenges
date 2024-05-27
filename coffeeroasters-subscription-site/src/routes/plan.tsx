@@ -112,6 +112,7 @@ export function PlanRoute() {
               srcSet={heroBlackcupTablet.src}
             />
             <Hero.Image
+              className="bg-[hsl(160_12%_10%)]"
               alt=""
               width={heroBlackcupMobile.width}
               height={heroBlackcupMobile.height}
