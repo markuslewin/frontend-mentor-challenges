@@ -199,336 +199,45 @@ export function PlanRoute() {
             <h3 className="sr-only" id={orderHeadingId}>
               Order options
             </h3>
-            <Question
-              open={questions.data.preferences.open}
-              onOpenChange={(open) => questions.open("preferences", open)}
-            >
-              <QuestionHeading
-                ref={(node) => {
-                  questionsButtonRef.current.preferences = node;
-                }}
-                id={questions.data.preferences.headingId}
+            {orderedQuestions.map((question) => (
+              <Question
+                key={question.id}
+                open={question.open}
+                onOpenChange={(open) => questions.open(question.id, open)}
               >
-                How do you drink your coffee? <QuestionArrow />
-              </QuestionHeading>
-              <QuestionContent>
-                <QuestionFieldset
-                  aria-labelledby={questions.data.preferences.headingId}
+                <QuestionHeading
+                  ref={(node) => {
+                    questionsButtonRef.current[question.id] = node;
+                  }}
+                  id={question.headingId}
                 >
-                  <RadioCard.Root>
-                    <RadioCard.Input
-                      name="preferences"
-                      value="capsule"
-                      checked={formData.preferences === "capsule"}
-                      onChange={() =>
-                        setFormData({ ...formData, preferences: "capsule" })
-                      }
-                    />
-                    <RadioCard.Label>Capsule</RadioCard.Label>
-                    <RadioCard.Description>
-                      Compatible with Nespresso systems and similar brewers
-                    </RadioCard.Description>
-                  </RadioCard.Root>
-                  <RadioCard.Root>
-                    <RadioCard.Input
-                      name="preferences"
-                      value="filter"
-                      checked={formData.preferences === "filter"}
-                      onChange={() =>
-                        setFormData({ ...formData, preferences: "filter" })
-                      }
-                    />
-                    <RadioCard.Label>Filter</RadioCard.Label>
-                    <RadioCard.Description>
-                      For pour over or drip methods like Aeropress, Chemex, and
-                      V60
-                    </RadioCard.Description>
-                  </RadioCard.Root>
-                  <RadioCard.Root>
-                    <RadioCard.Input
-                      name="preferences"
-                      value="espresso"
-                      checked={formData.preferences === "espresso"}
-                      onChange={() =>
-                        setFormData({ ...formData, preferences: "espresso" })
-                      }
-                    />
-                    <RadioCard.Label>Espresso</RadioCard.Label>
-                    <RadioCard.Description>
-                      Dense and finely ground beans for an intense, flavorful
-                      experience
-                    </RadioCard.Description>
-                  </RadioCard.Root>
-                </QuestionFieldset>
-              </QuestionContent>
-            </Question>
-            <Question
-              open={questions.data["bean-type"].open}
-              onOpenChange={(open) => questions.open("bean-type", open)}
-            >
-              <QuestionHeading
-                ref={(node) => {
-                  questionsButtonRef.current["bean-type"] = node;
-                }}
-                id={questions.data["bean-type"].headingId}
-              >
-                What type of coffee? <QuestionArrow />
-              </QuestionHeading>
-              <QuestionContent>
-                <QuestionFieldset
-                  aria-labelledby={questions.data["bean-type"].headingId}
-                >
-                  <RadioCard.Root>
-                    <RadioCard.Input
-                      name="bean-type"
-                      value="single-origin"
-                      checked={formData["bean-type"] === "single-origin"}
-                      onChange={() =>
-                        setFormData({
-                          ...formData,
-                          "bean-type": "single-origin",
-                        })
-                      }
-                    />
-                    <RadioCard.Label>Single origin</RadioCard.Label>
-                    <RadioCard.Description>
-                      Distinct, high quality coffee from a specific family-owned
-                      farm
-                    </RadioCard.Description>
-                  </RadioCard.Root>
-                  <RadioCard.Root>
-                    <RadioCard.Input
-                      name="bean-type"
-                      value="decaf"
-                      checked={formData["bean-type"] === "decaf"}
-                      onChange={() =>
-                        setFormData({ ...formData, "bean-type": "decaf" })
-                      }
-                    />
-                    <RadioCard.Label>Decaf</RadioCard.Label>
-                    <RadioCard.Description>
-                      Just like regular coffee, except the caffeine has been
-                      removed
-                    </RadioCard.Description>
-                  </RadioCard.Root>
-                  <RadioCard.Root>
-                    <RadioCard.Input
-                      name="bean-type"
-                      value="blended"
-                      checked={formData["bean-type"] === "blended"}
-                      onChange={() =>
-                        setFormData({ ...formData, "bean-type": "blended" })
-                      }
-                    />
-                    <RadioCard.Label>Blended</RadioCard.Label>
-                    <RadioCard.Description>
-                      Combination of two or three dark roasted beans of organic
-                      coffees
-                    </RadioCard.Description>
-                  </RadioCard.Root>
-                </QuestionFieldset>
-              </QuestionContent>
-            </Question>
-            <Question
-              open={questions.data.quantity.open}
-              onOpenChange={(open) => questions.open("quantity", open)}
-            >
-              <QuestionHeading
-                ref={(node) => {
-                  questionsButtonRef.current.quantity = node;
-                }}
-                id={questions.data.quantity.headingId}
-              >
-                How much would you like? <QuestionArrow />
-              </QuestionHeading>
-              <QuestionContent>
-                <QuestionFieldset
-                  aria-labelledby={questions.data.quantity.headingId}
-                >
-                  <RadioCard.Root>
-                    <RadioCard.Input
-                      name="quantity"
-                      value="250g"
-                      checked={formData.quantity === "250g"}
-                      onChange={() =>
-                        setFormData({ ...formData, quantity: "250g" })
-                      }
-                    />
-                    <RadioCard.Label>250g</RadioCard.Label>
-                    <RadioCard.Description>
-                      Perfect for the solo drinker. Yields about 12 delicious
-                      cups.
-                    </RadioCard.Description>
-                  </RadioCard.Root>
-                  <RadioCard.Root>
-                    <RadioCard.Input
-                      name="quantity"
-                      value="500g"
-                      checked={formData.quantity === "500g"}
-                      onChange={() =>
-                        setFormData({ ...formData, quantity: "500g" })
-                      }
-                    />
-                    <RadioCard.Label>500g</RadioCard.Label>
-                    <RadioCard.Description>
-                      Perfect option for a couple. Yields about 40 delectable
-                      cups.
-                    </RadioCard.Description>
-                  </RadioCard.Root>
-                  <RadioCard.Root>
-                    <RadioCard.Input
-                      name="quantity"
-                      value="1000g"
-                      checked={formData.quantity === "1000g"}
-                      onChange={() =>
-                        setFormData({ ...formData, quantity: "1000g" })
-                      }
-                    />
-                    <RadioCard.Label>1000g</RadioCard.Label>
-                    <RadioCard.Description>
-                      Perfect for offices and events. Yields about 90 delightful
-                      cups.
-                    </RadioCard.Description>
-                  </RadioCard.Root>
-                </QuestionFieldset>
-              </QuestionContent>
-            </Question>
-            <Question
-              open={questions.data["grind-option"].open}
-              onOpenChange={(open) => questions.open("grind-option", open)}
-            >
-              <QuestionHeading
-                ref={(node) => {
-                  questionsButtonRef.current["grind-option"] = node;
-                }}
-                id={questions.data["grind-option"].headingId}
-              >
-                Want us to grind them? <QuestionArrow />
-              </QuestionHeading>
-              <QuestionContent>
-                <QuestionFieldset
-                  aria-labelledby={questions.data["grind-option"].headingId}
-                >
-                  <RadioCard.Root>
-                    <RadioCard.Input
-                      name="grind-option"
-                      value="wholebean"
-                      checked={formData["grind-option"] === "wholebean"}
-                      onChange={() =>
-                        setFormData({
-                          ...formData,
-                          "grind-option": "wholebean",
-                        })
-                      }
-                    />
-                    <RadioCard.Label>Wholebean</RadioCard.Label>
-                    <RadioCard.Description>
-                      Best choice if you cherish the full sensory experience
-                    </RadioCard.Description>
-                  </RadioCard.Root>
-                  <RadioCard.Root>
-                    <RadioCard.Input
-                      name="grind-option"
-                      value="filter"
-                      checked={formData["grind-option"] === "filter"}
-                      onChange={() =>
-                        setFormData({ ...formData, "grind-option": "filter" })
-                      }
-                    />
-                    <RadioCard.Label>Filter</RadioCard.Label>
-                    <RadioCard.Description>
-                      For drip or pour-over coffee methods such as V60 or
-                      Aeropress
-                    </RadioCard.Description>
-                  </RadioCard.Root>
-                  <RadioCard.Root>
-                    <RadioCard.Input
-                      name="grind-option"
-                      value="cafetiére"
-                      checked={formData["grind-option"] === "cafetiére"}
-                      onChange={() =>
-                        setFormData({
-                          ...formData,
-                          "grind-option": "cafetiére",
-                        })
-                      }
-                    />
-                    <RadioCard.Label>Cafetiére</RadioCard.Label>
-                    <RadioCard.Description>
-                      Course ground beans specially suited for french press
-                      coffee
-                    </RadioCard.Description>
-                  </RadioCard.Root>
-                </QuestionFieldset>
-              </QuestionContent>
-            </Question>
-            <Question
-              open={questions.data.deliveries.open}
-              onOpenChange={(open) => questions.open("deliveries", open)}
-            >
-              <QuestionHeading
-                ref={(node) => {
-                  questionsButtonRef.current.deliveries = node;
-                }}
-                id={questions.data.deliveries.headingId}
-              >
-                How often should we deliver? <QuestionArrow />
-              </QuestionHeading>
-              <QuestionContent>
-                <QuestionFieldset
-                  aria-labelledby={questions.data.deliveries.headingId}
-                >
-                  <RadioCard.Root>
-                    <RadioCard.Input
-                      name="deliveries"
-                      value="every-week"
-                      checked={formData.deliveries === "every-week"}
-                      onChange={() =>
-                        setFormData({ ...formData, deliveries: "every-week" })
-                      }
-                    />
-                    <RadioCard.Label>Every week</RadioCard.Label>
-                    <RadioCard.Description>
-                      $14.00 per shipment. Includes free first-class shipping.
-                    </RadioCard.Description>
-                  </RadioCard.Root>
-                  <RadioCard.Root>
-                    <RadioCard.Input
-                      name="deliveries"
-                      value="every-2-weeks"
-                      checked={formData.deliveries === "every-2-weeks"}
-                      onChange={() =>
-                        setFormData({
-                          ...formData,
-                          deliveries: "every-2-weeks",
-                        })
-                      }
-                    />
-                    <RadioCard.Label>Every 2 weeks</RadioCard.Label>
-                    <RadioCard.Description>
-                      $17.25 per shipment. Includes free priority shipping.
-                    </RadioCard.Description>
-                  </RadioCard.Root>
-                  <RadioCard.Root>
-                    <RadioCard.Input
-                      name="deliveries"
-                      value="every-month"
-                      checked={formData.deliveries === "every-month"}
-                      onChange={() =>
-                        setFormData({
-                          ...formData,
-                          deliveries: "every-month",
-                        })
-                      }
-                    />
-                    <RadioCard.Label>Every month</RadioCard.Label>
-                    <RadioCard.Description>
-                      $22.50 per shipment. Includes free priority shipping.
-                    </RadioCard.Description>
-                  </RadioCard.Root>
-                </QuestionFieldset>
-              </QuestionContent>
-            </Question>
+                  {question.heading} <QuestionArrow />
+                </QuestionHeading>
+                <QuestionContent>
+                  <QuestionFieldset aria-labelledby={question.headingId}>
+                    {question.options.map((option) => (
+                      <RadioCard.Root key={option.id}>
+                        <RadioCard.Input
+                          name={question.id}
+                          value={option.id}
+                          checked={formData[question.id] === option.id}
+                          onChange={() =>
+                            setFormData({
+                              ...formData,
+                              [question.id]: option.id,
+                            })
+                          }
+                        />
+                        <RadioCard.Label>{option.label}</RadioCard.Label>
+                        <RadioCard.Description>
+                          {option.description}
+                        </RadioCard.Description>
+                      </RadioCard.Root>
+                    ))}
+                  </QuestionFieldset>
+                </QuestionContent>
+              </Question>
+            ))}
           </section>
           <section aria-labelledby={checkoutHeadingId}>
             <h3 className="sr-only" id={checkoutHeadingId}>
