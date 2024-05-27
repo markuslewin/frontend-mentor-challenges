@@ -28,6 +28,7 @@ import { Icon } from "../components/icon";
 import { VariantProps, cva, cx } from "class-variance-authority";
 import { useNavigate } from "react-router-dom";
 import { useQuestions } from "../utils/questions";
+import { z } from "zod";
 
 export const handle = {
   announcement() {
@@ -42,6 +43,22 @@ interface CoffeeFormData {
   "grind-option": "wholebean" | "filter" | "cafetiére" | null;
   deliveries: "every-week" | "every-2-weeks" | "every-month" | null;
 }
+
+const commonProps = {
+  "bean-type": z.enum(["single-origin", "decaf", "blended"]),
+  quantity: z.enum(["250g", "500g", "1000g"]),
+  deliveries: z.enum(["every-week", "every-2-weeks", "every-month"]),
+};
+
+const orderSchema = z.discriminatedUnion("preferences", [
+  z.object({ preferences: z.literal("capsule") }).extend(commonProps),
+  z
+    .object({
+      preferences: z.enum(["filter", "espresso"]),
+      "grind-option": z.enum(["wholebean", "filter", "cafetiére"]),
+    })
+    .extend(commonProps),
+]);
 
 export function PlanRoute() {
   const navigate = useNavigate();
@@ -93,6 +110,9 @@ export function PlanRoute() {
   const currentQuestion =
     enabledQuestions.find((question) => formData[question.id] === null) ??
     enabledQuestions[enabledQuestions.length - 1];
+
+  const result = orderSchema.safeParse(formData);
+  const isValid = result.success;
 
   return (
     <div className="pb-32 tablet:pb-36 desktop:pb-[10.5rem]">
@@ -283,8 +303,18 @@ export function PlanRoute() {
             <h4 className="sr-only">Submit order</h4>
             <Dialog.Root>
               <p className="mt-14 flex justify-center tablet:mt-10 desktop:justify-end">
-                <Dialog.Trigger asChild aria-disabled="true">
-                  <Button>Create my plan!</Button>
+                <Dialog.Trigger asChild aria-disabled={!isValid}>
+                  <Button
+                    status={isValid ? "enabled" : "disabled"}
+                    onClick={(e) => {
+                      if (!isValid) {
+                        e.preventDefault();
+                        return;
+                      }
+                    }}
+                  >
+                    Create my plan!
+                  </Button>
                 </Dialog.Trigger>
               </p>
               <Dialog.Portal>
