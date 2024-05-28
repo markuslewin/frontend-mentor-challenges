@@ -67,6 +67,8 @@ export function PlanRoute() {
   const orderHeadingId = useId();
   const checkoutHeadingId = useId();
 
+  const checkoutDialogHeadingRef = useRef<HTMLHeadingElement>(null);
+
   const [formData, setFormData] = useState<CoffeeFormData>({
     preferences: null,
     "bean-type": null,
@@ -318,20 +320,51 @@ export function PlanRoute() {
                 </Dialog.Trigger>
               </p>
               <Dialog.Portal>
-                <Dialog.Overlay>
-                  <Dialog.Content aria-labelledby={undefined}>
-                    {/* todo: Focus title on open */}
-                    <Dialog.Title>Order summary</Dialog.Title>
-                    <Summary data={formData} />
-                    <p>
-                      Is this correct? You can proceed to checkout or go back to
-                      plan selection if something is off. Subscription discount
-                      codes can also be redeemed at the checkout.
-                    </p>
-                    <p>
-                      <strong>$14.00 / mo</strong>
-                    </p>
-                    <Dialog.Close>Checkout</Dialog.Close>
+                <Dialog.Overlay className="bg-black/50 fixed inset-0 overflow-y-auto p-6 grid grid-cols-[minmax(auto,33.75rem)] justify-center items-center">
+                  <Dialog.Content
+                    className="bg-light-cream rounded-sm"
+                    aria-labelledby={undefined}
+                    onOpenAutoFocus={(e) => {
+                      checkoutDialogHeadingRef.current?.focus();
+                      e.preventDefault();
+                    }}
+                  >
+                    <div className="bg-dark-grey-blue text-white rounded-t-sm py-7 px-6 tablet:pt-12 tablet:pb-10 tablet:px-14">
+                      <Dialog.Title
+                        className="font-fraunces text-h2 capitalize"
+                        ref={checkoutDialogHeadingRef}
+                        tabIndex={-1}
+                      >
+                        Order summary
+                      </Dialog.Title>
+                    </div>
+                    <div className="p-6 pt-10 tablet:p-14">
+                      <Summary className="text-grey" data={formData} />
+                      <p className="tablet:mt-2">
+                        Is this correct? You can proceed to checkout or go back
+                        to plan selection if something is off. Subscription
+                        discount codes can also be redeemed at the checkout.
+                      </p>
+                      <div className="mt-6 flex flex-wrap items-center gap-3 tablet:mt-12">
+                        <p className="font-fraunces text-h3 hidden tablet:block">
+                          <span className="sr-only">Price: </span>$14.00 / mo
+                        </p>
+                        <Button
+                          className="grow"
+                          type="button"
+                          onClick={() => {
+                            location.replace("/plan");
+                          }}
+                        >
+                          Checkout
+                          <span className="tablet:hidden">
+                            <span aria-hidden="true"> - </span>
+                            <span className="sr-only">Price: </span>
+                            $14.00 / mo
+                          </span>
+                        </Button>
+                      </div>
+                    </div>
                   </Dialog.Content>
                 </Dialog.Overlay>
               </Dialog.Portal>

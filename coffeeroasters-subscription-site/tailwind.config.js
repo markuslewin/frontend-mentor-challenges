@@ -23,6 +23,7 @@ export default {
       "lighter-cream": "hsl(43 30% 94%)",
       "lighter-pale-orange": "hsl(25 11% 87%)",
       white: "hsl(0 0% 100%)",
+      black: "hsl(0 0% 0%)",
     },
     fontFamily: {
       fraunces: [
