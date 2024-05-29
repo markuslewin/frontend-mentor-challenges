@@ -7,19 +7,43 @@ import { cx } from "class-variance-authority";
 import { ReactNode, useEffect, useRef } from "react";
 
 export function Root(props: CollapsibleProps) {
-  const { onOpenChange } = props;
+  const { open, onOpenChange } = props;
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    document.body.style.position = open ? "relative" : "";
+    return () => {
+      document.body.style.position = "";
+    };
+  }, [open]);
+
+  // Close when clicking outside
+  useEffect(() => {
+    function handleClick(e: MouseEvent) {
+      if (ref.current === null) return;
+      if (!(e.target instanceof Node)) return;
+
+      if (!ref.current.contains(e.target)) {
+        onOpenChange?.(false);
+      }
+    }
+    document.body.addEventListener("click", handleClick);
+
+    return () => {
+      document.body.removeEventListener("click", handleClick);
+    };
+  }, [onOpenChange]);
+
+  // Close when focusing element outside
+  useEffect(() => {
     function handleFocusIn(event: FocusEvent) {
       if (ref.current === null) return;
-      if (!(event.target instanceof HTMLElement)) return;
+      if (!(event.target instanceof Node)) return;
 
       if (!ref.current.contains(event.target)) {
         onOpenChange?.(false);
       }
     }
-
     document.addEventListener("focusin", handleFocusIn);
 
     return () => {

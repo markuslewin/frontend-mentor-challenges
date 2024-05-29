@@ -39,8 +39,6 @@
 
   body {
     @apply font-barlow text-body bg-light-cream text-dark-grey-blue;
-
-    position: relative;
   }
 }
 
