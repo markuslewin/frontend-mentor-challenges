@@ -333,11 +333,11 @@ export function PlanRoute() {
                     >
                       <div className="bg-dark-grey-blue text-white rounded-t-sm py-7 px-6 tablet:pt-12 tablet:pb-10 tablet:px-14">
                         <Dialog.Title
-                          className="font-fraunces text-h2 capitalize"
+                          className="font-fraunces text-h2"
                           ref={checkoutDialogHeadingRef}
                           tabIndex={-1}
                         >
-                          Order summary
+                          Order Summary
                         </Dialog.Title>
                       </div>
                       <div className="p-6 pt-10 tablet:p-14">

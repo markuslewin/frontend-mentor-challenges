@@ -97,13 +97,13 @@ export function useQuestions({
       open: initiallyOpenQuestionId === "preferences",
     },
     "bean-type": {
-      label: "Bean type",
+      label: "Bean Type",
       headingId: beanTypeHeadingId,
       heading: "What type of coffee?",
       options: [
         {
           id: "single-origin",
-          label: "Single origin",
+          label: "Single Origin",
           description:
             "Distinct, high quality coffee from a specific family-owned farm",
         },
@@ -149,7 +149,7 @@ export function useQuestions({
       open: initiallyOpenQuestionId === "quantity",
     },
     "grind-option": {
-      label: "Grind option",
+      label: "Grind Option",
       headingId: grindOptionHeadingId,
       heading: "Want us to grind them?",
       options: [
