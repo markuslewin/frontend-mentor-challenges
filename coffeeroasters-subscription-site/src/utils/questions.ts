@@ -26,7 +26,7 @@ const idByHeadingId = {
   [deliveriesHeadingId]: "deliveries",
 } as const;
 
-const shipmentPrice = {
+export const shipmentPrice = {
   // Not sure what to do with `none`
   none: {
     "every-week": 7.2,
@@ -50,7 +50,7 @@ const shipmentPrice = {
   },
 };
 
-const currencyFormatter = new Intl.NumberFormat("en-US", {
+export const currency = new Intl.NumberFormat("en-US", {
   style: "currency",
   currency: "USD",
   currencyDisplay: "narrowSymbol",
@@ -196,9 +196,9 @@ export function useQuestions({
   } as const);
 
   const deliveriesDescriptions = {
-    "every-week": `${currencyFormatter.format(shipmentPrice[selectedQuantity ?? "none"]["every-week"])} per shipment. Includes free first-class shipping.`,
-    "every-2-weeks": `${currencyFormatter.format(shipmentPrice[selectedQuantity ?? "none"]["every-2-weeks"])} per shipment. Includes free priority shipping.`,
-    "every-month": `${currencyFormatter.format(shipmentPrice[selectedQuantity ?? "none"]["every-month"])} per shipment. Includes free priority shipping.`,
+    "every-week": `${currency.format(shipmentPrice[selectedQuantity ?? "none"]["every-week"])} per shipment. Includes free first-class shipping.`,
+    "every-2-weeks": `${currency.format(shipmentPrice[selectedQuantity ?? "none"]["every-2-weeks"])} per shipment. Includes free priority shipping.`,
+    "every-month": `${currency.format(shipmentPrice[selectedQuantity ?? "none"]["every-month"])} per shipment. Includes free priority shipping.`,
   };
 
   const derivedQuestions = {

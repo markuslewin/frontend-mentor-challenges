@@ -27,8 +27,9 @@ import { Button } from "../components/button";
 import { Icon } from "../components/icon";
 import { VariantProps, cva, cx } from "class-variance-authority";
 import { useNavigate } from "react-router-dom";
-import { useQuestions } from "../utils/questions";
-import { z } from "zod";
+import { currency, shipmentPrice, useQuestions } from "../utils/questions";
+import { SafeParseReturnType, z } from "zod";
+import { invariant } from "@epic-web/invariant";
 
 export const handle = {
   announcement() {
@@ -319,55 +320,59 @@ export function PlanRoute() {
                   </Button>
                 </Dialog.Trigger>
               </p>
-              <Dialog.Portal>
-                <Dialog.Overlay className="bg-black/50 fixed inset-0 overflow-y-auto p-6 grid grid-cols-[minmax(auto,33.75rem)] justify-center items-center">
-                  <Dialog.Content
-                    className="bg-light-cream rounded-sm"
-                    aria-labelledby={undefined}
-                    onOpenAutoFocus={(e) => {
-                      checkoutDialogHeadingRef.current?.focus();
-                      e.preventDefault();
-                    }}
-                  >
-                    <div className="bg-dark-grey-blue text-white rounded-t-sm py-7 px-6 tablet:pt-12 tablet:pb-10 tablet:px-14">
-                      <Dialog.Title
-                        className="font-fraunces text-h2 capitalize"
-                        ref={checkoutDialogHeadingRef}
-                        tabIndex={-1}
-                      >
-                        Order summary
-                      </Dialog.Title>
-                    </div>
-                    <div className="p-6 pt-10 tablet:p-14">
-                      <Summary className="text-grey" data={formData} />
-                      <p className="tablet:mt-2">
-                        Is this correct? You can proceed to checkout or go back
-                        to plan selection if something is off. Subscription
-                        discount codes can also be redeemed at the checkout.
-                      </p>
-                      <div className="mt-6 flex flex-wrap items-center gap-3 tablet:mt-12">
-                        <p className="font-fraunces text-h3 hidden tablet:block">
-                          <span className="sr-only">Price: </span>$14.00 / mo
-                        </p>
-                        <Button
-                          className="grow"
-                          type="button"
-                          onClick={() => {
-                            location.replace("/plan");
-                          }}
+              {isValid && (
+                <Dialog.Portal>
+                  <Dialog.Overlay className="bg-black/50 fixed inset-0 overflow-y-auto p-6 grid grid-cols-[minmax(auto,33.75rem)] justify-center items-center">
+                    <Dialog.Content
+                      className="bg-light-cream rounded-sm"
+                      aria-labelledby={undefined}
+                      onOpenAutoFocus={(e) => {
+                        checkoutDialogHeadingRef.current?.focus();
+                        e.preventDefault();
+                      }}
+                    >
+                      <div className="bg-dark-grey-blue text-white rounded-t-sm py-7 px-6 tablet:pt-12 tablet:pb-10 tablet:px-14">
+                        <Dialog.Title
+                          className="font-fraunces text-h2 capitalize"
+                          ref={checkoutDialogHeadingRef}
+                          tabIndex={-1}
                         >
-                          Checkout
-                          <span className="tablet:hidden">
-                            <span aria-hidden="true"> - </span>
-                            <span className="sr-only">Price: </span>
-                            $14.00 / mo
-                          </span>
-                        </Button>
+                          Order summary
+                        </Dialog.Title>
                       </div>
-                    </div>
-                  </Dialog.Content>
-                </Dialog.Overlay>
-              </Dialog.Portal>
+                      <div className="p-6 pt-10 tablet:p-14">
+                        <Summary className="text-grey" data={formData} />
+                        <p className="tablet:mt-2">
+                          Is this correct? You can proceed to checkout or go
+                          back to plan selection if something is off.
+                          Subscription discount codes can also be redeemed at
+                          the checkout.
+                        </p>
+                        <div className="mt-6 flex flex-wrap items-center gap-3 tablet:mt-12">
+                          <p className="font-fraunces text-h3 hidden tablet:block">
+                            <span className="sr-only">Price: </span>
+                            {currency.format(getMonthlyPrice(result))} / mo
+                          </p>
+                          <Button
+                            className="grow"
+                            type="button"
+                            onClick={() => {
+                              location.replace("/plan");
+                            }}
+                          >
+                            Checkout
+                            <span className="tablet:hidden">
+                              <span aria-hidden="true"> - </span>
+                              <span className="sr-only">Price: </span>
+                              {currency.format(getMonthlyPrice(result))} / mo
+                            </span>
+                          </Button>
+                        </div>
+                      </div>
+                    </Dialog.Content>
+                  </Dialog.Overlay>
+                </Dialog.Portal>
+              )}
             </Dialog.Root>
           </section>
         </div>
@@ -674,4 +679,23 @@ function Blank() {
 
 function Keyword({ children }: { children: ReactNode }) {
   return <strong className="text-dark-cyan">{children}</strong>;
+}
+
+function getMonthlyPrice(
+  result: SafeParseReturnType<
+    z.input<typeof orderSchema>,
+    z.output<typeof orderSchema>
+  >
+) {
+  invariant(result.success, "Price requires valid order");
+
+  const perShipment =
+    shipmentPrice[result.data.quantity][result.data.deliveries];
+  const shipments = {
+    "every-week": 4,
+    "every-2-weeks": 2,
+    "every-month": 1,
+  }[result.data.deliveries];
+
+  return perShipment * shipments;
 }

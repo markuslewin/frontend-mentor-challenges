@@ -233,6 +233,8 @@ test("summarizes order", async ({ page }) => {
   );
 });
 
+test.skip("summarizes order in dialog", () => {});
+
 test("calculates deliveries price", async ({ page }) => {
   await page.goto("/plan");
 
@@ -294,7 +296,40 @@ test("calculates deliveries price", async ({ page }) => {
   ).toHaveAccessibleDescription(/\$42.00 per shipment/i);
 });
 
-test.skip("calculates checkout price", async ({ page }) => {
-  // todo: README
+test("calculates checkout price", async ({ page }) => {
   await page.goto("/plan");
+
+  const createMyPlanButton = page.getByRole("button", {
+    name: "create my plan",
+  });
+  const price = page.getByRole("paragraph").filter({ hasText: "price:" });
+  const dialog = page.getByRole("dialog");
+
+  await answer(page, "how do you drink your coffee?", "espresso");
+  await answer(page, "what type of coffee?", "blended");
+  await answer(page, "how much would you like?", "250g");
+  await answer(page, "want us to grind them?", "filter");
+  await answer(page, "how often should we deliver?", "every week");
+  await createMyPlanButton.click();
+
+  await expect(price).toHaveText(/\$28.80 \/ mo/i);
+
+  await dialog.press("Escape");
+  await answer(page, "how often should we deliver?", "every 2 weeks");
+  await createMyPlanButton.click();
+
+  await expect(price).toHaveText(/\$19.20 \/ mo/i);
+
+  await dialog.press("Escape");
+  await answer(page, "how often should we deliver?", "every month");
+  await createMyPlanButton.click();
+
+  await expect(price).toHaveText(/\$12.00 \/ mo/i);
+
+  await dialog.press("Escape");
+  await answer(page, "how much would you like?", "1000g");
+  await answer(page, "how often should we deliver?", "every 2 weeks");
+  await createMyPlanButton.click();
+
+  await expect(price).toHaveText(/\$64.00 \/ mo/i);
 });
