@@ -169,9 +169,69 @@ test("opens checkout dialog", async ({ page }) => {
     .click();
 });
 
-// test.skip("summarizes order", async ({ page }) => {
-//   // todo: README
-// });
+async function stripBlankPlaceholder(locator: Locator) {
+  const text = await locator.textContent();
+  if (text === null) return "";
+
+  return text.replace(/_____/g, "");
+}
+
+test("summarizes order", async ({ page }) => {
+  await page.goto("/plan");
+
+  const quote = page
+    .getByRole("region", { name: "checkout" })
+    .getByRole("blockquote");
+
+  expect(await stripBlankPlaceholder(quote)).toContain(
+    "I drink my coffee blank"
+  );
+
+  await answer(page, "how do you drink your coffee?", "capsule");
+
+  expect(await stripBlankPlaceholder(quote)).toContain(
+    "I drink my coffee using Capsules"
+  );
+
+  await answer(page, "how do you drink your coffee?", "filter");
+
+  expect(await stripBlankPlaceholder(quote)).toContain(
+    "I drink my coffee as Filter"
+  );
+
+  await answer(page, "want us to grind them?", "wholebean");
+
+  expect(await stripBlankPlaceholder(quote)).toContain("ground ala Wholebean");
+
+  await answer(page, "how do you drink your coffee?", "capsule");
+
+  expect(await stripBlankPlaceholder(quote)).not.toContain("ground ala");
+  expect(await stripBlankPlaceholder(quote)).toContain(
+    "with a blank type of bean"
+  );
+
+  await answer(page, "what type of coffee?", "decaf");
+
+  expect(await stripBlankPlaceholder(quote)).toContain(
+    "with a Decaf type of bean"
+  );
+  expect(await stripBlankPlaceholder(quote)).toContain("blank, sent to");
+
+  await answer(page, "how much would you like?", "250g");
+
+  expect(await stripBlankPlaceholder(quote)).toContain("250g, sent to");
+  expect(await stripBlankPlaceholder(quote)).toContain("sent to me blank");
+
+  await answer(page, "how often should we deliver?", "every week");
+
+  expect(await stripBlankPlaceholder(quote)).toContain("sent to me Every Week");
+
+  await answer(page, "how often should we deliver?", "every month");
+
+  expect(await stripBlankPlaceholder(quote)).toContain(
+    "sent to me Every Month"
+  );
+});
 
 // test.skip("calculates price", async ({ page }) => {
 //   // todo: README

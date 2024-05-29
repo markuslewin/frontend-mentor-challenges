@@ -583,19 +583,19 @@ function Preference({ value }: { value: CoffeeFormData["preferences"] }) {
     case "capsule":
       return (
         <>
-          using <Keyword>capsules</Keyword>
+          using <Keyword>Capsules</Keyword>
         </>
       );
     case "filter":
       return (
         <>
-          as <Keyword>filter</Keyword>
+          as <Keyword>Filter</Keyword>
         </>
       );
     case "espresso":
       return (
         <>
-          as <Keyword>espresso</Keyword>
+          as <Keyword>Espresso</Keyword>
         </>
       );
     default:
@@ -608,11 +608,11 @@ function BeanType({ value }: { value: CoffeeFormData["bean-type"] }) {
     case null:
       return <Blank />;
     case "single-origin":
-      return <Keyword>single origin</Keyword>;
+      return <Keyword>Single Origin</Keyword>;
     case "decaf":
-      return <Keyword>decaf</Keyword>;
+      return <Keyword>Decaf</Keyword>;
     case "blended":
-      return <Keyword>blended</Keyword>;
+      return <Keyword>Blended</Keyword>;
     default:
       throw new Error(`Bean type "${value}" not implemented`);
   }
@@ -638,11 +638,11 @@ function GrindOption({ value }: { value: CoffeeFormData["grind-option"] }) {
     case null:
       return <Blank />;
     case "wholebean":
-      return <Keyword>wholebean</Keyword>;
+      return <Keyword>Wholebean</Keyword>;
     case "filter":
-      return <Keyword>filter</Keyword>;
+      return <Keyword>Filter</Keyword>;
     case "cafetiére":
-      return <Keyword>cafetiére</Keyword>;
+      return <Keyword>Cafetiére</Keyword>;
     default:
       throw new Error(`Grind option "${value}" not implemented`);
   }
@@ -653,11 +653,11 @@ function Deliveries({ value }: { value: CoffeeFormData["deliveries"] }) {
     case null:
       return <Blank />;
     case "every-week":
-      return <Keyword>every week</Keyword>;
+      return <Keyword>Every Week</Keyword>;
     case "every-2-weeks":
-      return <Keyword>every 2 weeks</Keyword>;
+      return <Keyword>Every 2 Weeks</Keyword>;
     case "every-month":
-      return <Keyword>every month</Keyword>;
+      return <Keyword>Every Month</Keyword>;
     default:
       throw new Error(`Deliveries "${value}" not implemented`);
   }
@@ -673,5 +673,5 @@ function Blank() {
 }
 
 function Keyword({ children }: { children: ReactNode }) {
-  return <strong className="text-dark-cyan capitalize">{children}</strong>;
+  return <strong className="text-dark-cyan">{children}</strong>;
 }
