@@ -26,7 +26,42 @@ const idByHeadingId = {
   [deliveriesHeadingId]: "deliveries",
 } as const;
 
-export function useQuestions() {
+const shipmentPrice = {
+  // Not sure what to do with `none`
+  none: {
+    "every-week": 7.2,
+    "every-2-weeks": 9.6,
+    "every-month": 12,
+  },
+  "250g": {
+    "every-week": 7.2,
+    "every-2-weeks": 9.6,
+    "every-month": 12,
+  },
+  "500g": {
+    "every-week": 13,
+    "every-2-weeks": 17.5,
+    "every-month": 22,
+  },
+  "1000g": {
+    "every-week": 22,
+    "every-2-weeks": 32,
+    "every-month": 42,
+  },
+};
+
+const currencyFormatter = new Intl.NumberFormat("en-US", {
+  style: "currency",
+  currency: "USD",
+  currencyDisplay: "narrowSymbol",
+});
+
+// todo: Move form state into hook?
+export function useQuestions({
+  selectedQuantity,
+}: {
+  selectedQuantity: "250g" | "500g" | "1000g" | null;
+}) {
   const location = useLocation();
 
   const hash = location.hash.replace(/^#/, "");
@@ -146,26 +181,38 @@ export function useQuestions() {
         {
           id: "every-week",
           label: "Every week",
-          description:
-            "$14.00 per shipment. Includes free first-class shipping.",
         },
         {
           id: "every-2-weeks",
           label: "Every 2 weeks",
-          description: "$17.25 per shipment. Includes free priority shipping.",
         },
         {
           id: "every-month",
           label: "Every month",
-          description: "$22.50 per shipment. Includes free priority shipping.",
         },
       ],
       open: initiallyOpenQuestionId === "deliveries",
     },
   } as const);
 
+  const deliveriesDescriptions = {
+    "every-week": `${currencyFormatter.format(shipmentPrice[selectedQuantity ?? "none"]["every-week"])} per shipment. Includes free first-class shipping.`,
+    "every-2-weeks": `${currencyFormatter.format(shipmentPrice[selectedQuantity ?? "none"]["every-2-weeks"])} per shipment. Includes free priority shipping.`,
+    "every-month": `${currencyFormatter.format(shipmentPrice[selectedQuantity ?? "none"]["every-month"])} per shipment. Includes free priority shipping.`,
+  };
+
+  const derivedQuestions = {
+    ...questions,
+    deliveries: {
+      ...questions.deliveries,
+      options: questions.deliveries.options.map((option) => {
+        return { ...option, description: deliveriesDescriptions[option.id] };
+      }),
+    },
+  };
+
   return {
-    data: questions,
+    data: derivedQuestions,
     setOpen(id: keyof typeof questions, next: boolean) {
       setQuestions({
         ...questions,

@@ -233,6 +233,68 @@ test("summarizes order", async ({ page }) => {
   );
 });
 
-// test.skip("calculates price", async ({ page }) => {
-//   // todo: README
-// });
+test("calculates deliveries price", async ({ page }) => {
+  await page.goto("/plan");
+
+  await answer(page, "how do you drink your coffee?", "capsule");
+  await answer(page, "what type of coffee?", "decaf");
+
+  const deliveriesTrigger = getTrigger(page, "how often should we deliver?");
+  await deliveriesTrigger.click();
+
+  const options = page.getByRole("group", {
+    name: "how often should we deliver?",
+  });
+
+  // User hasn't selected quantity yet...
+  await expect(
+    options.getByRole("radio", { name: "every week" })
+  ).toHaveAccessibleDescription(/\$7.20 per shipment/i);
+  await expect(
+    options.getByRole("radio", { name: "every 2 weeks" })
+  ).toHaveAccessibleDescription(/\$9.60 per shipment/i);
+  await expect(
+    options.getByRole("radio", { name: "every month" })
+  ).toHaveAccessibleDescription(/\$12.00 per shipment/i);
+
+  await answer(page, "how much would you like?", "250g");
+
+  await expect(
+    options.getByRole("radio", { name: "every week" })
+  ).toHaveAccessibleDescription(/\$7.20 per shipment/i);
+  await expect(
+    options.getByRole("radio", { name: "every 2 weeks" })
+  ).toHaveAccessibleDescription(/\$9.60 per shipment/i);
+  await expect(
+    options.getByRole("radio", { name: "every month" })
+  ).toHaveAccessibleDescription(/\$12.00 per shipment/i);
+
+  await answer(page, "how much would you like?", "500g");
+
+  await expect(
+    options.getByRole("radio", { name: "every week" })
+  ).toHaveAccessibleDescription(/\$13.00 per shipment/i);
+  await expect(
+    options.getByRole("radio", { name: "every 2 weeks" })
+  ).toHaveAccessibleDescription(/\$17.50 per shipment/i);
+  await expect(
+    options.getByRole("radio", { name: "every month" })
+  ).toHaveAccessibleDescription(/\$22.00 per shipment/i);
+
+  await answer(page, "how much would you like?", "1000g");
+
+  await expect(
+    options.getByRole("radio", { name: "every week" })
+  ).toHaveAccessibleDescription(/\$22.00 per shipment/i);
+  await expect(
+    options.getByRole("radio", { name: "every 2 weeks" })
+  ).toHaveAccessibleDescription(/\$32.00 per shipment/i);
+  await expect(
+    options.getByRole("radio", { name: "every month" })
+  ).toHaveAccessibleDescription(/\$42.00 per shipment/i);
+});
+
+test.skip("calculates checkout price", async ({ page }) => {
+  // todo: README
+  await page.goto("/plan");
+});

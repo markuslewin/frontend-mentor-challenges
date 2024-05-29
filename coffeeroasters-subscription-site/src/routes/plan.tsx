@@ -91,7 +91,7 @@ export function PlanRoute() {
     deliveries: null,
   });
 
-  const questions = useQuestions();
+  const questions = useQuestions({ selectedQuantity: formData.quantity });
 
   const orderedQuestions = [
     { ...questions.data.preferences, id: "preferences", disabled: false },
