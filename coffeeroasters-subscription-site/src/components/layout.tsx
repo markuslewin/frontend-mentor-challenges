@@ -1,10 +1,10 @@
 import { Link, NavLink, Outlet, ScrollRestoration } from "react-router-dom";
-import * as Dialog from "@radix-ui/react-dialog";
 import { RouteAnnouncer } from "./route-announcer";
 import { useMedia } from "../utils/use-media";
 import { screens } from "../utils/screens";
 import { Icon } from "./icon";
-import { useId } from "react";
+import * as Burger from "../components/burger";
+import { useId, useState } from "react";
 
 export function Layout() {
   const headerNavHeading = useId();
@@ -15,7 +15,7 @@ export function Layout() {
     <>
       <div className="min-h-screen pb-20 desktop:pb-[5.5rem]">
         <header className="center pt-8 pb-10 tablet:pt-10 tablet:pb-14 desktop:py-11">
-          <div className="flex flex-wrap justify-between items-center gap-4">
+          <div className="flex justify-between items-center gap-4 tablet:flex-wrap">
             <div className="text-dark-grey-blue">
               <Logo />
             </div>
@@ -54,38 +54,7 @@ export function Layout() {
                   </li>
                 </ul>
               ) : (
-                <Dialog.Root>
-                  <Dialog.Trigger className="text-dark-grey-blue block">
-                    <Icon
-                      className="w-4"
-                      name="icon-hamburger"
-                      width="16"
-                      height="15"
-                    />
-                    <span className="sr-only">Open menu</span>
-                  </Dialog.Trigger>
-                  <Dialog.Portal>
-                    <Dialog.Overlay />
-                    <Dialog.Content aria-describedby={undefined}>
-                      <Dialog.Title className="sr-only">Menu</Dialog.Title>
-                      <Dialog.Close>
-                        <Icon name="icon-close" />
-                        <span>Close menu</span>
-                      </Dialog.Close>
-                      <ul role="list">
-                        <li>
-                          <NavLink to="/">Home</NavLink>
-                        </li>
-                        <li>
-                          <NavLink to="/about">About us</NavLink>
-                        </li>
-                        <li>
-                          <NavLink to="/plan">Create your plan</NavLink>
-                        </li>
-                      </ul>
-                    </Dialog.Content>
-                  </Dialog.Portal>
-                </Dialog.Root>
+                <BurgerMenu />
               )}
             </nav>
           </div>
@@ -213,5 +182,52 @@ function Logo() {
         <span className="sr-only">Home, Coffeeroasters</span>
       </Link>
     </p>
+  );
+}
+
+function BurgerMenu() {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <Burger.Root open={isOpen} onOpenChange={setIsOpen}>
+      <Burger.Trigger className="group">
+        <Icon
+          className="w-4 h-auto group-data-[state=open]:hidden"
+          name="icon-hamburger"
+          width="16"
+          height="15"
+        />
+        <Icon
+          className="w-[0.875rem] h-auto group-data-[state=closed]:hidden"
+          name="icon-close"
+          width="14"
+          height="13"
+        />
+        <span className="sr-only">Menu</span>
+      </Burger.Trigger>
+      <Burger.Content>
+        <ul
+          className="font-fraunces text-h4 grid gap-8 justify-items-center"
+          role="list"
+        >
+          {[
+            { to: "/", label: "Home" },
+            { to: "/about", label: "About Us" },
+            { to: "/plan", label: "Create Your Plan" },
+          ].map((item, i) => (
+            <li key={i}>
+              <NavLink
+                to={item.to}
+                onClick={() => {
+                  setIsOpen(false);
+                }}
+              >
+                {item.label}
+              </NavLink>
+            </li>
+          ))}
+        </ul>
+      </Burger.Content>
+    </Burger.Root>
   );
 }

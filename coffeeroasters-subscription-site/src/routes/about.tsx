@@ -31,7 +31,7 @@ import * as Hero from "../components/hero";
 
 export const handle = {
   announcement() {
-    return "About";
+    return "About us";
   },
 } satisfies AnnouncementHandle;
 

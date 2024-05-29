@@ -33,7 +33,7 @@ import { invariant } from "@epic-web/invariant";
 
 export const handle = {
   announcement() {
-    return "Plan";
+    return "Create a plan";
   },
 } satisfies AnnouncementHandle;
 
