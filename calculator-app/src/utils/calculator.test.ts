@@ -185,8 +185,7 @@ test.each([
   expect(calculator.display).toBe(expected);
 });
 
-// todo: Error state
-test.skip.each([
+test.each([
   ["0/0=", "Result is undefined"],
   ["0/0=1", "1"],
   ["0/0/", "Result is undefined"],
