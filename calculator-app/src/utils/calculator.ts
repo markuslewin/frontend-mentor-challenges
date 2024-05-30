@@ -6,11 +6,7 @@ export type CalculatorNumber = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
 export type Operator = "+" | "-" | "/" | "x";
 
 export class Calculator {
-  private state:
-    | "operand1.new"
-    | "operand1.append"
-    | "operand2.new"
-    | "operand2.append";
+  private state: "operand1" | "operand2.new" | "operand2.append" | "result";
   private operand1: number;
   private operand2: number;
   private operator: Operator | null;
@@ -18,7 +14,7 @@ export class Calculator {
   private _listeners: (() => void)[];
 
   constructor() {
-    this.state = "operand1.new";
+    this.state = "operand1";
     this.operand1 = 0;
     this.operand2 = 0;
     this.operator = null;
@@ -79,7 +75,6 @@ export class Calculator {
   }
 
   private _reset() {
-    this.state = "operand1.new";
     this.operand1 = 0;
     this.operand2 = 0;
     this.operator = null;
@@ -88,21 +83,20 @@ export class Calculator {
   reset() {
     this._reset();
     this._setDisplay("0");
+    this.state = "operand1";
   }
 
   typeNumber(number: CalculatorNumber) {
     switch (this.state) {
-      case "operand1.new":
-        // todo: Merge `*.new` and `*.append` states. Parse valid display
-        if (number === 0) break;
-
-        this._setDisplay(`${number}`);
-        this.state = "operand1.append";
-        break;
-      case "operand1.append":
+      case "operand1":
+        if (this._display.replace("0", "").length <= 0) {
+          this._setDisplay(`${number}`);
+          return;
+        }
         this._setDisplay(`${this._display}${number}`);
         break;
       case "operand2.new":
+        // todo: Merge `*.new` and `*.append` states. Parse valid display
         this._setDisplay(`${number}`);
         this.state = "operand2.append";
         break;
@@ -116,19 +110,18 @@ export class Calculator {
 
         this._setDisplay(`${this._display}${number}`);
         break;
+      case "result": {
+        this._setDisplay(`${number}`);
+        this.state = "operand1";
+      }
     }
   }
 
   typeDecimal() {
     switch (this.state) {
-      case "operand1.new":
-        this._setDisplay("0.");
-        this.state = "operand1.append";
-        break;
-      case "operand1.append":
-        if (this._display.includes(".")) {
-          break;
-        }
+      case "operand1":
+        if (this._display.includes(".")) return;
+
         this._setDisplay(`${this._display}.`);
         break;
       case "operand2.new":
@@ -141,11 +134,14 @@ export class Calculator {
         }
         this._setDisplay(`${this._display}.`);
         break;
+      case "result":
+        this._setDisplay("0.");
+        this.state = "operand1";
     }
   }
 
   typeOperator(operator: Operator) {
-    if (this.state === "operand1.new" || this.state === "operand1.append") {
+    if (this.state === "operand1") {
       const operand1 = parseFloat(this._display);
       invariant(!isNaN(operand1), `Failed to parse string "${this._display}"`);
       this.operand1 = operand1;
@@ -161,6 +157,8 @@ export class Calculator {
       if (!result.success) {
         this._setDisplay(result.error);
         this._reset();
+        // todo: Go to error state
+        this.state = "result";
         return;
       }
 
@@ -201,10 +199,11 @@ export class Calculator {
     ) {
       this._reset();
       this._setDisplay("0");
+      this.state = "operand1";
       return;
     }
 
-    if (this.state === "operand1.new" || this.state === "operand1.append") {
+    if (this.state === "operand1") {
       const operand1 = parseFloat(this._display);
       invariant(!isNaN(operand1), `Failed to parse string "${this._display}"`);
       this.operand1 = operand1;
@@ -220,21 +219,22 @@ export class Calculator {
     if (!result.success) {
       this._setDisplay(result.error);
       this._reset();
+      // todo: Go to error state
+      this.state = "result";
       return;
     }
 
     this._setDisplay(`${result.data}`);
     this.operand1 = result.data;
-    this.state = "operand1.new";
+    this.state = "result";
   }
 
   delete() {
     switch (this.state) {
-      case "operand1.append": {
+      case "operand1": {
         const next = this._display.slice(0, this._display.length - 1);
         if (next === "") {
           this._setDisplay("0");
-          this.state = "operand1.new";
           break;
         }
         this._setDisplay(next);
