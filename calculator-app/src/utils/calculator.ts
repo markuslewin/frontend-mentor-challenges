@@ -6,7 +6,12 @@ export type CalculatorNumber = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
 export type Operator = "+" | "-" | "/" | "x";
 
 export class Calculator {
-  private state: "operand1" | "operand2.new" | "operand2.append" | "result";
+  private state:
+    | "operand1"
+    | "operand2.new"
+    | "operand2.append"
+    | "result"
+    | "error";
   private operand1: number;
   private operand2: number;
   private operator: Operator | null;
@@ -96,7 +101,6 @@ export class Calculator {
         this._setDisplay(`${this._display}${number}`);
         break;
       case "operand2.new":
-        // todo: Merge `*.new` and `*.append` states. Parse valid display
         this._setDisplay(`${number}`);
         this.state = "operand2.append";
         break;
@@ -113,6 +117,12 @@ export class Calculator {
       case "result": {
         this._setDisplay(`${number}`);
         this.state = "operand1";
+        break;
+      }
+      case "error": {
+        this._setDisplay(`${number}`);
+        this.state = "operand1";
+        break;
       }
     }
   }
@@ -157,8 +167,7 @@ export class Calculator {
       if (!result.success) {
         this._setDisplay(result.error);
         this._reset();
-        // todo: Go to error state
-        this.state = "result";
+        this.state = "error";
         return;
       }
 
@@ -175,13 +184,6 @@ export class Calculator {
   private calculate() {
     const operation = this._operation;
     if (operation === null) {
-      if (
-        this._display === "Result is undefined" ||
-        this._display === "Cannot divide by zero"
-      ) {
-        return { success: true, data: this.operand1 } as const;
-      }
-
       const display = parseFloat(this._display);
       invariant(!isNaN(display), `Failed to parse string ${this._display}`);
 
@@ -192,11 +194,7 @@ export class Calculator {
   }
 
   equals() {
-    // todo: Error state
-    if (
-      this._display === "Result is undefined" ||
-      this._display === "Cannot divide by zero"
-    ) {
+    if (this.state === "error") {
       this._reset();
       this._setDisplay("0");
       this.state = "operand1";
@@ -219,8 +217,7 @@ export class Calculator {
     if (!result.success) {
       this._setDisplay(result.error);
       this._reset();
-      // todo: Go to error state
-      this.state = "result";
+      this.state = "error";
       return;
     }
 
@@ -248,6 +245,10 @@ export class Calculator {
           break;
         }
         this._setDisplay(next);
+        break;
+      }
+      case "error": {
+        this._setDisplay("0");
         break;
       }
     }
