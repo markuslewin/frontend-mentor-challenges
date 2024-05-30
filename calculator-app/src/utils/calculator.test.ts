@@ -207,3 +207,11 @@ test.each([
 
   expect(calculator.display).toBe(expected);
 });
+
+test.each([["0.1+0.2=", "0.3"]])("Floating: %s -> %s", (sequence, expected) => {
+  const calculator = new Calculator();
+
+  runSequence(calculator, sequence);
+
+  expect(calculator.display).toBe(expected);
+});

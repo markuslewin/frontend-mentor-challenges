@@ -24,6 +24,7 @@
     "@netlify/functions": "^2.6.0",
     "@paralleldrive/cuid2": "^2.2.2",
     "@radix-ui/react-dialog": "^1.0.5",
+    "big.js": "^6.2.1",
     "class-variance-authority": "^0.7.0",
     "execa": "^8.0.1",
     "glob": "^10.3.12",
@@ -35,6 +36,7 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.44.0",
+    "@types/big.js": "^6.2.2",
     "@types/fs-extra": "^11.0.4",
     "@types/node": "^20.12.12",
     "@types/react": "^18.2.66",

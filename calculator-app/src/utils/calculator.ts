@@ -1,5 +1,5 @@
-import { invariant } from "@epic-web/invariant";
 import { useCallback, useRef, useSyncExternalStore } from "react";
+import Big from "big.js";
 
 export type CalculatorNumber = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
 
@@ -12,16 +12,16 @@ export class Calculator {
     | "operand2.append"
     | "result"
     | "error";
-  private operand1: number;
-  private operand2: number;
+  private operand1: Big;
+  private operand2: Big;
   private operator: Operator | null;
   private _display: string;
   private _listeners: (() => void)[];
 
   constructor() {
     this.state = "operand1";
-    this.operand1 = 0;
-    this.operand2 = 0;
+    this.operand1 = new Big(0);
+    this.operand2 = new Big(0);
     this.operator = null;
     this._display = "0";
     this._listeners = [];
@@ -52,36 +52,34 @@ export class Calculator {
     return (
       {
         "+"(a, b) {
-          return { success: true, data: a + b };
+          return { success: true, data: a.plus(b) };
         },
         "-"(a, b) {
-          return { success: true, data: a - b };
+          return { success: true, data: a.minus(b) };
         },
         "/"(a, b) {
-          if (b === 0) {
-            if (a === 0)
+          if (b.toNumber() === 0) {
+            if (a.toNumber() === 0)
               return { success: false, error: "Result is undefined" };
             return { success: false, error: "Cannot divide by zero" };
           }
-          return { success: true, data: a / b };
+          return { success: true, data: a.div(b) };
         },
         x(a, b) {
-          return { success: true, data: a * b };
+          return { success: true, data: a.times(b) };
         },
       } satisfies {
         [O in Operator]: (
-          a: number,
-          b: number
-        ) =>
-          | { success: true; data: number }
-          | { success: false; error: string };
+          a: Big,
+          b: Big
+        ) => { success: true; data: Big } | { success: false; error: string };
       }
     )[this.operator];
   }
 
   private _reset() {
-    this.operand1 = 0;
-    this.operand2 = 0;
+    this.operand1 = new Big(0);
+    this.operand2 = new Big(0);
     this.operator = null;
   }
 
@@ -152,16 +150,13 @@ export class Calculator {
 
   typeOperator(operator: Operator) {
     if (this.state === "operand1") {
-      const operand1 = parseFloat(this._display);
-      invariant(!isNaN(operand1), `Failed to parse string "${this._display}"`);
+      const operand1 = new Big(this._display);
       this.operand1 = operand1;
       this._setDisplay(`${operand1}`);
     }
 
     if (this.state === "operand2.append") {
-      const operand2 = parseFloat(this._display);
-      invariant(!isNaN(operand2), `Failed to parse string "${this._display}"`);
-      this.operand2 = operand2;
+      this.operand2 = new Big(this._display);
 
       const result = this.calculate();
       if (!result.success) {
@@ -184,9 +179,7 @@ export class Calculator {
   private calculate() {
     const operation = this._operation;
     if (operation === null) {
-      const display = parseFloat(this._display);
-      invariant(!isNaN(display), `Failed to parse string ${this._display}`);
-
+      const display = new Big(this._display);
       return { success: true, data: display } as const;
     }
 
@@ -202,14 +195,12 @@ export class Calculator {
     }
 
     if (this.state === "operand1") {
-      const operand1 = parseFloat(this._display);
-      invariant(!isNaN(operand1), `Failed to parse string "${this._display}"`);
+      const operand1 = new Big(this._display);
       this.operand1 = operand1;
     }
 
     if (this.state === "operand2.new" || this.state === "operand2.append") {
-      const operand2 = parseFloat(this._display);
-      invariant(!isNaN(operand2), `Failed to parse string "${this._display}"`);
+      const operand2 = new Big(this._display);
       this.operand2 = operand2;
     }
 
