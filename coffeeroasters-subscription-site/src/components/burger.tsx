@@ -7,15 +7,8 @@ import { cx } from "class-variance-authority";
 import { ReactNode, useEffect, useRef } from "react";
 
 export function Root(props: CollapsibleProps) {
-  const { open, onOpenChange } = props;
+  const { onOpenChange } = props;
   const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    document.body.style.position = open ? "relative" : "";
-    return () => {
-      document.body.style.position = "";
-    };
-  }, [open]);
 
   // Close when clicking outside
   useEffect(() => {

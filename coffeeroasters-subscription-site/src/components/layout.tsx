@@ -4,16 +4,24 @@ import { useMedia } from "../utils/use-media";
 import { screens } from "../utils/screens";
 import { Icon } from "./icon";
 import * as Burger from "../components/burger";
-import { useId, useState } from "react";
+import { ReactNode, useEffect, useId, useState } from "react";
+import { cva } from "class-variance-authority";
 
 export function Layout() {
   const headerNavHeading = useId();
   const footerNavHeading = useId();
+  const [menuIsOpen, setMenuIsOpen] = useState(false);
   const tabletMatches = useMedia(`(min-width: ${screens.tablet})`);
+
+  useEffect(() => {
+    if (tabletMatches) {
+      setMenuIsOpen(false);
+    }
+  }, [tabletMatches]);
 
   return (
     <>
-      <div className="min-h-screen pb-20 desktop:pb-[5.5rem]">
+      <Screen menuIsOpen={menuIsOpen}>
         <header className="center pt-8 pb-10 tablet:pt-10 tablet:pb-14 desktop:py-11">
           <div className="flex justify-between items-center gap-4 tablet:flex-wrap">
             <div className="text-dark-grey-blue">
@@ -54,7 +62,46 @@ export function Layout() {
                   </li>
                 </ul>
               ) : (
-                <BurgerMenu />
+                <Burger.Root open={menuIsOpen} onOpenChange={setMenuIsOpen}>
+                  <Burger.Trigger className="group">
+                    <Icon
+                      className="w-4 h-auto group-data-[state=open]:hidden"
+                      name="icon-hamburger"
+                      width="16"
+                      height="15"
+                    />
+                    <Icon
+                      className="w-[0.875rem] h-auto group-data-[state=closed]:hidden"
+                      name="icon-close"
+                      width="14"
+                      height="13"
+                    />
+                    <span className="sr-only">Menu</span>
+                  </Burger.Trigger>
+                  <Burger.Content>
+                    <ul
+                      className="font-fraunces text-h4 grid gap-8 justify-items-center"
+                      role="list"
+                    >
+                      {[
+                        { to: "/", label: "Home" },
+                        { to: "/about", label: "About Us" },
+                        { to: "/plan", label: "Create Your Plan" },
+                      ].map((item, i) => (
+                        <li key={i}>
+                          <NavLink
+                            to={item.to}
+                            onClick={() => {
+                              setMenuIsOpen(false);
+                            }}
+                          >
+                            {item.label}
+                          </NavLink>
+                        </li>
+                      ))}
+                    </ul>
+                  </Burger.Content>
+                </Burger.Root>
               )}
             </nav>
           </div>
@@ -162,11 +209,25 @@ export function Layout() {
             </div>
           </div>
         </footer>
-      </div>
+      </Screen>
       <ScrollRestoration />
       <RouteAnnouncer />
     </>
   );
+}
+
+const screenVariants = cva("min-h-screen pb-20 desktop:pb-[5.5rem]", {
+  variants: { menuIsOpen: { true: "relative" } },
+});
+
+function Screen({
+  children,
+  menuIsOpen,
+}: {
+  children: ReactNode;
+  menuIsOpen: boolean;
+}) {
+  return <div className={screenVariants({ menuIsOpen })}>{children}</div>;
 }
 
 function Logo() {
@@ -182,52 +243,5 @@ function Logo() {
         <span className="sr-only">Home, Coffeeroasters</span>
       </Link>
     </p>
-  );
-}
-
-function BurgerMenu() {
-  const [isOpen, setIsOpen] = useState(false);
-
-  return (
-    <Burger.Root open={isOpen} onOpenChange={setIsOpen}>
-      <Burger.Trigger className="group">
-        <Icon
-          className="w-4 h-auto group-data-[state=open]:hidden"
-          name="icon-hamburger"
-          width="16"
-          height="15"
-        />
-        <Icon
-          className="w-[0.875rem] h-auto group-data-[state=closed]:hidden"
-          name="icon-close"
-          width="14"
-          height="13"
-        />
-        <span className="sr-only">Menu</span>
-      </Burger.Trigger>
-      <Burger.Content>
-        <ul
-          className="font-fraunces text-h4 grid gap-8 justify-items-center"
-          role="list"
-        >
-          {[
-            { to: "/", label: "Home" },
-            { to: "/about", label: "About Us" },
-            { to: "/plan", label: "Create Your Plan" },
-          ].map((item, i) => (
-            <li key={i}>
-              <NavLink
-                to={item.to}
-                onClick={() => {
-                  setIsOpen(false);
-                }}
-              >
-                {item.label}
-              </NavLink>
-            </li>
-          ))}
-        </ul>
-      </Burger.Content>
-    </Burger.Root>
   );
 }
