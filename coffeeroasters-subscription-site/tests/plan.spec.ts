@@ -233,7 +233,36 @@ test("summarizes order", async ({ page }) => {
   );
 });
 
-test.skip("summarizes order in dialog", () => {});
+test("summarizes order in dialog", async ({ page }) => {
+  await page.goto("/plan");
+
+  const createMyPlanButton = page.getByRole("button", {
+    name: "create my plan",
+  });
+  const dialog = page.getByRole("dialog");
+  const summary = dialog.getByRole("blockquote");
+
+  await answer(page, "how do you drink your coffee?", "capsule");
+  await answer(page, "what type of coffee?", "decaf");
+  await answer(page, "how much would you like?", "500g");
+  await answer(page, "how often should we deliver?", "every 2 weeks");
+  await createMyPlanButton.click();
+
+  await expect(summary).toHaveText(/i drink my coffee using capsules/i);
+  await expect(summary).toHaveText(/decaf type of bean/i);
+  await expect(summary).toHaveText(/500g/i);
+  await expect(summary).toHaveText(/sent to me every 2 weeks/i);
+
+  await dialog.press("Escape");
+  await answer(page, "how often should we deliver?", "every month");
+  await createMyPlanButton.click();
+
+  await expect(summary).toHaveText(/i drink my coffee using capsules/i);
+  await expect(summary).toHaveText(/decaf type of bean/i);
+  await expect(summary).toHaveText(/500g/i);
+  await expect(summary).not.toHaveText(/sent to me every 2 weeks/i);
+  await expect(summary).toHaveText(/sent to me every month/i);
+});
 
 test("calculates deliveries price", async ({ page }) => {
   await page.goto("/plan");
