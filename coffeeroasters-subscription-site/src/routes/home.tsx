@@ -297,7 +297,7 @@ function CoffeeItemImage(props: ImgHTMLAttributes<HTMLImageElement>) {
 
 function Reason({ children }: { children: ReactNode }) {
   return (
-    <div className="bg-dark-cyan text-light-cream rounded-sm px-8 pt-20 pb-12 grid justify-items-center gap-14 tablet:px-12 tablet:py-10 tablet:grid-cols-[4.875rem_1fr] tablet:justify-items-start tablet:items-center desktop:grid-cols-none desktop:grid-rows-[auto_1fr] desktop:justify-items-center desktop:items-start">
+    <div className="bg-dark-cyan text-light-cream rounded-sm px-8 pt-20 pb-12 grid justify-items-center gap-14 tablet:px-12 tablet:py-10 tablet:grid-cols-[4.875rem_1fr] tablet:justify-items-start tablet:items-center desktop:pt-[4.5rem] desktop:pb-12 desktop:grid-cols-none desktop:grid-rows-[auto_1fr] desktop:justify-items-center desktop:items-start">
       {children}
     </div>
   );

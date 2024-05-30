@@ -44,5 +44,7 @@ export function Heading({ children }: { children: ReactNode }) {
 }
 
 export function Body({ children }: { children: ReactNode }) {
-  return <p className="mt-6 mx-auto max-w-5 tablet:mx-0">{children}</p>;
+  return (
+    <p className="mt-6 mx-auto max-w-5 tablet:mx-0 desktop:mt-8">{children}</p>
+  );
 }
