@@ -51,23 +51,30 @@ export class Calculator {
     return (
       {
         "+"(a, b) {
-          return a + b;
+          return { success: true, data: a + b };
         },
         "-"(a, b) {
-          return a - b;
+          return { success: true, data: a - b };
         },
         "/"(a, b) {
           if (b === 0) {
-            if (a === 0) return "Result is undefined";
-            return "Cannot divide by zero";
+            if (a === 0)
+              return { success: false, error: "Result is undefined" };
+            return { success: false, error: "Cannot divide by zero" };
           }
-          return a / b;
+          return { success: true, data: a / b };
         },
         x(a, b) {
-          return a * b;
+          return { success: true, data: a * b };
         },
-        // todo: { success, data, error }
-      } satisfies { [O in Operator]: (a: number, b: number) => number | string }
+      } satisfies {
+        [O in Operator]: (
+          a: number,
+          b: number
+        ) =>
+          | { success: true; data: number }
+          | { success: false; error: string };
+      }
     )[this.operator];
   }
 
@@ -151,16 +158,16 @@ export class Calculator {
       this.operand2 = operand2;
 
       const result = this.calculate();
-      if (typeof result === "string") {
-        this._setDisplay(result);
+      if (!result.success) {
+        this._setDisplay(result.error);
         this._reset();
         return;
       }
 
-      this._setDisplay(`${result}`);
+      this._setDisplay(`${result.data}`);
       // todo: One of these is probably redundant
-      this.operand1 = result;
-      this.operand2 = result;
+      this.operand1 = result.data;
+      this.operand2 = result.data;
     }
 
     this.operator = operator;
@@ -170,18 +177,17 @@ export class Calculator {
   private calculate() {
     const operation = this._operation;
     if (operation === null) {
-      // todo: Return `result.type`
       if (
         this._display === "Result is undefined" ||
         this._display === "Cannot divide by zero"
       ) {
-        return this.operand1;
+        return { success: true, data: this.operand1 } as const;
       }
 
       const display = parseFloat(this._display);
       invariant(!isNaN(display), `Failed to parse string ${this._display}`);
 
-      return display;
+      return { success: true, data: display } as const;
     }
 
     return operation(this.operand1, this.operand2);
@@ -211,14 +217,14 @@ export class Calculator {
     }
 
     const result = this.calculate();
-    if (typeof result === "string") {
-      this._setDisplay(result);
+    if (!result.success) {
+      this._setDisplay(result.error);
       this._reset();
       return;
     }
 
-    this._setDisplay(`${result}`);
-    this.operand1 = result;
+    this._setDisplay(`${result.data}`);
+    this.operand1 = result.data;
     this.state = "operand1.new";
   }
 
