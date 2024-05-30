@@ -1,23 +1,13 @@
 import { cva } from "class-variance-authority";
-import {
-  ReactNode,
-  createContext,
-  useContext,
-  useEffect,
-  useId,
-  useState,
-} from "react";
+import { ReactNode, createContext, useContext, useId } from "react";
 import { useCalculator } from "./utils/calculator";
+import { useTheme } from "./utils/theme";
 
 function App() {
   const screenHeadingId = useId();
   const keypadHeadingId = useId();
-  const [theme, setTheme] = useState(1);
+  const { theme, setTheme } = useTheme();
   const calculator = useCalculator();
-
-  useEffect(() => {
-    document.documentElement.dataset.theme = theme.toString();
-  }, [theme]);
 
   return (
     <div className="center min-h-screen px-6 py-8">
@@ -38,8 +28,8 @@ function App() {
                 type="radio"
                 name="theme"
                 value="1"
-                checked={theme === 1}
-                onChange={() => setTheme(1)}
+                checked={theme === "1"}
+                onChange={() => setTheme("1")}
               />
               <Nudge x={1}>1</Nudge>
             </label>
@@ -49,8 +39,8 @@ function App() {
                 type="radio"
                 name="theme"
                 value="2"
-                checked={theme === 2}
-                onChange={() => setTheme(2)}
+                checked={theme === "2"}
+                onChange={() => setTheme("2")}
               />
               <Nudge x={1}>2</Nudge>
             </label>
@@ -60,8 +50,8 @@ function App() {
                 type="radio"
                 name="theme"
                 value="3"
-                checked={theme === 3}
-                onChange={() => setTheme(3)}
+                checked={theme === "3"}
+                onChange={() => setTheme("3")}
               />
               <Nudge x={-1}>3</Nudge>
             </label>

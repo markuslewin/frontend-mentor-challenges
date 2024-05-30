@@ -1,8 +1,7 @@
 import { useEffect, useLayoutEffect, useState } from "react";
-import { useMedia } from "./use-media";
 import { z } from "zod";
 
-const ThemeSchema = z.enum(["light", "dark"]);
+const ThemeSchema = z.enum(["1", "2", "3"]);
 
 type Theme = z.infer<typeof ThemeSchema>;
 
@@ -17,9 +16,8 @@ export function useTheme() {
       return null;
     }
   });
-  const prefersDark = useMedia("(prefers-color-scheme: dark)");
 
-  const theme = storedTheme ?? (prefersDark ? "dark" : "light");
+  const theme = storedTheme ?? "1";
 
   useLayoutEffect(() => {
     document.documentElement.dataset.theme = theme;
@@ -52,5 +50,5 @@ export function useTheme() {
       localStorage.setItem(themeKey, theme);
       setStoredTheme(theme);
     },
-  } as const;
+  };
 }
