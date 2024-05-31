@@ -1,7 +1,7 @@
 import { useSyncExternalStore, useRef, useCallback, ReactNode } from "react";
 import { ButtonProps } from "../../components/button";
 import { CellProps } from "../../components/grid";
-import { Calculator, CalculatorNumber, Operator } from "./core";
+import { Calculator } from "./core";
 
 type Subscribe = Parameters<typeof useSyncExternalStore>[0];
 
@@ -18,24 +18,6 @@ export function useCalculator() {
   return {
     display,
     buttons: getCalculatorButtons(calculatorRef.current),
-    typeDecimal() {
-      calculatorRef.current.typeDecimal();
-    },
-    typeNumber(number: CalculatorNumber) {
-      calculatorRef.current.typeNumber(number);
-    },
-    typeOperator(operator: Operator) {
-      calculatorRef.current.typeOperator(operator);
-    },
-    equals() {
-      calculatorRef.current.equals();
-    },
-    reset() {
-      calculatorRef.current.reset();
-    },
-    delete() {
-      calculatorRef.current.delete();
-    },
   };
 }
 
@@ -70,7 +52,7 @@ function getCalculatorButtons(calculator: Calculator): {
       {
         label: "del",
         name: "Delete",
-        textTransform: "uppercase" as const,
+        textTransform: "uppercase",
         variant: "destructive",
         onClick() {
           calculator.delete();
@@ -163,7 +145,7 @@ function getCalculatorButtons(calculator: Calculator): {
     [
       {
         label: "Reset",
-        textTransform: "uppercase" as const,
+        textTransform: "uppercase",
         variant: "destructive",
         span: 2,
         onClick() {
@@ -176,7 +158,7 @@ function getCalculatorButtons(calculator: Calculator): {
         variant: "equals",
         span: 2,
         onClick() {
-          calculator.typeNumber(0);
+          calculator.equals();
         },
       },
     ],

@@ -210,8 +210,8 @@ test.each([
 
 test.each([
   ["0.1+0.2=", "0.3"],
-  // todo
-  // ["77/3=", "25.6666667"],
+  ["77/3=", "25.66666666666666666667"],
+  ["77/3==", "8.55555555555555555556"],
 ])("Calculation: %s -> %s", (sequence, expected) => {
   const calculator = new Calculator();
 

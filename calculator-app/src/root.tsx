@@ -76,7 +76,9 @@ function App() {
             Screen
           </h2>
           <p className="bg-screen text-screen-foreground text-fscreen text-end whitespace-nowrap overflow-x-auto rounded p-6 pt-7 tablet:p-8 tablet:pt-10 tablet:pb-9">
-            <output>{calculator.display}</output>
+            <output aria-labelledby={screenHeadingId}>
+              {calculator.display}
+            </output>
           </p>
         </section>
         <section aria-labelledby={keypadHeadingId}>
