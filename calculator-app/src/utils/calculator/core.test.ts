@@ -1,5 +1,5 @@
 import { expect, test } from "vitest";
-import { Calculator, CalculatorNumber, Operator } from "./calculator";
+import { Calculator, CalculatorNumber, Operator } from "./core";
 
 function runSequence(calculator: Calculator, sequence: string) {
   for (const char of sequence) {
@@ -208,7 +208,11 @@ test.each([
   expect(calculator.display).toBe(expected);
 });
 
-test.each([["0.1+0.2=", "0.3"]])("Floating: %s -> %s", (sequence, expected) => {
+test.each([
+  ["0.1+0.2=", "0.3"],
+  // todo
+  // ["77/3=", "25.6666667"],
+])("Calculation: %s -> %s", (sequence, expected) => {
   const calculator = new Calculator();
 
   runSequence(calculator, sequence);

@@ -1,13 +1,22 @@
-import { cva } from "class-variance-authority";
-import { ReactNode, createContext, useContext, useId } from "react";
-import { useCalculator } from "./utils/calculator";
+import { useId, useRef } from "react";
+import { useCalculator } from "./utils/calculator/use-calculator";
 import { useTheme } from "./utils/theme";
+import { Button, ButtonLabel } from "./components/button";
+import { Cell, Grid, Row } from "./components/grid";
+import { Nudge } from "./components/nudge";
 
 function App() {
   const screenHeadingId = useId();
   const keypadHeadingId = useId();
   const { theme, setTheme } = useTheme();
   const calculator = useCalculator();
+  const buttonsRef = useRef<(HTMLButtonElement | null)[][]>([
+    [null, null, null, null],
+    [null, null, null, null],
+    [null, null, null, null],
+    [null, null, null, null],
+    [null, null],
+  ]);
 
   return (
     <div className="center min-h-screen px-6 py-8">
@@ -74,226 +83,72 @@ function App() {
           <h2 className="sr-only" id={keypadHeadingId}>
             Keypad
           </h2>
-          <div
-            className="bg-keypad rounded grid grid-cols-4 gap-3 tablet:gap-6 p-6 tablet:p-8"
-            role="grid"
+          <Grid
+            onKeyDown={(e) => {
+              const buttons = buttonsRef.current;
+
+              function getFocusPosition() {
+                for (let y = 0; y < buttons.length; ++y) {
+                  for (let x = 0; x < buttons[y].length; ++x) {
+                    if (buttons[y][x] === document.activeElement) {
+                      return { y, x };
+                    }
+                  }
+                }
+                return null;
+              }
+
+              const position = getFocusPosition();
+
+              if (position === null) return;
+
+              if (e.key === "ArrowUp") {
+                buttons[Math.max(0, position.y - 1)][position.x]?.focus();
+              } else if (e.key === "ArrowRight") {
+                buttons[position.y][
+                  Math.min(buttons[position.y].length - 1, position.x + 1)
+                ]?.focus();
+              } else if (e.key === "ArrowDown") {
+                buttons[Math.min(buttons.length - 1, position.y + 1)][
+                  position.x
+                ]?.focus();
+              } else if (e.key === "ArrowLeft") {
+                buttons[position.y][Math.max(0, position.x - 1)]?.focus();
+              }
+            }}
           >
-            <Row>
-              <div role="gridcell">
-                <Button onClick={() => calculator.typeNumber(7)}>
-                  <ButtonLabel>7</ButtonLabel>
-                </Button>
-              </div>
-              <div role="gridcell">
-                <Button onClick={() => calculator.typeNumber(8)}>
-                  <ButtonLabel>8</ButtonLabel>
-                </Button>
-              </div>
-              <div role="gridcell">
-                <Button onClick={() => calculator.typeNumber(9)}>
-                  <ButtonLabel>9</ButtonLabel>
-                </Button>
-              </div>
-              <div role="gridcell">
-                <Button
-                  className="uppercase"
-                  variant="destructive"
-                  onClick={() => calculator.delete()}
-                >
-                  <ButtonLabel>
-                    <span aria-hidden="true">del</span>
-                    <span className="sr-only">Delete</span>
-                  </ButtonLabel>
-                </Button>
-              </div>
-            </Row>
-            <Row>
-              <div role="gridcell">
-                <Button onClick={() => calculator.typeNumber(4)}>
-                  <ButtonLabel>4</ButtonLabel>
-                </Button>
-              </div>
-              <div role="gridcell">
-                <Button onClick={() => calculator.typeNumber(5)}>
-                  <ButtonLabel>5</ButtonLabel>
-                </Button>
-              </div>
-              <div role="gridcell">
-                <Button onClick={() => calculator.typeNumber(6)}>
-                  <ButtonLabel>6</ButtonLabel>
-                </Button>
-              </div>
-              <div role="gridcell">
-                <Button onClick={() => calculator.typeOperator("+")}>
-                  <ButtonLabel>
-                    <span aria-hidden="true">+</span>
-                    <span className="sr-only">Add</span>
-                  </ButtonLabel>
-                </Button>
-              </div>
-            </Row>
-            <Row>
-              <div role="gridcell">
-                <Button onClick={() => calculator.typeNumber(1)}>
-                  <ButtonLabel>1</ButtonLabel>
-                </Button>
-              </div>
-              <div role="gridcell">
-                <Button onClick={() => calculator.typeNumber(2)}>
-                  <ButtonLabel>2</ButtonLabel>
-                </Button>
-              </div>
-              <div role="gridcell">
-                <Button onClick={() => calculator.typeNumber(3)}>
-                  <ButtonLabel>3</ButtonLabel>
-                </Button>
-              </div>
-              <div role="gridcell">
-                <Button onClick={() => calculator.typeOperator("-")}>
-                  <ButtonLabel>
-                    <span aria-hidden="true">-</span>
-                    <span className="sr-only">Subtract</span>
-                  </ButtonLabel>
-                </Button>
-              </div>
-            </Row>
-            <Row>
-              <div role="gridcell">
-                <Button onClick={() => calculator.typeDecimal()}>
-                  <ButtonLabel>
-                    <span aria-hidden="true">.</span>
-                    <span className="sr-only">Decimal separator</span>
-                  </ButtonLabel>
-                </Button>
-              </div>
-              <div role="gridcell">
-                <Button onClick={() => calculator.typeNumber(0)}>
-                  <ButtonLabel>0</ButtonLabel>
-                </Button>
-              </div>
-              <div role="gridcell">
-                <Button onClick={() => calculator.typeOperator("/")}>
-                  <ButtonLabel>
-                    <span aria-hidden="true">/</span>
-                    <span className="sr-only">Divide</span>
-                  </ButtonLabel>
-                </Button>
-              </div>
-              <div role="gridcell">
-                <Button onClick={() => calculator.typeOperator("x")}>
-                  <ButtonLabel>
-                    <span aria-hidden="true">x</span>
-                    <span className="sr-only">Multiply</span>
-                  </ButtonLabel>
-                </Button>
-              </div>
-            </Row>
-            <Row>
-              <div className="col-span-2" role="gridcell">
-                <Button
-                  className="uppercase"
-                  variant="destructive"
-                  onClick={() => calculator.reset()}
-                >
-                  <ButtonLabel>Reset</ButtonLabel>
-                </Button>
-              </div>
-              <div className="col-span-2" role="gridcell">
-                <Button variant="equals" onClick={() => calculator.equals()}>
-                  <ButtonLabel>
-                    <span aria-hidden="true">=</span>
-                    <span className="sr-only">Equals</span>
-                  </ButtonLabel>
-                </Button>
-              </div>
-            </Row>
-          </div>
+            {calculator.buttons.map((row, y) => (
+              <Row key={y}>
+                {row.map((btn, x) => (
+                  <Cell
+                    key={x}
+                    span={btn.span === undefined ? undefined : btn.span}
+                  >
+                    <Button
+                      ref={(el) => {
+                        buttonsRef.current[y][x] = el;
+                      }}
+                      variant={btn.variant}
+                      textTransform={btn.textTransform}
+                      onClick={btn.onClick}
+                    >
+                      {btn.name === undefined ? (
+                        <ButtonLabel>{btn.label}</ButtonLabel>
+                      ) : (
+                        <ButtonLabel>
+                          <span aria-hidden="true">{btn.label}</span>
+                          <span className="sr-only">{btn.name}</span>
+                        </ButtonLabel>
+                      )}
+                    </Button>
+                  </Cell>
+                ))}
+              </Row>
+            ))}
+          </Grid>
         </section>
       </main>
     </div>
-  );
-}
-
-function Row({ children }: { children: ReactNode }) {
-  return (
-    <div className="contents" role="row">
-      {children}
-    </div>
-  );
-}
-
-const buttonVariants = cva(
-  "shadow w-full h-16 rounded-sm grid place-items-center transition-colors tablet:rounded",
-  {
-    variants: {
-      variant: {
-        default:
-          "bg-key-default text-key-default-foreground shadow-key-default-shadow text-fkey hocus:bg-key-default-hocus",
-        destructive:
-          "bg-key-reset text-key-reset-foreground shadow-key-reset-shadow text-fkey-special hocus:bg-key-reset-hocus",
-        equals:
-          "bg-key-equals text-key-equals-foreground shadow-key-equals-shadow text-fkey-special hocus:bg-key-equals-hocus",
-      },
-    },
-  }
-);
-
-interface ButtonProps {
-  className?: string;
-  variant?: "default" | "destructive" | "equals";
-  children: ReactNode;
-  onClick(): void;
-}
-
-function Button({
-  className,
-  variant = "default",
-  children,
-  onClick,
-}: ButtonProps) {
-  return (
-    <buttonContext.Provider value={{ variant }}>
-      <button
-        className={buttonVariants({ className, variant })}
-        type="button"
-        onClick={onClick}
-      >
-        {children}
-      </button>
-    </buttonContext.Provider>
-  );
-}
-
-const buttonContext = createContext<{
-  variant: "default" | "destructive" | "equals";
-} | null>(null);
-
-function useButtonContext() {
-  const value = useContext(buttonContext);
-  if (value === null) {
-    throw new Error("useButtonContext must be used inside of a button context");
-  }
-  return value;
-}
-
-const buttonLabelVariants = cva("", {
-  variants: {
-    variant: {
-      default: "translate-y-[0.125rem]",
-      destructive: "tablet:translate-y-[0.0625rem]",
-      equals: "tablet:translate-y-[0.0625rem]",
-    },
-  },
-});
-
-function ButtonLabel({ children }: { children: ReactNode }) {
-  const { variant } = useButtonContext();
-  return <span className={buttonLabelVariants({ variant })}>{children}</span>;
-}
-
-function Nudge({ x, children }: { x: number; children: ReactNode }) {
-  return (
-    <span style={{ transform: `translateX(${x / 16}rem)` }}>{children}</span>
   );
 }
 

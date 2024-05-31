@@ -1,4 +1,3 @@
-import { useCallback, useRef, useSyncExternalStore } from "react";
 import Big from "big.js";
 
 export type CalculatorNumber = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
@@ -244,39 +243,4 @@ export class Calculator {
       }
     }
   }
-}
-
-type Subscribe = Parameters<typeof useSyncExternalStore>[0];
-
-export function useCalculator() {
-  const calculatorRef = useRef(new Calculator());
-  const subscribe = useCallback<Subscribe>((callback) => {
-    return calculatorRef.current.subscribe(callback);
-  }, []);
-  const display = useSyncExternalStore(
-    subscribe,
-    () => calculatorRef.current.display
-  );
-
-  return {
-    display,
-    typeDecimal() {
-      calculatorRef.current.typeDecimal();
-    },
-    typeNumber(number: CalculatorNumber) {
-      calculatorRef.current.typeNumber(number);
-    },
-    typeOperator(operator: Operator) {
-      calculatorRef.current.typeOperator(operator);
-    },
-    equals() {
-      calculatorRef.current.equals();
-    },
-    reset() {
-      calculatorRef.current.reset();
-    },
-    delete() {
-      calculatorRef.current.delete();
-    },
-  };
 }
