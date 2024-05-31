@@ -1,4 +1,4 @@
-import { useId, useRef } from "react";
+import { useId } from "react";
 import { useCalculator } from "./utils/calculator/use-calculator";
 import { useTheme } from "./utils/theme";
 import { Button, ButtonLabel } from "./components/button";
@@ -10,13 +10,6 @@ function App() {
   const keypadHeadingId = useId();
   const { theme, setTheme } = useTheme();
   const calculator = useCalculator();
-  const buttonsRef = useRef<(HTMLButtonElement | null)[][]>([
-    [null, null, null, null],
-    [null, null, null, null],
-    [null, null, null, null],
-    [null, null, null, null],
-    [null, null],
-  ]);
 
   return (
     <div className="center min-h-screen px-6 py-8">
@@ -85,40 +78,7 @@ function App() {
           <h2 className="sr-only" id={keypadHeadingId}>
             Keypad
           </h2>
-          <Grid
-            onKeyDown={(e) => {
-              const buttons = buttonsRef.current;
-
-              function getFocusPosition() {
-                for (let y = 0; y < buttons.length; ++y) {
-                  for (let x = 0; x < buttons[y].length; ++x) {
-                    if (buttons[y][x] === document.activeElement) {
-                      return { y, x };
-                    }
-                  }
-                }
-                return null;
-              }
-
-              const position = getFocusPosition();
-
-              if (position === null) return;
-
-              if (e.key === "ArrowUp") {
-                buttons[Math.max(0, position.y - 1)][position.x]?.focus();
-              } else if (e.key === "ArrowRight") {
-                buttons[position.y][
-                  Math.min(buttons[position.y].length - 1, position.x + 1)
-                ]?.focus();
-              } else if (e.key === "ArrowDown") {
-                buttons[Math.min(buttons.length - 1, position.y + 1)][
-                  position.x
-                ]?.focus();
-              } else if (e.key === "ArrowLeft") {
-                buttons[position.y][Math.max(0, position.x - 1)]?.focus();
-              }
-            }}
-          >
+          <Grid>
             {calculator.buttons.map((row, y) => (
               <Row key={y}>
                 {row.map((btn, x) => (
@@ -127,9 +87,6 @@ function App() {
                     span={btn.span === undefined ? undefined : btn.span}
                   >
                     <Button
-                      ref={(el) => {
-                        buttonsRef.current[y][x] = el;
-                      }}
                       variant={btn.variant}
                       textTransform={btn.textTransform}
                       onClick={btn.onClick}
