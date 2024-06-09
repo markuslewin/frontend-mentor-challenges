@@ -38,14 +38,23 @@ export default {
       },
     },
     fontFamily: {
-      // todo: Add font from Fontsource
-      base: "Inter, system-ui, Avenir, Helvetica, Arial, sans-serif",
+      base: "'Josefin Sans Variable', sans-serif",
     },
     fontSize: {
-      // todo: Add font sizes
-      "heading-l": [rem(48), { fontWeight: 500, lineHeight: rem(48) }],
-      "heading-m": [rem(39), { fontWeight: 500, lineHeight: rem(39) }],
-      body: [rem(20), { lineHeight: rem(24) }],
+      heading: [
+        "var(--fluid-27-40)",
+        { fontWeight: 700, letterSpacing: "var(--fluid-10-15)" },
+      ],
+      todo: [
+        "var(--fluid-12-18)",
+        { letterSpacing: "var(--fluid--0.17--0.25)" },
+      ],
+      filter: [rem(14), { fontWeight: 700, letterSpacing: rem(-0.19) }],
+      clear: [
+        "var(--fluid-12-14)",
+        { letterSpacing: "var(--fluid--0.17--0.19)" },
+      ],
+      body: [rem(14), { letterSpacing: rem(-0.19) }],
     },
     extend: {},
   },

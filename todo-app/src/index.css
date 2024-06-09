@@ -1,3 +1,6 @@
+/* Supports weights 100-700 */
+@import "@fontsource-variable/josefin-sans";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -19,6 +22,25 @@
     /* Not in style guide */
     --color-white: 0 0% 100%;
 
+    /* Font size */
+    /* @link https://utopia.fyi/clamp/calculator?a=375,540,27—40|12—18|12—14|16—16 */
+    --fluid-27-40: clamp(1.6875rem, -0.1591rem + 7.8788vi, 2.5rem);
+    --fluid-12-18: clamp(0.75rem, -0.1023rem + 3.6364vi, 1.125rem);
+    --fluid-12-14: clamp(0.75rem, 0.4659rem + 1.2121vi, 0.875rem);
+    --fluid-16-16: clamp(1rem, 1rem + 0vi, 1rem);
+
+    /* Letter spacing */
+    /* @link https://utopia.fyi/clamp/calculator?a=375,540,10—15|-0.17—-0.25|-0.17—-0.19 */
+    --fluid-10-15: clamp(0.625rem, -0.0852rem + 3.0303vi, 0.9375rem);
+    --fluid--0\.17--0\.25: clamp(-0.0156rem, 0.0007rem + -0.0485vi, -0.0106rem);
+    --fluid--0\.17--0\.19: clamp(
+      -0.0119rem,
+      -0.0078rem + -0.0121vi,
+      -0.0106rem
+    );
+
+    /* Line height */
+
     --background: var(--color-very-light-gray);
     --foreground: var(--color-dark-grayish-blue);
     --header-foreground: var(--color-white);
@@ -37,7 +59,7 @@
   }
 
   body {
-    @apply font-base text-body bg-background text-foreground;
+    @apply font-base text-body leading-none bg-background text-foreground;
   }
 
   :root[data-theme="dark"] {
