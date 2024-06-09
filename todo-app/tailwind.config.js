@@ -11,33 +11,30 @@ export default {
   theme: {
     screens,
     colors: {
-      // todo: Add colors
       background: "hsl(var(--background))",
       foreground: "hsl(var(--foreground))",
-      overlay: "hsl(var(--overlay))",
-      menu: {
-        DEFAULT: "hsl(var(--menu))",
-        foreground: "hsl(var(--menu-foreground))",
+      header: {
+        foreground: "hsl(var(--header-foreground))",
       },
-      button: {
-        DEFAULT: "hsl(var(--button))",
-        foreground: "hsl(var(--button-foreground))",
-        hocus: "hsl(var(--button-hocus))",
+      new: {
+        DEFAULT: "hsl(var(--new))",
+        foreground: "hsl(var(--new-foreground))",
+        border: "hsl(var(--new-border))",
       },
-      input: {
-        DEFAULT: "hsl(var(--input))",
-        "border-hocus": "hsl(var(--input-border-hocus))",
+      todo: {
+        DEFAULT: "hsl(var(--todo))",
+        foreground: {
+          DEFAULT: "hsl(var(--todo-foreground))",
+          fade: "hsl(var(--todo-foreground-fade))",
+        },
+        border: "hsl(var(--todo-border))",
       },
-      pill: {
-        DEFAULT: "hsl(var(--pill))",
-        foreground: "hsl(var(--pill-foreground))",
-      },
-      delete: {
-        foreground: "hsl(var(--delete-foreground))",
-        "foreground-hocus": "hsl(var(--delete-foreground-hocus))",
-      },
-      error: {
-        foreground: "hsl(var(--error-foreground))",
+      filter: {
+        foreground: {
+          DEFAULT: "hsl(var(--filter-foreground))",
+          active: "hsl(var(--filter-foreground-active))",
+          hover: "hsl(var(--filter-foreground-hover))",
+        },
       },
     },
     fontFamily: {

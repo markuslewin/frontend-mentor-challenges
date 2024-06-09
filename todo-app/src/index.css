@@ -4,33 +4,34 @@
 
 @layer base {
   :root {
-    /* todo: Add colors */
-    --color-slate-300: 213 27% 84%;
-    --color-slate-800: 217 33% 17%;
-    --color-slate-950: 229 84% 5%;
-    --color-blue-500: 217 91% 60%;
-    --color-blue-700: 224 76% 48%;
-    --color-blue-800: 226 71% 40%;
-    --color-red-200: 0 96% 89%;
-    --color-red-500: 0 84% 60%;
-    --color-white: 0 0% 100%;
-    --color-black: 0 0% 0%;
+    /* Primary */
+    --color-bright-blue: 220 98% 61%;
+    --color-check-background-from: 192 100% 67%;
+    --color-check-background-to: 280 87% 65%;
 
-    --background: var(--color-white);
-    --foreground: var(--color-slate-950);
-    --overlay: var(--color-black);
-    --menu: var(--color-white);
-    --menu-foreground: var(--color-slate-950);
-    --button: var(--color-blue-700);
-    --button-hocus: var(--color-blue-500);
-    --button-foreground: var(--color-white);
-    --input: var(--color-slate-300);
-    --input-border-hocus: var(--color-slate-950);
-    --pill: var(--color-slate-950);
-    --pill-foreground: var(--color-white);
-    --delete-foreground: var(--color-red-500);
-    --delete-foreground-hocus: var(--color-red-200);
-    --error-foreground: var(--color-red-500);
+    /* Light Theme */
+    --color-very-light-gray: 0 0% 98%;
+    --color-very-light-grayish-blue: 236 33% 92%;
+    --color-light-grayish-blue: 233 11% 84%;
+    --color-dark-grayish-blue: 236 9% 61%;
+    --color-very-dark-grayish-blue: 235 19% 35%;
+
+    /* Not in style guide */
+    --color-white: 0 0% 100%;
+
+    --background: var(--color-very-light-gray);
+    --foreground: var(--color-dark-grayish-blue);
+    --header-foreground: var(--color-white);
+    --new: var(--color-white);
+    --new-foreground: var(--color-dark-grayish-blue);
+    --new-border: var(--color-very-light-grayish-blue);
+    --todo: var(--color-white);
+    --todo-foreground: var(--color-very-dark-grayish-blue);
+    --todo-foreground-fade: var(--color-light-grayish-blue);
+    --todo-border: var(--color-very-light-grayish-blue);
+    --filter-foreground: var(--color-dark-grayish-blue);
+    --filter-foreground-active: var(--color-bright-blue);
+    --filter-foreground-hover: var(--color-very-dark-grayish-blue);
 
     color-scheme: light;
   }
@@ -40,14 +41,25 @@
   }
 
   :root[data-theme="dark"] {
-    --background: var(--color-slate-950);
-    --foreground: var(--color-white);
-    --menu: var(--color-slate-950);
-    --menu-foreground: var(--color-white);
-    --input: var(--color-slate-800);
-    --input-border-hocus: var(--color-white);
-    --pill: var(--color-white);
-    --pill-foreground: var(--color-slate-950);
+    --color-very-dark-blue: 235 21% 11%;
+    --color-very-dark-desaturated-blue: 235 24% 19%;
+    --color-light-grayish-blue: 234 39% 85%;
+    --color-light-grayish-blue-hover: 236 33% 92%;
+    --color-dark-grayish-blue: 234 11% 52%;
+    --color-very-dark-grayish-blue: 233 14% 35%;
+    --color-very-dark-grayish-blue-1: 237 14% 26%;
+
+    --background: var(--color-very-dark-blue);
+    --foreground: var(--color-very-dark-grayish-blue);
+    --new: var(--color-very-dark-desaturated-blue);
+    --new-foreground: var(--color-dark-grayish-blue);
+    --new-border: var(--color-very-dark-grayish-blue-1);
+    --todo: var(--color-very-dark-desaturated-blue);
+    --todo-foreground: var(--color-light-grayish-blue);
+    --todo-foreground-fade: var(--color-very-dark-grayish-blue);
+    --todo-border: var(--color-very-dark-grayish-blue-1);
+    --filter-foreground: 235 16% 42%;
+    --filter-foreground-hover: var(--color-light-grayish-blue-hover);
 
     color-scheme: dark;
   }
@@ -55,22 +67,4 @@
 
 @layer components {
   /* Components here */
-
-  .menu__overlay {
-    @apply bg-overlay/85;
-
-    position: fixed;
-    inset: 0;
-  }
-
-  .menu__content {
-    @apply bg-menu text-menu-foreground;
-
-    overflow-y: auto;
-    position: fixed;
-    inset: 0 auto 0 0;
-    max-width: 100%;
-    width: 16.25rem;
-    padding: 1.5rem;
-  }
 }
