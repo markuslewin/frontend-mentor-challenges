@@ -80,7 +80,7 @@ function Delete({ id }: { id: string }) {
         className="size-10 grid place-items-center text-delete-foreground hocus:text-delete-foreground-hocus transition-colors"
         type="submit"
       >
-        <Icon className="size-5" name="trash" />
+        <Icon className="size-5" name="icon-cross" />
         <span className="sr-only">Delete message</span>
       </button>
     </Form>
