@@ -49,7 +49,7 @@ export function App() {
   });
 
   const nextTheme = theme === "light" ? "dark" : "light";
-  const itemsLeft = 5;
+  const itemsLeft = todos.items.filter((todo) => !todo.completed).length;
 
   const heroDesktop = theme === "light" ? bgDesktopLight : bgDesktopDark;
   const heroMobile = theme === "light" ? bgMobileLight : bgMobileDark;
@@ -150,8 +150,10 @@ export function App() {
               <h3 className="sr-only" id={todosOptionsHeadingId}>
                 Todos options
               </h3>
-              <h4 className="sr-only">Todos left</h4>
-              <p>{itemsLeft} items left</p>
+              <h4 className="sr-only">Items left</h4>
+              <p>
+                <span data-testid="items-left">{itemsLeft}</span> items left
+              </p>
               {tabletMatches ? (
                 <>
                   <h4 className="sr-only">Filter todos</h4>

@@ -8,6 +8,10 @@ function getTodos(page: Page) {
   return page.getByRole("list", { name: "todos" }).getByRole("listitem");
 }
 
+function getItemsLeft(page: Page) {
+  return page.getByTestId("items-left");
+}
+
 test.beforeEach(async ({ page }) => {
   await page.goto("/");
 });
@@ -24,6 +28,7 @@ const TODO_ITEMS = [
 test("adds new todo", async ({ page }) => {
   const textbox = getTextbox(page);
   const todos = getTodos(page);
+  const itemsLeft = getItemsLeft(page);
 
   const whitespaceText = "         ";
 
@@ -35,6 +40,7 @@ test("adds new todo", async ({ page }) => {
   await expect(
     todos.first().getByRole("checkbox", { name: TODO_ITEMS[0] })
   ).not.toBeChecked();
+  await expect(itemsLeft).toHaveText("1");
 
   await textbox.press("Enter");
 
@@ -53,8 +59,7 @@ test("adds new todo", async ({ page }) => {
     new RegExp(TODO_ITEMS[0]),
     new RegExp(TODO_ITEMS[1]),
   ]);
-
-  // todo: Expect items left
+  await expect(itemsLeft).toHaveText("2");
 });
 
 test.skip("completes todo", async ({ page }) => {
