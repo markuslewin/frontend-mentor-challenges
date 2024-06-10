@@ -8,22 +8,33 @@ function getTodos(page: Page) {
   return page.getByRole("list", { name: "todos" }).getByRole("listitem");
 }
 
+test.beforeEach(async ({ page }) => {
+  await page.goto("/");
+});
+
+const TODO_ITEMS = [
+  "Complete online JavaScript course",
+  "Jog around the park 3x",
+  "10 minutes meditation",
+  "Read for 1 hour",
+  "Pick up groceries",
+  "Complete Todo App on Frontend Mentor",
+];
+
 test("adds new todo", async ({ page }) => {
   const textbox = getTextbox(page);
   const todos = getTodos(page);
-  const todo = todos.first();
 
-  const text = "Complete online JavaScript course";
   const whitespaceText = "         ";
 
-  await page.goto("/");
-  await textbox.fill(text);
+  await textbox.fill(TODO_ITEMS[0]);
   await textbox.press("Enter");
 
   await expect(textbox).toBeEmpty();
-  await expect(todos).toHaveCount(1);
-  await expect(todo).toHaveText(new RegExp(text, "i"));
-  await expect(todo.getByRole("checkbox", { name: text })).not.toBeChecked();
+  await expect(todos).toHaveText([new RegExp(TODO_ITEMS[0])]);
+  await expect(
+    todos.first().getByRole("checkbox", { name: TODO_ITEMS[0] })
+  ).not.toBeChecked();
 
   await textbox.press("Enter");
 
@@ -34,6 +45,16 @@ test("adds new todo", async ({ page }) => {
 
   await expect(textbox).toHaveValue(whitespaceText);
   await expect(todos).toHaveCount(1);
+
+  await textbox.fill(TODO_ITEMS[1]);
+  await textbox.press("Enter");
+
+  await expect(todos).toHaveText([
+    new RegExp(TODO_ITEMS[0]),
+    new RegExp(TODO_ITEMS[1]),
+  ]);
+
+  // todo: Expect items left
 });
 
 test.skip("completes todo", async ({ page }) => {
