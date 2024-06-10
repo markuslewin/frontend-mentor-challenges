@@ -39,7 +39,7 @@ export function App() {
   const itemsLeft = 5;
 
   return (
-    <>
+    <div className="min-h-screen pb-20">
       <picture>
         <source
           media={`(min-width: ${screens.tablet})`}
@@ -152,7 +152,7 @@ export function App() {
           </p>
         </main>
       </div>
-    </>
+    </div>
   );
 }
 
