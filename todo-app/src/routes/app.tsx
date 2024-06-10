@@ -3,15 +3,16 @@ import { useSearchParams } from "react-router-dom";
 import bgDesktopLight from "../assets/bg-desktop-light.jpg?as=metadata";
 // @ts-expect-error Seach params
 import bgMobileLight from "../assets/bg-mobile-light.jpg?as=metadata";
+// @ts-expect-error Seach params
+import bgDesktopDark from "../assets/bg-desktop-dark.jpg?as=metadata";
+// @ts-expect-error Seach params
+import bgMobileDark from "../assets/bg-mobile-dark.jpg?as=metadata";
 import { screens } from "../utils/screens";
 import { InputHTMLAttributes, ReactNode, useId } from "react";
 import { Icon } from "../components/icon";
 import { cva, cx } from "class-variance-authority";
 import { useMedia } from "../utils/use-media";
-
-function useTheme() {
-  return { theme: "light" as const };
-}
+import { useTheme } from "../utils/theme";
 
 function useTodos() {
   return {
@@ -32,34 +33,43 @@ export function App() {
   const todosOptionsHeadingId = useId();
   const todosOptionsFiltersHeadingId = useId();
   const tabletMatches = useMedia(`(min-width: ${screens.tablet})`);
-  const { theme } = useTheme();
+  const { theme, setTheme } = useTheme();
   const todos = useTodos();
 
   const nextTheme = theme === "light" ? "dark" : "light";
   const itemsLeft = 5;
+
+  const heroDesktop = theme === "light" ? bgDesktopLight : bgDesktopDark;
+  const heroMobile = theme === "light" ? bgMobileLight : bgMobileDark;
 
   return (
     <div className="min-h-screen pb-20">
       <picture>
         <source
           media={`(min-width: ${screens.tablet})`}
-          width={bgDesktopLight.width}
-          height={bgDesktopLight.height}
-          srcSet={bgDesktopLight.src}
+          width={heroDesktop.width}
+          height={heroDesktop.height}
+          srcSet={heroDesktop.src}
         />
         <img
           className="bg-header relative -z-10 -mb-[9.5rem] w-full h-52 object-cover tablet:-mb-[13.875rem] tablet:h-[18.75rem]"
           alt=""
-          width={bgMobileLight.width}
-          height={bgMobileLight.height}
-          src={bgMobileLight.src}
+          width={heroMobile.width}
+          height={heroMobile.height}
+          src={heroMobile.src}
         />
       </picture>
       <div className="box-content mx-auto max-w-[33.75rem] px-6 tablet:px-10">
         <header className="text-header-foreground flex flex-wrap justify-between items-center gap-4">
           <h1 className="text-heading uppercase">Todo</h1>
           <p>
-            <button type="button" className="clickable-12 outline-offset-8">
+            <button
+              className="clickable-12 outline-offset-8"
+              type="button"
+              onClick={() => {
+                setTheme(nextTheme);
+              }}
+            >
               <Icon
                 className="size-5 tablet:size-[1.625rem]"
                 name={theme === "light" ? "icon-moon" : "icon-sun"}
@@ -127,7 +137,7 @@ export function App() {
               <h4 className="sr-only">Clear completed todos</h4>
               <p className="flex justify-end">
                 <button
-                  className="hocus:text-filter-foreground-hover"
+                  className="transition-colors hocus:text-filter-foreground-hover"
                   type="button"
                 >
                   Clear completed
