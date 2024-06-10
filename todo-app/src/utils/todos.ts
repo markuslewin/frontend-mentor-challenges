@@ -33,5 +33,8 @@ export function useTodos() {
         items.map((item) => (item.id === id ? { ...item, completed } : item))
       );
     },
+    deleteTodo(id: string) {
+      setItems(items.filter((item) => item.id !== id));
+    },
   };
 }

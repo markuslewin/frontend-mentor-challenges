@@ -14,9 +14,15 @@ interface TodoProps {
   text: string;
   completed: boolean;
   onCompletedChange(completed: boolean): void;
+  onDelete(): void;
 }
 
-export function Todo({ completed, text, onCompletedChange }: TodoProps) {
+export function Todo({
+  completed,
+  text,
+  onCompletedChange,
+  onDelete,
+}: TodoProps) {
   const textId = useId();
 
   return (
@@ -41,7 +47,11 @@ export function Todo({ completed, text, onCompletedChange }: TodoProps) {
         </button>
       </p>
       <p>
-        <button className="text-todo-foreground block clickable-12 outline-offset-8 transition-opacity tablet:opacity-0 tablet:hocus:opacity-100 tablet:group-hover:opacity-100">
+        <button
+          className="text-todo-foreground block clickable-12 outline-offset-8 transition-opacity tablet:opacity-0 tablet:hocus:opacity-100 tablet:group-hover:opacity-100"
+          type="button"
+          onClick={onDelete}
+        >
           <Icon className="size-3 tablet:size-[1.125rem]" name="icon-cross" />
           <span className="sr-only">Delete todo "{text}"</span>
         </button>

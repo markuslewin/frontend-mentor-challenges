@@ -14,11 +14,14 @@ function getItemsLeft(page: Page) {
 
 async function createTodos(page: Page, quantity?: number) {
   const textbox = getTextbox(page);
+  const todos = TODO_ITEMS.slice(0, quantity);
 
-  for (const todo of TODO_ITEMS.slice(0, quantity)) {
+  for (const todo of todos) {
     await textbox.fill(todo);
     await textbox.press("Enter");
   }
+
+  return todos;
 }
 
 test.beforeEach(async ({ page }) => {
@@ -79,7 +82,7 @@ test("completes todo", async ({ page }) => {
 
   await expect(itemsLeft).toHaveText("3");
 
-  todos.first().getByRole("checkbox").check();
+  todos.nth(0).getByRole("checkbox").check();
 
   await expect(itemsLeft).toHaveText("2");
 
@@ -90,12 +93,32 @@ test("completes todo", async ({ page }) => {
   todos.nth(1).getByRole("checkbox").check();
 
   await expect(itemsLeft).toHaveText("0");
+
+  todos.nth(0).getByRole("checkbox").uncheck();
+
+  await expect(itemsLeft).toHaveText("1");
 });
 
-test.skip("deletes todo", async ({ page }) => {
-  await page.goto("/");
+test("deletes todo", async ({ page }) => {
+  const todos = getTodos(page);
+  const itemsLeft = getItemsLeft(page);
 
-  await expect(page).toHaveTitle(/my react template/i);
+  const texts = await createTodos(page, 3);
+
+  await todos.nth(0).getByRole("button", { name: "delete" }).click();
+
+  await expect(todos).toHaveText([new RegExp(texts[1]), new RegExp(texts[2])]);
+  await expect(itemsLeft).toHaveText("2");
+
+  await todos.nth(1).getByRole("button", { name: "delete" }).click();
+
+  await expect(todos).toHaveText([new RegExp(texts[1])]);
+  await expect(itemsLeft).toHaveText("1");
+
+  await todos.nth(0).getByRole("button", { name: "delete" }).click();
+
+  await expect(todos).toHaveCount(0);
+  await expect(itemsLeft).toHaveText("0");
 });
 
 test.skip("filters todos", async ({ page }) => {

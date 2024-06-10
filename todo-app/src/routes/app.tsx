@@ -148,6 +148,9 @@ export function App() {
                   onCompletedChange={(completed) => {
                     todos.toggleTodo(todo.id, completed);
                   }}
+                  onDelete={() => {
+                    todos.deleteTodo(todo.id);
+                  }}
                 />
               ))}
             </ol>
