@@ -21,6 +21,7 @@
 
     /* Not in style guide */
     --color-white: 0 0% 100%;
+    --color-black: 0 0% 0%;
 
     /* Font size */
     /* @link https://utopia.fyi/clamp/calculator?a=375,540,27—40|12—18|12—14|16—16 */
@@ -62,6 +63,8 @@
       hsl(var(--color-check-background-to))
     );
     --checkbox-foreground: var(--color-white);
+    --shadow: var(--color-light-grayish-blue);
+
     color-scheme: light;
   }
 
@@ -95,6 +98,7 @@
     --todo-border: var(--color-very-dark-grayish-blue-1);
     --filter-foreground: 235 16% 42%;
     --filter-foreground-hover: var(--color-light-grayish-blue-hover);
+    --shadow: var(--color-black);
 
     color-scheme: dark;
   }

@@ -89,7 +89,7 @@ export function App() {
               <label>
                 <span className="sr-only">Create a new todo</span>
                 <input
-                  className="bg-new text-new-foreground text-fs-todo w-full rounded py-5 pl-[3.25rem] pr-5 placeholder:text-new-foreground-placeholder tablet:py-[1.4375rem] tablet:pl-[4.5rem] tablet:pr-6"
+                  className="bg-new text-new-foreground text-fs-todo w-full rounded py-5 pl-[3.25rem] pr-5 shadow shadow-shadow/50 placeholder:text-new-foreground-placeholder tablet:py-[1.4375rem] tablet:pl-[4.5rem] tablet:pr-6"
                   type="text"
                   placeholder="Create a new todo…"
                   autoComplete="off"
@@ -98,7 +98,7 @@ export function App() {
             </p>
           </section>
           <section
-            className="bg-todo mt-4 rounded tablet:mt-6"
+            className="bg-todo mt-4 rounded shadow shadow-shadow/50 tablet:mt-6"
             aria-labelledby={todosHeadingId}
           >
             <h2 className="sr-only" id={todosHeadingId}>
@@ -137,7 +137,7 @@ export function App() {
           </section>
           {!tabletMatches ? (
             <section
-              className="bg-todo mt-4 rounded pt-4 px-5 pb-5"
+              className="bg-todo mt-4 rounded pt-4 px-5 pb-5 shadow shadow-shadow/50"
               aria-labelledby={todosOptionsFiltersHeadingId}
             >
               <h4 className="sr-only" id={todosOptionsFiltersHeadingId}>

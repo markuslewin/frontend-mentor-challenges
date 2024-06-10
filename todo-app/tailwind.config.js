@@ -42,6 +42,9 @@ export default {
       checkbox: {
         foreground: "hsl(var(--checkbox-foreground))",
       },
+      shadow: {
+        DEFAULT: "hsl(var(--shadow))",
+      },
     },
     backgroundImage: {
       header: "var(--header)",
@@ -69,6 +72,9 @@ export default {
     borderRadius: {
       DEFAULT: rem(5),
       full: "9999px",
+    },
+    boxShadow: {
+      DEFAULT: `0 ${rem(35)} ${rem(50)} ${rem(-15)}`,
     },
     extend: {},
   },
