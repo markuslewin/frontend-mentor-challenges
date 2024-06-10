@@ -8,24 +8,19 @@ import bgDesktopDark from "../assets/bg-desktop-dark.jpg?as=metadata";
 // @ts-expect-error Seach params
 import bgMobileDark from "../assets/bg-mobile-dark.jpg?as=metadata";
 import { screens } from "../utils/screens";
-import { InputHTMLAttributes, ReactNode, useId } from "react";
+import { InputHTMLAttributes, ReactNode, useId, useState } from "react";
 import { Icon } from "../components/icon";
 import { cva, cx } from "class-variance-authority";
 import { useMedia } from "../utils/use-media";
 import { useTheme } from "../utils/theme";
+import { z } from "zod";
+import { getFormProps, getInputProps, useForm } from "@conform-to/react";
+import { getZodConstraint, parseWithZod } from "@conform-to/zod";
+import { useTodos } from "../utils/todos";
 
-function useTodos() {
-  return {
-    items: [
-      { id: 1, text: "Complete online JavaScript course", completed: true },
-      { id: 2, text: "Jog around the park 3x", completed: false },
-      { id: 3, text: "10 minutes meditation", completed: false },
-      { id: 4, text: "Read for 1 hour", completed: false },
-      { id: 5, text: "Pick up groceries", completed: false },
-      { id: 6, text: "Complete Todo App on Frontend Mentor", completed: false },
-    ],
-  };
-}
+const addTodoSchema = z.object({
+  text: z.string().trim().min(1),
+});
 
 export function App() {
   const newHeadingId = useId();
@@ -35,6 +30,23 @@ export function App() {
   const tabletMatches = useMedia(`(min-width: ${screens.tablet})`);
   const { theme, setTheme } = useTheme();
   const todos = useTodos();
+  const [addTodoValue, setAddTodoValue] = useState("");
+  const [form, fields] = useForm({
+    constraint: getZodConstraint(addTodoSchema),
+    shouldValidate: "onBlur",
+    shouldRevalidate: "onInput",
+    onValidate({ formData }) {
+      return parseWithZod(formData, { schema: addTodoSchema });
+    },
+    onSubmit(e, { submission }) {
+      e.preventDefault();
+
+      if (submission?.status !== "success") return;
+
+      todos.addTodo(submission.value.text);
+      setAddTodoValue("");
+    },
+  });
 
   const nextTheme = theme === "light" ? "dark" : "light";
   const itemsLeft = 5;
@@ -95,17 +107,25 @@ export function App() {
                 <Checkbox className="border-new-border checked:border-new-border/0" />
               </label>
             </p>
-            <p className="col-span-full row-start-1">
+            <form
+              className="col-span-full row-start-1"
+              method="post"
+              {...getFormProps(form)}
+            >
               <label>
                 <span className="sr-only">Create a new todo</span>
                 <input
                   className="bg-new text-new-foreground text-fs-todo w-full rounded py-5 pl-[3.25rem] pr-5 shadow shadow-shadow/50 placeholder:text-new-foreground-placeholder tablet:py-[1.4375rem] tablet:pl-[4.5rem] tablet:pr-6"
-                  type="text"
                   placeholder="Create a new todo…"
                   autoComplete="off"
+                  value={addTodoValue}
+                  onChange={(e) => {
+                    setAddTodoValue(e.target.value);
+                  }}
+                  {...getInputProps(fields.text, { type: "text" })}
                 />
               </label>
-            </p>
+            </form>
           </section>
           <section
             className="bg-todo mt-4 rounded shadow shadow-shadow/50 tablet:mt-6"
@@ -114,7 +134,11 @@ export function App() {
             <h2 className="sr-only" id={todosHeadingId}>
               Todos
             </h2>
-            <ol className="text-todo-foreground text-fs-todo" role="list">
+            <ol
+              className="text-todo-foreground text-fs-todo"
+              role="list"
+              aria-labelledby={todosHeadingId}
+            >
               {todos.items.map((todo) => (
                 <Todo key={todo.id} {...todo} />
               ))}
