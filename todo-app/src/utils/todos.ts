@@ -28,5 +28,10 @@ export function useTodos() {
 
       setItems([...items, { completed: false, id: createId(), text }]);
     },
+    toggleTodo(id: string, completed: boolean) {
+      setItems(
+        items.map((item) => (item.id === id ? { ...item, completed } : item))
+      );
+    },
   };
 }

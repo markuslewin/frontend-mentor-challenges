@@ -12,6 +12,15 @@ function getItemsLeft(page: Page) {
   return page.getByTestId("items-left");
 }
 
+async function createTodos(page: Page, quantity?: number) {
+  const textbox = getTextbox(page);
+
+  for (const todo of TODO_ITEMS.slice(0, quantity)) {
+    await textbox.fill(todo);
+    await textbox.press("Enter");
+  }
+}
+
 test.beforeEach(async ({ page }) => {
   await page.goto("/");
 });
@@ -62,10 +71,25 @@ test("adds new todo", async ({ page }) => {
   await expect(itemsLeft).toHaveText("2");
 });
 
-test.skip("completes todo", async ({ page }) => {
-  await page.goto("/");
+test("completes todo", async ({ page }) => {
+  const todos = getTodos(page);
+  const itemsLeft = getItemsLeft(page);
 
-  await expect(page).toHaveTitle(/my react template/i);
+  await createTodos(page, 3);
+
+  await expect(itemsLeft).toHaveText("3");
+
+  todos.first().getByRole("checkbox").check();
+
+  await expect(itemsLeft).toHaveText("2");
+
+  todos.nth(2).getByRole("checkbox").check();
+
+  await expect(itemsLeft).toHaveText("1");
+
+  todos.nth(1).getByRole("checkbox").check();
+
+  await expect(itemsLeft).toHaveText("0");
 });
 
 test.skip("deletes todo", async ({ page }) => {

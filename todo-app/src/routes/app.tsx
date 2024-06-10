@@ -8,15 +8,17 @@ import bgDesktopDark from "../assets/bg-desktop-dark.jpg?as=metadata";
 // @ts-expect-error Seach params
 import bgMobileDark from "../assets/bg-mobile-dark.jpg?as=metadata";
 import { screens } from "../utils/screens";
-import { InputHTMLAttributes, ReactNode, useId, useState } from "react";
+import { ReactNode, useId, useState } from "react";
 import { Icon } from "../components/icon";
-import { cva, cx } from "class-variance-authority";
+import { cva } from "class-variance-authority";
 import { useMedia } from "../utils/use-media";
 import { useTheme } from "../utils/theme";
 import { z } from "zod";
 import { getFormProps, getInputProps, useForm } from "@conform-to/react";
 import { getZodConstraint, parseWithZod } from "@conform-to/zod";
 import { useTodos } from "../utils/todos";
+import { Checkbox } from "../components/checkbox";
+import { Todo } from "../components/todo";
 
 const addTodoSchema = z.object({
   text: z.string().trim().min(1),
@@ -140,7 +142,13 @@ export function App() {
               aria-labelledby={todosHeadingId}
             >
               {todos.items.map((todo) => (
-                <Todo key={todo.id} {...todo} />
+                <Todo
+                  key={todo.id}
+                  {...todo}
+                  onCompletedChange={(completed) => {
+                    todos.toggleTodo(todo.id, completed);
+                  }}
+                />
               ))}
             </ol>
             <section
@@ -189,67 +197,6 @@ export function App() {
         </main>
       </div>
     </div>
-  );
-}
-
-interface CheckboxProps extends InputHTMLAttributes<HTMLInputElement> {}
-
-function Checkbox({ className, ...props }: CheckboxProps) {
-  return (
-    <span className="isolate text-checkbox-foreground grid place-items-center">
-      <input
-        type="checkbox"
-        {...props}
-        className={cx(
-          "peer bg-origin-border bg-[transparent] col-start-1 row-start-1 appearance-none border rounded-full size-5 clickable-10 checked:bg-checkbox tablet:size-6",
-          className
-        )}
-      />
-      <Icon
-        className="col-start-1 row-start-1 pointer-events-none z-10 w-auto h-[0.4375rem] hidden peer-checked:block tablet:h-[0.5625rem]"
-        name="icon-check"
-        width="11"
-        height="9"
-      />
-    </span>
-  );
-}
-
-const todoVariants = cva(
-  "group first-of-type:border-0 border-t border-todo-border py-4 px-5 grid grid-cols-[auto_1fr_auto] items-center gap-3 tablet:py-5 tablet:px-6 tablet:gap-6",
-  {
-    variants: { completed: { true: "text-todo-foreground-fade line-through" } },
-  }
-);
-
-function Todo({ completed, text }: { text: string; completed: boolean }) {
-  const textId = useId();
-
-  return (
-    <li className={todoVariants({ completed })}>
-      <p>
-        <Checkbox
-          className="border-todo-border checked:border-todo-border/0"
-          defaultChecked={completed}
-          aria-labelledby={textId}
-        />
-      </p>
-      <p className="[text-decoration-line:inherit]">
-        <button
-          className="[text-decoration-line:inherit] text-start"
-          id={textId}
-          type="button"
-        >
-          {text}
-        </button>
-      </p>
-      <p>
-        <button className="text-todo-foreground block clickable-12 outline-offset-8 transition-opacity tablet:opacity-0 tablet:hocus:opacity-100 tablet:group-hover:opacity-100">
-          <Icon className="size-3 tablet:size-[1.125rem]" name="icon-cross" />
-          <span className="sr-only">Delete todo "{text}"</span>
-        </button>
-      </p>
-    </li>
   );
 }
 
