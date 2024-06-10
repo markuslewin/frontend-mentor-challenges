@@ -43,9 +43,11 @@
 
     --background: var(--color-very-light-gray);
     --foreground: var(--color-dark-grayish-blue);
+    --header: linear-gradient(to right, hsl(280 83% 55%), hsl(217 100% 67%));
     --header-foreground: var(--color-white);
     --new: var(--color-white);
-    --new-foreground: var(--color-dark-grayish-blue);
+    --new-foreground: var(--color-very-dark-grayish-blue);
+    --new-foreground-placeholder: var(--color-dark-grayish-blue);
     --new-border: var(--color-very-light-grayish-blue);
     --todo: var(--color-white);
     --todo-foreground: var(--color-very-dark-grayish-blue);
@@ -54,7 +56,12 @@
     --filter-foreground: var(--color-dark-grayish-blue);
     --filter-foreground-active: var(--color-bright-blue);
     --filter-foreground-hover: var(--color-very-dark-grayish-blue);
-
+    --checkbox: linear-gradient(
+      to bottom right,
+      hsl(var(--color-check-background-from)),
+      hsl(var(--color-check-background-to))
+    );
+    --checkbox-foreground: var(--color-white);
     color-scheme: light;
   }
 
@@ -73,8 +80,10 @@
 
     --background: var(--color-very-dark-blue);
     --foreground: var(--color-very-dark-grayish-blue);
+    --header: linear-gradient(to right, hsl(254 85% 40%), hsl(307 64% 39%));
     --new: var(--color-very-dark-desaturated-blue);
-    --new-foreground: var(--color-dark-grayish-blue);
+    --new-foreground: var(--color-light-grayish-blue);
+    --new-foreground-placeholder: var(--color-dark-grayish-blue);
     --new-border: var(--color-very-dark-grayish-blue-1);
     --todo: var(--color-very-dark-desaturated-blue);
     --todo-foreground: var(--color-light-grayish-blue);

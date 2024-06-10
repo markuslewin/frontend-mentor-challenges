@@ -18,7 +18,10 @@ export default {
       },
       new: {
         DEFAULT: "hsl(var(--new))",
-        foreground: "hsl(var(--new-foreground))",
+        foreground: {
+          DEFAULT: "hsl(var(--new-foreground))",
+          placeholder: "hsl(var(--new-foreground-placeholder))",
+        },
         border: "hsl(var(--new-border))",
       },
       todo: {
@@ -36,6 +39,13 @@ export default {
           hover: "hsl(var(--filter-foreground-hover))",
         },
       },
+      checkbox: {
+        foreground: "hsl(var(--checkbox-foreground))",
+      },
+    },
+    backgroundImage: {
+      header: "var(--header)",
+      checkbox: "var(--checkbox)",
     },
     fontFamily: {
       base: "'Josefin Sans Variable', sans-serif",
@@ -45,7 +55,7 @@ export default {
         "var(--fluid-27-40)",
         { fontWeight: 700, letterSpacing: "var(--fluid-10-15)" },
       ],
-      todo: [
+      "fs-todo": [
         "var(--fluid-12-18)",
         { letterSpacing: "var(--fluid--0.17--0.25)" },
       ],
@@ -55,6 +65,10 @@ export default {
         { letterSpacing: "var(--fluid--0.17--0.19)" },
       ],
       body: [rem(14), { letterSpacing: rem(-0.19) }],
+    },
+    borderRadius: {
+      DEFAULT: rem(5),
+      full: "9999px",
     },
     extend: {},
   },
