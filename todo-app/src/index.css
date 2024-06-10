@@ -65,6 +65,10 @@
     color-scheme: light;
   }
 
+  * {
+    @apply outline-offset-4;
+  }
+
   body {
     @apply font-base text-body leading-none bg-background text-foreground;
   }

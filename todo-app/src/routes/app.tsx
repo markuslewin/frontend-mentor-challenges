@@ -6,7 +6,8 @@ import bgMobileLight from "../assets/bg-mobile-light.jpg?as=metadata";
 import { screens } from "../utils/screens";
 import { InputHTMLAttributes, ReactNode, useId } from "react";
 import { Icon } from "../components/icon";
-import { cx } from "class-variance-authority";
+import { cva, cx } from "class-variance-authority";
+import { useMedia } from "../utils/use-media";
 
 function useTheme() {
   return { theme: "light" as const };
@@ -29,6 +30,8 @@ export function App() {
   const newHeadingId = useId();
   const todosHeadingId = useId();
   const todosOptionsHeadingId = useId();
+  const todosOptionsFiltersHeadingId = useId();
+  const tabletMatches = useMedia(`(min-width: ${screens.tablet})`);
   const { theme } = useTheme();
   const todos = useTodos();
 
@@ -94,37 +97,59 @@ export function App() {
               </label>
             </p>
           </section>
-          <section aria-labelledby={todosHeadingId}>
-            <h2 id={todosHeadingId}>Todos</h2>
-            <ol>
+          <section
+            className="bg-todo mt-4 rounded tablet:mt-6"
+            aria-labelledby={todosHeadingId}
+          >
+            <h2 className="sr-only" id={todosHeadingId}>
+              Todos
+            </h2>
+            <ol className="text-todo-foreground text-fs-todo" role="list">
               {todos.items.map((todo) => (
                 <Todo key={todo.id} {...todo} />
               ))}
             </ol>
-            <section aria-labelledby={todosOptionsHeadingId}>
-              <h3 id={todosOptionsHeadingId}>Todos options</h3>
-              <h4>Todos left</h4>
+            <section
+              className="text-clear text-filter-foreground border-t border-todo-border pt-4 px-5 pb-5 flex flex-wrap justify-between gap-4 tablet:px-6 tablet:grid tablet:grid-cols-3 tablet:gap-0"
+              aria-labelledby={todosOptionsHeadingId}
+            >
+              <h3 className="sr-only" id={todosOptionsHeadingId}>
+                Todos options
+              </h3>
+              <h4 className="sr-only">Todos left</h4>
               <p>{itemsLeft} items left</p>
-              <h4>Filter todos</h4>
-              <ul>
-                <li>
-                  <Filter value="">All</Filter>
-                </li>
-                <li>
-                  <Filter value="active">Active</Filter>
-                </li>
-                <li>
-                  <Filter value="completed">Completed</Filter>
-                </li>
-              </ul>
-              <h4>Clear completed todos</h4>
-              <p>
-                <button type="button">Clear completed</button>
+              {tabletMatches ? (
+                <>
+                  <h4 className="sr-only">Filter todos</h4>
+                  <Filters />
+                </>
+              ) : null}
+              <h4 className="sr-only">Clear completed todos</h4>
+              <p className="flex justify-end">
+                <button
+                  className="hocus:text-filter-foreground-hover"
+                  type="button"
+                >
+                  Clear completed
+                </button>
               </p>
             </section>
           </section>
-          <h2>Reordering todos</h2>
-          <p>Drag and drop to reorder list</p>
+          {!tabletMatches ? (
+            <section
+              className="bg-todo mt-4 rounded pt-4 px-5 pb-5"
+              aria-labelledby={todosOptionsFiltersHeadingId}
+            >
+              <h4 className="sr-only" id={todosOptionsFiltersHeadingId}>
+                Filter todos
+              </h4>
+              <Filters />
+            </section>
+          ) : null}
+          <h2 className="sr-only">Reordering todos</h2>
+          <p className="text-center mt-10 tablet:mt-12">
+            Drag and drop to reorder list
+          </p>
         </main>
       </div>
     </>
@@ -145,7 +170,7 @@ function Checkbox({ className, ...props }: CheckboxProps) {
         )}
       />
       <Icon
-        className="col-start-1 row-start-1 z-10 w-auto h-[0.4375rem] hidden peer-checked:block tablet:h-[0.5625rem]"
+        className="col-start-1 row-start-1 pointer-events-none z-10 w-auto h-[0.4375rem] hidden peer-checked:block tablet:h-[0.5625rem]"
         name="icon-check"
         width="11"
         height="9"
@@ -154,26 +179,57 @@ function Checkbox({ className, ...props }: CheckboxProps) {
   );
 }
 
+const todoVariants = cva(
+  "group first-of-type:border-0 border-t border-todo-border py-4 px-5 grid grid-cols-[auto_1fr_auto] items-center gap-3 tablet:py-5 tablet:px-6 tablet:gap-6",
+  {
+    variants: { completed: { true: "text-todo-foreground-fade line-through" } },
+  }
+);
+
 function Todo({ completed, text }: { text: string; completed: boolean }) {
   const textId = useId();
 
   return (
-    <li>
+    <li className={todoVariants({ completed })}>
       <p>
-        <Checkbox defaultChecked={completed} aria-labelledby={textId} />
+        <Checkbox
+          className="border-todo-border checked:border-todo-border/0"
+          defaultChecked={completed}
+          aria-labelledby={textId}
+        />
       </p>
-      <p>
-        <button id={textId} type="button">
+      <p className="[text-decoration-line:inherit]">
+        <button
+          className="[text-decoration-line:inherit] text-start"
+          id={textId}
+          type="button"
+        >
           {text}
         </button>
       </p>
       <p>
-        <button>
+        <button className="text-todo-foreground block clickable-12 outline-offset-8 transition-opacity tablet:opacity-0 tablet:hocus:opacity-100 tablet:group-hover:opacity-100">
           <Icon className="size-3 tablet:size-[1.125rem]" name="icon-cross" />
-          <span>Delete todo "{text}"</span>
+          <span className="sr-only">Delete todo "{text}"</span>
         </button>
       </p>
     </li>
+  );
+}
+
+function Filters() {
+  return (
+    <ul className="text-filter flex justify-center gap-5" role="list">
+      <li>
+        <Filter value="">All</Filter>
+      </li>
+      <li>
+        <Filter value="active">Active</Filter>
+      </li>
+      <li>
+        <Filter value="completed">Completed</Filter>
+      </li>
+    </ul>
   );
 }
 
@@ -182,13 +238,22 @@ interface FilterProps {
   value: "" | "active" | "completed";
 }
 
+const filterVariants = cva(
+  "transition-colors hocus:text-filter-foreground-hover",
+  {
+    variants: { isCurrent: { true: "text-filter-foreground-active" } },
+  }
+);
+
 function Filter({ children, value }: FilterProps) {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const state = searchParams.get("state") ?? "";
+  const isCurrent = state === value;
 
   return (
     <button
+      className={filterVariants({ isCurrent })}
       type="button"
       onClick={() => {
         setSearchParams(
@@ -199,7 +264,7 @@ function Filter({ children, value }: FilterProps) {
             : {}
         );
       }}
-      aria-current={state === value ? "true" : "false"}
+      aria-current={isCurrent ? "true" : "false"}
     >
       {children}
     </button>
