@@ -4,7 +4,8 @@ import bgDesktopLight from "../assets/bg-desktop-light.jpg?as=metadata";
 // @ts-expect-error Seach params
 import bgMobileLight from "../assets/bg-mobile-light.jpg?as=metadata";
 import { screens } from "../utils/screens";
-import { ReactNode, useId } from "react";
+import { InputHTMLAttributes, ReactNode, useId } from "react";
+import { Icon } from "../components/icon";
 
 function useTheme() {
   return { theme: "light" as const };
@@ -52,7 +53,10 @@ export function App() {
       <header>
         <h1 className="uppercase">Todo</h1>
         <p>
-          <button>Switch to {nextTheme} mode</button>
+          <button>
+            <Icon name={theme === "light" ? "icon-moon" : "icon-sun"} /> Switch
+            to {nextTheme} mode
+          </button>
         </p>
         <p aria-live="polite">{theme} mode enabled.</p>
       </header>
@@ -62,7 +66,7 @@ export function App() {
           <p>
             <label>
               <span>Toggle all todos</span>
-              <input type="checkbox" />
+              <Checkbox />
             </label>
           </p>
           <p>
@@ -112,17 +116,28 @@ export function App() {
   );
 }
 
+interface CheckboxProps extends InputHTMLAttributes<HTMLInputElement> {}
+
+function Checkbox(props: CheckboxProps) {
+  return (
+    <div>
+      <input
+        className="peer bg-[transparent] text-new-border appearance-none border rounded-full size-5 tablet:size-6"
+        type="checkbox"
+        {...props}
+      />
+      <Icon className="hidden peer-checked:block" name="icon-check" />
+    </div>
+  );
+}
+
 function Todo({ completed, text }: { text: string; completed: boolean }) {
   const textId = useId();
 
   return (
     <li>
       <p>
-        <input
-          type="checkbox"
-          defaultChecked={completed}
-          aria-labelledby={textId}
-        />
+        <Checkbox defaultChecked={completed} aria-labelledby={textId} />
       </p>
       <p>
         <button id={textId} type="button">
@@ -130,7 +145,10 @@ function Todo({ completed, text }: { text: string; completed: boolean }) {
         </button>
       </p>
       <p>
-        <button>Delete todo "{text}"</button>
+        <button>
+          <Icon className="size-3 tablet:size-[1.125rem]" name="icon-cross" />
+          <span>Delete todo "{text}"</span>
+        </button>
       </p>
     </li>
   );
