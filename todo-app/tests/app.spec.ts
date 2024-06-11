@@ -197,14 +197,14 @@ test("toggles all todos", async ({ page }) => {
 
   await expect(itemsLeft).toHaveText("3");
 
-  toggleAll.check();
+  await toggleAll.check();
 
   await expect(itemsLeft).toHaveText("0");
   for (const todo of await todos.all()) {
     await expect(todo.getByRole("checkbox")).toBeChecked();
   }
 
-  toggleAll.uncheck();
+  await toggleAll.uncheck();
 
   await expect(itemsLeft).toHaveText("6");
   for (const todo of await todos.all()) {
@@ -212,12 +212,29 @@ test("toggles all todos", async ({ page }) => {
   }
 });
 
-test.skip('"toggle all" checkbox updates according to state of todos', async ({
+test('"toggle all" checkbox updates according to state of todos', async ({
   page,
 }) => {
-  await page.goto("/");
+  const toggleAll = getToggleAllCheckbox(page);
+  const todos = getTodos(page);
 
-  await expect(page).toHaveTitle(/my react template/i);
+  await expect(toggleAll).not.toBeChecked();
+
+  await createTodos(page, 2);
+
+  await expect(toggleAll).not.toBeChecked();
+
+  await todos.nth(0).getByRole("checkbox").check();
+
+  await expect(toggleAll).not.toBeChecked();
+
+  await todos.nth(1).getByRole("checkbox").check();
+
+  await expect(toggleAll).toBeChecked();
+
+  await todos.nth(0).getByRole("checkbox").uncheck();
+
+  await expect(toggleAll).not.toBeChecked();
 });
 
 test.skip("drags and drops todos", async ({ page }) => {

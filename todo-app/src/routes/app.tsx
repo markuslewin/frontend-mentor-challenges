@@ -57,6 +57,8 @@ export function App() {
   const heroDesktop = theme === "light" ? bgDesktopLight : bgDesktopDark;
   const heroMobile = theme === "light" ? bgMobileLight : bgMobileDark;
 
+  const isCompleted =
+    !!todos.items.length && todos.items.every((todo) => todo.completed);
   const filteredTodos = todos.items.filter((todo) =>
     filter === "active"
       ? !todo.completed
@@ -117,6 +119,7 @@ export function App() {
                 <span className="sr-only">Toggle all todos</span>
                 <Checkbox
                   className="border-new-border checked:border-new-border/0"
+                  checked={isCompleted}
                   onChange={() => {
                     todos.toggleTodos();
                   }}
