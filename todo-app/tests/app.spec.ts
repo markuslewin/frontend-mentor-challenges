@@ -1,5 +1,9 @@
 import { test, expect, Page } from "@playwright/test";
 
+function getToggleAllCheckbox(page: Page) {
+  return page.getByRole("checkbox", { name: "toggle all" });
+}
+
 function getTextbox(page: Page) {
   return page.getByRole("textbox", { name: "create a new todo" });
 }
@@ -181,7 +185,36 @@ test("clears completed todos", async ({ page }) => {
   await expect(itemsLeft).toHaveText("3");
 });
 
-test.skip("toggles all todos", async ({ page }) => {
+test("toggles all todos", async ({ page }) => {
+  const toggleAll = getToggleAllCheckbox(page);
+  const todos = getTodos(page);
+  const itemsLeft = getItemsLeft(page);
+
+  await createTodos(page, 6);
+  await todos.nth(1).getByRole("checkbox").check();
+  await todos.nth(3).getByRole("checkbox").check();
+  await todos.nth(5).getByRole("checkbox").check();
+
+  await expect(itemsLeft).toHaveText("3");
+
+  toggleAll.check();
+
+  await expect(itemsLeft).toHaveText("0");
+  for (const todo of await todos.all()) {
+    await expect(todo.getByRole("checkbox")).toBeChecked();
+  }
+
+  toggleAll.uncheck();
+
+  await expect(itemsLeft).toHaveText("6");
+  for (const todo of await todos.all()) {
+    await expect(todo.getByRole("checkbox")).not.toBeChecked();
+  }
+});
+
+test.skip('"toggle all" checkbox updates according to state of todos', async ({
+  page,
+}) => {
   await page.goto("/");
 
   await expect(page).toHaveTitle(/my react template/i);

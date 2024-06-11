@@ -39,5 +39,12 @@ export function useTodos() {
     clearCompleted() {
       setItems(items.filter((item) => !item.completed));
     },
+    toggleTodos() {
+      if (items.some((item) => !item.completed)) {
+        setItems(items.map((item) => ({ ...item, completed: true })));
+      } else {
+        setItems(items.map((item) => ({ ...item, completed: false })));
+      }
+    },
   };
 }

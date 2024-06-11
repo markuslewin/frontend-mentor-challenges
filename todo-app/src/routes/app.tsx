@@ -115,7 +115,12 @@ export function App() {
             <p className="col-start-1 row-start-1 z-10 ml-5 tablet:ml-6">
               <label>
                 <span className="sr-only">Toggle all todos</span>
-                <Checkbox className="border-new-border checked:border-new-border/0" />
+                <Checkbox
+                  className="border-new-border checked:border-new-border/0"
+                  onChange={() => {
+                    todos.toggleTodos();
+                  }}
+                />
               </label>
             </p>
             <form
