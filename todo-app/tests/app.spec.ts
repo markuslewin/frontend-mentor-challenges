@@ -5,11 +5,17 @@ function getTextbox(page: Page) {
 }
 
 function getTodos(page: Page) {
-  return page.getByRole("list", { name: "todos" }).getByRole("listitem");
+  return page
+    .getByRole("list", { name: "Todos", exact: true })
+    .getByRole("listitem");
 }
 
 function getItemsLeft(page: Page) {
   return page.getByTestId("items-left");
+}
+
+function getFilters(page: Page) {
+  return page.getByRole("list", { name: "filter" });
 }
 
 async function createTodos(page: Page, quantity?: number) {
@@ -121,13 +127,42 @@ test("deletes todo", async ({ page }) => {
   await expect(itemsLeft).toHaveText("0");
 });
 
-test.skip("filters todos", async ({ page }) => {
+test("filters todos", async ({ page }) => {
+  const todos = getTodos(page);
+  const filters = getFilters(page);
+
+  const texts = await createTodos(page, 6);
+  await todos.nth(0).getByRole("checkbox").check();
+  await todos.nth(2).getByRole("checkbox").check();
+  await todos.nth(4).getByRole("checkbox").check();
+  await filters.getByRole("button", { name: "active" }).click();
+
+  await expect(todos).toHaveText([
+    new RegExp(texts[1]),
+    new RegExp(texts[3]),
+    new RegExp(texts[5]),
+  ]);
+
+  await filters.getByRole("button", { name: "completed" }).click();
+
+  await expect(todos).toHaveText([
+    new RegExp(texts[0]),
+    new RegExp(texts[2]),
+    new RegExp(texts[4]),
+  ]);
+
+  await filters.getByRole("button", { name: "all" }).click();
+
+  await expect(todos).toHaveText(texts.map((text) => new RegExp(text)));
+});
+
+test.skip("clears completed todos", async ({ page }) => {
   await page.goto("/");
 
   await expect(page).toHaveTitle(/my react template/i);
 });
 
-test.skip("clears completed todos", async ({ page }) => {
+test.skip("toggles all todos", async ({ page }) => {
   await page.goto("/");
 
   await expect(page).toHaveTitle(/my react template/i);
@@ -140,12 +175,6 @@ test.skip("drags and drops todos", async ({ page }) => {
 });
 
 test.skip("persists application state", async ({ page }) => {
-  await page.goto("/");
-
-  await expect(page).toHaveTitle(/my react template/i);
-});
-
-test.skip("toggles todos", async ({ page }) => {
   await page.goto("/");
 
   await expect(page).toHaveTitle(/my react template/i);

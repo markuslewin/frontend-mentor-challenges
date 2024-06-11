@@ -1,4 +1,3 @@
-import { useSearchParams } from "react-router-dom";
 // @ts-expect-error Seach params
 import bgDesktopLight from "../assets/bg-desktop-light.jpg?as=metadata";
 // @ts-expect-error Seach params
@@ -8,7 +7,7 @@ import bgDesktopDark from "../assets/bg-desktop-dark.jpg?as=metadata";
 // @ts-expect-error Seach params
 import bgMobileDark from "../assets/bg-mobile-dark.jpg?as=metadata";
 import { screens } from "../utils/screens";
-import { ReactNode, useId, useState } from "react";
+import { HTMLAttributes, ReactNode, useId, useState } from "react";
 import { Icon } from "../components/icon";
 import { cva } from "class-variance-authority";
 import { useMedia } from "../utils/use-media";
@@ -19,12 +18,14 @@ import { getZodConstraint, parseWithZod } from "@conform-to/zod";
 import { useTodos } from "../utils/todos";
 import { Checkbox } from "../components/checkbox";
 import { Todo } from "../components/todo";
+import { type Filter, useFilter } from "../utils/filter";
 
 const addTodoSchema = z.object({
   text: z.string().trim().min(1),
 });
 
 export function App() {
+  const { filter } = useFilter();
   const newHeadingId = useId();
   const todosHeadingId = useId();
   const todosOptionsHeadingId = useId();
@@ -55,6 +56,14 @@ export function App() {
 
   const heroDesktop = theme === "light" ? bgDesktopLight : bgDesktopDark;
   const heroMobile = theme === "light" ? bgMobileLight : bgMobileDark;
+
+  const filteredTodos = todos.items.filter((todo) =>
+    filter === "active"
+      ? !todo.completed
+      : filter === "completed"
+        ? todo.completed
+        : true
+  );
 
   return (
     <div className="min-h-screen pb-20">
@@ -141,7 +150,7 @@ export function App() {
               role="list"
               aria-labelledby={todosHeadingId}
             >
-              {todos.items.map((todo) => (
+              {filteredTodos.map((todo) => (
                 <Todo
                   key={todo.id}
                   {...todo}
@@ -167,8 +176,10 @@ export function App() {
               </p>
               {tabletMatches ? (
                 <>
-                  <h4 className="sr-only">Filter todos</h4>
-                  <Filters />
+                  <h4 className="sr-only" id={todosOptionsFiltersHeadingId}>
+                    Filter todos
+                  </h4>
+                  <Filters aria-labelledby={todosOptionsFiltersHeadingId} />
                 </>
               ) : null}
               <h4 className="sr-only">Clear completed todos</h4>
@@ -190,7 +201,7 @@ export function App() {
               <h4 className="sr-only" id={todosOptionsFiltersHeadingId}>
                 Filter todos
               </h4>
-              <Filters />
+              <Filters aria-labelledby={todosOptionsFiltersHeadingId} />
             </section>
           ) : null}
           <h2 className="sr-only">Reordering todos</h2>
@@ -203,11 +214,17 @@ export function App() {
   );
 }
 
-function Filters() {
+interface FiltersProps extends HTMLAttributes<HTMLUListElement> {}
+
+function Filters(props: FiltersProps) {
   return (
-    <ul className="text-filter flex justify-center gap-5" role="list">
+    <ul
+      className="text-filter flex justify-center gap-5"
+      role="list"
+      {...props}
+    >
       <li>
-        <Filter value="">All</Filter>
+        <Filter value={null}>All</Filter>
       </li>
       <li>
         <Filter value="active">Active</Filter>
@@ -221,9 +238,8 @@ function Filters() {
 
 interface FilterProps {
   children: ReactNode;
-  value: "" | "active" | "completed";
+  value: Filter | null;
 }
-
 const filterVariants = cva(
   "transition-colors hocus:text-filter-foreground-hover",
   {
@@ -232,23 +248,16 @@ const filterVariants = cva(
 );
 
 function Filter({ children, value }: FilterProps) {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const { filter, setFilter } = useFilter();
 
-  const state = searchParams.get("state") ?? "";
-  const isCurrent = state === value;
+  const isCurrent = filter === value;
 
   return (
     <button
       className={filterVariants({ isCurrent })}
       type="button"
       onClick={() => {
-        setSearchParams(
-          value
-            ? {
-                state: value,
-              }
-            : {}
-        );
+        setFilter(value);
       }}
       aria-current={isCurrent ? "true" : "false"}
     >

@@ -30,7 +30,7 @@ export function Todo({
       <p>
         <Checkbox
           className="border-todo-border checked:border-todo-border/0"
-          defaultChecked={completed}
+          checked={completed}
           aria-labelledby={textId}
           onChange={() => {
             onCompletedChange(!completed);
