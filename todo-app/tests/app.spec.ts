@@ -129,6 +129,7 @@ test("deletes todo", async ({ page }) => {
 
 test("filters todos", async ({ page }) => {
   const todos = getTodos(page);
+  const itemsLeft = getItemsLeft(page);
   const filters = getFilters(page);
 
   const texts = await createTodos(page, 6);
@@ -142,6 +143,7 @@ test("filters todos", async ({ page }) => {
     new RegExp(texts[3]),
     new RegExp(texts[5]),
   ]);
+  await expect(itemsLeft).toHaveText("3");
 
   await filters.getByRole("button", { name: "completed" }).click();
 
@@ -150,16 +152,33 @@ test("filters todos", async ({ page }) => {
     new RegExp(texts[2]),
     new RegExp(texts[4]),
   ]);
+  await expect(itemsLeft).toHaveText("3");
 
   await filters.getByRole("button", { name: "all" }).click();
 
   await expect(todos).toHaveText(texts.map((text) => new RegExp(text)));
+  await expect(itemsLeft).toHaveText("3");
 });
 
-test.skip("clears completed todos", async ({ page }) => {
-  await page.goto("/");
+test("clears completed todos", async ({ page }) => {
+  const todos = getTodos(page);
+  const itemsLeft = getItemsLeft(page);
 
-  await expect(page).toHaveTitle(/my react template/i);
+  const texts = await createTodos(page, 6);
+  await todos.nth(0).getByRole("checkbox").check();
+  await todos.nth(1).getByRole("checkbox").check();
+  await todos.nth(2).getByRole("checkbox").check();
+
+  await expect(itemsLeft).toHaveText("3");
+
+  await page.getByRole("button", { name: "clear" }).click();
+
+  await expect(todos).toHaveText([
+    new RegExp(texts[3]),
+    new RegExp(texts[4]),
+    new RegExp(texts[5]),
+  ]);
+  await expect(itemsLeft).toHaveText("3");
 });
 
 test.skip("toggles all todos", async ({ page }) => {

@@ -187,6 +187,9 @@ export function App() {
                 <button
                   className="transition-colors hocus:text-filter-foreground-hover"
                   type="button"
+                  onClick={() => {
+                    todos.clearCompleted();
+                  }}
                 >
                   Clear completed
                 </button>

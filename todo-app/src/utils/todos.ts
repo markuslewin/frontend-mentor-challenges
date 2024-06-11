@@ -36,5 +36,8 @@ export function useTodos() {
     deleteTodo(id: string) {
       setItems(items.filter((item) => item.id !== id));
     },
+    clearCompleted() {
+      setItems(items.filter((item) => !item.completed));
+    },
   };
 }
