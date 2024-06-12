@@ -1,3 +1,4 @@
+import { arrayMove } from "@dnd-kit/sortable";
 import { invariant } from "@epic-web/invariant";
 import { createId } from "@paralleldrive/cuid2";
 import { useState } from "react";
@@ -17,6 +18,8 @@ const todos =
           completed: false,
         },
       ];
+
+export type Todo = (typeof todos)[number];
 
 export function useTodos() {
   const [items, setItems] = useState(todos);
@@ -45,6 +48,9 @@ export function useTodos() {
       } else {
         setItems(items.map((item) => ({ ...item, completed: false })));
       }
+    },
+    reorder(from: number, to: number) {
+      setItems(arrayMove(items, from, to));
     },
   };
 }

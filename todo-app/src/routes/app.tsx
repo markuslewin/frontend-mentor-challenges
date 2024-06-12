@@ -19,6 +19,7 @@ import { useTodos } from "../utils/todos";
 import { Checkbox } from "../components/checkbox";
 import { Todo } from "../components/todo";
 import { type Filter, useFilter } from "../utils/filter";
+import { Todos } from "../components/todos";
 
 const addTodoSchema = z.object({
   text: z.string().trim().min(1),
@@ -52,7 +53,6 @@ export function App() {
   });
 
   const nextTheme = theme === "light" ? "dark" : "light";
-  const itemsLeft = todos.items.filter((todo) => !todo.completed).length;
 
   const heroDesktop = theme === "light" ? bgDesktopLight : bgDesktopDark;
   const heroMobile = theme === "light" ? bgMobileLight : bgMobileDark;
@@ -66,6 +66,7 @@ export function App() {
         ? todo.completed
         : true
   );
+  const itemsLeft = todos.items.filter((todo) => !todo.completed).length;
 
   return (
     <div className="min-h-screen pb-20">
@@ -153,10 +154,12 @@ export function App() {
             <h2 className="sr-only" id={todosHeadingId}>
               Todos
             </h2>
-            <ol
-              className="text-todo-foreground text-fs-todo"
-              role="list"
+            <Todos
+              items={todos.items}
               aria-labelledby={todosHeadingId}
+              onReorder={(from, to) => {
+                todos.reorder(from, to);
+              }}
             >
               {filteredTodos.map((todo) => (
                 <Todo
@@ -170,7 +173,7 @@ export function App() {
                   }}
                 />
               ))}
-            </ol>
+            </Todos>
             <section
               className="text-clear text-filter-foreground border-t border-todo-border pt-4 px-5 pb-5 flex flex-wrap justify-between gap-4 tablet:px-6 tablet:grid tablet:grid-cols-3 tablet:gap-0"
               aria-labelledby={todosOptionsHeadingId}
