@@ -23,6 +23,7 @@ export default {
           placeholder: "hsl(var(--new-foreground-placeholder))",
         },
         border: "hsl(var(--new-border))",
+        caret: "hsl(var(--new-caret))",
       },
       todo: {
         DEFAULT: "hsl(var(--todo))",

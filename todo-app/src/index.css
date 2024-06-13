@@ -50,6 +50,7 @@
     --new-foreground: var(--color-very-dark-grayish-blue);
     --new-foreground-placeholder: var(--color-dark-grayish-blue);
     --new-border: var(--color-very-light-grayish-blue);
+    --new-caret: var(--color-bright-blue);
     --todo: var(--color-white);
     --todo-foreground: var(--color-very-dark-grayish-blue);
     --todo-foreground-fade: var(--color-light-grayish-blue);

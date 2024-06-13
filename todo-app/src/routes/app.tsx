@@ -136,7 +136,7 @@ export function App() {
               <label>
                 <span className="sr-only">Create a new todo</span>
                 <input
-                  className="bg-new text-new-foreground text-fs-todo w-full rounded py-5 pl-[3.25rem] pr-5 shadow shadow-shadow/50 placeholder:text-new-foreground-placeholder tablet:py-[1.4375rem] tablet:pl-[4.5rem] tablet:pr-6"
+                  className="bg-new text-new-foreground caret-new-caret text-fs-todo w-full rounded py-5 pl-[3.25rem] pr-5 shadow shadow-shadow/50 placeholder:text-new-foreground-placeholder tablet:py-[1.4375rem] tablet:pl-[4.5rem] tablet:pr-6"
                   placeholder="Create a new todo…"
                   autoComplete="off"
                   value={addTodoValue}
