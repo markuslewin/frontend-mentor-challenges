@@ -64,6 +64,14 @@
       hsl(var(--color-check-background-to))
     );
     --checkbox-foreground: var(--color-white);
+    --checkbox-border: linear-gradient(hsl(var(--todo)), hsl(var(--todo)))
+        padding-box,
+      linear-gradient(
+          to bottom right,
+          hsl(var(--color-check-background-from)),
+          hsl(var(--color-check-background-to))
+        )
+        border-box;
     --shadow: var(--color-light-grayish-blue);
 
     color-scheme: light;

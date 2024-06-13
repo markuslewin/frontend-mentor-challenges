@@ -6,7 +6,7 @@ interface CheckboxProps extends InputHTMLAttributes<HTMLInputElement> {}
 
 export function Checkbox({ className, ...props }: CheckboxProps) {
   return (
-    <span className="isolate text-checkbox-foreground grid place-items-center">
+    <span className="isolate relative text-checkbox-foreground grid place-items-center">
       <input
         type="checkbox"
         {...props}
@@ -15,6 +15,7 @@ export function Checkbox({ className, ...props }: CheckboxProps) {
           className
         )}
       />
+      <span className="absolute inset-0 pointer-events-none [background:var(--checkbox-border)] rounded-full border border-[transparent] opacity-0 transition-opacity peer-hover:opacity-100 peer-focus-visible:opacity-100 peer-checked:!opacity-0" />
       <Icon
         className="col-start-1 row-start-1 pointer-events-none z-10 w-auto h-[0.4375rem] hidden peer-checked:block tablet:h-[0.5625rem]"
         name="icon-check"
