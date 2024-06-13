@@ -237,10 +237,34 @@ test('"toggle all" checkbox updates according to state of todos', async ({
   await expect(toggleAll).not.toBeChecked();
 });
 
-test.skip("drags and drops todos", async ({ page }) => {
-  await page.goto("/");
+test("reorders todos", async ({ page }) => {
+  const todos = getTodos(page);
 
-  await expect(page).toHaveTitle(/my react template/i);
+  const texts = await createTodos(page, 3);
+
+  const first = todos
+    .nth(0)
+    .getByRole("button", { name: texts[0], exact: true });
+  await first.press("Space");
+  await first.press("ArrowDown");
+  await first.press("Space");
+
+  await expect(todos).toHaveText([
+    new RegExp(texts[1]),
+    new RegExp(texts[0]),
+    new RegExp(texts[2]),
+  ]);
+
+  const last = todos
+    .nth(2)
+    .getByRole("button", { name: texts[2], exact: true });
+  await last.dragTo(todos.nth(0));
+
+  await expect(todos).toHaveText([
+    new RegExp(texts[2]),
+    new RegExp(texts[1]),
+    new RegExp(texts[0]),
+  ]);
 });
 
 test.skip("persists application state", async ({ page }) => {
