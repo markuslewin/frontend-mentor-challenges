@@ -60,12 +60,12 @@ export default {
       ],
       "fs-todo": [
         "var(--fluid-12-18)",
-        { letterSpacing: "var(--fluid--0.17--0.25)" },
+        { letterSpacing: "var(--fluid--0\\.17--0\\.25)" },
       ],
       filter: [rem(14), { fontWeight: 700, letterSpacing: rem(-0.19) }],
       clear: [
         "var(--fluid-12-14)",
-        { letterSpacing: "var(--fluid--0.17--0.19)" },
+        { letterSpacing: "var(--fluid--0\\.17--0\\.19)" },
       ],
       body: [rem(14), { letterSpacing: rem(-0.19) }],
     },
