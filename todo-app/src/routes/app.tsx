@@ -9,7 +9,7 @@ import bgMobileDark from "../assets/bg-mobile-dark.jpg?as=metadata";
 import { screens } from "../utils/screens";
 import { HTMLAttributes, ReactNode, useId, useState } from "react";
 import { Icon } from "../components/icon";
-import { cva } from "class-variance-authority";
+import { cx } from "class-variance-authority";
 import { useMedia } from "../utils/use-media";
 import { useTheme } from "../utils/theme";
 import { z } from "zod";
@@ -18,8 +18,9 @@ import { getZodConstraint, parseWithZod } from "@conform-to/zod";
 import { useTodos } from "../utils/todos";
 import { Checkbox } from "../components/checkbox";
 import { Todo } from "../components/todo";
-import { type Filter, useFilter } from "../utils/filter";
+import { type Filter, useFilter, createFilterParams } from "../utils/filter";
 import { Todos } from "../components/todos";
+import { Link } from "react-router-dom";
 
 const addTodoSchema = z.object({
   text: z.string().trim().min(1),
@@ -254,28 +255,22 @@ interface FilterProps {
   children: ReactNode;
   value: Filter | null;
 }
-const filterVariants = cva(
-  "transition-colors hocus:text-filter-foreground-hover",
-  {
-    variants: { isCurrent: { true: "text-filter-foreground-active" } },
-  }
-);
 
 function Filter({ children, value }: FilterProps) {
-  const { filter, setFilter } = useFilter();
+  const { filter } = useFilter();
 
   const isCurrent = filter === value;
 
   return (
-    <button
-      className={filterVariants({ isCurrent })}
-      type="button"
-      onClick={() => {
-        setFilter(value);
-      }}
+    <Link
+      className={cx(
+        "transition-colors hocus:text-filter-foreground-hover",
+        isCurrent ? "text-filter-foreground-active" : ""
+      )}
+      to={`/?${createFilterParams(value)}`}
       aria-current={isCurrent ? "true" : "false"}
     >
       {children}
-    </button>
+    </Link>
   );
 }

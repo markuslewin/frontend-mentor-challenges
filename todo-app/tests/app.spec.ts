@@ -140,7 +140,7 @@ test("filters todos", async ({ page }) => {
   await todos.nth(0).getByRole("checkbox").check();
   await todos.nth(2).getByRole("checkbox").check();
   await todos.nth(4).getByRole("checkbox").check();
-  await filters.getByRole("button", { name: "active" }).click();
+  await filters.getByRole("link", { name: "active" }).click();
 
   await expect(todos).toHaveText([
     new RegExp(texts[1]),
@@ -149,7 +149,7 @@ test("filters todos", async ({ page }) => {
   ]);
   await expect(itemsLeft).toHaveText("3");
 
-  await filters.getByRole("button", { name: "completed" }).click();
+  await filters.getByRole("link", { name: "completed" }).click();
 
   await expect(todos).toHaveText([
     new RegExp(texts[0]),
@@ -158,7 +158,7 @@ test("filters todos", async ({ page }) => {
   ]);
   await expect(itemsLeft).toHaveText("3");
 
-  await filters.getByRole("button", { name: "all" }).click();
+  await filters.getByRole("link", { name: "all" }).click();
 
   await expect(todos).toHaveText(texts.map((text) => new RegExp(text)));
   await expect(itemsLeft).toHaveText("3");
