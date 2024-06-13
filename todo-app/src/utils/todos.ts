@@ -1,9 +1,24 @@
 import { arrayMove } from "@dnd-kit/sortable";
 import { invariant } from "@epic-web/invariant";
 import { createId } from "@paralleldrive/cuid2";
-import { useState } from "react";
+import { useLocalStorage } from "@uidotdev/usehooks";
+import { useMemo } from "react";
+import { z } from "zod";
 
-const todos =
+const todosKey = "todos";
+
+const todosSchema = z.array(
+  z.object({
+    id: z.string(),
+    text: z.string(),
+    completed: z.boolean(),
+  })
+);
+
+export type Todos = z.infer<typeof todosSchema>;
+export type Todo = Todos[number];
+
+const todos: Todos =
   process.env.NODE_ENV === "test"
     ? []
     : [
@@ -19,10 +34,9 @@ const todos =
         },
       ];
 
-export type Todo = (typeof todos)[number];
-
 export function useTodos() {
-  const [items, setItems] = useState(todos);
+  const [json, setItems] = useLocalStorage<unknown>(todosKey, todos);
+  const items = useMemo(() => todosSchema.parse(json), [json]);
 
   return {
     items,

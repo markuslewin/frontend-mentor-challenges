@@ -267,8 +267,18 @@ test("reorders todos", async ({ page }) => {
   ]);
 });
 
-test.skip("persists application state", async ({ page }) => {
-  await page.goto("/");
+test("persists todos", async ({ page }) => {
+  const todos = getTodos(page);
 
-  await expect(page).toHaveTitle(/my react template/i);
+  const texts = await createTodos(page, 3);
+  await todos.nth(1).getByRole("checkbox").check();
+  await todos.first().dragTo(todos.last());
+  await page.reload();
+
+  await expect(todos.nth(0)).toHaveText(new RegExp(texts[1]));
+  await expect(todos.nth(0).getByRole("checkbox")).toBeChecked();
+  await expect(todos.nth(1)).toHaveText(new RegExp(texts[2]));
+  await expect(todos.nth(1).getByRole("checkbox")).not.toBeChecked();
+  await expect(todos.nth(2)).toHaveText(new RegExp(texts[0]));
+  await expect(todos.nth(2).getByRole("checkbox")).not.toBeChecked();
 });

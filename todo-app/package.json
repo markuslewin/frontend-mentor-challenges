@@ -26,6 +26,7 @@
     "@netlify/functions": "^2.6.0",
     "@paralleldrive/cuid2": "^2.2.2",
     "@radix-ui/react-dialog": "^1.0.5",
+    "@uidotdev/usehooks": "^2.4.1",
     "class-variance-authority": "^0.7.0",
     "execa": "^8.0.1",
     "glob": "^10.3.12",
