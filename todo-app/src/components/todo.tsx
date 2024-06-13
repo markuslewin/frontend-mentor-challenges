@@ -52,23 +52,23 @@ export function Todo({
           transition,
         }}
       >
-        <p>
+        <CheckboxContainer>
           <TodoCheckbox
             onChange={() => {
               onCompletedChange(!completed);
             }}
           />
-        </p>
-        <p>
+        </CheckboxContainer>
+        <TextContainer>
           <Text ref={setActivatorNodeRef} {...attributes} {...listeners} />
-        </p>
-        <p>
+        </TextContainer>
+        <DeleteContainer>
           <Delete
             onClick={() => {
               onDelete();
             }}
           />
-        </p>
+        </DeleteContainer>
       </Item>
     </Root>
   );
@@ -83,15 +83,15 @@ export function TodoPresentation({ completed, text }: TodoPresentationProps) {
   return (
     <Root completed={completed} text={text}>
       <Item className="bg-todo">
-        <p>
+        <CheckboxContainer>
           <TodoCheckbox readOnly />
-        </p>
-        <p>
+        </CheckboxContainer>
+        <TextContainer>
           <Text />
-        </p>
-        <p>
+        </TextContainer>
+        <DeleteContainer>
           <Delete />
-        </p>
+        </DeleteContainer>
       </Item>
     </Root>
   );
@@ -137,7 +137,7 @@ const Item = forwardRef<HTMLLIElement, ItemProps>(
       <li
         {...props}
         className={cx(
-          "group text-todo-foreground text-fs-todo first-of-type:border-0 border-t border-todo-border py-4 px-5 grid grid-cols-[auto_1fr_auto] items-center gap-3 tablet:py-5 tablet:px-6 tablet:gap-6",
+          "group text-todo-foreground text-fs-todo first-of-type:border-0 border-t border-todo-border grid grid-cols-[auto_1fr_auto] items-center gap-3 tablet:gap-6",
           completed ? "text-todo-foreground-fade" : "",
           className
         )}
@@ -146,6 +146,30 @@ const Item = forwardRef<HTMLLIElement, ItemProps>(
     );
   }
 );
+
+interface CheckboxContainerProps {
+  children: ReactNode;
+}
+
+function CheckboxContainer({ children }: CheckboxContainerProps) {
+  return <p className="col-start-1 row-start-1 ml-5 tablet:ml-6">{children}</p>;
+}
+
+interface TextContainerProps {
+  children: ReactNode;
+}
+
+function TextContainer({ children }: TextContainerProps) {
+  return <p className="col-span-full row-start-1">{children}</p>;
+}
+
+interface DeleteContainerProps {
+  children: ReactNode;
+}
+
+function DeleteContainer({ children }: DeleteContainerProps) {
+  return <p className="row-start-1 col-start-3 mr-5 tablet:mr-6">{children}</p>;
+}
 
 interface TodoCheckboxProps extends InputHTMLAttributes<HTMLInputElement> {}
 
@@ -171,7 +195,10 @@ const Text = forwardRef<HTMLButtonElement, TextProps>((props, ref) => {
   return (
     <button
       {...props}
-      className={cx("text-start touch-none", completed ? "line-through" : "")}
+      className={cx(
+        "text-start touch-none w-full py-5 px-[3.25rem] tablet:py-6 tablet:px-[4.5rem]",
+        completed ? "line-through" : ""
+      )}
       ref={ref}
       id={textId}
       type="button"
