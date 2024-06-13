@@ -36,6 +36,7 @@ export function Todo({
       tabIndex,
       ...attributes
     },
+    active,
     listeners,
     setNodeRef,
     transform,
@@ -43,32 +44,37 @@ export function Todo({
     setActivatorNodeRef,
   } = useSortable({ id, attributes: { role: "", tabIndex: undefined } });
 
+  const isActive = active !== null && active.id === id;
+
   return (
     <Root completed={completed} text={text}>
       <Item
+        className="border-b border-todo-border"
         ref={setNodeRef}
         style={{
           transform: CSS.Transform.toString(transform),
           transition,
         }}
       >
-        <CheckboxContainer>
-          <TodoCheckbox
-            onChange={() => {
-              onCompletedChange(!completed);
-            }}
-          />
-        </CheckboxContainer>
-        <TextContainer>
-          <Text ref={setActivatorNodeRef} {...attributes} {...listeners} />
-        </TextContainer>
-        <DeleteContainer>
-          <Delete
-            onClick={() => {
-              onDelete();
-            }}
-          />
-        </DeleteContainer>
+        <Content className={cx(isActive ? "opacity-0" : "")}>
+          <CheckboxContainer>
+            <TodoCheckbox
+              onChange={() => {
+                onCompletedChange(!completed);
+              }}
+            />
+          </CheckboxContainer>
+          <TextContainer>
+            <Text ref={setActivatorNodeRef} {...attributes} {...listeners} />
+          </TextContainer>
+          <DeleteContainer>
+            <Delete
+              onClick={() => {
+                onDelete();
+              }}
+            />
+          </DeleteContainer>
+        </Content>
       </Item>
     </Root>
   );
@@ -82,16 +88,18 @@ interface TodoPresentationProps {
 export function TodoPresentation({ completed, text }: TodoPresentationProps) {
   return (
     <Root completed={completed} text={text}>
-      <Item className="bg-todo">
-        <CheckboxContainer>
-          <TodoCheckbox readOnly />
-        </CheckboxContainer>
-        <TextContainer>
-          <Text />
-        </TextContainer>
-        <DeleteContainer>
-          <Delete />
-        </DeleteContainer>
+      <Item className="bg-todo list-none">
+        <Content>
+          <CheckboxContainer>
+            <TodoCheckbox readOnly />
+          </CheckboxContainer>
+          <TextContainer>
+            <Text />
+          </TextContainer>
+          <DeleteContainer>
+            <Delete />
+          </DeleteContainer>
+        </Content>
       </Item>
     </Root>
   );
@@ -137,7 +145,7 @@ const Item = forwardRef<HTMLLIElement, ItemProps>(
       <li
         {...props}
         className={cx(
-          "group text-todo-foreground text-fs-todo first-of-type:border-0 border-t border-todo-border grid grid-cols-[auto_1fr_auto] items-center gap-3 tablet:gap-6",
+          "group text-todo-foreground text-fs-todo",
           completed ? "text-todo-foreground-fade" : "",
           className
         )}
@@ -146,6 +154,21 @@ const Item = forwardRef<HTMLLIElement, ItemProps>(
     );
   }
 );
+
+interface ContentProps extends HTMLAttributes<HTMLDivElement> {}
+
+function Content({ className, children }: ContentProps) {
+  return (
+    <div
+      className={cx(
+        "grid grid-cols-[auto_1fr_auto] items-center gap-3 tablet:gap-6",
+        className
+      )}
+    >
+      {children}
+    </div>
+  );
+}
 
 interface CheckboxContainerProps {
   children: ReactNode;

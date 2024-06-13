@@ -176,7 +176,7 @@ export function App() {
               ))}
             </Todos>
             <section
-              className="text-clear text-filter-foreground border-t border-todo-border pt-4 px-5 pb-5 flex flex-wrap justify-between gap-4 tablet:px-6 tablet:grid tablet:grid-cols-3 tablet:gap-0"
+              className="text-clear text-filter-foreground pt-4 px-5 pb-5 flex flex-wrap justify-between gap-4 tablet:px-6 tablet:grid tablet:grid-cols-3 tablet:gap-0"
               aria-labelledby={todosOptionsHeadingId}
             >
               <h3 className="sr-only" id={todosOptionsHeadingId}>
