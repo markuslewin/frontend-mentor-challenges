@@ -268,6 +268,7 @@ function Filter({ children, value }: FilterProps) {
         isCurrent ? "text-filter-foreground-active" : ""
       )}
       to={`/?${createFilterParams(value)}`}
+      replace
       aria-current={isCurrent ? "true" : "false"}
     >
       {children}
