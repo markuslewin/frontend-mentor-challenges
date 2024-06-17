@@ -7,25 +7,57 @@ import desktopBgDaytime from "#app/assets/desktop/bg-image-daytime.jpg?format=we
 import tabletBgDaytime from "#app/assets/tablet/bg-image-daytime.jpg?format=webp&as=metadata";
 // @ts-expect-error Search params
 import mobileBgDaytime from "#app/assets/mobile/bg-image-daytime.jpg?format=webp&as=metadata";
+// @ts-expect-error Search params
+import desktopBgNighttime from "#app/assets/desktop/bg-image-nighttime.jpg?format=webp&as=metadata";
+// @ts-expect-error Search params
+import tabletBgNighttime from "#app/assets/tablet/bg-image-nighttime.jpg?format=webp&as=metadata";
+// @ts-expect-error Search params
+import mobileBgNighttime from "#app/assets/mobile/bg-image-nighttime.jpg?format=webp&as=metadata";
 import { screens } from "#app/utils/screens";
+import { getIsNighttime } from "#app/utils/time.js";
 
 export function Home() {
+  const { unixtime } = {
+    // abbreviation: "CEST",
+    // datetime: "2024-06-17T18:29:35.780663+02:00",
+    // day_of_week: 1,
+    // day_of_year: 169,
+    // timezone: "Europe/Stockholm",
+    unixtime: 1718641775,
+    // utc_datetime: "2024-06-17T16:29:35.780663+00:00",
+    // utc_offset: "+02:00",
+    // week_number: 25,
+  };
+
+  const time = new Date(unixtime * 1000);
+  const isNighttime = getIsNighttime(time);
+
+  const bg = isNighttime
+    ? {
+        desktop: desktopBgNighttime,
+        tablet: tabletBgNighttime,
+        mobile: mobileBgNighttime,
+      }
+    : {
+        desktop: desktopBgDaytime,
+        tablet: tabletBgDaytime,
+        mobile: mobileBgDaytime,
+      };
+
   return (
     <div className="relative isolate min-h-screen">
       <div className="absolute inset-0 isolate -z-10">
         <Picture>
           <Source
             media={`(min-width: ${screens.desktop})`}
-            image={desktopBgDaytime}
+            image={bg.desktop}
           />
-          <Source
-            media={`(min-width: ${screens.tablet})`}
-            image={tabletBgDaytime}
-          />
+          <Source media={`(min-width: ${screens.tablet})`} image={bg.tablet} />
           <Image
             className="absolute inset-0 size-full object-cover"
             alt=""
-            image={mobileBgDaytime}
+            priority
+            image={bg.mobile}
           />
         </Picture>
         <div className="bg-black/40 absolute inset-0" />
@@ -63,14 +95,17 @@ export function Home() {
         </Landmark.Label>
         <p>
           <span>
-            {/* <Icon
-            className="h-6 w-auto"
-            name="icon-moon"
-            width="23"
-            height="24"
-          /> */}
-            <Icon className="size-6" name="icon-sun" /> Good morning, it’s
-            currently
+            {isNighttime ? (
+              <Icon
+                className="h-6 w-auto"
+                name="icon-moon"
+                width="23"
+                height="24"
+              />
+            ) : (
+              <Icon className="size-6" name="icon-sun" />
+            )}{" "}
+            Good morning, it’s currently
           </span>{" "}
           <span>
             <strong>11:37</strong> BST
