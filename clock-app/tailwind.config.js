@@ -25,7 +25,7 @@ export default {
       h2: ["var(--fluid-20-56)", { fontWeight: 700, lineHeight: 1.2 }],
       h3: [
         "var(--fluid-15-24)",
-        { fontWeight: 700, lineHeight: 1.17, letterSpacing: "-0.2em" },
+        { fontWeight: 700, lineHeight: 1.17, letterSpacing: "0.2em" },
       ],
       h4: ["var(--fluid-15-20)", { lineHeight: 1.4, letterSpacing: "0.2em" }],
       h5: ["var(--fluid-12-18)", { fontWeight: 700, lineHeight: 1.56 }],
@@ -34,6 +34,12 @@ export default {
         { fontWeight: 700, lineHeight: 1.87, letterSpacing: "0.2em" },
       ],
       body: ["var(--fluid-12-18)", { lineHeight: 1.56 }],
+      // ---
+      "zone-abbr": ["var(--fluid-15-40)", { fontWeight: 300, lineHeight: 1 }],
+      "more-btn": [
+        "var(--fluid-12-16)",
+        { fontWeight: 700, lineHeight: 1.75, letterSpacing: "0.31em" },
+      ],
     },
     extend: {},
   },

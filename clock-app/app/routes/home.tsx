@@ -65,10 +65,10 @@ export function Home() {
         </Picture>
         <div className="bg-black/40 absolute inset-0" />
       </div>
-      <h1>Clock app</h1>
+      <h1 className="sr-only">Clock app</h1>
       <Landmark.Root>
         <Landmark.Label>
-          <h2>Quote</h2>
+          <h2 className="sr-only">Quote</h2>
         </Landmark.Label>
         <blockquote>
           <p>
@@ -77,7 +77,7 @@ export function Home() {
             and value.”
           </p>
           <footer>
-            <p>Ada Lovelace</p>
+            <p className="text-h5">Ada Lovelace</p>
           </footer>
         </blockquote>
         <form>
@@ -88,16 +88,16 @@ export function Home() {
               width="18"
               height="18"
             />
-            <span>Get a new quote</span>
+            <span className="sr-only">Get a new quote</span>
           </button>
         </form>
       </Landmark.Root>
       <Landmark.Root>
         <Landmark.Label>
-          <h2>Time</h2>
+          <h2 className="sr-only">Time</h2>
         </Landmark.Label>
-        <p>
-          <span>
+        <p className="uppercase">
+          <span className="text-h4">
             {isNighttime ? (
               <Icon
                 className="h-6 w-auto"
@@ -111,12 +111,13 @@ export function Home() {
             {greeting}, it’s currently
           </span>{" "}
           <span>
-            <strong>11:37</strong> BST
+            <strong className="text-h1">11:37</strong>{" "}
+            <span className="text-zone-abbr">BST</span>
           </span>{" "}
-          <span>in London, UK</span>
+          <span className="text-h3">in London, UK</span>
         </p>
         <form>
-          <button className="bg-white text-black/50">
+          <button className="bg-white text-black/50 text-more-btn uppercase">
             More{" "}
             <Icon
               className="bg-gray text-white h-[0.4375rem] w-auto tablet:h-[0.5625rem]"
@@ -132,20 +133,30 @@ export function Home() {
           )}
         >
           <Landmark.Label>
-            <h3>Additional information</h3>
+            <h3 className="sr-only">Additional information</h3>
           </Landmark.Label>
           <div>
-            <h4>Current timezone</h4>
-            <p>Europe/London</p>
-            <h4>Day of the year</h4>
-            <p>295</p>
-            <h4>Day of the week</h4>
-            <p>5</p>
-            <h4>Week number</h4>
-            <p>42</p>
+            <AdditionalInfo heading="Current timezone" value="Europe/London" />
+            <AdditionalInfo heading="Day of the year" value="295" />
+            <AdditionalInfo heading="Day of the week" value="5" />
+            <AdditionalInfo heading="Week number" value="42" />
           </div>
         </Landmark.Root>
       </Landmark.Root>
     </div>
+  );
+}
+
+interface AdditionalInfoProps {
+  heading: string;
+  value: string;
+}
+
+function AdditionalInfo({ heading, value }: AdditionalInfoProps) {
+  return (
+    <>
+      <h4 className="text-h6 uppercase">{heading}</h4>
+      <p className="text-h2">{value}</p>
+    </>
   );
 }

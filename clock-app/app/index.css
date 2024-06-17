@@ -6,12 +6,14 @@
 @tailwind utilities;
 
 @layer base {
-  /* @link https://utopia.fyi/clamp/calculator?a=375,1240,10—15|12—18|15—20|15—24|20—56|100—200 */
+  /* @link https://utopia.fyi/clamp/calculator?a=375,1240,10—15|12—16|12—18|15—20|15—24|15—40|20—56|100—200 */
   :root {
     --fluid-10-15: clamp(0.625rem, 0.4895rem + 0.578vi, 0.9375rem);
+    --fluid-12-16: clamp(0.75rem, 0.6416rem + 0.4624vi, 1rem);
     --fluid-12-18: clamp(0.75rem, 0.5874rem + 0.6936vi, 1.125rem);
     --fluid-15-20: clamp(0.9375rem, 0.802rem + 0.578vi, 1.25rem);
     --fluid-15-24: clamp(0.9375rem, 0.6936rem + 1.0405vi, 1.5rem);
+    --fluid-15-40: clamp(0.9375rem, 0.2601rem + 2.8902vi, 2.5rem);
     --fluid-20-56: clamp(1.25rem, 0.2746rem + 4.1618vi, 3.5rem);
     --fluid-100-200: clamp(6.25rem, 3.5405rem + 11.5607vi, 12.5rem);
 
