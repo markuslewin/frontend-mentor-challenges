@@ -14,7 +14,7 @@ import tabletBgNighttime from "#app/assets/tablet/bg-image-nighttime.jpg?format=
 // @ts-expect-error Search params
 import mobileBgNighttime from "#app/assets/mobile/bg-image-nighttime.jpg?format=webp&as=metadata";
 import { screens } from "#app/utils/screens";
-import { getIsNighttime } from "#app/utils/time.js";
+import { getGreeting, getIsNighttime } from "#app/utils/time.js";
 import { cx } from "class-variance-authority";
 
 export function Home() {
@@ -31,8 +31,8 @@ export function Home() {
   };
 
   const time = new Date(unixtime * 1000);
-  const isNighttime = getIsNighttime(time);
 
+  const isNighttime = getIsNighttime(time);
   const bg = isNighttime
     ? {
         desktop: desktopBgNighttime,
@@ -44,6 +44,8 @@ export function Home() {
         tablet: tabletBgDaytime,
         mobile: mobileBgDaytime,
       };
+
+  const greeting = getGreeting(time);
 
   return (
     <div className="relative isolate min-h-screen">
@@ -106,7 +108,7 @@ export function Home() {
             ) : (
               <Icon className="size-6" name="icon-sun" />
             )}{" "}
-            Good morning, it’s currently
+            {greeting}, it’s currently
           </span>{" "}
           <span>
             <strong>11:37</strong> BST
