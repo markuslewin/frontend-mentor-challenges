@@ -1,9 +1,35 @@
 import * as Landmark from "#app/components/landmark";
-import { Icon } from "#app/components/icon.js";
+import { Icon } from "#app/components/icon";
+import { Image, Picture, Source } from "#app/components/picture";
+// @ts-expect-error Search params
+import desktopBgDaytime from "#app/assets/desktop/bg-image-daytime.jpg?format=webp&as=metadata";
+// @ts-expect-error Search params
+import tabletBgDaytime from "#app/assets/tablet/bg-image-daytime.jpg?format=webp&as=metadata";
+// @ts-expect-error Search params
+import mobileBgDaytime from "#app/assets/mobile/bg-image-daytime.jpg?format=webp&as=metadata";
+import { screens } from "#app/utils/screens";
 
 export function Home() {
   return (
-    <>
+    <div className="relative isolate min-h-screen">
+      <div className="absolute inset-0 isolate -z-10">
+        <Picture>
+          <Source
+            media={`(min-width: ${screens.desktop})`}
+            image={desktopBgDaytime}
+          />
+          <Source
+            media={`(min-width: ${screens.tablet})`}
+            image={tabletBgDaytime}
+          />
+          <Image
+            className="absolute inset-0 size-full object-cover"
+            alt=""
+            image={mobileBgDaytime}
+          />
+        </Picture>
+        <div className="bg-black/40 absolute inset-0" />
+      </div>
       <h1>Clock app</h1>
       <Landmark.Root>
         <Landmark.Label>
@@ -78,6 +104,6 @@ export function Home() {
           </div>
         </Landmark.Root>
       </Landmark.Root>
-    </>
+    </div>
   );
 }
