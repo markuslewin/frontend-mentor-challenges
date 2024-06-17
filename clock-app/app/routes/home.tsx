@@ -15,6 +15,7 @@ import tabletBgNighttime from "#app/assets/tablet/bg-image-nighttime.jpg?format=
 import mobileBgNighttime from "#app/assets/mobile/bg-image-nighttime.jpg?format=webp&as=metadata";
 import { screens } from "#app/utils/screens";
 import { getIsNighttime } from "#app/utils/time.js";
+import { cx } from "class-variance-authority";
 
 export function Home() {
   const { unixtime } = {
@@ -123,7 +124,11 @@ export function Home() {
             />
           </button>
         </form>
-        <Landmark.Root className="bg-white/75 text-black">
+        <Landmark.Root
+          className={cx(
+            isNighttime ? "bg-black/75 text-white" : "bg-white/75 text-black",
+          )}
+        >
           <Landmark.Label>
             <h3>Additional information</h3>
           </Landmark.Label>
