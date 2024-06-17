@@ -1,7 +1,6 @@
 import { screens } from "./app/utils/screens";
 import { clickable } from "./tailwind/clickable";
 import { hocus } from "./tailwind/hocus";
-import { rem } from "./tailwind/rem";
 import { shape } from "./tailwind/shape";
 
 /** @type {import('tailwindcss').Config} */
@@ -11,44 +10,30 @@ export default {
   theme: {
     screens,
     colors: {
-      // todo: Add colors
-      background: "hsl(var(--background))",
-      foreground: "hsl(var(--foreground))",
-      overlay: "hsl(var(--overlay))",
-      menu: {
-        DEFAULT: "hsl(var(--menu))",
-        foreground: "hsl(var(--menu-foreground))",
-      },
-      button: {
-        DEFAULT: "hsl(var(--button))",
-        foreground: "hsl(var(--button-foreground))",
-        hocus: "hsl(var(--button-hocus))",
-      },
-      input: {
-        DEFAULT: "hsl(var(--input))",
-        "border-hocus": "hsl(var(--input-border-hocus))",
-      },
-      pill: {
-        DEFAULT: "hsl(var(--pill))",
-        foreground: "hsl(var(--pill-foreground))",
-      },
-      delete: {
-        foreground: "hsl(var(--delete-foreground))",
-        "foreground-hocus": "hsl(var(--delete-foreground-hocus))",
-      },
-      error: {
-        foreground: "hsl(var(--error-foreground))",
-      },
+      black: "hsl(0 0% 0%)",
+      gray: "hsl(0 0% 19%)",
+      white: "hsl(0 0% 100%)",
     },
     fontFamily: {
-      // todo: Add font from Fontsource
-      base: "Inter, system-ui, Avenir, Helvetica, Arial, sans-serif",
+      base: "'Inter Variable', sans-serif",
     },
     fontSize: {
-      // todo: Add font sizes
-      "heading-l": [rem(48), { fontWeight: 500, lineHeight: rem(48) }],
-      "heading-m": [rem(39), { fontWeight: 500, lineHeight: rem(39) }],
-      body: [rem(20), { lineHeight: rem(24) }],
+      h1: [
+        "var(--fluid-100-200)",
+        { fontWeight: 700, lineHeight: 1, letterSpacing: "-0.025em" },
+      ],
+      h2: ["var(--fluid-20-56)", { fontWeight: 700, lineHeight: 1.2 }],
+      h3: [
+        "var(--fluid-15-24)",
+        { fontWeight: 700, lineHeight: 1.17, letterSpacing: "-0.2em" },
+      ],
+      h4: ["var(--fluid-15-20)", { lineHeight: 1.4, letterSpacing: "0.2em" }],
+      h5: ["var(--fluid-12-18)", { fontWeight: 700, lineHeight: 1.56 }],
+      h6: [
+        "var(--fluid-10-15)",
+        { fontWeight: 700, lineHeight: 1.87, letterSpacing: "0.2em" },
+      ],
+      body: ["var(--fluid-12-18)", { lineHeight: 1.56 }],
     },
     extend: {},
   },

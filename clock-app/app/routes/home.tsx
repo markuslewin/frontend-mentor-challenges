@@ -31,7 +31,7 @@ const FavoriteColorSchema = z.object({
 export function Home() {
   return (
     <>
-      <h1 className="text-heading-l">My React template</h1>
+      <h1 className="text-h1">My React template</h1>
       <p className="mt-8">This is my React template.</p>
       <h2 className="mt-24 text-heading-m">Node environment</h2>
       <NodeEnvironment />
