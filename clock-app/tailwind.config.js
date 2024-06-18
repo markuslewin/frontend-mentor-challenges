@@ -1,4 +1,5 @@
 import { screens } from "./app/utils/screens";
+import { center } from "./tailwind/center";
 import { clickable } from "./tailwind/clickable";
 import { hocus } from "./tailwind/hocus";
 import { shape } from "./tailwind/shape";
@@ -43,5 +44,5 @@ export default {
     },
     extend: {},
   },
-  plugins: [hocus, shape, clickable],
+  plugins: [hocus, shape, clickable, center],
 };

@@ -67,10 +67,10 @@ export function Home() {
         </Picture>
         <div className="absolute inset-0 bg-black/40" />
       </div>
-      <Center className="grid">
-        <div className="grid grid-rows-[1fr_auto]">
+      <Center>
+        <div className="grid grid-rows-[1fr_auto] gap-14 tablet:gap-24">
           <h1 className="sr-only">Clock app</h1>
-          <Landmark.Root>
+          <Landmark.Root className="grid max-w-[35.8125rem] grid-cols-[1fr_auto] gap-4">
             <Landmark.Label>
               <h2 className="sr-only">Quote</h2>
             </Landmark.Label>
@@ -80,12 +80,12 @@ export function Home() {
                 especially, is a science of itself, and has its own abstract
                 truth and value.”
               </p>
-              <footer>
+              <footer className="mt-2 tablet:mt-3">
                 <p className="text-h5">Ada Lovelace</p>
               </footer>
             </blockquote>
             <form>
-              <button>
+              <button className="text-white/50 transition-colors clickable-12 hocus:text-white">
                 <Icon
                   className="h-[1.125rem] w-auto"
                   name="icon-refresh"
@@ -113,7 +113,12 @@ export function Home() {
                   ) : (
                     <Icon className="size-6" name="icon-sun" />
                   )}{" "}
-                  {greeting}, it’s currently
+                  <span>
+                    {greeting}
+                    <span className="hidden tablet:inline">
+                      , it’s currently
+                    </span>
+                  </span>
                 </span>{" "}
                 <span className="mt-4 flex flex-wrap items-baseline gap-1 tablet:gap-3">
                   <strong className="text-h1">11:37</strong>{" "}
@@ -199,7 +204,7 @@ function Center({ className, children }: CenterProps) {
   return (
     <div
       className={cx(
-        "mx-auto box-content max-w-[69.375rem] px-7 tablet:px-16",
+        "center-[69.375rem] center-gutter-7 tablet:center-gutter-16",
         className,
       )}
     >
