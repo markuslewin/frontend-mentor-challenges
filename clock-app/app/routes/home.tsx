@@ -50,7 +50,7 @@ export function Home() {
   const greeting = getGreeting(time);
 
   return (
-    <div className="relative isolate grid min-h-screen grid-rows-[1fr_auto] overflow-hidden pt-8 tablet:pt-20 desktop:pt-14">
+    <div className="relative isolate grid min-h-screen grid-rows-[1fr_auto] pt-8 tablet:pt-20 desktop:pt-14">
       <div className="absolute inset-0 isolate -z-10">
         <Picture>
           <Source
@@ -143,7 +143,7 @@ export function Home() {
       </Center>
       <div
         className={cx(
-          "grid items-start transition-[grid-template-rows]",
+          "grid items-start overflow-hidden transition-[grid-template-rows]",
           isExpanded ? "grid-rows-[1fr]" : "grid-rows-[0fr]",
         )}
       >
@@ -156,7 +156,8 @@ export function Home() {
           >
             <Center>
               <Landmark.Label>
-                <h3 className="sr-only">Additional information</h3>
+                {/* `fixed`, because we don't want it to trigger overflow when the region is hidden. */}
+                <h3 className="sr-only fixed">Additional information</h3>
               </Landmark.Label>
               <div className="grid gap-y-4 tablet:grid-cols-2 tablet:gap-y-12 desktop:gap-y-11">
                 <AdditionalInfo
