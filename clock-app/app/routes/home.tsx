@@ -127,14 +127,19 @@ export function Home() {
                   setIsExpanded(!isExpanded);
                 }}
               >
-                <button className="bg-white text-more-btn uppercase text-black/50">
+                <button className="group inline-flex items-center gap-4 rounded-full bg-white p-1 pl-4 text-more-btn uppercase text-black/50 tablet:gap-3 tablet:p-2 tablet:pl-5">
                   More{" "}
-                  <Icon
-                    className="h-[0.4375rem] w-auto bg-gray text-white tablet:h-[0.5625rem]"
-                    name="icon-arrow-down"
-                    width="14"
-                    height="9"
-                  />
+                  <span className="group-hocus:bg-[hsl(0_0%_60%)] grid size-8 place-items-center rounded-full bg-gray text-white transition-colors tablet:size-10">
+                    <Icon
+                      className={cx(
+                        "h-[0.4375rem] w-auto transition-transform tablet:h-[0.5625rem]",
+                        isExpanded ? "rotate-180" : "",
+                      )}
+                      name="icon-arrow-down"
+                      width="14"
+                      height="9"
+                    />
+                  </span>
                 </button>
               </form>
             </div>
