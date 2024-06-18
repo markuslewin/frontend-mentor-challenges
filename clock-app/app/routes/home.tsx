@@ -16,9 +16,10 @@ import mobileBgNighttime from "#app/assets/mobile/bg-image-nighttime.jpg?format=
 import { screens } from "#app/utils/screens";
 import { getGreeting, getIsNighttime } from "#app/utils/time.js";
 import { cx } from "class-variance-authority";
-import { ReactNode } from "react";
+import { ReactNode, useState } from "react";
 
 export function Home() {
+  const [isExpanded, setIsExpanded] = useState(false);
   const { unixtime } = {
     // abbreviation: "CEST",
     // datetime: "2024-06-17T18:29:35.780663+02:00",
@@ -49,7 +50,7 @@ export function Home() {
   const greeting = getGreeting(time);
 
   return (
-    <div className="relative isolate grid min-h-screen grid-rows-[auto_1fr_auto] pt-8 tablet:pt-20 desktop:pt-14">
+    <div className="relative isolate grid min-h-screen grid-rows-[1fr_auto] overflow-hidden pt-8 tablet:pt-20 desktop:pt-14">
       <div className="absolute inset-0 isolate -z-10">
         <Picture>
           <Source
@@ -64,11 +65,11 @@ export function Home() {
             image={bg.mobile}
           />
         </Picture>
-        <div className="bg-black/40 absolute inset-0" />
+        <div className="absolute inset-0 bg-black/40" />
       </div>
-      <h1 className="sr-only">Clock app</h1>
-      <div>
-        <Center>
+      <Center className="grid">
+        <div className="grid grid-rows-[1fr_auto]">
+          <h1 className="sr-only">Clock app</h1>
           <Landmark.Root>
             <Landmark.Label>
               <h2 className="sr-only">Quote</h2>
@@ -95,17 +96,13 @@ export function Home() {
               </button>
             </form>
           </Landmark.Root>
-        </Center>
-      </div>
-      <div>
-        <Center>
           <Landmark.Root>
             <Landmark.Label>
               <h2 className="sr-only">Time</h2>
             </Landmark.Label>
             <div className="flex flex-col justify-between gap-12 tablet:gap-20 desktop:flex-row desktop:items-end">
               <p className="uppercase">
-                <span className="text-h4 flex flex-wrap items-center gap-4">
+                <span className="flex flex-wrap items-center gap-4 text-h4">
                   {isNighttime ? (
                     <Icon
                       className="h-6 w-auto"
@@ -122,13 +119,18 @@ export function Home() {
                   <strong className="text-h1">11:37</strong>{" "}
                   <span className="text-zone-abbr">BST</span>
                 </span>{" "}
-                <span className="text-h3 mt-4 block">in London, UK</span>
+                <span className="mt-4 block text-h3">in London, UK</span>
               </p>
-              <form>
-                <button className="bg-white text-black/50 text-more-btn uppercase">
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  setIsExpanded(!isExpanded);
+                }}
+              >
+                <button className="bg-white text-more-btn uppercase text-black/50">
                   More{" "}
                   <Icon
-                    className="bg-gray text-white h-[0.4375rem] w-auto tablet:h-[0.5625rem]"
+                    className="h-[0.4375rem] w-auto bg-gray text-white tablet:h-[0.5625rem]"
                     name="icon-arrow-down"
                     width="14"
                     height="9"
@@ -137,49 +139,64 @@ export function Home() {
               </form>
             </div>
           </Landmark.Root>
-        </Center>
-      </div>
-      <Landmark.Root
+        </div>
+      </Center>
+      <div
         className={cx(
-          "py-12 tablet:py-32 desktop:py-[4.625rem]",
-          isNighttime ? "bg-black/75 text-white" : "bg-white/75 text-black",
+          "grid items-start transition-[grid-template-rows]",
+          isExpanded ? "grid-rows-[1fr]" : "grid-rows-[0fr]",
         )}
       >
-        <Center>
-          <Landmark.Label>
-            <h3 className="sr-only">Additional information</h3>
-          </Landmark.Label>
-          <div className="grid gap-y-4 tablet:grid-cols-2 tablet:gap-y-12 desktop:gap-y-11">
-            <AdditionalInfo
-              className="tablet:col-start-1 tablet:row-start-1"
-              heading="Current timezone"
-              value="Europe/London"
-            />
-            <AdditionalInfo
-              className="tablet:col-start-1"
-              heading="Day of the year"
-              value="295"
-            />
-            <AdditionalInfo
-              className="tablet:row-start-1"
-              heading="Day of the week"
-              value="5"
-            />
-            <AdditionalInfo heading="Week number" value="42" />
-          </div>
-        </Center>
-      </Landmark.Root>
+        <div className="overflow-hidden">
+          <Landmark.Root
+            className={cx(
+              "py-12 tablet:py-32 desktop:py-[4.625rem]",
+              isNighttime ? "bg-black/75 text-white" : "bg-white/75 text-black",
+            )}
+          >
+            <Center>
+              <Landmark.Label>
+                <h3 className="sr-only">Additional information</h3>
+              </Landmark.Label>
+              <div className="grid gap-y-4 tablet:grid-cols-2 tablet:gap-y-12 desktop:gap-y-11">
+                <AdditionalInfo
+                  className="tablet:col-start-1 tablet:row-start-1"
+                  heading="Current timezone"
+                  value="Europe/London"
+                />
+                <AdditionalInfo
+                  className="tablet:col-start-1"
+                  heading="Day of the year"
+                  value="295"
+                />
+                <AdditionalInfo
+                  className="tablet:row-start-1"
+                  heading="Day of the week"
+                  value="5"
+                />
+                <AdditionalInfo heading="Week number" value="42" />
+              </div>
+            </Center>
+          </Landmark.Root>
+        </div>
+      </div>
     </div>
   );
 }
 
 interface CenterProps {
   children: ReactNode;
+  className?: string;
 }
 
-function Center({ children }: CenterProps) {
+function Center({ className, children }: CenterProps) {
   return (
-    <div className="mx-auto box-content max-w-[69.375rem] px-7 tablet:px-16">
+    <div
+      className={cx(
+        "mx-auto box-content max-w-[69.375rem] px-7 tablet:px-16",
+        className,
+      )}
+    >
       {children}
     </div>
   );
