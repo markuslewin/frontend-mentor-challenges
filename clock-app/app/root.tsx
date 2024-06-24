@@ -2,6 +2,10 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { Layout } from "#app/components/layout";
 import { Home } from "#app/routes/home";
 import { AnnouncementProvider } from "#app/components/announcer/announcement-provider";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+
+const queryClient = new QueryClient();
 
 const router = createBrowserRouter([
   {
@@ -18,9 +22,12 @@ const router = createBrowserRouter([
 
 function App() {
   return (
-    <AnnouncementProvider>
-      <RouterProvider router={router} />
-    </AnnouncementProvider>
+    <QueryClientProvider client={queryClient}>
+      <AnnouncementProvider>
+        <RouterProvider router={router} />
+      </AnnouncementProvider>
+      <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>
   );
 }
 

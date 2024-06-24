@@ -14,9 +14,10 @@ import tabletBgNighttime from "#app/assets/tablet/bg-image-nighttime.jpg?format=
 // @ts-expect-error Search params
 import mobileBgNighttime from "#app/assets/mobile/bg-image-nighttime.jpg?format=webp&as=metadata";
 import { screens } from "#app/utils/screens";
-import { getGreeting, getIsNighttime } from "#app/utils/time.js";
+import { getGreeting, getIsNighttime } from "#app/utils/time";
 import { cx } from "class-variance-authority";
 import { ReactNode, useState } from "react";
+import { Quote } from "#app/components/quote";
 
 export function Home() {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -79,29 +80,7 @@ export function Home() {
             <Landmark.Label>
               <h2 className="sr-only">Quote</h2>
             </Landmark.Label>
-            <div className="grid grid-cols-[1fr_auto] gap-4 overflow-hidden">
-              <blockquote>
-                <p>
-                  “The science of operations, as derived from mathematics more
-                  especially, is a science of itself, and has its own abstract
-                  truth and value.”
-                </p>
-                <footer className="mt-2 tablet:mt-3">
-                  <p className="text-h5">Ada Lovelace</p>
-                </footer>
-              </blockquote>
-              <form>
-                <button className="text-white/50 transition-colors clickable-12 hocus:text-white">
-                  <Icon
-                    className="h-[1.125rem] w-auto"
-                    name="icon-refresh"
-                    width="18"
-                    height="18"
-                  />
-                  <span className="sr-only">Get a new quote</span>
-                </button>
-              </form>
-            </div>
+            <Quote />
           </Landmark.Root>
           <Landmark.Root className="self-end">
             <Landmark.Label>
