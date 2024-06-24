@@ -68,35 +68,42 @@ export function Home() {
         <div className="absolute inset-0 bg-black/40" />
       </div>
       <Center>
-        <div className="grid grid-rows-[1fr_auto] gap-14 tablet:gap-24">
+        <div className="grid grid-rows-[auto_1fr] gap-14 tablet:gap-24">
           <h1 className="sr-only">Clock app</h1>
-          <Landmark.Root className="grid max-w-[35.8125rem] grid-cols-[1fr_auto] gap-4">
+          <Landmark.Root
+            className={cx(
+              "grid max-w-[35.8125rem] items-end overflow-hidden transition-[grid-template-rows]",
+              isExpanded ? "grid-rows-[0fr]" : "grid-rows-[1fr]",
+            )}
+          >
             <Landmark.Label>
               <h2 className="sr-only">Quote</h2>
             </Landmark.Label>
-            <blockquote>
-              <p>
-                “The science of operations, as derived from mathematics more
-                especially, is a science of itself, and has its own abstract
-                truth and value.”
-              </p>
-              <footer className="mt-2 tablet:mt-3">
-                <p className="text-h5">Ada Lovelace</p>
-              </footer>
-            </blockquote>
-            <form>
-              <button className="text-white/50 transition-colors clickable-12 hocus:text-white">
-                <Icon
-                  className="h-[1.125rem] w-auto"
-                  name="icon-refresh"
-                  width="18"
-                  height="18"
-                />
-                <span className="sr-only">Get a new quote</span>
-              </button>
-            </form>
+            <div className="grid grid-cols-[1fr_auto] gap-4 overflow-hidden">
+              <blockquote>
+                <p>
+                  “The science of operations, as derived from mathematics more
+                  especially, is a science of itself, and has its own abstract
+                  truth and value.”
+                </p>
+                <footer className="mt-2 tablet:mt-3">
+                  <p className="text-h5">Ada Lovelace</p>
+                </footer>
+              </blockquote>
+              <form>
+                <button className="text-white/50 transition-colors clickable-12 hocus:text-white">
+                  <Icon
+                    className="h-[1.125rem] w-auto"
+                    name="icon-refresh"
+                    width="18"
+                    height="18"
+                  />
+                  <span className="sr-only">Get a new quote</span>
+                </button>
+              </form>
+            </div>
           </Landmark.Root>
-          <Landmark.Root>
+          <Landmark.Root className="self-end">
             <Landmark.Label>
               <h2 className="sr-only">Time</h2>
             </Landmark.Label>
