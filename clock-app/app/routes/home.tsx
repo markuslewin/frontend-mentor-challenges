@@ -134,7 +134,7 @@ export function Home() {
               >
                 <button className="group inline-flex items-center gap-4 rounded-full bg-white p-1 pl-4 text-more-btn uppercase text-black/50 tablet:gap-3 tablet:p-2 tablet:pl-5">
                   More{" "}
-                  <span className="group-hocus:bg-[hsl(0_0%_60%)] grid size-8 place-items-center rounded-full bg-gray text-white transition-colors tablet:size-10">
+                  <span className="grid size-8 place-items-center rounded-full bg-gray text-white transition-colors group-hocus:bg-[hsl(0_0%_60%)] tablet:size-10">
                     <Icon
                       className={cx(
                         "h-[0.4375rem] w-auto transition-transform tablet:h-[0.5625rem]",
@@ -154,10 +154,12 @@ export function Home() {
       <div
         className={cx(
           "grid items-start overflow-hidden transition-[grid-template-rows]",
-          isExpanded ? "grid-rows-[1fr]" : "grid-rows-[0fr]",
+          isExpanded
+            ? "grid-rows-[2.5rem_1fr] tablet:grid-rows-[4rem_1fr] desktop:grid-rows-[3.5rem_1fr]"
+            : "grid-rows-[2.5rem_0fr] tablet:grid-rows-[4rem_0fr] desktop:grid-rows-[6.125rem_0fr]",
         )}
       >
-        <div className="overflow-hidden">
+        <div className="row-start-2 overflow-hidden">
           <Landmark.Root
             className={cx(
               "py-12 tablet:py-32 desktop:py-[4.625rem]",
