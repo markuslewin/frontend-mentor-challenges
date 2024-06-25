@@ -25,7 +25,8 @@
       "@/icon-name": [
         "./app/components/icons/name.d.ts",
         "./types/icon-name.d.ts"
-      ]
+      ],
+      "@everapi/ipbase-js": ["./types/@everapi/ipbase-js"]
     }
   },
   "include": ["app"],

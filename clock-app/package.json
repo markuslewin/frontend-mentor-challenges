@@ -23,6 +23,7 @@
     "@conform-to/react": "^1.1.0",
     "@conform-to/zod": "^1.1.0",
     "@epic-web/invariant": "^1.0.0",
+    "@everapi/ipbase-js": "^1.0.8",
     "@fontsource-variable/inter": "^5.0.18",
     "@netlify/functions": "^2.6.0",
     "@paralleldrive/cuid2": "^2.2.2",

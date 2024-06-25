@@ -18,6 +18,7 @@ import { getGreeting, getIsNighttime } from "#app/utils/time";
 import { cx } from "class-variance-authority";
 import { ReactNode, useState } from "react";
 import { Quote } from "#app/components/quote";
+import { Location } from "#app/components/location";
 
 export function Home() {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -110,7 +111,7 @@ export function Home() {
                   <strong className="text-h1">11:37</strong>{" "}
                   <span className="text-zone-abbr">BST</span>
                 </span>{" "}
-                <span className="mt-4 block text-h3">in London, UK</span>
+                <Location />
               </p>
               <form
                 onSubmit={(e) => {
