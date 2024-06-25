@@ -1,4 +1,5 @@
-import { sleep } from "#app/utils/sleep.js";
+import { sleep } from "#app/utils/sleep";
+import { nbsp } from "#app/utils/unicode";
 import { useQuery } from "@tanstack/react-query";
 // import Ipbase from "@everapi/ipbase-js";
 import { z } from "zod";
@@ -53,7 +54,7 @@ export function Location() {
           {ipInfo.data.location.country.name}
         </>
       ) : (
-        "\u00A0"
+        nbsp
       )}
     </span>
   );

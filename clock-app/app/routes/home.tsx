@@ -19,19 +19,43 @@ import { cx } from "class-variance-authority";
 import { ReactNode, useState } from "react";
 import { Quote } from "#app/components/quote";
 import { Location } from "#app/components/location";
+import { useQuery } from "@tanstack/react-query";
+import { invariant } from "@epic-web/invariant";
+import { z } from "zod";
+import { nbsp } from "#app/utils/unicode";
+
+const timeResponseSchema = z.object({
+  abbreviation: z.string(),
+  timezone: z.string(),
+  day_of_week: z.number(),
+  day_of_year: z.number(),
+  unixtime: z.number(),
+  week_number: z.number(),
+});
+
+function useDate() {
+  return useQuery({
+    queryKey: ["date"],
+    async queryFn() {
+      const response = await fetch("http://worldtimeapi.org/api/ip");
+      invariant(response.ok, `Unsuccessful status code: ${response.status}`);
+
+      const json = await response.json();
+      const time = timeResponseSchema.parse(json);
+
+      return time;
+    },
+    staleTime: Infinity,
+  });
+}
 
 export function Home() {
   const [isExpanded, setIsExpanded] = useState(false);
-  const response = {
-    abbreviation: "CEST",
-    timezone: "Europe/Stockholm",
-    day_of_week: 2,
-    day_of_year: 177,
-    unixtime: 1719322142,
-    week_number: 26,
-  };
+  const date = useDate();
 
-  const time = new Date(response.unixtime * 1000);
+  const time = date.isSuccess
+    ? new Date(date.data.unixtime * 1000)
+    : new Date();
 
   const isNighttime = getIsNighttime(time);
   const bg = isNighttime
@@ -107,7 +131,7 @@ export function Home() {
                 <span className="mt-4 flex flex-wrap items-baseline gap-1 tablet:gap-3">
                   <strong className="text-h1">{formatTime(time)}</strong>{" "}
                   <span className="text-zone-abbr">
-                    {response.abbreviation}
+                    {date.isSuccess ? date.data.abbreviation : nbsp}
                   </span>
                 </span>{" "}
                 <Location />
@@ -161,21 +185,21 @@ export function Home() {
                 <AdditionalInfo
                   className="tablet:col-start-1 tablet:row-start-1"
                   heading="Current timezone"
-                  value={response.timezone}
+                  value={date.isSuccess ? date.data.timezone : nbsp}
                 />
                 <AdditionalInfo
                   className="tablet:col-start-1"
                   heading="Day of the year"
-                  value={response.day_of_year}
+                  value={date.isSuccess ? date.data.day_of_year : nbsp}
                 />
                 <AdditionalInfo
                   className="tablet:row-start-1"
                   heading="Day of the week"
-                  value={response.day_of_week}
+                  value={date.isSuccess ? date.data.day_of_week : nbsp}
                 />
                 <AdditionalInfo
                   heading="Week number"
-                  value={response.week_number}
+                  value={date.isSuccess ? date.data.week_number : nbsp}
                 />
               </div>
             </Center>
