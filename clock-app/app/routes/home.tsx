@@ -14,7 +14,7 @@ import tabletBgNighttime from "#app/assets/tablet/bg-image-nighttime.jpg?format=
 // @ts-expect-error Search params
 import mobileBgNighttime from "#app/assets/mobile/bg-image-nighttime.jpg?format=webp&as=metadata";
 import { screens } from "#app/utils/screens";
-import { getGreeting, getIsNighttime } from "#app/utils/time";
+import { formatTime, getGreeting, getIsNighttime } from "#app/utils/time";
 import { cx } from "class-variance-authority";
 import { ReactNode, useState } from "react";
 import { Quote } from "#app/components/quote";
@@ -22,19 +22,16 @@ import { Location } from "#app/components/location";
 
 export function Home() {
   const [isExpanded, setIsExpanded] = useState(false);
-  const { unixtime } = {
-    // abbreviation: "CEST",
-    // datetime: "2024-06-17T18:29:35.780663+02:00",
-    // day_of_week: 1,
-    // day_of_year: 169,
-    // timezone: "Europe/Stockholm",
-    unixtime: 1718641775,
-    // utc_datetime: "2024-06-17T16:29:35.780663+00:00",
-    // utc_offset: "+02:00",
-    // week_number: 25,
+  const response = {
+    abbreviation: "CEST",
+    timezone: "Europe/Stockholm",
+    day_of_week: 2,
+    day_of_year: 177,
+    unixtime: 1719322142,
+    week_number: 26,
   };
 
-  const time = new Date(unixtime * 1000);
+  const time = new Date(response.unixtime * 1000);
 
   const isNighttime = getIsNighttime(time);
   const bg = isNighttime
@@ -108,8 +105,10 @@ export function Home() {
                   </span>
                 </span>{" "}
                 <span className="mt-4 flex flex-wrap items-baseline gap-1 tablet:gap-3">
-                  <strong className="text-h1">11:37</strong>{" "}
-                  <span className="text-zone-abbr">BST</span>
+                  <strong className="text-h1">{formatTime(time)}</strong>{" "}
+                  <span className="text-zone-abbr">
+                    {response.abbreviation}
+                  </span>
                 </span>{" "}
                 <Location />
               </p>
@@ -150,7 +149,7 @@ export function Home() {
           <Landmark.Root
             className={cx(
               "py-12 tablet:py-32 desktop:py-[4.625rem]",
-              isNighttime ? "bg-black/75 text-white" : "bg-white/75 text-black",
+              isNighttime ? "bg-black/75 text-white" : "bg-white/75 text-gray",
             )}
           >
             <Center>
@@ -162,19 +161,22 @@ export function Home() {
                 <AdditionalInfo
                   className="tablet:col-start-1 tablet:row-start-1"
                   heading="Current timezone"
-                  value="Europe/London"
+                  value={response.timezone}
                 />
                 <AdditionalInfo
                   className="tablet:col-start-1"
                   heading="Day of the year"
-                  value="295"
+                  value={response.day_of_year}
                 />
                 <AdditionalInfo
                   className="tablet:row-start-1"
                   heading="Day of the week"
-                  value="5"
+                  value={response.day_of_week}
                 />
-                <AdditionalInfo heading="Week number" value="42" />
+                <AdditionalInfo
+                  heading="Week number"
+                  value={response.week_number}
+                />
               </div>
             </Center>
           </Landmark.Root>
@@ -204,7 +206,7 @@ function Center({ className, children }: CenterProps) {
 
 interface AdditionalInfoProps {
   heading: string;
-  value: string;
+  value: string | number;
   className?: string;
 }
 
