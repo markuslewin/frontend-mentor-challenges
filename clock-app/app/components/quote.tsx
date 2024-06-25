@@ -43,41 +43,45 @@ export function Quote() {
   const quote = useQuote();
 
   return (
-    <div className="grid grid-cols-[1fr_auto] gap-4 overflow-hidden">
-      <blockquote aria-live="assertive">
-        <p>“{quote.data.content}”</p>
-        <footer className="mt-2 tablet:mt-3">
-          <p className="text-h5">{quote.data.author}</p>
-        </footer>
-      </blockquote>
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          quote.refetch();
-          announce("Loading a new quote.");
-        }}
-      >
-        <button
-          className={cx(
-            "text-white/50 transition-colors clickable-12 hocus:text-white",
-            quote.isFetching ? "animate-spin" : "",
-          )}
-          onClick={(e) => {
-            if (quote.isFetching) {
-              e.preventDefault();
-            }
+    <div className="overflow-hidden">
+      <div className="grid max-w-[35.8125rem] grid-cols-[1fr_auto] gap-4 pt-8 tablet:pt-20 desktop:pt-14">
+        <blockquote aria-live="assertive">
+          <p>“{quote.data.content}”</p>
+          <footer className="mt-2 tablet:mt-3">
+            <p className="text-h5">{quote.data.author}</p>
+          </footer>
+        </blockquote>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            quote.refetch();
+            announce("Loading a new quote.");
           }}
-          aria-disabled={quote.isFetching}
         >
-          <Icon
-            className="h-[1.125rem] w-auto"
-            name="icon-refresh"
-            width="18"
-            height="18"
-          />
-          <span className="sr-only">Get a new quote</span>
-        </button>
-      </form>
+          <button
+            className={cx(
+              "text-white/50 transition-colors clickable-12 hocus:text-white",
+            )}
+            onClick={(e) => {
+              if (quote.isFetching) {
+                e.preventDefault();
+              }
+            }}
+            aria-disabled={quote.isFetching}
+          >
+            <Icon
+              className={cx(
+                "h-[1.125rem] w-auto",
+                quote.isFetching ? "animate-spin" : "",
+              )}
+              name="icon-refresh"
+              width="18"
+              height="18"
+            />
+            <span className="sr-only">Get a new quote</span>
+          </button>
+        </form>
+      </div>
     </div>
   );
 }

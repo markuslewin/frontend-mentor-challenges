@@ -73,7 +73,7 @@ export function Home() {
   const greeting = getGreeting(time);
 
   return (
-    <div className="relative isolate grid min-h-screen grid-rows-[1fr_auto] pt-8 tablet:pt-20 desktop:pt-14">
+    <div className="relative isolate grid min-h-screen grid-rows-[1fr_auto]">
       <div className="absolute inset-0 isolate -z-10">
         <Picture>
           <Source
@@ -95,7 +95,7 @@ export function Home() {
           <h1 className="sr-only">Clock app</h1>
           <Landmark.Root
             className={cx(
-              "grid max-w-[35.8125rem] items-end overflow-hidden transition-[grid-template-rows]",
+              "grid items-end transition-[grid-template-rows]",
               isExpanded ? "grid-rows-[0fr]" : "grid-rows-[1fr]",
             )}
           >

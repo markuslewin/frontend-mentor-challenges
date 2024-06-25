@@ -25,7 +25,11 @@
   }
 
   body {
-    @apply bg-black text-white font-base text-body;
+    @apply bg-black font-base text-body text-white;
+  }
+
+  :focus {
+    outline-offset: 0.25rem;
   }
 }
 
