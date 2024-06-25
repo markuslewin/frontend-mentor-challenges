@@ -153,6 +153,7 @@ export function Home() {
                 <button
                   className="group inline-flex items-center gap-4 rounded-full bg-white p-1 pl-4 text-more-btn uppercase text-black/50 tablet:gap-3 tablet:p-2 tablet:pl-5"
                   ref={expandedTriggerRef}
+                  aria-expanded={isExpanded}
                 >
                   More{" "}
                   <span className="grid size-8 place-items-center rounded-full bg-gray text-white transition-colors group-hocus:bg-[hsl(0_0%_60%)] tablet:size-10">
@@ -179,6 +180,7 @@ export function Home() {
             ? "grid-rows-[2.5rem_1fr] tablet:grid-rows-[4rem_1fr] desktop:grid-rows-[3.5rem_1fr]"
             : "grid-rows-[2.5rem_0fr] tablet:grid-rows-[4rem_0fr] desktop:grid-rows-[6.125rem_0fr]",
         )}
+        aria-hidden={!isExpanded}
       >
         <div className="row-start-2 overflow-hidden">
           <Landmark.Root
