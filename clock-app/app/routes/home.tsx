@@ -16,7 +16,7 @@ import mobileBgNighttime from "#app/assets/mobile/bg-image-nighttime.jpg?format=
 import { screens } from "#app/utils/screens";
 import { formatTime, getGreeting, getIsNighttime } from "#app/utils/time";
 import { cx } from "class-variance-authority";
-import { ReactNode, useState } from "react";
+import { ReactNode, useRef, useState } from "react";
 import { Quote } from "#app/components/quote";
 import { Location } from "#app/components/location";
 import { useQuery } from "@tanstack/react-query";
@@ -50,6 +50,7 @@ function useDate() {
 }
 
 export function Home() {
+  const expandedTriggerRef = useRef<HTMLButtonElement>(null);
   const [isExpanded, setIsExpanded] = useState(false);
   const date = useDate();
 
@@ -73,7 +74,14 @@ export function Home() {
   const greeting = getGreeting(time);
 
   return (
-    <div className="relative isolate grid min-h-screen grid-rows-[1fr_auto]">
+    <div
+      className="relative isolate grid min-h-screen grid-rows-[1fr_auto]"
+      onFocus={() => {
+        if (document.activeElement !== expandedTriggerRef.current) {
+          setIsExpanded(false);
+        }
+      }}
+    >
       <div className="absolute inset-0 isolate -z-10">
         <Picture>
           <Source
@@ -142,7 +150,10 @@ export function Home() {
                   setIsExpanded(!isExpanded);
                 }}
               >
-                <button className="group inline-flex items-center gap-4 rounded-full bg-white p-1 pl-4 text-more-btn uppercase text-black/50 tablet:gap-3 tablet:p-2 tablet:pl-5">
+                <button
+                  className="group inline-flex items-center gap-4 rounded-full bg-white p-1 pl-4 text-more-btn uppercase text-black/50 tablet:gap-3 tablet:p-2 tablet:pl-5"
+                  ref={expandedTriggerRef}
+                >
                   More{" "}
                   <span className="grid size-8 place-items-center rounded-full bg-gray text-white transition-colors group-hocus:bg-[hsl(0_0%_60%)] tablet:size-10">
                     <Icon
