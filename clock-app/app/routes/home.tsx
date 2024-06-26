@@ -37,7 +37,7 @@ function useDate() {
   return useQuery({
     queryKey: ["date"],
     async queryFn() {
-      const response = await fetch("http://worldtimeapi.org/api/ip");
+      const response = await fetch("https://worldtimeapi.org/api/ip");
       invariant(response.ok, `Unsuccessful status code: ${response.status}`);
 
       const json = await response.json();
@@ -205,7 +205,12 @@ export function Home() {
                   heading="Day of the year"
                   value={date.isSuccess ? date.data.day_of_year : nbsp}
                 />
-                <div className="col-start-2 row-span-full hidden justify-self-center border-l text-gray/25 desktop:block" />
+                <div
+                  className={cx(
+                    "col-start-2 row-span-full hidden justify-self-center border-l desktop:block",
+                    isNighttime ? "text-white/25" : "text-gray/25",
+                  )}
+                />
                 <AdditionalInfo
                   className="tablet:col-start-3 tablet:row-start-1"
                   heading="Day of the week"
