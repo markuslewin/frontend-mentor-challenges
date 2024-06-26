@@ -185,7 +185,7 @@ export function Home() {
         <div className="row-start-2 overflow-hidden">
           <Landmark.Root
             className={cx(
-              "py-12 tablet:py-32 desktop:py-[4.625rem]",
+              "py-12 backdrop-blur-lg tablet:py-32 desktop:py-[4.625rem]",
               isNighttime ? "bg-black/75 text-white" : "bg-white/75 text-gray",
             )}
           >
