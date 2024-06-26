@@ -194,7 +194,7 @@ export function Home() {
                 {/* `fixed`, because we don't want it to trigger overflow when the region is hidden. */}
                 <h3 className="sr-only fixed">Additional information</h3>
               </Landmark.Label>
-              <div className="grid gap-y-4 tablet:grid-cols-2 tablet:gap-y-12 desktop:gap-y-11">
+              <div className="grid gap-y-4 tablet:grid-cols-[570fr_minmax(1rem,188fr)_539fr] tablet:grid-rows-2 tablet:gap-y-12 desktop:gap-y-11">
                 <AdditionalInfo
                   className="tablet:col-start-1 tablet:row-start-1"
                   heading="Current timezone"
@@ -205,12 +205,14 @@ export function Home() {
                   heading="Day of the year"
                   value={date.isSuccess ? date.data.day_of_year : nbsp}
                 />
+                <div className="col-start-2 row-span-full hidden justify-self-center border-l text-gray/25 desktop:block" />
                 <AdditionalInfo
-                  className="tablet:row-start-1"
+                  className="tablet:col-start-3 tablet:row-start-1"
                   heading="Day of the week"
                   value={date.isSuccess ? date.data.day_of_week : nbsp}
                 />
                 <AdditionalInfo
+                  className="tablet:col-start-3"
                   heading="Week number"
                   value={date.isSuccess ? date.data.week_number : nbsp}
                 />
@@ -251,7 +253,7 @@ function AdditionalInfo({ className, heading, value }: AdditionalInfoProps) {
   return (
     <div
       className={cx(
-        "grid grid-cols-[max-content_auto] items-center justify-between gap-4 tablet:grid-cols-none tablet:gap-2",
+        "grid grid-cols-[max-content_auto] items-center justify-between gap-4 tablet:grid-cols-none tablet:grid-rows-[auto_1fr] tablet:items-start tablet:gap-2",
         className,
       )}
     >

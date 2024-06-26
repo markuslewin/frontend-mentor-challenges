@@ -30,10 +30,7 @@ export default {
       ],
       h4: ["var(--fluid-15-20)", { lineHeight: 1.4, letterSpacing: "0.2em" }],
       h5: ["var(--fluid-12-18)", { fontWeight: 700, lineHeight: 1.56 }],
-      h6: [
-        "var(--fluid-10-15)",
-        { fontWeight: 700, lineHeight: 1.87, letterSpacing: "0.2em" },
-      ],
+      h6: ["var(--fluid-10-15)", { lineHeight: 1.87, letterSpacing: "0.2em" }],
       body: ["var(--fluid-12-18)", { lineHeight: 1.56 }],
       // ---
       "zone-abbr": ["var(--fluid-15-40)", { fontWeight: 300, lineHeight: 1 }],
