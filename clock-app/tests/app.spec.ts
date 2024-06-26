@@ -4,19 +4,19 @@ test.beforeEach(async ({ page }) => {
   await page.goto("/");
 });
 
-test.skip("displays quotes", async ({ page }) => {
+test("displays quotes", async ({ page }) => {
   const quote = page.getByRole("region", { name: "quote" });
   const blockquote = quote.getByRole("blockquote");
 
   await expect(blockquote).toHaveText(
-    "The science of operations, as derived from mathematics more especially, is a science of itself, and has its own abstract truth and value.",
+    /The science of operations, as derived from mathematics more especially, is a science of itself, and has its own abstract truth and value./,
   );
-  await expect(blockquote).toHaveText("Ada Lovelace");
+  await expect(blockquote).toHaveText(/Ada Lovelace/);
 
-  await page.getByRole("button", { name: "get a new quote" }).click();
+  await quote.getByRole("button", { name: "get a new quote" }).click();
 
-  await expect(blockquote).toHaveText("");
-  await expect(blockquote).toHaveText("");
+  await expect(blockquote).toHaveText(/this is the content of a mock quote/i);
+  await expect(blockquote).toHaveText(/the author/i);
 });
 
 test.skip("displays time", async ({ page }) => {
