@@ -253,7 +253,7 @@ function AdditionalInfo({ className, heading, value }: AdditionalInfoProps) {
   return (
     <div
       className={cx(
-        "grid grid-cols-[max-content_auto] items-center justify-between gap-4 tablet:grid-cols-none tablet:grid-rows-[auto_1fr] tablet:items-start tablet:gap-2",
+        "flex flex-wrap items-center justify-between gap-x-4 gap-y-1 tablet:grid tablet:grid-rows-[auto_1fr] tablet:items-start tablet:gap-2",
         className,
       )}
     >
