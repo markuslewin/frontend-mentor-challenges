@@ -60,7 +60,7 @@ export function Quote() {
         >
           <button
             className={cx(
-              "text-white/50 transition-colors clickable-12 hocus:text-white",
+              "text-white/50 transition-colors clickable-12 hocus:text-white tablet:translate-y-[0.4375rem]",
             )}
             onClick={(e) => {
               if (quote.isFetching) {
