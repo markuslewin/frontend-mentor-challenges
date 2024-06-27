@@ -155,7 +155,7 @@ export function Home() {
                   ref={expandedTriggerRef}
                   aria-expanded={isExpanded}
                 >
-                  More{" "}
+                  {isExpanded ? <>Less</> : <>More</>}{" "}
                   <span className="grid size-8 place-items-center rounded-full bg-gray text-white transition-colors group-hocus:bg-[hsl(0_0%_60%)] tablet:size-10">
                     <Icon
                       className={cx(

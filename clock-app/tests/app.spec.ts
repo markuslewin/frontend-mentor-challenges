@@ -34,7 +34,7 @@ test("displays quotes", async ({ page }) => {
   const content = faker.lorem.paragraph();
   const author = faker.person.fullName();
 
-  await page.route("https://api.quotable.io/quotes/random", async (route) => {
+  await page.route("https://api.quotable.io/quotes/random*", async (route) => {
     await route.fulfill({
       json: [
         {
@@ -63,7 +63,7 @@ test("displays time", async ({ page }) => {
   const time = "19:25";
   const unixtime = new Date(`2024-06-27T${time}`).getTime() / 1000;
 
-  await page.route("https://worldtimeapi.org/api/ip", async (route) => {
+  await page.route("https://worldtimeapi.org/api/ip*", async (route) => {
     const response = createWorldtimeapiResponse();
     await route.fulfill({
       json: {
@@ -78,25 +78,31 @@ test("displays time", async ({ page }) => {
   await expect(timeRegion).toHaveText(new RegExp(time));
 });
 
-test.skip("good morning in the morning", async ({ page }) => {
+test("greets the user", async ({ page }) => {
+  await page.route("https://worldtimeapi.org/api/ip*", async (route) => {
+    const response = createWorldtimeapiResponse();
+    await route.fulfill({
+      json: {
+        ...response,
+        unixtime: new Date("2024-06-28T08:00").getTime() / 1000,
+      },
+    });
+  });
+
   const time = getTimeRegion(page);
 
-  await expect(time).toHaveText("good morning");
+  await expect(time).toHaveText(/good morning/i);
 });
 
-test.skip("good afternoon in the afternoon", async ({ page }) => {
-  const time = getTimeRegion(page);
+test("displays additional date and time information", async ({ page }) => {
+  const response = createWorldtimeapiResponse();
 
-  await expect(time).toHaveText("good afternoon");
-});
+  await page.route("https://worldtimeapi.org/api/ip*", async (route) => {
+    await route.fulfill({
+      json: response,
+    });
+  });
 
-test.skip("good evening in the evening", async ({ page }) => {
-  const time = getTimeRegion(page);
-
-  await expect(time).toHaveText("good evening");
-});
-
-test.skip("displays additional date and time information", async ({ page }) => {
   const time = getTimeRegion(page);
   const additional = page.getByRole("region", {
     name: "additional information",
@@ -111,10 +117,16 @@ test.skip("displays additional date and time information", async ({ page }) => {
   await expect(additional).toBeAttached();
   await expect(moreButton).not.toBeAttached();
   await expect(lessButton).toBeAttached();
-  await expect(additional).toHaveText("europe/london");
-  await expect(additional).toHaveText("295");
-  await expect(additional).toHaveText("5");
-  await expect(additional).toHaveText("42");
+  await expect(additional).toHaveText(new RegExp(response.timezone));
+  await expect(additional).toHaveText(
+    new RegExp(response.day_of_year.toString()),
+  );
+  await expect(additional).toHaveText(
+    new RegExp(response.day_of_week.toString()),
+  );
+  await expect(additional).toHaveText(
+    new RegExp(response.week_number.toString()),
+  );
 
   await lessButton.click();
 
