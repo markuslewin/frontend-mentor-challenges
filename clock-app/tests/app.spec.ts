@@ -1,10 +1,25 @@
 import { test, expect, Page } from "@playwright/test";
+import { faker } from "@faker-js/faker";
 
 test.beforeEach(async ({ page }) => {
   await page.goto("/");
 });
 
 test("displays quotes", async ({ page }) => {
+  const content = faker.lorem.paragraph();
+  const author = faker.person.fullName();
+
+  await page.route("https://api.quotable.io/quotes/random", async (route) => {
+    await route.fulfill({
+      json: [
+        {
+          content,
+          author,
+        },
+      ],
+    });
+  });
+
   const quote = page.getByRole("region", { name: "quote" });
   const blockquote = quote.getByRole("blockquote");
 
@@ -15,8 +30,8 @@ test("displays quotes", async ({ page }) => {
 
   await quote.getByRole("button", { name: "get a new quote" }).click();
 
-  await expect(blockquote).toHaveText(/this is the content of a mock quote/i);
-  await expect(blockquote).toHaveText(/the author/i);
+  await expect(blockquote).toHaveText(new RegExp(content));
+  await expect(blockquote).toHaveText(new RegExp(author));
 });
 
 test.skip("displays time", async ({ page }) => {

@@ -27,7 +27,8 @@
         "./types/icon-name.d.ts"
       ],
       "@everapi/ipbase-js": ["./types/@everapi/ipbase-js"]
-    }
+    },
+    "esModuleInterop": true
   },
   "include": ["app"],
   "references": [{ "path": "./tsconfig.node.json" }]
