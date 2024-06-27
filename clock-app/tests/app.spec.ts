@@ -2,10 +2,11 @@ import { test, expect, Page } from "@playwright/test";
 import { faker } from "@faker-js/faker";
 import { createMockResponse as createQuotableResponse } from "../app/mocks/quotable";
 import { createMockResponse as createWorldtimeapiResponse } from "../app/mocks/worldtimeapi";
+import { createMockResponse as createIpbaseResponse } from "../app/mocks/ipbase";
 
 test.beforeEach(async ({ page, context }) => {
   await context.route(
-    "https://api.quotable.io/quotes/random",
+    "https://api.quotable.io/quotes/random*",
     async (route) => {
       const json = createQuotableResponse();
       await route.fulfill({
@@ -13,12 +14,19 @@ test.beforeEach(async ({ page, context }) => {
       });
     },
   );
-  await context.route("https://worldtimeapi.org/api/ip", async (route) => {
+  await context.route("https://worldtimeapi.org/api/ip*", async (route) => {
     const json = createWorldtimeapiResponse();
     await route.fulfill({
       json,
     });
   });
+  await context.route("https://api.ipbase.com/v2/info*", async (route) => {
+    const json = createIpbaseResponse();
+    await route.fulfill({
+      json,
+    });
+  });
+
   await page.goto("/");
 });
 
