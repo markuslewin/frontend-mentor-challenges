@@ -75,7 +75,8 @@ export default defineConfig({
   webServer: {
     command: "npm run dev",
     url: `http://localhost:${PORT}`,
-    reuseExistingServer: !process.env.CI,
+    // Server must be run with `NODE_ENV: "test"`
+    reuseExistingServer: false,
     env: {
       NODE_ENV: "test",
     },

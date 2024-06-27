@@ -1,7 +1,24 @@
 import { test, expect, Page } from "@playwright/test";
 import { faker } from "@faker-js/faker";
+import { createMockResponse as createQuotableResponse } from "../app/mocks/quotable";
+import { createMockResponse as createWorldtimeapiResponse } from "../app/mocks/worldtimeapi";
 
-test.beforeEach(async ({ page }) => {
+test.beforeEach(async ({ page, context }) => {
+  await context.route(
+    "https://api.quotable.io/quotes/random",
+    async (route) => {
+      const json = createQuotableResponse();
+      await route.fulfill({
+        json,
+      });
+    },
+  );
+  await context.route("https://worldtimeapi.org/api/ip", async (route) => {
+    const json = createWorldtimeapiResponse();
+    await route.fulfill({
+      json,
+    });
+  });
   await page.goto("/");
 });
 
@@ -34,10 +51,23 @@ test("displays quotes", async ({ page }) => {
   await expect(blockquote).toHaveText(new RegExp(author));
 });
 
-test.skip("displays time", async ({ page }) => {
-  const time = getTimeRegion(page);
+test("displays time", async ({ page }) => {
+  const time = "19:25";
+  const unixtime = new Date(`2024-06-27T${time}`).getTime() / 1000;
 
-  await expect(time).toHaveText("11:37");
+  await page.route("https://worldtimeapi.org/api/ip", async (route) => {
+    const response = createWorldtimeapiResponse();
+    await route.fulfill({
+      json: {
+        ...response,
+        unixtime,
+      },
+    });
+  });
+
+  const timeRegion = getTimeRegion(page);
+
+  await expect(timeRegion).toHaveText(new RegExp(time));
 });
 
 test.skip("good morning in the morning", async ({ page }) => {

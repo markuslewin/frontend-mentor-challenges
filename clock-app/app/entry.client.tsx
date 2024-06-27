@@ -4,7 +4,10 @@ import App from "#app/root";
 import "#app/index.css";
 
 async function enableMocking() {
-  if (import.meta.env.DEV && import.meta.env.VITE_MOCKS === "true") {
+  if (
+    process.env.NODE_ENV === "development" &&
+    import.meta.env.VITE_MOCKS === "true"
+  ) {
     const { worker } = await import("#app/mocks");
 
     return worker.start();
