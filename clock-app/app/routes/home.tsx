@@ -194,7 +194,7 @@ export function Home() {
                 {/* `fixed`, because we don't want it to trigger overflow when the region is hidden. */}
                 <h3 className="sr-only fixed">Additional information</h3>
               </Landmark.Label>
-              <div className="grid gap-y-4 tablet:grid-cols-[570fr_minmax(1rem,188fr)_539fr] tablet:grid-rows-2 tablet:gap-y-12 desktop:gap-y-11">
+              <div className="grid gap-y-4 tablet:grid-cols-[minmax(43%,auto)_minmax(2rem,189fr)_minmax(max-content,269fr)] tablet:grid-rows-2 tablet:gap-y-12 desktop:gap-y-11">
                 <AdditionalInfo
                   className="tablet:col-start-1 tablet:row-start-1"
                   heading="Current timezone"
@@ -263,7 +263,7 @@ function AdditionalInfo({ className, heading, value }: AdditionalInfoProps) {
       )}
     >
       <h4 className="text-h6 uppercase">{heading}</h4>
-      <p className="text-h2">{value}</p>
+      <p className="break-all text-h2">{value}</p>
     </div>
   );
 }
