@@ -46,6 +46,19 @@ function useDate() {
       return time;
     },
     staleTime: Infinity,
+    refetchInterval(query) {
+      if (query.state.data === undefined) {
+        return false;
+      } else {
+        const nextDay = new Date(query.state.data.unixtime * 1000);
+        nextDay.setDate(nextDay.getDate() + 1);
+        nextDay.setHours(0, 0, 0, 0);
+
+        const ms = nextDay.getTime() - new Date().getTime();
+
+        return ms;
+      }
+    },
   });
 }
 
