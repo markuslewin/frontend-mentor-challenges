@@ -42,7 +42,7 @@
   },
   "devDependencies": {
     "@faker-js/faker": "^8.4.1",
-    "@playwright/test": "^1.44.0",
+    "@playwright/test": "^1.45.1",
     "@tanstack/eslint-plugin-query": "^5.43.1",
     "@types/fs-extra": "^11.0.4",
     "@types/node": "^20.12.12",

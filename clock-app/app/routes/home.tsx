@@ -92,7 +92,7 @@ class Clock {
     const nextMinute = getNextMinute(this.getTimestamp());
 
     this._timeoutId = setTimeout(() => {
-      this._timestamp = nextMinute.getTime();
+      this._timestamp = new Date().getTime();
 
       for (const listener of this._listeners) {
         listener();

@@ -4,7 +4,7 @@ import { createMockResponse as createQuotableResponse } from "../app/mocks/quota
 import { createMockResponse as createWorldtimeapiResponse } from "../app/mocks/worldtimeapi";
 import { createMockResponse as createIpbaseResponse } from "../app/mocks/ipbase";
 
-test.beforeEach(async ({ page, context }) => {
+test.beforeEach(async ({ context }) => {
   await context.route(
     "https://api.quotable.io/quotes/random*",
     async (route) => {
@@ -26,8 +26,6 @@ test.beforeEach(async ({ page, context }) => {
       json,
     });
   });
-
-  await page.goto("/");
 });
 
 test("displays quotes", async ({ page }) => {
@@ -48,6 +46,8 @@ test("displays quotes", async ({ page }) => {
   const quote = page.getByRole("region", { name: "quote" });
   const blockquote = quote.getByRole("blockquote");
 
+  await page.goto("/");
+
   await expect(blockquote).toHaveText(
     /The science of operations, as derived from mathematics more especially, is a science of itself, and has its own abstract truth and value./,
   );
@@ -60,38 +60,33 @@ test("displays quotes", async ({ page }) => {
 });
 
 test("displays time", async ({ page }) => {
-  const time = "19:25";
-  const unixtime = new Date(`2024-06-27T${time}`).getTime() / 1000;
-
-  await page.route("https://worldtimeapi.org/api/ip*", async (route) => {
-    const response = createWorldtimeapiResponse();
-    await route.fulfill({
-      json: {
-        ...response,
-        unixtime,
-      },
-    });
-  });
-
   const timeRegion = getTimeRegion(page);
 
-  await expect(timeRegion).toHaveText(new RegExp(time));
+  await page.clock.install({ time: "2024-07-02T13:00" });
+  await page.goto("/");
+
+  await expect(timeRegion).toHaveText(/13:00/);
+
+  await page.clock.fastForward("02:00");
+
+  await expect(timeRegion).toHaveText(/13:02/);
 });
 
 test("greets the user", async ({ page }) => {
-  await page.route("https://worldtimeapi.org/api/ip*", async (route) => {
-    const response = createWorldtimeapiResponse();
-    await route.fulfill({
-      json: {
-        ...response,
-        unixtime: new Date("2024-06-28T08:00").getTime() / 1000,
-      },
-    });
-  });
-
   const time = getTimeRegion(page);
 
+  await page.clock.install({ time: "2024-07-02T08:00" });
+  await page.goto("/");
+
   await expect(time).toHaveText(/good morning/i);
+
+  await page.clock.fastForward("08:00:00");
+
+  await expect(time).toHaveText(/good afternoon/i);
+
+  await page.clock.fastForward("08:00:00");
+
+  await expect(time).toHaveText(/good evening/i);
 });
 
 test("displays additional date and time information", async ({ page }) => {
@@ -109,6 +104,8 @@ test("displays additional date and time information", async ({ page }) => {
   });
   const moreButton = time.getByRole("button", { name: "more" });
   const lessButton = time.getByRole("button", { name: "less" });
+
+  await page.goto("/");
 
   await expect(additional).not.toBeAttached();
 
