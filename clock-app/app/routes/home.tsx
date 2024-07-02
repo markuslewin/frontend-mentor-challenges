@@ -16,7 +16,7 @@ import mobileBgNighttime from "#app/assets/mobile/bg-image-nighttime.jpg?format=
 import { screens } from "#app/utils/screens";
 import { formatTime, getGreeting, getIsNighttime } from "#app/utils/time";
 import { cx } from "class-variance-authority";
-import { ReactNode, useRef, useState } from "react";
+import { ReactNode, useEffect, useRef, useState } from "react";
 import { Quote } from "#app/components/quote";
 import { Location } from "#app/components/location";
 import { useQuery } from "@tanstack/react-query";
@@ -33,9 +33,9 @@ const timeResponseSchema = z.object({
   week_number: z.number(),
 });
 
-function useDate() {
+function useDateInfo() {
   return useQuery({
-    queryKey: ["date"],
+    queryKey: ["date-info"],
     async queryFn() {
       const response = await fetch("https://worldtimeapi.org/api/ip");
       invariant(response.ok, `Unsuccessful status code: ${response.status}`);
@@ -62,29 +62,64 @@ function useDate() {
   });
 }
 
+function useTimestamp() {
+  const [timestamp, setTimestamp] = useState<number | null>(null);
+
+  // Update every minute
+  useEffect(() => {
+    let id: ReturnType<typeof setTimeout> | undefined;
+
+    if (timestamp === null) {
+      setTimestamp(new Date().getTime());
+    } else {
+      const nextMinute = new Date(timestamp);
+      nextMinute.setMinutes(nextMinute.getMinutes() + 1, 0, 0);
+
+      id = setTimeout(() => {
+        setTimestamp(nextMinute.getTime());
+      }, nextMinute.getTime() - new Date().getTime());
+    }
+    return () => {
+      clearTimeout(id);
+    };
+  }, [timestamp]);
+
+  return timestamp;
+}
+
+function getTime(timestamp: number | null) {
+  if (timestamp === null) {
+    return null;
+  } else {
+    const date = new Date(timestamp);
+    const isNighttime = getIsNighttime(date);
+
+    return {
+      isNighttime,
+      greeting: getGreeting(date),
+      clock: formatTime(date),
+      bg: isNighttime
+        ? {
+            desktop: desktopBgNighttime,
+            tablet: tabletBgNighttime,
+            mobile: mobileBgNighttime,
+          }
+        : {
+            desktop: desktopBgDaytime,
+            tablet: tabletBgDaytime,
+            mobile: mobileBgDaytime,
+          },
+    };
+  }
+}
+
 export function Home() {
   const expandedTriggerRef = useRef<HTMLButtonElement>(null);
   const [isExpanded, setIsExpanded] = useState(false);
-  const date = useDate();
+  const dateInfo = useDateInfo();
+  const timestamp = useTimestamp();
 
-  const time = date.isSuccess
-    ? new Date(date.data.unixtime * 1000)
-    : new Date();
-
-  const isNighttime = getIsNighttime(time);
-  const bg = isNighttime
-    ? {
-        desktop: desktopBgNighttime,
-        tablet: tabletBgNighttime,
-        mobile: mobileBgNighttime,
-      }
-    : {
-        desktop: desktopBgDaytime,
-        tablet: tabletBgDaytime,
-        mobile: mobileBgDaytime,
-      };
-
-  const greeting = getGreeting(time);
+  const time = getTime(timestamp);
 
   return (
     <div
@@ -96,19 +131,24 @@ export function Home() {
       }}
     >
       <div className="absolute inset-0 isolate -z-10">
-        <Picture>
-          <Source
-            media={`(min-width: ${screens.desktop})`}
-            image={bg.desktop}
-          />
-          <Source media={`(min-width: ${screens.tablet})`} image={bg.tablet} />
-          <Image
-            className="absolute inset-0 size-full object-cover"
-            alt=""
-            priority
-            image={bg.mobile}
-          />
-        </Picture>
+        {time === null ? null : (
+          <Picture>
+            <Source
+              media={`(min-width: ${screens.desktop})`}
+              image={time.bg.desktop}
+            />
+            <Source
+              media={`(min-width: ${screens.tablet})`}
+              image={time.bg.tablet}
+            />
+            <Image
+              className="absolute inset-0 size-full object-cover"
+              alt=""
+              priority
+              image={time.bg.mobile}
+            />
+          </Picture>
+        )}
         <div className="absolute inset-0 bg-black/40" />
       </div>
       <Center>
@@ -132,7 +172,9 @@ export function Home() {
             <div className="flex flex-col justify-between gap-12 tablet:gap-20 desktop:flex-row desktop:items-end">
               <p className="uppercase">
                 <span className="flex flex-wrap items-center gap-4 text-h4">
-                  {isNighttime ? (
+                  {time === null ? (
+                    <span className="block size-6" />
+                  ) : time.isNighttime ? (
                     <Icon
                       className="h-6 w-auto"
                       name="icon-moon"
@@ -143,16 +185,18 @@ export function Home() {
                     <Icon className="size-6" name="icon-sun" />
                   )}{" "}
                   <span>
-                    {greeting}
+                    {time === null ? nbsp : time.greeting}
                     <span className="hidden tablet:inline">
                       , it’s currently
                     </span>
                   </span>
                 </span>{" "}
                 <span className="mt-4 flex flex-wrap items-baseline gap-1 tablet:gap-3">
-                  <strong className="text-h1">{formatTime(time)}</strong>{" "}
+                  <strong className="text-h1">
+                    {time === null ? nbsp : time.clock}
+                  </strong>{" "}
                   <span className="text-zone-abbr">
-                    {date.isSuccess ? date.data.abbreviation : nbsp}
+                    {dateInfo.isSuccess ? dateInfo.data.abbreviation : nbsp}
                   </span>
                 </span>{" "}
                 <Location />
@@ -199,7 +243,9 @@ export function Home() {
           <Landmark.Root
             className={cx(
               "py-12 backdrop-blur-lg tablet:py-32 desktop:py-[4.625rem]",
-              isNighttime ? "bg-black/75 text-white" : "bg-white/75 text-gray",
+              time === null || !time.isNighttime
+                ? "bg-white/75 text-gray"
+                : '"bg-black/75 text-white"',
             )}
           >
             <Center>
@@ -211,28 +257,30 @@ export function Home() {
                 <AdditionalInfo
                   className="tablet:col-start-1 tablet:row-start-1"
                   heading="Current timezone"
-                  value={date.isSuccess ? date.data.timezone : nbsp}
+                  value={dateInfo.isSuccess ? dateInfo.data.timezone : nbsp}
                 />
                 <AdditionalInfo
                   className="tablet:col-start-1"
                   heading="Day of the year"
-                  value={date.isSuccess ? date.data.day_of_year : nbsp}
+                  value={dateInfo.isSuccess ? dateInfo.data.day_of_year : nbsp}
                 />
                 <div
                   className={cx(
                     "col-start-2 row-span-full hidden justify-self-center border-l desktop:block",
-                    isNighttime ? "text-white/25" : "text-gray/25",
+                    time === null || !time.isNighttime
+                      ? "text-gray/25"
+                      : "text-white/25",
                   )}
                 />
                 <AdditionalInfo
                   className="tablet:col-start-3 tablet:row-start-1"
                   heading="Day of the week"
-                  value={date.isSuccess ? date.data.day_of_week : nbsp}
+                  value={dateInfo.isSuccess ? dateInfo.data.day_of_week : nbsp}
                 />
                 <AdditionalInfo
                   className="tablet:col-start-3"
                   heading="Week number"
-                  value={date.isSuccess ? date.data.week_number : nbsp}
+                  value={dateInfo.isSuccess ? dateInfo.data.week_number : nbsp}
                 />
               </div>
             </Center>
