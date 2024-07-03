@@ -10,8 +10,10 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <AnnouncementProvider>
-        <Home />
-        <Announcer />
+        <main>
+          <Home />
+          <Announcer />
+        </main>
       </AnnouncementProvider>
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
