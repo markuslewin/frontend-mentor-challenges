@@ -19,6 +19,7 @@ import { cx } from "class-variance-authority";
 import {
   ReactNode,
   useCallback,
+  useEffect,
   useRef,
   useState,
   useSyncExternalStore,
@@ -171,6 +172,17 @@ export function Home() {
         tablet: tabletBgDaytime,
         mobile: mobileBgDaytime,
       };
+
+  useEffect(() => {
+    if (isNighttime) {
+      document.documentElement.dataset.time = "nighttime";
+    } else {
+      delete document.documentElement.dataset.time;
+    }
+    return () => {
+      delete document.documentElement.dataset.time;
+    };
+  }, [isNighttime]);
 
   return (
     <div
