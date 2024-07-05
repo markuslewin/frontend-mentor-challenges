@@ -1,27 +1,5 @@
-import { getFormProps, getInputProps, useForm } from '@conform-to/react'
-import { getZodConstraint, parseWithZod } from '@conform-to/zod'
-import { Suspense, useRef, useState } from 'react'
-import { flushSync } from 'react-dom'
-import {
-	Await,
-	useAsyncError,
-	useAsyncValue,
-	useLoaderData,
-} from 'react-router-dom'
-import { z } from 'zod'
-// @ts-expect-error Search params
-import mobileImg from '#app/assets/nattu-adnan-vvHRdOwqHcg-unsplash.jpg?format=webp&w=300&as=metadata'
-// @ts-expect-error Search params
-import tabletImg from '#app/assets/nattu-adnan-vvHRdOwqHcg-unsplash.jpg?format=webp&w=768&as=metadata'
-import { Button } from '#app/components/button'
-import { Input } from '#app/components/input'
-import * as Landmark from '#app/components/landmark'
-import { Picture, Source, Image } from '#app/components/picture'
+import { Link } from 'react-router-dom'
 import { type AnnouncementHandle } from '#app/components/route-announcer'
-import { clientEnv } from '#app/utils/env/client'
-import { useSubmitInput } from '#app/utils/message'
-import { screens } from '#app/utils/screens'
-import { type TimeResponse } from '#app/utils/time'
 
 export const handle = {
 	announcement() {
@@ -29,158 +7,72 @@ export const handle = {
 	},
 } satisfies AnnouncementHandle
 
-const FavoriteColorSchema = z.object({
-	color: z
-		.string({ required_error: 'Color is required' })
-		.refine((val) => val.toLowerCase() === 'blue', {
-			message: 'Color must be "blue"',
-		}),
-})
-
 export function Home() {
 	return (
 		<>
-			<h1 className="text-heading-l">My React template</h1>
-			<p className="mt-8">This is my React template.</p>
-			<h2 className="mt-24 text-heading-m">Mocked API</h2>
-			<MockedApi />
-			<h2 className="mt-24 text-heading-m">Environment variables</h2>
-			<EnvVariables />
-			<h2 className="mt-24 text-heading-m">Form validation</h2>
-			<FormValidation />
-			<h2 className="mt-24 text-heading-m">Optimized image</h2>
-			<OptimizedImage />
-			<Landmark.Root>
-				<Landmark.Label>
-					<h2 className="mt-24 text-heading-m">API endpoint</h2>
-				</Landmark.Label>
-				<ApiEndpoint />
-			</Landmark.Root>
+			<h1>Exquisite dining since 1989</h1>
+			<Link to="/booking">Book a table</Link>
 		</>
 	)
 }
 
-function MockedApi() {
-	const data = useLoaderData() as { time: TimeResponse }
+// Exquisite dining since 1989
 
-	return (
-		<div className="mt-8">
-			<Suspense fallback={<pre>Loading time data...</pre>}>
-				<Await resolve={data.time} errorElement={<TimeError />}>
-					<TimeResolve />
-				</Await>
-			</Suspense>
-		</div>
-	)
-}
+// Experience our seasonal menu in beautiful country surroundings. Eat the freshest produce from
+// the comfort of our farmhouse.
 
-function TimeResolve() {
-	const time = useAsyncValue()
+// Book a table
 
-	return <pre>{JSON.stringify(time, undefined, '\t')}</pre>
-}
+// Enjoyable place for all the family
 
-function TimeError() {
-	const error = useAsyncError()
+// Our relaxed surroundings make dining with us a great experience for everyone. We can even arrange
+// a tour of the farm before your meal.
 
-	return <pre>{JSON.stringify(error, undefined, '\t')}</pre>
-}
+// The most locally sourced food
 
-function EnvVariables() {
-	return (
-		<div className="mt-8 grid gap-8">
-			<p>Environment variables for the client:</p>
-			<pre>{JSON.stringify(clientEnv, undefined, '\t')}</pre>
-		</div>
-	)
-}
+// All our ingredients come directly from our farm or local fishery. So you can be sure that you’re
+// eating the freshest, most sustainable food.
 
-function FormValidation() {
-	const outputRef = useRef<HTMLParagraphElement>(null)
-	const [favoriteColor, setFavoriteColor] = useState('')
-	const [form, fields] = useForm({
-		constraint: getZodConstraint(FavoriteColorSchema),
-		shouldValidate: 'onBlur',
-		// shouldRevalidate: "onInput",
-		onValidate({ formData }) {
-			return parseWithZod(formData, { schema: FavoriteColorSchema })
-		},
-		onSubmit(event, { submission }) {
-			event.preventDefault()
+// A few highlights from our menu
 
-			if (submission?.status !== 'success') return
+// We cater for all dietary requirements, but here’s a glimpse at some of our diner’s favourites.
+// Our menu is revamped every season.
 
-			flushSync(() => {
-				setFavoriteColor(submission.value.color)
-			})
-			outputRef.current?.focus()
-		},
-	})
+// Seared Salmon Fillet
+// Our locally sourced salmon served with a refreshing buckwheat summer salad.
 
-	return (
-		<>
-			<p className="mt-8">This form is validated with Conform and Zod.</p>
-			<form className="mt-8 max-w-sm" {...getFormProps(form)}>
-				<div>
-					<label className="block" htmlFor={fields.color.id}>
-						Favorite color:
-					</label>
-					<Input {...getInputProps(fields.color, { type: 'text' })} />
-					<p className="mt-1 text-error-foreground" id={fields.color.errorId}>
-						{fields.color.errors}
-					</p>
-				</div>
-				<Button type="submit">Submit</Button>
-			</form>
-			<p className="mt-6" ref={outputRef} tabIndex={-1}>
-				{favoriteColor
-					? `Your favorite color is ${favoriteColor.toLowerCase()}!`
-					: null}
-			</p>
-		</>
-	)
-}
+// Rosemary Filet Mignon
+// Our prime beef served to your taste with a delicious choice of seasonal sides.
 
-function OptimizedImage() {
-	return (
-		<>
-			<p className="mt-8">
-				The original image was <strong>3.5 MB</strong>, but the following image
-				is <strong>163 kB</strong>.
-			</p>
-			<Picture>
-				<Source media={`(min-width: ${screens.tablet})`} image={tabletImg} />
-				<Image
-					className="mt-6 w-full bg-[hsl(189_90%_31%)]"
-					alt="The optimized image"
-					image={mobileImg}
-				/>
-			</Picture>
-		</>
-	)
-}
+// Summer Fruit Chocolate Mousse
+// Creamy mousse combined with summer fruits and dark chocolate shavings.
 
-function ApiEndpoint() {
-	const { fetcher, submit } = useSubmitInput()
+// Family Gathering
+// Special Events
+// Social Events
 
-	return (
-		<>
-			<p className="mt-8">
-				<Button
-					type="button"
-					aria-disabled={fetcher.state !== 'idle'}
-					onClick={() => {
-						submit({ input: 'Some data' })
-					}}
-				>
-					Post to serverless function
-				</Button>
-			</p>
-			<pre className="mt-4" data-testid="server-message">
-				{fetcher.data === undefined
-					? 'Data will be displayed here.'
-					: JSON.stringify(fetcher.data, undefined, '\t')}
-			</pre>
-		</>
-	)
-}
+// Family Gathering
+// We love catering for entire families. So please bring everyone along for a special meal with your
+// loved ones. We’ll provide a memorable experience for all.
+
+// Special Events
+// Whether it’s a romantic dinner or special date you’re celebrating with others we’ll look after you.
+// We’ll be sure to mark your special date with an unforgettable meal.
+
+// Social Events
+// Are you looking to have a larger social event? No problem! We’re more than happy to cater for big
+// parties. We’ll work with you to make your event a hit with everyone.
+
+// Book a table
+
+// Ready to make a reservation?
+
+// Book a table
+
+// Marthwaite, Sedbergh
+// Cumbria
+// +00 44 123 4567
+
+// Open Times
+// Mon - Fri: 09:00 AM - 10:00 PM
+// Sat - Sun: 09:00 AM - 11:30 PM

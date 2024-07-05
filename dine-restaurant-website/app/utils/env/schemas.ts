@@ -5,6 +5,6 @@ export const serverSchema = z.object({
 })
 
 export const clientSchema = z.object({
-	VITE_FRUIT: z.string(),
-	VITE_MOCKS: z.preprocess((val) => val === 'true', z.boolean()),
+	// VITE_FRUIT: z.string(),
+	// VITE_MOCKS: z.preprocess((val) => val === 'true', z.boolean()),
 })
