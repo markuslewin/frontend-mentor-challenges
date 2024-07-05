@@ -48,3 +48,34 @@ export function Image({ image, priority, ...props }: ImageProps) {
 		/>
 	)
 }
+
+export interface DImage {
+	image: Image
+	density: `${number}x`
+}
+
+function getSrcSet(images: DImages) {
+	return images
+		.map((dImage) => `${dImage.image.src} ${dImage.density}`)
+		.join(', ')
+}
+
+export type DImages = [DImage, ...DImage[]]
+
+export interface DensitySourceProps extends Omit<SourceProps, 'image'> {
+	images: DImages
+}
+
+export function DensitySource({ images, ...props }: DensitySourceProps) {
+	return (
+		<Source image={images[0].image} srcSet={getSrcSet(images)} {...props} />
+	)
+}
+
+export interface DensityImageProps extends Omit<ImageProps, 'image'> {
+	images: DImages
+}
+
+export function DensityImage({ images, ...props }: DensityImageProps) {
+	return <Image image={images[0].image} srcSet={getSrcSet(images)} {...props} />
+}
