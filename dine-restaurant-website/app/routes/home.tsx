@@ -1,4 +1,6 @@
+import { invariant } from '@epic-web/invariant'
 import * as Tabs from '@radix-ui/react-tabs'
+import { useState } from 'react'
 // @ts-expect-error Search params
 import beefDesktopTablet from '#app/assets/homepage/beef-desktop-tablet.jpg?as=metadata'
 // @ts-expect-error Search params
@@ -27,12 +29,18 @@ import enjoyablePlaceMobile2x from '#app/assets/homepage/enjoyable-place-mobile@
 import enjoyablePlaceTablet from '#app/assets/homepage/enjoyable-place-tablet.jpg?as=metadata'
 // @ts-expect-error Search params
 import enjoyablePlaceTablet2x from '#app/assets/homepage/enjoyable-place-tablet@2x.jpg?as=metadata'
-// import familyGatheringDesktop from '#app/assets/homepage/family-gathering-desktop.jpg?as=metadata'
-// import familyGatheringDesktop2x from '#app/assets/homepage/family-gathering-desktop@2x.jpg?as=metadata'
-// import familyGatheringMobile from '#app/assets/homepage/family-gathering-mobile.jpg?as=metadata'
-// import familyGatheringMobile2x from '#app/assets/homepage/family-gathering-mobile@2x.jpg?as=metadata'
-// import familyGatheringTablet from '#app/assets/homepage/family-gathering-tablet.jpg?as=metadata'
-// import familyGatheringTablet2x from '#app/assets/homepage/family-gathering-tablet@2x.jpg?as=metadata'
+// @ts-expect-error Search params
+import familyGatheringDesktop from '#app/assets/homepage/family-gathering-desktop.jpg?as=metadata'
+// @ts-expect-error Search params
+import familyGatheringDesktop2x from '#app/assets/homepage/family-gathering-desktop@2x.jpg?as=metadata'
+// @ts-expect-error Search params
+import familyGatheringMobile from '#app/assets/homepage/family-gathering-mobile.jpg?as=metadata'
+// @ts-expect-error Search params
+import familyGatheringMobile2x from '#app/assets/homepage/family-gathering-mobile@2x.jpg?as=metadata'
+// @ts-expect-error Search params
+import familyGatheringTablet from '#app/assets/homepage/family-gathering-tablet.jpg?as=metadata'
+// @ts-expect-error Search params
+import familyGatheringTablet2x from '#app/assets/homepage/family-gathering-tablet@2x.jpg?as=metadata'
 // @ts-expect-error Search params
 import heroBgDesktop from '#app/assets/homepage/hero-bg-desktop.jpg?as=metadata'
 // @ts-expect-error Search params
@@ -77,6 +85,30 @@ import salmonDesktopTablet2x from '#app/assets/homepage/salmon-desktop-tablet@2x
 import salmonMobile from '#app/assets/homepage/salmon-mobile.jpg?as=metadata'
 // @ts-expect-error Search params
 import salmonMobile2x from '#app/assets/homepage/salmon-mobile@2x.jpg?as=metadata'
+// @ts-expect-error Search params
+import socialEventsDesktop from '#app/assets/homepage/social-events-desktop.jpg?as=metadata'
+// @ts-expect-error Search params
+import socialEventsDesktop2x from '#app/assets/homepage/social-events-desktop@2x.jpg?as=metadata'
+// @ts-expect-error Search params
+import socialEventsMobile from '#app/assets/homepage/social-events-mobile.jpg?as=metadata'
+// @ts-expect-error Search params
+import socialEventsMobile2x from '#app/assets/homepage/social-events-mobile@2x.jpg?as=metadata'
+// @ts-expect-error Search params
+import socialEventsTablet from '#app/assets/homepage/social-events-tablet.jpg?as=metadata'
+// @ts-expect-error Search params
+import socialEventsTablet2x from '#app/assets/homepage/social-events-tablet@2x.jpg?as=metadata'
+// @ts-expect-error Search params
+import specialEventsDesktop from '#app/assets/homepage/special-events-desktop.jpg?as=metadata'
+// @ts-expect-error Search params
+import specialEventsDesktop2x from '#app/assets/homepage/special-events-desktop@2x.jpg?as=metadata'
+// @ts-expect-error Search params
+import specialEventsMobile from '#app/assets/homepage/special-events-mobile.jpg?as=metadata'
+// @ts-expect-error Search params
+import specialEventsMobile2x from '#app/assets/homepage/special-events-mobile@2x.jpg?as=metadata'
+// @ts-expect-error Search params
+import specialEventsTablet from '#app/assets/homepage/special-events-tablet.jpg?as=metadata'
+// @ts-expect-error Search params
+import specialEventsTablet2x from '#app/assets/homepage/special-events-tablet@2x.jpg?as=metadata'
 import patternCurveTopLeft from '#app/assets/patterns/pattern-curve-top-left.svg'
 import patternCurveTopRight from '#app/assets/patterns/pattern-curve-top-right.svg'
 import patternLines from '#app/assets/patterns/pattern-lines.svg'
@@ -91,18 +123,6 @@ import { type AnnouncementHandle } from '#app/components/route-announcer'
 import { Button } from '#app/components/ui/button'
 import { Logo } from '#app/components/ui/logo'
 import { screens } from '#app/utils/screens'
-// import socialEventsDesktop from '#app/assets/homepage/social-events-desktop.jpg?as=metadata'
-// import socialEventsDesktop2x from '#app/assets/homepage/social-events-desktop@2x.jpg?as=metadata'
-// import socialEventsMobile from '#app/assets/homepage/social-events-mobile.jpg?as=metadata'
-// import socialEventsMobile2x from '#app/assets/homepage/social-events-mobile@2x.jpg?as=metadata'
-// import socialEventsTablet from '#app/assets/homepage/social-events-tablet.jpg?as=metadata'
-// import socialEventsTablet2x from '#app/assets/homepage/social-events-tablet@2x.jpg?as=metadata'
-// import specialEventsDesktop from '#app/assets/homepage/special-events-desktop.jpg?as=metadata'
-// import specialEventsDesktop2x from '#app/assets/homepage/special-events-desktop@2x.jpg?as=metadata'
-// import specialEventsMobile from '#app/assets/homepage/special-events-mobile.jpg?as=metadata'
-// import specialEventsMobile2x from '#app/assets/homepage/special-events-mobile@2x.jpg?as=metadata'
-// import specialEventsTablet from '#app/assets/homepage/special-events-tablet.jpg?as=metadata'
-// import specialEventsTablet2x from '#app/assets/homepage/special-events-tablet@2x.jpg?as=metadata'
 
 export const handle = {
 	announcement() {
@@ -110,7 +130,70 @@ export const handle = {
 	},
 } satisfies AnnouncementHandle
 
+type Event = 'family' | 'special' | 'social'
+
+function assertValidEvent(value: string): asserts value is Event {
+	invariant(
+		value === 'family' || value === 'special' || value === 'social',
+		'Invalid event',
+	)
+}
+
+function getEventImages(event: Event) {
+	if (event === 'family') {
+		return {
+			desktop: {
+				density1: familyGatheringDesktop,
+				density2: familyGatheringDesktop2x,
+			},
+			tablet: {
+				density1: familyGatheringTablet,
+				density2: familyGatheringTablet2x,
+			},
+			mobile: {
+				density1: familyGatheringMobile,
+				density2: familyGatheringMobile2x,
+			},
+		}
+	} else if (event === 'social') {
+		return {
+			desktop: {
+				density1: socialEventsDesktop,
+				density2: socialEventsDesktop2x,
+			},
+			tablet: {
+				density1: socialEventsTablet,
+				density2: socialEventsTablet2x,
+			},
+			mobile: {
+				density1: socialEventsMobile,
+				density2: socialEventsMobile2x,
+			},
+		}
+	} else if (event === 'special') {
+		return {
+			desktop: {
+				density1: specialEventsDesktop,
+				density2: specialEventsDesktop2x,
+			},
+			tablet: {
+				density1: specialEventsTablet,
+				density2: specialEventsTablet2x,
+			},
+			mobile: {
+				density1: specialEventsMobile,
+				density2: specialEventsMobile2x,
+			},
+		}
+	}
+	throw new Error(`Invalid event "${event}"`)
+}
+
 export function Home() {
+	const [selectedEvent, setSelectedEvent] = useState<Event>('family')
+
+	const eventImages = getEventImages(selectedEvent)
+
 	return (
 		<>
 			<Picture>
@@ -246,12 +329,41 @@ export function Home() {
 				/>
 				<PatternCurveTopRight />
 				<h2>Events</h2>
+				<Picture key={selectedEvent}>
+					<DensitySource
+						media={`(min-width: ${screens.desktop})`}
+						images={[
+							{ density: '1x', image: eventImages.desktop.density1 },
+							{ density: '2x', image: eventImages.desktop.density2 },
+						]}
+					/>
+					<DensitySource
+						media={`(min-width: ${screens.tablet})`}
+						images={[
+							{ density: '1x', image: eventImages.tablet.density1 },
+							{ density: '2x', image: eventImages.tablet.density2 },
+						]}
+					/>
+					<DensityImage
+						alt=""
+						images={[
+							{ density: '1x', image: eventImages.mobile.density1 },
+							{ density: '2x', image: eventImages.mobile.density2 },
+						]}
+					/>
+				</Picture>
 				<PatternLines />
-				<Tabs.Root defaultValue="family">
+				<Tabs.Root
+					value={selectedEvent}
+					onValueChange={(event) => {
+						assertValidEvent(event)
+						setSelectedEvent(event)
+					}}
+				>
 					<Tabs.List>
-						<Tabs.Trigger value="family">Family Gathering</Tabs.Trigger>
-						<Tabs.Trigger value="special">Special Events</Tabs.Trigger>
-						<Tabs.Trigger value="social">Social Events</Tabs.Trigger>
+						<EventTrigger value="family" text="Family Gathering" />
+						<EventTrigger value="special" text="Special Events" />
+						<EventTrigger value="social" text="Social Events" />
 					</Tabs.List>
 					<EventContent
 						value="family"
@@ -370,8 +482,17 @@ function Highlight({ heading, image, body }: HighlightProps) {
 	)
 }
 
+interface EventTriggerProps {
+	value: Event
+	text: string
+}
+
+function EventTrigger({ value, text }: EventTriggerProps) {
+	return <Tabs.Trigger value={value}>{text}</Tabs.Trigger>
+}
+
 interface EventContentProps {
-	value: string
+	value: Event
 	heading: string
 	body: string
 }
