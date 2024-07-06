@@ -7,6 +7,8 @@ import { Layout } from '#app/components/layout'
 import { Booking, handle as bookingHandle } from '#app/routes/booking'
 import { Home, handle as homeHandle } from '#app/routes/home'
 import { clientEnv } from '#app/utils/env/client'
+// Supports weights 100-900
+import '@fontsource-variable/league-spartan'
 
 async function enableMocking() {
 	if (clientEnv.VITE_MOCKS) {

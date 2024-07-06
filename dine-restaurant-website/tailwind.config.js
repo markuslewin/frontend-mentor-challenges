@@ -11,9 +11,12 @@ const clamps = calculateClamps({
 	minWidth: 375,
 	maxWidth: 1110,
 	pairs: [
+		[32, 80],
 		[32, 48],
-		[24, 39],
+		[20, 20],
+		[17, 17],
 		[16, 20],
+		[16, 16],
 	],
 })
 
@@ -31,44 +34,39 @@ export default {
 	theme: {
 		screens,
 		colors: {
-			// todo: Add colors
-			background: 'hsl(var(--background))',
-			foreground: 'hsl(var(--foreground))',
-			overlay: 'hsl(var(--overlay))',
-			menu: {
-				DEFAULT: 'hsl(var(--menu))',
-				foreground: 'hsl(var(--menu-foreground))',
-			},
-			button: {
-				DEFAULT: 'hsl(var(--button))',
-				foreground: 'hsl(var(--button-foreground))',
-				hocus: 'hsl(var(--button-hocus))',
-			},
-			input: {
-				DEFAULT: 'hsl(var(--input))',
-				'border-hocus': 'hsl(var(--input-border-hocus))',
-			},
-			pill: {
-				DEFAULT: 'hsl(var(--pill))',
-				foreground: 'hsl(var(--pill-foreground))',
-			},
-			delete: {
-				foreground: 'hsl(var(--delete-foreground))',
-				'foreground-hocus': 'hsl(var(--delete-foreground-hocus))',
-			},
-			error: {
-				foreground: 'hsl(var(--error-foreground))',
-			},
+			// Primary
+			beaver: 'hsl(27 22% 51%)',
+			'cod-gray': 'hsl(0 0% 7%)',
+			// Secondary
+			mirage: 'hsl(234 30% 13%)',
+			'ebony-clay': 'hsl(218 21% 18%)',
+			'shuttle-gray': 'hsl(217 14% 42%)',
+			// Other
+			white: 'hsl(0 0% 100%)',
 		},
 		fontFamily: {
-			// todo: Add font from Fontsource
-			base: 'Inter, system-ui, Avenir, Helvetica, Arial, sans-serif',
+			base: "'League Spartan Variable', sans-serif",
 		},
 		fontSize: {
 			// todo: Add font sizes
-			'heading-l': [getClamp(0), { fontWeight: 500, lineHeight: 1 }],
-			'heading-m': [getClamp(1), { fontWeight: 500, lineHeight: 1 }],
-			body: [getClamp(2), { lineHeight: 1.2 }],
+			'heading-xl': [
+				getClamp(0),
+				{ fontWeight: 300, lineHeight: 1, letterSpacing: '-0.0125em' },
+			],
+			'heading-l': [
+				getClamp(1),
+				{ fontWeight: 700, lineHeight: 1, letterSpacing: '-0.0104em' },
+			],
+			'heading-m': [
+				getClamp(2),
+				{ fontWeight: 700, lineHeight: 1.2, letterSpacing: '-0.0125em' },
+			],
+			'heading-s': [
+				getClamp(3),
+				{ fontWeight: 600, lineHeight: 1.65, letterSpacing: '0.147em' },
+			],
+			'body-1': [getClamp(4), { lineHeight: 1.5 }],
+			'body-2': [getClamp(5), { lineHeight: 1.625 }],
 		},
 		extend: {},
 	},
