@@ -77,6 +77,10 @@ import salmonDesktopTablet2x from '#app/assets/homepage/salmon-desktop-tablet@2x
 import salmonMobile from '#app/assets/homepage/salmon-mobile.jpg?as=metadata'
 // @ts-expect-error Search params
 import salmonMobile2x from '#app/assets/homepage/salmon-mobile@2x.jpg?as=metadata'
+import patternCurveTopLeft from '#app/assets/patterns/pattern-curve-top-left.svg'
+import patternCurveTopRight from '#app/assets/patterns/pattern-curve-top-right.svg'
+import patternLines from '#app/assets/patterns/pattern-lines.svg'
+import { Icon } from '#app/components/icon'
 import {
 	Picture,
 	DensityImage,
@@ -145,6 +149,7 @@ export function Home() {
 				<p>
 					<Button to="/booking">Book a table</Button>
 				</p>
+				<PatternCurveTopRight />
 				<Picture>
 					<DensitySource
 						media={`(min-width: ${screens.desktop})`}
@@ -168,11 +173,13 @@ export function Home() {
 						]}
 					/>
 				</Picture>
+				<Divide />
 				<h2>Enjoyable place for all the family</h2>
 				<p>
 					Our relaxed surroundings make dining with us a great experience for
 					everyone. We can even arrange a tour of the farm before your meal.
 				</p>
+				<PatternCurveTopLeft />
 				<Picture>
 					<DensitySource
 						media={`(min-width: ${screens.desktop})`}
@@ -196,12 +203,15 @@ export function Home() {
 						]}
 					/>
 				</Picture>
+				<PatternLines />
+				<Divide />
 				<h2>The most locally sourced food</h2>
 				<p>
 					All our ingredients come directly from our farm or local fishery. So
 					you can be sure that you’re eating the freshest, most sustainable
 					food.
 				</p>
+				<Divide />
 				<h2>A few highlights from our menu</h2>
 				<p>
 					We cater for all dietary requirements, but here’s a glimpse at some of
@@ -234,7 +244,9 @@ export function Home() {
 					heading="Summer Fruit Chocolate Mousse"
 					body="Creamy mousse combined with summer fruits and dark chocolate shavings."
 				/>
+				<PatternCurveTopRight />
 				<h2>Events</h2>
+				<PatternLines />
 				<Tabs.Root defaultValue="family">
 					<Tabs.List>
 						<Tabs.Trigger value="family">Family Gathering</Tabs.Trigger>
@@ -286,6 +298,40 @@ export function Home() {
 				</p>
 			</main>
 		</>
+	)
+}
+
+function Divide() {
+	return <Icon className="h-[0.4375rem] w-[4.4375rem]" name="pattern-divide" />
+}
+
+function PatternCurveTopRight() {
+	return (
+		<img
+			alt=""
+			loading="lazy"
+			src={patternCurveTopRight}
+			width="895"
+			height="320"
+		/>
+	)
+}
+
+function PatternCurveTopLeft() {
+	return (
+		<img
+			alt=""
+			loading="lazy"
+			src={patternCurveTopLeft}
+			width="895"
+			height="320"
+		/>
+	)
+}
+
+function PatternLines() {
+	return (
+		<img alt="" loading="lazy" src={patternLines} width="160" height="76" />
 	)
 }
 
