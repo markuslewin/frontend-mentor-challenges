@@ -117,7 +117,7 @@ import {
 	DensitySource,
 	type Image,
 } from '#app/components/picture'
-import { Button } from '#app/components/ui/button'
+import * as Button from '#app/components/ui/button'
 import { Logo } from '#app/components/ui/logo'
 import { CurveTopRight, CurveTopLeft, Lines } from '#app/components/ui/patterns'
 import { screens } from '#app/utils/screens'
@@ -224,7 +224,7 @@ export function Home() {
 					the freshest produce from the comfort of our farmhouse.
 				</p>
 				<p>
-					<Button to="/booking">Book a table</Button>
+					<BookingButton variant="onDark" />
 				</p>
 				<CurveTopRight />
 				<Picture>
@@ -400,7 +400,7 @@ export function Home() {
 				</Picture>
 				<h2>Ready to make a reservation?</h2>
 				<p>
-					<Button to="/booking">Book a table</Button>
+					<BookingButton variant="onDark" />
 				</p>
 			</main>
 		</>
@@ -446,6 +446,18 @@ function Highlight({ heading, image, body }: HighlightProps) {
 	)
 }
 
+interface BookingButtonProps extends Button.RootProps {}
+
+function BookingButton(props: BookingButtonProps) {
+	return (
+		<Button.Root asChild {...props} className="min-w-[15.3125rem]">
+			<Link to="/booking">
+				<Button.Text>Book a table</Button.Text>
+			</Link>
+		</Button.Root>
+	)
+}
+
 interface EventTriggerProps {
 	value: Event
 	text: string
@@ -467,7 +479,7 @@ function EventContent({ value, heading, body }: EventContentProps) {
 			<h3>{heading}</h3>
 			<p>{body}</p>
 			<p>
-				<Button to="/booking">Book a table</Button>
+				<BookingButton />
 			</p>
 		</Tabs.Content>
 	)

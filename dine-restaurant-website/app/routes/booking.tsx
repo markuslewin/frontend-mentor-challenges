@@ -13,11 +13,12 @@ import heroBgMobile2x from '#app/assets/booking/hero-bg-mobile@2x.jpg?as=metadat
 import heroBgTablet from '#app/assets/booking/hero-bg-tablet.jpg?as=metadata'
 // @ts-expect-error Search params
 import heroBgTablet2x from '#app/assets/booking/hero-bg-tablet@2x.jpg?as=metadata'
+import { Icon } from '#app/components/icon'
 import { DensityImage, DensitySource, Picture } from '#app/components/picture'
+import * as Button from '#app/components/ui/button'
 import { Logo } from '#app/components/ui/logo'
 import { CurveBottomRight, Lines } from '#app/components/ui/patterns'
 import { screens } from '#app/utils/screens'
-import { Icon } from '#app/components/icon.js'
 
 function useAmountOfPeople() {
 	const [value, setValue] = useState(4)
@@ -164,7 +165,9 @@ export function Booking() {
 						</button>
 					</fieldset>
 					<p>
-						<button>Make reservation</button>
+						<Button.Root className="w-full">
+							<Button.Text>Make reservation</Button.Text>
+						</Button.Root>
 					</p>
 				</form>
 				<CurveBottomRight />
