@@ -4,7 +4,7 @@
 
 @layer base {
 	body {
-		@apply bg-white font-base text-body-1 text-ebony-clay;
+		@apply bg-white font-base text-body-1 text-ebony-clay caret-beaver;
 	}
 
 	:focus {

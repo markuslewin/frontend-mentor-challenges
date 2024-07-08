@@ -4,7 +4,7 @@ import { screens } from './app/utils/screens'
 import { center } from './tailwind/center'
 import { clickable } from './tailwind/clickable'
 import { hocus } from './tailwind/hocus'
-// import { rem } from "./tailwind/rem";
+import { rem } from './tailwind/rem'
 import { shape } from './tailwind/shape'
 
 const clamps = calculateClamps({
@@ -43,6 +43,7 @@ export default {
 			'shuttle-gray': 'hsl(217 14% 42%)',
 			// Other
 			white: 'hsl(0 0% 100%)',
+			red: 'hsl(0 43% 50%)',
 		},
 		fontFamily: {
 			base: "'League Spartan Variable', sans-serif",
@@ -67,6 +68,11 @@ export default {
 			],
 			'body-1': [getClamp(4), { lineHeight: 1.5 }],
 			'body-2': [getClamp(5), { lineHeight: 1.625 }],
+			// Other
+			error: [
+				rem(10),
+				{ fontWeight: 500, lineHeight: 0.9, letterSpacing: '-0.013em' },
+			],
 		},
 		extend: {},
 	},

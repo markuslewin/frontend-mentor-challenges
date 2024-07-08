@@ -1,6 +1,10 @@
+import { getFormProps, getInputProps, useForm } from '@conform-to/react'
+import { getZodConstraint, parseWithZod } from '@conform-to/zod'
 import * as Select from '@radix-ui/react-select'
+import { cx } from 'class-variance-authority'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { z } from 'zod'
 // @ts-expect-error Search params
 import heroBgDesktop from '#app/assets/booking/hero-bg-desktop.jpg?as=metadata'
 // @ts-expect-error Search params
@@ -18,6 +22,7 @@ import { DensityImage, DensitySource, Picture } from '#app/components/picture'
 import * as Button from '#app/components/ui/button'
 import { Logo } from '#app/components/ui/logo'
 import { CurveBottomRight, Lines } from '#app/components/ui/patterns'
+import { TextField } from '#app/components/ui/text-field'
 import { screens } from '#app/utils/screens'
 
 function useAmountOfPeople() {
@@ -34,8 +39,37 @@ function useAmountOfPeople() {
 	}
 }
 
+const bookingSchema = z.object({
+	name: z.string({ required_error: 'This field is required' }),
+	email: z.string({ required_error: 'This field is required' }).email(),
+	day: z.number(),
+	month: z.number(),
+	year: z.number(),
+	hour: z.number(),
+	minute: z.number(),
+})
+
 export function Booking() {
+	const [form, fields] = useForm({
+		constraint: getZodConstraint(bookingSchema),
+		shouldValidate: 'onBlur',
+		onValidate({ formData }) {
+			return parseWithZod(formData, { schema: bookingSchema })
+		},
+		onSubmit(event, { submission }) {
+			event.preventDefault()
+
+			if (submission?.status !== 'success') return
+
+			// todo: Check valid date
+			console.log('Booking successful!', { data: submission.value })
+		},
+	})
 	const amountOfPeople = useAmountOfPeople()
+
+	const errors = {
+		name: Boolean(fields.name.errors?.length),
+	}
 
 	return (
 		<>
@@ -44,7 +78,8 @@ export function Booking() {
 					<Logo />
 				</Link>
 			</header>
-			<main>
+			{/* todo: Tmp bg */}
+			<main className="bg-beaver">
 				<Picture>
 					<DensitySource
 						media={`(min-width: ${screens.desktop})`}
@@ -75,13 +110,26 @@ export function Booking() {
 					accommodate you.
 				</p>
 				<Lines />
-				<form>
-					<p>
-						<label>
-							Name:
-							<input type="text" autoComplete="name" />
-						</label>
-					</p>
+				{/* todo: tmp max width */}
+				<form
+					{...getFormProps(form)}
+					className="mx-auto max-w-xl border-[transparent] bg-white text-cod-gray shape-p-12 shape-border"
+				>
+					<div className={cx('group', errors.name ? 'text-red' : '')}>
+						<p>
+							<label>
+								<span className="sr-only">Name:</span>
+								<TextField
+									{...getInputProps(fields.name, { type: 'text' })}
+									className="w-full"
+									variant={errors.name ? 'error' : 'normal'}
+									placeholder="Name"
+									autoComplete="name"
+								/>
+							</label>
+						</p>
+						<p className="text-error mt-3 px-4">{fields.name.errors}</p>
+					</div>
 					<p>
 						<label>
 							Email:
