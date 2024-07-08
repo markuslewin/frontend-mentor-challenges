@@ -1,6 +1,7 @@
 import { invariant } from '@epic-web/invariant'
 import * as Tabs from '@radix-ui/react-tabs'
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 // @ts-expect-error Search params
 import beefDesktopTablet from '#app/assets/homepage/beef-desktop-tablet.jpg?as=metadata'
 // @ts-expect-error Search params
@@ -109,9 +110,6 @@ import specialEventsMobile2x from '#app/assets/homepage/special-events-mobile@2x
 import specialEventsTablet from '#app/assets/homepage/special-events-tablet.jpg?as=metadata'
 // @ts-expect-error Search params
 import specialEventsTablet2x from '#app/assets/homepage/special-events-tablet@2x.jpg?as=metadata'
-import patternCurveTopLeft from '#app/assets/patterns/pattern-curve-top-left.svg'
-import patternCurveTopRight from '#app/assets/patterns/pattern-curve-top-right.svg'
-import patternLines from '#app/assets/patterns/pattern-lines.svg'
 import { Icon } from '#app/components/icon'
 import {
 	Picture,
@@ -119,16 +117,10 @@ import {
 	DensitySource,
 	type Image,
 } from '#app/components/picture'
-import { type AnnouncementHandle } from '#app/components/route-announcer'
 import { Button } from '#app/components/ui/button'
 import { Logo } from '#app/components/ui/logo'
+import { CurveTopRight, CurveTopLeft, Lines } from '#app/components/ui/patterns'
 import { screens } from '#app/utils/screens'
-
-export const handle = {
-	announcement() {
-		return 'Home'
-	},
-} satisfies AnnouncementHandle
 
 type Event = 'family' | 'special' | 'social'
 
@@ -221,7 +213,9 @@ export function Home() {
 				/>
 			</Picture>
 			<header>
-				<Logo />
+				<Link to="/">
+					<Logo />
+				</Link>
 			</header>
 			<main>
 				<h1 className="text-heading-xl">Exquisite dining since 1989</h1>
@@ -232,7 +226,7 @@ export function Home() {
 				<p>
 					<Button to="/booking">Book a table</Button>
 				</p>
-				<PatternCurveTopRight />
+				<CurveTopRight />
 				<Picture>
 					<DensitySource
 						media={`(min-width: ${screens.desktop})`}
@@ -262,7 +256,7 @@ export function Home() {
 					Our relaxed surroundings make dining with us a great experience for
 					everyone. We can even arrange a tour of the farm before your meal.
 				</p>
-				<PatternCurveTopLeft />
+				<CurveTopLeft />
 				<Picture>
 					<DensitySource
 						media={`(min-width: ${screens.desktop})`}
@@ -286,7 +280,7 @@ export function Home() {
 						]}
 					/>
 				</Picture>
-				<PatternLines />
+				<Lines />
 				<Divide />
 				<h2>The most locally sourced food</h2>
 				<p>
@@ -327,7 +321,7 @@ export function Home() {
 					heading="Summer Fruit Chocolate Mousse"
 					body="Creamy mousse combined with summer fruits and dark chocolate shavings."
 				/>
-				<PatternCurveTopRight />
+				<CurveTopRight />
 				<h2>Events</h2>
 				<Picture key={selectedEvent}>
 					<DensitySource
@@ -352,7 +346,7 @@ export function Home() {
 						]}
 					/>
 				</Picture>
-				<PatternLines />
+				<Lines />
 				<Tabs.Root
 					value={selectedEvent}
 					onValueChange={(event) => {
@@ -415,36 +409,6 @@ export function Home() {
 
 function Divide() {
 	return <Icon className="h-[0.4375rem] w-[4.4375rem]" name="pattern-divide" />
-}
-
-function PatternCurveTopRight() {
-	return (
-		<img
-			alt=""
-			loading="lazy"
-			src={patternCurveTopRight}
-			width="895"
-			height="320"
-		/>
-	)
-}
-
-function PatternCurveTopLeft() {
-	return (
-		<img
-			alt=""
-			loading="lazy"
-			src={patternCurveTopLeft}
-			width="895"
-			height="320"
-		/>
-	)
-}
-
-function PatternLines() {
-	return (
-		<img alt="" loading="lazy" src={patternLines} width="160" height="76" />
-	)
 }
 
 interface HighlightProps {

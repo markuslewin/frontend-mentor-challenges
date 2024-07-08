@@ -4,8 +4,9 @@ import '#app/index.css'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import { AnnouncementProvider } from '#app/components/announcer'
 import { Layout } from '#app/components/layout'
-import { Booking, handle as bookingHandle } from '#app/routes/booking'
-import { Home, handle as homeHandle } from '#app/routes/home'
+import { type AnnouncementHandle } from '#app/components/route-announcer'
+import { Booking } from '#app/routes/booking'
+import { Home } from '#app/routes/home'
 import { clientEnv } from '#app/utils/env/client'
 // Supports weights 100-900
 import '@fontsource-variable/league-spartan'
@@ -25,12 +26,20 @@ enableMocking().then(() => {
 			children: [
 				{
 					index: true,
-					handle: homeHandle,
+					handle: {
+						announcement() {
+							return 'Home'
+						},
+					} satisfies AnnouncementHandle,
 					Component: Home,
 				},
 				{
 					path: 'booking',
-					handle: bookingHandle,
+					handle: {
+						announcement() {
+							return 'Reservations'
+						},
+					} satisfies AnnouncementHandle,
 					Component: Booking,
 				},
 			],
