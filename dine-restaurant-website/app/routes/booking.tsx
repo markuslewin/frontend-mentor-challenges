@@ -1,8 +1,13 @@
-import { getFormProps, getInputProps, useForm } from '@conform-to/react'
+import {
+	getFieldsetProps,
+	getFormProps,
+	getInputProps,
+	useForm,
+} from '@conform-to/react'
 import { getZodConstraint, parseWithZod } from '@conform-to/zod'
 import * as Select from '@radix-ui/react-select'
 import { cx } from 'class-variance-authority'
-import { useState } from 'react'
+import { useId, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { z } from 'zod'
 // @ts-expect-error Search params
@@ -41,15 +46,21 @@ function useAmountOfPeople() {
 
 const bookingSchema = z.object({
 	name: z.string({ required_error: 'This field is required' }),
-	email: z.string({ required_error: 'This field is required' }).email(),
-	day: z.number(),
-	month: z.number(),
-	year: z.number(),
-	hour: z.number(),
-	minute: z.number(),
+	email: z
+		.string({ required_error: 'This field is required' })
+		.email({ message: 'Please use a valid email address' }),
+	date: z.object({
+		day: z.number({ required_error: 'This field is incomplete' }),
+		month: z.number({ required_error: 'This field is incomplete' }),
+		year: z.number({ required_error: 'This field is incomplete' }),
+	}),
+	hour: z.number({ required_error: 'This field is incomplete' }),
+	minute: z.number({ required_error: 'This field is incomplete' }),
 })
 
 export function Booking() {
+	const dateLabelId = useId()
+	const timeLabelId = useId()
 	const [form, fields] = useForm({
 		constraint: getZodConstraint(bookingSchema),
 		shouldValidate: 'onBlur',
@@ -67,8 +78,16 @@ export function Booking() {
 	})
 	const amountOfPeople = useAmountOfPeople()
 
+	const date = fields.date.getFieldset()
+
 	const errors = {
 		name: Boolean(fields.name.errors?.length),
+		email: Boolean(fields.email.errors?.length),
+		date: Boolean(
+			date.day.errors?.length ||
+				date.month.errors?.length ||
+				date.year.errors?.length,
+		),
 	}
 
 	return (
@@ -115,44 +134,117 @@ export function Booking() {
 					{...getFormProps(form)}
 					className="mx-auto max-w-xl border-[transparent] bg-white text-cod-gray shape-p-12 shape-border"
 				>
-					<div className={cx('group', errors.name ? 'text-red' : '')}>
+					<div className={cx('', errors.name ? 'text-red' : '')}>
 						<p>
-							<label>
-								<span className="sr-only">Name:</span>
-								<TextField
-									{...getInputProps(fields.name, { type: 'text' })}
-									className="w-full"
-									variant={errors.name ? 'error' : 'normal'}
-									placeholder="Name"
-									autoComplete="name"
-								/>
+							<label className="sr-only" htmlFor={fields.name.id}>
+								Name:
 							</label>
+							<TextField
+								{...getInputProps(fields.name, { type: 'text' })}
+								className="w-full"
+								variant={errors.name ? 'error' : 'normal'}
+								placeholder="Name"
+								autoComplete="name"
+							/>
 						</p>
-						<p className="text-error mt-3 px-4">{fields.name.errors}</p>
+						<p className="text-error mt-3 px-4" id={fields.name.errorId}>
+							{fields.name.errors}
+						</p>
 					</div>
-					<p>
-						<label>
-							Email:
-							<input type="email" autoComplete="email" />
-						</label>
-					</p>
-					<fieldset>
-						<legend>Pick a date</legend>
-						<label>
-							Month:
-							<input type="number" autoComplete="off" />
-						</label>
-						<label>
-							Day:
-							<input type="number" autoComplete="off" />
-						</label>
-						<label>
-							Year:
-							<input type="number" autoComplete="off" />
-						</label>
+					<div className={cx('', errors.email ? 'text-red' : '')}>
+						<p>
+							<label className="sr-only" htmlFor={fields.email.id}>
+								Email:
+							</label>
+							<TextField
+								{...getInputProps(fields.email, { type: 'email' })}
+								className="w-full"
+								variant={errors.email ? 'error' : 'normal'}
+								placeholder="Email"
+								autoComplete="email"
+							/>
+						</p>
+						<p className="text-error mt-3 px-4" id={fields.email.errorId}>
+							{fields.email.errors}
+						</p>
+					</div>
+					<fieldset
+						{...getFieldsetProps(fields.date)}
+						className={cx(
+							'grid grid-cols-[73fr_73fr_88fr] items-center gap-4 tablet:grid-cols-[155fr_80fr_80fr_97fr]',
+							errors.date ? 'text-red' : '',
+						)}
+						aria-labelledby={dateLabelId}
+					>
+						<div>
+							<p className="col-span-full tablet:col-span-1" id={dateLabelId}>
+								Pick a date
+							</p>
+							{/* Screen readers get specific error messages for each input */}
+							<p className="text-error" aria-hidden="true">
+								{date.month.errors ?? date.day.errors ?? date.year.errors}
+							</p>
+						</div>
+						<div>
+							<p>
+								<label className="sr-only" htmlFor={date.month.id}>
+									Month:
+								</label>
+								<TextField
+									{...getInputProps(date.month, {
+										type: 'number',
+									})}
+									className="w-full"
+									variant={errors.date ? 'error' : 'normal'}
+									placeholder="MM"
+									autoComplete="off"
+								/>
+							</p>
+							<p className="sr-only" id={date.month.errorId}>
+								{date.month.errors}
+							</p>
+						</div>
+						<div>
+							<p>
+								<label className="sr-only" htmlFor={date.day.id}>
+									Day:
+								</label>
+								<TextField
+									{...getInputProps(date.day, {
+										type: 'number',
+									})}
+									className="w-full"
+									variant={errors.date ? 'error' : 'normal'}
+									placeholder="DD"
+									autoComplete="off"
+								/>
+							</p>
+							<p className="sr-only" id={date.day.errorId}>
+								{date.day.errors}
+							</p>
+						</div>
+						<div>
+							<p>
+								<label className="sr-only" htmlFor={date.year.id}>
+									Year:
+								</label>
+								<TextField
+									{...getInputProps(date.year, {
+										type: 'number',
+									})}
+									className="w-full"
+									variant={errors.date ? 'error' : 'normal'}
+									placeholder="YYYY"
+									autoComplete="off"
+								/>
+							</p>
+							<p className="sr-only" id={date.year.errorId}>
+								{date.year.errors}
+							</p>
+						</div>
 					</fieldset>
-					<fieldset>
-						<legend>Pick a time</legend>
+					<fieldset aria-labelledby={timeLabelId}>
+						<p id={timeLabelId}>Pick a time</p>
 						<label>
 							Hour:
 							<input type="number" autoComplete="off" />
