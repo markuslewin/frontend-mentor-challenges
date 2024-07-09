@@ -278,7 +278,7 @@ export function Home() {
 									]}
 								/>
 							</Picture>
-							<div className="mx-auto mt-12 max-w-[28.375rem] tablet:mt-14 desktop:col-start-3 desktop:mt-0 desktop:grid desktop:grid-rows-[177fr_auto_198fr]">
+							<div className="mx-auto mt-12 max-w-[28.375rem] tablet:mt-14 desktop:col-start-3 desktop:mx-0 desktop:mt-0 desktop:grid desktop:max-w-none desktop:grid-rows-[177fr_auto_198fr]">
 								<div className="row-start-2">
 									<div className="flex justify-center desktop:justify-start">
 										<Divide />
@@ -296,7 +296,7 @@ export function Home() {
 						</div>
 					</div>
 				</div>
-				<div className="relative isolate mt-24 text-center tablet:mt-28 desktop:mt-[7.5rem] desktop:text-start">
+				<div className="relative isolate mt-24 pb-24 text-center tablet:mt-28 tablet:pb-32 desktop:mt-[7.5rem] desktop:pb-0 desktop:text-start">
 					<div className="absolute inset-0 -z-10 hidden overflow-hidden tablet:grid tablet:items-end tablet:justify-center">
 						<CurveTopLeft className="translate-x-1/2 desktop:translate-x-[17rem]" />
 					</div>
@@ -318,7 +318,7 @@ export function Home() {
 									]}
 								/>
 								<DensityImage
-									className="mx-auto shadow desktop:-mb-20 desktop:w-full"
+									className="mx-auto shadow desktop:-mb-20 desktop:w-full desktop:shadow-[transparent]"
 									alt=""
 									images={[
 										{ density: '1x', image: locallySourcedMobile },
@@ -345,39 +345,59 @@ export function Home() {
 						</div>
 					</div>
 				</div>
-				<Divide />
-				<h2>A few highlights from our menu</h2>
-				<p>
-					We cater for all dietary requirements, but here’s a glimpse at some of
-					our diner’s favourites. Our menu is revamped every season.
-				</p>
-				<Highlight
-					image={{
-						alt: 'Seared Salmon Fillet',
-						desktopTablet: [salmonDesktopTablet, salmonDesktopTablet2x],
-						mobile: [salmonMobile, salmonMobile2x],
-					}}
-					heading="Seared Salmon Fillet"
-					body="Our locally sourced salmon served with a refreshing buckwheat summer salad."
-				/>
-				<Highlight
-					image={{
-						alt: 'Rosemary Filet Mignon',
-						desktopTablet: [beefDesktopTablet, beefDesktopTablet2x],
-						mobile: [beefMobile, beefMobile2x],
-					}}
-					heading="Rosemary Filet Mignon"
-					body="Our prime beef served to your taste with a delicious choice of seasonal sides."
-				/>
-				<Highlight
-					image={{
-						alt: 'Summer Fruit Chocolate Mousse',
-						desktopTablet: [chocolateDesktopTablet, chocolateDesktopTablet2x],
-						mobile: [chocolateMobile, chocolateMobile2x],
-					}}
-					heading="Summer Fruit Chocolate Mousse"
-					body="Creamy mousse combined with summer fruits and dark chocolate shavings."
-				/>
+				<div className="bg-cod-gray pb-24 pt-16 text-center text-white tablet:py-24 desktop:pb-[7.5rem] desktop:pt-[12.5rem] desktop:text-start">
+					<div className={cx('', center)}>
+						<div className="grid gap-20 tablet:gap-14 desktop:grid-cols-[445fr_125fr_540fr] desktop:gap-0">
+							<div className="mx-auto max-w-[28.375rem] desktop:mx-0 desktop:max-w-none">
+								<div className="flex justify-center desktop:justify-start">
+									<Divide />
+								</div>
+								<h2 className="mt-9 text-heading-l tablet:mt-10 desktop:mt-14">
+									A few highlights from our menu
+								</h2>
+								<p className="mt-3 tablet:mt-7">
+									We cater for all dietary requirements, but here’s a glimpse at
+									some of our diner’s favourites. Our menu is revamped every
+									season.
+								</p>
+							</div>
+							<div className="grid gap-6 desktop:col-start-3 desktop:pt-14">
+								<Highlight
+									image={{
+										alt: 'Seared Salmon Fillet',
+										desktopTablet: [salmonDesktopTablet, salmonDesktopTablet2x],
+										mobile: [salmonMobile, salmonMobile2x],
+									}}
+									heading="Seared Salmon Fillet"
+									body="Our locally sourced salmon served with a refreshing buckwheat summer salad."
+								/>
+								<HighlightDivider />
+								<Highlight
+									image={{
+										alt: 'Rosemary Filet Mignon',
+										desktopTablet: [beefDesktopTablet, beefDesktopTablet2x],
+										mobile: [beefMobile, beefMobile2x],
+									}}
+									heading="Rosemary Filet Mignon"
+									body="Our prime beef served to your taste with a delicious choice of seasonal sides."
+								/>
+								<HighlightDivider />
+								<Highlight
+									image={{
+										alt: 'Summer Fruit Chocolate Mousse',
+										desktopTablet: [
+											chocolateDesktopTablet,
+											chocolateDesktopTablet2x,
+										],
+										mobile: [chocolateMobile, chocolateMobile2x],
+									}}
+									heading="Summer Fruit Chocolate Mousse"
+									body="Creamy mousse combined with summer fruits and dark chocolate shavings."
+								/>
+							</div>
+						</div>
+					</div>
+				</div>
 				{/* <CurveTopRight /> */}
 				<h2>Events</h2>
 				<Picture key={selectedEvent}>
@@ -484,27 +504,37 @@ interface HighlightProps {
 
 function Highlight({ heading, image, body }: HighlightProps) {
 	return (
-		<>
-			<h3>{heading}</h3>
-			<Picture>
-				<DensitySource
-					media={`(min-width: ${screens.tablet})`}
-					images={[
-						{ density: '1x', image: image.desktopTablet[0] },
-						{ density: '2x', image: image.desktopTablet[1] },
-					]}
-				/>
-				<DensityImage
-					alt={image.alt}
-					images={[
-						{ density: '1x', image: image.mobile[0] },
-						{ density: '2x', image: image.mobile[1] },
-					]}
-				/>
-			</Picture>
-			<p>{body}</p>
-		</>
+		<div className="grid tablet:grid-cols-[10rem_1fr] tablet:grid-rows-[auto_1fr] tablet:gap-x-[1.875rem] tablet:text-start">
+			<h3 className="mt-9 text-heading-m tablet:mt-2">{heading}</h3>
+			<div className="-order-1 tablet:row-span-full tablet:flex tablet:items-start">
+				<Picture>
+					<DensitySource
+						media={`(min-width: ${screens.tablet})`}
+						images={[
+							{ density: '1x', image: image.desktopTablet[0] },
+							{ density: '2x', image: image.desktopTablet[1] },
+						]}
+					/>
+					<DensityImage
+						className="mx-auto tablet:mx-0 tablet:h-auto tablet:w-32"
+						alt={image.alt}
+						images={[
+							{ density: '1x', image: image.mobile[0] },
+							{ density: '2x', image: image.mobile[1] },
+						]}
+					/>
+				</Picture>
+				<div className="mt-[1.125rem] hidden flex-grow border-t text-beaver tablet:block" />
+			</div>
+			<p className="mx-auto mt-[0.375rem] max-w-[28.375rem] text-body-2 tablet:col-start-2 tablet:mx-0 tablet:max-w-none">
+				{body}
+			</p>
+		</div>
 	)
+}
+
+function HighlightDivider() {
+	return <div className="border-t text-white/15" />
 }
 
 interface BookingButtonProps extends Button.RootProps {}
