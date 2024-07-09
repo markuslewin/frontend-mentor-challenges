@@ -210,7 +210,7 @@ export function Home() {
 							]}
 						/>
 						<DensityImage
-							className="absolute inset-0 -z-10 h-full w-full object-cover object-top desktop:object-right"
+							className="absolute inset-0 -z-10 size-full object-cover object-top desktop:object-right"
 							alt=""
 							priority
 							images={[
@@ -452,33 +452,40 @@ export function Home() {
 						body="Are you looking to have a larger social event? No problem! We’re more than happy to cater for big parties. We’ll work with you to make your event a hit with everyone."
 					/>
 				</Tabs.Root>
-				<Picture>
-					<DensitySource
-						media={`(min-width: ${screens.desktop})`}
-						images={[
-							{ density: '1x', image: readyBgDesktop },
-							{ density: '2x', image: readyBgDesktop2x },
-						]}
-					/>
-					<DensitySource
-						media={`(min-width: ${screens.tablet})`}
-						images={[
-							{ density: '1x', image: readyBgTablet },
-							{ density: '2x', image: readyBgTablet2x },
-						]}
-					/>
-					<DensityImage
-						alt=""
-						images={[
-							{ density: '1x', image: readyBgMobile },
-							{ density: '2x', image: readyBgMobile2x },
-						]}
-					/>
-				</Picture>
-				<h2>Ready to make a reservation?</h2>
-				<p>
-					<BookingButton variant="onDark" />
-				</p>
+				<div className="relative isolate bg-cod-gray py-20 text-center text-white tablet:pb-16 desktop:py-[5.5rem] desktop:text-start">
+					<Picture>
+						<DensitySource
+							media={`(min-width: ${screens.desktop})`}
+							images={[
+								{ density: '1x', image: readyBgDesktop },
+								{ density: '2x', image: readyBgDesktop2x },
+							]}
+						/>
+						<DensitySource
+							media={`(min-width: ${screens.tablet})`}
+							images={[
+								{ density: '1x', image: readyBgTablet },
+								{ density: '2x', image: readyBgTablet2x },
+							]}
+						/>
+						<DensityImage
+							className="absolute inset-0 -z-10 size-full object-cover"
+							alt=""
+							images={[
+								{ density: '1x', image: readyBgMobile },
+								{ density: '2x', image: readyBgMobile2x },
+							]}
+						/>
+					</Picture>
+					<div className="center-[42.875rem] center-gutter-6 tablet:center-gutter-10 desktop:center-[69.375rem]">
+						<div className="grid gap-5 tablet:gap-6 desktop:grid-cols-[1fr_auto] desktop:items-center">
+							<h2 className="text-heading-l">Ready to make a reservation?</h2>
+							<p>
+								<BookingButton variant="onDark" />
+							</p>
+						</div>
+					</div>
+				</div>
 			</main>
 		</>
 	)
