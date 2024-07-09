@@ -1,3 +1,4 @@
+import { cx } from 'class-variance-authority'
 import curveBottomRight from '#app/assets/patterns/pattern-curve-bottom-right.svg'
 import curveTopLeft from '#app/assets/patterns/pattern-curve-top-left.svg'
 import curveTopRight from '#app/assets/patterns/pattern-curve-top-right.svg'
@@ -7,9 +8,10 @@ export interface PatternProps {
 	className?: string
 }
 
-export function CurveBottomRight(props: PatternProps) {
+export function CurveBottomRight({ className, ...props }: PatternProps) {
 	return (
 		<img
+			className={cx('h-80 w-auto max-w-none', className)}
 			alt=""
 			loading="lazy"
 			src={curveBottomRight}
@@ -20,9 +22,10 @@ export function CurveBottomRight(props: PatternProps) {
 	)
 }
 
-export function CurveTopRight(props: PatternProps) {
+export function CurveTopRight({ className, ...props }: PatternProps) {
 	return (
 		<img
+			className={cx('h-80 w-auto max-w-none', className)}
 			alt=""
 			loading="lazy"
 			src={curveTopRight}
@@ -33,9 +36,10 @@ export function CurveTopRight(props: PatternProps) {
 	)
 }
 
-export function CurveTopLeft(props: PatternProps) {
+export function CurveTopLeft({ className, ...props }: PatternProps) {
 	return (
 		<img
+			className={cx('h-80 w-auto max-w-none', className)}
 			alt=""
 			loading="lazy"
 			src={curveTopLeft}
@@ -46,8 +50,16 @@ export function CurveTopLeft(props: PatternProps) {
 	)
 }
 
-export function Lines(props: PatternProps) {
+export function Lines({ className, ...props }: PatternProps) {
 	return (
-		<img alt="" loading="lazy" src={lines} width="160" height="76" {...props} />
+		<img
+			className={cx('h-[4.75rem] w-auto max-w-none', className)}
+			alt=""
+			loading="lazy"
+			src={lines}
+			width="160"
+			height="76"
+			{...props}
+		/>
 	)
 }

@@ -248,9 +248,9 @@ export function Home() {
 						</div>
 					</div>
 				</div>
-				<div className="relative">
-					<div className="absolute inset-0 hidden overflow-hidden tablet:grid tablet:grid-rows-[100fr_auto_159fr] tablet:justify-center desktop:grid-rows-[250fr_auto_80fr]">
-						<CurveTopRight className="row-start-2 h-80 w-auto max-w-none tablet:-translate-x-[28rem] desktop:-translate-x-[16rem]" />
+				<div className="relative isolate">
+					<div className="absolute inset-0 -z-10 hidden overflow-hidden tablet:grid tablet:grid-rows-[100fr_auto_159fr] tablet:justify-center desktop:grid-rows-[250fr_auto_80fr]">
+						<CurveTopRight className="row-start-2 tablet:-translate-x-[28rem] desktop:-translate-x-[16rem]" />
 					</div>
 					<div className={cx('text-center desktop:text-start', center)}>
 						<div className="desktop:grid desktop:grid-cols-[540fr_125fr_445fr]">
@@ -278,9 +278,9 @@ export function Home() {
 									]}
 								/>
 							</Picture>
-							<div className="mt-12 tablet:mt-14 desktop:col-start-3 desktop:mt-0 desktop:grid desktop:grid-rows-[177fr_auto_198fr]">
+							<div className="mx-auto mt-12 max-w-[28.375rem] tablet:mt-14 desktop:col-start-3 desktop:mt-0 desktop:grid desktop:grid-rows-[177fr_auto_198fr]">
 								<div className="row-start-2">
-									<div className="flex justify-center text-beaver desktop:justify-start">
+									<div className="flex justify-center desktop:justify-start">
 										<Divide />
 									</div>
 									<h2 className="mt-9 text-heading-l tablet:mt-10 desktop:mt-14">
@@ -296,38 +296,55 @@ export function Home() {
 						</div>
 					</div>
 				</div>
-				<CurveTopLeft />
-				<Picture>
-					<DensitySource
-						media={`(min-width: ${screens.desktop})`}
-						images={[
-							{ density: '1x', image: locallySourcedDesktop },
-							{ density: '2x', image: locallySourcedDesktop2x },
-						]}
-					/>
-					<DensitySource
-						media={`(min-width: ${screens.tablet})`}
-						images={[
-							{ density: '1x', image: locallySourcedTablet },
-							{ density: '2x', image: locallySourcedTablet2x },
-						]}
-					/>
-					<DensityImage
-						alt=""
-						images={[
-							{ density: '1x', image: locallySourcedMobile },
-							{ density: '2x', image: locallySourcedMobile2x },
-						]}
-					/>
-				</Picture>
-				<Lines />
-				<Divide />
-				<h2>The most locally sourced food</h2>
-				<p>
-					All our ingredients come directly from our farm or local fishery. So
-					you can be sure that you’re eating the freshest, most sustainable
-					food.
-				</p>
+				<div className="relative isolate mt-24 text-center tablet:mt-28 desktop:mt-[7.5rem] desktop:text-start">
+					<div className="absolute inset-0 -z-10 hidden overflow-hidden tablet:grid tablet:items-end tablet:justify-center">
+						<CurveTopLeft className="translate-x-1/2 desktop:translate-x-[17rem]" />
+					</div>
+					<div className={cx('', center)}>
+						<div className="grid-cols-[445fr_125fr_540fr] desktop:grid">
+							<Picture className="desktop:col-start-3">
+								<DensitySource
+									media={`(min-width: ${screens.desktop})`}
+									images={[
+										{ density: '1x', image: locallySourcedDesktop },
+										{ density: '2x', image: locallySourcedDesktop2x },
+									]}
+								/>
+								<DensitySource
+									media={`(min-width: ${screens.tablet})`}
+									images={[
+										{ density: '1x', image: locallySourcedTablet },
+										{ density: '2x', image: locallySourcedTablet2x },
+									]}
+								/>
+								<DensityImage
+									className="mx-auto shadow desktop:-mb-20 desktop:w-full"
+									alt=""
+									images={[
+										{ density: '1x', image: locallySourcedMobile },
+										{ density: '2x', image: locallySourcedMobile2x },
+									]}
+								/>
+							</Picture>
+							{/* <Lines /> */}
+							<div className="mx-auto mt-12 max-w-[28.375rem] tablet:mt-14 desktop:col-start-1 desktop:row-start-1 desktop:mx-0 desktop:mt-0 desktop:grid desktop:max-w-none desktop:grid-rows-[200fr_auto_165fr]">
+								<div className="row-start-2">
+									<div className="flex justify-center desktop:justify-start">
+										<Divide />
+									</div>
+									<h2 className="mt-9 text-heading-l tablet:mt-10 desktop:mt-14">
+										The most locally sourced food
+									</h2>
+									<p className="mt-3 tablet:mt-7">
+										All our ingredients come directly from our farm or local
+										fishery. So you can be sure that you’re eating the freshest,
+										most sustainable food.
+									</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 				<Divide />
 				<h2>A few highlights from our menu</h2>
 				<p>
@@ -361,7 +378,7 @@ export function Home() {
 					heading="Summer Fruit Chocolate Mousse"
 					body="Creamy mousse combined with summer fruits and dark chocolate shavings."
 				/>
-				<CurveTopRight />
+				{/* <CurveTopRight /> */}
 				<h2>Events</h2>
 				<Picture key={selectedEvent}>
 					<DensitySource
@@ -448,7 +465,11 @@ export function Home() {
 }
 
 function Divide() {
-	return <Icon className="h-[0.4375rem] w-[4.4375rem]" name="pattern-divide" />
+	return (
+		<div className="text-beaver">
+			<Icon className="h-[0.4375rem] w-[4.4375rem]" name="pattern-divide" />
+		</div>
+	)
 }
 
 interface HighlightProps {
