@@ -188,44 +188,57 @@ export function Home() {
 
 	return (
 		<>
-			<Picture>
-				<DensitySource
-					media={`(min-width: ${screens.desktop})`}
-					images={[
-						{ density: '1x', image: heroBgDesktop },
-						{ density: '2x', image: heroBgDesktop2x },
-					]}
-				/>
-				<DensitySource
-					media={`(min-width: ${screens.tablet})`}
-					images={[
-						{ density: '1x', image: heroBgTablet },
-						{ density: '2x', image: heroBgTablet2x },
-					]}
-				/>
-				<DensityImage
-					alt=""
-					priority
-					images={[
-						{ density: '1x', image: heroBgMobile },
-						{ density: '2x', image: heroBgMobile2x },
-					]}
-				/>
-			</Picture>
-			<header>
-				<Link to="/">
-					<Logo />
-				</Link>
-			</header>
 			<main>
-				<h1 className="text-heading-xl">Exquisite dining since 1989</h1>
-				<p>
-					Experience our seasonal menu in beautiful country surroundings. Eat
-					the freshest produce from the comfort of our farmhouse.
-				</p>
-				<p>
-					<BookingButton variant="onDark" />
-				</p>
+				<div className="relative isolate bg-cod-gray text-white">
+					<Picture>
+						<DensitySource
+							media={`(min-width: ${screens.desktop})`}
+							images={[
+								{ density: '1x', image: heroBgDesktop },
+								{ density: '2x', image: heroBgDesktop2x },
+							]}
+						/>
+						<DensitySource
+							media={`(min-width: ${screens.tablet})`}
+							images={[
+								{ density: '1x', image: heroBgTablet },
+								{ density: '2x', image: heroBgTablet2x },
+							]}
+						/>
+						<DensityImage
+							className="absolute inset-0 -z-10 h-full w-full object-cover object-top desktop:object-right"
+							alt=""
+							priority
+							images={[
+								{ density: '1x', image: heroBgMobile },
+								{ density: '2x', image: heroBgMobile2x },
+							]}
+						/>
+					</Picture>
+					<div className="aspect-[400/200] tablet:aspect-[700/280] desktop:hidden" />
+					<div className="pb-40 text-center center-[35.625rem] center-gutter-6 tablet:pb-56 tablet:center-gutter-10 desktop:pb-[12.5rem] desktop:pt-16 desktop:text-start desktop:center-[69.375rem]">
+						<div className="desktop:max-w-[33.75rem]">
+							<header
+								className="flex justify-center desktop:block"
+								role="banner"
+							>
+								<Link to="/">
+									<Logo />
+								</Link>
+							</header>
+							<h1 className="mt-9 text-heading-xl tablet:mt-10 desktop:mt-[9.5rem]">
+								Exquisite dining since 1989
+							</h1>
+							<p className="mt-5 desktop:mt-3">
+								Experience our seasonal menu in beautiful country surroundings.
+								Eat the freshest produce from the comfort of our farmhouse.
+							</p>
+							<p className="mt-14 desktop:mt-10">
+								<BookingButton variant="onDark" />
+							</p>
+						</div>
+					</div>
+				</div>
 				<CurveTopRight />
 				<Picture>
 					<DensitySource
