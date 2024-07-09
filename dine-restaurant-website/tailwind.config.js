@@ -73,6 +73,7 @@ export default {
 				rem(10),
 				{ fontWeight: 500, lineHeight: 0.9, letterSpacing: '-0.013em' },
 			],
+			footer: [rem(14), { lineHeight: 2, letterSpacing: '0.14em' }],
 		},
 		boxShadow: {
 			DEFAULT: `0 ${rem(75)} ${rem(100)} ${rem(-50)} hsl(219 20% 28% / 50%)`,

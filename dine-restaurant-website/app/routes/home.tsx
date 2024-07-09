@@ -121,6 +121,7 @@ import {
 import * as Button from '#app/components/ui/button'
 import { Logo } from '#app/components/ui/logo'
 import { CurveTopRight, CurveTopLeft, Lines } from '#app/components/ui/patterns'
+import { center, outerCenter } from '#app/utils/layout'
 import { screens } from '#app/utils/screens'
 
 type Event = 'family' | 'special' | 'social'
@@ -181,9 +182,6 @@ function getEventImages(event: Event) {
 	}
 	throw new Error(`Invalid event "${event}"`)
 }
-
-const center =
-	'center-[35.625rem] center-gutter-6 tablet:center-gutter-10 desktop:center-[69.375rem]'
 
 export function Home() {
 	const [selectedEvent, setSelectedEvent] = useState<Event>('family')
@@ -477,7 +475,7 @@ export function Home() {
 							]}
 						/>
 					</Picture>
-					<div className="center-[42.875rem] center-gutter-6 tablet:center-gutter-10 desktop:center-[69.375rem]">
+					<div className={outerCenter}>
 						<div className="grid gap-5 tablet:gap-6 desktop:grid-cols-[1fr_auto] desktop:items-center">
 							<h2 className="text-heading-l">Ready to make a reservation?</h2>
 							<p>
