@@ -74,6 +74,9 @@ export default {
 				{ fontWeight: 500, lineHeight: 0.9, letterSpacing: '-0.013em' },
 			],
 		},
+		boxShadow: {
+			DEFAULT: `0 ${rem(75)} ${rem(100)} ${rem(-50)} hsl(219 20% 28% / 50%)`,
+		},
 		extend: {},
 	},
 	plugins: [hocus, shape, clickable, center],

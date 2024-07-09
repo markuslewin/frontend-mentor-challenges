@@ -1,5 +1,6 @@
 import { invariant } from '@epic-web/invariant'
 import * as Tabs from '@radix-ui/react-tabs'
+import { cx } from 'class-variance-authority'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 // @ts-expect-error Search params
@@ -181,6 +182,9 @@ function getEventImages(event: Event) {
 	throw new Error(`Invalid event "${event}"`)
 }
 
+const center =
+	'center-[35.625rem] center-gutter-6 tablet:center-gutter-10 desktop:center-[69.375rem]'
+
 export function Home() {
 	const [selectedEvent, setSelectedEvent] = useState<Event>('family')
 
@@ -216,7 +220,12 @@ export function Home() {
 						/>
 					</Picture>
 					<div className="aspect-[400/200] tablet:aspect-[700/280] desktop:hidden" />
-					<div className="pb-40 text-center center-[35.625rem] center-gutter-6 tablet:pb-56 tablet:center-gutter-10 desktop:pb-[12.5rem] desktop:pt-16 desktop:text-start desktop:center-[69.375rem]">
+					<div
+						className={cx(
+							'mt-8 pb-40 text-center tablet:mt-16 tablet:pb-56 desktop:mt-0 desktop:pb-[12.5rem] desktop:pt-16 desktop:text-start',
+							center,
+						)}
+					>
 						<div className="desktop:max-w-[33.75rem]">
 							<header
 								className="flex justify-center desktop:block"
@@ -239,36 +248,54 @@ export function Home() {
 						</div>
 					</div>
 				</div>
-				<CurveTopRight />
-				<Picture>
-					<DensitySource
-						media={`(min-width: ${screens.desktop})`}
-						images={[
-							{ density: '1x', image: enjoyablePlaceDesktop },
-							{ density: '2x', image: enjoyablePlaceDesktop2x },
-						]}
-					/>
-					<DensitySource
-						media={`(min-width: ${screens.tablet})`}
-						images={[
-							{ density: '1x', image: enjoyablePlaceTablet },
-							{ density: '2x', image: enjoyablePlaceTablet2x },
-						]}
-					/>
-					<DensityImage
-						alt=""
-						images={[
-							{ density: '1x', image: enjoyablePlaceMobile },
-							{ density: '2x', image: enjoyablePlaceMobile2x },
-						]}
-					/>
-				</Picture>
-				<Divide />
-				<h2>Enjoyable place for all the family</h2>
-				<p>
-					Our relaxed surroundings make dining with us a great experience for
-					everyone. We can even arrange a tour of the farm before your meal.
-				</p>
+				<div className="relative">
+					<div className="absolute inset-0 hidden overflow-hidden tablet:grid tablet:grid-rows-[100fr_auto_159fr] tablet:justify-center desktop:grid-rows-[250fr_auto_80fr]">
+						<CurveTopRight className="row-start-2 h-80 w-auto max-w-none tablet:-translate-x-[28rem] desktop:-translate-x-[16rem]" />
+					</div>
+					<div className={cx('text-center desktop:text-start', center)}>
+						<div className="desktop:grid desktop:grid-cols-[540fr_125fr_445fr]">
+							<Picture>
+								<DensitySource
+									media={`(min-width: ${screens.desktop})`}
+									images={[
+										{ density: '1x', image: enjoyablePlaceDesktop },
+										{ density: '2x', image: enjoyablePlaceDesktop2x },
+									]}
+								/>
+								<DensitySource
+									media={`(min-width: ${screens.tablet})`}
+									images={[
+										{ density: '1x', image: enjoyablePlaceTablet },
+										{ density: '2x', image: enjoyablePlaceTablet2x },
+									]}
+								/>
+								<DensityImage
+									className="relative mx-auto -mt-16 shadow tablet:-mt-24 desktop:-mt-[4.375rem] desktop:w-full"
+									alt=""
+									images={[
+										{ density: '1x', image: enjoyablePlaceMobile },
+										{ density: '2x', image: enjoyablePlaceMobile2x },
+									]}
+								/>
+							</Picture>
+							<div className="mt-12 tablet:mt-14 desktop:col-start-3 desktop:mt-0 desktop:grid desktop:grid-rows-[177fr_auto_198fr]">
+								<div className="row-start-2">
+									<div className="flex justify-center text-beaver desktop:justify-start">
+										<Divide />
+									</div>
+									<h2 className="mt-9 text-heading-l tablet:mt-10 desktop:mt-14">
+										Enjoyable place for all the family
+									</h2>
+									<p className="mt-3 tablet:mt-7">
+										Our relaxed surroundings make dining with us a great
+										experience for everyone. We can even arrange a tour of the
+										farm before your meal.
+									</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 				<CurveTopLeft />
 				<Picture>
 					<DensitySource

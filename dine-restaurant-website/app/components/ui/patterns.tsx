@@ -3,7 +3,11 @@ import curveTopLeft from '#app/assets/patterns/pattern-curve-top-left.svg'
 import curveTopRight from '#app/assets/patterns/pattern-curve-top-right.svg'
 import lines from '#app/assets/patterns/pattern-lines.svg'
 
-export function CurveBottomRight() {
+export interface PatternProps {
+	className?: string
+}
+
+export function CurveBottomRight(props: PatternProps) {
 	return (
 		<img
 			alt=""
@@ -11,22 +15,39 @@ export function CurveBottomRight() {
 			src={curveBottomRight}
 			width="993"
 			height="320"
+			{...props}
 		/>
 	)
 }
 
-export function CurveTopRight() {
+export function CurveTopRight(props: PatternProps) {
 	return (
-		<img alt="" loading="lazy" src={curveTopRight} width="895" height="320" />
+		<img
+			alt=""
+			loading="lazy"
+			src={curveTopRight}
+			width="895"
+			height="320"
+			{...props}
+		/>
 	)
 }
 
-export function CurveTopLeft() {
+export function CurveTopLeft(props: PatternProps) {
 	return (
-		<img alt="" loading="lazy" src={curveTopLeft} width="895" height="320" />
+		<img
+			alt=""
+			loading="lazy"
+			src={curveTopLeft}
+			width="895"
+			height="320"
+			{...props}
+		/>
 	)
 }
 
-export function Lines() {
-	return <img alt="" loading="lazy" src={lines} width="160" height="76" />
+export function Lines(props: PatternProps) {
+	return (
+		<img alt="" loading="lazy" src={lines} width="160" height="76" {...props} />
+	)
 }
