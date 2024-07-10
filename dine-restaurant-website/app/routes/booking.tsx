@@ -7,7 +7,7 @@ import {
 import { getZodConstraint, parseWithZod } from '@conform-to/zod'
 import * as Select from '@radix-ui/react-select'
 import { cx } from 'class-variance-authority'
-import { useId, useState } from 'react'
+import { type ReactNode, useId, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { z } from 'zod'
 // @ts-expect-error Search params
@@ -31,13 +31,15 @@ import { TextField } from '#app/components/ui/text-field'
 import { center, outerCenter } from '#app/utils/layout.js'
 import { screens } from '#app/utils/screens'
 
+const minPeopleAmount = 1
+
 function useAmountOfPeople() {
 	const [value, setValue] = useState(4)
 
 	return {
 		value,
 		decrement() {
-			setValue(Math.max(0, value - 1))
+			setValue(Math.max(minPeopleAmount, value - 1))
 		},
 		increment() {
 			setValue(value + 1)
@@ -55,9 +57,15 @@ const bookingSchema = z.object({
 		month: z.number({ required_error: 'This field is incomplete' }),
 		year: z.number({ required_error: 'This field is incomplete' }),
 	}),
-	hour: z.number({ required_error: 'This field is incomplete' }),
-	minute: z.number({ required_error: 'This field is incomplete' }),
+	time: z.object({
+		hour: z.number({ required_error: 'This field is incomplete' }),
+		minute: z.number({ required_error: 'This field is incomplete' }),
+		period: z.enum(['am', 'pm']),
+	}),
 })
+
+type Booking = z.infer<typeof bookingSchema>
+type BookingTimePeriod = Booking['time']['period']
 
 export function Booking() {
 	const dateLabelId = useId()
@@ -80,6 +88,7 @@ export function Booking() {
 	const amountOfPeople = useAmountOfPeople()
 
 	const date = fields.date.getFieldset()
+	const time = fields.time.getFieldset()
 
 	const errors = {
 		name: Boolean(fields.name.errors?.length),
@@ -88,6 +97,11 @@ export function Booking() {
 			date.day.errors?.length ||
 				date.month.errors?.length ||
 				date.year.errors?.length,
+		),
+		time: Boolean(
+			time.hour.errors?.length ||
+				time.minute.errors?.length ||
+				time.period.errors?.length,
 		),
 	}
 
@@ -144,7 +158,7 @@ export function Booking() {
 							{/* <Lines /> */}
 							<form
 								{...getFormProps(form)}
-								className="mx-auto mb-20 mt-44 max-w-[33.75rem] border-[transparent] bg-white text-cod-gray shadow shape-p-12 shape-border tablet:mb-32 tablet:mt-10 desktop:col-start-3 desktop:mx-0 desktop:mb-0 desktop:mt-0 desktop:max-w-none"
+								className="mx-auto mb-20 mt-44 max-w-[33.75rem] border-[transparent] bg-white text-cod-gray shadow shape-p-8 shape-border tablet:mb-32 tablet:mt-10 tablet:shape-p-12 desktop:col-start-3 desktop:mx-0 desktop:mb-0 desktop:mt-0 desktop:max-w-none"
 							>
 								<div className={cx('', errors.name ? 'text-red' : '')}>
 									<p>
@@ -163,7 +177,7 @@ export function Booking() {
 										{fields.name.errors}
 									</p>
 								</div>
-								<div className={cx('', errors.email ? 'text-red' : '')}>
+								<div className={cx('mt-8', errors.email ? 'text-red' : '')}>
 									<p>
 										<label className="sr-only" htmlFor={fields.email.id}>
 											Email:
@@ -183,18 +197,13 @@ export function Booking() {
 								<fieldset
 									{...getFieldsetProps(fields.date)}
 									className={cx(
-										'grid grid-cols-[73fr_73fr_88fr] items-center gap-4 tablet:grid-cols-[155fr_80fr_80fr_97fr]',
+										'mt-8 grid grid-cols-[73fr_73fr_88fr] items-center gap-4 tablet:grid-cols-[155fr_80fr_80fr_97fr]',
 										errors.date ? 'text-red' : '',
 									)}
 									aria-labelledby={dateLabelId}
 								>
-									<div>
-										<p
-											className="col-span-full tablet:col-span-1"
-											id={dateLabelId}
-										>
-											Pick a date
-										</p>
+									<div className="col-span-full tablet:col-span-1">
+										<p id={dateLabelId}>Pick a date</p>
 										{/* Screen readers get specific error messages for each input */}
 										<p className="text-error" aria-hidden="true">
 											{date.month.errors ?? date.day.errors ?? date.year.errors}
@@ -212,6 +221,8 @@ export function Booking() {
 												className="w-full"
 												variant={errors.date ? 'error' : 'normal'}
 												placeholder="MM"
+												min={1}
+												max={12}
 												autoComplete="off"
 											/>
 										</p>
@@ -231,6 +242,8 @@ export function Booking() {
 												className="w-full"
 												variant={errors.date ? 'error' : 'normal'}
 												placeholder="DD"
+												min={1}
+												max={31}
 												autoComplete="off"
 											/>
 										</p>
@@ -250,6 +263,7 @@ export function Booking() {
 												className="w-full"
 												variant={errors.date ? 'error' : 'normal'}
 												placeholder="YYYY"
+												min={2024}
 												autoComplete="off"
 											/>
 										</p>
@@ -258,48 +272,103 @@ export function Booking() {
 										</p>
 									</div>
 								</fieldset>
-								<fieldset aria-labelledby={timeLabelId}>
-									<p id={timeLabelId}>Pick a time</p>
-									<label>
-										Hour:
-										<input type="number" autoComplete="off" />
-									</label>
-									<label>
-										Minute:
-										<input type="number" autoComplete="off" />
-									</label>
-									<label>
-										Period:
-										<Select.Root defaultValue="am">
-											<Select.Trigger>
-												<Select.Value />
-												<Select.Icon asChild>
-													<Icon
-														className="h-[0.6875rem] w-[1.125rem]"
-														name="icon-arrow"
-													/>
-												</Select.Icon>
-											</Select.Trigger>
-											<Select.Portal>
-												<Select.Content position="popper">
-													<Select.Viewport>
-														<Select.Item value="am">
-															<Select.ItemText>AM</Select.ItemText>
-															<Select.ItemIndicator />
-														</Select.Item>
-														<Select.Item value="pm">
-															<Select.ItemText>PM</Select.ItemText>
-															<Select.ItemIndicator />
-														</Select.Item>
-													</Select.Viewport>
-												</Select.Content>
-											</Select.Portal>
-										</Select.Root>
-									</label>
+								<fieldset
+									{...getFieldsetProps(fields.time)}
+									className={cx(
+										'mt-8 grid grid-cols-[73fr_73fr_88fr] items-center gap-4 tablet:grid-cols-[155fr_80fr_80fr_97fr]',
+										errors.time ? 'text-red' : '',
+									)}
+									aria-labelledby={timeLabelId}
+								>
+									<div className="col-span-full tablet:col-span-1">
+										<p id={timeLabelId}>Pick a time</p>
+										{/* Screen readers get specific error messages for each input */}
+										<p className="text-error" aria-hidden="true">
+											{time.hour.errors ??
+												time.minute.errors ??
+												time.period.errors}
+										</p>
+									</div>
+									<div>
+										<p>
+											<label className="sr-only" htmlFor={time.hour.id}>
+												Hour:
+											</label>
+											<TextField
+												{...getInputProps(time.hour, {
+													type: 'number',
+												})}
+												className="w-full"
+												variant={errors.time ? 'error' : 'normal'}
+												placeholder="09"
+												min={1}
+												max={12}
+												autoComplete="off"
+											/>
+										</p>
+										<p className="sr-only" id={time.hour.errorId}>
+											{time.hour.errors}
+										</p>
+									</div>
+									<div>
+										<p>
+											<label className="sr-only" htmlFor={time.minute.id}>
+												Minute:
+											</label>
+											<TextField
+												{...getInputProps(time.minute, {
+													type: 'number',
+												})}
+												className="w-full"
+												variant={errors.time ? 'error' : 'normal'}
+												placeholder="00"
+												min={0}
+												max={59}
+												autoComplete="off"
+											/>
+										</p>
+										<p className="sr-only" id={time.minute.errorId}>
+											{time.minute.errors}
+										</p>
+									</div>
+									<div>
+										<p>
+											<label className="sr-only" htmlFor={time.period.id}>
+												Period:
+											</label>
+											<Select.Root defaultValue="am">
+												<Select.Trigger className="group grid w-full grid-cols-[auto_auto] items-center justify-between gap-1 border-b px-4 pb-[0.875rem]">
+													<Select.Value />
+													<Select.Icon className="text-beaver">
+														<Icon
+															className="h-[0.6875rem] w-[1.125rem] -translate-y-[0.125rem] transition-transform group-data-[state=open]:rotate-180"
+															name="icon-arrow"
+														/>
+													</Select.Icon>
+												</Select.Trigger>
+												<Select.Portal>
+													<Select.Content
+														className="shadow-sm max-h-[var(--radix-select-content-available-height)] w-[6.625rem] overflow-y-auto bg-white text-cod-gray"
+														position="popper"
+														sideOffset={8}
+													>
+														<Select.Viewport className="pb-[0.8125rem] pt-[1.125rem]">
+															<SelectItem value="am">AM</SelectItem>
+															<SelectItem value="pm">PM</SelectItem>
+														</Select.Viewport>
+													</Select.Content>
+												</Select.Portal>
+											</Select.Root>
+										</p>
+										<p className="sr-only" id={time.period.errorId}>
+											{time.period.errors}
+										</p>
+									</div>
 								</fieldset>
-								<fieldset>
-									<legend>Amount of people</legend>
+								<fieldset className="mt-9 grid grid-cols-[auto_1fr_auto] items-center gap-4 border-b border-[hsl(0_0%_56%)] px-5 pb-4 tablet:px-8">
+									<legend className="sr-only">Amount of people</legend>
 									<button
+										className="text-beaver transition-colors clickable-12 hocus:text-beaver/50"
 										type="button"
 										onClick={() => {
 											amountOfPeople.decrement()
@@ -309,12 +378,16 @@ export function Booking() {
 											className="h-[0.1875rem] w-[0.4375rem]"
 											name="icon-minus"
 										/>
-										Decrement quantity
+										<span className="sr-only">Decrement quantity</span>
 									</button>
-									<span aria-live="assertive">
+									<p
+										className="text-center text-heading-m"
+										aria-live="assertive"
+									>
 										{amountOfPeople.value} people
-									</span>
+									</p>
 									<button
+										className="text-beaver transition-colors clickable-12 hocus:text-beaver/50"
 										type="button"
 										onClick={() => {
 											amountOfPeople.increment()
@@ -324,10 +397,10 @@ export function Booking() {
 											className="h-[0.6875rem] w-[0.625rem]"
 											name="icon-plus"
 										/>
-										Increment quantity
+										<span className="sr-only">Increment quantity</span>
 									</button>
 								</fieldset>
-								<p>
+								<p className="mt-8">
 									<Button.Root className="w-full">
 										<Button.Text>Make reservation</Button.Text>
 									</Button.Root>
@@ -338,5 +411,29 @@ export function Booking() {
 				</div>
 			</div>
 		</main>
+	)
+}
+
+interface SelectItemProps {
+	children: ReactNode
+	value: BookingTimePeriod
+}
+
+function SelectItem({ children, value }: SelectItemProps) {
+	return (
+		<Select.Item
+			className="mt-4 grid grid-cols-[26fr_48fr] items-center px-4 -outline-offset-1 first:mt-0"
+			value={value}
+		>
+			<Select.ItemIndicator className="text-beaver">
+				<Icon
+					className="h-[0.6875rem] w-[0.8125rem] -translate-y-[0.125rem]"
+					name="icon-check"
+				/>
+			</Select.ItemIndicator>
+			<Select.ItemText asChild>
+				<span className="col-start-2">{children}</span>
+			</Select.ItemText>
+		</Select.Item>
 	)
 }
