@@ -8,11 +8,11 @@ import { outerCenter } from '#app/utils/layout'
 export function Layout() {
 	return (
 		<>
-			<div className="min-h-screen">
+			<div className="grid min-h-screen grid-rows-[1fr_auto]">
 				<Outlet />
 				<footer
 					className={cx(
-						'text-footer bg-cod-gray py-20 text-center uppercase text-white tablet:py-16 tablet:text-start desktop:py-20',
+						'bg-cod-gray py-20 text-center text-footer uppercase text-white tablet:py-16 tablet:text-start desktop:py-20',
 						outerCenter,
 					)}
 				>

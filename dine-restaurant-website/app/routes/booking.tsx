@@ -28,6 +28,7 @@ import * as Button from '#app/components/ui/button'
 import { Logo } from '#app/components/ui/logo'
 import { CurveBottomRight, Lines } from '#app/components/ui/patterns'
 import { TextField } from '#app/components/ui/text-field'
+import { center, outerCenter } from '#app/utils/layout.js'
 import { screens } from '#app/utils/screens'
 
 function useAmountOfPeople() {
@@ -91,227 +92,251 @@ export function Booking() {
 	}
 
 	return (
-		<>
-			<header>
-				<Link to="/">
-					<Logo />
-				</Link>
-			</header>
-			{/* todo: Tmp bg */}
-			<main className="bg-beaver">
-				<Picture>
-					<DensitySource
-						media={`(min-width: ${screens.desktop})`}
-						images={[
-							{ density: '1x', image: heroBgDesktop },
-							{ density: '2x', image: heroBgDesktop2x },
-						]}
-					/>
-					<DensitySource
-						media={`(min-width: ${screens.tablet})`}
-						images={[
-							{ density: '1x', image: heroBgTablet },
-							{ density: '2x', image: heroBgTablet2x },
-						]}
-					/>
-					<DensityImage
-						alt=""
-						images={[
-							{ density: '1x', image: heroBgMobile },
-							{ density: '2x', image: heroBgMobile2x },
-						]}
-					/>
-				</Picture>
-				<h1>Reservations</h1>
-				<p>
-					We can’t wait to host you. If you have any special requirements please
-					feel free to call on the phone number below. We’ll be happy to
-					accommodate you.
-				</p>
-				<Lines />
-				{/* todo: tmp max width */}
-				<form
-					{...getFormProps(form)}
-					className="mx-auto max-w-xl border-[transparent] bg-white text-cod-gray shape-p-12 shape-border"
-				>
-					<div className={cx('', errors.name ? 'text-red' : '')}>
-						<p>
-							<label className="sr-only" htmlFor={fields.name.id}>
-								Name:
-							</label>
-							<TextField
-								{...getInputProps(fields.name, { type: 'text' })}
-								className="w-full"
-								variant={errors.name ? 'error' : 'normal'}
-								placeholder="Name"
-								autoComplete="name"
-							/>
-						</p>
-						<p className="text-error mt-3 px-4" id={fields.name.errorId}>
-							{fields.name.errors}
-						</p>
+		<main>
+			<div className="isolate grid text-white">
+				<div className="isolate -z-10 col-start-1 row-start-1 grid overflow-hidden">
+					<Picture>
+						<DensitySource
+							media={`(min-width: ${screens.desktop})`}
+							images={[
+								{ density: '1x', image: heroBgDesktop },
+								{ density: '2x', image: heroBgDesktop2x },
+							]}
+						/>
+						<DensitySource
+							media={`(min-width: ${screens.tablet})`}
+							images={[
+								{ density: '1x', image: heroBgTablet },
+								{ density: '2x', image: heroBgTablet2x },
+							]}
+						/>
+						<DensityImage
+							className="h-[37.5rem] w-full bg-cod-gray object-cover"
+							alt=""
+							images={[
+								{ density: '1x', image: heroBgMobile },
+								{ density: '2x', image: heroBgMobile2x },
+							]}
+						/>
+					</Picture>
+					<CurveBottomRight className="hidden -translate-x-[13.9375rem] justify-self-center desktop:block" />
+				</div>
+				<div className="col-start-1 row-start-1 pt-14 desktop:pt-16">
+					<div className={outerCenter}>
+						<header role="banner">
+							<Link to="/">
+								<Logo />
+							</Link>
+						</header>
 					</div>
-					<div className={cx('', errors.email ? 'text-red' : '')}>
-						<p>
-							<label className="sr-only" htmlFor={fields.email.id}>
-								Email:
-							</label>
-							<TextField
-								{...getInputProps(fields.email, { type: 'email' })}
-								className="w-full"
-								variant={errors.email ? 'error' : 'normal'}
-								placeholder="Email"
-								autoComplete="email"
-							/>
-						</p>
-						<p className="text-error mt-3 px-4" id={fields.email.errorId}>
-							{fields.email.errors}
-						</p>
-					</div>
-					<fieldset
-						{...getFieldsetProps(fields.date)}
-						className={cx(
-							'grid grid-cols-[73fr_73fr_88fr] items-center gap-4 tablet:grid-cols-[155fr_80fr_80fr_97fr]',
-							errors.date ? 'text-red' : '',
-						)}
-						aria-labelledby={dateLabelId}
+					<div
+						className={cx('mt-11 tablet:mt-16 desktop:mt-[9.5625rem]', center)}
 					>
-						<div>
-							<p className="col-span-full tablet:col-span-1" id={dateLabelId}>
-								Pick a date
-							</p>
-							{/* Screen readers get specific error messages for each input */}
-							<p className="text-error" aria-hidden="true">
-								{date.month.errors ?? date.day.errors ?? date.year.errors}
-							</p>
-						</div>
-						<div>
-							<p>
-								<label className="sr-only" htmlFor={date.month.id}>
-									Month:
-								</label>
-								<TextField
-									{...getInputProps(date.month, {
-										type: 'number',
-									})}
-									className="w-full"
-									variant={errors.date ? 'error' : 'normal'}
-									placeholder="MM"
-									autoComplete="off"
-								/>
-							</p>
-							<p className="sr-only" id={date.month.errorId}>
-								{date.month.errors}
-							</p>
-						</div>
-						<div>
-							<p>
-								<label className="sr-only" htmlFor={date.day.id}>
-									Day:
-								</label>
-								<TextField
-									{...getInputProps(date.day, {
-										type: 'number',
-									})}
-									className="w-full"
-									variant={errors.date ? 'error' : 'normal'}
-									placeholder="DD"
-									autoComplete="off"
-								/>
-							</p>
-							<p className="sr-only" id={date.day.errorId}>
-								{date.day.errors}
-							</p>
-						</div>
-						<div>
-							<p>
-								<label className="sr-only" htmlFor={date.year.id}>
-									Year:
-								</label>
-								<TextField
-									{...getInputProps(date.year, {
-										type: 'number',
-									})}
-									className="w-full"
-									variant={errors.date ? 'error' : 'normal'}
-									placeholder="YYYY"
-									autoComplete="off"
-								/>
-							</p>
-							<p className="sr-only" id={date.year.errorId}>
-								{date.year.errors}
-							</p>
-						</div>
-					</fieldset>
-					<fieldset aria-labelledby={timeLabelId}>
-						<p id={timeLabelId}>Pick a time</p>
-						<label>
-							Hour:
-							<input type="number" autoComplete="off" />
-						</label>
-						<label>
-							Minute:
-							<input type="number" autoComplete="off" />
-						</label>
-						<label>
-							Period:
-							<Select.Root defaultValue="am">
-								<Select.Trigger>
-									<Select.Value />
-									<Select.Icon asChild>
-										<Icon
-											className="h-[0.6875rem] w-[1.125rem]"
-											name="icon-arrow"
+						<div className="grid desktop:grid-cols-[445fr_125fr_540fr]">
+							<div className="text-center desktop:text-start">
+								<h1 className="text-heading-xl">Reservations</h1>
+								<p className="mt-3 desktop:mt-5">
+									We can’t wait to host you. If you have any special
+									requirements please feel free to call on the phone number
+									below. We’ll be happy to accommodate you.
+								</p>
+							</div>
+							{/* <Lines /> */}
+							<form
+								{...getFormProps(form)}
+								className="mx-auto mb-20 mt-44 max-w-[33.75rem] border-[transparent] bg-white text-cod-gray shadow shape-p-12 shape-border tablet:mb-32 tablet:mt-10 desktop:col-start-3 desktop:mx-0 desktop:mb-0 desktop:mt-0 desktop:max-w-none"
+							>
+								<div className={cx('', errors.name ? 'text-red' : '')}>
+									<p>
+										<label className="sr-only" htmlFor={fields.name.id}>
+											Name:
+										</label>
+										<TextField
+											{...getInputProps(fields.name, { type: 'text' })}
+											className="w-full"
+											variant={errors.name ? 'error' : 'normal'}
+											placeholder="Name"
+											autoComplete="name"
 										/>
-									</Select.Icon>
-								</Select.Trigger>
-								<Select.Portal>
-									<Select.Content position="popper">
-										<Select.Viewport>
-											<Select.Item value="am">
-												<Select.ItemText>AM</Select.ItemText>
-												<Select.ItemIndicator />
-											</Select.Item>
-											<Select.Item value="pm">
-												<Select.ItemText>PM</Select.ItemText>
-												<Select.ItemIndicator />
-											</Select.Item>
-										</Select.Viewport>
-									</Select.Content>
-								</Select.Portal>
-							</Select.Root>
-						</label>
-					</fieldset>
-					<fieldset>
-						<legend>Amount of people</legend>
-						<button
-							type="button"
-							onClick={() => {
-								amountOfPeople.decrement()
-							}}
-						>
-							<Icon className="h-[0.1875rem] w-[0.4375rem]" name="icon-minus" />
-							Decrement quantity
-						</button>
-						<span aria-live="assertive">{amountOfPeople.value} people</span>
-						<button
-							type="button"
-							onClick={() => {
-								amountOfPeople.increment()
-							}}
-						>
-							<Icon className="h-[0.6875rem] w-[0.625rem]" name="icon-plus" />
-							Increment quantity
-						</button>
-					</fieldset>
-					<p>
-						<Button.Root className="w-full">
-							<Button.Text>Make reservation</Button.Text>
-						</Button.Root>
-					</p>
-				</form>
-				<CurveBottomRight />
-			</main>
-		</>
+									</p>
+									<p className="mt-3 px-4 text-error" id={fields.name.errorId}>
+										{fields.name.errors}
+									</p>
+								</div>
+								<div className={cx('', errors.email ? 'text-red' : '')}>
+									<p>
+										<label className="sr-only" htmlFor={fields.email.id}>
+											Email:
+										</label>
+										<TextField
+											{...getInputProps(fields.email, { type: 'email' })}
+											className="w-full"
+											variant={errors.email ? 'error' : 'normal'}
+											placeholder="Email"
+											autoComplete="email"
+										/>
+									</p>
+									<p className="mt-3 px-4 text-error" id={fields.email.errorId}>
+										{fields.email.errors}
+									</p>
+								</div>
+								<fieldset
+									{...getFieldsetProps(fields.date)}
+									className={cx(
+										'grid grid-cols-[73fr_73fr_88fr] items-center gap-4 tablet:grid-cols-[155fr_80fr_80fr_97fr]',
+										errors.date ? 'text-red' : '',
+									)}
+									aria-labelledby={dateLabelId}
+								>
+									<div>
+										<p
+											className="col-span-full tablet:col-span-1"
+											id={dateLabelId}
+										>
+											Pick a date
+										</p>
+										{/* Screen readers get specific error messages for each input */}
+										<p className="text-error" aria-hidden="true">
+											{date.month.errors ?? date.day.errors ?? date.year.errors}
+										</p>
+									</div>
+									<div>
+										<p>
+											<label className="sr-only" htmlFor={date.month.id}>
+												Month:
+											</label>
+											<TextField
+												{...getInputProps(date.month, {
+													type: 'number',
+												})}
+												className="w-full"
+												variant={errors.date ? 'error' : 'normal'}
+												placeholder="MM"
+												autoComplete="off"
+											/>
+										</p>
+										<p className="sr-only" id={date.month.errorId}>
+											{date.month.errors}
+										</p>
+									</div>
+									<div>
+										<p>
+											<label className="sr-only" htmlFor={date.day.id}>
+												Day:
+											</label>
+											<TextField
+												{...getInputProps(date.day, {
+													type: 'number',
+												})}
+												className="w-full"
+												variant={errors.date ? 'error' : 'normal'}
+												placeholder="DD"
+												autoComplete="off"
+											/>
+										</p>
+										<p className="sr-only" id={date.day.errorId}>
+											{date.day.errors}
+										</p>
+									</div>
+									<div>
+										<p>
+											<label className="sr-only" htmlFor={date.year.id}>
+												Year:
+											</label>
+											<TextField
+												{...getInputProps(date.year, {
+													type: 'number',
+												})}
+												className="w-full"
+												variant={errors.date ? 'error' : 'normal'}
+												placeholder="YYYY"
+												autoComplete="off"
+											/>
+										</p>
+										<p className="sr-only" id={date.year.errorId}>
+											{date.year.errors}
+										</p>
+									</div>
+								</fieldset>
+								<fieldset aria-labelledby={timeLabelId}>
+									<p id={timeLabelId}>Pick a time</p>
+									<label>
+										Hour:
+										<input type="number" autoComplete="off" />
+									</label>
+									<label>
+										Minute:
+										<input type="number" autoComplete="off" />
+									</label>
+									<label>
+										Period:
+										<Select.Root defaultValue="am">
+											<Select.Trigger>
+												<Select.Value />
+												<Select.Icon asChild>
+													<Icon
+														className="h-[0.6875rem] w-[1.125rem]"
+														name="icon-arrow"
+													/>
+												</Select.Icon>
+											</Select.Trigger>
+											<Select.Portal>
+												<Select.Content position="popper">
+													<Select.Viewport>
+														<Select.Item value="am">
+															<Select.ItemText>AM</Select.ItemText>
+															<Select.ItemIndicator />
+														</Select.Item>
+														<Select.Item value="pm">
+															<Select.ItemText>PM</Select.ItemText>
+															<Select.ItemIndicator />
+														</Select.Item>
+													</Select.Viewport>
+												</Select.Content>
+											</Select.Portal>
+										</Select.Root>
+									</label>
+								</fieldset>
+								<fieldset>
+									<legend>Amount of people</legend>
+									<button
+										type="button"
+										onClick={() => {
+											amountOfPeople.decrement()
+										}}
+									>
+										<Icon
+											className="h-[0.1875rem] w-[0.4375rem]"
+											name="icon-minus"
+										/>
+										Decrement quantity
+									</button>
+									<span aria-live="assertive">
+										{amountOfPeople.value} people
+									</span>
+									<button
+										type="button"
+										onClick={() => {
+											amountOfPeople.increment()
+										}}
+									>
+										<Icon
+											className="h-[0.6875rem] w-[0.625rem]"
+											name="icon-plus"
+										/>
+										Increment quantity
+									</button>
+								</fieldset>
+								<p>
+									<Button.Root className="w-full">
+										<Button.Text>Make reservation</Button.Text>
+									</Button.Root>
+								</p>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</main>
 	)
 }
