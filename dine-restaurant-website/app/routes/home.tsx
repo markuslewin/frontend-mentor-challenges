@@ -1,5 +1,6 @@
 import { invariant } from '@epic-web/invariant'
 import * as Tabs from '@radix-ui/react-tabs'
+import { useMediaQuery } from '@uidotdev/usehooks'
 import { cx } from 'class-variance-authority'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
@@ -185,6 +186,8 @@ function getEventImages(event: Event) {
 
 export function Home() {
 	const [selectedEvent, setSelectedEvent] = useState<Event>('family')
+	const tabletMatches = useMediaQuery(`(min-width: ${screens.tablet})`)
+	const desktopMatches = useMediaQuery(`(min-width: ${screens.desktop})`)
 
 	const eventImages = getEventImages(selectedEvent)
 
@@ -396,60 +399,77 @@ export function Home() {
 						</div>
 					</div>
 				</div>
-				{/* <CurveTopRight /> */}
-				<h2>Events</h2>
-				<Picture key={selectedEvent}>
-					<DensitySource
-						media={`(min-width: ${screens.desktop})`}
-						images={[
-							{ density: '1x', image: eventImages.desktop.density1 },
-							{ density: '2x', image: eventImages.desktop.density2 },
-						]}
-					/>
-					<DensitySource
-						media={`(min-width: ${screens.tablet})`}
-						images={[
-							{ density: '1x', image: eventImages.tablet.density1 },
-							{ density: '2x', image: eventImages.tablet.density2 },
-						]}
-					/>
-					<DensityImage
-						alt=""
-						images={[
-							{ density: '1x', image: eventImages.mobile.density1 },
-							{ density: '2x', image: eventImages.mobile.density2 },
-						]}
-					/>
-				</Picture>
-				<Lines />
-				<Tabs.Root
-					value={selectedEvent}
-					onValueChange={(event) => {
-						assertValidEvent(event)
-						setSelectedEvent(event)
-					}}
-				>
-					<Tabs.List>
-						<EventTrigger value="family" text="Family Gathering" />
-						<EventTrigger value="special" text="Special Events" />
-						<EventTrigger value="social" text="Social Events" />
-					</Tabs.List>
-					<EventContent
-						value="family"
-						heading="Family Gathering"
-						body="We love catering for entire families. So please bring everyone along for a special meal with your loved ones. We’ll provide a memorable experience for all."
-					/>
-					<EventContent
-						value="special"
-						heading="Special Events"
-						body="Whether it’s a romantic dinner or special date you’re celebrating with others we’ll look after you. We’ll be sure to mark your special date with an unforgettable meal."
-					/>
-					<EventContent
-						value="social"
-						heading="Social Events"
-						body="Are you looking to have a larger social event? No problem! We’re more than happy to cater for big parties. We’ll work with you to make your event a hit with everyone."
-					/>
-				</Tabs.Root>
+				<div className="relative isolate pb-32 pt-20 text-center tablet:py-32 desktop:py-40 desktop:text-start">
+					<div className="absolute inset-0 -z-10 hidden size-full justify-center overflow-hidden tablet:grid">
+						<CurveTopRight className="-translate-x-[27.6875rem] desktop:-translate-x-[38.875rem]" />
+					</div>
+					<div className={cx('', outerCenter)}>
+						<div className="grid desktop:grid-cols-[540fr_125fr_445fr]">
+							<h2 className="sr-only">Events</h2>
+							<Picture key={selectedEvent}>
+								<DensitySource
+									media={`(min-width: ${screens.desktop})`}
+									images={[
+										{ density: '1x', image: eventImages.desktop.density1 },
+										{ density: '2x', image: eventImages.desktop.density2 },
+									]}
+								/>
+								<DensitySource
+									media={`(min-width: ${screens.tablet})`}
+									images={[
+										{ density: '1x', image: eventImages.tablet.density1 },
+										{ density: '2x', image: eventImages.tablet.density2 },
+									]}
+								/>
+								<DensityImage
+									className="mx-auto shadow desktop:relative desktop:z-10 desktop:mx-0 desktop:w-full"
+									alt=""
+									images={[
+										{ density: '1x', image: eventImages.mobile.density1 },
+										{ density: '2x', image: eventImages.mobile.density2 },
+									]}
+								/>
+							</Picture>
+							{/* <Lines /> */}
+							<Tabs.Root
+								className="mt-12 tablet:mt-14 desktop:col-start-3 desktop:mt-0 desktop:grid desktop:grid-rows-[70fr_auto_5rem_auto_62fr]"
+								orientation={
+									desktopMatches
+										? 'vertical'
+										: tabletMatches
+											? 'horizontal'
+											: 'vertical'
+								}
+								value={selectedEvent}
+								onValueChange={(event) => {
+									assertValidEvent(event)
+									setSelectedEvent(event)
+								}}
+							>
+								<Tabs.List className="grid justify-items-center gap-4 tablet:grid-cols-[auto_auto_auto] tablet:gap-0 desktop:row-start-4 desktop:grid-cols-none desktop:justify-items-start desktop:gap-3">
+									<EventTrigger value="family" text="Family Gathering" />
+									<EventTrigger value="special" text="Special Events" />
+									<EventTrigger value="social" text="Social Events" />
+								</Tabs.List>
+								<EventContent
+									value="family"
+									heading="Family Gathering"
+									body="We love catering for entire families. So please bring everyone along for a special meal with your loved ones. We’ll provide a memorable experience for all."
+								/>
+								<EventContent
+									value="special"
+									heading="Special Events"
+									body="Whether it’s a romantic dinner or special date you’re celebrating with others we’ll look after you. We’ll be sure to mark your special date with an unforgettable meal."
+								/>
+								<EventContent
+									value="social"
+									heading="Social Events"
+									body="Are you looking to have a larger social event? No problem! We’re more than happy to cater for big parties. We’ll work with you to make your event a hit with everyone."
+								/>
+							</Tabs.Root>
+						</div>
+					</div>
+				</div>
 				<div className="relative isolate bg-cod-gray py-20 text-center text-white tablet:pb-16 desktop:py-[5.5rem] desktop:text-start">
 					<Picture>
 						<DensitySource
@@ -557,10 +577,22 @@ function BookingButton(props: BookingButtonProps) {
 interface EventTriggerProps {
 	value: Event
 	text: string
+	className?: string
 }
 
-function EventTrigger({ value, text }: EventTriggerProps) {
-	return <Tabs.Trigger value={value}>{text}</Tabs.Trigger>
+function EventTrigger({ className, value, text }: EventTriggerProps) {
+	return (
+		<Tabs.Trigger
+			className={cx(
+				'group relative isolate inline-grid text-heading-s uppercase text-[hsl(0_0%_30%/50%)] transition-colors data-[state=active]:text-[hsl(0_0%_30%)] hocus:text-[hsl(0_0%_30%)]',
+				className,
+			)}
+			value={value}
+		>
+			{text}
+			<span className="absolute -z-10 w-12 self-end justify-self-center border-t text-beaver transition-opacity group-data-[state=inactive]:opacity-0 tablet:translate-y-[0.4375rem] desktop:-left-8 desktop:w-32 desktop:-translate-x-full desktop:translate-y-0 desktop:self-center desktop:justify-self-start" />
+		</Tabs.Trigger>
+	)
 }
 
 interface EventContentProps {
@@ -571,10 +603,15 @@ interface EventContentProps {
 
 function EventContent({ value, heading, body }: EventContentProps) {
 	return (
-		<Tabs.Content value={value}>
-			<h3>{heading}</h3>
-			<p>{body}</p>
-			<p>
+		<Tabs.Content
+			className="mx-auto max-w-[28.375rem] desktop:row-start-2 desktop:mx-0 desktop:max-w-none"
+			value={value}
+		>
+			<h3 className="mt-7 text-heading-l tablet:mt-12 desktop:mt-0">
+				{heading}
+			</h3>
+			<p className="mt-3 tablet:mt-5 desktop:min-h-[7.5rem]">{body}</p>
+			<p className="mt-7 tablet:mt-[3.75rem]">
 				<BookingButton />
 			</p>
 		</Tabs.Content>
