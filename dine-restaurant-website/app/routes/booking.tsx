@@ -97,7 +97,7 @@ export function Booking() {
 	const date = fields.date.getFieldset()
 	const time = fields.time.getFieldset()
 
-	const periodProps = getSelectProps(time.period, { value: true })
+	const periodProps = getSelectProps(time.period)
 	invariant(
 		typeof periodProps.defaultValue === 'string',
 		'Default value of period must be a string',
@@ -111,11 +111,7 @@ export function Booking() {
 				date.month.errors?.length ||
 				date.year.errors?.length,
 		),
-		time: Boolean(
-			time.hour.errors?.length ||
-				time.minute.errors?.length ||
-				time.period.errors?.length,
-		),
+		time: Boolean(time.hour.errors?.length || time.minute.errors?.length),
 	}
 
 	return (
@@ -289,17 +285,19 @@ export function Booking() {
 									{...getFieldsetProps(fields.time)}
 									className={cx(
 										'mt-8 grid grid-cols-[73fr_73fr_88fr] items-center gap-4 tablet:grid-cols-[155fr_80fr_80fr_97fr]',
-										errors.time ? 'text-red' : '',
 									)}
 									aria-labelledby={timeLabelId}
 								>
-									<div className="col-span-full tablet:col-span-1">
+									<div
+										className={cx(
+											'col-span-full tablet:col-span-1',
+											errors.time ? 'text-red' : '',
+										)}
+									>
 										<p id={timeLabelId}>Pick a time</p>
 										{/* Screen readers get specific error messages for each input */}
 										<p className="text-error" aria-hidden="true">
-											{time.hour.errors ??
-												time.minute.errors ??
-												time.period.errors}
+											{time.hour.errors ?? time.minute.errors}
 										</p>
 									</div>
 									<div>
@@ -311,7 +309,7 @@ export function Booking() {
 												{...getInputProps(time.hour, {
 													type: 'number',
 												})}
-												className="w-full"
+												className={cx('w-full', errors.time ? 'text-red' : '')}
 												variant={errors.time ? 'error' : 'normal'}
 												placeholder="09"
 												min={1}
@@ -332,7 +330,7 @@ export function Booking() {
 												{...getInputProps(time.minute, {
 													type: 'number',
 												})}
-												className="w-full"
+												className={cx('w-full', errors.time ? 'text-red' : '')}
 												variant={errors.time ? 'error' : 'normal'}
 												placeholder="00"
 												min={0}
@@ -355,7 +353,7 @@ export function Booking() {
 												required={periodProps.required}
 											>
 												<Select.Trigger
-													className="group grid w-full grid-cols-[auto_auto] items-center justify-between gap-1 border-b px-4 pb-[0.875rem]"
+													className="group grid w-full grid-cols-[auto_auto] items-center justify-between gap-1 border-b border-[hsl(0_0%_56%)] px-4 pb-[0.875rem] transition-colors hocus:border-cod-gray"
 													id={periodProps.id}
 													aria-describedby={periodProps['aria-describedby']}
 													aria-invalid={periodProps['aria-invalid']}
