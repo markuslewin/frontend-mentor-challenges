@@ -55,13 +55,28 @@ const bookingSchema = z.object({
 		.string({ required_error: 'This field is required' })
 		.email({ message: 'Please use a valid email address' }),
 	date: z.object({
-		day: z.number({ required_error: 'This field is incomplete' }),
-		month: z.number({ required_error: 'This field is incomplete' }),
-		year: z.number({ required_error: 'This field is incomplete' }),
+		day: z
+			.number({ required_error: 'This field is incomplete' })
+			.gte(1)
+			.lte(31),
+		month: z
+			.number({ required_error: 'This field is incomplete' })
+			.gte(1)
+			.lte(12),
+		year: z
+			.number({ required_error: 'This field is incomplete' })
+			.gte(2024)
+			.lte(2026),
 	}),
 	time: z.object({
-		hour: z.number({ required_error: 'This field is incomplete' }),
-		minute: z.number({ required_error: 'This field is incomplete' }),
+		hour: z
+			.number({ required_error: 'This field is incomplete' })
+			.gte(1)
+			.lte(12),
+		minute: z
+			.number({ required_error: 'This field is incomplete' })
+			.gte(0)
+			.lte(59),
 		period: z.enum(['am', 'pm']),
 	}),
 })
@@ -88,7 +103,8 @@ export function Booking() {
 
 			if (submission?.status !== 'success') return
 
-			// todo: Check valid date
+			// todo: Does date exist?
+			// todo: Is date X amount of hours into the future?
 			console.log('Booking successful!', { data: submission.value })
 		},
 	})
@@ -206,7 +222,7 @@ export function Booking() {
 								<fieldset
 									{...getFieldsetProps(fields.date)}
 									className={cx(
-										'mt-8 grid grid-cols-[73fr_73fr_88fr] items-center gap-4 tablet:grid-cols-[155fr_80fr_80fr_97fr]',
+										'mt-8 grid grid-cols-[73fr_73fr_88fr] items-center gap-4 tablet:grid-cols-[139fr_80fr_80fr_97fr]',
 										errors.date ? 'text-red' : '',
 									)}
 									aria-labelledby={dateLabelId}
@@ -230,8 +246,6 @@ export function Booking() {
 												className="w-full"
 												variant={errors.date ? 'error' : 'normal'}
 												placeholder="MM"
-												min={1}
-												max={12}
 												autoComplete="off"
 											/>
 										</p>
@@ -251,8 +265,6 @@ export function Booking() {
 												className="w-full"
 												variant={errors.date ? 'error' : 'normal'}
 												placeholder="DD"
-												min={1}
-												max={31}
 												autoComplete="off"
 											/>
 										</p>
@@ -272,7 +284,6 @@ export function Booking() {
 												className="w-full"
 												variant={errors.date ? 'error' : 'normal'}
 												placeholder="YYYY"
-												min={2024}
 												autoComplete="off"
 											/>
 										</p>
@@ -284,7 +295,7 @@ export function Booking() {
 								<fieldset
 									{...getFieldsetProps(fields.time)}
 									className={cx(
-										'mt-8 grid grid-cols-[73fr_73fr_88fr] items-center gap-4 tablet:grid-cols-[155fr_80fr_80fr_97fr]',
+										'mt-8 grid grid-cols-[73fr_73fr_88fr] items-center gap-4 tablet:grid-cols-[139fr_80fr_80fr_97fr]',
 									)}
 									aria-labelledby={timeLabelId}
 								>
@@ -312,8 +323,6 @@ export function Booking() {
 												className={cx('w-full', errors.time ? 'text-red' : '')}
 												variant={errors.time ? 'error' : 'normal'}
 												placeholder="09"
-												min={1}
-												max={12}
 												autoComplete="off"
 											/>
 										</p>
@@ -333,8 +342,6 @@ export function Booking() {
 												className={cx('w-full', errors.time ? 'text-red' : '')}
 												variant={errors.time ? 'error' : 'normal'}
 												placeholder="00"
-												min={0}
-												max={59}
 												autoComplete="off"
 											/>
 										</p>
@@ -442,7 +449,7 @@ interface SelectItemProps {
 function SelectItem({ children, value }: SelectItemProps) {
 	return (
 		<Select.Item
-			className="mt-4 grid grid-cols-[26fr_48fr] items-center px-4 -outline-offset-1 first:mt-0"
+			className="mt-4 grid select-none grid-cols-[26fr_48fr] items-center px-4 -outline-offset-1 first:mt-0"
 			value={value}
 		>
 			<Select.ItemIndicator className="text-beaver">
