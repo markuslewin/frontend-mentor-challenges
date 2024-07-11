@@ -113,6 +113,7 @@ import specialEventsTablet from '#app/assets/homepage/special-events-tablet.jpg?
 // @ts-expect-error Search params
 import specialEventsTablet2x from '#app/assets/homepage/special-events-tablet@2x.jpg?as=metadata'
 import { Icon } from '#app/components/icon'
+import * as Landmark from '#app/components/landmark'
 import {
 	Picture,
 	DensityImage,
@@ -227,11 +228,14 @@ export function Home() {
 					)}
 				>
 					<div className="desktop:max-w-[33.75rem]">
-						<header className="flex justify-center desktop:block" role="banner">
+						<Landmark.Root className="flex justify-center desktop:block">
+							<Landmark.Label>
+								<h2 className="sr-only">Banner</h2>
+							</Landmark.Label>
 							<Link to="/">
 								<Logo />
 							</Link>
-						</header>
+						</Landmark.Root>
 						<h1 className="mt-9 text-heading-xl tablet:mt-10 desktop:mt-[9.5rem]">
 							Exquisite dining since 1989
 						</h1>

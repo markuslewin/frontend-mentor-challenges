@@ -25,6 +25,7 @@ import heroBgTablet from '#app/assets/booking/hero-bg-tablet.jpg?as=metadata'
 // @ts-expect-error Search params
 import heroBgTablet2x from '#app/assets/booking/hero-bg-tablet@2x.jpg?as=metadata'
 import { Icon } from '#app/components/icon'
+import * as Landmark from '#app/components/landmark'
 import { DensityImage, DensitySource, Picture } from '#app/components/picture'
 import * as Button from '#app/components/ui/button'
 import { Logo } from '#app/components/ui/logo'
@@ -163,11 +164,14 @@ export function Booking() {
 				</div>
 				<div className="col-start-1 row-start-1 pt-14 desktop:pt-16">
 					<div className={outerCenter}>
-						<header role="banner">
+						<Landmark.Root>
+							<Landmark.Label>
+								<h2 className="sr-only">Banner</h2>
+							</Landmark.Label>
 							<Link to="/">
 								<Logo />
 							</Link>
-						</header>
+						</Landmark.Root>
 					</div>
 					<div
 						className={cx('mt-11 tablet:mt-16 desktop:mt-[9.5625rem]', center)}
