@@ -79,6 +79,7 @@ const bookingSchema = z.object({
 			.lte(59),
 		period: z.enum(['am', 'pm']),
 	}),
+	people: z.number().gte(1),
 })
 
 type Booking = z.infer<typeof bookingSchema>
@@ -394,6 +395,11 @@ export function Booking() {
 								</fieldset>
 								<fieldset className="mt-9 grid grid-cols-[auto_1fr_auto] items-center gap-4 border-b border-[hsl(0_0%_56%)] px-5 pb-4 tablet:px-8">
 									<legend className="sr-only">Amount of people</legend>
+									<input
+										type="hidden"
+										name="people"
+										value={amountOfPeople.value}
+									/>
 									<button
 										className="text-beaver transition-colors clickable-12 hocus:text-beaver/50"
 										type="button"
