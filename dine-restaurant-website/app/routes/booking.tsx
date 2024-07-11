@@ -176,7 +176,7 @@ export function Booking() {
 					<div
 						className={cx('mt-11 tablet:mt-16 desktop:mt-[9.5625rem]', center)}
 					>
-						<div className="grid desktop:grid-cols-[445fr_125fr_540fr]">
+						<div className="isolate desktop:grid desktop:grid-cols-[445fr_125fr_540fr]">
 							<div className="text-center desktop:text-start">
 								<h1 className="text-heading-xl">Reservations</h1>
 								<p className="mt-3 desktop:mt-5">
@@ -185,11 +185,11 @@ export function Booking() {
 									below. We’ll be happy to accommodate you.
 								</p>
 							</div>
-							{/* <Lines /> */}
 							<form
 								{...getFormProps(form)}
-								className="mx-auto mb-20 mt-44 max-w-[33.75rem] border-[transparent] bg-white text-cod-gray shadow shape-p-8 shape-border tablet:mb-32 tablet:mt-10 tablet:shape-p-12 desktop:col-start-3 desktop:mx-0 desktop:mb-0 desktop:mt-0 desktop:max-w-none"
+								className="relative mx-auto mb-20 mt-44 max-w-[33.75rem] border-[transparent] bg-white text-cod-gray shadow shape-p-8 shape-border tablet:mb-32 tablet:mt-10 tablet:shape-p-12 desktop:col-start-3 desktop:mx-0 desktop:mb-0 desktop:mt-0 desktop:max-w-none"
 							>
+								<Lines className="absolute -bottom-[2.375rem] -left-20 -z-10 hidden desktop:block" />
 								<div className={cx('', errors.name ? 'text-red' : '')}>
 									<p>
 										<label className="sr-only" htmlFor={fields.name.id}>
