@@ -8,7 +8,7 @@ import { outerCenter } from '#app/utils/layout'
 export function Layout() {
 	return (
 		<>
-			<div className="grid min-h-screen grid-rows-[1fr_auto]">
+			<div className="grid min-h-screen grid-rows-[1fr_auto] overflow-x-hidden">
 				<Outlet />
 				<footer
 					className={cx(

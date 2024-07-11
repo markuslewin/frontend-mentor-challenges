@@ -303,31 +303,33 @@ export function Home() {
 				</div>
 				<div className={cx('', center)}>
 					<div className="grid-cols-[445fr_125fr_540fr] desktop:grid">
-						<Picture className="desktop:col-start-3">
-							<DensitySource
-								media={`(min-width: ${screens.desktop})`}
-								images={[
-									{ density: '1x', image: locallySourcedDesktop },
-									{ density: '2x', image: locallySourcedDesktop2x },
-								]}
-							/>
-							<DensitySource
-								media={`(min-width: ${screens.tablet})`}
-								images={[
-									{ density: '1x', image: locallySourcedTablet },
-									{ density: '2x', image: locallySourcedTablet2x },
-								]}
-							/>
-							<DensityImage
-								className="mx-auto shadow desktop:-mb-20 desktop:w-full desktop:shadow-[transparent]"
-								alt=""
-								images={[
-									{ density: '1x', image: locallySourcedMobile },
-									{ density: '2x', image: locallySourcedMobile2x },
-								]}
-							/>
-						</Picture>
-						{/* <Lines /> */}
+						<div className="relative desktop:col-start-3">
+							<Picture>
+								<DensitySource
+									media={`(min-width: ${screens.desktop})`}
+									images={[
+										{ density: '1x', image: locallySourcedDesktop },
+										{ density: '2x', image: locallySourcedDesktop2x },
+									]}
+								/>
+								<DensitySource
+									media={`(min-width: ${screens.tablet})`}
+									images={[
+										{ density: '1x', image: locallySourcedTablet },
+										{ density: '2x', image: locallySourcedTablet2x },
+									]}
+								/>
+								<DensityImage
+									className="mx-auto shadow desktop:-mb-20 desktop:w-full desktop:shadow-[transparent]"
+									alt=""
+									images={[
+										{ density: '1x', image: locallySourcedMobile },
+										{ density: '2x', image: locallySourcedMobile2x },
+									]}
+								/>
+							</Picture>
+							<Lines className="absolute -right-[3.625rem] top-[63%] hidden tablet:block desktop:-right-[7.125rem] desktop:top-[44%]" />
+						</div>
 						<div className="mx-auto mt-12 max-w-[28.375rem] tablet:mt-14 desktop:col-start-1 desktop:row-start-1 desktop:mx-0 desktop:mt-0 desktop:grid desktop:max-w-none desktop:grid-rows-[200fr_auto_165fr]">
 							<div className="row-start-2">
 								<div className="flex justify-center desktop:justify-start">
@@ -406,31 +408,33 @@ export function Home() {
 				<div className={cx('', outerCenter)}>
 					<div className="grid desktop:grid-cols-[540fr_125fr_445fr]">
 						<h2 className="sr-only">Events</h2>
-						<Picture key={selectedEvent}>
-							<DensitySource
-								media={`(min-width: ${screens.desktop})`}
-								images={[
-									{ density: '1x', image: eventImages.desktop.density1 },
-									{ density: '2x', image: eventImages.desktop.density2 },
-								]}
-							/>
-							<DensitySource
-								media={`(min-width: ${screens.tablet})`}
-								images={[
-									{ density: '1x', image: eventImages.tablet.density1 },
-									{ density: '2x', image: eventImages.tablet.density2 },
-								]}
-							/>
-							<DensityImage
-								className="mx-auto shadow desktop:relative desktop:z-10 desktop:mx-0 desktop:w-full"
-								alt=""
-								images={[
-									{ density: '1x', image: eventImages.mobile.density1 },
-									{ density: '2x', image: eventImages.mobile.density2 },
-								]}
-							/>
-						</Picture>
-						{/* <Lines /> */}
+						<div className="relative mx-auto">
+							<Picture key={selectedEvent}>
+								<DensitySource
+									media={`(min-width: ${screens.desktop})`}
+									images={[
+										{ density: '1x', image: eventImages.desktop.density1 },
+										{ density: '2x', image: eventImages.desktop.density2 },
+									]}
+								/>
+								<DensitySource
+									media={`(min-width: ${screens.tablet})`}
+									images={[
+										{ density: '1x', image: eventImages.tablet.density1 },
+										{ density: '2x', image: eventImages.tablet.density2 },
+									]}
+								/>
+								<DensityImage
+									className="mx-auto shadow desktop:relative desktop:z-10 desktop:mx-0 desktop:w-full"
+									alt=""
+									images={[
+										{ density: '1x', image: eventImages.mobile.density1 },
+										{ density: '2x', image: eventImages.mobile.density2 },
+									]}
+								/>
+							</Picture>
+							<Lines className="absolute -left-[3.625rem] -top-[2.375rem] hidden tablet:block desktop:-left-10 desktop:z-20" />
+						</div>
 						<Tabs.Root
 							className="mt-12 tablet:mt-14 desktop:col-start-3 desktop:mt-0 desktop:grid desktop:grid-rows-[70fr_auto_5rem_auto_62fr]"
 							orientation={
