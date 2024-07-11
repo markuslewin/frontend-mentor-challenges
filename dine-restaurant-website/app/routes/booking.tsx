@@ -381,6 +381,14 @@ export function Booking() {
 												<Select.Portal>
 													<Select.Content
 														className="max-h-[var(--radix-select-content-available-height)] w-[6.625rem] overflow-y-auto bg-white text-cod-gray shadow-sm"
+														// Don't click the increment button after the popper closes in Android/Chrome
+														ref={(ref) => {
+															if (ref) {
+																ref.ontouchend = (e) => {
+																	e.preventDefault()
+																}
+															}
+														}}
 														position="popper"
 														sideOffset={8}
 													>
