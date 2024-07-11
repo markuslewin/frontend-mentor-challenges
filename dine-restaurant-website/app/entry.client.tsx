@@ -7,16 +7,10 @@ import { Layout } from '#app/components/layout'
 import { type AnnouncementHandle } from '#app/components/route-announcer'
 import { Booking } from '#app/routes/booking'
 import { Home } from '#app/routes/home'
-import { clientEnv } from '#app/utils/env/client'
 // Supports weights 100-900
 import '@fontsource-variable/league-spartan'
 
-async function enableMocking() {
-	if (clientEnv.VITE_MOCKS) {
-		const { worker } = await import('#app/mocks')
-		return worker.start()
-	}
-}
+async function enableMocking() {}
 
 enableMocking().then(() => {
 	const router = createBrowserRouter([
