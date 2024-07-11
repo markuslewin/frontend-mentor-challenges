@@ -2,9 +2,11 @@ import {
 	getFieldsetProps,
 	getFormProps,
 	getInputProps,
+	getSelectProps,
 	useForm,
 } from '@conform-to/react'
 import { getZodConstraint, parseWithZod } from '@conform-to/zod'
+import { invariant } from '@epic-web/invariant'
 import * as Select from '@radix-ui/react-select'
 import { cx } from 'class-variance-authority'
 import { type ReactNode, useId, useState } from 'react'
@@ -72,6 +74,11 @@ export function Booking() {
 	const timeLabelId = useId()
 	const [form, fields] = useForm({
 		constraint: getZodConstraint(bookingSchema),
+		defaultValue: {
+			time: {
+				period: 'am' satisfies BookingTimePeriod,
+			},
+		},
 		shouldValidate: 'onBlur',
 		onValidate({ formData }) {
 			return parseWithZod(formData, { schema: bookingSchema })
@@ -89,6 +96,12 @@ export function Booking() {
 
 	const date = fields.date.getFieldset()
 	const time = fields.time.getFieldset()
+
+	const periodProps = getSelectProps(time.period, { value: true })
+	invariant(
+		typeof periodProps.defaultValue === 'string',
+		'Default value of period must be a string',
+	)
 
 	const errors = {
 		name: Boolean(fields.name.errors?.length),
@@ -336,8 +349,17 @@ export function Booking() {
 											<label className="sr-only" htmlFor={time.period.id}>
 												Period:
 											</label>
-											<Select.Root defaultValue="am">
-												<Select.Trigger className="group grid w-full grid-cols-[auto_auto] items-center justify-between gap-1 border-b px-4 pb-[0.875rem]">
+											<Select.Root
+												name={periodProps.name}
+												defaultValue={periodProps.defaultValue}
+												required={periodProps.required}
+											>
+												<Select.Trigger
+													className="group grid w-full grid-cols-[auto_auto] items-center justify-between gap-1 border-b px-4 pb-[0.875rem]"
+													id={periodProps.id}
+													aria-describedby={periodProps['aria-describedby']}
+													aria-invalid={periodProps['aria-invalid']}
+												>
 													<Select.Value />
 													<Select.Icon className="text-beaver">
 														<Icon
@@ -348,7 +370,7 @@ export function Booking() {
 												</Select.Trigger>
 												<Select.Portal>
 													<Select.Content
-														className="shadow-sm max-h-[var(--radix-select-content-available-height)] w-[6.625rem] overflow-y-auto bg-white text-cod-gray"
+														className="max-h-[var(--radix-select-content-available-height)] w-[6.625rem] overflow-y-auto bg-white text-cod-gray shadow-sm"
 														position="popper"
 														sideOffset={8}
 													>
