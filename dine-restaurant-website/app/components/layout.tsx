@@ -1,5 +1,5 @@
 import { cx } from 'class-variance-authority'
-import { Outlet, ScrollRestoration } from 'react-router-dom'
+import { Link, Outlet, ScrollRestoration } from 'react-router-dom'
 import { Announcer } from '#app/components/announcer'
 import { RouteAnnouncer } from '#app/components/route-announcer'
 import { Logo } from '#app/components/ui/logo'
@@ -19,7 +19,9 @@ export function Layout() {
 					<div className="tablet:grid tablet:grid-cols-[233fr_454fr] tablet:grid-rows-[auto_1fr] desktop:grid-cols-[296fr_368fr_446fr] desktop:grid-rows-none">
 						<h2 className="sr-only">Restaurant information</h2>
 						<p className="flex justify-center tablet:row-span-full tablet:justify-start">
-							<Logo />
+							<Link to="/">
+								<Logo />
+							</Link>
 						</p>
 						<div className="mt-10 tablet:mt-0">
 							<h3 className="sr-only">Location and phone number</h3>

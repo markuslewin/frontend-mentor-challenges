@@ -239,7 +239,7 @@ export function Home() {
 						<h1 className="mt-9 text-heading-xl tablet:mt-10 desktop:mt-[9.5rem]">
 							Exquisite dining since 1989
 						</h1>
-						<p className="mt-5 desktop:mt-3">
+						<p className="mt-5 desktop:mt-3 desktop:max-w-[27.8125rem]">
 							Experience our seasonal menu in beautiful country surroundings.
 							Eat the freshest produce from the comfort of our farmhouse.
 						</p>
@@ -408,7 +408,7 @@ export function Home() {
 				<div className={cx('', outerCenter)}>
 					<div className="grid desktop:grid-cols-[540fr_125fr_445fr]">
 						<h2 className="sr-only">Events</h2>
-						<div className="relative mx-auto">
+						<div className="relative mx-auto desktop:mx-0">
 							<Picture key={selectedEvent}>
 								<DensitySource
 									media={`(min-width: ${screens.desktop})`}
@@ -614,7 +614,7 @@ function EventContent({ value, heading, body }: EventContentProps) {
 				{heading}
 			</h3>
 			<p className="mt-3 tablet:mt-5 desktop:min-h-[7.5rem]">{body}</p>
-			<p className="mt-7 tablet:mt-[3.75rem]">
+			<p className="mt-7 tablet:mt-[1.875rem]">
 				<BookingButton />
 			</p>
 		</Tabs.Content>
