@@ -10,11 +10,12 @@ import { shape } from './tailwind/shape'
 const clamps = calculateClamps({
 	minWidth: 375,
 	maxWidth: 1110,
-	// todo: Add type scale
 	pairs: [
-		[32, 48],
-		[24, 39],
-		[16, 20],
+		[15, 22],
+		[13, 18],
+		[16, 18],
+		[16, 16],
+		[14, 14],
 	],
 })
 
@@ -32,44 +33,31 @@ export default {
 	theme: {
 		screens,
 		colors: {
-			// todo: Add colors
-			background: 'hsl(var(--background))',
-			foreground: 'hsl(var(--foreground))',
-			overlay: 'hsl(var(--overlay))',
-			menu: {
-				DEFAULT: 'hsl(var(--menu))',
-				foreground: 'hsl(var(--menu-foreground))',
-			},
-			button: {
-				DEFAULT: 'hsl(var(--button))',
-				foreground: 'hsl(var(--button-foreground))',
-				hocus: 'hsl(var(--button-hocus))',
-			},
-			input: {
-				DEFAULT: 'hsl(var(--input))',
-				'border-hocus': 'hsl(var(--input-border-hocus))',
-			},
-			pill: {
-				DEFAULT: 'hsl(var(--pill))',
-				foreground: 'hsl(var(--pill-foreground))',
-			},
-			delete: {
-				foreground: 'hsl(var(--delete-foreground))',
-				'foreground-hocus': 'hsl(var(--delete-foreground-hocus))',
-			},
-			error: {
-				foreground: 'hsl(var(--error-foreground))',
-			},
+			white: 'hsl(0 0% 100%)',
+			green: 'hsl(180 29% 50%)',
+			'light-green': 'hsl(180 52% 96%)',
+			grey: 'hsl(180 8% 52%)',
+			'light-grey': 'hsl(180 29% 50%)',
+			'lighter-grey': 'hsl(180 10% 74%)',
 		},
 		fontFamily: {
-			// todo: Add font from Fontsource
-			base: 'Inter, system-ui, Avenir, Helvetica, Arial, sans-serif',
+			base: "'League Spartan Variable', sans-serif",
 		},
 		fontSize: {
-			// todo: Add font sizes
-			'heading-l': [getClamp(0), { fontWeight: 500, lineHeight: 1 }],
-			'heading-m': [getClamp(1), { fontWeight: 500, lineHeight: 1 }],
-			body: [getClamp(2), { lineHeight: 1.2 }],
+			position: [getClamp(0), { fontWeight: 700, lineHeight: 1.1 }],
+			company: [getClamp(1), { fontWeight: 700, lineHeight: 0.95 }],
+			body: [
+				getClamp(2),
+				{ fontWeight: 500, lineHeight: 1.33, letterSpacing: '-0.00875em' },
+			],
+			tag: [
+				getClamp(3),
+				{ fontWeight: 700, lineHeight: 1.5, letterSpacing: '-0.0075em' },
+			],
+			meta: [
+				getClamp(4),
+				{ fontWeight: 700, lineHeight: 1, letterSpacing: '-0.006875em' },
+			],
 		},
 		extend: {},
 	},
