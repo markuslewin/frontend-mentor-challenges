@@ -20,7 +20,7 @@ function App() {
 	const { filters } = useFilters()
 
 	return (
-		<main className="isolate">
+		<main className="isolate min-h-screen pb-9 tablet:pb-[7.5rem]">
 			<h1 className="sr-only">Job listings</h1>
 			<Picture>
 				<source
@@ -73,35 +73,81 @@ function App() {
 						</button>
 					</p>
 				</Landmark.Root>
-				<Landmark.Root>
+				<Landmark.Root className="mt-14 tablet:mt-10">
 					<Landmark.Label>
-						<h2>Search result</h2>
+						<h2 className="sr-only">Search result</h2>
 					</Landmark.Label>
-					<ul role="list">
+					<ul className="grid gap-10 tablet:gap-6" role="list">
 						{jobs.map((job) => (
-							<li key={job.id}>
-								<Img alt="" priority src={job.logo} width="88" height="88" />
-								<h3>
-									<a href="#">{job.position}</a>
-								</h3>
-								<div>
-									<p>{job.company}</p>
-									{job.new ? <p>New</p> : null}
-									{job.featured ? <p>Featured</p> : null}
+							<li
+								className="rounded bg-white p-6 pt-0 shadow tablet:grid tablet:grid-cols-[max-content_1fr] tablet:items-center tablet:gap-4 tablet:px-10 tablet:py-8"
+								key={job.id}
+							>
+								<div className="flex flex-col gap-2 tablet:flex-row tablet:gap-6">
+									<Img
+										className="-mt-6 size-12 tablet:mt-0 tablet:size-[5.5rem]"
+										alt=""
+										priority
+										src={job.logo}
+										width="88"
+										height="88"
+									/>
+									<div className="grid">
+										<h3 className="mt-2 tablet:mt-[0.625rem]">
+											<a
+												className="text-position text-grey transition-colors hocus:text-green"
+												href="#"
+											>
+												{job.position}
+											</a>
+										</h3>
+										<div className="row-start-1 flex flex-wrap items-center gap-x-7 gap-y-4 tablet:gap-4">
+											<p className="text-company text-green">{job.company}</p>
+											<ul className="flex flex-wrap gap-2" role="list">
+												{job.new ? (
+													<li className="grid h-6 items-center whitespace-nowrap rounded-full bg-green px-2 text-meta uppercase text-white">
+														New!
+													</li>
+												) : null}
+												{job.featured ? (
+													<li className="grid h-6 items-center whitespace-nowrap rounded-full bg-grey px-2 text-meta uppercase text-white">
+														Featured
+													</li>
+												) : null}
+											</ul>
+										</div>
+										<ul
+											className="flex flex-wrap items-center gap-[0.625rem]"
+											role="list"
+										>
+											<li>{job.postedAt}</li>
+											<li className="flex flex-wrap items-center gap-[0.625rem]">
+												<Dot />
+												{job.contract}
+											</li>
+											<li className="flex flex-wrap items-center gap-[0.625rem]">
+												<Dot />
+												{job.location}
+											</li>
+										</ul>
+									</div>
 								</div>
-								<hr />
-								<ul role="list">
-									<li>{job.postedAt}</li>
-									<li>{job.contract}</li>
-									<li>{job.location}</li>
-								</ul>
-								<ul role="list">
+								<hr className="mt-4 text-lighter-grey tablet:hidden" />
+								<ul
+									className="mt-4 flex flex-wrap gap-4 tablet:mt-0 tablet:justify-end"
+									role="list"
+								>
 									{[job.role, job.level, ...job.languages].map((tag) => (
 										<li key={tag}>
 											<p>
-												<button type="button">{tag}</button>
+												<button
+													className="h-8 rounded-sm bg-green/10 px-2 text-tag text-green transition-colors hocus:bg-green hocus:text-white"
+													type="button"
+												>
+													{tag}
+												</button>
 											</p>
-											<p>Add tag to filter</p>
+											<p className="sr-only">Add tag to filter</p>
 										</li>
 									))}
 								</ul>
@@ -111,6 +157,12 @@ function App() {
 				</Landmark.Root>
 			</div>
 		</main>
+	)
+}
+
+function Dot() {
+	return (
+		<span className="block size-1 rounded-full border-t-[0.25rem] border-lighter-grey" />
 	)
 }
 

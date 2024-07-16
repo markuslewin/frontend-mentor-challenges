@@ -61,7 +61,9 @@ export default {
 			],
 		},
 		borderRadius: {
+			sm: rem(4),
 			DEFAULT: rem(5),
+			full: 9999,
 		},
 		boxShadow: {
 			DEFAULT: `0 ${rem(15)} ${rem(20)} ${rem(-5)} hsl(189 81% 28% / 15%)`,
