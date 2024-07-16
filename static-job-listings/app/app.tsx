@@ -1,3 +1,4 @@
+import { cx } from 'class-variance-authority'
 import { useState } from 'react'
 import { AnnouncementProvider, Announcer } from '#app/components/announcer'
 import { Icon } from '#app/components/icon.js'
@@ -80,7 +81,12 @@ function App() {
 					<ul className="grid gap-10 tablet:gap-6" role="list">
 						{jobs.map((job) => (
 							<li
-								className="rounded bg-white p-6 pt-0 shadow tablet:grid tablet:grid-cols-[max-content_1fr] tablet:items-center tablet:gap-4 tablet:px-10 tablet:py-8"
+								className={cx(
+									'rounded bg-white p-6 pt-0 shadow tablet:grid tablet:grid-cols-[max-content_1fr] tablet:items-center tablet:gap-4 tablet:px-10 tablet:py-8',
+									job.featured
+										? 'bg-gradient-to-r from-green from-[0.3125rem] to-white to-[0.3125rem]'
+										: '',
+								)}
 								key={job.id}
 							>
 								<div className="flex flex-col gap-2 tablet:flex-row tablet:gap-6">
