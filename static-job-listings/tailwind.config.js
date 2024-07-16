@@ -4,7 +4,7 @@ import { screens } from './app/utils/screens'
 import { center } from './tailwind/center'
 import { clickable } from './tailwind/clickable'
 import { hocus } from './tailwind/hocus'
-// import { rem } from "./tailwind/rem";
+import { rem } from './tailwind/rem'
 import { shape } from './tailwind/shape'
 
 const clamps = calculateClamps({
@@ -36,8 +36,9 @@ export default {
 			white: 'hsl(0 0% 100%)',
 			green: 'hsl(180 29% 50%)',
 			'light-green': 'hsl(180 52% 96%)',
-			grey: 'hsl(180 8% 52%)',
-			'light-grey': 'hsl(180 29% 50%)',
+			grey: 'hsl(180 14% 20%)',
+			'light-grey': 'hsl(180 8% 52%)',
+			// 'light-grey': 'hsl(180 29% 50%)',
 			'lighter-grey': 'hsl(180 10% 74%)',
 		},
 		fontFamily: {
@@ -58,6 +59,12 @@ export default {
 				getClamp(4),
 				{ fontWeight: 700, lineHeight: 1, letterSpacing: '-0.006875em' },
 			],
+		},
+		borderRadius: {
+			DEFAULT: rem(5),
+		},
+		boxShadow: {
+			DEFAULT: `0 ${rem(15)} ${rem(20)} ${rem(-5)} hsl(189 81% 28% / 15%)`,
 		},
 		extend: {},
 	},
