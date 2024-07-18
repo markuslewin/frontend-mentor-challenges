@@ -1,8 +1,12 @@
 import { cx } from 'class-variance-authority'
 import { AnimatePresence, motion, MotionConfig } from 'framer-motion'
-import { useState } from 'react'
-import { AnnouncementProvider, Announcer } from '#app/components/announcer'
-import { Icon } from '#app/components/icon.js'
+import { useId, useState } from 'react'
+import {
+	AnnouncementProvider,
+	Announcer,
+	useAnnouncer,
+} from '#app/components/announcer'
+import { Icon } from '#app/components/icon'
 import * as Landmark from '#app/components/landmark'
 import { Img, Picture } from '#app/components/picture'
 import jobs from '#app/data/jobs.json'
@@ -27,6 +31,7 @@ function useFilters() {
 
 function App() {
 	const filters = useFilters()
+	const { announce } = useAnnouncer()
 
 	const filteredJobs = jobs.filter((job) =>
 		filters.values.every((filter) => getTags(job).includes(filter)),
@@ -86,6 +91,7 @@ function App() {
 												onSubmit={(e) => {
 													e.preventDefault()
 													filters.remove(filter)
+													announce(`Removed tag "${filter}" from filter.`)
 												}}
 											>
 												<button className="grid w-8 place-items-center rounded-e bg-green text-white transition-colors hocus:bg-grey">
@@ -105,6 +111,7 @@ function App() {
 									onSubmit={(e) => {
 										e.preventDefault()
 										filters.clear()
+										announce(`Cleared ${filters.values.length} tags.`)
 									}}
 								>
 									<button className="text-tag transition-colors hocus:text-green hocus:underline">
@@ -200,19 +207,14 @@ function App() {
 											role="list"
 										>
 											{getTags(job).map((tag) => (
-												<li key={tag}>
-													<form
-														onSubmit={(e) => {
-															e.preventDefault()
-															filters.add(tag)
-														}}
-													>
-														<button className="h-8 rounded-sm bg-green/10 px-2 text-tag text-green transition-colors hocus:bg-green hocus:text-white">
-															{tag}
-														</button>
-													</form>
-													<p className="sr-only">Add tag to filter</p>
-												</li>
+												<Tag
+													key={tag}
+													name={tag}
+													onSelect={() => {
+														filters.add(tag)
+														announce(`Added tag "${tag}" to filter.`)
+													}}
+												/>
 											))}
 										</ul>
 									</motion.li>
@@ -229,6 +231,36 @@ function App() {
 function Dot() {
 	return (
 		<span className="block size-1 rounded-full border-t-[0.25rem] border-lighter-grey" />
+	)
+}
+
+interface TagProps {
+	name: string
+	onSelect(): void
+}
+
+function Tag({ name, onSelect }: TagProps) {
+	const descriptionId = useId()
+
+	return (
+		<li key={name}>
+			<form
+				onSubmit={(e) => {
+					e.preventDefault()
+					onSelect()
+				}}
+			>
+				<button
+					className="h-8 rounded-sm bg-green/10 px-2 text-tag text-green transition-colors hocus:bg-green hocus:text-white"
+					aria-describedby={descriptionId}
+				>
+					{name}
+				</button>
+			</form>
+			<p className="sr-only" id={descriptionId}>
+				Add tag "{name}" to filter
+			</p>
+		</li>
 	)
 }
 
