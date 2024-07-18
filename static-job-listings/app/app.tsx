@@ -78,34 +78,42 @@ function App() {
 								}}
 							>
 								<ul className="flex flex-wrap gap-4" role="list">
-									{filters.values.map((filter) => (
-										<li
-											className="grid h-8 grid-cols-[max-content_max-content] text-tag"
-											key={filter}
-										>
-											<p className="grid items-center rounded-s border-[transparent] bg-green/10 text-green shape-px-2 shape-border">
-												<span className="translate-y-[0.125rem]">{filter}</span>
-											</p>
-											<form
-												className="grid"
-												onSubmit={(e) => {
-													e.preventDefault()
-													filters.remove(filter)
-													announce(`Removed tag "${filter}" from filter.`)
-												}}
+									<AnimatePresence initial={false} mode="popLayout">
+										{filters.values.map((filter) => (
+											<motion.li
+												className="grid h-8 grid-cols-[max-content_max-content] text-tag"
+												key={filter}
+												layout
+												initial={{ opacity: 0, scale: 0.8 }}
+												animate={{ opacity: 1, scale: 1 }}
+												exit={{ opacity: 0, scale: 0.8 }}
 											>
-												<button className="grid w-8 place-items-center rounded-e border border-[transparent] bg-green text-white transition-colors hocus:bg-grey">
-													<Icon
-														className="size-[0.875rem]"
-														name="icon-remove"
-													/>{' '}
-													<span className="sr-only">
-														Remove filter "{filter}"
+												<p className="grid items-center rounded-s border-[transparent] bg-green/10 text-green shape-px-2 shape-border">
+													<span className="translate-y-[0.125rem]">
+														{filter}
 													</span>
-												</button>
-											</form>
-										</li>
-									))}
+												</p>
+												<form
+													className="grid"
+													onSubmit={(e) => {
+														e.preventDefault()
+														filters.remove(filter)
+														announce(`Removed tag "${filter}" from filter.`)
+													}}
+												>
+													<button className="grid w-8 place-items-center rounded-e border border-[transparent] bg-green text-white transition-colors hocus:bg-grey">
+														<Icon
+															className="size-[0.875rem]"
+															name="icon-remove"
+														/>{' '}
+														<span className="sr-only">
+															Remove filter "{filter}"
+														</span>
+													</button>
+												</form>
+											</motion.li>
+										))}
+									</AnimatePresence>
 								</ul>
 								<form
 									onSubmit={(e) => {
@@ -133,98 +141,92 @@ function App() {
 						<h2 className="sr-only">Search result</h2>
 					</Landmark.Label>
 					<ul className="grid gap-10 tablet:gap-6" role="list">
-						<MotionConfig reducedMotion="user">
-							<AnimatePresence initial={false} mode="popLayout">
-								{filteredJobs.map((job) => (
-									<motion.li
-										className={cx(
-											'shape-pt-0 rounded border-[transparent] bg-white bg-origin-border shadow shape-p-6 shape-border tablet:grid tablet:grid-cols-[max-content_1fr] tablet:items-center tablet:gap-4 tablet:shape-px-10 tablet:shape-py-8',
-											job.featured
-												? 'bg-gradient-to-r from-green from-[0.3125rem] to-white to-[0.3125rem]'
-												: '',
-										)}
-										key={job.id}
-										data-testid="job"
-										layout
-										initial={{ scale: 0.8, opacity: 0 }}
-										animate={{ scale: 1, opacity: 1 }}
-										exit={{ scale: 0.8, opacity: 0 }}
-									>
-										<div className="flex flex-col gap-2 tablet:flex-row tablet:gap-6">
-											<Img
-												className="-mt-6 size-12 tablet:mt-0 tablet:size-[5.5rem]"
-												alt=""
-												priority
-												src={job.logo}
-												width="88"
-												height="88"
-											/>
-											<div className="grid">
-												<h3 className="mt-2 tablet:mt-[0.625rem]">
-													<a
-														className="text-position text-grey transition-colors hocus:text-green"
-														href="#"
-													>
-														{job.position}
-													</a>
-												</h3>
-												<div className="row-start-1 flex flex-wrap items-center gap-x-7 gap-y-4 tablet:gap-4">
-													<p className="text-company text-green">
-														{job.company}
-													</p>
-													<ul className="flex flex-wrap gap-2" role="list">
-														{job.new ? (
-															<li className="grid h-6 items-center whitespace-nowrap rounded-full border-[transparent] bg-green text-meta uppercase text-white shape-px-2 shape-border">
-																<span className="translate-y-[0.14em]">
-																	New!
-																</span>
-															</li>
-														) : null}
-														{job.featured ? (
-															<li className="grid h-6 items-center whitespace-nowrap rounded-full border-[transparent] bg-grey text-meta uppercase text-white shape-px-2 shape-border">
-																<span className="translate-y-[0.14em]">
-																	Featured
-																</span>
-															</li>
-														) : null}
-													</ul>
-												</div>
-												<ul
-													className="mt-2 flex flex-wrap items-center gap-[0.625rem] tablet:gap-4"
-													role="list"
+						<AnimatePresence initial={false} mode="popLayout">
+							{filteredJobs.map((job) => (
+								<motion.li
+									className={cx(
+										'shape-pt-0 rounded border-[transparent] bg-white bg-origin-border shadow shape-p-6 shape-border tablet:grid tablet:grid-cols-[max-content_1fr] tablet:items-center tablet:gap-4 tablet:shape-px-10 tablet:shape-py-8',
+										job.featured
+											? 'bg-gradient-to-r from-green from-[0.3125rem] to-white to-[0.3125rem]'
+											: '',
+									)}
+									key={job.id}
+									data-testid="job"
+									layout
+									initial={{ scale: 0.8, opacity: 0 }}
+									animate={{ scale: 1, opacity: 1 }}
+									exit={{ scale: 0.8, opacity: 0 }}
+								>
+									<div className="flex flex-col gap-2 tablet:flex-row tablet:gap-6">
+										<Img
+											className="-mt-6 size-12 tablet:mt-0 tablet:size-[5.5rem]"
+											alt=""
+											priority
+											src={job.logo}
+											width="88"
+											height="88"
+										/>
+										<div className="grid">
+											<h3 className="mt-2 tablet:mt-[0.625rem]">
+												<a
+													className="text-position text-grey transition-colors hocus:text-green"
+													href="#"
 												>
-													<li>{job.postedAt}</li>
-													<li className="flex flex-wrap items-center gap-[0.625rem] tablet:gap-4">
-														<Dot />
-														{job.contract}
-													</li>
-													<li className="flex flex-wrap items-center gap-[0.625rem] tablet:gap-4">
-														<Dot />
-														{job.location}
-													</li>
+													{job.position}
+												</a>
+											</h3>
+											<div className="row-start-1 flex flex-wrap items-center gap-x-7 gap-y-4 tablet:gap-4">
+												<p className="text-company text-green">{job.company}</p>
+												<ul className="flex flex-wrap gap-2" role="list">
+													{job.new ? (
+														<li className="grid h-6 items-center whitespace-nowrap rounded-full border-[transparent] bg-green text-meta uppercase text-white shape-px-2 shape-border">
+															<span className="translate-y-[0.14em]">New!</span>
+														</li>
+													) : null}
+													{job.featured ? (
+														<li className="grid h-6 items-center whitespace-nowrap rounded-full border-[transparent] bg-grey text-meta uppercase text-white shape-px-2 shape-border">
+															<span className="translate-y-[0.14em]">
+																Featured
+															</span>
+														</li>
+													) : null}
 												</ul>
 											</div>
+											<ul
+												className="mt-2 flex flex-wrap items-center gap-[0.625rem] tablet:gap-4"
+												role="list"
+											>
+												<li>{job.postedAt}</li>
+												<li className="flex flex-wrap items-center gap-[0.625rem] tablet:gap-4">
+													<Dot />
+													{job.contract}
+												</li>
+												<li className="flex flex-wrap items-center gap-[0.625rem] tablet:gap-4">
+													<Dot />
+													{job.location}
+												</li>
+											</ul>
 										</div>
-										<hr className="mt-4 text-lighter-grey tablet:hidden" />
-										<ul
-											className="mt-4 flex flex-wrap gap-4 tablet:mt-0 tablet:justify-end"
-											role="list"
-										>
-											{getTags(job).map((tag) => (
-												<Tag
-													key={tag}
-													name={tag}
-													onSelect={() => {
-														filters.add(tag)
-														announce(`Added tag "${tag}" to filter.`)
-													}}
-												/>
-											))}
-										</ul>
-									</motion.li>
-								))}
-							</AnimatePresence>
-						</MotionConfig>
+									</div>
+									<hr className="mt-4 text-lighter-grey tablet:hidden" />
+									<ul
+										className="mt-4 flex flex-wrap gap-4 tablet:mt-0 tablet:justify-end"
+										role="list"
+									>
+										{getTags(job).map((tag) => (
+											<Tag
+												key={tag}
+												name={tag}
+												onSelect={() => {
+													filters.add(tag)
+													announce(`Added tag "${tag}" to filter.`)
+												}}
+											/>
+										))}
+									</ul>
+								</motion.li>
+							))}
+						</AnimatePresence>
 					</ul>
 				</Landmark.Root>
 			</div>
@@ -277,8 +279,10 @@ function getTags(job: Job) {
 export function AppWithProviders() {
 	return (
 		<AnnouncementProvider>
-			<App />
-			<Announcer />
+			<MotionConfig reducedMotion="user">
+				<App />
+				<Announcer />
+			</MotionConfig>
 		</AnnouncementProvider>
 	)
 }
