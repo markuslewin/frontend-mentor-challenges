@@ -175,26 +175,30 @@ function App() {
 													<ul className="flex flex-wrap gap-2" role="list">
 														{job.new ? (
 															<li className="grid h-6 items-center whitespace-nowrap rounded-full border-[transparent] bg-green text-meta uppercase text-white shape-px-2 shape-border">
-																New!
+																<span className="translate-y-[0.14em]">
+																	New!
+																</span>
 															</li>
 														) : null}
 														{job.featured ? (
 															<li className="grid h-6 items-center whitespace-nowrap rounded-full border-[transparent] bg-grey text-meta uppercase text-white shape-px-2 shape-border">
-																Featured
+																<span className="translate-y-[0.14em]">
+																	Featured
+																</span>
 															</li>
 														) : null}
 													</ul>
 												</div>
 												<ul
-													className="flex flex-wrap items-center gap-[0.625rem]"
+													className="mt-2 flex flex-wrap items-center gap-[0.625rem] tablet:gap-4"
 													role="list"
 												>
 													<li>{job.postedAt}</li>
-													<li className="flex flex-wrap items-center gap-[0.625rem]">
+													<li className="flex flex-wrap items-center gap-[0.625rem] tablet:gap-4">
 														<Dot />
 														{job.contract}
 													</li>
-													<li className="flex flex-wrap items-center gap-[0.625rem]">
+													<li className="flex flex-wrap items-center gap-[0.625rem] tablet:gap-4">
 														<Dot />
 														{job.location}
 													</li>
