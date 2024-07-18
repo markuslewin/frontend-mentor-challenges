@@ -65,7 +65,7 @@ function App() {
 							<p className="sr-only">No search filters applied.</p>
 						) : (
 							<motion.div
-								className="grid grid-cols-[1fr_auto] items-center gap-10 rounded bg-white p-5 text-light-grey shadow tablet:px-10"
+								className="grid grid-cols-[1fr_auto] items-center gap-10 rounded border-[transparent] bg-white text-light-grey shadow shape-p-5 shape-border tablet:px-10"
 								key="filters"
 								initial={{
 									opacity: 0,
@@ -83,7 +83,7 @@ function App() {
 											className="grid h-8 grid-cols-[max-content_max-content] text-tag"
 											key={filter}
 										>
-											<p className="grid items-center rounded-s bg-green/10 px-2 text-green">
+											<p className="grid items-center rounded-s border-[transparent] bg-green/10 text-green shape-px-2 shape-border">
 												<span className="translate-y-[0.125rem]">{filter}</span>
 											</p>
 											<form
@@ -94,7 +94,7 @@ function App() {
 													announce(`Removed tag "${filter}" from filter.`)
 												}}
 											>
-												<button className="grid w-8 place-items-center rounded-e bg-green text-white transition-colors hocus:bg-grey">
+												<button className="grid w-8 place-items-center rounded-e border border-[transparent] bg-green text-white transition-colors hocus:bg-grey">
 													<Icon
 														className="size-[0.875rem]"
 														name="icon-remove"
@@ -138,7 +138,7 @@ function App() {
 								{filteredJobs.map((job) => (
 									<motion.li
 										className={cx(
-											'rounded bg-white p-6 pt-0 shadow tablet:grid tablet:grid-cols-[max-content_1fr] tablet:items-center tablet:gap-4 tablet:px-10 tablet:py-8',
+											'shape-pt-0 rounded border-[transparent] bg-white bg-origin-border shadow shape-p-6 shape-border tablet:grid tablet:grid-cols-[max-content_1fr] tablet:items-center tablet:gap-4 tablet:shape-px-10 tablet:shape-py-8',
 											job.featured
 												? 'bg-gradient-to-r from-green from-[0.3125rem] to-white to-[0.3125rem]'
 												: '',
@@ -174,12 +174,12 @@ function App() {
 													</p>
 													<ul className="flex flex-wrap gap-2" role="list">
 														{job.new ? (
-															<li className="grid h-6 items-center whitespace-nowrap rounded-full bg-green px-2 text-meta uppercase text-white">
+															<li className="grid h-6 items-center whitespace-nowrap rounded-full border-[transparent] bg-green text-meta uppercase text-white shape-px-2 shape-border">
 																New!
 															</li>
 														) : null}
 														{job.featured ? (
-															<li className="grid h-6 items-center whitespace-nowrap rounded-full bg-grey px-2 text-meta uppercase text-white">
+															<li className="grid h-6 items-center whitespace-nowrap rounded-full border-[transparent] bg-grey text-meta uppercase text-white shape-px-2 shape-border">
 																Featured
 															</li>
 														) : null}
@@ -251,7 +251,7 @@ function Tag({ name, onSelect }: TagProps) {
 				}}
 			>
 				<button
-					className="h-8 rounded-sm bg-green/10 px-2 text-tag text-green transition-colors hocus:bg-green hocus:text-white"
+					className="h-8 rounded-sm border-[transparent] bg-green/10 text-tag text-green transition-colors shape-px-2 shape-border hocus:bg-green hocus:text-white"
 					aria-describedby={descriptionId}
 				>
 					{name}

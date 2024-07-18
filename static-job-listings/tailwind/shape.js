@@ -30,6 +30,12 @@ export const shape = plugin(({ matchUtilities, theme }) => {
 					borderWidth,
 				}
 			},
+			'shape-pt': (size) => {
+				return {
+					'padding-top': getPadding(size),
+					borderWidth,
+				}
+			},
 		},
 		{ values: theme('size') },
 	)
