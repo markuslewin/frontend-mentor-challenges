@@ -11,18 +11,11 @@ export function Picture(props: PictureProps) {
 }
 
 export interface SourceProps extends SourceHTMLAttributes<HTMLSourceElement> {
-	images: [Image, ...Image[]]
+	images?: [Image, ...Image[]]
 }
 
 export function Source({ images, ...props }: SourceProps) {
-	return (
-		<source
-			srcSet={getSrcSet(images)}
-			width={images[0].metadata.width}
-			height={images[0].metadata.height}
-			{...props}
-		/>
-	)
+	return <source {...getImagesProps(images)} {...props} />
 }
 
 export interface ImgProps extends ImgHTMLAttributes<HTMLImageElement> {
@@ -54,9 +47,7 @@ function getSrcSet(images: Image[]) {
 		.join(', ')
 }
 
-function getImagesProps(
-	images: ImgProps['images'],
-): ImgHTMLAttributes<HTMLImageElement> {
+function getImagesProps(images: ImgProps['images']) {
 	if (images === undefined) {
 		return {}
 	} else {
