@@ -1,188 +1,59 @@
-import { getFormProps, getInputProps, useForm } from '@conform-to/react'
-import { getZodConstraint, parseWithZod } from '@conform-to/zod'
-import { useMediaQuery } from '@uidotdev/usehooks'
-import { Suspense, useRef, useState } from 'react'
-import { flushSync } from 'react-dom'
-import {
-	Await,
-	useAsyncError,
-	useAsyncValue,
-	useLoaderData,
-} from 'react-router-dom'
-import { z } from 'zod'
-import { getAsset } from '#app/assets'
-import { Button } from '#app/components/button'
-import { Input } from '#app/components/input'
-import * as Landmark from '#app/components/landmark'
-import { Picture, Source, Img } from '#app/components/picture'
-import { clientEnv } from '#app/utils/env/client'
-import { useSubmitInput } from '#app/utils/message'
-import { media } from '#app/utils/screens'
-import { type TimeResponse } from '#app/utils/time'
-
-const FavoriteColorSchema = z.object({
-	color: z
-		.string({ required_error: 'Color is required' })
-		.refine((val) => val.toLowerCase() === 'blue', {
-			message: 'Color must be "blue"',
-		}),
-})
-
 export function Home() {
 	return (
 		<>
-			<h1 className="text-heading-l">My React template</h1>
-			<p className="mt-8">This is my React template.</p>
-			<h2 className="mt-24 text-heading-m">Mocked API</h2>
-			<MockedApi />
-			<h2 className="mt-24 text-heading-m">Environment variables</h2>
-			<EnvVariables />
-			<h2 className="mt-24 text-heading-m">Form validation</h2>
-			<FormValidation />
-			<h2 className="mt-24 text-heading-m">Picture component</h2>
-			<PictureComponent />
-			<Landmark.Root>
-				<Landmark.Label>
-					<h2 className="mt-24 text-heading-m">API endpoint</h2>
-				</Landmark.Label>
-				<ApiEndpoint />
-			</Landmark.Root>
+			<h1>More than just shorter links</h1>
 		</>
 	)
 }
 
-function MockedApi() {
-	const data = useLoaderData() as { time: TimeResponse }
+//   Build your brand’s recognition and get detailed insights
+//   on how your links are performing.
 
-	return (
-		<div className="mt-8">
-			<Suspense fallback={<pre>Loading time data...</pre>}>
-				<Await resolve={data.time} errorElement={<TimeError />}>
-					<TimeResolve />
-				</Await>
-			</Suspense>
-		</div>
-	)
-}
+//   Get Started
 
-function TimeResolve() {
-	const time = useAsyncValue()
+//   Shorten a link here...
 
-	return <pre>{JSON.stringify(time, undefined, '\t')}</pre>
-}
+//   Shorten It!
 
-function TimeError() {
-	const error = useAsyncError()
+//   Advanced Statistics
 
-	return <pre>{JSON.stringify(error, undefined, '\t')}</pre>
-}
+//   Track how your links are performing across the web with our
+//   advanced statistics dashboard.
 
-function EnvVariables() {
-	return (
-		<div className="mt-8 grid gap-8">
-			<p>Environment variables for the client:</p>
-			<pre>{JSON.stringify(clientEnv, undefined, '\t')}</pre>
-		</div>
-	)
-}
+//   Brand Recognition
 
-function FormValidation() {
-	const outputRef = useRef<HTMLParagraphElement>(null)
-	const [favoriteColor, setFavoriteColor] = useState('')
-	const [form, fields] = useForm({
-		constraint: getZodConstraint(FavoriteColorSchema),
-		shouldValidate: 'onBlur',
-		// shouldRevalidate: "onInput",
-		onValidate({ formData }) {
-			return parseWithZod(formData, { schema: FavoriteColorSchema })
-		},
-		onSubmit(event, { submission }) {
-			event.preventDefault()
+//   Boost your brand recognition with each click. Generic links don’t
+//   mean a thing. Branded links help instil confidence in your content.
 
-			if (submission?.status !== 'success') return
+//   Detailed Records
 
-			flushSync(() => {
-				setFavoriteColor(submission.value.color)
-			})
-			outputRef.current?.focus()
-		},
-	})
+//   Gain insights into who is clicking your links. Knowing when and where
+//   people engage with your content helps inform better decisions.
 
-	return (
-		<>
-			<p className="mt-8">This form is validated with Conform and Zod.</p>
-			<form className="mt-8 max-w-sm" {...getFormProps(form)}>
-				<div>
-					<label className="block" htmlFor={fields.color.id}>
-						Favorite color:
-					</label>
-					<Input {...getInputProps(fields.color, { type: 'text' })} />
-					<p className="mt-1 text-error-foreground" id={fields.color.errorId}>
-						{fields.color.errors}
-					</p>
-				</div>
-				<Button type="submit">Submit</Button>
-			</form>
-			<p className="mt-6" ref={outputRef} tabIndex={-1}>
-				{favoriteColor
-					? `Your favorite color is ${favoriteColor.toLowerCase()}!`
-					: null}
-			</p>
-		</>
-	)
-}
+//   Fully Customizable
 
-function PictureComponent() {
-	const tabletMatches = useMediaQuery(media.tablet)
+//   Improve brand awareness and content discoverability through customizable
+//   links, supercharging audience engagement.
 
-	return (
-		<>
-			<Picture>
-				<Source
-					media={media.tablet}
-					images={[
-						{
-							metadata: getAsset('/flower.jpg'),
-							density: '1x',
-						},
-					]}
-				/>
-				<Img
-					className="mt-6 w-full bg-[hsl(189_90%_31%)]"
-					alt={tabletMatches ? 'Flower' : 'Coffee'}
-					images={[
-						{
-							metadata: getAsset('/coffee.jpg'),
-							density: '1x',
-						},
-					]}
-				/>
-			</Picture>
-		</>
-	)
-}
+//   Boost your links today
 
-function ApiEndpoint() {
-	const { fetcher, submit } = useSubmitInput()
+//   Get Started
 
-	return (
-		<>
-			<p className="mt-8">
-				<Button
-					type="button"
-					aria-disabled={fetcher.state !== 'idle'}
-					onClick={() => {
-						submit({ input: 'Some data' })
-					}}
-				>
-					Post to serverless function
-				</Button>
-			</p>
-			<pre className="mt-4" data-testid="server-message">
-				{fetcher.data === undefined
-					? 'Data will be displayed here.'
-					: JSON.stringify(fetcher.data, undefined, '\t')}
-			</pre>
-		</>
-	)
-}
+//   Features
+
+//   Link Shortening
+//   Branded Links
+//   Analytics
+
+//   Resources
+
+//   Blog
+//   Developers
+//   Support
+
+//   Company
+
+//   About
+//   Our Team
+//   Careers
+//   Contact

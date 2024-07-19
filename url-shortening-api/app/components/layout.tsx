@@ -12,6 +12,14 @@ import { RouteAnnouncer } from '#app/components/route-announcer'
 import { media } from '#app/utils/screens'
 import { useTheme } from '#app/utils/theme'
 
+// todo
+//   Features
+//   Pricing
+//   Resources
+
+//   Login
+//   Sign Up
+
 export function Layout() {
 	const { theme, setTheme } = useTheme()
 	const tabletMatches = useMediaQuery(media.tablet)
