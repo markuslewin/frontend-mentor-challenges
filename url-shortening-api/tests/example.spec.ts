@@ -1,11 +1,11 @@
 import { test, expect } from '@playwright/test'
-import { urls as worldtimeapiUrls } from '#app/utils/time'
-import { createMockResponse as createWorldtimeapiResponse } from '#tests/mocks/worldtimeapi.js'
+import { urls as cleanuriUrls } from '#app/utils/shortener'
+import { createMockResponse as createCleanuriResponse } from '#tests/mocks/cleanuri'
 
 test.beforeEach(async ({ context }) => {
 	// Append * to include requests containing search params
-	await context.route(`${worldtimeapiUrls.ip}*`, async (route) => {
-		const json = createWorldtimeapiResponse()
+	await context.route(`${cleanuriUrls.shorten}*`, async (route) => {
+		const json = createCleanuriResponse()
 		await route.fulfill({
 			json,
 		})

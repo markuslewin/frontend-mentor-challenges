@@ -1,11 +1,15 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import '#app/index.css'
-import { RouterProvider, createBrowserRouter, defer } from 'react-router-dom'
+import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import { AnnouncementProvider } from '#app/components/announcer'
 import { Layout } from '#app/components/layout'
 import { Home } from '#app/routes/home/route'
-import { handle as homeHandle } from '#app/routes/home/routing'
+import {
+	action as homeAction,
+	handle as homeHandle,
+	loader as homeLoader,
+} from '#app/routes/home/routing'
 import { NestedRoutes } from '#app/routes/nested-routes/route'
 import { NestedRoutesIndex } from '#app/routes/nested-routes._index/route'
 import {
@@ -26,7 +30,6 @@ import {
 } from '#app/routes/nested-routes.update.$id/routing'
 import { clientEnv } from '#app/utils/env/client'
 import { action as messageAction } from '#app/utils/message'
-import { getTime } from '#app/utils/time'
 
 async function enableMocking() {
 	// Tree shake mocks when building for production
@@ -45,11 +48,8 @@ enableMocking().then(() => {
 				{
 					index: true,
 					handle: homeHandle,
-					loader() {
-						return defer({
-							time: getTime(),
-						})
-					},
+					loader: homeLoader,
+					action: homeAction,
 					Component: Home,
 				},
 				{
