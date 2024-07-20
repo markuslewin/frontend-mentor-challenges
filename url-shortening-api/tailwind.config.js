@@ -25,6 +25,7 @@ export default {
 			'very-dark-violet': 'hsl(260 8% 14%)',
 			// Other
 			white: 'hsl(0 0% 100%)',
+			'light-cyan': 'hsl(180 56% 75%)',
 		},
 		fontFamily: {
 			base: "'Poppins', sans-serif",

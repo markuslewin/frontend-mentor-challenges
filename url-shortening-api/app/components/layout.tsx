@@ -11,24 +11,36 @@ export function Layout() {
 
 	return (
 		<>
-			<div className="min-h-screen center-gutter-4 tablet:center-gutter-10">
-				<header className="center-5xl">
-					<div>
-						<Logo />
-						<nav>
+			<div className="min-h-screen center-gutter-6 tablet:center-gutter-10">
+				<header className="pt-10 center-[69.375rem] tablet:pt-12">
+					<div className="flex flex-wrap items-center gap-11">
+						<p className="text-very-dark-blue">
+							<Logo />
+						</p>
+						<nav className="text-nav-3 flex grow flex-wrap items-center justify-between gap-12">
 							{tabletMatches ? (
 								<>
-									<ul role="list">
+									<ul className="flex flex-wrap items-center gap-8" role="list">
 										<DesktopLink name="Features" />
 										<DesktopLink name="Pricing" />
 										<DesktopLink name="Resources" />
 									</ul>
-									<ul role="list">
+									<ul className="flex flex-wrap items-center gap-9" role="list">
 										<li>
-											<Link to="#">Login</Link>
+											<Link
+												className="hocus:text-very-dark-blue transition-colors"
+												to="#"
+											>
+												Login
+											</Link>
 										</li>
 										<li>
-											<Link to="#">Sign Up</Link>
+											<Link
+												className="bg-cyan hocus:bg-light-cyan text-white inline-grid h-10 items-center whitespace-nowrap rounded-full transition-colors shape-px-6"
+												to="#"
+											>
+												Sign Up
+											</Link>
 										</li>
 									</ul>
 								</>
@@ -66,7 +78,9 @@ function Footer() {
 
 	return (
 		<footer>
-			<Logo />
+			<p>
+				<Logo />
+			</p>
 			<nav aria-labelledby={navLabel}>
 				<h2 id={navLabel}>Site navigation</h2>
 				<div>
@@ -156,12 +170,10 @@ function Footer() {
 
 function Logo() {
 	return (
-		<p>
-			<Link to="/">
-				<Icon name="logo" />
-				<span>Shortly</span>
-			</Link>
-		</p>
+		<Link to="/">
+			<Icon className="h-[2.0625rem] w-[7.5625rem]" name="logo" />
+			<span className="sr-only">Shortly</span>
+		</Link>
 	)
 }
 
@@ -172,7 +184,9 @@ interface DesktopLinkProps {
 function DesktopLink({ name }: DesktopLinkProps) {
 	return (
 		<li>
-			<Link to="#">{name}</Link>
+			<Link className="hocus:text-very-dark-blue transition-colors" to="#">
+				{name}
+			</Link>
 		</li>
 	)
 }
