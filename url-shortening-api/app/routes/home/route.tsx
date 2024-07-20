@@ -31,7 +31,9 @@ export function Home() {
 					priority
 				/>
 				<div>
-					<h1>More than just shorter links</h1>
+					<h1 className="text-very-dark-blue text-h1">
+						More than just shorter links
+					</h1>
 					<p>
 						Build your brand’s recognition and get detailed insights on how your
 						links are performing.

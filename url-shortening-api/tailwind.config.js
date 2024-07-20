@@ -1,29 +1,10 @@
-import { invariant } from '@epic-web/invariant'
-import { calculateClamps } from 'utopia-core'
 import { screens } from './app/utils/screens'
 import { center } from './tailwind/center'
+import { clamp } from './tailwind/clamp'
 import { clickable } from './tailwind/clickable'
 import { hocus } from './tailwind/hocus'
 // import { rem } from "./tailwind/rem";
 import { shape } from './tailwind/shape'
-
-const clamps = calculateClamps({
-	minWidth: 375,
-	maxWidth: 1110,
-	// todo: Add type scale
-	pairs: [
-		[32, 48],
-		[24, 39],
-		[16, 20],
-	],
-})
-
-function getClamp(step) {
-	const info = clamps[step]
-	invariant(info !== undefined, `Couldn't find clamp at step ${step}`)
-
-	return info.clamp
-}
 
 /** @type {import('tailwindcss').Config} */
 export default {
@@ -32,44 +13,60 @@ export default {
 	theme: {
 		screens,
 		colors: {
-			// todo: Add colors
-			background: 'hsl(var(--background))',
-			foreground: 'hsl(var(--foreground))',
-			overlay: 'hsl(var(--overlay))',
-			menu: {
-				DEFAULT: 'hsl(var(--menu))',
-				foreground: 'hsl(var(--menu-foreground))',
-			},
-			button: {
-				DEFAULT: 'hsl(var(--button))',
-				foreground: 'hsl(var(--button-foreground))',
-				hocus: 'hsl(var(--button-hocus))',
-			},
-			input: {
-				DEFAULT: 'hsl(var(--input))',
-				'border-hocus': 'hsl(var(--input-border-hocus))',
-			},
-			pill: {
-				DEFAULT: 'hsl(var(--pill))',
-				foreground: 'hsl(var(--pill-foreground))',
-			},
-			delete: {
-				foreground: 'hsl(var(--delete-foreground))',
-				'foreground-hocus': 'hsl(var(--delete-foreground-hocus))',
-			},
-			error: {
-				foreground: 'hsl(var(--error-foreground))',
-			},
+			// Primary
+			cyan: 'hsl(180 66% 49%)',
+			'dark-violet': 'hsl(257 27% 26%)',
+			// Secondary
+			red: 'hsl(0 87% 67%)',
+			// Neutral
+			gray: 'hsl(0 0% 75%)',
+			'grayish-violet': 'hsl(257 7% 63%)',
+			'very-dark-blue': 'hsl(255 11% 22%)',
+			'very-dark-violet': 'hsl(260 8% 14%)',
+			// Other
+			white: 'hsl(0 0% 100%)',
 		},
 		fontFamily: {
-			// todo: Add font from Fontsource
-			base: 'Inter, system-ui, Avenir, Helvetica, Arial, sans-serif',
+			base: "'Poppins', sans-serif",
 		},
 		fontSize: {
-			// todo: Add font sizes
-			'heading-l': [getClamp(0), { fontWeight: 500, lineHeight: 1 }],
-			'heading-m': [getClamp(1), { fontWeight: 500, lineHeight: 1 }],
-			body: [getClamp(2), { lineHeight: 1.2 }],
+			h1: [
+				clamp(42, 80),
+				{ fontWeight: 700, lineHeight: 1.125, letterSpacing: '-0.025em' },
+			],
+			h2: [
+				clamp(28, 40),
+				{ fontWeight: 700, lineHeight: 1.2, letterSpacing: '-0.025em' },
+			],
+			h3: [clamp(22, 22), { fontWeight: 700, lineHeight: 1.5 }],
+			'body-1': [
+				clamp(18, 22),
+				{ fontWeight: 500, lineHeight: 1.636, letterSpacing: '0.0068em' },
+			],
+			'body-2': [
+				clamp(16, 18),
+				{ fontWeight: 500, lineHeight: 1.778, letterSpacing: '0.0067em' },
+			],
+			'body-3': [clamp(15, 15), { fontWeight: 500, lineHeight: 1.734 }],
+			button: [clamp(20, 20), { fontWeight: 700, lineHeight: 1.5 }],
+			input: [
+				clamp(16, 20),
+				{ fontWeight: 500, lineHeight: 1.8, letterSpacing: '0.0075em' },
+			],
+			error: [
+				clamp(12, 16),
+				{ fontWeight: 500, lineHeight: 1.125, letterSpacing: '0.0069em' },
+			],
+			'nav-1': [clamp(18, 18), { fontWeight: 700, lineHeight: 1.5 }],
+			'nav-2': [
+				clamp(16, 16),
+				{ fontWeight: 700, lineHeight: 1.5, letterSpacing: '-0.016em' },
+			],
+			'nav-3': [clamp(15, 15), { fontWeight: 700, lineHeight: 1.53 }],
+			'nav-4': [
+				clamp(15, 15),
+				{ fontWeight: 500, lineHeight: 1.53, letterSpacing: '-0.015em' },
+			],
 		},
 		extend: {},
 	},

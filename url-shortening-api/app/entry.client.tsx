@@ -30,6 +30,9 @@ import {
 } from '#app/routes/nested-routes.update.$id/routing'
 import { clientEnv } from '#app/utils/env/client'
 import { action as messageAction } from '#app/utils/message'
+import '@fontsource/poppins/500.css'
+import '@fontsource/poppins/500-italic.css'
+import '@fontsource/poppins/700.css'
 
 async function enableMocking() {
 	// Tree shake mocks when building for production
