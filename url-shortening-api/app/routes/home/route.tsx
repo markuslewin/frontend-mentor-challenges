@@ -22,25 +22,35 @@ export function Home() {
 
 	return (
 		<>
-			<div>
-				<Img
-					alt=""
-					src="/images/illustration-working.svg"
-					width="733"
-					height="482"
-					priority
-				/>
-				<div>
-					<h1 className="text-very-dark-blue text-h1">
-						More than just shorter links
-					</h1>
-					<p>
-						Build your brand’s recognition and get detailed insights on how your
-						links are performing.
-					</p>
-					<p>
-						<Link to="#">Get Started</Link>
-					</p>
+			<div className="overflow-hidden center-[69.375rem]">
+				<div className="grid gap-9 tablet:grid-cols-[665fr_445fr] tablet:gap-0">
+					<Img
+						className="h-[21.0625rem] w-auto min-w-0 max-w-none tablet:order-1 tablet:h-[30.125rem]"
+						alt=""
+						src="/images/illustration-working.svg"
+						width="733"
+						height="482"
+						priority
+					/>
+					<div className="grid max-w-[35.625rem] text-center tablet:grid-rows-[61fr_auto_70fr] tablet:text-start">
+						<div className="tablet:row-start-2">
+							<h1 className="text-very-dark-blue text-h1">
+								More than just shorter links
+							</h1>
+							<p className="text-body-1 mt-4 max-w-[33.75rem] tablet:mt-1">
+								Build your brand’s recognition and get detailed insights on how
+								your links are performing.
+							</p>
+							<p className="mt-8 tablet:mt-10">
+								<Link
+									className="bg-cyan hocus:bg-light-cyan text-white inline-grid h-14 items-center whitespace-nowrap rounded-full text-button transition-colors shape-px-10"
+									to="#"
+								>
+									Get Started
+								</Link>
+							</p>
+						</div>
+					</div>
 				</div>
 			</div>
 			<Landmark.Root>

@@ -57,7 +57,7 @@ export function Layout() {
 						</nav>
 					</div>
 				</header>
-				<main>
+				<main className="mt-6 tablet:mt-20">
 					<Outlet />
 				</main>
 				<Footer />
