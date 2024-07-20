@@ -3,7 +3,7 @@ import { center } from './tailwind/center'
 import { clamp } from './tailwind/clamp'
 import { clickable } from './tailwind/clickable'
 import { hocus } from './tailwind/hocus'
-// import { rem } from "./tailwind/rem";
+import { rem } from './tailwind/rem'
 import { shape } from './tailwind/shape'
 
 /** @type {import('tailwindcss').Config} */
@@ -25,6 +25,7 @@ export default {
 			'very-dark-violet': 'hsl(260 8% 14%)',
 			// Other
 			white: 'hsl(0 0% 100%)',
+			whiteish: 'hsl(225 33% 95%)',
 			'light-cyan': 'hsl(180 56% 75%)',
 		},
 		fontFamily: {
@@ -68,6 +69,11 @@ export default {
 				clamp(15, 15),
 				{ fontWeight: 500, lineHeight: 1.53, letterSpacing: '-0.015em' },
 			],
+		},
+		borderRadius: {
+			sm: rem(5),
+			DEFAULT: rem(10),
+			full: '9999px',
 		},
 		extend: {},
 	},

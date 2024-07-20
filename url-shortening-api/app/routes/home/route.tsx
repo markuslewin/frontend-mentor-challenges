@@ -22,7 +22,7 @@ export function Home() {
 
 	return (
 		<>
-			<div className="overflow-hidden center-[69.375rem]">
+			<div className="overflow-hidden pb-40 center-[69.375rem] tablet:pb-[9.5rem]">
 				<div className="grid gap-9 tablet:grid-cols-[665fr_445fr] tablet:gap-0">
 					<Img
 						className="h-[21.0625rem] w-auto min-w-0 max-w-none tablet:order-1 tablet:h-[30.125rem]"
@@ -48,42 +48,58 @@ export function Home() {
 					</div>
 				</div>
 			</div>
-			<div>
-				<Landmark.Root>
-					<Picture>
-						<Source
-							media={media.tablet}
-							srcSet="/images/bg-shorten-desktop.svg"
-							width="1110"
-							height="168"
-						/>
-						<Img
-							alt=""
-							src="/images/bg-shorten-mobile.svg"
-							width="237"
-							height="128"
-						/>
-					</Picture>
+			<div className="bg-whiteish">
+				<Landmark.Root className="center-[69.375rem]">
 					<Landmark.Label>
-						<h2>Shorten links</h2>
+						<h2 className="sr-only">Shorten links</h2>
 					</Landmark.Label>
-					<Form {...getFormProps(form)} method="post">
-						<div>
-							<label htmlFor={fields.url.id}>Link:</label>
-							<input
-								{...getInputProps(fields.url, { type: 'url' })}
-								placeholder="Shorten a link here..."
+					<div className="bg-dark-violet text-white relative isolate -mt-20 overflow-hidden rounded shape-p-6 tablet:-mt-[5.25rem] tablet:shape-px-16 tablet:shape-py-[3.25rem]">
+						<Picture>
+							<Source
+								media={media.tablet}
+								srcSet="/images/bg-shorten-desktop.svg"
+								width="1110"
+								height="168"
 							/>
-							<p id={fields.url.errorId}>{fields.url.errors}</p>
-							<p id={form.errorId}>{form.errors}</p>
-						</div>
-						<button>Shorten It!</button>
-					</Form>
-					<h3>Shortened links</h3>
+							<Img
+								className="absolute inset-0 -z-10 size-full object-cover"
+								alt=""
+								src="/images/bg-shorten-mobile.svg"
+								width="237"
+								height="128"
+							/>
+						</Picture>
+						<Form
+							{...getFormProps(form)}
+							className="grid gap-4 tablet:grid-cols-[1fr_max-content] tablet:gap-6"
+							method="post"
+						>
+							<div>
+								<label className="sr-only" htmlFor={fields.url.id}>
+									Link:
+								</label>
+								<input
+									{...getInputProps(fields.url, { type: 'url' })}
+									className="bg-white placeholder:text-very-dark-blue/50 text-very-dark-blue h-12 w-full rounded text-input shape-px-4 shape-py-[0.375rem] shape-border-[0.1875rem] tablet:h-16 tablet:shape-px-8 tablet:shape-py-[0.875rem]"
+									placeholder="Shorten a link here..."
+								/>
+								<div>
+									<p id={fields.url.errorId}>{fields.url.errors}</p>
+									<p id={form.errorId}>{form.errors}</p>
+								</div>
+							</div>
+							<button className="bg-cyan hocus:bg-light-cyan text-white inline-grid h-12 items-center whitespace-nowrap rounded text-button transition-colors shape-px-10 tablet:h-16">
+								Shorten It!
+							</button>
+						</Form>
+					</div>
+					<h3 className="sr-only">Shortened links</h3>
 					{/* todo */}
-					<ul>
+					<ul className="mt-6 grid gap-6 tablet:gap-4" role="list">
 						{urls.map((link, i) => (
-							<li key={i}>{link}</li>
+							<li className="bg-white text-very-dark-blue rounded-sm" key={i}>
+								{link}
+							</li>
 						))}
 					</ul>
 				</Landmark.Root>
