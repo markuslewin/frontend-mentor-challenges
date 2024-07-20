@@ -103,27 +103,60 @@ export function Home() {
 						))}
 					</ul>
 				</Landmark.Root>
-				<h2>Advanced Statistics</h2>
-				<p>
-					Track how your links are performing across the web with our advanced
-					statistics dashboard.
-				</p>
-				<StatCard
-					icon="icon-brand-recognition"
-					heading="Brand Recognition"
-					body="Boost your brand recognition with each click. Generic links don’t mean a thing. Branded links help instil confidence in your content."
-				/>
-				<StatCard
-					icon="icon-detailed-records"
-					heading="Detailed Records"
-					body="Gain insights into who is clicking your links. Knowing when and where people engage with your content helps inform better decisions."
-				/>
-				<StatCard
-					icon="icon-fully-customizable"
-					heading="Fully Customizable"
-					body="Improve brand awareness and content discoverability through customizable links, supercharging audience engagement."
-				/>
-				<div className="bg-dark-violet text-white relative isolate py-24 text-center tablet:py-14">
+				<div className="center-[69.375rem]">
+					<div>
+						<div className="mx-auto max-w-[33.75rem] text-center">
+							<h2 className="text-h2 text-very-dark-blue mt-20 tablet:mt-[7.5rem]">
+								Advanced Statistics
+							</h2>
+							<p className="text-body-2 mt-4 tablet:mt-[1.125rem]">
+								Track how your links are performing across the web with our
+								advanced statistics dashboard.
+							</p>
+						</div>
+						<div className="mt-[5.75rem] grid gap-[5.75rem] text-center tablet:mt-[6.25rem] tablet:grid-cols-3 tablet:grid-rows-[2.75rem_2.75rem_auto_2.75rem_2.75rem] tablet:gap-x-[1.875rem] tablet:gap-y-0 tablet:text-start">
+							<div className="bg-white text-grayish-violet rounded-sm shape-pb-10 shape-px-8 tablet:col-start-1 tablet:row-span-3">
+								<div className="bg-dark-violet text-cyan mx-auto -mt-[2.75rem] grid size-[5.5rem] place-items-center rounded-full border border-[transparent] tablet:mx-0">
+									<Icon className="size-10" name="icon-brand-recognition" />
+								</div>
+								<h3 className="text-very-dark-blue text-h3 mt-8">
+									Brand Recognition
+								</h3>
+								<p className="mt-3">
+									Boost your brand recognition with each click. Generic links
+									don’t mean a thing. Branded links help instil confidence in
+									your content.
+								</p>
+							</div>
+							<div className="bg-white text-grayish-violet rounded-sm shape-pb-10 shape-px-8 tablet:col-start-2 tablet:row-span-3 tablet:row-start-2">
+								<div className="bg-dark-violet text-cyan mx-auto -mt-[2.75rem] grid size-[5.5rem] place-items-center rounded-full border border-[transparent] tablet:mx-0">
+									<Icon className="size-10" name="icon-detailed-records" />
+								</div>
+								<h3 className="text-very-dark-blue text-h3 mt-8">
+									Detailed Records
+								</h3>
+								<p className="mt-3">
+									Gain insights into who is clicking your links. Knowing when
+									and where people engage with your content helps inform better
+									decisions.
+								</p>
+							</div>
+							<div className="bg-white text-grayish-violet rounded-sm shape-pb-10 shape-px-8 tablet:col-start-3 tablet:row-span-3 tablet:row-start-3">
+								<div className="bg-dark-violet text-cyan mx-auto -mt-[2.75rem] grid size-[5.5rem] place-items-center rounded-full border border-[transparent] tablet:mx-0">
+									<Icon className="size-12" name="icon-fully-customizable" />
+								</div>
+								<h3 className="text-very-dark-blue text-h3 mt-8">
+									Fully Customizable
+								</h3>
+								<p className="mt-3">
+									Improve brand awareness and content discoverability through
+									customizable links, supercharging audience engagement.
+								</p>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div className="bg-dark-violet text-white relative isolate mt-20 py-24 text-center tablet:mt-[7.5rem] tablet:py-14">
 					<Picture>
 						<Source
 							media={media.tablet}
@@ -161,21 +194,5 @@ function GetStartedButton() {
 		>
 			Get Started
 		</Link>
-	)
-}
-
-interface StatCardProps {
-	icon: IconName
-	heading: string
-	body: string
-}
-
-function StatCard({ body, heading, icon }: StatCardProps) {
-	return (
-		<div>
-			<Icon name={icon} />
-			<h3>{heading}</h3>
-			<p>{body}</p>
-		</div>
 	)
 }
