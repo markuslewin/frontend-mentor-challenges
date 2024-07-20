@@ -42,96 +42,109 @@ export function Home() {
 								your links are performing.
 							</p>
 							<p className="mt-8 tablet:mt-10">
-								<Link
-									className="bg-cyan hocus:bg-light-cyan text-white inline-grid h-14 items-center whitespace-nowrap rounded-full text-button transition-colors shape-px-10"
-									to="#"
-								>
-									Get Started
-								</Link>
+								<GetStartedButton />
 							</p>
 						</div>
 					</div>
 				</div>
 			</div>
-			<Landmark.Root>
-				<Picture>
-					<Source
-						media={media.tablet}
-						srcSet="/images/bg-shorten-desktop.svg"
-						width="1110"
-						height="168"
-					/>
-					<Img
-						alt=""
-						src="/images/bg-shorten-mobile.svg"
-						width="237"
-						height="128"
-					/>
-				</Picture>
-				<Landmark.Label>
-					<h2>Shorten links</h2>
-				</Landmark.Label>
-				<Form {...getFormProps(form)} method="post">
-					<div>
-						<label htmlFor={fields.url.id}>Link:</label>
-						<input
-							{...getInputProps(fields.url, { type: 'url' })}
-							placeholder="Shorten a link here..."
-						/>
-						<p id={fields.url.errorId}>{fields.url.errors}</p>
-						<p id={form.errorId}>{form.errors}</p>
-					</div>
-					<button>Shorten It!</button>
-				</Form>
-				<h3>Shortened links</h3>
-				{/* todo */}
-				<ul>
-					{urls.map((link, i) => (
-						<li key={i}>{link}</li>
-					))}
-				</ul>
-			</Landmark.Root>
-			<h2>Advanced Statistics</h2>
-			<p>
-				Track how your links are performing across the web with our advanced
-				statistics dashboard.
-			</p>
-			<StatCard
-				icon="icon-brand-recognition"
-				heading="Brand Recognition"
-				body="Boost your brand recognition with each click. Generic links don’t mean a thing. Branded links help instil confidence in your content."
-			/>
-			<StatCard
-				icon="icon-detailed-records"
-				heading="Detailed Records"
-				body="Gain insights into who is clicking your links. Knowing when and where people engage with your content helps inform better decisions."
-			/>
-			<StatCard
-				icon="icon-fully-customizable"
-				heading="Fully Customizable"
-				body="Improve brand awareness and content discoverability through customizable links, supercharging audience engagement."
-			/>
 			<div>
-				<Picture>
-					<Source
-						media={media.tablet}
-						srcSet="/images/bg-boost-desktop.svg"
-						width="1440"
-						height="250"
-					/>
-					<Img
-						alt=""
-						src="/images/bg-boost-mobile.svg"
-						width="375"
-						height="300"
-					/>
-				</Picture>
-				<h2>Boost your links today</h2>
+				<Landmark.Root>
+					<Picture>
+						<Source
+							media={media.tablet}
+							srcSet="/images/bg-shorten-desktop.svg"
+							width="1110"
+							height="168"
+						/>
+						<Img
+							alt=""
+							src="/images/bg-shorten-mobile.svg"
+							width="237"
+							height="128"
+						/>
+					</Picture>
+					<Landmark.Label>
+						<h2>Shorten links</h2>
+					</Landmark.Label>
+					<Form {...getFormProps(form)} method="post">
+						<div>
+							<label htmlFor={fields.url.id}>Link:</label>
+							<input
+								{...getInputProps(fields.url, { type: 'url' })}
+								placeholder="Shorten a link here..."
+							/>
+							<p id={fields.url.errorId}>{fields.url.errors}</p>
+							<p id={form.errorId}>{form.errors}</p>
+						</div>
+						<button>Shorten It!</button>
+					</Form>
+					<h3>Shortened links</h3>
+					{/* todo */}
+					<ul>
+						{urls.map((link, i) => (
+							<li key={i}>{link}</li>
+						))}
+					</ul>
+				</Landmark.Root>
+				<h2>Advanced Statistics</h2>
 				<p>
-					<Link to="#">Get Started</Link>
+					Track how your links are performing across the web with our advanced
+					statistics dashboard.
 				</p>
+				<StatCard
+					icon="icon-brand-recognition"
+					heading="Brand Recognition"
+					body="Boost your brand recognition with each click. Generic links don’t mean a thing. Branded links help instil confidence in your content."
+				/>
+				<StatCard
+					icon="icon-detailed-records"
+					heading="Detailed Records"
+					body="Gain insights into who is clicking your links. Knowing when and where people engage with your content helps inform better decisions."
+				/>
+				<StatCard
+					icon="icon-fully-customizable"
+					heading="Fully Customizable"
+					body="Improve brand awareness and content discoverability through customizable links, supercharging audience engagement."
+				/>
+				<div className="bg-dark-violet text-white relative isolate py-24 text-center tablet:py-14">
+					<Picture>
+						<Source
+							media={media.tablet}
+							srcSet="/images/bg-boost-desktop.svg"
+							width="1440"
+							height="250"
+						/>
+						<Img
+							className="absolute inset-0 -z-10 size-full object-cover"
+							alt=""
+							src="/images/bg-boost-mobile.svg"
+							width="375"
+							height="300"
+						/>
+					</Picture>
+					<div className="center-[69.375rem]">
+						<div>
+							<h2 className="text-h2">Boost your links today</h2>
+							<p className="mt-4 tablet:mt-8">
+								<GetStartedButton />
+							</p>
+						</div>
+					</div>
+				</div>
 			</div>
 		</>
+	)
+}
+
+function GetStartedButton() {
+	return (
+		<Link
+			className="bg-cyan hocus:bg-light-cyan text-white inline-grid h-14 items-center whitespace-nowrap rounded-full text-button transition-colors shape-px-10"
+			to="#"
+		>
+			Get Started
+		</Link>
 	)
 }
 
