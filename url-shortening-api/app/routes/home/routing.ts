@@ -13,7 +13,7 @@ export const handle = {
 
 export function loader() {
 	return {
-		urls: getUrls(),
+		links: getLinks(),
 	}
 }
 
@@ -30,20 +30,33 @@ export async function action({ request }: ActionFunctionArgs) {
 		return submission.reply({ formErrors: [result.error] })
 	}
 
-	const urls = getUrls()
-	localStorage.setItem('urls', JSON.stringify([...urls, result.result_url]))
+	const links = getLinks()
+	localStorage.setItem(
+		'links',
+		JSON.stringify([
+			...links,
+			{ long: submission.value.url, short: result.result_url },
+		] satisfies Links),
+	)
 
 	return redirect('/')
 }
 
-const urlsSchema = z.array(z.string())
+const linksSchema = z.array(
+	z.object({
+		long: z.string(),
+		short: z.string(),
+	}),
+)
 
-function getUrls() {
+type Links = z.infer<typeof linksSchema>
+
+function getLinks() {
 	try {
-		const raw = localStorage.getItem('urls')
-		invariant(raw, 'No URLs')
+		const raw = localStorage.getItem('links')
+		invariant(raw, 'No links')
 		const json = JSON.parse(raw)
-		return urlsSchema.parse(json)
+		return linksSchema.parse(json)
 	} catch {
 		return []
 	}
