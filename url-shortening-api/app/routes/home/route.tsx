@@ -7,7 +7,6 @@ import { Img, Picture, Source } from '#app/components/picture'
 import { type loader } from '#app/routes/home/routing'
 import { media } from '#app/utils/screens'
 import { shortenRequestSchema } from '#app/utils/shortener'
-import { type IconName } from '@/icon-name'
 
 export function Home() {
 	const { urls } = useLoaderData() as ReturnType<typeof loader>
