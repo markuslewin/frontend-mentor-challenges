@@ -6,7 +6,7 @@ export const urls = {
 }
 
 export const shortenRequestSchema = z.object({
-	url: z.string({ required_error: 'Please add a link' }).url(),
+	link: z.string({ required_error: 'Please add a link' }).url(),
 })
 
 type ShortenRequest = z.infer<typeof shortenRequestSchema>
@@ -22,9 +22,9 @@ const shortenResponseSchema = z.union([
 
 export type ShortenResponse = z.infer<typeof shortenResponseSchema>
 
-export async function getShortenedUrl({ url }: ShortenRequest) {
+export async function getShortenedUrl({ link }: ShortenRequest) {
 	const body = new FormData()
-	body.set('url', url)
+	body.set('url', link)
 	const response = await fetch(urls.shorten, {
 		method: 'post',
 		body,

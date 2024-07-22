@@ -35,7 +35,7 @@ export async function action({ request }: ActionFunctionArgs) {
 		'links',
 		JSON.stringify([
 			...links,
-			{ long: submission.value.url, short: result.result_url },
+			{ long: submission.value.link, short: result.result_url },
 		] satisfies Links),
 	)
 

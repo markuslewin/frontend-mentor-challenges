@@ -1,14 +1,8 @@
 import { getFormProps, getInputProps, useForm } from '@conform-to/react'
 import { getZodConstraint, parseWithZod } from '@conform-to/zod'
 import { useMediaQuery } from '@uidotdev/usehooks'
-import { Suspense, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import { flushSync } from 'react-dom'
-import {
-	Await,
-	useAsyncError,
-	useAsyncValue,
-	useLoaderData,
-} from 'react-router-dom'
 import { z } from 'zod'
 import { getAsset } from '#app/assets'
 import { Button } from '#app/components/button'
@@ -18,7 +12,6 @@ import { Picture, Source, Img } from '#app/components/picture'
 import { clientEnv } from '#app/utils/env/client'
 import { useSubmitInput } from '#app/utils/message'
 import { media } from '#app/utils/screens'
-import { type TimeResponse } from '#app/utils/time'
 
 const FavoriteColorSchema = z.object({
 	color: z
@@ -33,48 +26,20 @@ export function Home() {
 		<>
 			<h1 className="text-heading-l">My React template</h1>
 			<p className="mt-8">This is my React template.</p>
-			<h2 className="mt-24 text-heading-m">Mocked API</h2>
-			<MockedApi />
-			<h2 className="mt-24 text-heading-m">Environment variables</h2>
+			<h2 className="text-heading-m mt-24">Environment variables</h2>
 			<EnvVariables />
-			<h2 className="mt-24 text-heading-m">Form validation</h2>
+			<h2 className="text-heading-m mt-24">Form validation</h2>
 			<FormValidation />
-			<h2 className="mt-24 text-heading-m">Picture component</h2>
+			<h2 className="text-heading-m mt-24">Picture component</h2>
 			<PictureComponent />
 			<Landmark.Root>
 				<Landmark.Label>
-					<h2 className="mt-24 text-heading-m">API endpoint</h2>
+					<h2 className="text-heading-m mt-24">API endpoint</h2>
 				</Landmark.Label>
 				<ApiEndpoint />
 			</Landmark.Root>
 		</>
 	)
-}
-
-function MockedApi() {
-	const data = useLoaderData() as { time: TimeResponse }
-
-	return (
-		<div className="mt-8">
-			<Suspense fallback={<pre>Loading time data...</pre>}>
-				<Await resolve={data.time} errorElement={<TimeError />}>
-					<TimeResolve />
-				</Await>
-			</Suspense>
-		</div>
-	)
-}
-
-function TimeResolve() {
-	const time = useAsyncValue()
-
-	return <pre>{JSON.stringify(time, undefined, '\t')}</pre>
-}
-
-function TimeError() {
-	const error = useAsyncError()
-
-	return <pre>{JSON.stringify(error, undefined, '\t')}</pre>
 }
 
 function EnvVariables() {
@@ -117,7 +82,7 @@ function FormValidation() {
 						Favorite color:
 					</label>
 					<Input {...getInputProps(fields.color, { type: 'text' })} />
-					<p className="mt-1 text-error-foreground" id={fields.color.errorId}>
+					<p className="text-error-foreground mt-1" id={fields.color.errorId}>
 						{fields.color.errors}
 					</p>
 				</div>

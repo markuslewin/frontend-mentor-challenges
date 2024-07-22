@@ -79,16 +79,16 @@ export function Home() {
 							method="post"
 						>
 							<div>
-								<label className="sr-only" htmlFor={fields.url.id}>
+								<label className="sr-only" htmlFor={fields.link.id}>
 									Link:
 								</label>
 								<input
-									{...getInputProps(fields.url, { type: 'url' })}
+									{...getInputProps(fields.link, { type: 'url' })}
 									className="h-12 w-full rounded bg-white text-input text-very-dark-blue shape-px-4 shape-py-[0.375rem] shape-border-[0.1875rem] placeholder:text-very-dark-blue/50 tablet:h-16 tablet:shape-px-8 tablet:shape-py-[0.875rem]"
 									placeholder="Shorten a link here..."
 								/>
 								<div>
-									<p id={fields.url.errorId}>{fields.url.errors}</p>
+									<p id={fields.link.errorId}>{fields.link.errors}</p>
 									<p id={form.errorId}>{form.errors}</p>
 								</div>
 							</div>
