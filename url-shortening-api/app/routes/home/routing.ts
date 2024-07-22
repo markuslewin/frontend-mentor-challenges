@@ -1,9 +1,8 @@
 import { parseWithZod } from '@conform-to/zod'
-import { invariant } from '@epic-web/invariant'
 import { type ActionFunctionArgs, redirect } from 'react-router-dom'
-import { z } from 'zod'
 import { type AnnouncementHandle } from '#app/components/route-announcer'
-import { getShortenedUrl, shortenRequestSchema } from '#app/utils/shortener.js'
+import { createLink, getLinks } from '#app/utils/links'
+import { getShortenedUrl, shortenRequestSchema } from '#app/utils/shortener'
 
 export const handle = {
 	announcement() {
@@ -30,34 +29,7 @@ export async function action({ request }: ActionFunctionArgs) {
 		return submission.reply({ formErrors: [result.error] })
 	}
 
-	const links = getLinks()
-	localStorage.setItem(
-		'links',
-		JSON.stringify([
-			...links,
-			{ long: submission.value.link, short: result.result_url },
-		] satisfies Links),
-	)
+	createLink({ long: submission.value.link, short: result.result_url })
 
 	return redirect('/')
-}
-
-const linksSchema = z.array(
-	z.object({
-		long: z.string(),
-		short: z.string(),
-	}),
-)
-
-type Links = z.infer<typeof linksSchema>
-
-function getLinks() {
-	try {
-		const raw = localStorage.getItem('links')
-		invariant(raw, 'No links')
-		const json = JSON.parse(raw)
-		return linksSchema.parse(json)
-	} catch {
-		return []
-	}
 }
