@@ -1,5 +1,6 @@
 import { getFormProps, getInputProps, useForm } from '@conform-to/react'
 import { getZodConstraint, parseWithZod } from '@conform-to/zod'
+import { useId } from 'react'
 import { Form, Link, useActionData, useLoaderData } from 'react-router-dom'
 import { Icon } from '#app/components/icon'
 import * as Landmark from '#app/components/landmark'
@@ -9,6 +10,7 @@ import { media } from '#app/utils/screens'
 import { shortenRequestSchema } from '#app/utils/shortener'
 
 export function Home() {
+	const linksLabelId = useId()
 	const { links } = useLoaderData() as ReturnType<typeof loader>
 	const lastResult = useActionData() as any
 	const [form, fields] = useForm({
@@ -92,8 +94,14 @@ export function Home() {
 							</button>
 						</Form>
 					</div>
-					<h3 className="sr-only">Shortened links</h3>
-					<ul className="mt-6 grid gap-6 tablet:gap-4" role="list">
+					<h3 className="sr-only" id={linksLabelId}>
+						Shortened links
+					</h3>
+					<ul
+						className="mt-6 grid gap-6 tablet:gap-4"
+						role="list"
+						aria-labelledby={linksLabelId}
+					>
 						{links.map((link, i) => (
 							<li
 								className="grid rounded-sm border border-[transparent] bg-white text-very-dark-blue tablet:grid-cols-[1fr_auto] tablet:items-center tablet:gap-6 tablet:shape-pl-8 tablet:shape-pr-6 tablet:shape-py-4"
