@@ -1,5 +1,6 @@
 import { getFormProps, getInputProps, useForm } from '@conform-to/react'
 import { getZodConstraint, parseWithZod } from '@conform-to/zod'
+import { cx } from 'class-variance-authority'
 import { useId } from 'react'
 import { Form, Link, useActionData, useLoaderData } from 'react-router-dom'
 import { Icon } from '#app/components/icon'
@@ -8,6 +9,8 @@ import { Img, Picture, Source } from '#app/components/picture'
 import { type loader } from '#app/routes/home/routing'
 import { media } from '#app/utils/screens'
 import { shortenRequestSchema } from '#app/utils/shortener'
+
+const center = 'center-[33.75rem] tablet:center-[69.375rem]'
 
 export function Home() {
 	const linksLabelId = useId()
@@ -23,7 +26,7 @@ export function Home() {
 
 	return (
 		<>
-			<div className="overflow-hidden pb-40 center-[69.375rem] tablet:pb-[9.5rem]">
+			<div className={cx('overflow-hidden pb-40 tablet:pb-[9.5rem]', center)}>
 				<div className="grid gap-9 tablet:grid-cols-[665fr_445fr] tablet:gap-0">
 					<Img
 						className="h-[21.0625rem] w-auto min-w-0 max-w-none tablet:order-1 tablet:h-[30.125rem]"
@@ -50,7 +53,7 @@ export function Home() {
 				</div>
 			</div>
 			<div className="bg-whiteish">
-				<Landmark.Root className="center-[69.375rem]">
+				<Landmark.Root className={cx('', center)}>
 					<Landmark.Label>
 						<h2 className="sr-only">Shorten links</h2>
 					</Landmark.Label>
@@ -128,7 +131,7 @@ export function Home() {
 						))}
 					</ul>
 				</Landmark.Root>
-				<div className="center-[69.375rem]">
+				<div className={cx('', center)}>
 					<div>
 						<div className="mx-auto max-w-[33.75rem] text-center">
 							<h2 className="mt-20 text-h2 text-very-dark-blue tablet:mt-[7.5rem]">
@@ -197,7 +200,7 @@ export function Home() {
 							height="300"
 						/>
 					</Picture>
-					<div className="center-[69.375rem]">
+					<div className={cx('', center)}>
 						<div>
 							<h2 className="text-h2">Boost your links today</h2>
 							<p className="mt-4 tablet:mt-8">
