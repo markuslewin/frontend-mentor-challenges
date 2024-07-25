@@ -122,10 +122,10 @@ export function Home() {
 						role="list"
 						aria-labelledby={linksLabelId}
 					>
-						{links.data.map((link, i) => (
+						{links.data.map((link) => (
 							<li
 								className="grid rounded-sm border border-[transparent] bg-white text-very-dark-blue tablet:grid-cols-[1fr_auto] tablet:items-center tablet:gap-6 tablet:shape-pl-8 tablet:shape-pr-6 tablet:shape-py-4"
-								key={i}
+								key={link.id}
 							>
 								<h4 className="px-4 py-2 text-input tablet:p-0">{link.long}</h4>
 								<div className="border-t-[0.0625rem] border-grayish-violet/25 tablet:hidden" />

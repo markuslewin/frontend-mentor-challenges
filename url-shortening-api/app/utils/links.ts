@@ -1,3 +1,4 @@
+import { createId } from '@paralleldrive/cuid2'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { z } from 'zod'
 import { getShortenedUrl, shortenRequestSchema } from '#app/utils/shortener'
@@ -6,6 +7,7 @@ const linksKey = 'links'
 
 const linksSchema = z.array(
 	z.object({
+		id: z.string(),
 		long: z.string(),
 		short: z.string(),
 	}),
@@ -13,20 +15,21 @@ const linksSchema = z.array(
 
 type Links = z.infer<typeof linksSchema>
 type Link = Links[number]
+type LinkInput = Omit<Link, 'id'>
 
 export function getLinks() {
-	const links = localStorage.getItem(linksKey)
-	if (!links) {
+	try {
+		return linksSchema.parse(JSON.parse(localStorage.getItem(linksKey)!))
+	} catch {
 		return []
 	}
-	return linksSchema.parse(JSON.parse(links))
 }
 
-export function createLink(link: Link) {
+export function createLink({ long, short }: LinkInput) {
 	const links = getLinks()
 	localStorage.setItem(
 		linksKey,
-		JSON.stringify([...links, link] satisfies Links),
+		JSON.stringify([...links, { id: createId(), long, short }] satisfies Links),
 	)
 }
 
