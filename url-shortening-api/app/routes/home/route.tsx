@@ -2,8 +2,7 @@ import { getFormProps, getInputProps, useForm } from '@conform-to/react'
 import { getZodConstraint, parseWithZod } from '@conform-to/zod'
 import { useMediaQuery } from '@uidotdev/usehooks'
 import { cx } from 'class-variance-authority'
-import { useId, useRef } from 'react'
-import { Form, Link } from 'react-router-dom'
+import { useId, useRef, useState } from 'react'
 import { useAnnouncer } from '#app/components/announcer'
 import { Icon } from '#app/components/icon'
 import * as Landmark from '#app/components/landmark'
@@ -136,18 +135,9 @@ export function Home() {
 								<div className="border-t-[0.0625rem] border-grayish-violet/25 tablet:hidden" />
 								<div className="grid gap-3 px-4 pb-4 pt-2 tablet:grid tablet:grid-cols-[auto_6.4375rem] tablet:items-center tablet:gap-6 tablet:p-0">
 									<p className="text-input text-cyan tablet:text-end">
-										{link.short}
+										<a href={link.short}>{link.short}</a>
 									</p>
-									<Form
-										onSubmit={(e) => {
-											e.preventDefault()
-											console.log('todo: Copy')
-										}}
-									>
-										<button className="inline-grid h-10 w-full items-center whitespace-nowrap rounded-sm border border-[transparent] bg-cyan text-[1rem] font-bold text-white transition-colors hocus:bg-light-cyan tablet:text-nav-3">
-											Copy
-										</button>
-									</Form>
+									<Copy text={link.short} />
 								</div>
 							</li>
 						))}
@@ -238,11 +228,50 @@ export function Home() {
 
 function GetStartedButton() {
 	return (
-		<Link
+		<a
 			className="inline-grid h-14 items-center whitespace-nowrap rounded-full bg-cyan text-button text-white transition-colors shape-px-10 hocus:bg-light-cyan"
-			to="#"
+			href="#"
 		>
 			Get Started
-		</Link>
+		</a>
+	)
+}
+
+type TimeoutId = ReturnType<typeof setTimeout>
+
+interface CopyProps {
+	text: string
+}
+
+function Copy({ text }: CopyProps) {
+	const { announce } = useAnnouncer()
+	const [isCopied, setIsCopied] = useState(false)
+	const timeoutIdRef = useRef<TimeoutId>()
+
+	return (
+		<form
+			onSubmit={async (e) => {
+				e.preventDefault()
+				await window.navigator.clipboard.writeText(text)
+				setIsCopied(true)
+				if (timeoutIdRef.current !== undefined) {
+					clearTimeout(timeoutIdRef.current)
+				}
+				timeoutIdRef.current = setTimeout(() => {
+					setIsCopied(false)
+					timeoutIdRef.current = undefined
+				}, 3000)
+				announce('Copied link!')
+			}}
+		>
+			<button
+				className={cx(
+					'inline-grid h-10 w-full items-center whitespace-nowrap rounded-sm border border-[transparent] text-[1rem] font-bold text-white transition-colors tablet:text-nav-3',
+					isCopied ? 'bg-dark-violet' : 'bg-cyan hocus:bg-light-cyan',
+				)}
+			>
+				{isCopied ? 'Copied!' : 'Copy'}
+			</button>
+		</form>
 	)
 }

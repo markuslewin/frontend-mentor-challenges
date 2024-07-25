@@ -13,8 +13,6 @@ test.beforeEach(async ({ context }) => {
 		await route.fulfill({
 			json,
 		})
-
-		await context.grantPermissions(['clipboard-read', 'clipboard-write'])
 	})
 })
 
