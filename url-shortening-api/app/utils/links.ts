@@ -1,5 +1,6 @@
-import { invariant } from '@epic-web/invariant'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { z } from 'zod'
+import { getShortenedUrl, shortenRequestSchema } from '#app/utils/shortener'
 
 const linksKey = 'links'
 
@@ -14,14 +15,11 @@ type Links = z.infer<typeof linksSchema>
 type Link = Links[number]
 
 export function getLinks() {
-	try {
-		const raw = localStorage.getItem(linksKey)
-		invariant(raw, 'No links')
-		const json = JSON.parse(raw)
-		return linksSchema.parse(json)
-	} catch {
+	const links = localStorage.getItem(linksKey)
+	if (!links) {
 		return []
 	}
+	return linksSchema.parse(JSON.parse(links))
 }
 
 export function createLink(link: Link) {
@@ -30,4 +28,29 @@ export function createLink(link: Link) {
 		linksKey,
 		JSON.stringify([...links, link] satisfies Links),
 	)
+}
+
+export function useLinks() {
+	const queryClient = useQueryClient()
+	const query = useQuery({
+		queryKey: ['links'],
+		queryFn: getLinks,
+		initialData: getLinks(),
+	})
+	const create = useMutation({
+		mutationFn: async (formData: FormData) => {
+			const vars = shortenRequestSchema.parse(Object.fromEntries(formData))
+			const result = await getShortenedUrl({ link: vars.link })
+			if ('error' in result) {
+				throw new Error(result.error)
+			}
+
+			createLink({ long: vars.link, short: result.result_url })
+		},
+		onSuccess: async () => {
+			await queryClient.invalidateQueries({ queryKey: ['links'] })
+		},
+	})
+
+	return { data: query.data, create }
 }

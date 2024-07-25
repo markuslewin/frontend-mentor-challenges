@@ -1,12 +1,13 @@
 import { getFormProps, getInputProps, useForm } from '@conform-to/react'
 import { getZodConstraint, parseWithZod } from '@conform-to/zod'
 import { cx } from 'class-variance-authority'
-import { useId } from 'react'
-import { Form, Link, useActionData, useLoaderData } from 'react-router-dom'
+import { useId, useRef } from 'react'
+import { Form, Link } from 'react-router-dom'
+import { useAnnouncer } from '#app/components/announcer'
 import { Icon } from '#app/components/icon'
 import * as Landmark from '#app/components/landmark'
 import { Img, Picture, Source } from '#app/components/picture'
-import { type loader } from '#app/routes/home/routing'
+import { useLinks } from '#app/utils/links'
 import { media } from '#app/utils/screens'
 import { shortenRequestSchema } from '#app/utils/shortener'
 
@@ -14,13 +15,25 @@ const center = 'center-[33.75rem] tablet:center-[69.375rem]'
 
 export function Home() {
 	const linksLabelId = useId()
-	const { links } = useLoaderData() as ReturnType<typeof loader>
-	const lastResult = useActionData() as any
+	const formRef = useRef<HTMLFormElement>(null)
+	const { announce } = useAnnouncer()
+	const links = useLinks()
 	const [form, fields] = useForm({
 		constraint: getZodConstraint(shortenRequestSchema),
-		lastResult,
 		onValidate({ formData }) {
 			return parseWithZod(formData, { schema: shortenRequestSchema })
+		},
+		onSubmit(event) {
+			event.preventDefault()
+			if (!links.create.isPending) {
+				announce('Shortening link')
+				links.create.mutate(new FormData(event.currentTarget), {
+					onSuccess: () => {
+						announce('Link shortened')
+						formRef.current?.reset()
+					},
+				})
+			}
 		},
 	})
 
@@ -73,10 +86,10 @@ export function Home() {
 								height="128"
 							/>
 						</Picture>
-						<Form
+						<form
 							{...getFormProps(form)}
 							className="grid gap-4 tablet:grid-cols-[1fr_max-content] tablet:gap-6"
-							method="post"
+							ref={formRef}
 						>
 							<div>
 								<label className="sr-only" htmlFor={fields.link.id}>
@@ -84,18 +97,22 @@ export function Home() {
 								</label>
 								<input
 									{...getInputProps(fields.link, { type: 'url' })}
-									className="h-12 w-full rounded bg-white text-input text-very-dark-blue shape-px-4 shape-py-[0.375rem] shape-border-[0.1875rem] placeholder:text-very-dark-blue/50 tablet:h-16 tablet:shape-px-8 tablet:shape-py-[0.875rem]"
+									className="h-12 w-full rounded bg-white text-input text-very-dark-blue transition-opacity shape-px-4 shape-py-[0.375rem] shape-border-[0.1875rem] placeholder:text-very-dark-blue/50 disabled:opacity-50 tablet:h-16 tablet:shape-px-8 tablet:shape-py-[0.875rem]"
 									placeholder="Shorten a link here..."
+									disabled={links.create.isPending}
 								/>
 								<div>
 									<p id={fields.link.errorId}>{fields.link.errors}</p>
 									<p id={form.errorId}>{form.errors}</p>
 								</div>
 							</div>
-							<button className="inline-grid h-12 items-center whitespace-nowrap rounded bg-cyan text-button text-white transition-colors shape-px-10 hocus:bg-light-cyan tablet:h-16">
-								Shorten It!
+							<button
+								className="inline-grid h-12 items-center whitespace-nowrap rounded bg-cyan text-button text-white transition-all shape-px-10 disabled:opacity-50 hocus:bg-light-cyan tablet:h-16"
+								disabled={links.create.isPending}
+							>
+								{links.create.isPending ? 'Shortening...' : 'Shorten It!'}
 							</button>
-						</Form>
+						</form>
 					</div>
 					<h3 className="sr-only" id={linksLabelId}>
 						Shortened links
@@ -105,7 +122,7 @@ export function Home() {
 						role="list"
 						aria-labelledby={linksLabelId}
 					>
-						{links.map((link, i) => (
+						{links.data.map((link, i) => (
 							<li
 								className="grid rounded-sm border border-[transparent] bg-white text-very-dark-blue tablet:grid-cols-[1fr_auto] tablet:items-center tablet:gap-6 tablet:shape-pl-8 tablet:shape-pr-6 tablet:shape-py-4"
 								key={i}

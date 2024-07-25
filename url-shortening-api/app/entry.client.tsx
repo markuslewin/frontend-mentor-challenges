@@ -1,3 +1,4 @@
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import '#app/index.css'
@@ -5,11 +6,6 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import { AnnouncementProvider } from '#app/components/announcer'
 import { Layout } from '#app/components/layout'
 import { Home } from '#app/routes/home/route'
-import {
-	action as homeAction,
-	handle as homeHandle,
-	loader as homeLoader,
-} from '#app/routes/home/routing'
 import { NestedRoutes } from '#app/routes/nested-routes/route'
 import { NestedRoutesIndex } from '#app/routes/nested-routes._index/route'
 import {
@@ -50,9 +46,6 @@ enableMocking().then(() => {
 			children: [
 				{
 					index: true,
-					handle: homeHandle,
-					loader: homeLoader,
-					action: homeAction,
 					Component: Home,
 				},
 				{
@@ -89,10 +82,14 @@ enableMocking().then(() => {
 		},
 	])
 
+	const queryClient = new QueryClient()
+
 	function App() {
 		return (
 			<AnnouncementProvider>
-				<RouterProvider router={router} />
+				<QueryClientProvider client={queryClient}>
+					<RouterProvider router={router} />
+				</QueryClientProvider>
 			</AnnouncementProvider>
 		)
 	}
