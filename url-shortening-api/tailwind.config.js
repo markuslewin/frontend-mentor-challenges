@@ -75,7 +75,11 @@ export default {
 			DEFAULT: rem(10),
 			full: '9999px',
 		},
-		extend: {},
+		extend: {
+			aria: {
+				invalid: 'invalid="true"',
+			},
+		},
 	},
 	plugins: [hocus, shape, clickable, center],
 }

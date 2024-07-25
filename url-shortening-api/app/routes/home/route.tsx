@@ -1,5 +1,6 @@
 import { getFormProps, getInputProps, useForm } from '@conform-to/react'
 import { getZodConstraint, parseWithZod } from '@conform-to/zod'
+import { useMediaQuery } from '@uidotdev/usehooks'
 import { cx } from 'class-variance-authority'
 import { useId, useRef } from 'react'
 import { Form, Link } from 'react-router-dom'
@@ -10,12 +11,14 @@ import { Img, Picture, Source } from '#app/components/picture'
 import { useLinks } from '#app/utils/links'
 import { media } from '#app/utils/screens'
 import { shortenRequestSchema } from '#app/utils/shortener'
+import { nbsp } from '#app/utils/unicode'
 
 const center = 'center-[33.75rem] tablet:center-[69.375rem]'
 
 export function Home() {
 	const linksLabelId = useId()
 	const formRef = useRef<HTMLFormElement>(null)
+	const tabletMatches = useMediaQuery(media.tablet)
 	const { announce } = useAnnouncer()
 	const links = useLinks()
 	const [form, fields] = useForm({
@@ -70,7 +73,7 @@ export function Home() {
 					<Landmark.Label>
 						<h2 className="sr-only">Shorten links</h2>
 					</Landmark.Label>
-					<div className="relative isolate -mt-20 overflow-hidden rounded bg-dark-violet text-white shape-p-6 tablet:-mt-[5.25rem] tablet:shape-px-16 tablet:shape-py-[3.25rem]">
+					<div className="relative isolate -mt-20 overflow-hidden rounded bg-dark-violet text-white shape-p-6 tablet:-mt-[5.25rem] tablet:shape-pb-[1.625rem] tablet:shape-px-16 tablet:shape-py-[3.25rem]">
 						<Picture>
 							<Source
 								media={media.tablet}
@@ -97,12 +100,14 @@ export function Home() {
 								</label>
 								<input
 									{...getInputProps(fields.link, { type: 'url' })}
-									className="h-12 w-full rounded bg-white text-input text-very-dark-blue transition-opacity shape-px-4 shape-py-[0.375rem] shape-border-[0.1875rem] placeholder:text-very-dark-blue/50 disabled:opacity-50 tablet:h-16 tablet:shape-px-8 tablet:shape-py-[0.875rem]"
+									className="aria-invalid:border-red aria-invalid:placeholder:text-red/50 h-12 w-full rounded bg-white text-input text-very-dark-blue transition-all shape-px-4 shape-py-[0.375rem] shape-border-[0.1875rem] placeholder:text-very-dark-blue/50 disabled:opacity-50 tablet:h-16 tablet:shape-px-8 tablet:shape-py-[0.875rem]"
 									placeholder="Shorten a link here..."
 									disabled={links.create.isPending}
 								/>
-								<div>
-									<p id={fields.link.errorId}>{fields.link.errors}</p>
+								<div className="mt-1 text-error italic text-red tablet:mt-2">
+									<p id={fields.link.errorId}>
+										{fields.link.errors ?? (tabletMatches ? nbsp : null)}
+									</p>
 									<p id={form.errorId}>{form.errors}</p>
 								</div>
 							</div>
