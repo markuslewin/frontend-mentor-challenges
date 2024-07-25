@@ -2,7 +2,7 @@ import { invariant } from '@epic-web/invariant'
 import { z } from 'zod'
 
 export const urls = {
-	shorten: 'https://cleanuri.com/api/v1/shorten',
+	shorten: '/.netlify/functions/shorten',
 }
 
 export const shortenRequestSchema = z.object({
