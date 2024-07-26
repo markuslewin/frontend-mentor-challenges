@@ -42,15 +42,17 @@ export function Home() {
 	return (
 		<>
 			<div className={cx('overflow-hidden pb-40 tablet:pb-[9.5rem]', center)}>
-				<div className="grid gap-9 tablet:grid-cols-[665fr_445fr] tablet:gap-0">
-					<Img
-						className="h-[21.0625rem] w-auto min-w-0 max-w-none tablet:order-1 tablet:h-[30.125rem]"
-						alt=""
-						src="/images/illustration-working.svg"
-						width="733"
-						height="482"
-						priority
-					/>
+				<div className="grid gap-9 tablet:grid-cols-[635fr_445fr] tablet:gap-[1.875rem]">
+					<div className="tablet:order-1 tablet:self-center">
+						<Img
+							className="h-auto w-[152%] max-w-none tablet:w-[165%]"
+							alt=""
+							src="/images/illustration-working.svg"
+							width="733"
+							height="482"
+							priority
+						/>
+					</div>
 					<div className="grid max-w-[35.625rem] text-center tablet:grid-rows-[61fr_auto_70fr] tablet:text-start">
 						<div className="tablet:row-start-2">
 							<h1 className="text-h1 text-very-dark-blue">
@@ -99,7 +101,7 @@ export function Home() {
 								</label>
 								<input
 									{...getInputProps(fields.link, { type: 'url' })}
-									className="aria-invalid:border-red aria-invalid:placeholder:text-red/50 h-12 w-full rounded bg-white text-input text-very-dark-blue transition-all shape-px-4 shape-py-[0.375rem] shape-border-[0.1875rem] placeholder:text-very-dark-blue/50 disabled:opacity-50 tablet:h-16 tablet:shape-px-8 tablet:shape-py-[0.875rem]"
+									className="h-12 w-full rounded bg-white text-input text-very-dark-blue transition-all shape-px-4 shape-py-[0.375rem] shape-border-[0.1875rem] placeholder:text-very-dark-blue/50 disabled:opacity-50 aria-invalid:border-red aria-invalid:placeholder:text-red/50 tablet:h-16 tablet:shape-px-8 tablet:shape-py-[0.875rem]"
 									placeholder="Shorten a link here..."
 									disabled={links.create.isPending}
 								/>
