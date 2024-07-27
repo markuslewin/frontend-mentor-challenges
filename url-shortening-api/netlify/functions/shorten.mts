@@ -1,5 +1,8 @@
+import { sleep } from '../../app/utils/sleep'
+
 export default async (req: Request) => {
 	// Cleanuri returns inappropriate links. Return some placeholder values.
+	await sleep(1000)
 	const alphabet = 'abcdefghijklmnopqrstuvwxyz'
 	return Response.json({
 		result_url: new Array(6)

@@ -7,7 +7,7 @@ import {
 	useState,
 } from 'react'
 import { flushSync } from 'react-dom'
-import { Link, Outlet, ScrollRestoration } from 'react-router-dom'
+import { Outlet, ScrollRestoration } from 'react-router-dom'
 import { Announcer } from '#app/components/announcer'
 import { Icon } from '#app/components/icon'
 import { RouteAnnouncer } from '#app/components/route-announcer'
@@ -64,20 +64,20 @@ export function Layout() {
 									</ul>
 									<ul className="flex flex-wrap items-center gap-9" role="list">
 										<li>
-											<Link
+											<a
 												className="transition-colors hocus:text-very-dark-blue"
-												to="#"
+												href="#"
 											>
 												Login
-											</Link>
+											</a>
 										</li>
 										<li>
-											<Link
+											<a
 												className="inline-grid h-10 items-center whitespace-nowrap rounded-full bg-cyan text-white transition-colors shape-px-6 hocus:bg-light-cyan"
-												to="#"
+												href="#"
 											>
 												Sign Up
-											</Link>
+											</a>
 										</li>
 									</ul>
 								</>
@@ -169,90 +169,90 @@ function Footer() {
 					</h2>
 					<div>
 						<h3 className="text-nav-2 text-white" id={featuresLabel}>
-							<Link className="transition-colors hocus:text-cyan" to="#">
+							<a className="transition-colors hocus:text-cyan" href="#">
 								Features
-							</Link>
+							</a>
 						</h3>
 						<ul
 							className="mt-[1.375rem] grid gap-[0.625rem]"
 							role="list"
 							aria-labelledby={featuresLabel}
 						>
-							<li>
-								<Link className="transition-colors hocus:text-cyan" to="#">
+							<li className="text-nav-4">
+								<a className="transition-colors hocus:text-cyan" href="#">
 									Link Shortening
-								</Link>
+								</a>
 							</li>
-							<li>
-								<Link className="transition-colors hocus:text-cyan" to="#">
+							<li className="text-nav-4">
+								<a className="transition-colors hocus:text-cyan" href="#">
 									Branded Links
-								</Link>
+								</a>
 							</li>
-							<li>
-								<Link className="transition-colors hocus:text-cyan" to="#">
+							<li className="text-nav-4">
+								<a className="transition-colors hocus:text-cyan" href="#">
 									Analytics
-								</Link>
+								</a>
 							</li>
 						</ul>
 					</div>
 					<div className="mt-10 tablet:mt-0">
 						<h3 className="text-nav-2 text-white" id={resourcesLabel}>
-							<Link className="transition-colors hocus:text-cyan" to="#">
+							<a className="transition-colors hocus:text-cyan" href="#">
 								Resources
-							</Link>
+							</a>
 						</h3>
 						<ul
 							className="mt-[1.375rem] grid gap-[0.625rem]"
 							role="list"
 							aria-labelledby={resourcesLabel}
 						>
-							<li>
-								<Link className="transition-colors hocus:text-cyan" to="#">
+							<li className="text-nav-4">
+								<a className="transition-colors hocus:text-cyan" href="#">
 									Blog
-								</Link>
+								</a>
 							</li>
-							<li>
-								<Link className="transition-colors hocus:text-cyan" to="#">
+							<li className="text-nav-4">
+								<a className="transition-colors hocus:text-cyan" href="#">
 									Developers
-								</Link>
+								</a>
 							</li>
-							<li>
-								<Link className="transition-colors hocus:text-cyan" to="#">
+							<li className="text-nav-4">
+								<a className="transition-colors hocus:text-cyan" href="#">
 									Support
-								</Link>
+								</a>
 							</li>
 						</ul>
 					</div>
 					<div className="mt-10 tablet:mt-0">
 						<h3 className="text-nav-2 text-white" id={companyLabel}>
-							<Link className="transition-colors hocus:text-cyan" to="#">
+							<a className="transition-colors hocus:text-cyan" href="#">
 								Company
-							</Link>
+							</a>
 						</h3>
 						<ul
 							className="mt-[1.375rem] grid gap-[0.625rem]"
 							role="list"
 							aria-labelledby={companyLabel}
 						>
-							<li>
-								<Link className="transition-colors hocus:text-cyan" to="#">
+							<li className="text-nav-4">
+								<a className="transition-colors hocus:text-cyan" href="#">
 									About
-								</Link>
+								</a>
 							</li>
-							<li>
-								<Link className="transition-colors hocus:text-cyan" to="#">
+							<li className="text-nav-4">
+								<a className="transition-colors hocus:text-cyan" href="#">
 									Our Team
-								</Link>
+								</a>
 							</li>
-							<li>
-								<Link className="transition-colors hocus:text-cyan" to="#">
+							<li className="text-nav-4">
+								<a className="transition-colors hocus:text-cyan" href="#">
 									Careers
-								</Link>
+								</a>
 							</li>
-							<li>
-								<Link className="transition-colors hocus:text-cyan" to="#">
+							<li className="text-nav-4">
+								<a className="transition-colors hocus:text-cyan" href="#">
 									Contact
-								</Link>
+								</a>
 							</li>
 						</ul>
 					</div>
@@ -267,40 +267,40 @@ function Footer() {
 						aria-labelledby={socialMediaLabel}
 					>
 						<li>
-							<Link
+							<a
 								className="text-white transition-colors hocus:text-cyan"
-								to="#"
+								href="#"
 							>
 								<Icon className="size-6" name="icon-facebook" />
 								<span className="sr-only">Shortly on Facebook</span>
-							</Link>
+							</a>
 						</li>
 						<li>
-							<Link
+							<a
 								className="text-white transition-colors hocus:text-cyan"
-								to="#"
+								href="#"
 							>
 								<Icon className="h-5 w-6" name="icon-twitter" />
 								<span className="sr-only">Shortly on Twitter</span>
-							</Link>
+							</a>
 						</li>
 						<li>
-							<Link
+							<a
 								className="text-white transition-colors hocus:text-cyan"
-								to="#"
+								href="#"
 							>
 								<Icon className="size-6" name="icon-pinterest" />
 								<span className="sr-only">Shortly on Pinterest</span>
-							</Link>
+							</a>
 						</li>
 						<li>
-							<Link
+							<a
 								className="text-white transition-colors hocus:text-cyan"
-								to="#"
+								href="#"
 							>
 								<Icon className="size-6" name="icon-instagram" />
 								<span className="sr-only">Shortly on Instagram</span>
-							</Link>
+							</a>
 						</li>
 					</ul>
 				</div>
@@ -311,10 +311,10 @@ function Footer() {
 
 function Logo() {
 	return (
-		<Link to="/">
+		<a href="/">
 			<Icon className="h-[2.0625rem] w-[7.5625rem]" name="logo" />
 			<span className="sr-only">Shortly</span>
-		</Link>
+		</a>
 	)
 }
 
@@ -325,9 +325,9 @@ interface DesktopLinkProps {
 function DesktopLink({ name }: DesktopLinkProps) {
 	return (
 		<li>
-			<Link className="transition-colors hocus:text-very-dark-blue" to="#">
+			<a className="transition-colors hocus:text-very-dark-blue" href="#">
 				{name}
-			</Link>
+			</a>
 		</li>
 	)
 }
