@@ -137,7 +137,8 @@ export function Home() {
 								<div className="border-t-[0.0625rem] border-grayish-violet/25 tablet:hidden" />
 								<div className="grid gap-3 px-4 pb-4 pt-2 tablet:grid tablet:grid-cols-[auto_6.4375rem] tablet:items-center tablet:gap-6 tablet:p-0">
 									<p className="text-input text-cyan tablet:text-end">
-										<a href={link.short}>{link.short}</a>
+										{/* <a href={link.short}>{link.short}</a> */}
+										<a href="#">{link.short}</a>
 									</p>
 									<Copy text={link.short} />
 								</div>
