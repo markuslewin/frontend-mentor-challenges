@@ -156,7 +156,8 @@ export function Home() {
 								advanced statistics dashboard.
 							</p>
 						</div>
-						<div className="mt-[5.75rem] grid gap-[5.75rem] text-center tablet:mt-[6.25rem] tablet:grid-cols-3 tablet:grid-rows-[2.75rem_2.75rem_auto_2.75rem_2.75rem] tablet:gap-x-[1.875rem] tablet:gap-y-0 tablet:text-start">
+						<div className="relative isolate mt-[5.75rem] grid gap-[5.75rem] text-center tablet:mt-[6.25rem] tablet:grid-cols-3 tablet:grid-rows-[2.75rem_2.75rem_auto_2.75rem_2.75rem] tablet:gap-x-[1.875rem] tablet:gap-y-0 tablet:text-start">
+							<div className="absolute inset-y-0 -z-10 justify-self-center border-s-[0.5rem] text-cyan tablet:inset-x-0 tablet:inset-y-auto tablet:-translate-y-[1.375rem] tablet:self-center tablet:justify-self-auto tablet:border-s-0 tablet:border-t-[0.5rem]" />
 							<div className="rounded-sm bg-white text-grayish-violet shape-pb-10 shape-px-8 tablet:col-start-1 tablet:row-span-3">
 								<div className="mx-auto -mt-[2.75rem] grid size-[5.5rem] place-items-center rounded-full border border-[transparent] bg-dark-violet text-cyan tablet:mx-0">
 									<Icon className="size-10" name="icon-brand-recognition" />
