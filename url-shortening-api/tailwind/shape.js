@@ -22,6 +22,11 @@ export const shape = plugin(({ matchUtilities, theme }) => {
 					...common,
 				}
 			},
+		},
+		{ values: theme('size') },
+	)
+	matchUtilities(
+		{
 			'shape-py': (size) => {
 				return {
 					'padding-top': getPadding(size),
@@ -29,6 +34,11 @@ export const shape = plugin(({ matchUtilities, theme }) => {
 					...common,
 				}
 			},
+		},
+		{ values: theme('size') },
+	)
+	matchUtilities(
+		{
 			'shape-px': (size) => {
 				return {
 					'padding-left': getPadding(size),
@@ -36,24 +46,44 @@ export const shape = plugin(({ matchUtilities, theme }) => {
 					...common,
 				}
 			},
+		},
+		{ values: theme('size') },
+	)
+	matchUtilities(
+		{
 			'shape-pt': (size) => {
 				return {
 					'padding-top': getPadding(size),
 					...common,
 				}
 			},
+		},
+		{ values: theme('size') },
+	)
+	matchUtilities(
+		{
 			'shape-pr': (size) => {
 				return {
 					'padding-right': getPadding(size),
 					...common,
 				}
 			},
+		},
+		{ values: theme('size') },
+	)
+	matchUtilities(
+		{
 			'shape-pb': (size) => {
 				return {
 					'padding-bottom': getPadding(size),
 					...common,
 				}
 			},
+		},
+		{ values: theme('size') },
+	)
+	matchUtilities(
+		{
 			'shape-pl': (size) => {
 				return {
 					'padding-left': getPadding(size),
