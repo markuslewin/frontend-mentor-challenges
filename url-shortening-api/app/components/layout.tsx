@@ -1,6 +1,13 @@
 import { useMediaQuery } from '@uidotdev/usehooks'
-import { useId } from 'react'
-import { Form, Link, Outlet, ScrollRestoration } from 'react-router-dom'
+import {
+	type KeyboardEventHandler,
+	useEffect,
+	useId,
+	useRef,
+	useState,
+} from 'react'
+import { flushSync } from 'react-dom'
+import { Link, Outlet, ScrollRestoration } from 'react-router-dom'
 import { Announcer } from '#app/components/announcer'
 import { Icon } from '#app/components/icon'
 import { RouteAnnouncer } from '#app/components/route-announcer'
@@ -8,16 +15,46 @@ import { media } from '#app/utils/screens'
 
 export function Layout() {
 	const tabletMatches = useMediaQuery(media.tablet)
+	const [isExpanded, setIsExpanded] = useState(false)
+	const menuTriggerRef = useRef<HTMLButtonElement>(null)
+	const menuRef = useRef<HTMLDivElement>(null)
+
+	useEffect(() => {
+		const handleClickOutside = (e: MouseEvent) => {
+			if (
+				!(
+					e.target instanceof Node && menuTriggerRef.current?.contains(e.target)
+				) &&
+				!(e.target instanceof Node && menuRef.current?.contains(e.target))
+			) {
+				setIsExpanded(false)
+			}
+		}
+
+		document.body.addEventListener('click', handleClickOutside)
+		return () => {
+			document.body.removeEventListener('click', handleClickOutside)
+		}
+	}, [])
+
+	const handleKeyUp: KeyboardEventHandler<HTMLDivElement> = (e) => {
+		if (e.key === 'Escape') {
+			flushSync(() => {
+				setIsExpanded(false)
+			})
+			menuTriggerRef.current?.focus()
+		}
+	}
 
 	return (
 		<>
 			<div className="min-h-screen center-gutter-6 tablet:center-gutter-10">
-				<header className="pt-10 center-[69.375rem] tablet:pt-12">
-					<div className="flex flex-wrap items-center gap-11">
+				<header className="relative pt-10 center-[69.375rem] tablet:pt-12">
+					<div className="flex flex-wrap items-center justify-between gap-11 tablet:justify-normal">
 						<p className="text-very-dark-blue">
 							<Logo />
 						</p>
-						<nav className="flex grow flex-wrap items-center justify-between gap-12 text-nav-3">
+						<nav className="flex flex-wrap items-center justify-between gap-12 text-nav-3 tablet:grow">
 							{tabletMatches ? (
 								<>
 									<ul className="flex flex-wrap items-center gap-8" role="list">
@@ -45,14 +82,55 @@ export function Layout() {
 									</ul>
 								</>
 							) : (
-								<Form
-									onSubmit={(e) => {
-										e.preventDefault()
-										console.log('todo: Open menu')
-									}}
-								>
-									<button aria-expanded="false">Menu</button>
-								</Form>
+								<>
+									<button
+										className="peer clickable-12"
+										ref={menuTriggerRef}
+										type="button"
+										aria-expanded={isExpanded}
+										onClick={() => {
+											setIsExpanded(!isExpanded)
+										}}
+									>
+										<span className="sr-only">Menu</span>
+										<span className="grid w-6 gap-[0.375rem]">
+											<span className="border-t-[0.1875rem]" />
+											<span className="border-t-[0.1875rem]" />
+											<span className="border-t-[0.1875rem]" />
+										</span>
+									</button>
+									<div
+										className="absolute inset-x-6 top-[calc(100%+1.5rem)] hidden rounded bg-dark-violet text-center text-nav-1 text-white shape-px-6 shape-py-10 peer-aria-expanded:block"
+										ref={menuRef}
+										onKeyUp={handleKeyUp}
+									>
+										<ul className="grid gap-[1.875rem]" role="list">
+											<li>
+												<a href="#">Features</a>
+											</li>
+											<li>
+												<a href="#">Pricing</a>
+											</li>
+											<li>
+												<a href="#">Resources</a>
+											</li>
+										</ul>
+										<div className="mt-[1.875rem] border-t-[0.0625rem] text-grayish-violet/25" />
+										<ul className="mt-8 grid gap-6" role="list">
+											<li>
+												<a href="#">Login</a>
+											</li>
+											<li>
+												<a
+													className="grid h-12 items-center whitespace-nowrap rounded-full bg-cyan text-white transition-colors shape-px-6 hocus:bg-light-cyan"
+													href="#"
+												>
+													Sign Up
+												</a>
+											</li>
+										</ul>
+									</div>
+								</>
 							)}
 						</nav>
 					</div>
