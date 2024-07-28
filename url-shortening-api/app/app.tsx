@@ -14,7 +14,7 @@ import { nbsp } from '#app/utils/unicode'
 
 const center = 'center-[33.75rem] tablet:center-[69.375rem]'
 
-export function Home() {
+export function App() {
 	const linksLabelId = useId()
 	const formRef = useRef<HTMLFormElement>(null)
 	const tabletMatches = useMediaQuery(media.tablet)
@@ -74,7 +74,7 @@ export function Home() {
 					<Landmark.Label>
 						<h2 className="sr-only">Shorten links</h2>
 					</Landmark.Label>
-					<div className="relative isolate -mt-20 overflow-hidden rounded bg-dark-violet text-white shape-p-6 tablet:-mt-[5.25rem] tablet:shape-pb-[1.625rem] tablet:shape-px-16 tablet:shape-py-[3.25rem]">
+					<div className="relative isolate -mt-20 overflow-hidden rounded bg-dark-violet text-white shape-p-6 tablet:-mt-[5.25rem] tablet:shape-py-[3.25rem] tablet:shape-px-16 tablet:shape-pb-[1.625rem]">
 						<Picture>
 							<Source
 								media={media.tablet}
@@ -101,7 +101,7 @@ export function Home() {
 								</label>
 								<input
 									{...getInputProps(fields.link, { type: 'url' })}
-									className="h-12 w-full rounded bg-white text-input text-very-dark-blue transition-all shape-px-4 shape-py-[0.375rem] shape-border-[0.1875rem] placeholder:text-very-dark-blue/50 disabled:opacity-50 aria-invalid:border-red aria-invalid:placeholder:text-red/50 tablet:h-16 tablet:shape-px-8 tablet:shape-py-[0.875rem]"
+									className="h-12 w-full rounded bg-white text-input text-very-dark-blue transition-all shape-py-[0.375rem] shape-px-4 shape-border-[0.1875rem] placeholder:text-very-dark-blue/50 disabled:opacity-50 aria-invalid:border-red aria-invalid:placeholder:text-red/50 tablet:h-16 tablet:shape-py-[0.875rem] tablet:shape-px-8"
 									placeholder="Shorten a link here..."
 									disabled={links.create.isPending}
 								/>
@@ -130,7 +130,7 @@ export function Home() {
 					>
 						{links.data.map((link) => (
 							<li
-								className="grid rounded-sm border border-[transparent] bg-white text-very-dark-blue tablet:grid-cols-[1fr_auto] tablet:items-center tablet:gap-6 tablet:shape-pl-8 tablet:shape-pr-6 tablet:shape-py-4"
+								className="grid rounded-sm border border-[transparent] bg-white text-very-dark-blue tablet:grid-cols-[1fr_auto] tablet:items-center tablet:gap-6 tablet:shape-py-4 tablet:shape-pr-6 tablet:shape-pl-8"
 								key={link.id}
 							>
 								<h4 className="px-4 py-2 text-input tablet:p-0">{link.long}</h4>
@@ -159,7 +159,7 @@ export function Home() {
 						</div>
 						<div className="relative isolate mt-[5.75rem] grid gap-[5.75rem] text-center tablet:mt-[6.25rem] tablet:grid-cols-3 tablet:grid-rows-[2.75rem_2.75rem_auto_2.75rem_2.75rem] tablet:gap-x-[1.875rem] tablet:gap-y-0 tablet:text-start">
 							<div className="absolute inset-y-0 -z-10 justify-self-center border-s-[0.5rem] text-cyan tablet:inset-x-0 tablet:inset-y-auto tablet:-translate-y-[1.375rem] tablet:self-center tablet:justify-self-auto tablet:border-s-0 tablet:border-t-[0.5rem]" />
-							<div className="rounded-sm bg-white text-grayish-violet shape-pb-10 shape-px-8 tablet:col-start-1 tablet:row-span-3">
+							<div className="rounded-sm bg-white text-grayish-violet shape-px-8 shape-pb-10 tablet:col-start-1 tablet:row-span-3">
 								<div className="mx-auto -mt-[2.75rem] grid size-[5.5rem] place-items-center rounded-full border border-[transparent] bg-dark-violet text-cyan tablet:mx-0">
 									<Icon className="size-10" name="icon-brand-recognition" />
 								</div>
@@ -172,7 +172,7 @@ export function Home() {
 									your content.
 								</p>
 							</div>
-							<div className="rounded-sm bg-white text-grayish-violet shape-pb-10 shape-px-8 tablet:col-start-2 tablet:row-span-3 tablet:row-start-2">
+							<div className="rounded-sm bg-white text-grayish-violet shape-px-8 shape-pb-10 tablet:col-start-2 tablet:row-span-3 tablet:row-start-2">
 								<div className="mx-auto -mt-[2.75rem] grid size-[5.5rem] place-items-center rounded-full border border-[transparent] bg-dark-violet text-cyan tablet:mx-0">
 									<Icon className="size-10" name="icon-detailed-records" />
 								</div>
@@ -185,7 +185,7 @@ export function Home() {
 									decisions.
 								</p>
 							</div>
-							<div className="rounded-sm bg-white text-grayish-violet shape-pb-10 shape-px-8 tablet:col-start-3 tablet:row-span-3 tablet:row-start-3">
+							<div className="rounded-sm bg-white text-grayish-violet shape-px-8 shape-pb-10 tablet:col-start-3 tablet:row-span-3 tablet:row-start-3">
 								<div className="mx-auto -mt-[2.75rem] grid size-[5.5rem] place-items-center rounded-full border border-[transparent] bg-dark-violet text-cyan tablet:mx-0">
 									<Icon className="size-12" name="icon-fully-customizable" />
 								</div>

@@ -1,19 +1,22 @@
 import { useMediaQuery } from '@uidotdev/usehooks'
 import {
 	type KeyboardEventHandler,
+	type ReactNode,
 	useEffect,
 	useId,
 	useRef,
 	useState,
 } from 'react'
 import { flushSync } from 'react-dom'
-import { Outlet, ScrollRestoration } from 'react-router-dom'
 import { Announcer } from '#app/components/announcer'
 import { Icon } from '#app/components/icon'
-import { RouteAnnouncer } from '#app/components/route-announcer'
 import { media } from '#app/utils/screens'
 
-export function Layout() {
+interface LayoutProps {
+	children: ReactNode
+}
+
+export function Layout({ children }: LayoutProps) {
 	const tabletMatches = useMediaQuery(media.tablet)
 	const [isExpanded, setIsExpanded] = useState(false)
 	const menuTriggerRef = useRef<HTMLButtonElement>(null)
@@ -100,7 +103,7 @@ export function Layout() {
 										</span>
 									</button>
 									<div
-										className="absolute inset-x-6 top-[calc(100%+1.5rem)] hidden rounded bg-dark-violet text-center text-nav-1 text-white shape-px-6 shape-py-10 peer-aria-expanded:block"
+										className="absolute inset-x-6 top-[calc(100%+1.5rem)] hidden rounded bg-dark-violet text-center text-nav-1 text-white shape-py-10 shape-px-6 peer-aria-expanded:block"
 										ref={menuRef}
 										onKeyUp={handleKeyUp}
 									>
@@ -135,14 +138,10 @@ export function Layout() {
 						</nav>
 					</div>
 				</header>
-				<main className="mt-6 tablet:mt-20">
-					<Outlet />
-				</main>
+				<main className="mt-6 tablet:mt-20">{children}</main>
 				<Footer />
 			</div>
-			<ScrollRestoration />
 			<Announcer />
-			<RouteAnnouncer />
 		</>
 	)
 }
