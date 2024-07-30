@@ -124,7 +124,7 @@ export function App() {
 						Shortened links
 					</h3>
 					<ul
-						className="mt-6 grid gap-6 tablet:gap-4"
+						className="mt-6 grid gap-6 empty:mt-0 tablet:gap-4"
 						role="list"
 						aria-labelledby={linksLabelId}
 					>
