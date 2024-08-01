@@ -13,44 +13,36 @@ export default {
 	theme: {
 		screens,
 		colors: {
-			// todo: Add colors
-			background: 'hsl(var(--background))',
-			foreground: 'hsl(var(--foreground))',
-			overlay: 'hsl(var(--overlay))',
-			menu: {
-				DEFAULT: 'hsl(var(--menu))',
-				foreground: 'hsl(var(--menu-foreground))',
-			},
-			button: {
-				DEFAULT: 'hsl(var(--button))',
-				foreground: 'hsl(var(--button-foreground))',
-				hocus: 'hsl(var(--button-hocus))',
-			},
-			input: {
-				DEFAULT: 'hsl(var(--input))',
-				'border-hocus': 'hsl(var(--input-border-hocus))',
-			},
-			pill: {
-				DEFAULT: 'hsl(var(--pill))',
-				foreground: 'hsl(var(--pill-foreground))',
-			},
-			delete: {
-				foreground: 'hsl(var(--delete-foreground))',
-				'foreground-hocus': 'hsl(var(--delete-foreground-hocus))',
-			},
-			error: {
-				foreground: 'hsl(var(--error-foreground))',
-			},
+			red: 'hsl(0 91% 71%)',
+			cyan: 'hsl(182 91% 71%)',
+			purple: 'hsl(284 89% 74%)',
+			'light-blue': 'hsl(227 100% 92%)',
+			blue: 'hsl(235 35% 18%)',
+			white: 'hsl(0 0% 100%)',
+			gray: 'hsl(229 52% 96%)',
+			'dark-blue': 'hsl(234 39% 14%)',
 		},
 		fontFamily: {
-			// todo: Add font from Fontsource
-			base: 'Inter, system-ui, Avenir, Helvetica, Arial, sans-serif',
+			'kumbh-sans': "'Kumbh Sans Variable', sans-serif",
+			'roboto-slab': "'Roboto Slab Variable', serif",
+			'space-mono': "'Space Mono', monospace",
 		},
 		fontSize: {
-			// todo: Add font sizes
-			'heading-l': [clamp(32, 48), { fontWeight: 500, lineHeight: 1 }],
-			'heading-m': [clamp(24, 39), { fontWeight: 500, lineHeight: 1 }],
-			body: [clamp(16, 20), { lineHeight: 1.2 }],
+			h1: [
+				clamp(80, 100),
+				{ fontWeight: 700, lineHeight: 1.2, letterSpacing: '-0.05em' },
+			],
+			h2: [clamp(20, 28), { fontWeight: 700, lineHeight: 1.2 }],
+			h3: [
+				clamp(14, 16),
+				{ fontWeight: 700, lineHeight: 1.1875, letterSpacing: '0.9375em' },
+			],
+			h4: [
+				clamp(11, 13),
+				{ fontWeight: 700, lineHeight: 1.1875, letterSpacing: '0.3846em' },
+			],
+			'body-1': [clamp(12, 14), { fontWeight: 700, lineHeight: 1.2857 }],
+			'body-2': [clamp(12, 12), { fontWeight: 700, lineHeight: 1.1667 }],
 		},
 		extend: {
 			aria: {
