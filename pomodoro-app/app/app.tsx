@@ -7,55 +7,90 @@ import * as Landmark from '#app/components/landmark'
 export function App() {
 	return (
 		<AnnouncementProvider>
-			<main>
-				<h1>
-					<Icon name="logo" />
-					<span>Pomodoro</span>
+			<main className="px-6 pb-12 pt-8 tablet:pb-28 tablet:pt-20 desktop:pb-14 desktop:pt-12">
+				<h1 className="grid justify-center">
+					<Icon
+						className="h-6 w-auto tablet:h-8"
+						name="logo"
+						width="153"
+						height="32"
+					/>
+					<span className="sr-only">Pomodoro</span>
 				</h1>
-				<fieldset
-					onChange={(e) => {
-						invariant(
-							e.target instanceof HTMLInputElement,
-							'Expected radio input',
-						)
-						console.log('todo: Change type', e.target.value)
-					}}
-				>
-					<legend>Type of timer</legend>
-					<label>
-						<input type="radio" name="type" value="pomodoro" defaultChecked />
-						pomodoro
-					</label>
-					<label>
-						<input type="radio" name="type" value="short-break" />
-						short break
-					</label>
-					<label>
-						<input type="radio" name="type" value="long-break" />
-						long break
-					</label>
-				</fieldset>
-				<Landmark.Root>
-					<Landmark.Label>
-						<h2>Timer</h2>
-					</Landmark.Label>
-					<p>17:59</p>
-					<p>
-						<button
-							type="button"
-							onClick={() => {
-								console.log('todo: Start timer')
-							}}
-						>
-							Start
-						</button>
-					</p>
-				</Landmark.Root>
-				<p>
+				<div className="grid justify-center">
+					<fieldset
+						className="mt-11 flex h-16 items-center rounded-full bg-dark-blue px-2 text-light-blue/40 tablet:mt-14"
+						onChange={(e) => {
+							invariant(
+								e.target instanceof HTMLInputElement,
+								'Expected radio input',
+							)
+							console.log('todo: Change type', e.target.value)
+						}}
+					>
+						<legend className="sr-only">Type of timer</legend>
+						<label>
+							<input
+								className="peer sr-only"
+								type="radio"
+								name="type"
+								value="pomodoro"
+								defaultChecked
+							/>
+							<span className="grid h-12 items-center rounded-full transition-colors peer-checked:bg-red peer-checked:text-blue hocus:text-light-blue peer-checked:hocus:text-blue">
+								pomodoro
+							</span>
+						</label>
+						<label>
+							<input
+								className="peer sr-only"
+								type="radio"
+								name="type"
+								value="short-break"
+							/>
+							<span className="grid h-12 items-center rounded-full transition-colors peer-checked:bg-red peer-checked:text-blue hocus:text-light-blue peer-checked:hocus:text-blue">
+								short break
+							</span>
+						</label>
+						<label>
+							<input
+								className="peer sr-only"
+								type="radio"
+								name="type"
+								value="long-break"
+							/>
+							<span className="grid h-12 items-center rounded-full transition-colors peer-checked:bg-red peer-checked:text-blue hocus:text-light-blue peer-checked:hocus:text-blue">
+								long break
+							</span>
+						</label>
+					</fieldset>
+				</div>
+				<div>
+					<Landmark.Root className="mx-auto mt-12 grid aspect-square max-w-[25.625rem] grid-rows-[161fr_auto_113fr] rounded-full bg-dark-blue text-center tablet:mt-28 desktop:mt-11">
+						<Landmark.Label>
+							<h2 className="sr-only">Timer</h2>
+						</Landmark.Label>
+						<div className="row-start-2">
+							<p className="text-h1 leading-none">17:59</p>
+							<p className="mt-3 tablet:mt-5">
+								<button
+									className="text-h3 uppercase transition-colors hocus:text-red"
+									type="button"
+									onClick={() => {
+										console.log('todo: Start timer')
+									}}
+								>
+									Start
+								</button>
+							</p>
+						</div>
+					</Landmark.Root>
+				</div>
+				<p className="mt-20 grid justify-center tablet:mt-36 desktop:mt-16">
 					<Dialog.Root>
-						<Dialog.Trigger>
-							<Icon name="icon-settings" />
-							<span>Settings</span>
+						<Dialog.Trigger className="text-light-blue/50 transition-colors hocus:text-light-blue">
+							<Icon className="size-7" name="icon-settings" />
+							<span className="sr-only">Settings</span>
 						</Dialog.Trigger>
 						<Dialog.Portal>
 							<Dialog.Overlay />
