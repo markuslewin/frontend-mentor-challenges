@@ -3,7 +3,7 @@ import { center } from './tailwind/center'
 import { clamp } from './tailwind/clamp'
 import { clickable } from './tailwind/clickable'
 import { hocus } from './tailwind/hocus'
-// import { rem } from "./tailwind/rem";
+import { rem } from './tailwind/rem'
 import { shape } from './tailwind/shape'
 
 /** @type {import('tailwindcss').Config} */
@@ -43,6 +43,12 @@ export default {
 			],
 			'body-1': [clamp(12, 14), { fontWeight: 700, lineHeight: 1.2857 }],
 			'body-2': [clamp(12, 12), { fontWeight: 700, lineHeight: 1.1667 }],
+		},
+		borderRadius: {
+			xs: rem(10),
+			sm: rem(15),
+			DEFAULT: rem(25),
+			full: '9999px',
 		},
 		extend: {
 			aria: {
