@@ -1,6 +1,6 @@
 import { invariant } from '@epic-web/invariant'
 import * as Dialog from '@radix-ui/react-dialog'
-import { useId } from 'react'
+import { useEffect, useId, useState } from 'react'
 import { AnnouncementProvider, Announcer } from '#app/components/announcer'
 import { Icon } from '#app/components/icon'
 import * as Landmark from '#app/components/landmark'
@@ -9,6 +9,17 @@ export function App() {
 	const timeLabelId = useId()
 	const fontLabelId = useId()
 	const colorLabelId = useId()
+	const [progress, setProgress] = useState(0)
+
+	useEffect(() => {
+		const id = setInterval(() => {
+			setProgress(Math.random())
+		}, 2000)
+
+		return () => {
+			clearInterval(id)
+		}
+	})
 
 	return (
 		<AnnouncementProvider>
@@ -71,10 +82,13 @@ export function App() {
 					</fieldset>
 				</div>
 				<div>
-					<Landmark.Root className="mx-auto mt-12 grid aspect-square max-w-[25.625rem] grid-rows-[161fr_auto_113fr] rounded-full bg-dark-blue text-center tablet:mt-28 desktop:mt-11">
+					<Landmark.Root className="relative mx-auto mt-12 grid aspect-square max-w-[25.625rem] grid-rows-[161fr_auto_113fr] rounded-full bg-dark-blue text-center tablet:mt-28 desktop:mt-11">
 						<Landmark.Label>
 							<h2 className="sr-only">Timer</h2>
 						</Landmark.Label>
+						<div className="absolute inset-0 text-red">
+							<Progress value={progress} />
+						</div>
 						<div className="row-start-2">
 							<p className="text-h1 leading-none">17:59</p>
 							<p className="mt-3 tablet:mt-5">
@@ -133,7 +147,7 @@ export function App() {
 													<label className="grid grid-cols-2 items-center text-dark-blue/40 tablet:grid-cols-1 tablet:gap-[0.625rem]">
 														pomodoro
 														<input
-															className="rounded-xs h-10 w-full bg-gray px-4 text-dark-blue tablet:h-12"
+															className="h-10 w-full rounded-xs bg-gray px-4 text-dark-blue tablet:h-12"
 															type="number"
 															name="pomodoro"
 															defaultValue="25"
@@ -144,7 +158,7 @@ export function App() {
 													<label className="grid grid-cols-2 items-center text-dark-blue/40 tablet:grid-cols-1 tablet:gap-[0.625rem]">
 														short break
 														<input
-															className="rounded-xs h-10 w-full bg-gray px-4 text-dark-blue tablet:h-12"
+															className="h-10 w-full rounded-xs bg-gray px-4 text-dark-blue tablet:h-12"
 															type="number"
 															name="short-break"
 															defaultValue="5"
@@ -155,7 +169,7 @@ export function App() {
 													<label className="grid grid-cols-2 items-center text-dark-blue/40 tablet:grid-cols-1 tablet:gap-[0.625rem]">
 														long break
 														<input
-															className="rounded-xs h-10 w-full bg-gray px-4 text-dark-blue tablet:h-12"
+															className="h-10 w-full rounded-xs bg-gray px-4 text-dark-blue tablet:h-12"
 															type="number"
 															name="long-break"
 															defaultValue="15"
@@ -285,5 +299,34 @@ export function App() {
 			</main>
 			<Announcer />
 		</AnnouncementProvider>
+	)
+}
+
+const d = 339
+const strokeWidth = 11
+const r = (d - strokeWidth) / 2
+const radius = d / 2
+const c = 2 * 3.14 * r
+
+interface ProgressProps {
+	value: number
+}
+
+function Progress({ value }: ProgressProps) {
+	return (
+		<svg className="-rotate-90" viewBox={`0 0 ${d} ${d}`}>
+			<circle
+				className="transition-all duration-[2000ms]"
+				r={r}
+				cx={radius}
+				cy={radius}
+				fill="transparent"
+				stroke="currentColor"
+				strokeWidth={strokeWidth}
+				strokeLinecap="round"
+				strokeDasharray={c}
+				style={{ strokeDashoffset: c * (1 - value) }}
+			></circle>
+		</svg>
 	)
 }
