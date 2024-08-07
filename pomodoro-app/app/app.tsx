@@ -23,7 +23,7 @@ export function App() {
 
 	return (
 		<AnnouncementProvider>
-			<main className="px-6 pb-12 pt-8 tablet:pb-28 tablet:pt-20 desktop:pb-14 desktop:pt-12">
+			<main className="min-h-screen px-6 pb-12 pt-8 tablet:pb-28 tablet:pt-20 desktop:pb-14 desktop:pt-12">
 				<h1 className="grid justify-center">
 					<Icon
 						className="h-6 w-auto tablet:h-8"
@@ -82,26 +82,30 @@ export function App() {
 					</fieldset>
 				</div>
 				<div>
-					<Landmark.Root className="relative isolate mx-auto mt-12 grid aspect-square max-w-[25.625rem] grid-rows-[161fr_auto_113fr] rounded-full bg-dark-blue text-center tablet:mt-28 desktop:mt-11">
+					<Landmark.Root className="mx-auto mt-12 max-w-[25.625rem] text-center tablet:mt-28 desktop:mt-11">
 						<Landmark.Label>
 							<h2 className="sr-only">Timer</h2>
 						</Landmark.Label>
-						<div className="absolute inset-0 -z-10 text-red">
-							<Progress value={progress} />
-						</div>
-						<div className="row-start-2">
-							<p className="text-h1 leading-none">17:59</p>
-							<p className="mt-3 tablet:mt-5">
-								<button
-									className="text-h3 uppercase transition-colors hocus:text-red"
-									type="button"
-									onClick={() => {
-										console.log('todo: Start timer')
-									}}
-								>
-									Start
-								</button>
-							</p>
+						<div className="rounded-full bg-gradient-to-tl from-[hsl(234_33%_27%)] to-[hsl(235_49%_11%)] p-[5.4%] shadow-[-3.125rem_-3.125rem_6.25rem_hsl(234_40%_25%),3.125rem_3.125rem_6.25rem_hsl(235_45%_13%)]">
+							<div className="relative isolate grid aspect-square grid-rows-[161fr_auto_113fr] rounded-[inherit] bg-dark-blue">
+								<div className="absolute inset-0 -z-10 p-[3.7%] text-red">
+									<Progress value={progress} />
+								</div>
+								<div className="row-start-2">
+									<p className="text-h1 leading-none">17:59</p>
+									<p className="mt-3 tablet:mt-5">
+										<button
+											className="text-h3 uppercase transition-colors hocus:text-red"
+											type="button"
+											onClick={() => {
+												console.log('todo: Start timer')
+											}}
+										>
+											Start
+										</button>
+									</p>
+								</div>
+							</div>
 						</div>
 					</Landmark.Root>
 				</div>
