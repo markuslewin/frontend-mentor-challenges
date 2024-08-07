@@ -14,7 +14,7 @@ export function App() {
 	useEffect(() => {
 		const id = setInterval(() => {
 			setProgress(Math.random())
-		}, 2000)
+		}, 10000)
 
 		return () => {
 			clearInterval(id)
@@ -33,9 +33,9 @@ export function App() {
 					/>
 					<span className="sr-only">Pomodoro</span>
 				</h1>
-				<div className="grid justify-center">
+				<div className="center-[23.3125rem]">
 					<fieldset
-						className="mt-11 flex h-16 items-center rounded-full bg-dark-blue px-2 text-light-blue/40 tablet:mt-14"
+						className="mt-11 grid h-16 grid-cols-3 items-center rounded-full bg-dark-blue px-2 text-center text-light-blue/40 tablet:mt-14"
 						onChange={(e) => {
 							invariant(
 								e.target instanceof HTMLInputElement,
@@ -82,11 +82,11 @@ export function App() {
 					</fieldset>
 				</div>
 				<div>
-					<Landmark.Root className="relative mx-auto mt-12 grid aspect-square max-w-[25.625rem] grid-rows-[161fr_auto_113fr] rounded-full bg-dark-blue text-center tablet:mt-28 desktop:mt-11">
+					<Landmark.Root className="relative isolate mx-auto mt-12 grid aspect-square max-w-[25.625rem] grid-rows-[161fr_auto_113fr] rounded-full bg-dark-blue text-center tablet:mt-28 desktop:mt-11">
 						<Landmark.Label>
 							<h2 className="sr-only">Timer</h2>
 						</Landmark.Label>
-						<div className="absolute inset-0 text-red">
+						<div className="absolute inset-0 -z-10 text-red">
 							<Progress value={progress} />
 						</div>
 						<div className="row-start-2">
