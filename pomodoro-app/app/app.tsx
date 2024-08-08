@@ -1,15 +1,39 @@
+import { getFormProps, getInputProps, useForm } from '@conform-to/react'
+import { getZodConstraint, parseWithZod } from '@conform-to/zod'
 import { invariant } from '@epic-web/invariant'
 import * as Dialog from '@radix-ui/react-dialog'
+import { useLocalStorage } from '@uidotdev/usehooks'
 import { useEffect, useId, useState } from 'react'
+import { z } from 'zod'
 import { AnnouncementProvider, Announcer } from '#app/components/announcer'
 import { Icon } from '#app/components/icon'
 import * as Landmark from '#app/components/landmark'
+import { colors } from '#app/utils/colors'
 
 export function App() {
 	const timeLabelId = useId()
 	const fontLabelId = useId()
 	const colorLabelId = useId()
 	const [progress, setProgress] = useState(0)
+	const [isSettingsOpen, setIsSettingsOpen] = useState(false)
+	const [settings, setSettings] = useLocalStorage<Settings>('settings', {
+		color: 'red',
+	})
+	const [form, fields] = useForm({
+		constraint: getZodConstraint(settingsSchema),
+		defaultValue: settings,
+		onValidate({ formData }) {
+			return parseWithZod(formData, { schema: settingsSchema })
+		},
+		onSubmit(event, { submission }) {
+			event.preventDefault()
+
+			if (submission?.status !== 'success') return
+
+			setSettings(submission.value)
+			setIsSettingsOpen(false)
+		},
+	})
 
 	useEffect(() => {
 		const id = setInterval(() => {
@@ -20,6 +44,16 @@ export function App() {
 			clearInterval(id)
 		}
 	})
+
+	useEffect(() => {
+		document.documentElement.style.setProperty(
+			'--color-accent',
+			colors[settings.color],
+		)
+		return () => {
+			document.documentElement.style.removeProperty('--color-accent')
+		}
+	}, [settings.color])
 
 	return (
 		<AnnouncementProvider>
@@ -53,7 +87,7 @@ export function App() {
 								value="pomodoro"
 								defaultChecked
 							/>
-							<span className="grid h-12 items-center rounded-full transition-colors peer-checked:bg-red peer-checked:text-blue hocus:text-light-blue peer-checked:hocus:text-blue">
+							<span className="peer-checked:bg-accent grid h-12 items-center rounded-full transition-colors peer-checked:text-blue hocus:text-light-blue peer-checked:hocus:text-blue">
 								pomodoro
 							</span>
 						</label>
@@ -64,7 +98,7 @@ export function App() {
 								name="type"
 								value="short-break"
 							/>
-							<span className="grid h-12 items-center rounded-full transition-colors peer-checked:bg-red peer-checked:text-blue hocus:text-light-blue peer-checked:hocus:text-blue">
+							<span className="peer-checked:bg-accent grid h-12 items-center rounded-full transition-colors peer-checked:text-blue hocus:text-light-blue peer-checked:hocus:text-blue">
 								short break
 							</span>
 						</label>
@@ -75,7 +109,7 @@ export function App() {
 								name="type"
 								value="long-break"
 							/>
-							<span className="grid h-12 items-center rounded-full transition-colors peer-checked:bg-red peer-checked:text-blue hocus:text-light-blue peer-checked:hocus:text-blue">
+							<span className="peer-checked:bg-accent grid h-12 items-center rounded-full transition-colors peer-checked:text-blue hocus:text-light-blue peer-checked:hocus:text-blue">
 								long break
 							</span>
 						</label>
@@ -88,14 +122,14 @@ export function App() {
 						</Landmark.Label>
 						<div className="rounded-full bg-gradient-to-tl from-[hsl(234_33%_27%)] to-[hsl(235_49%_11%)] p-[5.4%] shadow-[-3.125rem_-3.125rem_6.25rem_hsl(234_40%_25%),3.125rem_3.125rem_6.25rem_hsl(235_45%_13%)]">
 							<div className="relative isolate grid aspect-square grid-rows-[161fr_auto_113fr] rounded-[inherit] bg-dark-blue">
-								<div className="absolute inset-0 -z-10 p-[3.7%] text-red">
+								<div className="text-accent absolute inset-0 -z-10 p-[3.7%]">
 									<Progress value={progress} />
 								</div>
 								<div className="row-start-2">
 									<p className="text-h1 leading-none">17:59</p>
 									<p className="mt-3 tablet:mt-5">
 										<button
-											className="text-h3 uppercase transition-colors hocus:text-red"
+											className="hocus:text-accent text-h3 uppercase transition-colors"
 											type="button"
 											onClick={() => {
 												console.log('todo: Start timer')
@@ -110,7 +144,7 @@ export function App() {
 					</Landmark.Root>
 				</div>
 				<p className="mt-20 grid justify-center tablet:mt-36 desktop:mt-16">
-					<Dialog.Root>
+					<Dialog.Root open={isSettingsOpen} onOpenChange={setIsSettingsOpen}>
 						<Dialog.Trigger className="text-light-blue/50 transition-colors hocus:text-light-blue">
 							<Icon className="size-7" name="icon-settings" />
 							<span className="sr-only">Settings</span>
@@ -131,14 +165,8 @@ export function App() {
 											</Dialog.Close>
 										</header>
 										<form
+											{...getFormProps(form)}
 											className="border-t border-[hsl(0_2%_89%)] px-6 pt-6 tablet:px-10"
-											onSubmit={(e) => {
-												e.preventDefault()
-												console.log(
-													'todo: Apply settings',
-													Object.fromEntries(new FormData(e.currentTarget)),
-												)
-											}}
 										>
 											<fieldset aria-labelledby={timeLabelId}>
 												<p
@@ -256,32 +284,33 @@ export function App() {
 												<div className="flex flex-wrap gap-4">
 													<label>
 														<input
+															{...getInputProps(fields.color, {
+																type: 'radio',
+																value: 'red',
+															})}
 															className="peer sr-only"
-															type="radio"
-															name="color"
-															value="red"
-															defaultChecked
-															required
 														/>
 														<span className="sr-only">Red</span>
 														<span className="grid size-10 place-items-center rounded-full bg-red before:h-[0.8125rem] before:w-[0.4375rem] before:-translate-y-[0.0625rem] before:rotate-45 before:border-b-[0.125rem] before:border-r-[0.125rem] before:opacity-0 before:transition-opacity peer-checked:before:opacity-100" />
 													</label>
 													<label>
 														<input
+															{...getInputProps(fields.color, {
+																type: 'radio',
+																value: 'cyan',
+															})}
 															className="peer sr-only"
-															type="radio"
-															name="color"
-															value="cyan"
 														/>
 														<span className="sr-only">Cyan</span>
 														<span className="grid size-10 place-items-center rounded-full bg-cyan before:h-[0.8125rem] before:w-[0.4375rem] before:-translate-y-[0.0625rem] before:rotate-45 before:border-b-[0.125rem] before:border-r-[0.125rem] before:opacity-0 before:transition-opacity peer-checked:before:opacity-100" />
 													</label>
 													<label>
 														<input
+															{...getInputProps(fields.color, {
+																type: 'radio',
+																value: 'purple',
+															})}
 															className="peer sr-only"
-															type="radio"
-															name="color"
-															value="purple"
 														/>
 														<span className="sr-only">Purple</span>
 														<span className="grid size-10 place-items-center rounded-full bg-purple before:h-[0.8125rem] before:w-[0.4375rem] before:-translate-y-[0.0625rem] before:rotate-45 before:border-b-[0.125rem] before:border-r-[0.125rem] before:opacity-0 before:transition-opacity peer-checked:before:opacity-100" />
@@ -289,7 +318,7 @@ export function App() {
 												</div>
 											</fieldset>
 											<p className="mt-8">
-												<button className="min-w-[8.75rem] rounded-full bg-red text-white">
+												<button className="bg-accent min-w-[8.75rem] rounded-full text-white">
 													Apply
 												</button>
 											</p>
@@ -334,3 +363,10 @@ function Progress({ value }: ProgressProps) {
 		</svg>
 	)
 }
+
+const settingsSchema = z.object({
+	color: z.enum(['red', 'cyan', 'purple']),
+	// todo: Rest
+})
+
+type Settings = z.infer<typeof settingsSchema>
