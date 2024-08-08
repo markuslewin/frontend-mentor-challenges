@@ -7,5 +7,6 @@ export const colors = {
 	white: 'hsl(0 0% 100%)',
 	gray: 'hsl(229 52% 96%)',
 	'dark-blue': 'hsl(234 39% 14%)',
+
 	accent: 'var(--color-accent)',
 }

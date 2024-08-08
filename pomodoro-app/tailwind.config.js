@@ -1,4 +1,5 @@
 import { colors } from './app/utils/colors'
+import { fontFamily } from './app/utils/fonts'
 import { screens } from './app/utils/screens'
 import { center } from './tailwind/center'
 import { clamp } from './tailwind/clamp'
@@ -14,11 +15,7 @@ export default {
 	theme: {
 		screens,
 		colors,
-		fontFamily: {
-			'kumbh-sans': "'Kumbh Sans Variable', sans-serif",
-			'roboto-slab': "'Roboto Slab Variable', serif",
-			'space-mono': "'Space Mono', monospace",
-		},
+		fontFamily,
 		fontSize: {
 			h1: [
 				clamp(80, 100),

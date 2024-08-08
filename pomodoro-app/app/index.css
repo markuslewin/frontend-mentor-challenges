@@ -10,7 +10,7 @@
 	}
 
 	body {
-		@apply bg-blue text-light-blue font-kumbh-sans text-body-1;
+		@apply font-main bg-blue text-body-1 text-light-blue;
 	}
 
 	h1,

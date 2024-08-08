@@ -9,11 +9,13 @@ import { AnnouncementProvider, Announcer } from '#app/components/announcer'
 import { Icon } from '#app/components/icon'
 import * as Landmark from '#app/components/landmark'
 import { colors } from '#app/utils/colors'
+import { fontFamily } from '#app/utils/fonts'
 
 export function App() {
 	const [progress, setProgress] = useState(0)
 	const [isSettingsOpen, setIsSettingsOpen] = useState(false)
 	const [settings, setSettings] = useLocalStorage<Settings>('settings', {
+		font: 'kumbh-sans',
 		color: 'red',
 	})
 
@@ -26,6 +28,16 @@ export function App() {
 			clearInterval(id)
 		}
 	})
+
+	useEffect(() => {
+		document.documentElement.style.setProperty(
+			'--font-main',
+			fontFamily[settings.font],
+		)
+		return () => {
+			document.documentElement.style.removeProperty('--font-main')
+		}
+	}, [settings.font])
 
 	useEffect(() => {
 		document.documentElement.style.setProperty(
@@ -195,6 +207,7 @@ function Progress({ value }: ProgressProps) {
 }
 
 const settingsSchema = z.object({
+	font: z.enum(['kumbh-sans', 'roboto-slab', 'space-mono']),
 	color: z.enum(['red', 'cyan', 'purple']),
 	// todo: Rest
 })
@@ -283,12 +296,11 @@ function SettingsForm({ defaultValue, onApply }: SettingsFormProps) {
 				<div className="flex flex-wrap gap-4">
 					<label>
 						<input
+							{...getInputProps(fields.font, {
+								type: 'radio',
+								value: 'kumbh-sans',
+							})}
 							className="peer sr-only"
-							type="radio"
-							name="font"
-							value="kumbh-sans"
-							defaultChecked
-							required
 						/>
 						<span className="sr-only">Kumbh Sans</span>
 						<span
@@ -300,10 +312,11 @@ function SettingsForm({ defaultValue, onApply }: SettingsFormProps) {
 					</label>
 					<label>
 						<input
+							{...getInputProps(fields.font, {
+								type: 'radio',
+								value: 'roboto-slab',
+							})}
 							className="peer sr-only"
-							type="radio"
-							name="font"
-							value="roboto-slab"
 						/>
 						<span className="sr-only">Roboto Slab</span>
 						<span
@@ -315,10 +328,11 @@ function SettingsForm({ defaultValue, onApply }: SettingsFormProps) {
 					</label>
 					<label>
 						<input
+							{...getInputProps(fields.font, {
+								type: 'radio',
+								value: 'space-mono',
+							})}
 							className="peer sr-only"
-							type="radio"
-							name="font"
-							value="space-mono"
 						/>
 						<span className="sr-only">Space Mono</span>
 						<span
