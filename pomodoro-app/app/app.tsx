@@ -1,6 +1,5 @@
 import { getFormProps, getInputProps, useForm } from '@conform-to/react'
 import { getZodConstraint, parseWithZod } from '@conform-to/zod'
-import { invariant } from '@epic-web/invariant'
 import * as Dialog from '@radix-ui/react-dialog'
 import { useLocalStorage } from '@uidotdev/usehooks'
 import { useEffect, useId, useState } from 'react'
@@ -12,12 +11,9 @@ import { colors } from '#app/utils/colors'
 import { fontFamily } from '#app/utils/fonts'
 
 export function App() {
+	const pomodoro = usePomodoro()
 	const [progress, setProgress] = useState(0)
 	const [isSettingsOpen, setIsSettingsOpen] = useState(false)
-	const [settings, setSettings] = useLocalStorage<Settings>('settings', {
-		font: 'kumbh-sans',
-		color: 'red',
-	})
 
 	useEffect(() => {
 		const id = setInterval(() => {
@@ -28,26 +24,6 @@ export function App() {
 			clearInterval(id)
 		}
 	})
-
-	useEffect(() => {
-		document.documentElement.style.setProperty(
-			'--font-main',
-			fontFamily[settings.font],
-		)
-		return () => {
-			document.documentElement.style.removeProperty('--font-main')
-		}
-	}, [settings.font])
-
-	useEffect(() => {
-		document.documentElement.style.setProperty(
-			'--color-accent',
-			colors[settings.color],
-		)
-		return () => {
-			document.documentElement.style.removeProperty('--color-accent')
-		}
-	}, [settings.color])
 
 	return (
 		<AnnouncementProvider>
@@ -62,26 +38,18 @@ export function App() {
 					<span className="sr-only">Pomodoro</span>
 				</h1>
 				<div className="center-[23.3125rem]">
-					<fieldset
-						className="mt-11 grid h-16 grid-cols-3 items-center rounded-full bg-dark-blue px-2 text-center text-light-blue/40 tablet:mt-14"
-						onChange={(e) => {
-							invariant(
-								e.target instanceof HTMLInputElement,
-								'Expected radio input',
-							)
-							console.log('todo: Change type', e.target.value)
-						}}
-					>
+					<fieldset className="mt-11 grid h-16 grid-cols-3 items-center rounded-full bg-dark-blue px-2 text-center text-light-blue/40 tablet:mt-14">
 						<legend className="sr-only">Type of timer</legend>
 						<label>
 							<input
 								className="peer sr-only"
 								type="radio"
-								name="type"
-								value="pomodoro"
-								defaultChecked
+								checked={pomodoro.type === 'pomodoro'}
+								onChange={() => {
+									pomodoro.changeType('pomodoro')
+								}}
 							/>
-							<span className="peer-checked:bg-accent grid h-12 items-center rounded-full transition-colors peer-checked:text-blue hocus:text-light-blue peer-checked:hocus:text-blue">
+							<span className="grid h-12 items-center rounded-full transition-colors peer-checked:bg-accent peer-checked:text-blue hocus:text-light-blue peer-checked:hocus:text-blue">
 								pomodoro
 							</span>
 						</label>
@@ -89,10 +57,12 @@ export function App() {
 							<input
 								className="peer sr-only"
 								type="radio"
-								name="type"
-								value="short-break"
+								checked={pomodoro.type === 'short-break'}
+								onChange={() => {
+									pomodoro.changeType('short-break')
+								}}
 							/>
-							<span className="peer-checked:bg-accent grid h-12 items-center rounded-full transition-colors peer-checked:text-blue hocus:text-light-blue peer-checked:hocus:text-blue">
+							<span className="grid h-12 items-center rounded-full transition-colors peer-checked:bg-accent peer-checked:text-blue hocus:text-light-blue peer-checked:hocus:text-blue">
 								short break
 							</span>
 						</label>
@@ -100,10 +70,12 @@ export function App() {
 							<input
 								className="peer sr-only"
 								type="radio"
-								name="type"
-								value="long-break"
+								checked={pomodoro.type === 'long-break'}
+								onChange={() => {
+									pomodoro.changeType('long-break')
+								}}
 							/>
-							<span className="peer-checked:bg-accent grid h-12 items-center rounded-full transition-colors peer-checked:text-blue hocus:text-light-blue peer-checked:hocus:text-blue">
+							<span className="grid h-12 items-center rounded-full transition-colors peer-checked:bg-accent peer-checked:text-blue hocus:text-light-blue peer-checked:hocus:text-blue">
 								long break
 							</span>
 						</label>
@@ -116,14 +88,14 @@ export function App() {
 						</Landmark.Label>
 						<div className="rounded-full bg-gradient-to-tl from-[hsl(234_33%_27%)] to-[hsl(235_49%_11%)] p-[5.4%] shadow-[-3.125rem_-3.125rem_6.25rem_hsl(234_40%_25%),3.125rem_3.125rem_6.25rem_hsl(235_45%_13%)]">
 							<div className="relative isolate grid aspect-square grid-rows-[161fr_auto_113fr] rounded-[inherit] bg-dark-blue">
-								<div className="text-accent absolute inset-0 -z-10 p-[3.7%]">
+								<div className="absolute inset-0 -z-10 p-[3.7%] text-accent">
 									<Progress value={progress} />
 								</div>
 								<div className="row-start-2">
-									<p className="text-h1 leading-none">17:59</p>
+									<p className="text-h1 leading-none">{pomodoro.time}</p>
 									<p className="mt-3 tablet:mt-5">
 										<button
-											className="hocus:text-accent text-h3 uppercase transition-colors"
+											className="text-h3 uppercase transition-colors hocus:text-accent"
 											type="button"
 											onClick={() => {
 												console.log('todo: Start timer')
@@ -159,9 +131,9 @@ export function App() {
 											</Dialog.Close>
 										</header>
 										<SettingsForm
-											defaultValue={settings}
+											defaultValue={pomodoro.settings}
 											onApply={(settings) => {
-												setSettings(settings)
+												pomodoro.applySettings(settings)
 												setIsSettingsOpen(false)
 											}}
 										/>
@@ -175,6 +147,52 @@ export function App() {
 			<Announcer />
 		</AnnouncementProvider>
 	)
+}
+
+function usePomodoro() {
+	const [type, setType] = useState<TimerType>('pomodoro')
+	const [time, setTime] = useState(25)
+	const [settings, setSettings] = useLocalStorage<Settings>('settings', {
+		pomodoro: 25,
+		'short-break': 5,
+		'long-break': 15,
+		font: 'kumbh-sans',
+		color: 'red',
+	})
+
+	useEffect(() => {
+		document.documentElement.style.setProperty(
+			'--font-main',
+			fontFamily[settings.font],
+		)
+		return () => {
+			document.documentElement.style.removeProperty('--font-main')
+		}
+	}, [settings.font])
+
+	useEffect(() => {
+		document.documentElement.style.setProperty(
+			'--color-accent',
+			colors[settings.color],
+		)
+		return () => {
+			document.documentElement.style.removeProperty('--color-accent')
+		}
+	}, [settings.color])
+
+	return {
+		settings,
+		time,
+		type,
+		applySettings(settings: Settings) {
+			setSettings(settings)
+			setTime(settings[type])
+		},
+		changeType(type: TimerType) {
+			setType(type)
+			setTime(settings[type])
+		},
+	}
 }
 
 const d = 339
@@ -207,12 +225,15 @@ function Progress({ value }: ProgressProps) {
 }
 
 const settingsSchema = z.object({
+	pomodoro: z.number().gt(0),
+	'short-break': z.number().gt(0),
+	'long-break': z.number().gt(0),
 	font: z.enum(['kumbh-sans', 'roboto-slab', 'space-mono']),
 	color: z.enum(['red', 'cyan', 'purple']),
-	// todo: Rest
 })
 
 type Settings = z.infer<typeof settingsSchema>
+type TimerType = 'pomodoro' | 'short-break' | 'long-break'
 
 interface SettingsFormProps {
 	defaultValue: Settings
@@ -254,34 +275,22 @@ function SettingsForm({ defaultValue, onApply }: SettingsFormProps) {
 					<label className="grid grid-cols-2 items-center text-dark-blue/40 tablet:grid-cols-1 tablet:gap-[0.625rem]">
 						pomodoro
 						<input
+							{...getInputProps(fields.pomodoro, { type: 'number' })}
 							className="h-10 w-full rounded-xs bg-gray px-4 text-dark-blue tablet:h-12"
-							type="number"
-							name="pomodoro"
-							defaultValue="25"
-							min="1"
-							required
 						/>
 					</label>
 					<label className="grid grid-cols-2 items-center text-dark-blue/40 tablet:grid-cols-1 tablet:gap-[0.625rem]">
 						short break
 						<input
+							{...getInputProps(fields['short-break'], { type: 'number' })}
 							className="h-10 w-full rounded-xs bg-gray px-4 text-dark-blue tablet:h-12"
-							type="number"
-							name="short-break"
-							defaultValue="5"
-							min="1"
-							required
 						/>
 					</label>
 					<label className="grid grid-cols-2 items-center text-dark-blue/40 tablet:grid-cols-1 tablet:gap-[0.625rem]">
 						long break
 						<input
+							{...getInputProps(fields['long-break'], { type: 'number' })}
 							className="h-10 w-full rounded-xs bg-gray px-4 text-dark-blue tablet:h-12"
-							type="number"
-							name="long-break"
-							defaultValue="15"
-							min="1"
-							required
 						/>
 					</label>
 				</div>
@@ -388,7 +397,7 @@ function SettingsForm({ defaultValue, onApply }: SettingsFormProps) {
 				</div>
 			</fieldset>
 			<p className="mt-8">
-				<button className="bg-accent min-w-[8.75rem] rounded-full text-white">
+				<button className="min-w-[8.75rem] rounded-full bg-accent text-white">
 					Apply
 				</button>
 			</p>
