@@ -11,28 +11,10 @@ import * as Landmark from '#app/components/landmark'
 import { colors } from '#app/utils/colors'
 
 export function App() {
-	const timeLabelId = useId()
-	const fontLabelId = useId()
-	const colorLabelId = useId()
 	const [progress, setProgress] = useState(0)
 	const [isSettingsOpen, setIsSettingsOpen] = useState(false)
 	const [settings, setSettings] = useLocalStorage<Settings>('settings', {
 		color: 'red',
-	})
-	const [form, fields] = useForm({
-		constraint: getZodConstraint(settingsSchema),
-		defaultValue: settings,
-		onValidate({ formData }) {
-			return parseWithZod(formData, { schema: settingsSchema })
-		},
-		onSubmit(event, { submission }) {
-			event.preventDefault()
-
-			if (submission?.status !== 'success') return
-
-			setSettings(submission.value)
-			setIsSettingsOpen(false)
-		},
 	})
 
 	useEffect(() => {
@@ -164,165 +146,13 @@ export function App() {
 												<span className="sr-only">Close</span>
 											</Dialog.Close>
 										</header>
-										<form
-											{...getFormProps(form)}
-											className="border-t border-[hsl(0_2%_89%)] px-6 pt-6 tablet:px-10"
-										>
-											<fieldset aria-labelledby={timeLabelId}>
-												<p
-													className="text-center text-h4 uppercase tablet:text-start"
-													id={timeLabelId}
-												>
-													Time (minutes)
-												</p>
-												<div className="mt-5 grid gap-2 tablet:mt-[1.625rem] tablet:grid-cols-3 tablet:gap-5">
-													<label className="grid grid-cols-2 items-center text-dark-blue/40 tablet:grid-cols-1 tablet:gap-[0.625rem]">
-														pomodoro
-														<input
-															className="h-10 w-full rounded-xs bg-gray px-4 text-dark-blue tablet:h-12"
-															type="number"
-															name="pomodoro"
-															defaultValue="25"
-															min="1"
-															required
-														/>
-													</label>
-													<label className="grid grid-cols-2 items-center text-dark-blue/40 tablet:grid-cols-1 tablet:gap-[0.625rem]">
-														short break
-														<input
-															className="h-10 w-full rounded-xs bg-gray px-4 text-dark-blue tablet:h-12"
-															type="number"
-															name="short-break"
-															defaultValue="5"
-															min="1"
-															required
-														/>
-													</label>
-													<label className="grid grid-cols-2 items-center text-dark-blue/40 tablet:grid-cols-1 tablet:gap-[0.625rem]">
-														long break
-														<input
-															className="h-10 w-full rounded-xs bg-gray px-4 text-dark-blue tablet:h-12"
-															type="number"
-															name="long-break"
-															defaultValue="15"
-															min="1"
-															required
-														/>
-													</label>
-												</div>
-											</fieldset>
-											<fieldset
-												className="mt-6 flex flex-col items-center justify-center gap-[1.125rem] border-t border-[hsl(0_2%_89%)] pt-6 tablet:flex-row tablet:justify-between"
-												aria-labelledby={fontLabelId}
-											>
-												<p
-													className="text-center text-h4 uppercase"
-													id={fontLabelId}
-												>
-													Font
-												</p>
-												<div className="flex flex-wrap gap-4">
-													<label>
-														<input
-															className="peer sr-only"
-															type="radio"
-															name="font"
-															value="kumbh-sans"
-															defaultChecked
-															required
-														/>
-														<span className="sr-only">Kumbh Sans</span>
-														<span
-															className="grid size-10 place-items-center rounded-full bg-gray font-kumbh-sans text-[0.9375rem] transition-colors peer-checked:bg-dark-blue peer-checked:text-white"
-															aria-hidden="true"
-														>
-															Aa
-														</span>
-													</label>
-													<label>
-														<input
-															className="peer sr-only"
-															type="radio"
-															name="font"
-															value="roboto-slab"
-														/>
-														<span className="sr-only">Roboto Slab</span>
-														<span
-															className="grid size-10 place-items-center rounded-full bg-gray font-roboto-slab text-[0.9375rem] transition-colors peer-checked:bg-dark-blue peer-checked:text-white"
-															aria-hidden="true"
-														>
-															Aa
-														</span>
-													</label>
-													<label>
-														<input
-															className="peer sr-only"
-															type="radio"
-															name="font"
-															value="space-mono"
-														/>
-														<span className="sr-only">Space Mono</span>
-														<span
-															className="grid size-10 place-items-center rounded-full bg-gray font-space-mono text-[0.9375rem] transition-colors peer-checked:bg-dark-blue peer-checked:text-white"
-															aria-hidden="true"
-														>
-															Aa
-														</span>
-													</label>
-												</div>
-											</fieldset>
-											<fieldset
-												className="mt-6 flex flex-col items-center justify-center gap-[1.125rem] border-t border-[hsl(0_2%_89%)] pt-4 tablet:flex-row tablet:justify-between tablet:pt-6"
-												aria-labelledby={colorLabelId}
-											>
-												<p
-													className="text-center text-h4 uppercase"
-													id={colorLabelId}
-												>
-													Color
-												</p>
-												<div className="flex flex-wrap gap-4">
-													<label>
-														<input
-															{...getInputProps(fields.color, {
-																type: 'radio',
-																value: 'red',
-															})}
-															className="peer sr-only"
-														/>
-														<span className="sr-only">Red</span>
-														<span className="grid size-10 place-items-center rounded-full bg-red before:h-[0.8125rem] before:w-[0.4375rem] before:-translate-y-[0.0625rem] before:rotate-45 before:border-b-[0.125rem] before:border-r-[0.125rem] before:opacity-0 before:transition-opacity peer-checked:before:opacity-100" />
-													</label>
-													<label>
-														<input
-															{...getInputProps(fields.color, {
-																type: 'radio',
-																value: 'cyan',
-															})}
-															className="peer sr-only"
-														/>
-														<span className="sr-only">Cyan</span>
-														<span className="grid size-10 place-items-center rounded-full bg-cyan before:h-[0.8125rem] before:w-[0.4375rem] before:-translate-y-[0.0625rem] before:rotate-45 before:border-b-[0.125rem] before:border-r-[0.125rem] before:opacity-0 before:transition-opacity peer-checked:before:opacity-100" />
-													</label>
-													<label>
-														<input
-															{...getInputProps(fields.color, {
-																type: 'radio',
-																value: 'purple',
-															})}
-															className="peer sr-only"
-														/>
-														<span className="sr-only">Purple</span>
-														<span className="grid size-10 place-items-center rounded-full bg-purple before:h-[0.8125rem] before:w-[0.4375rem] before:-translate-y-[0.0625rem] before:rotate-45 before:border-b-[0.125rem] before:border-r-[0.125rem] before:opacity-0 before:transition-opacity peer-checked:before:opacity-100" />
-													</label>
-												</div>
-											</fieldset>
-											<p className="mt-8">
-												<button className="bg-accent min-w-[8.75rem] rounded-full text-white">
-													Apply
-												</button>
-											</p>
-										</form>
+										<SettingsForm
+											defaultValue={settings}
+											onApply={(settings) => {
+												setSettings(settings)
+												setIsSettingsOpen(false)
+											}}
+										/>
 									</article>
 								</Dialog.Content>
 							</Dialog.Overlay>
@@ -370,3 +200,184 @@ const settingsSchema = z.object({
 })
 
 type Settings = z.infer<typeof settingsSchema>
+
+interface SettingsFormProps {
+	defaultValue: Settings
+	onApply(settings: Settings): void
+}
+
+function SettingsForm({ defaultValue, onApply }: SettingsFormProps) {
+	const timeLabelId = useId()
+	const fontLabelId = useId()
+	const colorLabelId = useId()
+	const [form, fields] = useForm({
+		constraint: getZodConstraint(settingsSchema),
+		defaultValue,
+		onValidate({ formData }) {
+			return parseWithZod(formData, { schema: settingsSchema })
+		},
+		onSubmit(event, { submission }) {
+			event.preventDefault()
+
+			if (submission?.status !== 'success') return
+
+			onApply(submission.value)
+		},
+	})
+
+	return (
+		<form
+			{...getFormProps(form)}
+			className="border-t border-[hsl(0_2%_89%)] px-6 pt-6 tablet:px-10"
+		>
+			<fieldset aria-labelledby={timeLabelId}>
+				<p
+					className="text-center text-h4 uppercase tablet:text-start"
+					id={timeLabelId}
+				>
+					Time (minutes)
+				</p>
+				<div className="mt-5 grid gap-2 tablet:mt-[1.625rem] tablet:grid-cols-3 tablet:gap-5">
+					<label className="grid grid-cols-2 items-center text-dark-blue/40 tablet:grid-cols-1 tablet:gap-[0.625rem]">
+						pomodoro
+						<input
+							className="h-10 w-full rounded-xs bg-gray px-4 text-dark-blue tablet:h-12"
+							type="number"
+							name="pomodoro"
+							defaultValue="25"
+							min="1"
+							required
+						/>
+					</label>
+					<label className="grid grid-cols-2 items-center text-dark-blue/40 tablet:grid-cols-1 tablet:gap-[0.625rem]">
+						short break
+						<input
+							className="h-10 w-full rounded-xs bg-gray px-4 text-dark-blue tablet:h-12"
+							type="number"
+							name="short-break"
+							defaultValue="5"
+							min="1"
+							required
+						/>
+					</label>
+					<label className="grid grid-cols-2 items-center text-dark-blue/40 tablet:grid-cols-1 tablet:gap-[0.625rem]">
+						long break
+						<input
+							className="h-10 w-full rounded-xs bg-gray px-4 text-dark-blue tablet:h-12"
+							type="number"
+							name="long-break"
+							defaultValue="15"
+							min="1"
+							required
+						/>
+					</label>
+				</div>
+			</fieldset>
+			<fieldset
+				className="mt-6 flex flex-col items-center justify-center gap-[1.125rem] border-t border-[hsl(0_2%_89%)] pt-6 tablet:flex-row tablet:justify-between"
+				aria-labelledby={fontLabelId}
+			>
+				<p className="text-center text-h4 uppercase" id={fontLabelId}>
+					Font
+				</p>
+				<div className="flex flex-wrap gap-4">
+					<label>
+						<input
+							className="peer sr-only"
+							type="radio"
+							name="font"
+							value="kumbh-sans"
+							defaultChecked
+							required
+						/>
+						<span className="sr-only">Kumbh Sans</span>
+						<span
+							className="grid size-10 place-items-center rounded-full bg-gray font-kumbh-sans text-[0.9375rem] transition-colors peer-checked:bg-dark-blue peer-checked:text-white"
+							aria-hidden="true"
+						>
+							Aa
+						</span>
+					</label>
+					<label>
+						<input
+							className="peer sr-only"
+							type="radio"
+							name="font"
+							value="roboto-slab"
+						/>
+						<span className="sr-only">Roboto Slab</span>
+						<span
+							className="grid size-10 place-items-center rounded-full bg-gray font-roboto-slab text-[0.9375rem] transition-colors peer-checked:bg-dark-blue peer-checked:text-white"
+							aria-hidden="true"
+						>
+							Aa
+						</span>
+					</label>
+					<label>
+						<input
+							className="peer sr-only"
+							type="radio"
+							name="font"
+							value="space-mono"
+						/>
+						<span className="sr-only">Space Mono</span>
+						<span
+							className="grid size-10 place-items-center rounded-full bg-gray font-space-mono text-[0.9375rem] transition-colors peer-checked:bg-dark-blue peer-checked:text-white"
+							aria-hidden="true"
+						>
+							Aa
+						</span>
+					</label>
+				</div>
+			</fieldset>
+			<fieldset
+				className="mt-6 flex flex-col items-center justify-center gap-[1.125rem] border-t border-[hsl(0_2%_89%)] pt-4 tablet:flex-row tablet:justify-between tablet:pt-6"
+				aria-labelledby={colorLabelId}
+			>
+				<p className="text-center text-h4 uppercase" id={colorLabelId}>
+					Color
+				</p>
+				<div className="flex flex-wrap gap-4">
+					<label>
+						<input
+							{...getInputProps(fields.color, {
+								type: 'radio',
+								value: 'red',
+							})}
+							className="peer sr-only"
+						/>
+						<span className="sr-only">Red</span>
+						<span className="grid size-10 place-items-center rounded-full bg-red before:h-[0.8125rem] before:w-[0.4375rem] before:-translate-y-[0.0625rem] before:rotate-45 before:border-b-[0.125rem] before:border-r-[0.125rem] before:opacity-0 before:transition-opacity peer-checked:before:opacity-100" />
+					</label>
+					<label>
+						<input
+							{...getInputProps(fields.color, {
+								type: 'radio',
+								value: 'cyan',
+							})}
+							className="peer sr-only"
+						/>
+						<span className="sr-only">Cyan</span>
+						<span className="grid size-10 place-items-center rounded-full bg-cyan before:h-[0.8125rem] before:w-[0.4375rem] before:-translate-y-[0.0625rem] before:rotate-45 before:border-b-[0.125rem] before:border-r-[0.125rem] before:opacity-0 before:transition-opacity peer-checked:before:opacity-100" />
+					</label>
+					<label>
+						<input
+							{...getInputProps(fields.color, {
+								type: 'radio',
+								value: 'purple',
+							})}
+							className="peer sr-only"
+						/>
+						<span className="sr-only">Purple</span>
+						<span className="grid size-10 place-items-center rounded-full bg-purple before:h-[0.8125rem] before:w-[0.4375rem] before:-translate-y-[0.0625rem] before:rotate-45 before:border-b-[0.125rem] before:border-r-[0.125rem] before:opacity-0 before:transition-opacity peer-checked:before:opacity-100" />
+					</label>
+				</div>
+			</fieldset>
+			<p className="mt-8">
+				<button className="bg-accent min-w-[8.75rem] rounded-full text-white">
+					Apply
+				</button>
+			</p>
+		</form>
+	)
+}
