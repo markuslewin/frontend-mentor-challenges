@@ -131,7 +131,14 @@ export function App() {
 											</Dialog.Close>
 										</header>
 										<SettingsForm
-											defaultValue={pomodoro.settings}
+											defaultValue={{
+												...pomodoro.settings,
+												pomodoro: pomodoro.settings.pomodoro / 1000 / 60,
+												'short-break':
+													pomodoro.settings['short-break'] / 1000 / 60,
+												'long-break':
+													pomodoro.settings['long-break'] / 1000 / 60,
+											}}
 											onApply={(settings) => {
 												pomodoro.applySettings(settings)
 												setIsSettingsOpen(false)
@@ -151,14 +158,14 @@ export function App() {
 
 function usePomodoro() {
 	const [type, setType] = useState<TimerType>('pomodoro')
-	const [time, setTime] = useState(25)
 	const [settings, setSettings] = useLocalStorage<Settings>('settings', {
-		pomodoro: 25,
-		'short-break': 5,
-		'long-break': 15,
+		pomodoro: 25 * 60 * 1000,
+		'short-break': 5 * 60 * 1000,
+		'long-break': 15 * 60 * 1000,
 		font: 'kumbh-sans',
 		color: 'red',
 	})
+	const [time, setTime] = useState(settings[type])
 
 	useEffect(() => {
 		document.documentElement.style.setProperty(
@@ -180,9 +187,12 @@ function usePomodoro() {
 		}
 	}, [settings.color])
 
+	const minutes = Math.floor(time / 1000 / 60)
+	const seconds = (time / 1000) % 60
+
 	return {
 		settings,
-		time,
+		time: `${minutes}:${seconds.toString().padStart(2, '0')}`,
 		type,
 		applySettings(settings: Settings) {
 			setSettings(settings)
@@ -225,9 +235,18 @@ function Progress({ value }: ProgressProps) {
 }
 
 const settingsSchema = z.object({
-	pomodoro: z.number().gt(0),
-	'short-break': z.number().gt(0),
-	'long-break': z.number().gt(0),
+	pomodoro: z
+		.number()
+		.gt(0)
+		.transform((minutes) => minutes * 60 * 1000),
+	'short-break': z
+		.number()
+		.gt(0)
+		.transform((minutes) => minutes * 60 * 1000),
+	'long-break': z
+		.number()
+		.gt(0)
+		.transform((minutes) => minutes * 60 * 1000),
 	font: z.enum(['kumbh-sans', 'roboto-slab', 'space-mono']),
 	color: z.enum(['red', 'cyan', 'purple']),
 })
