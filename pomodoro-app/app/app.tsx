@@ -390,7 +390,7 @@ const Settings = forwardRef<HTMLDivElement, SettingsProps>(
 												/>
 												<span className="sr-only">Kumbh Sans</span>
 												<span
-													className="grid size-10 place-items-center rounded-full bg-gray font-kumbh-sans text-[0.9375rem] transition-colors peer-checked:bg-dark-blue peer-checked:text-white"
+													className="grid size-10 place-items-center rounded-full bg-gray font-kumbh-sans text-[0.9375rem] transition-all peer-checked:bg-dark-blue peer-checked:text-white peer-hover:ring-1 peer-hover:ring-gray peer-hover:ring-offset-4 peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-[black]"
 													aria-hidden="true"
 												>
 													Aa
@@ -406,7 +406,7 @@ const Settings = forwardRef<HTMLDivElement, SettingsProps>(
 												/>
 												<span className="sr-only">Roboto Slab</span>
 												<span
-													className="grid size-10 place-items-center rounded-full bg-gray font-roboto-slab text-[0.9375rem] transition-colors peer-checked:bg-dark-blue peer-checked:text-white"
+													className="grid size-10 place-items-center rounded-full bg-gray font-roboto-slab text-[0.9375rem] transition-all peer-checked:bg-dark-blue peer-checked:text-white peer-hover:ring-1 peer-hover:ring-gray peer-hover:ring-offset-4 peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-[black]"
 													aria-hidden="true"
 												>
 													Aa
@@ -422,7 +422,7 @@ const Settings = forwardRef<HTMLDivElement, SettingsProps>(
 												/>
 												<span className="sr-only">Space Mono</span>
 												<span
-													className="grid size-10 place-items-center rounded-full bg-gray font-space-mono text-[0.9375rem] transition-colors peer-checked:bg-dark-blue peer-checked:text-white"
+													className="grid size-10 place-items-center rounded-full bg-gray font-space-mono text-[0.9375rem] transition-all peer-checked:bg-dark-blue peer-checked:text-white peer-hover:ring-1 peer-hover:ring-gray peer-hover:ring-offset-4 peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-[black]"
 													aria-hidden="true"
 												>
 													Aa
@@ -450,7 +450,7 @@ const Settings = forwardRef<HTMLDivElement, SettingsProps>(
 													className="peer sr-only"
 												/>
 												<span className="sr-only">Red</span>
-												<span className="grid size-10 place-items-center rounded-full bg-red before:h-[0.8125rem] before:w-[0.4375rem] before:-translate-y-[0.0625rem] before:rotate-45 before:border-b-[0.125rem] before:border-r-[0.125rem] before:opacity-0 before:transition-opacity peer-checked:before:opacity-100" />
+												<span className="grid size-10 place-items-center rounded-full bg-red transition-shadow before:h-[0.8125rem] before:w-[0.4375rem] before:-translate-y-[0.0625rem] before:rotate-45 before:border-b-[0.125rem] before:border-r-[0.125rem] before:opacity-0 before:transition-opacity peer-checked:before:opacity-100 peer-hover:ring-1 peer-hover:ring-gray peer-hover:ring-offset-4 peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-[black]" />
 											</label>
 											<label>
 												<input
@@ -461,7 +461,7 @@ const Settings = forwardRef<HTMLDivElement, SettingsProps>(
 													className="peer sr-only"
 												/>
 												<span className="sr-only">Cyan</span>
-												<span className="grid size-10 place-items-center rounded-full bg-cyan before:h-[0.8125rem] before:w-[0.4375rem] before:-translate-y-[0.0625rem] before:rotate-45 before:border-b-[0.125rem] before:border-r-[0.125rem] before:opacity-0 before:transition-opacity peer-checked:before:opacity-100" />
+												<span className="grid size-10 place-items-center rounded-full bg-cyan transition-shadow before:h-[0.8125rem] before:w-[0.4375rem] before:-translate-y-[0.0625rem] before:rotate-45 before:border-b-[0.125rem] before:border-r-[0.125rem] before:opacity-0 before:transition-opacity peer-checked:before:opacity-100 peer-hover:ring-1 peer-hover:ring-gray peer-hover:ring-offset-4 peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-[black]" />
 											</label>
 											<label>
 												<input
@@ -472,7 +472,7 @@ const Settings = forwardRef<HTMLDivElement, SettingsProps>(
 													className="peer sr-only"
 												/>
 												<span className="sr-only">Purple</span>
-												<span className="grid size-10 place-items-center rounded-full bg-purple before:h-[0.8125rem] before:w-[0.4375rem] before:-translate-y-[0.0625rem] before:rotate-45 before:border-b-[0.125rem] before:border-r-[0.125rem] before:opacity-0 before:transition-opacity peer-checked:before:opacity-100" />
+												<span className="grid size-10 place-items-center rounded-full bg-purple transition-shadow before:h-[0.8125rem] before:w-[0.4375rem] before:-translate-y-[0.0625rem] before:rotate-45 before:border-b-[0.125rem] before:border-r-[0.125rem] before:opacity-0 before:transition-opacity peer-checked:before:opacity-100 peer-hover:ring-1 peer-hover:ring-gray peer-hover:ring-offset-4 peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-[black]" />
 											</label>
 										</div>
 									</fieldset>
