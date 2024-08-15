@@ -2,7 +2,7 @@ import { getFormProps, getInputProps, useForm } from '@conform-to/react'
 import { getZodConstraint, parseWithZod } from '@conform-to/zod'
 import * as Dialog from '@radix-ui/react-dialog'
 import { useLocalStorage } from '@uidotdev/usehooks'
-import { useEffect, useId, useState } from 'react'
+import { useEffect, useId, useRef, useState } from 'react'
 import { z } from 'zod'
 import { AnnouncementProvider, Announcer } from '#app/components/announcer'
 import { Icon } from '#app/components/icon'
@@ -12,18 +12,11 @@ import { fontFamily } from '#app/utils/fonts'
 
 export function App() {
 	const pomodoro = usePomodoro()
-	const [progress, setProgress] = useState(0)
 	const [isSettingsOpen, setIsSettingsOpen] = useState(false)
 
-	useEffect(() => {
-		const id = setInterval(() => {
-			setProgress(Math.random())
-		}, 10000)
-
-		return () => {
-			clearInterval(id)
-		}
-	})
+	const timeLeft = pomodoro.settings[pomodoro.type] - pomodoro.elapsed
+	const minutes = Math.floor(timeLeft / 1000 / 60)
+	const seconds = (timeLeft / 1000) % 60
 
 	return (
 		<AnnouncementProvider>
@@ -89,19 +82,24 @@ export function App() {
 						<div className="rounded-full bg-gradient-to-tl from-[hsl(234_33%_27%)] to-[hsl(235_49%_11%)] p-[5.4%] shadow-[-3.125rem_-3.125rem_6.25rem_hsl(234_40%_25%),3.125rem_3.125rem_6.25rem_hsl(235_45%_13%)]">
 							<div className="relative isolate grid aspect-square grid-rows-[161fr_auto_113fr] rounded-[inherit] bg-dark-blue">
 								<div className="absolute inset-0 -z-10 p-[3.7%] text-accent">
-									<Progress value={progress} />
+									<Progress
+										value={timeLeft / pomodoro.settings[pomodoro.type]}
+									/>
 								</div>
 								<div className="row-start-2">
-									<p className="text-h1 leading-none">{pomodoro.time}</p>
+									<p className="text-h1 leading-none">
+										{minutes.toString().padStart(2, '0')}:
+										{seconds.toString().padStart(2, '0')}
+									</p>
 									<p className="mt-3 tablet:mt-5">
 										<button
 											className="text-h3 uppercase transition-colors hocus:text-accent"
 											type="button"
 											onClick={() => {
-												console.log('todo: Start timer')
+												pomodoro.execAction()
 											}}
 										>
-											Start
+											{getButtonName(pomodoro.status)}
 										</button>
 									</p>
 								</div>
@@ -156,16 +154,35 @@ export function App() {
 	)
 }
 
+function getButtonName(status: PomodoroStatus) {
+	if (status === 'idle') {
+		return 'Start'
+	} else if (status === 'pending') {
+		return 'Pause'
+	} else if (status === 'resolved') {
+		return 'Restart'
+	} else {
+		throw new Error(`Invalid status "${status}"`)
+	}
+}
+
+type PomodoroStatus = 'idle' | 'pending' | 'resolved'
+
 function usePomodoro() {
 	const [type, setType] = useState<TimerType>('pomodoro')
 	const [settings, setSettings] = useLocalStorage<Settings>('settings', {
-		pomodoro: 25 * 60 * 1000,
+		// todo:
+		// pomodoro: 25 * 60 * 1000,
+		pomodoro: 10 * 1000,
 		'short-break': 5 * 60 * 1000,
 		'long-break': 15 * 60 * 1000,
 		font: 'kumbh-sans',
 		color: 'red',
 	})
-	const [time, setTime] = useState(settings[type])
+	const [elapsed, _setElapsed] = useState(0)
+	const [status, setStatus] = useState<PomodoroStatus>('idle')
+	const timerRef = useRef<ReturnType<typeof setInterval>>()
+	const elapsedRef = useRef(0)
 
 	useEffect(() => {
 		document.documentElement.style.setProperty(
@@ -187,20 +204,58 @@ function usePomodoro() {
 		}
 	}, [settings.color])
 
-	const minutes = Math.floor(time / 1000 / 60)
-	const seconds = (time / 1000) % 60
+	function startTimer() {
+		timerRef.current = setInterval(() => {
+			// todo: Calculate actual elapsed time with `Date.now`
+			const e = Math.min(elapsedRef.current + 1000, settings[type])
+			setElapsed(e)
+			if (e === settings[type]) {
+				stopTimer()
+				setStatus('resolved')
+			}
+		}, 1000)
+		setStatus('pending')
+	}
+
+	function stopTimer() {
+		clearInterval(timerRef.current)
+		timerRef.current = undefined
+	}
+
+	function resetTimer() {
+		stopTimer()
+		setElapsed(0)
+		setStatus('idle')
+	}
+
+	function setElapsed(elapsed: number) {
+		elapsedRef.current = elapsed
+		_setElapsed(elapsed)
+	}
 
 	return {
 		settings,
-		time: `${minutes}:${seconds.toString().padStart(2, '0')}`,
+		status,
+		elapsed,
 		type,
 		applySettings(settings: Settings) {
 			setSettings(settings)
-			setTime(settings[type])
+			resetTimer()
 		},
 		changeType(type: TimerType) {
+			resetTimer()
 			setType(type)
-			setTime(settings[type])
+		},
+		execAction() {
+			if (status === 'idle') {
+				startTimer()
+			} else if (status === 'pending') {
+				stopTimer()
+				setStatus('idle')
+			} else if (status === 'resolved') {
+				setElapsed(0)
+				startTimer()
+			}
 		},
 	}
 }
@@ -219,7 +274,7 @@ function Progress({ value }: ProgressProps) {
 	return (
 		<svg className="-rotate-90" viewBox={`0 0 ${d} ${d}`}>
 			<circle
-				className="transition-all duration-[2000ms]"
+				className="transition-all"
 				r={r}
 				cx={radius}
 				cy={radius}
