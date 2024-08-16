@@ -2,7 +2,14 @@ import { getFormProps, getInputProps, useForm } from '@conform-to/react'
 import { getZodConstraint, parseWithZod } from '@conform-to/zod'
 import * as Dialog from '@radix-ui/react-dialog'
 import { useLocalStorage } from '@uidotdev/usehooks'
-import { forwardRef, useEffect, useId, useRef, useState } from 'react'
+import {
+	type ComponentPropsWithoutRef,
+	forwardRef,
+	useEffect,
+	useId,
+	useRef,
+	useState,
+} from 'react'
 import { z } from 'zod'
 import { AnnouncementProvider, Announcer } from '#app/components/announcer'
 import { Icon } from '#app/components/icon'
@@ -340,29 +347,32 @@ const Settings = forwardRef<HTMLDivElement, SettingsProps>(
 										<div className="mt-5 grid gap-2 tablet:mt-[1.625rem] tablet:grid-cols-3 tablet:gap-5">
 											<label className="grid grid-cols-2 items-center text-dark-blue/40 tablet:grid-cols-1 tablet:gap-[0.625rem]">
 												pomodoro
-												<input
+												<TimeInput
 													{...getInputProps(fields.pomodoro, {
 														type: 'number',
+														value: false,
 													})}
-													className="h-10 w-full rounded-xs bg-gray px-4 text-dark-blue tablet:h-12"
+													defaultValue={defaultValue.pomodoro}
 												/>
 											</label>
 											<label className="grid grid-cols-2 items-center text-dark-blue/40 tablet:grid-cols-1 tablet:gap-[0.625rem]">
 												short break
-												<input
+												<TimeInput
 													{...getInputProps(fields['short-break'], {
 														type: 'number',
+														value: false,
 													})}
-													className="h-10 w-full rounded-xs bg-gray px-4 text-dark-blue tablet:h-12"
+													defaultValue={defaultValue['short-break']}
 												/>
 											</label>
 											<label className="grid grid-cols-2 items-center text-dark-blue/40 tablet:grid-cols-1 tablet:gap-[0.625rem]">
 												long break
-												<input
+												<TimeInput
 													{...getInputProps(fields['long-break'], {
 														type: 'number',
+														value: false,
 													})}
-													className="h-10 w-full rounded-xs bg-gray px-4 text-dark-blue tablet:h-12"
+													defaultValue={defaultValue['long-break']}
 												/>
 											</label>
 										</div>
@@ -489,3 +499,75 @@ const Settings = forwardRef<HTMLDivElement, SettingsProps>(
 		)
 	},
 )
+
+interface TimeInputProps extends ComponentPropsWithoutRef<'input'> {
+	defaultValue: number
+}
+
+function TimeInput({ defaultValue, ...props }: TimeInputProps) {
+	const [value, setValue] = useState(defaultValue.toString())
+
+	return (
+		<div className="relative">
+			<input
+				{...props}
+				className="h-10 w-full rounded-xs bg-gray pl-4 pr-9 text-dark-blue tablet:h-12"
+				value={value}
+				onChange={(e) => {
+					setValue(e.target.value)
+				}}
+			/>
+			<SpinButton value={value} min={props.min} onValueChange={setValue} />
+		</div>
+	)
+}
+
+interface SpinButtonProps {
+	value: string
+	min?: string | number
+	onValueChange(value: string): void
+}
+
+function SpinButton({ value, min: _min, onValueChange }: SpinButtonProps) {
+	// todo: Move out of `SpinButton`
+	const min =
+		typeof _min === 'number'
+			? _min
+			: typeof _min === 'string'
+				? parseFloat(_min)
+				: null
+
+	return (
+		<div
+			className="absolute inset-y-0 right-4 grid content-center gap-2"
+			// The spinbutton is an enhancement for pointer devices - hide from keyboard
+			aria-hidden="true"
+		>
+			<button
+				className="text-blue/25 transition-colors hover:text-blue"
+				type="button"
+				tabIndex={-1}
+				onClick={() => {
+					const parsed = parseInt(value, 10)
+					const current = isNaN(parsed) ? 0 : parsed
+					onValueChange((current + 1).toString())
+				}}
+			>
+				<Icon className="h-[0.4375rem] w-[0.875rem]" name="icon-arrow-up" />
+			</button>
+			<button
+				className="text-blue/25 transition-colors hover:text-blue"
+				type="button"
+				tabIndex={-1}
+				onClick={() => {
+					const parsed = parseInt(value, 10)
+					const current = isNaN(parsed) ? 0 : parsed
+					const next = current - 1
+					onValueChange((min === null ? next : Math.max(min, next)).toString())
+				}}
+			>
+				<Icon className="h-[0.4375rem] w-[0.875rem]" name="icon-arrow-down" />
+			</button>
+		</div>
+	)
+}

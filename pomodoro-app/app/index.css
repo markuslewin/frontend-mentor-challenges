@@ -10,7 +10,7 @@
 	}
 
 	body {
-		@apply font-main bg-blue text-body-1 text-light-blue;
+		@apply bg-blue font-main text-body-1 text-light-blue;
 	}
 
 	h1,
@@ -20,6 +20,16 @@
 	h5,
 	h6 {
 		text-wrap: balance;
+	}
+
+	input::-webkit-outer-spin-button,
+	input::-webkit-inner-spin-button {
+		-webkit-appearance: none;
+		margin: 0;
+	}
+
+	input[type='number'] {
+		-moz-appearance: textfield;
 	}
 
 	:focus {
