@@ -127,7 +127,7 @@ export function App() {
 				</div>
 				<p className="mt-20 grid justify-center tablet:mt-36 desktop:mt-16">
 					<Dialog.Root open={isSettingsOpen} onOpenChange={setIsSettingsOpen}>
-						<Dialog.Trigger className="text-light-blue/50 transition-colors hocus:text-light-blue">
+						<Dialog.Trigger className="text-light-blue/50 transition-colors clickable-12 hocus:text-light-blue">
 							<Icon className="size-7" name="icon-settings" />
 							<span className="sr-only">Settings</span>
 						</Dialog.Trigger>
@@ -382,7 +382,7 @@ const Settings = forwardRef<HTMLDivElement, SettingsProps>(
 							<div className="rounded-sm bg-white text-dark-blue tablet:rounded">
 								<header className="flex flex-wrap items-end justify-between gap-4 px-6 pb-7 pt-6 tablet:px-10 tablet:py-8">
 									<Dialog.Title className="text-h2">Settings</Dialog.Title>
-									<Dialog.Close className="text-blue/50 transition-colors hocus:text-blue">
+									<Dialog.Close className="text-blue/50 transition-colors clickable-12 hocus:text-blue">
 										<Icon className="size-[0.875rem]" name="icon-close" />
 										<span className="sr-only">Close</span>
 									</Dialog.Close>
