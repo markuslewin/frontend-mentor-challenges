@@ -50,12 +50,13 @@ export function App() {
 							<input
 								className="peer sr-only"
 								type="radio"
+								name="timer"
 								checked={pomodoro.type === 'pomodoro'}
 								onChange={() => {
 									pomodoro.changeType('pomodoro')
 								}}
 							/>
-							<span className="grid h-12 items-center rounded-full transition-colors peer-checked:bg-accent peer-checked:text-blue hocus:text-light-blue peer-checked:hocus:text-blue">
+							<span className="grid h-12 items-center rounded-full transition-colors peer-checked:bg-accent peer-checked:text-blue peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-[white] hocus:text-light-blue peer-checked:hocus:text-blue">
 								pomodoro
 							</span>
 						</label>
@@ -63,12 +64,13 @@ export function App() {
 							<input
 								className="peer sr-only"
 								type="radio"
+								name="timer"
 								checked={pomodoro.type === 'short-break'}
 								onChange={() => {
 									pomodoro.changeType('short-break')
 								}}
 							/>
-							<span className="grid h-12 items-center rounded-full transition-colors peer-checked:bg-accent peer-checked:text-blue hocus:text-light-blue peer-checked:hocus:text-blue">
+							<span className="grid h-12 items-center rounded-full transition-colors peer-checked:bg-accent peer-checked:text-blue peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-[white] hocus:text-light-blue peer-checked:hocus:text-blue">
 								short break
 							</span>
 						</label>
@@ -76,12 +78,13 @@ export function App() {
 							<input
 								className="peer sr-only"
 								type="radio"
+								name="timer"
 								checked={pomodoro.type === 'long-break'}
 								onChange={() => {
 									pomodoro.changeType('long-break')
 								}}
 							/>
-							<span className="grid h-12 items-center rounded-full transition-colors peer-checked:bg-accent peer-checked:text-blue hocus:text-light-blue peer-checked:hocus:text-blue">
+							<span className="grid h-12 items-center rounded-full transition-colors peer-checked:bg-accent peer-checked:text-blue peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-[white] hocus:text-light-blue peer-checked:hocus:text-blue">
 								long break
 							</span>
 						</label>
