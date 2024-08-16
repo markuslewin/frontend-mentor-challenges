@@ -115,7 +115,9 @@ export function App() {
 												pomodoro.execAction()
 											}}
 										>
-											{getButtonName(pomodoro.status)}
+											<span className="inline-block translate-x-[0.5em]">
+												{getButtonName(pomodoro.status)}
+											</span>
 										</button>
 									</p>
 								</div>
