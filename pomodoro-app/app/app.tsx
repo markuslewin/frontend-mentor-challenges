@@ -1,7 +1,13 @@
-import { getFormProps, getInputProps, useForm } from '@conform-to/react'
+import {
+	getCollectionProps,
+	getFormProps,
+	getInputProps,
+	useForm,
+} from '@conform-to/react'
 import { getZodConstraint, parseWithZod } from '@conform-to/zod'
 import * as Dialog from '@radix-ui/react-dialog'
 import { useLocalStorage } from '@uidotdev/usehooks'
+import { cx } from 'class-variance-authority'
 import {
 	type ComponentPropsWithoutRef,
 	forwardRef,
@@ -142,6 +148,32 @@ export function App() {
 	)
 }
 
+function getFontName(value: string) {
+	if (isFont(value)) {
+		if (value === 'kumbh-sans') {
+			return 'Kumbh Sans'
+		} else if (value === 'roboto-slab') {
+			return 'Roboto Slab'
+		} else if (value === 'space-mono') {
+			return 'Space Mono'
+		}
+	}
+	throw new Error(`Invalid value "${value}"`)
+}
+
+function getColorName(value: string) {
+	if (isColor(value)) {
+		if (value === 'cyan') {
+			return 'Cyan'
+		} else if (value === 'purple') {
+			return 'Purple'
+		} else if (value === 'red') {
+			return 'Red'
+		}
+	}
+	throw new Error(`Invalid value "${value}"`)
+}
+
 function getButtonName(status: PomodoroStatus) {
 	if (status === 'idle') {
 		return 'Start'
@@ -275,6 +307,9 @@ function Progress({ value }: ProgressProps) {
 	)
 }
 
+const fonts = ['kumbh-sans', 'roboto-slab', 'space-mono'] as const
+const colors = ['red', 'cyan', 'purple'] as const
+
 const settingsSchema = z.object({
 	pomodoro: z
 		.number()
@@ -288,12 +323,23 @@ const settingsSchema = z.object({
 		.number()
 		.gt(0)
 		.transform((minutes) => minutes * 60 * 1000),
-	font: z.enum(['kumbh-sans', 'roboto-slab', 'space-mono']),
-	color: z.enum(['red', 'cyan', 'purple']),
+	font: z.enum(fonts),
+	color: z.enum(colors),
 })
 
 type Settings = z.infer<typeof settingsSchema>
+type Font = Settings['font']
+type Color = Settings['color']
+
 type TimerType = 'pomodoro' | 'short-break' | 'long-break'
+
+function isFont(value: any): value is Font {
+	return fonts.includes(value)
+}
+
+function isColor(value: any): value is Color {
+	return colors.includes(value)
+}
 
 interface SettingsProps {
 	defaultValue: Settings
@@ -388,54 +434,38 @@ const Settings = forwardRef<HTMLDivElement, SettingsProps>(
 											Font
 										</p>
 										<div className="flex flex-wrap gap-4">
-											<label>
-												<input
-													{...getInputProps(fields.font, {
-														type: 'radio',
-														value: 'kumbh-sans',
-													})}
-													className="peer sr-only"
-												/>
-												<span className="sr-only">Kumbh Sans</span>
-												<span
-													className="grid size-10 place-items-center rounded-full bg-gray font-kumbh-sans text-[0.9375rem] transition-all peer-checked:bg-dark-blue peer-checked:text-white peer-hover:ring-1 peer-hover:ring-gray peer-hover:ring-offset-4 peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-[black]"
-													aria-hidden="true"
-												>
-													Aa
-												</span>
-											</label>
-											<label>
-												<input
-													{...getInputProps(fields.font, {
-														type: 'radio',
-														value: 'roboto-slab',
-													})}
-													className="peer sr-only"
-												/>
-												<span className="sr-only">Roboto Slab</span>
-												<span
-													className="grid size-10 place-items-center rounded-full bg-gray font-roboto-slab text-[0.9375rem] transition-all peer-checked:bg-dark-blue peer-checked:text-white peer-hover:ring-1 peer-hover:ring-gray peer-hover:ring-offset-4 peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-[black]"
-													aria-hidden="true"
-												>
-													Aa
-												</span>
-											</label>
-											<label>
-												<input
-													{...getInputProps(fields.font, {
-														type: 'radio',
-														value: 'space-mono',
-													})}
-													className="peer sr-only"
-												/>
-												<span className="sr-only">Space Mono</span>
-												<span
-													className="grid size-10 place-items-center rounded-full bg-gray font-space-mono text-[0.9375rem] transition-all peer-checked:bg-dark-blue peer-checked:text-white peer-hover:ring-1 peer-hover:ring-gray peer-hover:ring-offset-4 peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-[black]"
-													aria-hidden="true"
-												>
-													Aa
-												</span>
-											</label>
+											{getCollectionProps(fields.font, {
+												type: 'radio',
+												options: [
+													'kumbh-sans',
+													'roboto-slab',
+													'space-mono',
+												] satisfies Font[],
+											}).map((props) => (
+												<label key={props.id}>
+													<input {...props} className="peer sr-only" />
+													<span className="sr-only">
+														{getFontName(props.value)}
+													</span>
+													<span
+														className={cx(
+															'grid size-10 place-items-center rounded-full bg-gray font-kumbh-sans text-[0.9375rem] transition-all peer-checked:bg-dark-blue peer-checked:text-white peer-hover:ring-1 peer-hover:ring-gray peer-hover:ring-offset-4 peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-[black]',
+															isFont(props.value)
+																? props.value === 'kumbh-sans'
+																	? 'font-kumbh-sans'
+																	: props.value === 'roboto-slab'
+																		? 'font-roboto-slab'
+																		: props.value === 'space-mono'
+																			? 'font-space-mono'
+																			: ''
+																: '',
+														)}
+														aria-hidden="true"
+													>
+														Aa
+													</span>
+												</label>
+											))}
 										</div>
 									</fieldset>
 									<fieldset
@@ -449,39 +479,31 @@ const Settings = forwardRef<HTMLDivElement, SettingsProps>(
 											Color
 										</p>
 										<div className="flex flex-wrap gap-4">
-											<label>
-												<input
-													{...getInputProps(fields.color, {
-														type: 'radio',
-														value: 'red',
-													})}
-													className="peer sr-only"
-												/>
-												<span className="sr-only">Red</span>
-												<span className="grid size-10 place-items-center rounded-full bg-red transition-shadow before:h-[0.8125rem] before:w-[0.4375rem] before:-translate-y-[0.0625rem] before:rotate-45 before:border-b-[0.125rem] before:border-r-[0.125rem] before:opacity-0 before:transition-opacity peer-checked:before:opacity-100 peer-hover:ring-1 peer-hover:ring-gray peer-hover:ring-offset-4 peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-[black]" />
-											</label>
-											<label>
-												<input
-													{...getInputProps(fields.color, {
-														type: 'radio',
-														value: 'cyan',
-													})}
-													className="peer sr-only"
-												/>
-												<span className="sr-only">Cyan</span>
-												<span className="grid size-10 place-items-center rounded-full bg-cyan transition-shadow before:h-[0.8125rem] before:w-[0.4375rem] before:-translate-y-[0.0625rem] before:rotate-45 before:border-b-[0.125rem] before:border-r-[0.125rem] before:opacity-0 before:transition-opacity peer-checked:before:opacity-100 peer-hover:ring-1 peer-hover:ring-gray peer-hover:ring-offset-4 peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-[black]" />
-											</label>
-											<label>
-												<input
-													{...getInputProps(fields.color, {
-														type: 'radio',
-														value: 'purple',
-													})}
-													className="peer sr-only"
-												/>
-												<span className="sr-only">Purple</span>
-												<span className="grid size-10 place-items-center rounded-full bg-purple transition-shadow before:h-[0.8125rem] before:w-[0.4375rem] before:-translate-y-[0.0625rem] before:rotate-45 before:border-b-[0.125rem] before:border-r-[0.125rem] before:opacity-0 before:transition-opacity peer-checked:before:opacity-100 peer-hover:ring-1 peer-hover:ring-gray peer-hover:ring-offset-4 peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-[black]" />
-											</label>
+											{getCollectionProps(fields.color, {
+												type: 'radio',
+												options: ['red', 'cyan', 'purple'] satisfies Color[],
+											}).map((props) => (
+												<label key={props.id}>
+													<input {...props} className="peer sr-only" />
+													<span className="sr-only">
+														{getColorName(props.value)}
+													</span>
+													<span
+														className={cx(
+															'grid size-10 place-items-center rounded-full transition-shadow before:h-[0.8125rem] before:w-[0.4375rem] before:-translate-y-[0.0625rem] before:rotate-45 before:border-b-[0.125rem] before:border-r-[0.125rem] before:opacity-0 before:transition-opacity peer-checked:before:opacity-100 peer-hover:ring-1 peer-hover:ring-gray peer-hover:ring-offset-4 peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-[black]',
+															isColor(props.value)
+																? props.value === 'red'
+																	? 'bg-red'
+																	: props.value === 'cyan'
+																		? 'bg-cyan'
+																		: props.value === 'purple'
+																			? 'bg-purple'
+																			: ''
+																: '',
+														)}
+													/>
+												</label>
+											))}
 										</div>
 									</fieldset>
 								</div>
