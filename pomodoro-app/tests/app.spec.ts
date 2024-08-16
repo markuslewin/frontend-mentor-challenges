@@ -1,6 +1,6 @@
 import { test, expect, type Page } from '@playwright/test'
 
-test.fixme('initial state', async ({ page }) => {
+test('initial state', async ({ page }) => {
 	const timerType = getTimerType(page)
 	const timerTypes = timerType.getByRole('radio')
 	const timer = getTimer(page)
@@ -8,13 +8,15 @@ test.fixme('initial state', async ({ page }) => {
 
 	await page.goto('/')
 
-	await expect(timerTypes).toHaveText(['pomodoro', 'short break', 'long break'])
-	await expect(timerType).toHaveValue('pomodoro')
+	await expect(timerTypes.nth(0)).toHaveAccessibleName('pomodoro')
+	await expect(timerTypes.nth(1)).toHaveAccessibleName('short break')
+	await expect(timerTypes.nth(2)).toHaveAccessibleName('long break')
+	await expect(timerType.getByRole('radio', { name: 'pomodoro' })).toBeChecked()
 	await expect(timer).toHaveText('25:00')
 	await expect(playButton).toBeAttached()
 })
 
-test.fixme('has settings', async ({ page }) => {
+test('has settings', async ({ page }) => {
 	const timeGroup = page.getByRole('group', { name: 'time' })
 
 	await page.goto('/')
@@ -22,20 +24,24 @@ test.fixme('has settings', async ({ page }) => {
 
 	await expect(page.getByRole('dialog', { name: 'settings' })).toBeAttached()
 	await expect(
-		timeGroup.getByRole('textbox', { name: 'pomodoro' }),
+		timeGroup.getByRole('spinbutton', { name: 'pomodoro' }),
 	).toHaveValue('25')
 	await expect(
-		timeGroup.getByRole('textbox', { name: 'short break' }),
+		timeGroup.getByRole('spinbutton', { name: 'short break' }),
 	).toHaveValue('5')
 	await expect(
-		timeGroup.getByRole('textbox', { name: 'long break' }),
+		timeGroup.getByRole('spinbutton', { name: 'long break' }),
 	).toHaveValue('15')
-	await expect(page.getByRole('radiogroup', { name: 'font' })).toHaveValue(
-		'Kumbh Sans',
-	)
-	await expect(page.getByRole('radiogroup', { name: 'color' })).toHaveValue(
-		'Red',
-	)
+	await expect(
+		page
+			.getByRole('group', { name: 'font' })
+			.getByRole('radio', { name: 'Kumbh Sans' }),
+	).toBeChecked()
+	await expect(
+		page
+			.getByRole('group', { name: 'color' })
+			.getByRole('radio', { name: 'Red' }),
+	).toBeChecked()
 
 	await page.getByRole('button', { name: 'apply' }).click()
 
@@ -145,7 +151,7 @@ test.fixme('resets when applying time-related settings', async ({ page }) => {
 })
 
 function getTimerType(page: Page) {
-	return page.getByRole('radiogroup', { name: 'timer type' })
+	return page.getByRole('group', { name: 'type of timer' })
 }
 
 function getTimer(page: Page) {

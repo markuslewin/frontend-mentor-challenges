@@ -87,7 +87,7 @@ export function App() {
 									/>
 								</div>
 								<div className="row-start-2">
-									<p className="text-h1 leading-none">
+									<p className="text-h1 leading-none" data-testid="timer">
 										{minutes.toString().padStart(2, '0')}:
 										{seconds.toString().padStart(2, '0')}
 									</p>
@@ -152,9 +152,7 @@ type PomodoroStatus = 'idle' | 'pending' | 'resolved'
 function usePomodoro() {
 	const [type, setType] = useState<TimerType>('pomodoro')
 	const [settings, setSettings] = useLocalStorage<Settings>('settings', {
-		// todo:
-		// pomodoro: 25 * 60 * 1000,
-		pomodoro: 10 * 1000,
+		pomodoro: 25 * 60 * 1000,
 		'short-break': 5 * 60 * 1000,
 		'long-break': 15 * 60 * 1000,
 		font: 'kumbh-sans',
@@ -320,7 +318,7 @@ const Settings = forwardRef<HTMLDivElement, SettingsProps>(
 				className="fixed inset-0 items-center overflow-y-auto bg-[hsl(234_47%_8%/50%)] py-12 center-[33.75rem] center-gutter-6"
 				ref={ref}
 			>
-				<Dialog.Content asChild aria-labelledby={undefined}>
+				<Dialog.Content aria-describedby={undefined}>
 					<form {...getFormProps(form)}>
 						<article>
 							<div className="rounded-sm bg-white text-dark-blue tablet:rounded">
