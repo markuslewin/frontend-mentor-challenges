@@ -17,7 +17,7 @@ import {
 	useState,
 } from 'react'
 import { z } from 'zod'
-import { AnnouncementProvider, Announcer } from '#app/components/announcer'
+import { useAnnouncer } from '#app/components/announcer'
 import { Icon } from '#app/components/icon'
 import * as Landmark from '#app/components/landmark'
 import { base } from '#app/utils/colors'
@@ -32,124 +32,119 @@ export function App() {
 	const seconds = (timeLeft / 1000) % 60
 
 	return (
-		<AnnouncementProvider>
-			<main className="min-h-screen px-6 pb-12 pt-8 tablet:pb-28 tablet:pt-20 desktop:pb-14 desktop:pt-12">
-				<h1 className="grid justify-center">
-					<Icon
-						className="h-6 w-auto tablet:h-8"
-						name="logo"
-						width="153"
-						height="32"
-					/>
-					<span className="sr-only">Pomodoro</span>
-				</h1>
-				<div className="center-[23.3125rem]">
-					<fieldset className="mt-11 grid h-16 grid-cols-3 items-center rounded-full bg-dark-blue px-2 text-center text-light-blue/40 tablet:mt-14">
-						<legend className="sr-only">Type of timer</legend>
-						<label>
-							<input
-								className="peer sr-only"
-								type="radio"
-								name="timer"
-								checked={pomodoro.type === 'pomodoro'}
-								onChange={() => {
-									pomodoro.changeType('pomodoro')
-								}}
-							/>
-							<span className="grid h-12 items-center rounded-full transition-colors peer-checked:bg-accent peer-checked:text-blue peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-[white] hocus:text-light-blue peer-checked:hocus:text-blue">
-								pomodoro
-							</span>
-						</label>
-						<label>
-							<input
-								className="peer sr-only"
-								type="radio"
-								name="timer"
-								checked={pomodoro.type === 'short-break'}
-								onChange={() => {
-									pomodoro.changeType('short-break')
-								}}
-							/>
-							<span className="grid h-12 items-center rounded-full transition-colors peer-checked:bg-accent peer-checked:text-blue peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-[white] hocus:text-light-blue peer-checked:hocus:text-blue">
-								short break
-							</span>
-						</label>
-						<label>
-							<input
-								className="peer sr-only"
-								type="radio"
-								name="timer"
-								checked={pomodoro.type === 'long-break'}
-								onChange={() => {
-									pomodoro.changeType('long-break')
-								}}
-							/>
-							<span className="grid h-12 items-center rounded-full transition-colors peer-checked:bg-accent peer-checked:text-blue peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-[white] hocus:text-light-blue peer-checked:hocus:text-blue">
-								long break
-							</span>
-						</label>
-					</fieldset>
-				</div>
-				<div>
-					<Landmark.Root className="mx-auto mt-12 max-w-[25.625rem] text-center tablet:mt-28 desktop:mt-11">
-						<Landmark.Label>
-							<h2 className="sr-only">Timer</h2>
-						</Landmark.Label>
-						<div className="rounded-full bg-gradient-to-tl from-[hsl(234_33%_27%)] to-[hsl(235_49%_11%)] p-[5.4%] shadow-[-3.125rem_-3.125rem_6.25rem_hsl(234_40%_25%),3.125rem_3.125rem_6.25rem_hsl(235_45%_13%)]">
-							<div className="relative isolate grid aspect-square grid-rows-[161fr_auto_113fr] rounded-[inherit] bg-dark-blue">
-								<div className="absolute inset-0 -z-10 p-[3.7%] text-accent">
-									<Progress
-										value={timeLeft / pomodoro.settings[pomodoro.type]}
-									/>
-								</div>
-								<div className="row-start-2">
-									<p className="text-h1 leading-none" data-testid="timer">
-										{minutes.toString().padStart(2, '0')}:
-										{seconds.toString().padStart(2, '0')}
-									</p>
-									<p className="mt-3 tablet:mt-5">
-										<button
-											className="text-h3 uppercase transition-colors hocus:text-accent"
-											type="button"
-											onClick={() => {
-												pomodoro.execAction()
-											}}
-										>
-											<span className="inline-block translate-x-[0.5em]">
-												{getButtonName(pomodoro.status)}
-											</span>
-										</button>
-									</p>
-								</div>
+		<main className="min-h-screen px-6 pb-12 pt-8 tablet:pb-28 tablet:pt-20 desktop:pb-14 desktop:pt-12">
+			<h1 className="grid justify-center">
+				<Icon
+					className="h-6 w-auto tablet:h-8"
+					name="logo"
+					width="153"
+					height="32"
+				/>
+				<span className="sr-only">Pomodoro</span>
+			</h1>
+			<div className="center-[23.3125rem]">
+				<fieldset className="mt-11 grid h-16 grid-cols-3 items-center rounded-full bg-dark-blue px-2 text-center text-light-blue/40 tablet:mt-14">
+					<legend className="sr-only">Type of timer</legend>
+					<label>
+						<input
+							className="peer sr-only"
+							type="radio"
+							name="timer"
+							checked={pomodoro.type === 'pomodoro'}
+							onChange={() => {
+								pomodoro.changeType('pomodoro')
+							}}
+						/>
+						<span className="grid h-12 items-center rounded-full transition-colors peer-checked:bg-accent peer-checked:text-blue peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-[white] hocus:text-light-blue peer-checked:hocus:text-blue">
+							pomodoro
+						</span>
+					</label>
+					<label>
+						<input
+							className="peer sr-only"
+							type="radio"
+							name="timer"
+							checked={pomodoro.type === 'short-break'}
+							onChange={() => {
+								pomodoro.changeType('short-break')
+							}}
+						/>
+						<span className="grid h-12 items-center rounded-full transition-colors peer-checked:bg-accent peer-checked:text-blue peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-[white] hocus:text-light-blue peer-checked:hocus:text-blue">
+							short break
+						</span>
+					</label>
+					<label>
+						<input
+							className="peer sr-only"
+							type="radio"
+							name="timer"
+							checked={pomodoro.type === 'long-break'}
+							onChange={() => {
+								pomodoro.changeType('long-break')
+							}}
+						/>
+						<span className="grid h-12 items-center rounded-full transition-colors peer-checked:bg-accent peer-checked:text-blue peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-[white] hocus:text-light-blue peer-checked:hocus:text-blue">
+							long break
+						</span>
+					</label>
+				</fieldset>
+			</div>
+			<div>
+				<Landmark.Root className="mx-auto mt-12 max-w-[25.625rem] text-center tablet:mt-28 desktop:mt-11">
+					<Landmark.Label>
+						<h2 className="sr-only">Timer</h2>
+					</Landmark.Label>
+					<div className="rounded-full bg-gradient-to-tl from-[hsl(234_33%_27%)] to-[hsl(235_49%_11%)] p-[5.4%] shadow-[-3.125rem_-3.125rem_6.25rem_hsl(234_40%_25%),3.125rem_3.125rem_6.25rem_hsl(235_45%_13%)]">
+						<div className="relative isolate grid aspect-square grid-rows-[161fr_auto_113fr] rounded-[inherit] bg-dark-blue">
+							<div className="absolute inset-0 -z-10 p-[3.7%] text-accent">
+								<Progress value={timeLeft / pomodoro.settings[pomodoro.type]} />
+							</div>
+							<div className="row-start-2">
+								<p className="text-h1 leading-none" data-testid="timer">
+									{minutes.toString().padStart(2, '0')}:
+									{seconds.toString().padStart(2, '0')}
+								</p>
+								<p className="mt-3 tablet:mt-5">
+									<button
+										className="text-h3 uppercase transition-colors hocus:text-accent"
+										type="button"
+										onClick={() => {
+											pomodoro.execAction()
+										}}
+									>
+										<span className="inline-block translate-x-[0.5em]">
+											{getButtonName(pomodoro.status)}
+										</span>
+									</button>
+								</p>
 							</div>
 						</div>
-					</Landmark.Root>
-				</div>
-				<p className="mt-20 grid justify-center tablet:mt-36 desktop:mt-16">
-					<Dialog.Root open={isSettingsOpen} onOpenChange={setIsSettingsOpen}>
-						<Dialog.Trigger className="text-light-blue/50 transition-colors clickable-12 hocus:text-light-blue">
-							<Icon className="size-7" name="icon-settings" />
-							<span className="sr-only">Settings</span>
-						</Dialog.Trigger>
-						<Dialog.Portal>
-							<Settings
-								defaultValue={{
-									...pomodoro.settings,
-									pomodoro: pomodoro.settings.pomodoro / 1000 / 60,
-									'short-break': pomodoro.settings['short-break'] / 1000 / 60,
-									'long-break': pomodoro.settings['long-break'] / 1000 / 60,
-								}}
-								onApply={(settings) => {
-									pomodoro.applySettings(settings)
-									setIsSettingsOpen(false)
-								}}
-							/>
-						</Dialog.Portal>
-					</Dialog.Root>
-				</p>
-			</main>
-			<Announcer />
-		</AnnouncementProvider>
+					</div>
+				</Landmark.Root>
+			</div>
+			<p className="mt-20 grid justify-center tablet:mt-36 desktop:mt-16">
+				<Dialog.Root open={isSettingsOpen} onOpenChange={setIsSettingsOpen}>
+					<Dialog.Trigger className="text-light-blue/50 transition-colors clickable-12 hocus:text-light-blue">
+						<Icon className="size-7" name="icon-settings" />
+						<span className="sr-only">Settings</span>
+					</Dialog.Trigger>
+					<Dialog.Portal>
+						<Settings
+							defaultValue={{
+								...pomodoro.settings,
+								pomodoro: pomodoro.settings.pomodoro / 1000 / 60,
+								'short-break': pomodoro.settings['short-break'] / 1000 / 60,
+								'long-break': pomodoro.settings['long-break'] / 1000 / 60,
+							}}
+							onApply={(settings) => {
+								pomodoro.applySettings(settings)
+								setIsSettingsOpen(false)
+							}}
+						/>
+					</Dialog.Portal>
+				</Dialog.Root>
+			</p>
+		</main>
 	)
 }
 
@@ -194,6 +189,7 @@ function getButtonName(status: PomodoroStatus) {
 type PomodoroStatus = 'idle' | 'pending' | 'resolved'
 
 function usePomodoro() {
+	const { announce } = useAnnouncer()
 	const [type, setType] = useState<TimerType>('pomodoro')
 	const [settings, setSettings] = useLocalStorage<Settings>('settings', {
 		pomodoro: 25 * 60 * 1000,
@@ -272,12 +268,15 @@ function usePomodoro() {
 		execAction() {
 			if (status === 'idle') {
 				startTimer()
+				announce('Timer started')
 			} else if (status === 'pending') {
 				stopTimer()
 				setStatus('idle')
+				announce('Timer paused')
 			} else if (status === 'resolved') {
 				setElapsed(0)
 				startTimer()
+				announce('Timer started')
 			}
 		},
 	}

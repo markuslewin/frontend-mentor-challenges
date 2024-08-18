@@ -8,9 +8,13 @@ import '@fontsource-variable/roboto-slab'
 import '@fontsource/space-mono/400.css'
 import '@fontsource/space-mono/700.css'
 import '#app/index.css'
+import { AnnouncementProvider, Announcer } from '#app/components/announcer'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
 	<React.StrictMode>
-		<App />
+		<AnnouncementProvider>
+			<App />
+			<Announcer />
+		</AnnouncementProvider>
 	</React.StrictMode>,
 )
