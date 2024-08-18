@@ -33,7 +33,8 @@ export function App() {
 	const seconds = (timeLeft / 1000) % 60
 
 	return (
-		<main className="min-h-screen px-6 pb-12 pt-8 tablet:pb-28 tablet:pt-20 desktop:pb-14 desktop:pt-12">
+		<main className="flex min-h-screen flex-col px-6">
+			<div className="min-h-8 grow-[80] tablet:min-h-12" />
 			<h1 className="grid justify-center">
 				<Icon
 					className="h-6 w-auto tablet:h-8"
@@ -44,7 +45,7 @@ export function App() {
 				<span className="sr-only">Pomodoro</span>
 			</h1>
 			<div className="center-[23.3125rem]">
-				<fieldset className="mt-11 grid h-16 grid-cols-3 items-center rounded-full bg-dark-blue px-2 text-center text-light-blue/40 tablet:mt-14">
+				<fieldset className="relative mt-11 grid h-16 grid-cols-3 items-center rounded-full bg-dark-blue px-2 text-center text-light-blue/40 tablet:mt-14">
 					<legend className="sr-only">Type of timer</legend>
 					<label>
 						<input
@@ -90,8 +91,9 @@ export function App() {
 					</label>
 				</fieldset>
 			</div>
+			<div className="min-h-12 grow-[109] tablet:min-h-11" />
 			<div>
-				<Landmark.Root className="mx-auto mt-12 max-w-[25.625rem] text-center tablet:mt-28 desktop:mt-11">
+				<Landmark.Root className="mx-auto max-w-[25.625rem] text-center">
 					<Landmark.Label>
 						<h2 className="sr-only">Timer</h2>
 					</Landmark.Label>
@@ -123,7 +125,8 @@ export function App() {
 					</div>
 				</Landmark.Root>
 			</div>
-			<p className="mt-20 grid justify-center tablet:mt-36 desktop:mt-16">
+			<div className="min-h-16 grow-[144]" />
+			<p className="grid justify-center">
 				<Dialog.Root open={isSettingsOpen} onOpenChange={setIsSettingsOpen}>
 					<Dialog.Trigger className="text-light-blue/50 transition-colors clickable-12 hocus:text-light-blue">
 						<Icon className="size-7" name="icon-settings" />
@@ -145,6 +148,7 @@ export function App() {
 					</Dialog.Portal>
 				</Dialog.Root>
 			</p>
+			<div className="min-h-12 grow-[103] tablet:min-h-14" />
 		</main>
 	)
 }
