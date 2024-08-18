@@ -96,7 +96,7 @@ export function App() {
 						<h2 className="sr-only">Timer</h2>
 					</Landmark.Label>
 					<div className="rounded-full bg-gradient-to-tl from-[hsl(234_33%_27%)] to-[hsl(235_49%_11%)] p-[5.4%] shadow-[-3.125rem_-3.125rem_6.25rem_hsl(234_40%_25%),3.125rem_3.125rem_6.25rem_hsl(235_45%_13%)]">
-						<div className="relative isolate grid aspect-square grid-rows-[161fr_auto_113fr] rounded-[inherit] bg-dark-blue">
+						<div className="relative isolate grid aspect-square grid-rows-[127fr_auto_91fr] rounded-[inherit] bg-dark-blue">
 							<div className="absolute inset-0 -z-10 p-[3.7%] text-accent">
 								<Progress value={timeLeft / pomodoro.settings[pomodoro.type]} />
 							</div>
@@ -105,7 +105,7 @@ export function App() {
 									{minutes.toString().padStart(2, '0')}:
 									{seconds.toString().padStart(2, '0')}
 								</p>
-								<p className="mt-3 tablet:mt-5">
+								<p className="mt-5 tablet:mt-7">
 									<button
 										className="text-h3 uppercase transition-colors hocus:text-accent"
 										type="button"
