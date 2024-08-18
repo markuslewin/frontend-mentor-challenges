@@ -296,7 +296,7 @@ function Progress({ value }: ProgressProps) {
 	return (
 		<svg className="-rotate-90" viewBox={`0 0 ${d} ${d}`}>
 			<circle
-				className="transition-all"
+				className="transition-[color,stroke-dashoffset] duration-[150ms,1s] ease-[cubic-bezier(0.4,0,1,1),linear]"
 				r={r}
 				cx={radius}
 				cy={radius}
