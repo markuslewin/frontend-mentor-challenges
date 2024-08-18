@@ -20,6 +20,7 @@ import { z } from 'zod'
 import { useAnnouncer } from '#app/components/announcer'
 import { Icon } from '#app/components/icon'
 import * as Landmark from '#app/components/landmark'
+import { playSuccess } from '#app/utils/audio.js'
 import { base } from '#app/utils/colors'
 import { fontFamily } from '#app/utils/fonts'
 
@@ -231,6 +232,7 @@ function usePomodoro() {
 			if (e === settings[type]) {
 				stopTimer()
 				setStatus('resolved')
+				playSuccess()
 			}
 		}, 1000)
 		setStatus('pending')
