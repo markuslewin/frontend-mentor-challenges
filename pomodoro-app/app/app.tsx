@@ -5,7 +5,6 @@ import {
 	useForm,
 } from '@conform-to/react'
 import { getZodConstraint, parseWithZod } from '@conform-to/zod'
-import { invariant } from '@epic-web/invariant'
 import * as Dialog from '@radix-ui/react-dialog'
 import { useLocalStorage } from '@uidotdev/usehooks'
 import { cx } from 'class-variance-authority'
@@ -14,24 +13,22 @@ import {
 	forwardRef,
 	useEffect,
 	useId,
-	useRef,
 	useState,
 } from 'react'
 import { z } from 'zod'
 import { useAnnouncer } from '#app/components/announcer'
 import { Icon } from '#app/components/icon'
 import * as Landmark from '#app/components/landmark'
-import { playSuccess } from '#app/utils/audio.js'
+import { playSuccess } from '#app/utils/audio'
 import { base } from '#app/utils/colors'
 import { fontFamily } from '#app/utils/fonts'
+import { type Duration, useTimer } from '#app/utils/timer'
 
 export function App() {
 	const pomodoro = usePomodoro()
 	const [isSettingsOpen, setIsSettingsOpen] = useState(false)
 
-	const timeLeft = pomodoro.settings[pomodoro.type] - pomodoro.elapsed
-
-	const secondsLeft = Math.ceil(timeLeft / 1000)
+	const secondsLeft = Math.ceil(pomodoro.timeLeft / 1000)
 	const minutes = Math.floor(secondsLeft / 60)
 	const seconds = secondsLeft % 60
 
@@ -207,11 +204,14 @@ function usePomodoro() {
 		font: 'kumbh-sans',
 		color: 'red',
 	})
-	const [elapsed, _setElapsed] = useState(0)
 	const [status, setStatus] = useState<PomodoroStatus>('idle')
-	const timerRef = useRef<ReturnType<typeof setInterval>>()
-	const elapsedRef = useRef(0)
-	const startTimeRef = useRef<number | null>(null)
+	const timer = useTimer({
+		duration: settings.pomodoro,
+		onResolve: () => {
+			setStatus('resolved')
+			playSuccess()
+		},
+	})
 
 	useEffect(() => {
 		document.documentElement.style.setProperty(
@@ -233,83 +233,39 @@ function usePomodoro() {
 		}
 	}, [settings.color])
 
-	function tick() {
-		const e = getNextElapsed()
-		setElapsed(e)
-		if (e === settings[type]) {
-			setStatus('resolved')
-			playSuccess()
-		} else {
-			startTimeRef.current = Date.now()
-			timerRef.current = setTimeout(tick, 1000 - (elapsedRef.current % 1000))
-		}
-	}
-
-	function startTimer() {
-		startTimeRef.current = Date.now()
-		timerRef.current = setTimeout(tick, 1000 - (elapsedRef.current % 1000))
-		setStatus('pending')
-	}
-
-	function pauseTimer() {
-		const e = getNextElapsed()
-		setElapsed(e)
-		stopTimer()
+	function setDuration(duration: Duration) {
+		timer.setDuration(duration)
 		setStatus('idle')
-	}
-
-	function resetTimer() {
-		stopTimer()
-		setElapsed(0)
-		setStatus('idle')
-	}
-
-	function stopTimer() {
-		startTimeRef.current = null
-		clearTimeout(timerRef.current)
-		timerRef.current = undefined
-	}
-
-	function getNextElapsed() {
-		const startTime = startTimeRef.current
-		invariant(typeof startTime === 'number', 'No start time')
-
-		const buffered = Date.now() - startTime
-		const e = Math.min(elapsedRef.current + buffered, settings[type])
-
-		return e
-	}
-
-	function setElapsed(elapsed: number) {
-		elapsedRef.current = elapsed
-		_setElapsed(elapsed)
 	}
 
 	return {
 		settings,
 		status,
-		elapsed,
+		timeLeft: timer.timeLeft,
 		type,
 		applySettings(s: Settings) {
 			if (s[type] !== settings[type]) {
-				resetTimer()
+				setDuration(s[type])
 			}
 			setSettings(s)
 		},
 		changeType(type: TimerType) {
-			resetTimer()
+			setDuration(settings[type])
 			setType(type)
 		},
 		execAction() {
 			if (status === 'idle') {
-				startTimer()
+				timer.start()
+				setStatus('pending')
 				announce('Timer started')
 			} else if (status === 'pending') {
-				pauseTimer()
+				timer.pause()
+				setStatus('idle')
 				announce('Timer paused')
 			} else if (status === 'resolved') {
-				setElapsed(0)
-				startTimer()
+				timer.reset()
+				timer.start()
+				setStatus('pending')
 				announce('Timer started')
 			}
 		},
