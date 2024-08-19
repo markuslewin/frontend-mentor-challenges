@@ -50,7 +50,7 @@ test('has settings', async ({ page }) => {
 	).not.toBeAttached()
 })
 
-test.fixme('starts timer', async ({ page }) => {
+test('starts timer', async ({ page }) => {
 	const timer = getTimer(page)
 	const playButton = getStartButton(page)
 	const pauseButton = getPauseButton(page)
@@ -78,7 +78,7 @@ test.fixme('starts timer', async ({ page }) => {
 	await expect(timer).toHaveText('00:00')
 })
 
-test.fixme('pauses timer', async ({ page }) => {
+test('pauses timer', async ({ page }) => {
 	const timer = getTimer(page)
 	const playButton = getStartButton(page)
 	const pauseButton = getPauseButton(page)
@@ -104,7 +104,7 @@ test.fixme('pauses timer', async ({ page }) => {
 	await expect(timer).toHaveText('05:00')
 })
 
-test.fixme('resets when changing type', async ({ page }) => {
+test('resets when changing type', async ({ page }) => {
 	const timerTypes = getTimerType(page)
 	const timer = getTimer(page)
 	const playButton = getStartButton(page)
@@ -119,13 +119,17 @@ test.fixme('resets when changing type', async ({ page }) => {
 
 	await expect(timer).toHaveText('15:00')
 
-	await timerTypes.getByRole('radio', { name: 'short break' }).click()
-	await timerTypes.getByRole('radio', { name: 'pomodoro' }).click()
+	await timerTypes
+		.getByRole('radio', { name: 'short break' })
+		.check({ force: true })
+	await timerTypes
+		.getByRole('radio', { name: 'pomodoro' })
+		.check({ force: true })
 
 	await expect(timer).toHaveText('25:00')
 })
 
-test.fixme('resets when applying time-related settings', async ({ page }) => {
+test('resets when applying time-related settings', async ({ page }) => {
 	await page.clock.install({ time: new Date('2024-02-02T08:00:00') })
 	await page.goto('/')
 
@@ -137,13 +141,13 @@ test.fixme('resets when applying time-related settings', async ({ page }) => {
 	await expect(page.getByTestId('timer')).toHaveText('15:00')
 
 	await page.getByRole('button', { name: 'settings' }).click()
-	await page.getByRole('radio', { name: 'blue' }).click()
+	await page.getByRole('radio', { name: 'cyan' }).check({ force: true })
 	await page.getByRole('button', { name: 'apply' }).click()
 
 	await expect(page.getByTestId('timer')).toHaveText('15:00')
 
 	await page.getByRole('button', { name: 'settings' }).click()
-	await page.getByRole('textbox', { name: 'pomodoro' }).fill('20')
+	await page.getByRole('spinbutton', { name: 'pomodoro' }).fill('20')
 	await page.getByRole('button', { name: 'apply' }).click()
 
 	await expect(page.getByTestId('timer')).toHaveText('20:00')

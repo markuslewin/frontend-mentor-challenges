@@ -5,6 +5,7 @@ import {
 	useForm,
 } from '@conform-to/react'
 import { getZodConstraint, parseWithZod } from '@conform-to/zod'
+import { invariant } from '@epic-web/invariant'
 import * as Dialog from '@radix-ui/react-dialog'
 import { useLocalStorage } from '@uidotdev/usehooks'
 import { cx } from 'class-variance-authority'
@@ -29,8 +30,10 @@ export function App() {
 	const [isSettingsOpen, setIsSettingsOpen] = useState(false)
 
 	const timeLeft = pomodoro.settings[pomodoro.type] - pomodoro.elapsed
-	const minutes = Math.floor(timeLeft / 1000 / 60)
-	const seconds = (timeLeft / 1000) % 60
+
+	const secondsLeft = Math.ceil(timeLeft / 1000)
+	const minutes = Math.floor(secondsLeft / 60)
+	const seconds = secondsLeft % 60
 
 	return (
 		<main className="flex min-h-screen flex-col px-6">
@@ -100,7 +103,8 @@ export function App() {
 					<div className="rounded-full bg-gradient-to-tl from-[hsl(234_33%_27%)] to-[hsl(235_49%_11%)] p-[5.4%] shadow-[-3.125rem_-3.125rem_6.25rem_hsl(234_40%_25%),3.125rem_3.125rem_6.25rem_hsl(235_45%_13%)]">
 						<div className="relative isolate grid aspect-square grid-rows-[127fr_auto_91fr] rounded-[inherit] bg-dark-blue">
 							<div className="absolute inset-0 -z-10 p-[3.7%] text-accent">
-								<Progress value={timeLeft / pomodoro.settings[pomodoro.type]} />
+								{/* todo: Fix */}
+								<Progress value={0} duration={1000} />
 							</div>
 							<div className="row-start-2">
 								<p className="text-h1 leading-none" data-testid="timer">
@@ -207,6 +211,7 @@ function usePomodoro() {
 	const [status, setStatus] = useState<PomodoroStatus>('idle')
 	const timerRef = useRef<ReturnType<typeof setInterval>>()
 	const elapsedRef = useRef(0)
+	const startTimeRef = useRef<number | null>(null)
 
 	useEffect(() => {
 		document.documentElement.style.setProperty(
@@ -228,29 +233,51 @@ function usePomodoro() {
 		}
 	}, [settings.color])
 
+	function tick() {
+		const e = getNextElapsed()
+		setElapsed(e)
+		if (e === settings[type]) {
+			setStatus('resolved')
+			playSuccess()
+		} else {
+			startTimeRef.current = Date.now()
+			timerRef.current = setTimeout(tick, 1000 - (elapsedRef.current % 1000))
+		}
+	}
+
 	function startTimer() {
-		timerRef.current = setInterval(() => {
-			// todo: Calculate actual elapsed time with `Date.now`
-			const e = Math.min(elapsedRef.current + 1000, settings[type])
-			setElapsed(e)
-			if (e === settings[type]) {
-				stopTimer()
-				setStatus('resolved')
-				playSuccess()
-			}
-		}, 1000)
+		startTimeRef.current = Date.now()
+		timerRef.current = setTimeout(tick, 1000 - (elapsedRef.current % 1000))
 		setStatus('pending')
 	}
 
-	function stopTimer() {
-		clearInterval(timerRef.current)
-		timerRef.current = undefined
+	function pauseTimer() {
+		const e = getNextElapsed()
+		setElapsed(e)
+		stopTimer()
+		setStatus('idle')
 	}
 
 	function resetTimer() {
 		stopTimer()
 		setElapsed(0)
 		setStatus('idle')
+	}
+
+	function stopTimer() {
+		startTimeRef.current = null
+		clearTimeout(timerRef.current)
+		timerRef.current = undefined
+	}
+
+	function getNextElapsed() {
+		const startTime = startTimeRef.current
+		invariant(typeof startTime === 'number', 'No start time')
+
+		const buffered = Date.now() - startTime
+		const e = Math.min(elapsedRef.current + buffered, settings[type])
+
+		return e
 	}
 
 	function setElapsed(elapsed: number) {
@@ -278,8 +305,7 @@ function usePomodoro() {
 				startTimer()
 				announce('Timer started')
 			} else if (status === 'pending') {
-				stopTimer()
-				setStatus('idle')
+				pauseTimer()
 				announce('Timer paused')
 			} else if (status === 'resolved') {
 				setElapsed(0)
@@ -298,13 +324,18 @@ const c = 2 * 3.14 * r
 
 interface ProgressProps {
 	value: number
+	duration: number
 }
 
-function Progress({ value }: ProgressProps) {
+function Progress({ value, duration }: ProgressProps) {
 	return (
 		<svg className="-rotate-90" viewBox={`0 0 ${d} ${d}`}>
 			<circle
-				className="transition-[color,stroke-dashoffset] duration-[150ms,1s] ease-[cubic-bezier(0.4,0,1,1),linear]"
+				className="transition-[color,stroke-dashoffset] ease-[cubic-bezier(0.4,0,1,1),linear]"
+				style={{
+					strokeDashoffset: c * (1 - value),
+					transitionDuration: `150ms, ${duration}ms`,
+				}}
 				r={r}
 				cx={radius}
 				cy={radius}
@@ -313,7 +344,6 @@ function Progress({ value }: ProgressProps) {
 				strokeWidth={strokeWidth}
 				strokeLinecap="round"
 				strokeDasharray={c}
-				style={{ strokeDashoffset: c * (1 - value) }}
 			></circle>
 		</svg>
 	)
