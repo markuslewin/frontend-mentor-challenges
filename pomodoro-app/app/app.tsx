@@ -263,9 +263,11 @@ function usePomodoro() {
 		status,
 		elapsed,
 		type,
-		applySettings(settings: Settings) {
-			setSettings(settings)
-			resetTimer()
+		applySettings(s: Settings) {
+			if (s[type] !== settings[type]) {
+				resetTimer()
+			}
+			setSettings(s)
 		},
 		changeType(type: TimerType) {
 			resetTimer()
