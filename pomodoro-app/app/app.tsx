@@ -584,7 +584,12 @@ function TimeInput({ defaultValue, ...props }: TimeInputProps) {
 					setValue(e.target.value)
 				}}
 			/>
-			<SpinButton value={value} min={props.min} onValueChange={setValue} />
+			<SpinButton
+				value={value}
+				min={props.min}
+				max={props.max}
+				onValueChange={setValue}
+			/>
 		</div>
 	)
 }
@@ -592,16 +597,28 @@ function TimeInput({ defaultValue, ...props }: TimeInputProps) {
 interface SpinButtonProps {
 	value: string
 	min?: string | number
+	max?: string | number
 	onValueChange(value: string): void
 }
 
-function SpinButton({ value, min: _min, onValueChange }: SpinButtonProps) {
+function SpinButton({
+	value,
+	min: _min,
+	max: _max,
+	onValueChange,
+}: SpinButtonProps) {
 	// todo: Move out of `SpinButton`
 	const min =
 		typeof _min === 'number'
 			? _min
 			: typeof _min === 'string'
 				? parseFloat(_min)
+				: null
+	const max =
+		typeof _max === 'number'
+			? _max
+			: typeof _max === 'string'
+				? parseFloat(_max)
 				: null
 
 	return (
@@ -617,7 +634,8 @@ function SpinButton({ value, min: _min, onValueChange }: SpinButtonProps) {
 				onClick={() => {
 					const parsed = parseInt(value, 10)
 					const current = isNaN(parsed) ? 0 : parsed
-					onValueChange((current + 1).toString())
+					const next = current + 1
+					onValueChange((max === null ? next : Math.min(max, next)).toString())
 				}}
 			>
 				<Icon className="h-[0.4375rem] w-[0.875rem]" name="icon-arrow-up" />
