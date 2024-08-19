@@ -356,14 +356,17 @@ const settingsSchema = z.object({
 	pomodoro: z
 		.number()
 		.gt(0)
+		.lte(99)
 		.transform((minutes) => minutes * 60 * 1000),
 	'short-break': z
 		.number()
 		.gt(0)
+		.lte(99)
 		.transform((minutes) => minutes * 60 * 1000),
 	'long-break': z
 		.number()
 		.gt(0)
+		.lte(99)
 		.transform((minutes) => minutes * 60 * 1000),
 	font: z.enum(fonts),
 	color: z.enum(colors),
