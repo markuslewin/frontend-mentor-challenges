@@ -103,8 +103,7 @@ export function App() {
 					<div className="rounded-full bg-gradient-to-tl from-[hsl(234_33%_27%)] to-[hsl(235_49%_11%)] p-[5.4%] shadow-[-3.125rem_-3.125rem_6.25rem_hsl(234_40%_25%),3.125rem_3.125rem_6.25rem_hsl(235_45%_13%)]">
 						<div className="relative isolate grid aspect-square grid-rows-[127fr_auto_91fr] rounded-[inherit] bg-dark-blue">
 							<div className="absolute inset-0 -z-10 p-[3.7%] text-accent">
-								{/* todo: Fix */}
-								<Progress value={0} duration={1000} />
+								<Progress value={timeLeft / pomodoro.settings[pomodoro.type]} />
 							</div>
 							<div className="row-start-2">
 								<p className="text-h1 leading-none" data-testid="timer">
@@ -197,6 +196,8 @@ function getButtonName(status: PomodoroStatus) {
 
 type PomodoroStatus = 'idle' | 'pending' | 'resolved'
 
+const frequency = 20
+
 function usePomodoro() {
 	const { announce } = useAnnouncer()
 	const [type, setType] = useState<TimerType>('pomodoro')
@@ -233,51 +234,42 @@ function usePomodoro() {
 		}
 	}, [settings.color])
 
-	function tick() {
-		const e = getNextElapsed()
-		setElapsed(e)
-		if (e === settings[type]) {
-			setStatus('resolved')
-			playSuccess()
-		} else {
-			startTimeRef.current = Date.now()
-			timerRef.current = setTimeout(tick, 1000 - (elapsedRef.current % 1000))
-		}
-	}
-
 	function startTimer() {
 		startTimeRef.current = Date.now()
-		timerRef.current = setTimeout(tick, 1000 - (elapsedRef.current % 1000))
+		timerRef.current = setInterval(() => {
+			const startTime = startTimeRef.current
+			invariant(startTime !== null, 'No start time')
+
+			const buffered = Date.now() - startTime
+			const e = Math.min(elapsedRef.current + buffered, settings[type])
+			setElapsed(e)
+
+			if (e === settings[type]) {
+				setStatus('resolved')
+				playSuccess()
+				cleanUpTimer()
+			} else {
+				startTimeRef.current = Date.now()
+			}
+		}, frequency)
 		setStatus('pending')
 	}
 
 	function pauseTimer() {
-		const e = getNextElapsed()
-		setElapsed(e)
-		stopTimer()
+		cleanUpTimer()
 		setStatus('idle')
 	}
 
 	function resetTimer() {
-		stopTimer()
+		cleanUpTimer()
 		setElapsed(0)
 		setStatus('idle')
 	}
 
-	function stopTimer() {
+	function cleanUpTimer() {
 		startTimeRef.current = null
-		clearTimeout(timerRef.current)
+		clearInterval(timerRef.current)
 		timerRef.current = undefined
-	}
-
-	function getNextElapsed() {
-		const startTime = startTimeRef.current
-		invariant(typeof startTime === 'number', 'No start time')
-
-		const buffered = Date.now() - startTime
-		const e = Math.min(elapsedRef.current + buffered, settings[type])
-
-		return e
 	}
 
 	function setElapsed(elapsed: number) {
@@ -324,17 +316,16 @@ const c = 2 * 3.14 * r
 
 interface ProgressProps {
 	value: number
-	duration: number
 }
 
-function Progress({ value, duration }: ProgressProps) {
+function Progress({ value }: ProgressProps) {
 	return (
 		<svg className="-rotate-90" viewBox={`0 0 ${d} ${d}`}>
 			<circle
 				className="transition-[color,stroke-dashoffset] ease-[cubic-bezier(0.4,0,1,1),linear]"
 				style={{
 					strokeDashoffset: c * (1 - value),
-					transitionDuration: `150ms, ${duration}ms`,
+					transitionDuration: `150ms, ${frequency}ms`,
 				}}
 				r={r}
 				cx={radius}
