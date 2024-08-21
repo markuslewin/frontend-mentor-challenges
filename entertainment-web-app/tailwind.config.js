@@ -13,44 +13,25 @@ export default {
 	theme: {
 		screens,
 		colors: {
-			// todo: Add colors
-			background: 'hsl(var(--background))',
-			foreground: 'hsl(var(--foreground))',
-			overlay: 'hsl(var(--overlay))',
-			menu: {
-				DEFAULT: 'hsl(var(--menu))',
-				foreground: 'hsl(var(--menu-foreground))',
-			},
-			button: {
-				DEFAULT: 'hsl(var(--button))',
-				foreground: 'hsl(var(--button-foreground))',
-				hocus: 'hsl(var(--button-hocus))',
-			},
-			input: {
-				DEFAULT: 'hsl(var(--input))',
-				'border-hocus': 'hsl(var(--input-border-hocus))',
-			},
-			pill: {
-				DEFAULT: 'hsl(var(--pill))',
-				foreground: 'hsl(var(--pill-foreground))',
-			},
-			delete: {
-				foreground: 'hsl(var(--delete-foreground))',
-				'foreground-hocus': 'hsl(var(--delete-foreground-hocus))',
-			},
-			error: {
-				foreground: 'hsl(var(--error-foreground))',
-			},
+			red: 'hsl(0 97% 63%)',
+			'dark-blue': 'hsl(223 30% 9%)',
+			'greyish-blue': 'hsl(223 23% 46%)',
+			'semi-dark-blue': 'hsl(223 36% 14%)',
+			'pure-white': 'hsl(0 0% 100%)',
 		},
 		fontFamily: {
-			// todo: Add font from Fontsource
-			base: 'Inter, system-ui, Avenir, Helvetica, Arial, sans-serif',
+			base: "'Outfit Variable', sans-serif",
 		},
 		fontSize: {
-			// todo: Add font sizes
-			'heading-l': [clamp(32, 48), { fontWeight: 500, lineHeight: 1 }],
-			'heading-m': [clamp(24, 39), { fontWeight: 500, lineHeight: 1 }],
-			body: [clamp(16, 20), { lineHeight: 1.2 }],
+			'heading-l': [
+				clamp(20, 32),
+				{ fontWeight: 300, letterSpacing: '-0.015625em' },
+			],
+			'heading-m': [clamp(16, 24), { fontWeight: 300 }],
+			'heading-s': [clamp(15, 24), { fontWeight: 500 }],
+			'heading-xs': [clamp(14, 18), { fontWeight: 500 }],
+			'body-m': [clamp(12, 15), { fontWeight: 300 }],
+			'body-s': [clamp(11, 13), { fontWeight: 300 }],
 		},
 		extend: {
 			aria: {

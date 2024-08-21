@@ -13,6 +13,8 @@ import { handle as moviesHandle } from '#app/routes/movies/routing'
 import { TvSeriesRoute } from '#app/routes/tv-series/route'
 import { handle as tvSeriesHandle } from '#app/routes/tv-series/routing'
 import { clientEnv } from '#app/utils/env/client'
+// Supports weights 100-900
+import '@fontsource-variable/outfit'
 
 async function enableMocking() {
 	// Tree shake mocks when building for production
