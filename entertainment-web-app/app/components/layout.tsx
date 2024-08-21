@@ -9,7 +9,7 @@ import { RouteAnnouncer } from '#app/components/route-announcer'
 export function Layout() {
 	return (
 		<>
-			<div className="min-h-screen tablet:p-6 desktop:grid desktop:grid-cols-[auto,1fr] desktop:gap-9 desktop:px-8 desktop:py-0">
+			<div className="min-h-screen tablet:px-6 tablet:pt-6 desktop:grid desktop:grid-cols-[auto,1fr] desktop:gap-9 desktop:px-8 desktop:py-0">
 				<div className="desktop:flex desktop:min-h-[min(100vh,64rem)] desktop:self-start desktop:py-8">
 					<header className="flex flex-wrap items-center bg-semi-dark-blue text-greyish-blue shape-p-4 tablet:rounded tablet:shape-py-5 tablet:shape-px-6 desktop:flex-col desktop:rounded-lg desktop:shape-py-8 desktop:shape-px-7">
 						<div className="flex flex-1 justify-start desktop:flex-initial">
@@ -120,7 +120,7 @@ export function Layout() {
 						</div>
 					</header>
 				</div>
-				<main className="desktop:py-8">
+				<main className="px-4 pb-14 tablet:px-0 desktop:pt-8">
 					<Outlet />
 				</main>
 			</div>

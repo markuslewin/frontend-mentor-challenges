@@ -5,6 +5,7 @@ import { clickable } from './tailwind/clickable'
 import { hocus } from './tailwind/hocus'
 import { rem } from './tailwind/rem'
 import { shape } from './tailwind/shape'
+import { theGrid } from './tailwind/the-grid'
 
 /** @type {import('tailwindcss').Config} */
 export default {
@@ -18,6 +19,7 @@ export default {
 			'greyish-blue': 'hsl(223 23% 46%)',
 			'semi-dark-blue': 'hsl(223 36% 14%)',
 			'pure-white': 'hsl(0 0% 100%)',
+			transparent: 'transparent',
 		},
 		fontFamily: {
 			base: "'Outfit Variable', sans-serif",
@@ -45,5 +47,5 @@ export default {
 			},
 		},
 	},
-	plugins: [hocus, shape, clickable, center],
+	plugins: [hocus, shape, clickable, center, theGrid],
 }

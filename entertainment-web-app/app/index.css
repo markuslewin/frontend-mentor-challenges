@@ -11,7 +11,7 @@
 	}
 
 	body {
-		@apply bg-dark-blue text-body-m text-pure-white/75 font-base leading-tight;
+		@apply bg-dark-blue font-base text-body-m leading-tight text-pure-white/75 caret-red;
 	}
 
 	h1,
