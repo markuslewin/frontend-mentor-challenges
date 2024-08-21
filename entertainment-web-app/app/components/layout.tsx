@@ -1,109 +1,64 @@
-import * as Dialog from '@radix-ui/react-dialog'
-import { useMediaQuery } from '@uidotdev/usehooks'
-import { cva } from 'class-variance-authority'
-import {
-	NavLink,
-	type NavLinkProps,
-	Outlet,
-	ScrollRestoration,
-} from 'react-router-dom'
+import { Link, NavLink, Outlet, ScrollRestoration } from 'react-router-dom'
+import { getAsset } from '#app/assets'
 import { Announcer } from '#app/components/announcer'
+import { Icon } from '#app/components/icon'
+import { Img } from '#app/components/picture'
 import { RouteAnnouncer } from '#app/components/route-announcer'
-import { media } from '#app/utils/screens'
-import { useTheme } from '#app/utils/theme'
 
 export function Layout() {
-	const { theme, setTheme } = useTheme()
-	const tabletMatches = useMediaQuery(media.tablet)
-
-	const nextTheme = theme === 'dark' ? 'light' : 'dark'
-
 	return (
 		<>
-			<div className="min-h-screen center-gutter-4 tablet:center-gutter-10">
-				<header className="center-5xl">
-					<div className="flex flex-wrap justify-between gap-6 py-6">
-						<p>Logo</p>
-						<div className="flex flex-wrap items-center gap-4">
-							<button type="button" onClick={() => setTheme(nextTheme)}>
-								Switch to {nextTheme} mode
-							</button>
-							<p className="sr-only" aria-live="assertive">
-								{theme} mode is enabled.
-							</p>
-							<nav>
-								{tabletMatches ? (
-									<ul className="flex flex-wrap gap-4">
-										<li>
-											<MyNavLink to="/">Home</MyNavLink>
-										</li>
-										<li>
-											<MyNavLink to="/nested-routes">Nested routes</MyNavLink>
-										</li>
-									</ul>
-								) : (
-									<Dialog.Root>
-										<Dialog.Trigger>Open menu</Dialog.Trigger>
-										<Dialog.Portal>
-											<Dialog.Overlay className="menu__overlay" />
-											<Dialog.Content
-												className="menu__content"
-												aria-describedby={undefined}
-											>
-												<Dialog.Title className="sr-only">Menu</Dialog.Title>
-												{/* <Dialog.Description /> */}
-												<Dialog.Close>Close menu</Dialog.Close>
-												<ul className="mt-16 grid gap-6">
-													<li>
-														<MyNavLink to="/">Home</MyNavLink>
-													</li>
-													<li>
-														<MyNavLink to="/nested-routes">
-															Nested routes
-														</MyNavLink>
-													</li>
-												</ul>
-											</Dialog.Content>
-										</Dialog.Portal>
-									</Dialog.Root>
-								)}
-							</nav>
-						</div>
-					</div>
+			<div className="min-h-screen">
+				<header>
+					<Link to="/">
+						<Icon name="logo" />
+						<span>Home</span>
+					</Link>
+					<nav>
+						<ul role="list">
+							<li>
+								<NavLink to="/">
+									<Icon name="icon-nav-home" />
+									<span>Home</span>
+								</NavLink>
+							</li>
+							<li>
+								<NavLink to="/movies">
+									<Icon name="icon-nav-movies" />
+									<span>Movies</span>
+								</NavLink>
+							</li>
+							<li>
+								<NavLink to="/tv-series">
+									<Icon name="icon-nav-tv-series" />
+									<span>TV series</span>
+								</NavLink>
+							</li>
+							<li>
+								<NavLink to="/bookmarked">
+									<Icon name="icon-nav-bookmark" />
+									<span>Bookmarked</span>
+								</NavLink>
+							</li>
+						</ul>
+					</nav>
+					<button type="button">
+						<Img
+							alt="Profile"
+							images={[
+								{ metadata: getAsset('/image-avatar.png'), density: '1x' },
+							]}
+							priority
+						/>
+					</button>
 				</header>
-				<main className="center-3xl">
-					<div className="py-6 tablet:py-20">
-						<Outlet />
-					</div>
+				<main>
+					<Outlet />
 				</main>
 			</div>
 			<ScrollRestoration />
 			<Announcer />
 			<RouteAnnouncer />
 		</>
-	)
-}
-
-const navLinkVariants = cva('hocus:underline hocus:underline-offset-4', {
-	variants: {
-		state: { active: 'underline underline-offset-4' },
-	},
-})
-
-interface MyNavLinkProps extends Omit<NavLinkProps, 'className'> {
-	className?: string
-}
-
-function MyNavLink({ className, ...props }: MyNavLinkProps) {
-	return (
-		<NavLink
-			{...props}
-			className={({ isActive }) =>
-				navLinkVariants({
-					className,
-					state: isActive ? 'active' : null,
-				})
-			}
-		/>
 	)
 }

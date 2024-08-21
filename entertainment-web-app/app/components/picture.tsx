@@ -1,4 +1,5 @@
 import {
+	type ComponentPropsWithoutRef,
 	type HTMLAttributes,
 	type ImgHTMLAttributes,
 	type SourceHTMLAttributes,
@@ -15,7 +16,21 @@ export interface SourceProps extends SourceHTMLAttributes<HTMLSourceElement> {
 }
 
 export function Source({ images, ...props }: SourceProps) {
-	return <source {...getImagesProps(images)} {...props} />
+	return <source {...getSourceProps(images)} {...props} />
+}
+
+function getSourceProps(
+	images: SourceProps['images'],
+): ComponentPropsWithoutRef<'source'> {
+	if (images === undefined) {
+		return {}
+	} else {
+		return {
+			srcSet: getSrcSet(images),
+			width: images[0].metadata.width,
+			height: images[0].metadata.height,
+		}
+	}
 }
 
 export interface ImgProps extends ImgHTMLAttributes<HTMLImageElement> {
