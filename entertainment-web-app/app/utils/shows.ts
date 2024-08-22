@@ -1,3 +1,4 @@
+import { useLocalStorage } from '@uidotdev/usehooks'
 import { z } from 'zod'
 import json from '#app/data/shows.json'
 
@@ -44,4 +45,19 @@ export type Shows = z.infer<typeof showsSchema>
 export type Show = Shows[number]
 export type Category = Show['category']
 
-export const shows = showsSchema.parse(json)
+const initialShows = showsSchema.parse(json)
+
+export function useShows() {
+	const [shows, setShows] = useLocalStorage('shows', initialShows)
+
+	return {
+		shows,
+		setIsBookmarked(title: string, value: boolean) {
+			setShows(
+				shows.map((s) =>
+					s.title === title ? { ...s, isBookmarked: value } : s,
+				),
+			)
+		},
+	}
+}

@@ -8,9 +8,11 @@ import { Img, Picture, Source } from '#app/components/picture'
 import { Play } from '#app/components/play'
 import { ShowGrid, ShowItem, ShowItemHeading } from '#app/components/show-grid'
 import { media } from '#app/utils/screens'
-import { shows } from '#app/utils/shows'
+import { useShows } from '#app/utils/shows'
 
 export function HomeRoute() {
+	const { shows, setIsBookmarked } = useShows()
+
 	return (
 		<>
 			<h1 className="sr-only">Entertainment App</h1>
@@ -89,7 +91,14 @@ export function HomeRoute() {
 									category={show.category}
 									rating={show.rating}
 								/>
-								<form className="z-10 order-1 self-end">
+								<form
+									className="z-10 order-1 self-end"
+									onSubmit={(e) => {
+										e.preventDefault()
+
+										setIsBookmarked(show.title, !show.isBookmarked)
+									}}
+								>
 									<Bookmark
 										title={show.title}
 										isBookmarked={show.isBookmarked}
@@ -110,7 +119,7 @@ export function HomeRoute() {
 								show={show}
 								priority={i < 8}
 								onIsBookmarkedChange={(value) => {
-									console.log('todo: Toggle bookmark', { value })
+									setIsBookmarked(show.title, value)
 								}}
 							>
 								<ShowItemHeading asChild>

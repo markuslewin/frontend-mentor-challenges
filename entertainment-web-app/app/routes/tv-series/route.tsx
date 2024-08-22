@@ -1,7 +1,9 @@
 import { ShowGrid, ShowItem, ShowItemHeading } from '#app/components/show-grid'
-import { shows } from '#app/utils/shows'
+import { useShows } from '#app/utils/shows'
 
 export function TvSeriesRoute() {
+	const { shows, setIsBookmarked } = useShows()
+
 	return (
 		<>
 			{/* todo: Search for TV series */}
@@ -15,7 +17,7 @@ export function TvSeriesRoute() {
 							show={show}
 							priority={i < 16}
 							onIsBookmarkedChange={(value) => {
-								console.log('todo: Toggle bookmark', { value })
+								setIsBookmarked(show.title, value)
 							}}
 						>
 							<ShowItemHeading asChild>

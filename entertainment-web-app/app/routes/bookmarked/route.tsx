@@ -1,8 +1,10 @@
 import * as Landmark from '#app/components/landmark'
 import { ShowGrid, ShowItem, ShowItemHeading } from '#app/components/show-grid'
-import { shows } from '#app/utils/shows'
+import { useShows } from '#app/utils/shows'
 
 export function BookmarkedRoute() {
+	const { shows, setIsBookmarked } = useShows()
+
 	return (
 		<>
 			<h1 className="sr-only">Bookmarked shows</h1>
@@ -26,7 +28,7 @@ export function BookmarkedRoute() {
 								show={show}
 								priority={i < 16}
 								onIsBookmarkedChange={(value) => {
-									console.log('todo: Toggle bookmark', { value })
+									setIsBookmarked(show.title, value)
 								}}
 							>
 								<ShowItemHeading asChild>
@@ -46,7 +48,7 @@ export function BookmarkedRoute() {
 								key={show.title}
 								show={show}
 								onIsBookmarkedChange={(value) => {
-									console.log('todo: Toggle bookmark', { value })
+									setIsBookmarked(show.title, value)
 								}}
 							>
 								<ShowItemHeading asChild>
