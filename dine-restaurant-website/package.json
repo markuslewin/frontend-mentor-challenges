@@ -28,7 +28,7 @@
     "@netlify/functions": "^2.6.0",
     "@paralleldrive/cuid2": "^2.2.2",
     "@radix-ui/react-dialog": "^1.0.5",
-    "@radix-ui/react-select": "^2.1.1",
+    "@radix-ui/react-select": "^2.1.2-rc.8",
     "@radix-ui/react-slot": "^1.0.2",
     "@radix-ui/react-tabs": "^1.1.0",
     "@uidotdev/usehooks": "^2.4.1",
