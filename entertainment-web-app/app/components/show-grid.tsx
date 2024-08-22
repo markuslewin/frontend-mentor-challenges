@@ -16,7 +16,7 @@ export function ShowGrid({ className, ...props }: ShowGridProps) {
 	return (
 		<ul
 			className={cx(
-				'mt-6 gap-4 the-grid-[10.25rem] tablet:gap-x-8 tablet:gap-y-6 tablet:the-grid-[13.75rem] desktop:mt-8 desktop:gap-x-10 desktop:gap-y-8 desktop:the-grid-[17.5rem]',
+				'gap-4 the-grid-[10.25rem] tablet:gap-x-8 tablet:gap-y-6 tablet:the-grid-[13.75rem] desktop:gap-x-10 desktop:gap-y-8 desktop:the-grid-[17.5rem]',
 				className,
 			)}
 			role="list"

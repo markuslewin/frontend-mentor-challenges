@@ -7,7 +7,7 @@ export const theGrid = plugin(({ matchUtilities, theme }) => {
 			'the-grid': (width) => {
 				return {
 					display: 'grid',
-					gridTemplateColumns: `repeat(auto-fit, minmax(min(${width}, 100%), 1fr))`,
+					gridTemplateColumns: `repeat(auto-fill, minmax(min(${width}, 100%), 1fr))`,
 				}
 			},
 		},

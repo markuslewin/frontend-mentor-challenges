@@ -101,7 +101,7 @@ export function HomeRoute() {
 				<h3 className="mt-6 text-heading-l text-pure-white tablet:mt-10">
 					Recommended for you
 				</h3>
-				<ShowGrid>
+				<ShowGrid className="mt-6 desktop:mt-8">
 					{shows
 						.filter((s) => !s.isTrending)
 						.map((show, i) => (
