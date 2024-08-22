@@ -95,7 +95,7 @@ export function App() {
 				</fieldset>
 			</div>
 			<div className="min-h-12 grow-[109] tablet:min-h-11" />
-			<div>
+			<div className="px-3">
 				<Landmark.Root className="mx-auto max-w-[25.625rem] text-center">
 					<Landmark.Label>
 						<h2 className="sr-only">Timer</h2>
@@ -128,7 +128,7 @@ export function App() {
 					</div>
 				</Landmark.Root>
 			</div>
-			<div className="min-h-16 grow-[144]" />
+			<div className="min-h-20 grow-[144] tablet:min-h-16" />
 			<p className="grid justify-center">
 				<Dialog.Root open={isSettingsOpen} onOpenChange={setIsSettingsOpen}>
 					<Dialog.Trigger className="text-light-blue/50 transition-colors clickable-12 hocus:text-light-blue">
