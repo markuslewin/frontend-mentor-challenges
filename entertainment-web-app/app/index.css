@@ -27,3 +27,13 @@
 		outline-offset: 0.25rem;
 	}
 }
+
+@layer utilities {
+	.scrollbar-none {
+		scrollbar-width: none;
+	}
+
+	.scrollbar-none::-webkit-scrollbar {
+		display: none;
+	}
+}

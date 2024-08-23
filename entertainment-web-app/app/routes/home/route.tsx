@@ -36,14 +36,14 @@ export function HomeRoute() {
 				</Landmark.Label>
 				<h3 className="text-heading-l text-pure-white">Trending</h3>
 				<ul
-					className="mt-4 flex gap-4 overflow-x-auto tablet:mt-6 tablet:gap-10"
+					className="scrollbar-none -mx-4 flex overflow-x-auto py-4 after:shrink-0 after:basis-4 tablet:-mx-6 tablet:py-6 tablet:after:basis-6 desktop:-mr-8 desktop:ml-0 desktop:after:basis-8"
 					role="list"
 				>
 					{queried
 						.filter((s) => s.isTrending)
 						.map((show) => (
 							<li
-								className="relative isolate flex h-[8.75rem] w-60 shrink-0 flex-col p-4 tablet:h-[14.375rem] tablet:w-[29.375rem] tablet:p-6"
+								className="relative isolate ml-4 flex h-[8.75rem] w-60 shrink-0 flex-col p-4 first:ml-4 tablet:ml-10 tablet:h-[14.375rem] tablet:w-[29.375rem] tablet:p-6 tablet:first:ml-6 desktop:first:ml-0"
 								key={show.title}
 							>
 								<Picture>
@@ -104,7 +104,7 @@ export function HomeRoute() {
 							</li>
 						))}
 				</ul>
-				<h3 className="mt-6 text-heading-l text-pure-white tablet:mt-10">
+				<h3 className="mt-2 text-heading-l text-pure-white tablet:mt-4">
 					Recommended for you
 				</h3>
 				<ShowGrid className="mt-6 desktop:mt-8">
