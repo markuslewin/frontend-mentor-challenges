@@ -86,16 +86,13 @@ export function ShowItem({
 					<Play />
 				</div>
 			</Link>
-			<form
-				className="absolute right-2 top-2 tablet:right-4 tablet:top-4"
-				onSubmit={(e) => {
-					e.preventDefault()
-
-					onIsBookmarkedChange(!show.isBookmarked)
-				}}
-			>
-				<Bookmark title={show.title} isBookmarked={show.isBookmarked} />
-			</form>
+			<p className="absolute right-2 top-2 tablet:right-4 tablet:top-4">
+				<Bookmark
+					title={show.title}
+					isBookmarked={show.isBookmarked}
+					onIsBookmarkedChange={onIsBookmarkedChange}
+				/>
+			</p>
 			<Meta
 				className="mt-2 text-body-s"
 				year={show.year}

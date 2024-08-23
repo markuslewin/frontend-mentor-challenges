@@ -88,19 +88,15 @@ export function HomeRoute() {
 									category={show.category}
 									rating={show.rating}
 								/>
-								<form
-									className="z-10 order-1 self-end"
-									onSubmit={(e) => {
-										e.preventDefault()
-
-										setIsBookmarked(show.title, !show.isBookmarked)
-									}}
-								>
+								<p className="z-10 order-1 self-end">
 									<Bookmark
 										title={show.title}
 										isBookmarked={show.isBookmarked}
+										onIsBookmarkedChange={(value) => {
+											setIsBookmarked(show.title, value)
+										}}
 									/>
-								</form>
+								</p>
 							</li>
 						))}
 				</ul>
