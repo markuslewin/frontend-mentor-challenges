@@ -76,7 +76,7 @@ export function HomeRoute() {
 									<span className="sr-only">Play "{show.title}"</span>
 								</Link>
 								<div
-									className="grid place-items-center rounded-sm bg-[hsl(0_0%_0%/50%)] opacity-0 transition-opacity layer-[-10] peer-hocus:opacity-100"
+									className="hidden place-items-center rounded-sm bg-[hsl(0_0%_0%/50%)] opacity-0 transition-opacity layer-[-10] peer-hocus:opacity-100 tablet:grid"
 									// Decorative layer, `peer` has a11y name
 									aria-hidden="true"
 								>

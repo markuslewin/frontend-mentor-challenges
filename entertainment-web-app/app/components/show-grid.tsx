@@ -79,7 +79,7 @@ export function ShowItem({
 					/>
 				</Picture>
 				<div
-					className="grid place-items-center rounded-sm bg-[hsl(0_0%_0%/50%)] opacity-0 transition-opacity layer-10 group-hocus:opacity-100"
+					className="hidden place-items-center rounded-sm bg-[hsl(0_0%_0%/50%)] opacity-0 transition-opacity layer-10 group-hocus:opacity-100 tablet:grid"
 					// Decorative layer, `group` has a11y name
 					aria-hidden="true"
 				>
