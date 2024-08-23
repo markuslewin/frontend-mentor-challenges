@@ -1,11 +1,11 @@
 import { Link } from 'react-router-dom'
 import { getAsset } from '#app/assets'
 import { Bookmark } from '#app/components/bookmark'
-import { Icon } from '#app/components/icon'
 import * as Landmark from '#app/components/landmark'
 import { Meta } from '#app/components/meta'
 import { Img, Picture, Source } from '#app/components/picture'
 import { Play } from '#app/components/play'
+import { Search } from '#app/components/search'
 import { ShowGrid, ShowItem, ShowItemHeading } from '#app/components/show-grid'
 import { media } from '#app/utils/screens'
 import { useShows } from '#app/utils/shows'
@@ -20,18 +20,7 @@ export function HomeRoute() {
 				<Landmark.Label>
 					<h2 className="sr-only">Search shows</h2>
 				</Landmark.Label>
-				<form className="grid grid-cols-[auto_1fr] items-start gap-4 tablet:gap-6">
-					<button className="text-pure-white">
-						<Icon className="size-6 tablet:size-8" name="icon-search" />
-						<span className="sr-only">Search</span>
-					</button>
-					<input
-						className="w-full border-b border-transparent bg-transparent pb-[0.625rem] text-heading-m text-pure-white transition-colors placeholder:text-pure-white/50 hocus:border-greyish-blue tablet:pb-[0.875rem]"
-						type="search"
-						name="q"
-						placeholder="Search for movies or TV series"
-					/>
-				</form>
+				<Search placeholder="Search for movies or TV series" />
 			</Landmark.Root>
 			<Landmark.Root className="mt-4 tablet:mt-5">
 				<Landmark.Label>

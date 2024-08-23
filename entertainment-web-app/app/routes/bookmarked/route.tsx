@@ -1,4 +1,5 @@
 import * as Landmark from '#app/components/landmark'
+import { Search } from '#app/components/search'
 import { ShowGrid, ShowItem, ShowItemHeading } from '#app/components/show-grid'
 import { useShows } from '#app/utils/shows'
 
@@ -8,11 +9,11 @@ export function BookmarkedRoute() {
 	return (
 		<>
 			<h1 className="sr-only">Bookmarked shows</h1>
-			<Landmark.Root>
+			<Landmark.Root className="mt-6 tablet:mt-8">
 				<Landmark.Label>
 					<h2 className="sr-only">Search bookmarked shows</h2>
 				</Landmark.Label>
-				{/* todo: Search for bookmarked shows */}
+				<Search placeholder="Search for bookmarked shows" />
 			</Landmark.Root>
 			<Landmark.Root className="mt-4 tablet:mt-5">
 				<Landmark.Label>
