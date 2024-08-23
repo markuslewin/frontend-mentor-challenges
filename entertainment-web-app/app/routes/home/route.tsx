@@ -39,7 +39,7 @@ export function HomeRoute() {
 					className="scrollbar-none -mx-4 flex overflow-x-auto py-4 after:shrink-0 after:basis-4 tablet:-mx-6 tablet:py-6 tablet:after:basis-6 desktop:-mr-8 desktop:ml-0 desktop:after:basis-8"
 					role="list"
 				>
-					{queried
+					{shows
 						.filter((s) => s.isTrending)
 						.map((show) => (
 							<li
