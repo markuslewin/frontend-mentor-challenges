@@ -1,10 +1,14 @@
 import * as Landmark from '#app/components/landmark'
 import { Search } from '#app/components/search'
 import { ShowGrid, ShowItem, ShowItemHeading } from '#app/components/show-grid'
+import { queryName, queryShows, useQuery } from '#app/utils/query'
 import { useShows } from '#app/utils/shows'
 
 export function TvSeriesRoute() {
 	const { shows, setIsBookmarked } = useShows()
+	const query = useQuery()
+
+	const queried = queryShows(shows, query)
 
 	return (
 		<>
@@ -13,14 +17,18 @@ export function TvSeriesRoute() {
 				<Landmark.Label>
 					<h2 className="sr-only">Search TV series</h2>
 				</Landmark.Label>
-				<Search placeholder="Search for TV series" />
+				<Search
+					name={queryName}
+					defaultValue={query ?? undefined}
+					placeholder="Search for TV series"
+				/>
 			</Landmark.Root>
 			<Landmark.Root className="mt-4 tablet:mt-5">
 				<Landmark.Label>
 					<h2 className="text-heading-l text-pure-white">TV Series</h2>
 				</Landmark.Label>
 				<ShowGrid className="mt-6 desktop:mt-10">
-					{shows
+					{queried
 						.filter((s) => s.category === 'TV Series')
 						.map((show, i) => (
 							<ShowItem

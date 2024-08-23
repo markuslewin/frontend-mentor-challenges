@@ -7,11 +7,15 @@ import { Img, Picture, Source } from '#app/components/picture'
 import { Play } from '#app/components/play'
 import { Search } from '#app/components/search'
 import { ShowGrid, ShowItem, ShowItemHeading } from '#app/components/show-grid'
+import { queryName, queryShows, useQuery } from '#app/utils/query'
 import { media } from '#app/utils/screens'
 import { useShows } from '#app/utils/shows'
 
 export function HomeRoute() {
 	const { shows, setIsBookmarked } = useShows()
+	const query = useQuery()
+
+	const queried = queryShows(shows, query)
 
 	return (
 		<>
@@ -20,7 +24,11 @@ export function HomeRoute() {
 				<Landmark.Label>
 					<h2 className="sr-only">Search shows</h2>
 				</Landmark.Label>
-				<Search placeholder="Search for movies or TV series" />
+				<Search
+					name={queryName}
+					defaultValue={query ?? undefined}
+					placeholder="Search for movies or TV series"
+				/>
 			</Landmark.Root>
 			<Landmark.Root className="mt-4 tablet:mt-5">
 				<Landmark.Label>
@@ -31,7 +39,7 @@ export function HomeRoute() {
 					className="mt-4 flex gap-4 overflow-x-auto tablet:mt-6 tablet:gap-10"
 					role="list"
 				>
-					{shows
+					{queried
 						.filter((s) => s.isTrending)
 						.map((show) => (
 							<li
@@ -100,7 +108,7 @@ export function HomeRoute() {
 					Recommended for you
 				</h3>
 				<ShowGrid className="mt-6 desktop:mt-8">
-					{shows
+					{queried
 						.filter((s) => !s.isTrending)
 						.map((show, i) => (
 							<ShowItem

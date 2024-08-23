@@ -1,10 +1,14 @@
 import * as Landmark from '#app/components/landmark'
 import { Search } from '#app/components/search'
 import { ShowGrid, ShowItem, ShowItemHeading } from '#app/components/show-grid'
+import { queryName, queryShows, useQuery } from '#app/utils/query'
 import { useShows } from '#app/utils/shows'
 
 export function BookmarkedRoute() {
 	const { shows, setIsBookmarked } = useShows()
+	const query = useQuery()
+
+	const queried = queryShows(shows, query)
 
 	return (
 		<>
@@ -13,7 +17,11 @@ export function BookmarkedRoute() {
 				<Landmark.Label>
 					<h2 className="sr-only">Search bookmarked shows</h2>
 				</Landmark.Label>
-				<Search placeholder="Search for bookmarked shows" />
+				<Search
+					name={queryName}
+					defaultValue={query ?? undefined}
+					placeholder="Search for bookmarked shows"
+				/>
 			</Landmark.Root>
 			<Landmark.Root className="mt-4 tablet:mt-5">
 				<Landmark.Label>
@@ -21,7 +29,7 @@ export function BookmarkedRoute() {
 				</Landmark.Label>
 				<h3 className="text-heading-l text-pure-white">Bookmarked Movies</h3>
 				<ShowGrid className="mt-6 desktop:mt-10">
-					{shows
+					{queried
 						.filter((s) => s.isBookmarked && s.category === 'Movie')
 						.map((show, i) => (
 							<ShowItem
@@ -42,7 +50,7 @@ export function BookmarkedRoute() {
 					Bookmarked TV Series
 				</h3>
 				<ShowGrid className="mt-6 desktop:mt-10">
-					{shows
+					{queried
 						.filter((s) => s.isBookmarked && s.category === 'TV Series')
 						.map((show) => (
 							<ShowItem
