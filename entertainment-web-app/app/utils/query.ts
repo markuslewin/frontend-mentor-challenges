@@ -8,8 +8,8 @@ export function useQuery() {
 	return searchParams.get(queryName)
 }
 
-export function queryShows(shows: Shows, query: string | null) {
+export function queryShows(shows: Shows, query: string) {
 	return shows.filter((s) =>
-		query ? s.title.toLowerCase().includes(query.toLowerCase()) : true,
+		s.title.toLowerCase().includes(query.toLowerCase()),
 	)
 }

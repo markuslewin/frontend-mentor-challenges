@@ -1,3 +1,4 @@
+import { cx } from 'class-variance-authority'
 import * as Landmark from '#app/components/landmark'
 import { Search } from '#app/components/search'
 import { ShowGrid, ShowItem, ShowItemHeading } from '#app/components/show-grid'
@@ -8,7 +9,13 @@ export function MoviesRoute() {
 	const { shows, setIsBookmarked } = useShows()
 	const query = useQuery()
 
-	const queried = queryShows(shows, query)
+	const state = query
+		? ({ type: 'search', query } as const)
+		: ({ type: 'overview' } as const)
+
+	const movies = (
+		state.type === 'overview' ? shows : queryShows(shows, state.query)
+	).filter((s) => s.category === 'Movie')
 
 	return (
 		<>
@@ -24,26 +31,39 @@ export function MoviesRoute() {
 				/>
 			</Landmark.Root>
 			<Landmark.Root className="mt-4 tablet:mt-5">
-				<Landmark.Label>
-					<h2 className="text-heading-l text-pure-white">Movies</h2>
-				</Landmark.Label>
-				<ShowGrid className="mt-6 desktop:mt-10">
-					{queried
-						.filter((s) => s.category === 'Movie')
-						.map((show, i) => (
-							<ShowItem
-								key={show.title}
-								show={show}
-								priority={i < 16}
-								onIsBookmarkedChange={(value) => {
-									setIsBookmarked(show.title, value)
-								}}
-							>
-								<ShowItemHeading asChild>
-									<h3>{show.title}</h3>
-								</ShowItemHeading>
-							</ShowItem>
-						))}
+				<div aria-live="polite" aria-atomic="true">
+					<Landmark.Label>
+						<h2 className="text-heading-l text-pure-white">
+							{state.type === 'overview' ? (
+								<>Movies</>
+							) : (
+								<>
+									Found {movies.length} results for ‘{state.query}’
+								</>
+							)}
+						</h2>
+					</Landmark.Label>
+				</div>
+				<ShowGrid
+					className={cx(
+						'mt-6',
+						state.type === 'overview' ? 'desktop:mt-10' : 'desktop:mt-8',
+					)}
+				>
+					{movies.map((movie, i) => (
+						<ShowItem
+							key={movie.title}
+							show={movie}
+							priority={i < 16}
+							onIsBookmarkedChange={(value) => {
+								setIsBookmarked(movie.title, value)
+							}}
+						>
+							<ShowItemHeading asChild>
+								<h3>{movie.title}</h3>
+							</ShowItemHeading>
+						</ShowItem>
+					))}
 				</ShowGrid>
 			</Landmark.Root>
 		</>

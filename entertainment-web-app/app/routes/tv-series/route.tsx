@@ -8,7 +8,7 @@ export function TvSeriesRoute() {
 	const { shows, setIsBookmarked } = useShows()
 	const query = useQuery()
 
-	const queried = queryShows(shows, query)
+	const queried = query ? queryShows(shows, query) : shows
 
 	return (
 		<>
