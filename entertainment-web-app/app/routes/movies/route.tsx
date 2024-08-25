@@ -46,6 +46,7 @@ export function MoviesRoute() {
 						'mt-6',
 						state.type === 'overview' ? 'desktop:mt-10' : 'desktop:mt-8',
 					)}
+					data-testid="shows"
 				>
 					{state.movies.map((movie, i) => (
 						<ShowItem

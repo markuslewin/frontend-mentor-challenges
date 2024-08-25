@@ -50,6 +50,7 @@ export function TvSeriesRoute() {
 						'mt-6',
 						state.type === 'overview' ? 'desktop:mt-10' : 'desktop:mt-8',
 					)}
+					data-testid="shows"
 				>
 					{state.tvSeries.map((tvSeries, i) => (
 						<ShowItem

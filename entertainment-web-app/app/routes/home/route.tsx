@@ -50,6 +50,7 @@ export function HomeRoute() {
 						<ul
 							className="scrollbar-none -mx-4 flex overflow-x-auto py-4 after:shrink-0 after:basis-4 tablet:-mx-6 tablet:py-6 tablet:after:basis-6 desktop:-mr-8 desktop:ml-0 desktop:after:basis-8"
 							role="list"
+							data-testid="trending"
 						>
 							{state.shows
 								.filter((s) => s.isTrending)
@@ -115,7 +116,7 @@ export function HomeRoute() {
 						<h3 className="mt-2 text-heading-l text-pure-white tablet:mt-4">
 							Recommended for you
 						</h3>
-						<ShowGrid className="mt-6 desktop:mt-8">
+						<ShowGrid className="mt-6 desktop:mt-8" data-testid="shows">
 							{state.shows
 								.filter((s) => !s.isTrending)
 								.map((show, i) => (
@@ -135,7 +136,7 @@ export function HomeRoute() {
 						</ShowGrid>
 					</>
 				) : (
-					<ShowGrid className="mt-6 desktop:mt-8">
+					<ShowGrid className="mt-6 desktop:mt-8" data-testid="result">
 						{state.shows.map((show, i) => (
 							<ShowItem
 								key={show.title}

@@ -47,7 +47,7 @@ export function BookmarkedRoute() {
 						<h3 className="text-heading-l text-pure-white">
 							Bookmarked Movies
 						</h3>
-						<ShowGrid className="mt-6 desktop:mt-10">
+						<ShowGrid className="mt-6 desktop:mt-10" data-testid="movies">
 							{state.shows
 								.filter((s) => s.category === 'Movie')
 								.map((show, i) => (
@@ -68,7 +68,7 @@ export function BookmarkedRoute() {
 						<h3 className="mt-6 text-heading-l text-pure-white tablet:mt-12 desktop:mt-10">
 							Bookmarked TV Series
 						</h3>
-						<ShowGrid className="mt-6 desktop:mt-10">
+						<ShowGrid className="mt-6 desktop:mt-10" data-testid="tv-series">
 							{state.shows
 								.filter((s) => s.category === 'TV Series')
 								.map((show) => (
@@ -87,7 +87,7 @@ export function BookmarkedRoute() {
 						</ShowGrid>
 					</>
 				) : (
-					<ShowGrid className="mt-6 desktop:mt-8">
+					<ShowGrid className="mt-6 desktop:mt-8" data-testid="result">
 						{state.shows.map((show, i) => (
 							<ShowItem
 								key={show.title}
