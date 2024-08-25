@@ -6,9 +6,16 @@ import { useShows } from '#app/utils/shows'
 
 export function BookmarkedRoute() {
 	const { shows, setIsBookmarked } = useShows()
+	const bookmarkedShows = shows.filter((s) => s.isBookmarked)
 	const query = useQuery()
 
-	const queried = query ? queryShows(shows, query) : shows
+	const state = query
+		? ({
+				type: 'search',
+				query,
+				shows: queryShows(bookmarkedShows, query),
+			} as const)
+		: ({ type: 'overview', shows: bookmarkedShows } as const)
 
 	return (
 		<>
@@ -24,14 +31,64 @@ export function BookmarkedRoute() {
 				/>
 			</Landmark.Root>
 			<Landmark.Root className="mt-4 tablet:mt-5">
-				<Landmark.Label>
-					<h2 className="sr-only">Shows</h2>
-				</Landmark.Label>
-				<h3 className="text-heading-l text-pure-white">Bookmarked Movies</h3>
-				<ShowGrid className="mt-6 desktop:mt-10">
-					{queried
-						.filter((s) => s.isBookmarked && s.category === 'Movie')
-						.map((show, i) => (
+				<div aria-live="polite" aria-atomic="true">
+					<Landmark.Label>
+						{state.type === 'overview' ? (
+							<h2 className="sr-only">Shows</h2>
+						) : (
+							<h2 className="text-heading-l text-pure-white">
+								Found {state.shows.length} results for ‘{state.query}’
+							</h2>
+						)}
+					</Landmark.Label>
+				</div>
+				{state.type === 'overview' ? (
+					<>
+						<h3 className="text-heading-l text-pure-white">
+							Bookmarked Movies
+						</h3>
+						<ShowGrid className="mt-6 desktop:mt-10">
+							{state.shows
+								.filter((s) => s.category === 'Movie')
+								.map((show, i) => (
+									<ShowItem
+										key={show.title}
+										show={show}
+										priority={i < 16}
+										onIsBookmarkedChange={(value) => {
+											setIsBookmarked(show.title, value)
+										}}
+									>
+										<ShowItemHeading asChild>
+											<h4>{show.title}</h4>
+										</ShowItemHeading>
+									</ShowItem>
+								))}
+						</ShowGrid>
+						<h3 className="mt-6 text-heading-l text-pure-white tablet:mt-12 desktop:mt-10">
+							Bookmarked TV Series
+						</h3>
+						<ShowGrid className="mt-6 desktop:mt-10">
+							{state.shows
+								.filter((s) => s.category === 'TV Series')
+								.map((show) => (
+									<ShowItem
+										key={show.title}
+										show={show}
+										onIsBookmarkedChange={(value) => {
+											setIsBookmarked(show.title, value)
+										}}
+									>
+										<ShowItemHeading asChild>
+											<h4>{show.title}</h4>
+										</ShowItemHeading>
+									</ShowItem>
+								))}
+						</ShowGrid>
+					</>
+				) : (
+					<ShowGrid className="mt-6 desktop:mt-8">
+						{state.shows.map((show, i) => (
 							<ShowItem
 								key={show.title}
 								show={show}
@@ -41,31 +98,12 @@ export function BookmarkedRoute() {
 								}}
 							>
 								<ShowItemHeading asChild>
-									<h4>{show.title}</h4>
+									<h3>{show.title}</h3>
 								</ShowItemHeading>
 							</ShowItem>
 						))}
-				</ShowGrid>
-				<h3 className="mt-6 text-heading-l text-pure-white tablet:mt-12 desktop:mt-10">
-					Bookmarked TV Series
-				</h3>
-				<ShowGrid className="mt-6 desktop:mt-10">
-					{queried
-						.filter((s) => s.isBookmarked && s.category === 'TV Series')
-						.map((show) => (
-							<ShowItem
-								key={show.title}
-								show={show}
-								onIsBookmarkedChange={(value) => {
-									setIsBookmarked(show.title, value)
-								}}
-							>
-								<ShowItemHeading asChild>
-									<h4>{show.title}</h4>
-								</ShowItemHeading>
-							</ShowItem>
-						))}
-				</ShowGrid>
+					</ShowGrid>
+				)}
 			</Landmark.Root>
 		</>
 	)

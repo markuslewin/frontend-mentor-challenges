@@ -7,15 +7,12 @@ import { useShows } from '#app/utils/shows'
 
 export function MoviesRoute() {
 	const { shows, setIsBookmarked } = useShows()
+	const movies = shows.filter((s) => s.category === 'Movie')
 	const query = useQuery()
 
 	const state = query
-		? ({ type: 'search', query } as const)
-		: ({ type: 'overview' } as const)
-
-	const movies = (
-		state.type === 'overview' ? shows : queryShows(shows, state.query)
-	).filter((s) => s.category === 'Movie')
+		? ({ type: 'search', query, movies: queryShows(movies, query) } as const)
+		: ({ type: 'overview', movies } as const)
 
 	return (
 		<>
@@ -38,7 +35,7 @@ export function MoviesRoute() {
 								<>Movies</>
 							) : (
 								<>
-									Found {movies.length} results for ‘{state.query}’
+									Found {state.movies.length} results for ‘{state.query}’
 								</>
 							)}
 						</h2>
@@ -50,7 +47,7 @@ export function MoviesRoute() {
 						state.type === 'overview' ? 'desktop:mt-10' : 'desktop:mt-8',
 					)}
 				>
-					{movies.map((movie, i) => (
+					{state.movies.map((movie, i) => (
 						<ShowItem
 							key={movie.title}
 							show={movie}
