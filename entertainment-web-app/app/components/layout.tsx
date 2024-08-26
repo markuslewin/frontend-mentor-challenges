@@ -32,7 +32,7 @@ export function Layout() {
 									<NavLink
 										className={({ isActive }) =>
 											cx(
-												'transition-colors hocus:text-red',
+												'transition-colors clickable-10 hocus:text-red',
 												isActive ? 'text-pure-white' : '',
 											)
 										}
@@ -49,7 +49,7 @@ export function Layout() {
 									<NavLink
 										className={({ isActive }) =>
 											cx(
-												'transition-colors hocus:text-red',
+												'transition-colors clickable-10 hocus:text-red',
 												isActive ? 'text-pure-white' : '',
 											)
 										}
@@ -66,7 +66,7 @@ export function Layout() {
 									<NavLink
 										className={({ isActive }) =>
 											cx(
-												'transition-colors hocus:text-red',
+												'transition-colors clickable-10 hocus:text-red',
 												isActive ? 'text-pure-white' : '',
 											)
 										}
@@ -83,7 +83,7 @@ export function Layout() {
 									<NavLink
 										className={({ isActive }) =>
 											cx(
-												'transition-colors hocus:text-red',
+												'transition-colors clickable-10 hocus:text-red',
 												isActive ? 'text-pure-white' : '',
 											)
 										}
