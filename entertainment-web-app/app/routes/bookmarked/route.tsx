@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import * as Landmark from '#app/components/landmark'
 import { Search } from '#app/components/search'
 import { ShowGrid, ShowItem, ShowItemHeading } from '#app/components/show-grid'
@@ -6,7 +7,12 @@ import { useShows } from '#app/utils/shows'
 
 export function BookmarkedRoute() {
 	const { shows, setIsBookmarked } = useShows()
-	const bookmarkedShows = shows.filter((s) => s.isBookmarked)
+	const [initialBookmarkedShows] = useState(shows.filter((s) => s.isBookmarked))
+	const bookmarkedShows = shows.filter(
+		(s) =>
+			s.isBookmarked ||
+			initialBookmarkedShows.find((i) => i.title === s.title) !== undefined,
+	)
 	const query = useQuery()
 
 	const state = query

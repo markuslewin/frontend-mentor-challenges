@@ -344,8 +344,94 @@ test.describe('search', () => {
 	})
 })
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-test.fixme('bookmarks shows', async ({ page }) => {
-	// todo: Persists after refresh
-	// todo: Holds unbookmarked click
+test('bookmarks shows', async ({ page }) => {
+	await page.goto('/bookmarked')
+
+	await expect(page.getByTestId('movies').getByRole('heading')).toHaveText(
+		bookmarkedMovies.map((m) => m.title),
+	)
+
+	for (const movie of bookmarkedMovies) {
+		const button = page
+			.getByTestId('movies')
+			.getByRole('listitem')
+			.filter({ has: page.getByRole('heading', { name: movie.title }) })
+			.getByRole('button', { name: 'bookmark' })
+
+		await expect(button).toHaveAttribute('aria-pressed', 'true')
+
+		await button.click()
+
+		// Hold dirty unbookmarked show in case of a misclick
+		await expect(button).toHaveAttribute('aria-pressed', 'false')
+	}
+	// Get fresh shows
+	await page.reload()
+
+	await expect(page.getByTestId('movies')).toBeEmpty()
+	await expect(page.getByTestId('tv-series').getByRole('heading')).toHaveText(
+		bookmarkedTvSeries.map((t) => t.title),
+	)
+
+	for (const tvSeries of bookmarkedTvSeries) {
+		const button = page
+			.getByTestId('tv-series')
+			.getByRole('listitem')
+			.filter({ has: page.getByRole('heading', { name: tvSeries.title }) })
+			.getByRole('button', { name: 'bookmark' })
+
+		await expect(button).toHaveAttribute('aria-pressed', 'true')
+
+		await button.click()
+
+		// Hold dirty unbookmarked show in case of a misclick
+		await expect(button).toHaveAttribute('aria-pressed', 'false')
+	}
+	// Get fresh shows
+	await page.reload()
+
+	await expect(page.getByTestId('tv-series')).toBeEmpty()
+
+	await page.getByRole('navigation').getByRole('link', { name: 'home' }).click()
+	await page
+		.getByRole('listitem')
+		.filter({ has: page.getByRole('heading', { name: 'beyond earth' }) })
+		.getByRole('button', { name: 'bookmark', pressed: false })
+		.click()
+	await page
+		.getByRole('listitem')
+		.filter({ has: page.getByRole('heading', { name: 'the great lands' }) })
+		.getByRole('button', { name: 'bookmark', pressed: false })
+		.click()
+	await page
+		.getByRole('navigation')
+		.getByRole('link', { name: 'movies' })
+		.click()
+	await page
+		.getByRole('listitem')
+		.filter({ has: page.getByRole('heading', { name: 'bottom gear' }) })
+		.getByRole('button', { name: 'bookmark', pressed: false })
+		.click()
+	await page
+		.getByRole('navigation')
+		.getByRole('link', { name: 'tv series' })
+		.click()
+	await page
+		.getByRole('listitem')
+		.filter({ has: page.getByRole('heading', { name: 'undiscovered cities' }) })
+		.getByRole('button', { name: 'bookmark', pressed: false })
+		.click()
+	await page
+		.getByRole('navigation')
+		.getByRole('link', { name: 'bookmarked' })
+		.click()
+
+	await expect(page.getByTestId('movies').getByRole('heading')).toHaveText([
+		'Beyond Earth',
+		'Bottom Gear',
+		'The Great Lands',
+	])
+	await expect(page.getByTestId('tv-series').getByRole('heading')).toHaveText([
+		'Undiscovered Cities',
+	])
 })
