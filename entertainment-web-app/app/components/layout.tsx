@@ -15,7 +15,7 @@ export function Layout() {
 						<div className="flex flex-1 justify-start desktop:flex-initial">
 							<Link className="text-red" to="/">
 								<Icon
-									className="h-5 w-auto tablet:h-[2.0625rem]"
+									className="h-5 w-auto tablet:h-[1.6875rem]"
 									name="logo"
 									width="33"
 									height="27"
