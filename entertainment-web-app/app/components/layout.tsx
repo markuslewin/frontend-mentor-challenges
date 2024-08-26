@@ -10,8 +10,8 @@ export function Layout() {
 	return (
 		<>
 			<div className="min-h-screen tablet:px-6 tablet:pt-6 desktop:grid desktop:grid-cols-[auto,minmax(0,1fr)] desktop:gap-9 desktop:px-8 desktop:py-0">
-				<div className="desktop:flex desktop:min-h-[min(100vh,64rem)] desktop:self-start desktop:py-8">
-					<header className="flex flex-wrap items-center bg-semi-dark-blue text-greyish-blue shape-p-4 tablet:rounded tablet:shape-py-5 tablet:shape-px-6 desktop:flex-col desktop:rounded-lg desktop:shape-py-8 desktop:shape-px-7">
+				<div className="desktop:sticky desktop:top-0 desktop:flex desktop:h-screen desktop:max-h-[64rem] desktop:flex-col desktop:overflow-y-auto desktop:py-8">
+					<header className="flex flex-wrap items-center bg-semi-dark-blue text-greyish-blue shape-p-4 tablet:rounded tablet:shape-py-5 tablet:shape-px-6 desktop:grow desktop:flex-col desktop:rounded-lg desktop:shape-py-8 desktop:shape-px-7">
 						<div className="flex flex-1 justify-start desktop:flex-initial">
 							<Link className="text-red" to="/">
 								<Icon
