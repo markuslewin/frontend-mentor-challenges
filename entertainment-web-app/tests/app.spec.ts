@@ -1,3 +1,4 @@
+import AxeBuilder from '@axe-core/playwright'
 import { test, expect } from '@playwright/test'
 
 const shows = [
@@ -434,4 +435,58 @@ test('bookmarks shows', async ({ page }) => {
 	await expect(page.getByTestId('tv-series').getByRole('heading')).toHaveText([
 		'Undiscovered Cities',
 	])
+})
+
+test.describe('a11y', () => {
+	test('home', async ({ page }) => {
+		await page.goto('/')
+
+		let results = await new AxeBuilder({ page }).analyze()
+		expect(results.violations).toEqual([])
+
+		await page.getByRole('searchbox', { name: 'search shows' }).fill('the')
+		await page.getByRole('button', { name: 'search' }).click()
+
+		results = await new AxeBuilder({ page }).analyze()
+		expect(results.violations).toEqual([])
+	})
+
+	test('movies', async ({ page }) => {
+		await page.goto('/movies')
+
+		let results = await new AxeBuilder({ page }).analyze()
+		expect(results.violations).toEqual([])
+
+		await page.getByRole('searchbox', { name: 'search shows' }).fill('the')
+		await page.getByRole('button', { name: 'search' }).click()
+
+		results = await new AxeBuilder({ page }).analyze()
+		expect(results.violations).toEqual([])
+	})
+
+	test('tv series', async ({ page }) => {
+		await page.goto('/tv-series')
+
+		let results = await new AxeBuilder({ page }).analyze()
+		expect(results.violations).toEqual([])
+
+		await page.getByRole('searchbox', { name: 'search shows' }).fill('the')
+		await page.getByRole('button', { name: 'search' }).click()
+
+		results = await new AxeBuilder({ page }).analyze()
+		expect(results.violations).toEqual([])
+	})
+
+	test('bookmarked', async ({ page }) => {
+		await page.goto('/bookmarked')
+
+		let results = await new AxeBuilder({ page }).analyze()
+		expect(results.violations).toEqual([])
+
+		await page.getByRole('searchbox', { name: 'search shows' }).fill('the')
+		await page.getByRole('button', { name: 'search' }).click()
+
+		results = await new AxeBuilder({ page }).analyze()
+		expect(results.violations).toEqual([])
+	})
 })
