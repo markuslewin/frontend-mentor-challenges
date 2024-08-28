@@ -5,13 +5,16 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import { AnnouncementProvider } from '#app/components/announcer'
 import { Layout } from '#app/components/layout'
 import { Categories } from '#app/routes/categories/route'
-import { handle as categoriesHandle } from '#app/routes/categories/routing'
+import {
+	action as categoriesAction,
+	handle as categoriesHandle,
+} from '#app/routes/categories/routing'
+import { Home } from '#app/routes/home/route'
+import { handle as homeHandle } from '#app/routes/home/routing'
 import { Instructions } from '#app/routes/instructions/route'
 import { handle as instructionsHandle } from '#app/routes/instructions/routing'
 import { Play } from '#app/routes/play/route'
 import { handle as playHandle } from '#app/routes/play/routing'
-import { Start } from '#app/routes/start/route'
-import { handle as startHandle } from '#app/routes/start/routing'
 import { clientEnv } from '#app/utils/env/client'
 import '@fontsource/mouse-memoirs'
 
@@ -31,8 +34,8 @@ void enableMocking().then(() => {
 			children: [
 				{
 					index: true,
-					handle: startHandle,
-					Component: Start,
+					handle: homeHandle,
+					Component: Home,
 				},
 				{
 					path: 'instructions',
@@ -42,6 +45,7 @@ void enableMocking().then(() => {
 				{
 					path: 'categories',
 					handle: categoriesHandle,
+					action: categoriesAction,
 					Component: Categories,
 				},
 				{

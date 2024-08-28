@@ -27,6 +27,7 @@
     "@fontsource/mouse-memoirs": "^5.0.21",
     "@netlify/functions": "^2.8.1",
     "@paralleldrive/cuid2": "^2.2.2",
+    "@radix-ui/react-alert-dialog": "^1.1.1",
     "@radix-ui/react-dialog": "^1.1.1",
     "@radix-ui/react-slot": "^1.0.2",
     "@uidotdev/usehooks": "^2.4.1",
