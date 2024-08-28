@@ -24,6 +24,7 @@
     "@conform-to/react": "^1.1.5",
     "@conform-to/zod": "^1.1.5",
     "@epic-web/invariant": "^1.0.0",
+    "@fontsource/mouse-memoirs": "^5.0.21",
     "@netlify/functions": "^2.8.1",
     "@paralleldrive/cuid2": "^2.2.2",
     "@radix-ui/react-dialog": "^1.1.1",

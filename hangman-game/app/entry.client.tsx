@@ -13,6 +13,7 @@ import { handle as playHandle } from '#app/routes/play/routing'
 import { Start } from '#app/routes/start/route'
 import { handle as startHandle } from '#app/routes/start/routing'
 import { clientEnv } from '#app/utils/env/client'
+import '@fontsource/mouse-memoirs'
 
 async function enableMocking() {
 	// Tree shake mocks when building for production

@@ -2,11 +2,11 @@ import colors from 'tailwindcss/colors'
 import defaultTheme from 'tailwindcss/defaultTheme'
 import { screens } from './app/utils/screens'
 import { center } from './tailwind/center'
-import { clamp } from './tailwind/clamp'
+// import { clamp } from './tailwind/clamp'
 import { clickable } from './tailwind/clickable'
 import { hocus } from './tailwind/hocus'
 import { layer } from './tailwind/layer'
-// import { rem } from "./tailwind/rem";
+import { rem } from './tailwind/rem'
 import { shape } from './tailwind/shape'
 import { theGrid } from './tailwind/the-grid'
 
@@ -16,49 +16,47 @@ export default {
 	darkMode: ['selector', '[data-theme="dark"]'],
 	theme: {
 		screens,
+		backgroundImage: {
+			'pink-gradient':
+				'linear-gradient(to bottom, hsl(300 99% 72%), hsl(223 100% 72%))',
+			'blue-gradient':
+				'linear-gradient(to bottom, hsl(209 100% 70%), hsl(0 0% 100%))',
+		},
 		colors: {
 			transparent: colors.transparent,
-			// todo: Add colors
-			background: 'hsl(var(--background))',
-			foreground: 'hsl(var(--foreground))',
-			overlay: 'hsl(var(--overlay))',
-			menu: {
-				DEFAULT: 'hsl(var(--menu))',
-				foreground: 'hsl(var(--menu-foreground))',
-			},
-			button: {
-				DEFAULT: 'hsl(var(--button))',
-				foreground: 'hsl(var(--button-foreground))',
-				hocus: 'hsl(var(--button-hocus))',
-			},
-			input: {
-				DEFAULT: 'hsl(var(--input))',
-				'border-hocus': 'hsl(var(--input-border-hocus))',
-			},
-			pill: {
-				DEFAULT: 'hsl(var(--pill))',
-				foreground: 'hsl(var(--pill-foreground))',
-			},
-			delete: {
-				foreground: 'hsl(var(--delete-foreground))',
-				'foreground-hocus': 'hsl(var(--delete-foreground-hocus))',
-			},
-			error: {
-				foreground: 'hsl(var(--error-foreground))',
-			},
+			blue: 'hsl(223, 100, 57)',
+			white: 'hsl(0, 0, 100)',
+			'dark-navy': 'hsl(250, 68, 27)',
 		},
 		fontFamily: {
-			// todo: Add font from Fontsource
-			base: 'Inter, system-ui, Avenir, Helvetica, Arial, sans-serif',
+			base: "'Mouse Memoirs', sans-serif",
 		},
 		fontSize: {
-			// todo: Add font sizes
-			'heading-l': [clamp(32, 48), { fontWeight: 500, lineHeight: 1 }],
-			'heading-m': [clamp(24, 39), { fontWeight: 500, lineHeight: 1 }],
-			body: [clamp(16, 20), { lineHeight: 1.2 }],
+			136: rem(136),
+			134: rem(134),
+			104: rem(104),
+			94: rem(94),
+			88: rem(88),
+			64: rem(64),
+			48: rem(48),
+			40: rem(40),
+			32: rem(32),
+			26: rem(26),
+			24: rem(24),
+			20: rem(20),
+			16: rem(16),
+		},
+		lineHeight: {
+			120: '1.2',
+			150: '1.5',
+		},
+		letterSpacing: {
+			0: '0em',
+			'05': '0.005em',
+			2: '0.02em',
+			5: '0.05em',
 		},
 		borderRadius: {
-			xl: defaultTheme.borderRadius.xl,
 			full: defaultTheme.borderRadius.full,
 		},
 		extend: {
