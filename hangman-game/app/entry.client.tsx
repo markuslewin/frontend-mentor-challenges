@@ -4,31 +4,15 @@ import '#app/index.css'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import { AnnouncementProvider } from '#app/components/announcer'
 import { Layout } from '#app/components/layout'
-import { Home } from '#app/routes/home/route'
-import {
-	handle as homeHandle,
-	loader as homeLoader,
-} from '#app/routes/home/routing'
-import { NestedRoutes } from '#app/routes/nested-routes/route'
-import { NestedRoutesIndex } from '#app/routes/nested-routes._index/route'
-import {
-	handle as nestedRoutesIndexHandle,
-	action as nestedRoutesIndexAction,
-	loader as nestedRoutesIndexLoader,
-} from '#app/routes/nested-routes._index/routing'
-import { NestedRoutesCreate } from '#app/routes/nested-routes.create/route'
-import {
-	handle as nestedRoutesCreateHandle,
-	action as nestedRoutesCreateAction,
-} from '#app/routes/nested-routes.create/routing'
-import { NestedRoutesUpdate } from '#app/routes/nested-routes.update.$id/route'
-import {
-	loader as nestedRoutesUpdateLoader,
-	action as nestedRoutesUpdateAction,
-	handle as nestedRoutesUpdateHandle,
-} from '#app/routes/nested-routes.update.$id/routing'
+import { Categories } from '#app/routes/categories/route'
+import { handle as categoriesHandle } from '#app/routes/categories/routing'
+import { Instructions } from '#app/routes/instructions/route'
+import { handle as instructionsHandle } from '#app/routes/instructions/routing'
+import { Play } from '#app/routes/play/route'
+import { handle as playHandle } from '#app/routes/play/routing'
+import { Start } from '#app/routes/start/route'
+import { handle as startHandle } from '#app/routes/start/routing'
 import { clientEnv } from '#app/utils/env/client'
-import { action as messageAction } from '#app/utils/message'
 
 async function enableMocking() {
 	// Tree shake mocks when building for production
@@ -38,7 +22,7 @@ async function enableMocking() {
 	}
 }
 
-enableMocking().then(() => {
+void enableMocking().then(() => {
 	const router = createBrowserRouter([
 		{
 			path: '/',
@@ -46,39 +30,23 @@ enableMocking().then(() => {
 			children: [
 				{
 					index: true,
-					handle: homeHandle,
-					loader: homeLoader,
-					Component: Home,
+					handle: startHandle,
+					Component: Start,
 				},
 				{
-					path: 'message',
-					action: messageAction,
+					path: 'instructions',
+					handle: instructionsHandle,
+					Component: Instructions,
 				},
 				{
-					path: 'nested-routes',
-					Component: NestedRoutes,
-					children: [
-						{
-							index: true,
-							handle: nestedRoutesIndexHandle,
-							loader: nestedRoutesIndexLoader,
-							action: nestedRoutesIndexAction,
-							Component: NestedRoutesIndex,
-						},
-						{
-							path: 'create',
-							handle: nestedRoutesCreateHandle,
-							action: nestedRoutesCreateAction,
-							Component: NestedRoutesCreate,
-						},
-						{
-							path: 'update/:id',
-							handle: nestedRoutesUpdateHandle,
-							loader: nestedRoutesUpdateLoader,
-							action: nestedRoutesUpdateAction,
-							Component: NestedRoutesUpdate,
-						},
-					],
+					path: 'categories',
+					handle: categoriesHandle,
+					Component: Categories,
+				},
+				{
+					path: 'play',
+					handle: playHandle,
+					Component: Play,
 				},
 			],
 		},
