@@ -17,6 +17,7 @@ export default {
 	theme: {
 		screens,
 		backgroundImage: {
+			'gradient-to-b': defaultTheme.backgroundImage['gradient-to-b'],
 			'pink-gradient':
 				'linear-gradient(to bottom, hsl(300 99% 72%), hsl(223 100% 72%))',
 			'blue-gradient':
@@ -24,9 +25,9 @@ export default {
 		},
 		colors: {
 			transparent: colors.transparent,
-			blue: 'hsl(223, 100, 57)',
-			white: 'hsl(0, 0, 100)',
-			'dark-navy': 'hsl(250, 68, 27)',
+			blue: 'hsl(223, 100%, 57%)',
+			white: 'hsl(0, 0%, 100%)',
+			'dark-navy': 'hsl(250, 68%, 27%)',
 		},
 		fontFamily: {
 			base: "'Mouse Memoirs', sans-serif",

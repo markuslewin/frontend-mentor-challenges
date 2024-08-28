@@ -11,7 +11,7 @@
 	}
 
 	body {
-		@apply bg-dark-navy text-white leading-120 text-16 tracking-5 tablet:text-20 desktop:text-26 font-base;
+		@apply bg-dark-navy text-white leading-120 text-16 tracking-5 tablet:text-20 desktop:text-26 bg-[url('/app/assets/background-mobile.svg')] bg-cover font-base tablet:bg-[url('/app/assets/background-tablet.svg')] desktop:bg-[url('/app/assets/background-desktop.svg')];
 	}
 
 	h1,
