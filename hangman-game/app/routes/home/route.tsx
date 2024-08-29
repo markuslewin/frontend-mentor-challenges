@@ -1,5 +1,7 @@
+import { cx } from 'class-variance-authority'
 import { Link } from 'react-router-dom'
 import { Img } from '#app/components/picture'
+import { blueButton } from '#app/utils/styles'
 
 export function Home() {
 	return (
@@ -37,7 +39,10 @@ export function Home() {
 					</li>
 					<li className="mt-14 flex justify-center">
 						<Link
-							className="basis-[16.25rem] rounded-full bg-blue p-3 text-center text-32 uppercase text-white shadow-[inset_0_-0.125rem_0_0.1875rem_hsl(244_76%_23%),inset_0_0.0625rem_0_0.375rem_hsl(223_100%_62%)] transition-colors hocus:bg-[hsl(223,100%,68%)]"
+							className={cx(
+								'basis-[16.25rem] rounded-full p-3 text-center text-32 uppercase',
+								blueButton,
+							)}
 							to="/instructions"
 						>
 							How to play
