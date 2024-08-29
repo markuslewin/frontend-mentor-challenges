@@ -16,20 +16,15 @@ export default {
 	darkMode: ['selector', '[data-theme="dark"]'],
 	theme: {
 		screens,
-		backgroundImage: {
-			'gradient-to-b': defaultTheme.backgroundImage['gradient-to-b'],
-			'pink-gradient':
-				'linear-gradient(to bottom, hsl(300 99% 72%) 1.5rem, hsl(223 100% 72%))',
-			'pink-gradient-tablet':
-				'linear-gradient(to bottom, hsl(300 99% 72%) 2rem, hsl(223 100% 72%))',
-			'blue-gradient':
-				'linear-gradient(to bottom, hsl(209 100% 70%), hsl(0 0% 100%))',
-		},
 		colors: {
 			transparent: colors.transparent,
 			blue: 'hsl(223, 100%, 57%)',
 			white: 'hsl(0, 0%, 100%)',
 			'dark-navy': 'hsl(250, 68%, 27%)',
+			// ---
+			pink: 'hsl(300 99% 72%)',
+			'light-blue': 'hsl(223 100% 72%)',
+			'light-navy': 'hsl(250 35% 62%)',
 		},
 		fontFamily: {
 			base: "'Mouse Memoirs', sans-serif",

@@ -21,7 +21,7 @@ export function Home() {
 				>
 					<li className="flex justify-center">
 						<Link
-							className="tablet:bg-pink-gradient-tablet group relative isolate inline-grid size-40 place-items-center rounded-full bg-pink-gradient tablet:size-[12.5rem]"
+							className="group relative isolate inline-grid size-40 place-items-center rounded-full bg-gradient-to-b from-pink from-[1.5rem] to-light-blue tablet:size-[12.5rem] tablet:from-[2rem]"
 							to="/categories"
 						>
 							<span className="rounded-inherit bg-white/25 opacity-0 transition-opacity layer-0 group-hocus:opacity-100" />
