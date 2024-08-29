@@ -21,11 +21,13 @@ export function Home() {
 				>
 					<li className="flex justify-center">
 						<Link
-							className="bg-pink-gradient inline-grid size-40 place-items-center rounded-full shadow-[inset_0_-0.25rem_0_0.3125rem_hsl(215_29%_20%),inset_0_-0.75rem_0_0.6875rem_hsl(274_91%_57%)] tablet:size-[12.5rem]"
+							className="tablet:bg-pink-gradient-tablet group relative isolate inline-grid size-40 place-items-center rounded-full bg-pink-gradient tablet:size-[12.5rem]"
 							to="/categories"
 						>
+							<span className="rounded-inherit bg-white/25 opacity-0 transition-opacity layer-0 group-hocus:opacity-100" />
+							<span className="rounded-inherit shadow-[inset_0_-0.25rem_0_0.3125rem_hsl(215_29%_20%),inset_0_-0.75rem_0_0.6875rem_hsl(274_91%_57%)] layer-0" />
 							<Img
-								className="h-[3.25rem] w-auto tablet:h-16"
+								className="z-10 h-[3.25rem] w-auto tablet:h-16"
 								alt="Play"
 								src="/assets/images/icon-play.svg"
 								width="67"
@@ -35,7 +37,7 @@ export function Home() {
 					</li>
 					<li className="mt-14 flex justify-center">
 						<Link
-							className="bg-blue text-white text-32 basis-[16.25rem] rounded-full p-3 text-center uppercase shadow-[inset_0_-0.125rem_0_0.1875rem_hsl(244_76%_23%),inset_0_0.0625rem_0_0.375rem_hsl(223_100%_62%)]"
+							className="basis-[16.25rem] rounded-full bg-blue p-3 text-center text-32 uppercase text-white shadow-[inset_0_-0.125rem_0_0.1875rem_hsl(244_76%_23%),inset_0_0.0625rem_0_0.375rem_hsl(223_100%_62%)] transition-colors hocus:bg-[hsl(223,100%,68%)]"
 							to="/instructions"
 						>
 							How to play

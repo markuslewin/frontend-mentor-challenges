@@ -19,7 +19,9 @@ export default {
 		backgroundImage: {
 			'gradient-to-b': defaultTheme.backgroundImage['gradient-to-b'],
 			'pink-gradient':
-				'linear-gradient(to bottom, hsl(300 99% 72%), hsl(223 100% 72%))',
+				'linear-gradient(to bottom, hsl(300 99% 72%) 1.5rem, hsl(223 100% 72%))',
+			'pink-gradient-tablet':
+				'linear-gradient(to bottom, hsl(300 99% 72%) 2rem, hsl(223 100% 72%))',
 			'blue-gradient':
 				'linear-gradient(to bottom, hsl(209 100% 70%), hsl(0 0% 100%))',
 		},
@@ -59,6 +61,7 @@ export default {
 		},
 		borderRadius: {
 			full: defaultTheme.borderRadius.full,
+			inherit: 'inherit',
 		},
 		extend: {
 			aria: {
