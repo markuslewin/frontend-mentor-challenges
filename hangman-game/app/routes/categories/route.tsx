@@ -1,6 +1,7 @@
 import { cx } from 'class-variance-authority'
 import { Form } from 'react-router-dom'
 import { Header } from '#app/components/header'
+import { type Category, categoryName } from '#app/routes/categories/routing'
 import { blueButton, center } from '#app/utils/styles'
 
 export function Categories() {
@@ -17,21 +18,23 @@ export function Categories() {
 							className="grid gap-4 tablet:grid-cols-2 tablet:gap-8 desktop:grid-cols-3 desktop:gap-y-[3.125rem]"
 							role="list"
 						>
-							{[
-								{ text: 'Movies', value: 'movies' },
-								{ text: 'TV Shows', value: 'tv-shows' },
-								{ text: 'Countries', value: 'countries' },
-								{ text: 'Capital Cities', value: 'capital-cities' },
-								{ text: 'Animals', value: 'animals' },
-								{ text: 'Sports', value: 'sports' },
-							].map((category) => (
+							{(
+								[
+									{ text: 'Movies', value: 'Movies' },
+									{ text: 'TV Shows', value: 'TV Shows' },
+									{ text: 'Countries', value: 'Countries' },
+									{ text: 'Capital Cities', value: 'Capital Cities' },
+									{ text: 'Animals', value: 'Animals' },
+									{ text: 'Sports', value: 'Sports' },
+								] satisfies { text: string; value: Category }[]
+							).map((category) => (
 								<li className="grid" key={category.value}>
 									<button
 										className={cx(
 											'rounded-[1.25rem] p-6 text-24 tablet:rounded-[2.5rem] tablet:p-[4.125rem] tablet:text-48',
 											blueButton,
 										)}
-										name="category"
+										name={categoryName}
 										value={category.value}
 									>
 										{category.text}

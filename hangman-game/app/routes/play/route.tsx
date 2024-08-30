@@ -1,11 +1,13 @@
 import * as AlertDialog from '@radix-ui/react-alert-dialog'
 import * as Dialog from '@radix-ui/react-dialog'
 import { cx } from 'class-variance-authority'
-import { Form, Link } from 'react-router-dom'
+import { Form, Link, useLoaderData } from 'react-router-dom'
 import { Icon } from '#app/components/icon'
 import * as Landmark from '#app/components/landmark'
 import { Img } from '#app/components/picture'
 import { PinkButtonOverlay } from '#app/components/pink-button'
+import { type loader } from '#app/routes/play/routing'
+import { alphabet } from '#app/utils/alphabet'
 import {
 	blueButton,
 	center,
@@ -23,6 +25,8 @@ const playableLetter = cx(
 const maxLives = 8
 
 export function Play() {
+	const data = useLoaderData() as ReturnType<typeof loader>
+
 	const lives = 4
 	const guesses = ['M', 'A', 'D', 'W', 'O', 'R', 'L', 'D']
 
@@ -107,43 +111,19 @@ export function Play() {
 							<h2 className="sr-only">Secret words</h2>
 						</Landmark.Label>
 						<div className="flex flex-wrap justify-center gap-3 tablet:gap-4">
-							{[
-								{
-									type: 'word' as const,
-									value: [
-										{ type: 'solved' as const, value: 'u' },
-										{ type: 'solved' as const, value: 'n' },
-										{ type: 'solved' as const, value: 'i' },
-										{ type: 'blank' as const },
-										{ type: 'blank' as const },
-										{ type: 'solved' as const, value: 'd' },
-									],
-								},
-								{ type: 'space' as const },
-								{
-									type: 'word' as const,
-									value: [
-										{ type: 'blank' as const },
-										{ type: 'solved' as const, value: 'i' },
-										{ type: 'solved' as const, value: 'n' },
-										{ type: 'blank' as const },
-										{ type: 'solved' as const, value: 'd' },
-										{ type: 'solved' as const, value: 'o' },
-										{ type: 'blank' as const },
-									],
-								},
-							].map((wordOrSpace, i) =>
-								wordOrSpace.type === 'space' ? (
-									<p className="sr-only" key={i} tabIndex={0}>
-										Space
-									</p>
-								) : (
+							{data.state.secret.split(' ').map((word, i) => (
+								<>
+									{i !== 0 ? (
+										<p className="sr-only" key={i} tabIndex={0}>
+											Space
+										</p>
+									) : null}
 									<div
 										className="flex gap-2 tablet:gap-3 desktop:gap-4"
 										key={i}
 									>
-										{wordOrSpace.value.map((solvedOrBlank, y) =>
-											solvedOrBlank.type === 'blank' ? (
+										{[...word].map((letter, y) =>
+											true ? (
 												<p
 													className={cx('opacity-25', playableLetter)}
 													key={y}
@@ -160,13 +140,13 @@ export function Play() {
 													key={y}
 													tabIndex={0}
 												>
-													{solvedOrBlank.value}
+													{letter}
 												</p>
 											),
 										)}
 									</div>
-								),
-							)}
+								</>
+							))}
 						</div>
 					</Landmark.Root>
 					<div className="min-h-[7.5rem] grow-[120]" />
@@ -181,37 +161,10 @@ export function Play() {
 									className="grid grid-cols-9 gap-x-2 gap-y-6 tablet:gap-4 desktop:gap-6"
 									role="list"
 								>
-									{[
-										'A',
-										'B',
-										'C',
-										'D',
-										'E',
-										'F',
-										'G',
-										'H',
-										'I',
-										'J',
-										'K',
-										'L',
-										'M',
-										'N',
-										'O',
-										'P',
-										'Q',
-										'R',
-										'S',
-										'T',
-										'U',
-										'V',
-										'W',
-										'X',
-										'Y',
-										'Z',
-									].map((letter) => (
+									{alphabet.map((letter) => (
 										<li className="grid" key={letter}>
 											<button
-												className="rounded-[0.5rem] bg-white py-[0.625rem] text-center text-24 leading-150 -tracking-2 text-dark-navy transition-colors aria-disabled:opacity-25 hocus:aria-[disabled=false]:bg-blue hocus:aria-[disabled=false]:text-white tablet:rounded-[1.5rem] tablet:py-[0.8125rem] tablet:text-48 tablet:leading-120 tablet:tracking-5"
+												className="rounded-[0.5rem] bg-white py-[0.625rem] text-center text-24 uppercase leading-150 -tracking-2 text-dark-navy transition-colors aria-disabled:opacity-25 hocus:aria-[disabled=false]:bg-blue hocus:aria-[disabled=false]:text-white tablet:rounded-[1.5rem] tablet:py-[0.8125rem] tablet:text-48 tablet:leading-120 tablet:tracking-5"
 												name="letter"
 												value={letter}
 												aria-disabled={guesses.includes(letter)}
