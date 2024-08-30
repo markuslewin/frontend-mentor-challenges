@@ -1,6 +1,7 @@
 import * as AlertDialog from '@radix-ui/react-alert-dialog'
 import * as Dialog from '@radix-ui/react-dialog'
 import { cx } from 'class-variance-authority'
+import React from 'react'
 import { Form, Link, useLoaderData } from 'react-router-dom'
 import { Icon } from '#app/components/icon'
 import * as Landmark from '#app/components/landmark'
@@ -16,11 +17,6 @@ import {
 	pinkCircleButton,
 	shadowyBlue,
 } from '#app/utils/styles.js'
-
-const playableLetter = cx(
-	'grid h-[4.125rem] w-10 place-items-center rounded-[0.75rem] tablet:h-28 tablet:w-[5.5rem] tablet:rounded-[2rem] desktop:h-32 desktop:w-28 desktop:rounded-[2.5rem]',
-	shadowyBlue,
-)
 
 const maxLives = 8
 
@@ -112,40 +108,30 @@ export function Play() {
 						</Landmark.Label>
 						<div className="flex flex-wrap justify-center gap-3 tablet:gap-4">
 							{data.state.secret.split(' ').map((word, i) => (
-								<>
+								<React.Fragment key={i}>
 									{i !== 0 ? (
-										<p className="sr-only" key={i} tabIndex={0}>
+										<p className="sr-only" tabIndex={0}>
 											Space
 										</p>
 									) : null}
-									<div
-										className="flex gap-2 tablet:gap-3 desktop:gap-4"
-										key={i}
-									>
-										{[...word].map((letter, y) =>
-											true ? (
-												<p
-													className={cx('opacity-25', playableLetter)}
-													key={y}
-													tabIndex={0}
-												>
-													<span className="sr-only">Blank</span>
-												</p>
-											) : (
-												<p
-													className={cx(
-														'text-40 uppercase tablet:text-64 desktop:text-88 desktop:tracking-0',
-														playableLetter,
-													)}
-													key={y}
-													tabIndex={0}
-												>
-													{letter}
-												</p>
-											),
-										)}
+									<div className="flex gap-2 tablet:gap-3 desktop:gap-4">
+										{[...word].map((letter, y) => (
+											<p
+												className={cx(
+													'grid h-[4.125rem] w-10 place-items-center rounded-[0.75rem] tablet:h-28 tablet:w-[5.5rem] tablet:rounded-[2rem] desktop:h-32 desktop:w-28 desktop:rounded-[2.5rem]',
+													shadowyBlue,
+													true
+														? 'opacity-25'
+														: 'text-40 uppercase tablet:text-64 desktop:text-88 desktop:tracking-0',
+												)}
+												key={y}
+												tabIndex={0}
+											>
+												{true ? <span className="sr-only">Blank</span> : letter}
+											</p>
+										))}
 									</div>
-								</>
+								</React.Fragment>
 							))}
 						</div>
 					</Landmark.Root>
