@@ -2,7 +2,7 @@ import { cx } from 'class-variance-authority'
 import { Link } from 'react-router-dom'
 import { Icon } from '#app/components/icon'
 import { PinkButtonOverlay } from '#app/components/pink-button'
-import { center, pinkButton } from '#app/utils/styles'
+import { center, pinkCircleButton } from '#app/utils/styles'
 
 interface HeaderProps {
 	heading: string
@@ -13,7 +13,7 @@ export function Header({ heading }: HeaderProps) {
 		<header className={cx(center, '')}>
 			<div className="grid grid-cols-[1fr_auto] items-center tablet:grid-cols-[1fr_auto_1fr]">
 				<div>
-					<Link className={pinkButton()} to="/">
+					<Link className={pinkCircleButton()} to="/">
 						<PinkButtonOverlay />
 						<Icon
 							className="h-auto w-[43.61702127659574%]"

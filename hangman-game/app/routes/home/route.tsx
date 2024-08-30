@@ -1,7 +1,8 @@
 import { cx } from 'class-variance-authority'
 import { Link } from 'react-router-dom'
 import { Img } from '#app/components/picture'
-import { blueButton } from '#app/utils/styles'
+import { PinkButtonOverlay } from '#app/components/pink-button'
+import { blueButton, dialog } from '#app/utils/styles'
 
 export function Home() {
 	return (
@@ -18,7 +19,10 @@ export function Home() {
 					/>
 				</h1>
 				<ul
-					className="-mt-20 rounded-[3rem] bg-gradient-to-b from-[hsl(230_56%_47%)] to-[hsl(230_100%_24%/83%)] px-8 pb-16 pt-36 shadow-[inset_0_-0.5rem_0_0.25rem_hsl(244_76%_23%),inset_0_0.375rem_0_0.5rem_hsl(223_100%_57%)] tablet:-mt-[4.6875rem] tablet:pt-[8.0625rem]"
+					className={cx(
+						dialog,
+						'-mt-20 px-8 pb-16 pt-36 tablet:-mt-[4.6875rem] tablet:pt-[8.0625rem]',
+					)}
 					role="list"
 				>
 					<li className="flex justify-center">
@@ -26,7 +30,7 @@ export function Home() {
 							className="group relative isolate inline-grid size-40 place-items-center rounded-full bg-gradient-to-b from-pink from-[1.5rem] to-light-blue tablet:size-[12.5rem] tablet:from-[2rem]"
 							to="/categories"
 						>
-							<span className="rounded-inherit bg-white/25 opacity-0 transition-opacity layer-0 group-hocus:opacity-100" />
+							<PinkButtonOverlay />
 							<span className="rounded-inherit shadow-[inset_0_-0.25rem_0_0.3125rem_hsl(215_29%_20%),inset_0_-0.75rem_0_0.6875rem_hsl(274_91%_57%)] layer-0" />
 							<Img
 								className="z-10 h-[3.25rem] w-auto tablet:h-16"
