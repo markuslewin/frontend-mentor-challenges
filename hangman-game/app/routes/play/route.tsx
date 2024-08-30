@@ -47,18 +47,12 @@ export function Play() {
 									<span className="sr-only">Menu</span>
 								</Dialog.Trigger>
 								<Dialog.Portal>
-									<Dialog.Overlay className="fixed inset-0 items-center overflow-y-auto bg-gradient-to-b from-[hsl(264_87%_12%/75%)] via-[hsl(242_74%_27%/75%)] via-70% to-[hsl(253_69%_28%/75%)] p-6 center-[37rem]">
+									<Dialog.Overlay className={cx('', overlay)}>
 										<Dialog.Content aria-describedby={undefined}>
-											<Dialog.Title className="px-6 text-center text-94 -tracking-05 tablet:text-134">
+											<Dialog.Title className={cx('', title)}>
 												Paused
 											</Dialog.Title>
-											<ul
-												className={cx(
-													'-mt-[3.8125rem] flex flex-col items-center gap-[2.125rem] px-6 pb-20 pt-[6.5rem] tablet:-mt-[4.5rem] tablet:pb-[4.4375rem] tablet:pt-[7.5rem]',
-													dialog,
-												)}
-												role="list"
-											>
+											<ul className={cx('', options)} role="list">
 												<li className="grid">
 													<Dialog.Close
 														className={cx(
@@ -70,28 +64,10 @@ export function Play() {
 													</Dialog.Close>
 												</li>
 												<li className="grid">
-													<Link
-														className={cx(
-															'rounded-full px-16 py-3 text-32 uppercase',
-															blueButton,
-														)}
-														to="/categories"
-													>
-														New category
-													</Link>
+													<NewCategory />
 												</li>
 												<li className="grid">
-													<Link
-														className={cx(
-															'group relative isolate rounded-full px-16 py-3 text-32 uppercase',
-															pinkButton,
-														)}
-														to="/"
-													>
-														<PinkButtonOverlay />
-														<span className="rounded-inherit shadow-[inset_0_-0.125rem_0_0.1875rem_hsl(244_76%_23%),inset_0_0.0625rem_0_0.375rem_hsl(283_96%_62%)] layer-0" />
-														Quit game
-													</Link>
+													<QuitGame />
 												</li>
 											</ul>
 										</Dialog.Content>
@@ -250,35 +226,77 @@ export function Play() {
 					</Landmark.Root>
 					<AlertDialog.Root open={false} onOpenChange={() => {}}>
 						<AlertDialog.Portal>
-							{/* <AlertDialog.Overlay className="bg-blackA6 data-[state=open]:animate-overlayShow fixed inset-0" /> */}
-							<AlertDialog.Content
-								// className="data-[state=open]:animate-contentShow bg-white fixed left-[50%] top-[50%] max-h-[85vh] w-[90vw] max-w-[500px] translate-x-[-50%] translate-y-[-50%] rounded-[6px] p-[25px] shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] focus:outline-none"
-								aria-describedby={undefined}
-							>
-								<AlertDialog.Title
-								// className="text-mauve12 m-0 text-[17px] font-medium"
-								>
-									You Win/You Lose
-								</AlertDialog.Title>
-								<ul>
-									<li>
-										<Form>
-											<button>Play again!</button>
-										</Form>
-									</li>
-									<li>
-										<Link to="/categories">New category</Link>
-									</li>
-									<li>
-										<Link to="/">Quit game</Link>
-									</li>
-								</ul>
-							</AlertDialog.Content>
+							<AlertDialog.Overlay className={cx('', overlay)}>
+								<AlertDialog.Content aria-describedby={undefined}>
+									<AlertDialog.Title className={cx('', title)}>
+										You Win
+									</AlertDialog.Title>
+									<ul className={cx('', options)} role="list">
+										<li className="grid">
+											<Form>
+												<button
+													className={cx(
+														'rounded-full px-16 py-3 text-32 uppercase',
+														blueButton,
+													)}
+													name="option"
+													value="play-again"
+												>
+													Play again!
+												</button>
+											</Form>
+										</li>
+										<li className="grid">
+											<NewCategory />
+										</li>
+										<li className="grid">
+											<QuitGame />
+										</li>
+									</ul>
+								</AlertDialog.Content>
+							</AlertDialog.Overlay>
 						</AlertDialog.Portal>
 					</AlertDialog.Root>
 				</div>
 			</main>
 			<div className="min-h-[4.875rem] grow-[78]" />
 		</div>
+	)
+}
+
+const overlay =
+	'fixed inset-0 items-center overflow-y-auto bg-gradient-to-b from-[hsl(264_87%_12%/75%)] via-[hsl(242_74%_27%/75%)] via-70% to-[hsl(253_69%_28%/75%)] p-6 center-[37rem]'
+
+const title = 'px-6 text-center text-94 -tracking-05 tablet:text-134'
+
+const options = cx(
+	'-mt-[3.8125rem] flex flex-col items-center gap-[2.125rem] px-6 pb-20 pt-[6.5rem] tablet:-mt-[4.5rem] tablet:pb-[4.4375rem] tablet:pt-[7.5rem]',
+	dialog,
+)
+
+function NewCategory() {
+	return (
+		<Link
+			className={cx('rounded-full px-16 py-3 text-32 uppercase', blueButton)}
+			to="/categories"
+		>
+			New category
+		</Link>
+	)
+}
+
+function QuitGame() {
+	return (
+		<Link
+			className={cx(
+				'group relative isolate rounded-full px-16 py-3 text-32 uppercase',
+				pinkButton,
+			)}
+			to="/"
+		>
+			<PinkButtonOverlay />
+			<span className="rounded-inherit shadow-[inset_0_-0.125rem_0_0.1875rem_hsl(244_76%_23%),inset_0_0.0625rem_0_0.375rem_hsl(283_96%_62%)] layer-0" />
+			Quit game
+		</Link>
 	)
 }
