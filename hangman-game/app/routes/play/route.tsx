@@ -9,7 +9,7 @@ import { PinkButtonOverlay } from '#app/components/pink-button'
 import { center, pinkButton, shadowyBlue } from '#app/utils/styles.js'
 
 const playableLetter = cx(
-	'grid h-[4.125rem] basis-10 place-items-center rounded-[0.75rem] tablet:h-28 tablet:basis-[5.5rem] tablet:rounded-[2rem] desktop:h-32 desktop:basis-28 desktop:rounded-[2.5rem]',
+	'grid h-[4.125rem] w-10 place-items-center rounded-[0.75rem] tablet:h-28 tablet:w-[5.5rem] tablet:rounded-[2rem] desktop:h-32 desktop:w-28 desktop:rounded-[2.5rem]',
 	shadowyBlue,
 )
 
@@ -94,12 +94,14 @@ export function Play() {
 						<Landmark.Label>
 							<h2 className="sr-only">Secret words</h2>
 						</Landmark.Label>
-						<div className="flex flex-wrap justify-center">
+						<div className="flex flex-wrap justify-center gap-3 tablet:gap-4">
 							{[
 								{
 									type: 'word' as const,
 									value: [
-										{ type: 'solved' as const, value: 'uni' },
+										{ type: 'solved' as const, value: 'u' },
+										{ type: 'solved' as const, value: 'n' },
+										{ type: 'solved' as const, value: 'i' },
 										{ type: 'blank' as const },
 										{ type: 'blank' as const },
 										{ type: 'solved' as const, value: 'd' },
@@ -110,15 +112,17 @@ export function Play() {
 									type: 'word' as const,
 									value: [
 										{ type: 'blank' as const },
-										{ type: 'solved' as const, value: 'in' },
+										{ type: 'solved' as const, value: 'i' },
+										{ type: 'solved' as const, value: 'n' },
 										{ type: 'blank' as const },
-										{ type: 'solved' as const, value: 'do' },
+										{ type: 'solved' as const, value: 'd' },
+										{ type: 'solved' as const, value: 'o' },
 										{ type: 'blank' as const },
 									],
 								},
 							].map((wordOrSpace, i) =>
 								wordOrSpace.type === 'space' ? (
-									<p className="sr-only" key={i}>
+									<p className="sr-only" key={i} tabIndex={0}>
 										Space
 									</p>
 								) : (
@@ -128,25 +132,23 @@ export function Play() {
 									>
 										{wordOrSpace.value.map((solvedOrBlank, y) =>
 											solvedOrBlank.type === 'blank' ? (
-												<p className={cx('opacity-25', playableLetter)} key={y}>
+												<p
+													className={cx('opacity-25', playableLetter)}
+													key={y}
+													tabIndex={0}
+												>
 													<span className="sr-only">Blank</span>
 												</p>
 											) : (
 												<p
-													className="flex gap-2 tablet:gap-3 desktop:gap-4"
+													className={cx(
+														'text-40 uppercase tablet:text-64 desktop:text-88 desktop:tracking-0',
+														playableLetter,
+													)}
 													key={y}
+													tabIndex={0}
 												>
-													{[...solvedOrBlank.value].map((letter, x) => (
-														<span
-															className={cx(
-																'text-40 uppercase tablet:text-64 desktop:text-88 desktop:tracking-0',
-																playableLetter,
-															)}
-															key={x}
-														>
-															{letter}
-														</span>
-													))}
+													{solvedOrBlank.value}
 												</p>
 											),
 										)}
