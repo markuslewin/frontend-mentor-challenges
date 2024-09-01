@@ -1,7 +1,8 @@
 import { cx } from 'class-variance-authority'
 import { Form } from 'react-router-dom'
 import { Header } from '#app/components/header'
-import { type Category, categoryName } from '#app/routes/categories/routing'
+import { categoryName } from '#app/routes/categories/routing'
+import { type Category } from '#app/utils/hangman'
 import { blueButton, center } from '#app/utils/styles'
 
 export function Categories() {
