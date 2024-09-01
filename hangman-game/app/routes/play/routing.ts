@@ -1,6 +1,7 @@
-import { redirect } from 'react-router-dom'
+import { type ActionFunctionArgs, redirect } from 'react-router-dom'
 import { type AnnouncementHandle } from '#app/components/route-announcer'
-import { getState } from '#app/utils/hangman'
+import { assertIsLetter } from '#app/utils/alphabet'
+import { getState, guess } from '#app/utils/hangman'
 
 export const handle = {
 	announcement() {
@@ -17,7 +18,13 @@ export function loader() {
 	}
 }
 
-export function action() {
-	// todo: Update state in `localStorage`
+export const letterName = 'letter'
+
+export async function action({ request }: ActionFunctionArgs) {
+	const formData = await request.formData()
+	const letter = formData.get(letterName)
+	assertIsLetter(letter)
+
+	guess(letter)
 	return redirect('/play')
 }

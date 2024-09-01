@@ -7,7 +7,7 @@ import { Icon } from '#app/components/icon'
 import * as Landmark from '#app/components/landmark'
 import { Img } from '#app/components/picture'
 import { PinkButtonOverlay } from '#app/components/pink-button'
-import { type loader } from '#app/routes/play/routing'
+import { letterName, type loader } from '#app/routes/play/routing'
 import { alphabet } from '#app/utils/alphabet'
 import {
 	blueButton,
@@ -18,13 +18,19 @@ import {
 	shadowyBlue,
 } from '#app/utils/styles.js'
 
-const maxLives = 8
+const initialLives = 8
 
 export function Play() {
 	const data = useLoaderData() as ReturnType<typeof loader>
 
-	const lives = 4
-	const guesses = ['M', 'A', 'D', 'W', 'O', 'R', 'L', 'D']
+	// todo: Ensure unique letters in `guesses`
+	const lives = Math.max(
+		0,
+		initialLives -
+			data.state.guesses.filter(
+				(g) => !data.state.secret.toLowerCase().includes(g),
+			).length,
+	)
 
 	return (
 		<div className="flex min-h-screen flex-col">
@@ -79,15 +85,19 @@ export function Play() {
 							Countries
 						</h1>
 					</div>
-					<p className="flex basis-[6.25rem] flex-wrap items-center gap-4 tablet:basis-[15.8125rem] tablet:gap-10 desktop:basis-[20.8125rem]">
+					<p
+						className="flex basis-[6.25rem] flex-wrap items-center gap-4 tablet:basis-[15.8125rem] tablet:gap-10 desktop:basis-[20.8125rem]"
+						aria-live="polite"
+						aria-atomic="true"
+					>
 						<span className="block grow rounded-full bg-white p-1 tablet:px-[0.6875rem] tablet:py-[0.5625rem]">
 							<span
 								className="block w-4 rounded-full border-t-[0.5rem] text-dark-navy tablet:border-t-[0.8125rem]"
-								style={{ width: `${(lives / maxLives) * 100}%` }}
+								style={{ width: `${(lives / initialLives) * 100}%` }}
 							/>
 						</span>
 						<span className="sr-only">
-							You have {lives} out of {maxLives} lives left
+							You have {lives} out of {initialLives} lives left
 						</span>
 						<Img
 							className="h-6 w-auto tablet:h-[3.125rem]"
@@ -115,21 +125,29 @@ export function Play() {
 										</p>
 									) : null}
 									<div className="flex gap-2 tablet:gap-3 desktop:gap-4">
-										{[...word].map((letter, y) => (
-											<p
-												className={cx(
-													'grid h-[4.125rem] w-10 place-items-center rounded-[0.75rem] tablet:h-28 tablet:w-[5.5rem] tablet:rounded-[2rem] desktop:h-32 desktop:w-28 desktop:rounded-[2.5rem]',
-													shadowyBlue,
-													true
-														? 'opacity-25'
-														: 'text-40 uppercase tablet:text-64 desktop:text-88 desktop:tracking-0',
-												)}
-												key={y}
-												tabIndex={0}
-											>
-												{true ? <span className="sr-only">Blank</span> : letter}
-											</p>
-										))}
+										{[...word].map((letter, y) => {
+											const isGuessed = (
+												data.state.guesses as string[]
+											).includes(letter.toLowerCase())
+
+											return (
+												<p
+													className={cx(
+														'grid h-[4.125rem] w-10 place-items-center rounded-[0.75rem] text-40 uppercase tablet:h-28 tablet:w-[5.5rem] tablet:rounded-[2rem] tablet:text-64 desktop:h-32 desktop:w-28 desktop:rounded-[2.5rem] desktop:text-88 desktop:tracking-0',
+														shadowyBlue,
+														!isGuessed ? 'opacity-25' : '',
+													)}
+													key={y}
+													tabIndex={0}
+												>
+													{isGuessed ? (
+														letter
+													) : (
+														<span className="sr-only">Blank</span>
+													)}
+												</p>
+											)
+										})}
 									</div>
 								</React.Fragment>
 							))}
@@ -151,9 +169,9 @@ export function Play() {
 										<li className="grid" key={letter}>
 											<button
 												className="rounded-[0.5rem] bg-white py-[0.625rem] text-center text-24 uppercase leading-150 -tracking-2 text-dark-navy transition-colors aria-disabled:opacity-25 hocus:aria-[disabled=false]:bg-blue hocus:aria-[disabled=false]:text-white tablet:rounded-[1.5rem] tablet:py-[0.8125rem] tablet:text-48 tablet:leading-120 tablet:tracking-5"
-												name="letter"
+												name={letterName}
 												value={letter}
-												aria-disabled={guesses.includes(letter)}
+												aria-disabled={data.state.guesses.includes(letter)}
 											>
 												{letter}
 											</button>

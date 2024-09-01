@@ -1,7 +1,7 @@
 import { invariant } from '@epic-web/invariant'
 import { z } from 'zod'
 import { categories as categoriesData } from '#app/data/data.json'
-import { alphabet } from '#app/utils/alphabet'
+import { alphabet, type Letter } from '#app/utils/alphabet'
 
 const stateSchema = z.object({
 	secret: z.string(),
@@ -25,16 +25,22 @@ export function getState() {
 	}
 }
 
+function setState(state: State) {
+	localStorage.setItem('state', JSON.stringify(state))
+}
+
 export function newGame(category: Category) {
 	const values = categoriesData[category].map((v) => v.name)
 	const secret = values[Math.floor(Math.random() * values.length)]
 	invariant(typeof secret === 'string', 'Out of range')
 
-	localStorage.setItem(
-		'state',
-		JSON.stringify({
-			secret,
-			guesses: [],
-		} satisfies State),
-	)
+	setState({
+		secret,
+		guesses: [],
+	})
+}
+
+export function guess(letter: Letter) {
+	const state = getState()
+	setState({ ...state, guesses: [...new Set([...state.guesses, letter])] })
 }

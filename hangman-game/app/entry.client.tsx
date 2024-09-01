@@ -17,6 +17,7 @@ import { Play } from '#app/routes/play/route'
 import {
 	loader as playLoader,
 	handle as playHandle,
+	action as playAction,
 } from '#app/routes/play/routing'
 import { clientEnv } from '#app/utils/env/client'
 import '@fontsource/mouse-memoirs'
@@ -55,6 +56,7 @@ void enableMocking().then(() => {
 					path: 'play',
 					handle: playHandle,
 					loader: playLoader,
+					action: playAction,
 					Component: Play,
 				},
 			],

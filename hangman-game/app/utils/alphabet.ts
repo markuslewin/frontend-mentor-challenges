@@ -1,3 +1,5 @@
+import { invariant } from '@epic-web/invariant'
+
 export const alphabet = [
 	'a',
 	'b',
@@ -26,3 +28,9 @@ export const alphabet = [
 	'y',
 	'z',
 ] as const
+
+export type Letter = (typeof alphabet)[number]
+
+export function assertIsLetter(value: any): asserts value is Letter {
+	invariant(alphabet.includes(value), `Invalid letter "${value}"`)
+}
