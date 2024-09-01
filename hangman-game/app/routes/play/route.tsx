@@ -23,11 +23,10 @@ const initialLives = 8
 export function Play() {
 	const data = useLoaderData() as ReturnType<typeof loader>
 
-	// todo: Ensure unique letters in `guesses`
 	const lives = Math.max(
 		0,
 		initialLives -
-			data.state.guesses.filter(
+			[...data.state.guesses].filter(
 				(g) => !data.state.secret.toLowerCase().includes(g),
 			).length,
 	)
@@ -126,9 +125,9 @@ export function Play() {
 									) : null}
 									<div className="flex gap-2 tablet:gap-3 desktop:gap-4">
 										{[...word].map((letter, y) => {
-											const isGuessed = (
-												data.state.guesses as string[]
-											).includes(letter.toLowerCase())
+											const isGuessed = (data.state.guesses as Set<string>).has(
+												letter.toLowerCase(),
+											)
 
 											return (
 												<p
@@ -171,7 +170,7 @@ export function Play() {
 												className="rounded-[0.5rem] bg-white py-[0.625rem] text-center text-24 uppercase leading-150 -tracking-2 text-dark-navy transition-colors aria-disabled:opacity-25 hocus:aria-[disabled=false]:bg-blue hocus:aria-[disabled=false]:text-white tablet:rounded-[1.5rem] tablet:py-[0.8125rem] tablet:text-48 tablet:leading-120 tablet:tracking-5"
 												name={letterName}
 												value={letter}
-												aria-disabled={data.state.guesses.includes(letter)}
+												aria-disabled={data.state.guesses.has(letter)}
 											>
 												{letter}
 											</button>

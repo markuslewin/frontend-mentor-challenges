@@ -5,7 +5,7 @@ import { alphabet, type Letter } from '#app/utils/alphabet'
 
 const stateSchema = z.object({
 	secret: z.string(),
-	guesses: z.array(z.enum(alphabet)),
+	guesses: z.array(z.enum(alphabet)).transform((val) => new Set(val)),
 })
 
 export type State = z.infer<typeof stateSchema>
@@ -25,8 +25,18 @@ export function getState() {
 	}
 }
 
+type SetGeneric<T> = T extends Set<infer U> ? U : never
+
 function setState(state: State) {
-	localStorage.setItem('state', JSON.stringify(state))
+	localStorage.setItem(
+		'state',
+		JSON.stringify({ ...state, guesses: [...state.guesses] } satisfies Omit<
+			State,
+			'guesses'
+		> & {
+			guesses: SetGeneric<State['guesses']>[]
+		}),
+	)
 }
 
 export function newGame(category: Category) {
@@ -36,11 +46,12 @@ export function newGame(category: Category) {
 
 	setState({
 		secret,
-		guesses: [],
+		guesses: new Set(),
 	})
 }
 
 export function guess(letter: Letter) {
 	const state = getState()
-	setState({ ...state, guesses: [...new Set([...state.guesses, letter])] })
+	state.guesses.add(letter)
+	setState(state)
 }
