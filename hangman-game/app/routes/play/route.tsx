@@ -81,7 +81,7 @@ export function Play() {
 							</Dialog.Root>
 						</nav>
 						<h1 className="text-40 -tracking-05 tablet:text-48 tablet:uppercase tablet:tracking-5 desktop:text-88 desktop:normal-case desktop:tracking-0">
-							Countries
+							{data.state.category}
 						</h1>
 					</div>
 					<p

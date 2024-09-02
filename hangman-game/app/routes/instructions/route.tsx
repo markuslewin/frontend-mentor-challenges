@@ -46,7 +46,7 @@ interface CardProps {
 
 function Card({ number, heading, body }: CardProps) {
 	return (
-		<div className="text-light-navy items-center rounded-[1.25rem] bg-white p-8 tablet:grid tablet:grid-cols-[auto_1fr] tablet:gap-10 tablet:rounded-[2.5rem] tablet:px-10 desktop:block desktop:px-12 desktop:py-[3.75rem] desktop:text-center">
+		<div className="items-center rounded-[1.25rem] bg-white p-8 text-light-navy tablet:grid tablet:grid-cols-[auto_1fr] tablet:gap-10 tablet:rounded-[2.5rem] tablet:px-10 desktop:block desktop:px-12 desktop:py-[3.75rem] desktop:text-center">
 			<p
 				className="hidden text-24 text-blue tablet:block tablet:text-88 tablet:tracking-0"
 				aria-hidden="true"
