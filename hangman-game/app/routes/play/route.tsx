@@ -8,7 +8,7 @@ import * as Landmark from '#app/components/landmark'
 import { Img } from '#app/components/picture'
 import { PinkButtonOverlay } from '#app/components/pink-button'
 import { letterName, type loader } from '#app/routes/play/routing'
-import { alphabet } from '#app/utils/alphabet'
+import { alphabet, assertIsLetter } from '#app/utils/alphabet'
 import {
 	blueButton,
 	center,
@@ -16,7 +16,7 @@ import {
 	pinkButton,
 	pinkCircleButton,
 	shadowyBlue,
-} from '#app/utils/styles.js'
+} from '#app/utils/styles'
 
 const initialLives = 8
 
@@ -30,6 +30,17 @@ export function Play() {
 				(g) => !data.state.secret.toLowerCase().includes(g),
 			).length,
 	)
+
+	const status: Status =
+		lives <= 0
+			? 'loss'
+			: [...data.state.secret.replaceAll(' ', '')].every((char) => {
+						const c = char.toLowerCase()
+						assertIsLetter(c)
+						return data.state.guesses.has(c)
+				  })
+				? 'win'
+				: 'playing'
 
 	return (
 		<div className="flex min-h-screen flex-col">
@@ -95,9 +106,7 @@ export function Play() {
 								style={{ width: `${(lives / initialLives) * 100}%` }}
 							/>
 						</span>
-						<span className="sr-only">
-							You have {lives} out of {initialLives} lives left
-						</span>
+						<span className="sr-only">You have {lives} lives left</span>
 						<Img
 							className="h-6 w-auto tablet:h-[3.125rem]"
 							alt=""
@@ -125,9 +134,9 @@ export function Play() {
 									) : null}
 									<div className="flex gap-2 tablet:gap-3 desktop:gap-4">
 										{[...word].map((letter, y) => {
-											const isGuessed = (data.state.guesses as Set<string>).has(
-												letter.toLowerCase(),
-											)
+											const l = letter.toLowerCase()
+											assertIsLetter(l)
+											const isGuessed = data.state.guesses.has(l)
 
 											return (
 												<p
@@ -140,7 +149,7 @@ export function Play() {
 													tabIndex={0}
 												>
 													{isGuessed ? (
-														letter
+														l
 													) : (
 														<span className="sr-only">Blank</span>
 													)}
@@ -180,37 +189,44 @@ export function Play() {
 							</fieldset>
 						</Form>
 					</Landmark.Root>
-					<AlertDialog.Root open={false} onOpenChange={() => {}}>
+					<AlertDialog.Root open={status !== 'playing'}>
 						<AlertDialog.Portal>
-							<AlertDialog.Overlay className={cx('', overlay)}>
-								<AlertDialog.Content aria-describedby={undefined}>
-									<AlertDialog.Title className={cx('', title)}>
-										You Win
-									</AlertDialog.Title>
-									<ul className={cx('', options)} role="list">
-										<li className="grid">
-											<Form>
-												<button
-													className={cx(
-														'rounded-full px-16 py-3 text-32 uppercase',
-														blueButton,
-													)}
-													name="option"
-													value="play-again"
-												>
-													Play again!
-												</button>
-											</Form>
-										</li>
-										<li className="grid">
-											<NewCategory />
-										</li>
-										<li className="grid">
-											<QuitGame />
-										</li>
-									</ul>
-								</AlertDialog.Content>
-							</AlertDialog.Overlay>
+							{status === 'loss' || status === 'win' ? (
+								<AlertDialog.Overlay className={cx('', overlay)}>
+									<AlertDialog.Content>
+										<AlertDialog.Title className={cx('', title)}>
+											{getAlertTitle(status)}
+										</AlertDialog.Title>
+										<AlertDialog.Description className="sr-only">
+											What do you want to do?
+										</AlertDialog.Description>
+										<ul className={cx('', options)} role="list">
+											<li className="grid">
+												<Form>
+													<AlertDialog.Cancel asChild>
+														<button
+															className={cx(
+																'rounded-full px-16 py-3 text-32 uppercase',
+																blueButton,
+															)}
+															name="option"
+															value="play-again"
+														>
+															Play again!
+														</button>
+													</AlertDialog.Cancel>
+												</Form>
+											</li>
+											<li className="grid">
+												<NewCategory />
+											</li>
+											<li className="grid">
+												<QuitGame />
+											</li>
+										</ul>
+									</AlertDialog.Content>
+								</AlertDialog.Overlay>
+							) : null}
 						</AlertDialog.Portal>
 					</AlertDialog.Root>
 				</div>
@@ -255,4 +271,15 @@ function QuitGame() {
 			Quit game
 		</Link>
 	)
+}
+
+type Status = 'win' | 'loss' | 'playing'
+
+function getAlertTitle(status: 'win' | 'loss'): string {
+	if (status === 'loss') {
+		return 'You Lose'
+	} else if (status === 'win') {
+		return 'You Win'
+	}
+	throw new Error(`Invalid status "${status}"`)
 }
