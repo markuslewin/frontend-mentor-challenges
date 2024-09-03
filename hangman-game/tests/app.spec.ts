@@ -71,17 +71,163 @@ test('has game menu', async ({ page }) => {
 	).toBeAttached()
 })
 
+test('handles loss', async ({ page }) => {
+	await page.goto('/')
+	await page.evaluate(async () => {
+		// Can't use `stateKey`. Playwright/Node can't import JSON
+		// todo: Rearrange `hangman.ts` exports and imports
+		const stateKey = 'state'
+
+		localStorage.setItem(
+			stateKey,
+			JSON.stringify({
+				category: 'Animals',
+				secret: 'haha',
+				guesses: [],
+			} satisfies SerializableState),
+		)
+	})
+	await page.goto('/play')
+
+	await expect(page.getByTestId('lives')).toHaveText('8')
+	await expect(
+		page
+			.getByRole('region', { name: 'secret words' })
+			.getByTestId('secret-letter'),
+	).toHaveText(['Blank', 'Blank', 'Blank', 'Blank'])
+	await expect(
+		page
+			.getByRole('region', { name: 'keyboard' })
+			.getByRole('button', { disabled: false }),
+	).toHaveCount(alphabet.length)
+	await expect(
+		page
+			.getByRole('region', { name: 'keyboard' })
+			.getByRole('button', { disabled: true }),
+	).toHaveCount(0)
+
+	await page
+		.getByRole('region', { name: 'keyboard' })
+		.getByRole('button', { name: 'b' })
+		.click()
+
+	await expect(page.getByTestId('lives')).toHaveText('7')
+	await expect(
+		page
+			.getByRole('region', { name: 'secret words' })
+			.getByTestId('secret-letter'),
+	).toHaveText(['Blank', 'Blank', 'Blank', 'Blank'])
+	await expect(
+		page
+			.getByRole('region', { name: 'keyboard' })
+			.getByRole('button', { disabled: false }),
+	).toHaveCount(alphabet.length - 1)
+	await expect(
+		page
+			.getByRole('region', { name: 'keyboard' })
+			.getByRole('button', { disabled: true }),
+	).toHaveCount(1)
+
+	await page
+		.getByRole('region', { name: 'keyboard' })
+		.getByRole('button', { name: 'a' })
+		.click()
+
+	await expect(page.getByTestId('lives')).toHaveText('7')
+	await expect(
+		page
+			.getByRole('region', { name: 'secret words' })
+			.getByTestId('secret-letter'),
+	).toHaveText(['Blank', 'a', 'Blank', 'a'])
+	await expect(
+		page
+			.getByRole('region', { name: 'keyboard' })
+			.getByRole('button', { disabled: false }),
+	).toHaveCount(alphabet.length - 2)
+	await expect(
+		page
+			.getByRole('region', { name: 'keyboard' })
+			.getByRole('button', { disabled: true }),
+	).toHaveCount(2)
+
+	await page
+		.getByRole('region', { name: 'keyboard' })
+		.getByRole('button', { name: 'c' })
+		.click()
+	await page
+		.getByRole('region', { name: 'keyboard' })
+		.getByRole('button', { name: 'd' })
+		.click()
+	await page
+		.getByRole('region', { name: 'keyboard' })
+		.getByRole('button', { name: 'e' })
+		.click()
+	await page
+		.getByRole('region', { name: 'keyboard' })
+		.getByRole('button', { name: 'f' })
+		.click()
+	await page
+		.getByRole('region', { name: 'keyboard' })
+		.getByRole('button', { name: 'g' })
+		.click()
+	await page
+		.getByRole('region', { name: 'keyboard' })
+		.getByRole('button', { name: 'i' })
+		.click()
+	await page
+		.getByRole('region', { name: 'keyboard' })
+		.getByRole('button', { name: 'j' })
+		.click()
+
+	await expect(page.getByTestId('lives')).toHaveText('0')
+	await expect(
+		page.getByRole('alertdialog', { name: 'you lose' }),
+	).toBeAttached()
+})
+
+test('handles win', async ({ page }) => {
+	await page.goto('/')
+	await page.evaluate(async () => {
+		const stateKey = 'state'
+
+		localStorage.setItem(
+			stateKey,
+			JSON.stringify({
+				category: 'TV Shows',
+				secret: 'breaking bad',
+				// Missing 'd'
+				guesses: ['b', 'r', 'e', 'a', 'k', 'i', 'n', 'g'],
+			} satisfies SerializableState),
+		)
+	})
+	await page.goto('/play')
+
+	await expect(page.getByTestId('lives')).toHaveText('8')
+	await expect(
+		page
+			.getByRole('region', { name: 'secret words' })
+			.getByTestId('secret-letter'),
+	).toHaveText(['b', 'r', 'e', 'a', 'k', 'i', 'n', 'g', 'b', 'a', 'Blank'])
+
+	await page
+		.getByRole('region', { name: 'keyboard' })
+		.getByRole('button', { name: 'd' })
+		.click()
+
+	await expect(
+		page.getByRole('alertdialog', { name: 'you win' }),
+	).toBeAttached()
+})
+
 test('can play again', async ({ page }) => {
 	await page.goto('/')
 	await page.evaluate(async () => {
 		localStorage.setItem(
-			// Can't use `stateKey`. Playwright/Node can't import JSON
-			// todo: Rearrange `hangman.ts` exports and imports
 			'state',
 			JSON.stringify({
 				category: 'Animals',
-				guesses: ['t', 'a', 'p', 'e'],
 				secret: 'ape',
+				guesses: ['t', 'a', 'p', 'e'],
 			} satisfies SerializableState),
 		)
 	})
@@ -96,10 +242,6 @@ test('can play again', async ({ page }) => {
 			.getByRole('button', { disabled: false }),
 	).toHaveCount(alphabet.length)
 })
-
-test.fixme('updates health', () => {})
-test.fixme('handles win', () => {})
-test.fixme('handles loss', () => {})
 
 test.describe('passes a11y checks', () => {
 	test('home', async ({ page }) => {

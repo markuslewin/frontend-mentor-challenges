@@ -153,6 +153,7 @@ export function Play() {
 													)}
 													key={y}
 													tabIndex={0}
+													data-testid="secret-letter"
 												>
 													{isGuessed ? (
 														l
