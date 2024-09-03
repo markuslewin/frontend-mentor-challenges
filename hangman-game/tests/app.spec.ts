@@ -1,5 +1,7 @@
 import AxeBuilder from '@axe-core/playwright'
 import { test, expect } from '@playwright/test'
+import { alphabet } from '#app/utils/alphabet'
+import { type SerializableState } from '#app/utils/hangman'
 
 test('has instructions', async ({ page }) => {
 	await page.goto('/')
@@ -67,6 +69,32 @@ test('has game menu', async ({ page }) => {
 	await expect(
 		page.getByRole('heading', { name: 'the hangman game' }),
 	).toBeAttached()
+})
+
+test('can play again', async ({ page }) => {
+	await page.goto('/')
+	await page.evaluate(async () => {
+		localStorage.setItem(
+			// Can't use `stateKey`. Playwright/Node can't import JSON
+			// todo: Rearrange `hangman.ts` exports and imports
+			'state',
+			JSON.stringify({
+				category: 'Animals',
+				guesses: ['t', 'a', 'p', 'e'],
+				secret: 'ape',
+			} satisfies SerializableState),
+		)
+	})
+	await page.goto('/play')
+	await page.getByRole('button', { name: 'play again' }).click()
+
+	await expect(page.getByRole('heading', { level: 1 })).toHaveText(/animals/i)
+	await expect(page.getByTestId('lives')).toHaveText('8')
+	await expect(
+		page
+			.getByRole('region', { name: 'keyboard' })
+			.getByRole('button', { disabled: false }),
+	).toHaveCount(alphabet.length)
 })
 
 test.fixme('updates health', () => {})

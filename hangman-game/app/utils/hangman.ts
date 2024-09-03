@@ -4,7 +4,7 @@ import { z } from 'zod'
 //				Would be better to create the data object from an `as const` array,
 //				but this requires the data to go from `.json` to `.ts`.
 import { categories as secretsByCategory } from '#app/data/data.json'
-import { alphabet, type Letter } from '#app/utils/alphabet'
+import { alphabetSchema, type Letter } from '#app/utils/alphabet'
 
 const stateSchema = z.object({
 	category: z.string().transform((val, ctx) => {
@@ -20,10 +20,13 @@ const stateSchema = z.object({
 		}
 	}),
 	secret: z.string(),
-	guesses: z.array(z.enum(alphabet)).transform((val) => new Set(val)),
+	guesses: alphabetSchema.transform((val) => new Set(val)),
 })
 
 export type State = z.infer<typeof stateSchema>
+export type SerializableState = Omit<State, 'guesses'> & {
+	guesses: SetGeneric<State['guesses']>[]
+}
 export type Category = keyof typeof secretsByCategory
 
 export const categories = Object.keys(secretsByCategory)
@@ -32,8 +35,10 @@ export function assertIsCategory(value: any): asserts value is Category {
 	invariant(categories.includes(value), `Invalid category "${value}"`)
 }
 
+export const stateKey = 'state'
+
 export function getState() {
-	const item = localStorage.getItem('state')
+	const item = localStorage.getItem(stateKey)
 	invariant(typeof item === 'string', 'No state')
 
 	try {
@@ -48,13 +53,11 @@ type SetGeneric<T> = T extends Set<infer U> ? U : never
 
 function setState(state: State) {
 	localStorage.setItem(
-		'state',
-		JSON.stringify({ ...state, guesses: [...state.guesses] } satisfies Omit<
-			State,
-			'guesses'
-		> & {
-			guesses: SetGeneric<State['guesses']>[]
-		}),
+		stateKey,
+		JSON.stringify({
+			...state,
+			guesses: [...state.guesses],
+		} satisfies SerializableState),
 	)
 }
 
@@ -74,4 +77,9 @@ export function guess(letter: Letter) {
 	const state = getState()
 	state.guesses.add(letter)
 	setState(state)
+}
+
+export function playAgain() {
+	const state = getState()
+	newGame(state.category)
 }

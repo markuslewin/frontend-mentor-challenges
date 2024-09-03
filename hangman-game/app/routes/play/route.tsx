@@ -7,7 +7,11 @@ import { Icon } from '#app/components/icon'
 import * as Landmark from '#app/components/landmark'
 import { Img } from '#app/components/picture'
 import { PinkButtonOverlay } from '#app/components/pink-button'
-import { letterName, type loader } from '#app/routes/play/routing'
+import {
+	getGuessDataProps,
+	getIntentProps,
+	type loader,
+} from '#app/routes/play/routing'
 import { alphabet, assertIsLetter } from '#app/utils/alphabet'
 import {
 	blueButton,
@@ -106,7 +110,9 @@ export function Play() {
 								style={{ width: `${(lives / initialLives) * 100}%` }}
 							/>
 						</span>
-						<span className="sr-only">You have {lives} lives left</span>
+						<span className="sr-only">
+							You have <span data-testid="lives">{lives}</span> lives left
+						</span>
 						<Img
 							className="h-6 w-auto tablet:h-[3.125rem]"
 							alt=""
@@ -167,6 +173,7 @@ export function Play() {
 							<h2 className="sr-only">Keyboard</h2>
 						</Landmark.Label>
 						<Form method="post">
+							<input type="hidden" {...getIntentProps('guess')} />
 							<fieldset>
 								<legend className="sr-only">Pick a letter</legend>
 								<ol
@@ -177,8 +184,7 @@ export function Play() {
 										<li className="grid" key={letter}>
 											<button
 												className="rounded-[0.5rem] bg-white py-[0.625rem] text-center text-24 uppercase leading-150 -tracking-2 text-dark-navy transition-colors aria-disabled:opacity-25 hocus:aria-[disabled=false]:bg-blue hocus:aria-[disabled=false]:text-white tablet:rounded-[1.5rem] tablet:py-[0.8125rem] tablet:text-48 tablet:leading-120 tablet:tracking-5"
-												name={letterName}
-												value={letter}
+												{...getGuessDataProps(letter)}
 												aria-disabled={data.state.guesses.has(letter)}
 											>
 												{letter}
@@ -202,15 +208,15 @@ export function Play() {
 										</AlertDialog.Description>
 										<ul className={cx('', options)} role="list">
 											<li className="grid">
-												<Form>
-													<AlertDialog.Cancel asChild>
+												<Form method="post">
+													{/* Cancel button is focused when `AlertDialog` opens */}
+													<AlertDialog.Cancel asChild type="submit">
 														<button
 															className={cx(
 																'rounded-full px-16 py-3 text-32 uppercase',
 																blueButton,
 															)}
-															name="option"
-															value="play-again"
+															{...getIntentProps('play-again')}
 														>
 															Play again!
 														</button>

@@ -1,4 +1,5 @@
 import { invariant } from '@epic-web/invariant'
+import { z } from 'zod'
 
 export const alphabet = [
 	'a',
@@ -28,6 +29,9 @@ export const alphabet = [
 	'y',
 	'z',
 ] as const
+
+export const letterSchema = z.enum(alphabet)
+export const alphabetSchema = z.array(letterSchema)
 
 export type Letter = (typeof alphabet)[number]
 
