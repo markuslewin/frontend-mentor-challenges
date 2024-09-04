@@ -82,7 +82,7 @@ test('handles loss', async ({ page }) => {
 			stateKey,
 			JSON.stringify({
 				category: 'Animals',
-				secret: 'haha',
+				secret: ['h', 'a', 'h', 'a'],
 				guesses: [],
 			} satisfies SerializableState),
 		)
@@ -194,7 +194,7 @@ test('handles win', async ({ page }) => {
 			stateKey,
 			JSON.stringify({
 				category: 'TV Shows',
-				secret: 'breaking bad',
+				secret: ['b', 'r', 'e', 'a', 'k', 'i', 'n', 'g', null, 'b', 'a', 'd'],
 				// Missing 'd'
 				guesses: ['b', 'r', 'e', 'a', 'k', 'i', 'n', 'g'],
 			} satisfies SerializableState),
@@ -226,7 +226,7 @@ test('can play again', async ({ page }) => {
 			'state',
 			JSON.stringify({
 				category: 'Animals',
-				secret: 'ape',
+				secret: ['a', 'p', 'e'],
 				guesses: ['t', 'a', 'p', 'e'],
 			} satisfies SerializableState),
 		)

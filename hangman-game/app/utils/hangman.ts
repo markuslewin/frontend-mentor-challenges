@@ -4,7 +4,13 @@ import { z } from 'zod'
 //				Would be better to create the data object from an `as const` array,
 //				but this requires the data to go from `.json` to `.ts`.
 import { categories as secretsByCategory } from '#app/data/data.json'
-import { alphabetSchema, type Letter } from '#app/utils/alphabet'
+import {
+	alphabetSchema,
+	letterSchema,
+	type Word,
+	type Letter,
+	isLetter,
+} from '#app/utils/alphabet'
 
 const stateSchema = z.object({
 	category: z.string().transform((val, ctx) => {
@@ -19,7 +25,7 @@ const stateSchema = z.object({
 			return z.NEVER
 		}
 	}),
-	secret: z.string(),
+	secret: z.array(letterSchema.nullable()),
 	guesses: alphabetSchema.transform((val) => new Set(val)),
 })
 
@@ -28,6 +34,7 @@ export type SerializableState = Omit<State, 'guesses'> & {
 	guesses: SetGeneric<State['guesses']>[]
 }
 export type Category = keyof typeof secretsByCategory
+export type Secret = State['secret']
 
 export const categories = Object.keys(secretsByCategory)
 
@@ -63,12 +70,12 @@ function setState(state: State) {
 
 export function newGame(category: Category) {
 	const values = secretsByCategory[category].map((s) => s.name)
-	const secret = values[Math.floor(Math.random() * values.length)]
-	invariant(typeof secret === 'string', 'Out of range')
+	const name = values[Math.floor(Math.random() * values.length)]
+	invariant(typeof name === 'string', 'Out of range')
 
 	setState({
 		category,
-		secret,
+		secret: createSecret(name),
 		guesses: new Set(),
 	})
 }
@@ -82,4 +89,40 @@ export function guess(letter: Letter) {
 export function playAgain() {
 	const state = getState()
 	newGame(state.category)
+}
+
+export function createSecret(name: string) {
+	const secret: Secret = []
+	for (const char of name) {
+		if (char === ' ') {
+			secret.push(null)
+		} else {
+			const c = char.toLowerCase()
+			if (isLetter(c)) {
+				secret.push(c)
+			} else {
+				console.warn(`Create secret: Dropping character "${char}"`)
+			}
+		}
+	}
+	return secret
+}
+
+export function parseWords(secret: Secret) {
+	const words: Word[] = []
+	let word: Word = []
+	for (const char of secret) {
+		if (char === null) {
+			if (word.length > 0) {
+				words.push(word)
+				word = []
+			}
+		} else {
+			word.push(char)
+		}
+	}
+	if (word.length > 0) {
+		words.push(word)
+	}
+	return words
 }

@@ -34,7 +34,12 @@ export const letterSchema = z.enum(alphabet)
 export const alphabetSchema = z.array(letterSchema)
 
 export type Letter = (typeof alphabet)[number]
+export type Word = Letter[]
+
+export function isLetter(value: any): value is Letter {
+	return alphabet.includes(value)
+}
 
 export function assertIsLetter(value: any): asserts value is Letter {
-	invariant(alphabet.includes(value), `Invalid letter "${value}"`)
+	invariant(isLetter(value), `Invalid letter "${value}"`)
 }

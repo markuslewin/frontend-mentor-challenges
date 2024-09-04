@@ -12,7 +12,8 @@ import {
 	getIntentProps,
 	type loader,
 } from '#app/routes/play/routing'
-import { alphabet, assertIsLetter } from '#app/utils/alphabet'
+import { alphabet } from '#app/utils/alphabet'
+import { parseWords } from '#app/utils/hangman'
 import {
 	blueButton,
 	center,
@@ -30,19 +31,14 @@ export function Play() {
 	const lives = Math.max(
 		0,
 		initialLives -
-			[...data.state.guesses].filter(
-				(g) => !data.state.secret.toLowerCase().includes(g),
-			).length,
+			[...data.state.guesses].filter((g) => !data.state.secret.includes(g))
+				.length,
 	)
 
 	const status: Status =
 		lives <= 0
 			? 'loss'
-			: [...data.state.secret.replaceAll(' ', '')].every((char) => {
-						const c = char.toLowerCase()
-						assertIsLetter(c)
-						return data.state.guesses.has(c)
-				  })
+			: data.state.secret.every((c) => c === null || data.state.guesses.has(c))
 				? 'win'
 				: 'playing'
 
@@ -131,7 +127,7 @@ export function Play() {
 							<h2 className="sr-only">Secret words</h2>
 						</Landmark.Label>
 						<div className="flex flex-wrap justify-center gap-3 tablet:gap-4">
-							{data.state.secret.split(' ').map((word, i) => (
+							{parseWords(data.state.secret).map((word, i) => (
 								<React.Fragment key={i}>
 									{i !== 0 ? (
 										<p className="sr-only" tabIndex={0}>
@@ -140,9 +136,7 @@ export function Play() {
 									) : null}
 									<div className="flex gap-2 tablet:gap-3 desktop:gap-4">
 										{[...word].map((letter, y) => {
-											const l = letter.toLowerCase()
-											assertIsLetter(l)
-											const isGuessed = data.state.guesses.has(l)
+											const isGuessed = data.state.guesses.has(letter)
 
 											return (
 												<p
@@ -156,7 +150,7 @@ export function Play() {
 													data-testid="secret-letter"
 												>
 													{isGuessed ? (
-														l
+														letter
 													) : (
 														<span className="sr-only">Blank</span>
 													)}
