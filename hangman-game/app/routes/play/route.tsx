@@ -120,7 +120,7 @@ export function Play() {
 				</div>
 			</header>
 			<div className="min-h-[4.875rem] grow-[88]" />
-			<main className={cx(center, 'grow-[692]')}>
+			<main className={cx(center, 'grow-[120]')}>
 				<div className="flex flex-col">
 					<Landmark.Root>
 						<Landmark.Label>
@@ -162,7 +162,7 @@ export function Play() {
 							))}
 						</div>
 					</Landmark.Root>
-					<div className="min-h-[7.5rem] grow-[120]" />
+					<div className="min-h-[7.5rem] grow" />
 					<Landmark.Root>
 						<Landmark.Label>
 							<h2 className="sr-only">Keyboard</h2>
