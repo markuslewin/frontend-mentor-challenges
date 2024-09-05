@@ -167,7 +167,7 @@ export function Play() {
 						<Landmark.Label>
 							<h2 className="sr-only">Keyboard</h2>
 						</Landmark.Label>
-						<Form method="post">
+						<Form method="post" preventScrollReset>
 							<input type="hidden" {...getIntentProps('guess')} />
 							<fieldset>
 								<legend className="sr-only">Pick a letter</legend>
