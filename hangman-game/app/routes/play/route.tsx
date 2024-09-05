@@ -101,10 +101,14 @@ export function Play() {
 						aria-atomic="true"
 					>
 						<span className="block grow rounded-full bg-white p-1 tablet:px-[0.6875rem] tablet:py-[0.5625rem]">
-							<span
-								className="block w-4 rounded-full border-t-[0.5rem] text-dark-navy tablet:border-t-[0.8125rem]"
-								style={{ width: `${(lives / initialLives) * 100}%` }}
-							/>
+							<span className="block overflow-hidden rounded-full">
+								<span
+									className="block rounded-full border-t-[0.5rem] text-dark-navy transition-transform tablet:border-t-[0.8125rem]"
+									style={{
+										transform: `translateX(-${(1 - lives / initialLives) * 100}%)`,
+									}}
+								/>
+							</span>
 						</span>
 						<span className="sr-only">
 							You have <span data-testid="lives">{lives}</span> lives left
