@@ -126,7 +126,7 @@ export function Play() {
 						<Landmark.Label>
 							<h2 className="sr-only">Secret words</h2>
 						</Landmark.Label>
-						<div className="flex flex-wrap justify-center gap-3 tablet:gap-4">
+						<div className="flex flex-wrap justify-center gap-x-10 gap-y-3 tablet:gap-x-[5.5rem] tablet:gap-y-4 desktop:gap-x-28">
 							{parseWords(data.state.secret).map((word, i) => (
 								<React.Fragment key={i}>
 									{i !== 0 ? (
@@ -134,8 +134,8 @@ export function Play() {
 											Space
 										</p>
 									) : null}
-									<div className="flex gap-2 tablet:gap-3 desktop:gap-4">
-										{[...word].map((letter, y) => {
+									<div className="flex flex-wrap justify-center gap-x-2 gap-y-1 tablet:gap-x-3 desktop:gap-x-4">
+										{word.map((letter, y) => {
 											const isGuessed = data.state.guesses.has(letter)
 
 											return (
