@@ -10,7 +10,7 @@ export function Home() {
 			<div>
 				<h1 className="flex justify-center px-8">
 					<Img
-						className=""
+						className="h-auto w-[23.375rem]"
 						alt="The Hangman Game"
 						priority
 						src="/assets/images/logo.svg"
