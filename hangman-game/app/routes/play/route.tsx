@@ -5,6 +5,7 @@ import React from 'react'
 import { Form, Link, useLoaderData } from 'react-router-dom'
 import { Icon } from '#app/components/icon'
 import * as Landmark from '#app/components/landmark'
+import { MenuItemSpace } from '#app/components/menu-item'
 import { Img } from '#app/components/picture'
 import { PinkButtonOverlay } from '#app/components/pink-button'
 import { ShadowText } from '#app/components/text-shadow'
@@ -19,6 +20,8 @@ import {
 	blueButton,
 	center,
 	dialog,
+	menuItem,
+	menuItemButton,
 	pinkButton,
 	pinkCircleButton,
 	shadowyBlue,
@@ -70,20 +73,19 @@ export function Play() {
 												<ShadowText text="Paused" />
 											</Dialog.Title>
 											<ul className={cx('', options)} role="list">
-												<li className="grid">
+												<li className={cx('', menuItem)}>
 													<Dialog.Close
-														className={cx(
-															'rounded-full px-16 py-3 text-32 uppercase',
-															blueButton,
-														)}
+														className={cx('', menuItemButton, blueButton)}
 													>
+														<MenuItemSpace />
 														Continue
+														<MenuItemSpace />
 													</Dialog.Close>
 												</li>
-												<li className="grid">
+												<li className={cx('', menuItem)}>
 													<NewCategory />
 												</li>
-												<li className="grid">
+												<li className={cx('', menuItem)}>
 													<QuitGame />
 												</li>
 											</ul>
@@ -208,25 +210,24 @@ export function Play() {
 										</AlertDialog.Description>
 										<ul className={cx('', options)} role="list">
 											<li className="grid">
-												<Form method="post">
+												<Form className={menuItem} method="post">
 													{/* Cancel button is focused when `AlertDialog` opens */}
 													<AlertDialog.Cancel asChild type="submit">
 														<button
-															className={cx(
-																'rounded-full px-16 py-3 text-32 uppercase',
-																blueButton,
-															)}
+															className={cx('', menuItemButton, blueButton)}
 															{...getIntentProps('play-again')}
 														>
+															<MenuItemSpace />
 															Play again!
+															<MenuItemSpace />
 														</button>
 													</AlertDialog.Cancel>
 												</Form>
 											</li>
-											<li className="grid">
+											<li className={cx('', menuItem)}>
 												<NewCategory />
 											</li>
-											<li className="grid">
+											<li className={cx('', menuItem)}>
 												<QuitGame />
 											</li>
 										</ul>
@@ -254,11 +255,10 @@ const options = cx(
 
 function NewCategory() {
 	return (
-		<Link
-			className={cx('rounded-full px-16 py-3 text-32 uppercase', blueButton)}
-			to="/categories"
-		>
+		<Link className={cx('', blueButton, menuItemButton)} to="/categories">
+			<MenuItemSpace />
 			New category
+			<MenuItemSpace />
 		</Link>
 	)
 }
@@ -266,15 +266,14 @@ function NewCategory() {
 function QuitGame() {
 	return (
 		<Link
-			className={cx(
-				'group relative isolate rounded-full px-16 py-3 text-32 uppercase',
-				pinkButton,
-			)}
+			className={cx('group relative isolate', pinkButton, menuItemButton)}
 			to="/"
 		>
 			<PinkButtonOverlay />
 			<span className="rounded-inherit shadow-[inset_0_-0.125rem_0_0.1875rem_hsl(244_76%_23%),inset_0_0.0625rem_0_0.375rem_hsl(283_96%_62%)] layer-0" />
+			<MenuItemSpace />
 			Quit game
+			<MenuItemSpace />
 		</Link>
 	)
 }

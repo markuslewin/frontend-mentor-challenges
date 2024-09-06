@@ -19,3 +19,6 @@ export const pinkCircleButton = (
 	)
 export const dialog =
 	'rounded-[3rem] bg-gradient-to-b from-[hsl(230_56%_47%)] to-[hsl(230_100%_24%/83%)] shadow-[inset_0_-0.5rem_0_0.25rem_hsl(244_76%_23%),inset_0_0.375rem_0_0.5rem_hsl(223_100%_57%)]'
+export const menuItem = 'grid grid-cols-[1fr_minmax(0,auto)_1fr]'
+export const menuItemButton =
+	'col-start-2 flex rounded-full p-3 text-center text-32 uppercase tracking-5'

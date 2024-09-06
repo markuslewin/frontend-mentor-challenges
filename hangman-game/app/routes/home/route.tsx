@@ -1,8 +1,9 @@
 import { cx } from 'class-variance-authority'
 import { Link } from 'react-router-dom'
+import { MenuItemSpace } from '#app/components/menu-item'
 import { Img } from '#app/components/picture'
 import { PinkButtonOverlay } from '#app/components/pink-button'
-import { blueButton, dialog } from '#app/utils/styles'
+import { blueButton, dialog, menuItem, menuItemButton } from '#app/utils/styles'
 
 export function Home() {
 	return (
@@ -41,15 +42,14 @@ export function Home() {
 							/>
 						</Link>
 					</li>
-					<li className="mt-14 flex justify-center">
+					<li className={cx('mt-14', menuItem)}>
 						<Link
-							className={cx(
-								'basis-[16.25rem] rounded-full p-3 text-center text-32 uppercase',
-								blueButton,
-							)}
+							className={cx('', menuItemButton, blueButton)}
 							to="/instructions"
 						>
+							<MenuItemSpace />
 							How to play
+							<MenuItemSpace />
 						</Link>
 					</li>
 				</ul>
