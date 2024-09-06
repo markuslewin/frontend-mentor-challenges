@@ -7,6 +7,7 @@ import { Icon } from '#app/components/icon'
 import * as Landmark from '#app/components/landmark'
 import { Img } from '#app/components/picture'
 import { PinkButtonOverlay } from '#app/components/pink-button'
+import { ShadowText } from '#app/components/text-shadow'
 import {
 	getGuessDataProps,
 	getIntentProps,
@@ -66,7 +67,7 @@ export function Play() {
 									<Dialog.Overlay className={cx('', overlay)}>
 										<Dialog.Content aria-describedby={undefined}>
 											<Dialog.Title className={cx('', title)}>
-												Paused
+												<ShadowText text="Paused" />
 											</Dialog.Title>
 											<ul className={cx('', options)} role="list">
 												<li className="grid">
@@ -200,7 +201,7 @@ export function Play() {
 								<AlertDialog.Overlay className={cx('', overlay)}>
 									<AlertDialog.Content>
 										<AlertDialog.Title className={cx('', title)}>
-											{getAlertTitle(status)}
+											<ShadowText text={getAlertTitle(status)} />
 										</AlertDialog.Title>
 										<AlertDialog.Description className="sr-only">
 											What do you want to do?

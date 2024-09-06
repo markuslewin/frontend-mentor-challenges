@@ -2,6 +2,7 @@ import { cx } from 'class-variance-authority'
 import { Link } from 'react-router-dom'
 import { Icon } from '#app/components/icon'
 import { PinkButtonOverlay } from '#app/components/pink-button'
+import { ShadowText } from '#app/components/text-shadow'
 import { center, pinkCircleButton } from '#app/utils/styles'
 
 interface HeaderProps {
@@ -24,8 +25,8 @@ export function Header({ heading }: HeaderProps) {
 						<span className="sr-only">Back</span>
 					</Link>
 				</div>
-				<h1 className="text-48 tablet:text-104 tablet:-tracking-5 desktop:text-136">
-					{heading}
+				<h1 className="text-end text-48 tablet:text-start tablet:text-104 tablet:-tracking-05 desktop:text-136">
+					<ShadowText text={heading} />
 				</h1>
 			</div>
 		</header>
