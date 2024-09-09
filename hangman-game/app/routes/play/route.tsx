@@ -134,7 +134,10 @@ export function Play() {
 						<Landmark.Label>
 							<h2 className="sr-only">Secret words</h2>
 						</Landmark.Label>
-						<div className="flex flex-wrap justify-center gap-x-10 gap-y-3 tablet:gap-x-[5.5rem] tablet:gap-y-4 desktop:gap-x-28">
+						<div
+							className="flex flex-wrap justify-center gap-x-10 gap-y-3 tablet:gap-x-[5.5rem] tablet:gap-y-4 desktop:gap-x-28"
+							aria-live="polite"
+						>
 							{words.map((word, i) => (
 								<React.Fragment key={i}>
 									{i !== 0 ? (
