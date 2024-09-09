@@ -82,8 +82,9 @@ test('handles loss', async ({ page }) => {
 			stateKey,
 			JSON.stringify({
 				category: 'Animals',
-				secret: ['h', 'a', 'h', 'a'],
+				name: 'haha',
 				guesses: [],
+				playedNames: [],
 			} satisfies SerializableState),
 		)
 	})
@@ -194,9 +195,10 @@ test('handles win', async ({ page }) => {
 			stateKey,
 			JSON.stringify({
 				category: 'TV Shows',
-				secret: ['b', 'r', 'e', 'a', 'k', 'i', 'n', 'g', null, 'b', 'a', 'd'],
+				name: 'Breaking Bad',
 				// Missing 'd'
 				guesses: ['b', 'r', 'e', 'a', 'k', 'i', 'n', 'g'],
+				playedNames: [],
 			} satisfies SerializableState),
 		)
 	})
@@ -226,8 +228,9 @@ test('can play again', async ({ page }) => {
 			'state',
 			JSON.stringify({
 				category: 'Animals',
-				secret: ['a', 'p', 'e'],
+				name: 'ape',
 				guesses: ['t', 'a', 'p', 'e'],
+				playedNames: [],
 			} satisfies SerializableState),
 		)
 	})
@@ -241,6 +244,87 @@ test('can play again', async ({ page }) => {
 			.getByRole('region', { name: 'keyboard' })
 			.getByRole('button', { disabled: false }),
 	).toHaveCount(alphabet.length)
+})
+
+test("doesn't show the same name in one game", async ({ page }) => {
+	await page.goto('/')
+	await page.evaluate(async () => {
+		localStorage.setItem(
+			'state',
+			JSON.stringify({
+				category: 'Animals',
+				name: 'Elephant',
+				guesses: ['e', 'l', 'p', 'h', 'a', 'n', 't'],
+				// todo: Persist all data to `localStorage` and mock that object instead
+				playedNames: [
+					'Elephant',
+					'Lion',
+					'Giraffe',
+					'Penguin',
+					'Dolphin',
+					'Tiger',
+					'Kangaroo',
+					'Panda',
+					'Zebra',
+					'Polar Bear',
+					'Cheetah',
+					'Rhino',
+					'Buffalo',
+					'Koala',
+					'Gorilla',
+					'Chimpanzee',
+					'Crocodile',
+					'Flamingo',
+					'Peacock',
+					'Jaguar',
+					'Leopard',
+					'Wolf',
+					'Fox',
+					'Bald Eagle',
+					'Owl',
+					'Frog',
+					'Shark',
+					'Octopus',
+					'Turtle',
+					// "Snake",
+				],
+			} satisfies SerializableState),
+		)
+	})
+	await page.goto('/play')
+	await page.getByRole('button', { name: 'play again' }).click()
+	await page
+		.getByRole('region', { name: 'keyboard' })
+		.getByRole('button', { name: 's' })
+		.click()
+	await page
+		.getByRole('region', { name: 'keyboard' })
+		.getByRole('button', { name: 'n' })
+		.click()
+	await page
+		.getByRole('region', { name: 'keyboard' })
+		.getByRole('button', { name: 'a' })
+		.click()
+	await page
+		.getByRole('region', { name: 'keyboard' })
+		.getByRole('button', { name: 'k' })
+		.click()
+	await page
+		.getByRole('region', { name: 'keyboard' })
+		.getByRole('button', { name: 'e' })
+		.click()
+
+	await expect(
+		page.getByRole('alertdialog', { name: 'you win' }),
+	).toBeAttached()
+
+	await page.getByRole('button', { name: 'play again' }).click()
+
+	const name = await page.evaluate(async () => {
+		return JSON.parse(localStorage.getItem('state')!).name
+	})
+	// Just reset, but not "snake" again
+	expect(name).not.toBe('Snake')
 })
 
 test.describe('passes a11y checks', () => {

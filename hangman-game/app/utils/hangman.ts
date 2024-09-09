@@ -6,7 +6,6 @@ import { z } from 'zod'
 import { categories as secretsByCategory } from '#app/data/data.json'
 import {
 	alphabetSchema,
-	letterSchema,
 	type Word,
 	type Letter,
 	isLetter,
@@ -25,16 +24,17 @@ const stateSchema = z.object({
 			return z.NEVER
 		}
 	}),
-	secret: z.array(letterSchema.nullable()),
+	playedNames: z.array(z.string()).transform((val) => new Set(val)),
+	name: z.string(),
 	guesses: alphabetSchema.transform((val) => new Set(val)),
 })
 
 export type State = z.infer<typeof stateSchema>
-export type SerializableState = Omit<State, 'guesses'> & {
+export type SerializableState = Omit<State, 'playedNames' | 'guesses'> & {
+	playedNames: SetGeneric<State['playedNames']>[]
 	guesses: SetGeneric<State['guesses']>[]
 }
 export type Category = keyof typeof secretsByCategory
-export type Secret = State['secret']
 
 export const categories = Object.keys(secretsByCategory)
 
@@ -63,19 +63,18 @@ function setState(state: State) {
 		stateKey,
 		JSON.stringify({
 			...state,
+			playedNames: [...state.playedNames],
 			guesses: [...state.guesses],
 		} satisfies SerializableState),
 	)
 }
 
 export function newGame(category: Category) {
-	const values = secretsByCategory[category].map((s) => s.name)
-	const name = values[Math.floor(Math.random() * values.length)]
-	invariant(typeof name === 'string', 'Out of range')
-
+	const name = getRandomName(getNames(category))
 	setState({
 		category,
-		secret: createSecret(name),
+		name,
+		playedNames: new Set([name]),
 		guesses: new Set(),
 	})
 }
@@ -88,8 +87,38 @@ export function guess(letter: Letter) {
 
 export function playAgain() {
 	const state = getState()
-	newGame(state.category)
+	const allNames = getNames(state.category)
+	const names = allNames.filter((n) => !state.playedNames.has(n))
+	if (names.length <= 0) {
+		const name = getRandomName(allNames.filter((n) => n !== state.name))
+		setState({
+			...state,
+			name,
+			playedNames: new Set([state.name]),
+			guesses: new Set(),
+		})
+	} else {
+		const name = getRandomName(names)
+		state.playedNames.add(name)
+		setState({
+			...state,
+			name,
+			guesses: new Set(),
+		})
+	}
 }
+
+function getNames(category: Category) {
+	return secretsByCategory[category].map((s) => s.name)
+}
+
+function getRandomName(names: string[]) {
+	const name = names[Math.floor(Math.random() * names.length)]
+	invariant(typeof name === 'string', 'Out of range')
+	return name
+}
+
+export type Secret = (Letter | null)[]
 
 export function createSecret(name: string) {
 	const secret: Secret = []

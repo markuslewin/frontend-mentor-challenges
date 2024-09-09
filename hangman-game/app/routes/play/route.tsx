@@ -1,7 +1,7 @@
 import * as AlertDialog from '@radix-ui/react-alert-dialog'
 import * as Dialog from '@radix-ui/react-dialog'
 import { cx } from 'class-variance-authority'
-import React from 'react'
+import React, { useMemo } from 'react'
 import { Form, Link, useLoaderData } from 'react-router-dom'
 import { Icon } from '#app/components/icon'
 import * as Landmark from '#app/components/landmark'
@@ -15,7 +15,7 @@ import {
 	type loader,
 } from '#app/routes/play/routing'
 import { alphabet } from '#app/utils/alphabet'
-import { parseWords } from '#app/utils/hangman'
+import { createSecret, parseWords } from '#app/utils/hangman'
 import {
 	blueButton,
 	center,
@@ -31,18 +31,19 @@ const initialLives = 8
 
 export function Play() {
 	const data = useLoaderData() as ReturnType<typeof loader>
+	const secret = useMemo(() => createSecret(data.state.name), [data.state.name])
+	const words = useMemo(() => parseWords(secret), [secret])
 
 	const lives = Math.max(
 		0,
 		initialLives -
-			[...data.state.guesses].filter((g) => !data.state.secret.includes(g))
-				.length,
+			[...data.state.guesses].filter((g) => !secret.includes(g)).length,
 	)
 
 	const status: Status =
 		lives <= 0
 			? 'loss'
-			: data.state.secret.every((c) => c === null || data.state.guesses.has(c))
+			: secret.every((c) => c === null || data.state.guesses.has(c))
 				? 'win'
 				: 'playing'
 
@@ -134,7 +135,7 @@ export function Play() {
 							<h2 className="sr-only">Secret words</h2>
 						</Landmark.Label>
 						<div className="flex flex-wrap justify-center gap-x-10 gap-y-3 tablet:gap-x-[5.5rem] tablet:gap-y-4 desktop:gap-x-28">
-							{parseWords(data.state.secret).map((word, i) => (
+							{words.map((word, i) => (
 								<React.Fragment key={i}>
 									{i !== 0 ? (
 										<p className="sr-only" tabIndex={0}>
