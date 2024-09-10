@@ -1,5 +1,8 @@
+import { useMediaQuery } from '@uidotdev/usehooks'
 import { cx } from 'class-variance-authority'
+import { Squircle } from 'corner-smoothing'
 import { Header } from '#app/components/header'
+import { media } from '#app/utils/screens'
 import { center } from '#app/utils/styles'
 
 export function Instructions() {
@@ -45,8 +48,13 @@ interface CardProps {
 }
 
 function Card({ number, heading, body }: CardProps) {
+	const tabletMatches = useMediaQuery(media.tablet)
+
 	return (
-		<div className="items-center rounded-[1.25rem] bg-white p-8 text-light-navy tablet:grid tablet:grid-cols-[auto_1fr] tablet:gap-10 tablet:rounded-[2.5rem] tablet:px-10 desktop:block desktop:px-12 desktop:py-[3.75rem] desktop:text-center">
+		<Squircle
+			className="items-center bg-white p-8 text-light-navy tablet:grid tablet:grid-cols-[auto_1fr] tablet:gap-10 tablet:px-10 desktop:block desktop:px-12 desktop:py-[3.75rem] desktop:text-center"
+			cornerRadius={tabletMatches ? 40 : 20}
+		>
 			<p
 				className="hidden text-24 text-blue tablet:block tablet:text-88 tablet:tracking-0"
 				aria-hidden="true"
@@ -67,6 +75,6 @@ function Card({ number, heading, body }: CardProps) {
 				</h2>
 				<p className="mt-4 desktop:mt-10">{body}</p>
 			</div>
-		</div>
+		</Squircle>
 	)
 }

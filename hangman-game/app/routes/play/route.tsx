@@ -1,6 +1,8 @@
 import * as AlertDialog from '@radix-ui/react-alert-dialog'
 import * as Dialog from '@radix-ui/react-dialog'
+import { useMediaQuery } from '@uidotdev/usehooks'
 import { cx } from 'class-variance-authority'
+import { Squircle } from 'corner-smoothing'
 import React, { useMemo } from 'react'
 import { Form, Link, useLoaderData } from 'react-router-dom'
 import { Icon } from '#app/components/icon'
@@ -16,6 +18,7 @@ import {
 } from '#app/routes/play/routing'
 import { alphabet } from '#app/utils/alphabet'
 import { createSecret, parseWords } from '#app/utils/hangman'
+import { media } from '#app/utils/screens'
 import {
 	blueButton,
 	center,
@@ -24,12 +27,13 @@ import {
 	menuItemButton,
 	pinkButton,
 	pinkCircleButton,
-	shadowyBlue,
 } from '#app/utils/styles'
 
 const initialLives = 8
 
 export function Play() {
+	const desktopMatches = useMediaQuery(media.desktop)
+	const tabletMatches = useMediaQuery(media.tablet)
 	const data = useLoaderData() as ReturnType<typeof loader>
 	const secret = useMemo(() => createSecret(data.state.name), [data.state.name])
 	const words = useMemo(() => parseWords(secret), [secret])
@@ -150,22 +154,45 @@ export function Play() {
 											const isGuessed = data.state.guesses.has(letter)
 
 											return (
-												<p
-													className={cx(
-														'grid h-[4.125rem] w-10 place-items-center rounded-[0.75rem] text-40 uppercase tablet:h-28 tablet:w-[5.5rem] tablet:rounded-[2rem] tablet:text-64 desktop:h-32 desktop:w-28 desktop:rounded-[2.5rem] desktop:text-88 desktop:tracking-0',
-														shadowyBlue,
-														!isGuessed ? 'opacity-25' : '',
-													)}
+												<div
+													className="rounded-[0.75rem] tablet:rounded-[2rem] desktop:rounded-[2.5rem]"
 													key={y}
 													tabIndex={0}
 													data-testid="secret-letter"
 												>
-													{isGuessed ? (
-														letter
-													) : (
-														<span className="sr-only">Blank</span>
-													)}
-												</p>
+													<Squircle
+														className={cx(
+															'relative isolate grid h-[4.125rem] w-10 bg-[hsl(244_76%_23%)] px-[0.1875rem] pb-[0.3125rem] pt-[0.0625rem] transition-opacity tablet:h-28 tablet:w-[5.5rem] desktop:h-32 desktop:w-28',
+															!isGuessed ? 'opacity-25' : '',
+														)}
+														cornerRadius={
+															desktopMatches ? 40 : tabletMatches ? 32 : 12
+														}
+													>
+														<Squircle
+															className="grid bg-[hsl(223_100%_62%)] px-[0.1875rem] pt-[0.375rem]"
+															cornerRadius={
+																desktopMatches ? 37 : tabletMatches ? 29 : 9
+															}
+														>
+															<Squircle
+																className="bg-blue text-40 uppercase text-white tablet:text-64 desktop:text-88 desktop:tracking-0"
+																as="p"
+																cornerRadius={
+																	desktopMatches ? 34 : tabletMatches ? 26 : 6
+																}
+															>
+																{isGuessed ? (
+																	<span className="absolute inset-0 grid place-items-center">
+																		{letter}
+																	</span>
+																) : (
+																	<span className="sr-only">Blank</span>
+																)}
+															</Squircle>
+														</Squircle>
+													</Squircle>
+												</div>
 											)
 										})}
 									</div>
@@ -189,11 +216,17 @@ export function Play() {
 									{alphabet.map((letter) => (
 										<li className="grid" key={letter}>
 											<button
-												className="rounded-[0.5rem] bg-white py-[0.625rem] text-center text-24 uppercase leading-150 -tracking-2 text-dark-navy transition-colors aria-disabled:opacity-25 hocus:aria-[disabled=false]:bg-blue hocus:aria-[disabled=false]:text-white tablet:rounded-[1.5rem] tablet:py-[0.8125rem] tablet:text-48 tablet:leading-120 tablet:tracking-5"
 												{...getGuessDataProps(letter)}
+												className="group rounded-[0.5rem] tablet:rounded-[1.5rem]"
 												aria-disabled={data.state.guesses.has(letter)}
 											>
-												{letter}
+												<Squircle
+													className="block bg-white py-[0.625rem] text-center text-24 uppercase leading-150 -tracking-2 text-dark-navy transition-colors group-aria-disabled:opacity-25 group-hocus:group-aria-[disabled=false]:bg-blue group-hocus:group-aria-[disabled=false]:text-white tablet:py-[0.8125rem] tablet:text-48 tablet:leading-120 tablet:tracking-5"
+													as="span"
+													cornerRadius={tabletMatches ? 24 : 8}
+												>
+													{letter}
+												</Squircle>
 											</button>
 										</li>
 									))}

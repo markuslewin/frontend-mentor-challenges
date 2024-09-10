@@ -32,6 +32,7 @@
     "@radix-ui/react-slot": "^1.0.2",
     "@uidotdev/usehooks": "^2.4.1",
     "class-variance-authority": "^0.7.0",
+    "corner-smoothing": "^0.1.5",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.26.1",

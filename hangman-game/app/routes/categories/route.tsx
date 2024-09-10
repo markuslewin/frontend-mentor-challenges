@@ -1,11 +1,16 @@
+import { useMediaQuery } from '@uidotdev/usehooks'
 import { cx } from 'class-variance-authority'
+import { Squircle } from 'corner-smoothing'
 import { Form } from 'react-router-dom'
 import { Header } from '#app/components/header'
 import { categoryName } from '#app/routes/categories/routing'
 import { type Category } from '#app/utils/hangman'
-import { blueButton, center } from '#app/utils/styles'
+import { media } from '#app/utils/screens'
+import { center } from '#app/utils/styles'
 
 export function Categories() {
+	const tabletMatches = useMediaQuery(media.tablet)
+
 	return (
 		<div className="flex min-h-screen flex-col">
 			<div className="min-h-8 grow-[80]" />
@@ -31,14 +36,29 @@ export function Categories() {
 							).map((category) => (
 								<li className="grid" key={category.value}>
 									<button
-										className={cx(
-											'rounded-[1.25rem] p-6 text-24 tablet:rounded-[2.5rem] tablet:p-[4.125rem] tablet:text-48',
-											blueButton,
-										)}
+										className="group grid rounded-[1.25rem] tablet:rounded-[2.5rem]"
 										name={categoryName}
 										value={category.value}
 									>
-										{category.text}
+										<Squircle
+											className="bg-[hsl(244_76%_23%)] px-[0.1875rem] pb-[0.3125rem] pt-[0.0625rem]"
+											as="span"
+											cornerRadius={tabletMatches ? 40 : 20}
+										>
+											<Squircle
+												className="block bg-[hsl(223_100%_62%)] px-[0.1875rem] pt-[0.375rem]"
+												as="span"
+												cornerRadius={tabletMatches ? 37 : 17}
+											>
+												<Squircle
+													className="block bg-blue pb-[1.1875rem] pt-[1.0625rem] text-24 text-white transition-colors group-hocus:bg-[hsl(223,100%,68%)] tablet:pb-[3.8125rem] tablet:pt-[3.6875rem] tablet:text-48"
+													as="span"
+													cornerRadius={tabletMatches ? 34 : 14}
+												>
+													{category.text}
+												</Squircle>
+											</Squircle>
+										</Squircle>
 									</button>
 								</li>
 							))}
