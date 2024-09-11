@@ -19,16 +19,9 @@ import {
 	handle as playHandle,
 	action as playAction,
 } from '#app/routes/play/routing'
-import { clientEnv } from '#app/utils/env/client'
 import '@fontsource/mouse-memoirs'
 
-async function enableMocking() {
-	// Tree shake mocks when building for production
-	if (!import.meta.env.PROD && clientEnv.VITE_MOCKS) {
-		const { worker } = await import('#tests/mocks')
-		return worker.start()
-	}
-}
+async function enableMocking() {}
 
 void enableMocking().then(() => {
 	const router = createBrowserRouter([
