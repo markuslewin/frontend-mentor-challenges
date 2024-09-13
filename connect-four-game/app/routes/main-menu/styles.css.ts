@@ -1,7 +1,6 @@
 import { style, styleVariants } from '@vanilla-extract/css'
-import { colors, headingM, transitionShadow } from '#app/styles.css'
 import { media } from '#app/utils/screens'
-import { rem } from '#app/utils/style'
+import { colors, headingM, transition, rem, hocus } from '#app/utils/style'
 
 export const mainContainer = style({
 	minHeight: '100vh',
@@ -43,7 +42,11 @@ export const option = style({
 
 const baseButton = style({
 	...headingM,
-	...transitionShadow,
+	...transition('color', 'shadow'),
+	...hocus({
+		borderColor: colors['dark-purple'],
+		boxShadow: `0 ${rem(10)} ${colors['dark-purple']}`,
+	}),
 	height: rem(78),
 	border: `${rem(3)} solid ${colors.black}`,
 	borderRadius: rem(20),
@@ -54,10 +57,8 @@ const baseButton = style({
 	textAlign: 'start',
 	textTransform: 'uppercase',
 	whiteSpace: 'nowrap',
+	color: colors.black,
 	boxShadow: `0 ${rem(10)} ${colors.black}`,
-	':hover': {
-		boxShadow: `0 ${rem(10)} ${colors['dark-purple']}`,
-	},
 })
 
 export const button = styleVariants({
