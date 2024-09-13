@@ -51,10 +51,6 @@
 		color-scheme: dark;
 	}
 
-	body {
-		@apply bg-background font-base text-body text-foreground;
-	}
-
 	h1,
 	h2,
 	h3,

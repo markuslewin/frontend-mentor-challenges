@@ -1,21 +1,62 @@
 import { Link, useNavigate } from 'react-router-dom'
-import { headingL } from '#app/styles.css'
+import logoUrl from '#app/assets/logo.svg'
+import playerVsPlayerUrl from '#app/assets/player-vs-player.svg'
+import { Img } from '#app/components/picture'
+import {
+	button,
+	logo,
+	mainContainer,
+	menuContainer,
+	option,
+	options,
+	playerVsPlayerIcon,
+} from '#app/routes/main-menu/styles.css'
+import { useBodyRoute } from '#app/utils/body-route'
 
 export function MainMenuRoute() {
+	useBodyRoute('main-menu')
 	const navigate = useNavigate()
 
 	return (
-		<>
-			<h1 className={headingL}>MainMenuRoute</h1>
-			<button
-				type="button"
-				onClick={() => {
-					navigate('/play')
-				}}
-			>
-				Play vs player
-			</button>
-			<Link to="/rules">Game rules</Link>
-		</>
+		<main className={mainContainer}>
+			<div className={menuContainer}>
+				<h1>
+					<Img
+						className={logo}
+						alt="Connect Four"
+						src={logoUrl}
+						priority
+						width="58"
+						height="61"
+					/>
+				</h1>
+				<ul className={options} role="list">
+					<li className={option}>
+						<button
+							className={button.yellow}
+							type="button"
+							onClick={() => {
+								navigate('/play')
+							}}
+						>
+							Play vs player
+							<Img
+								className={playerVsPlayerIcon}
+								alt=""
+								src={playerVsPlayerUrl}
+								priority
+								width="82px"
+								height="46px"
+							/>
+						</button>
+					</li>
+					<li className={option}>
+						<Link className={button.white} to="/rules">
+							Game rules
+						</Link>
+					</li>
+				</ul>
+			</div>
+		</main>
 	)
 }
