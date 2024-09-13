@@ -29,6 +29,9 @@ import {
 } from '#app/routes/nested-routes.update.$id/routing'
 import { clientEnv } from '#app/utils/env/client'
 import { action as messageAction } from '#app/utils/message'
+// Supports weights 300-700
+import '@fontsource-variable/space-grotesk'
+import '#app/styles.css'
 
 async function enableMocking() {
 	// Tree shake mocks when building for production

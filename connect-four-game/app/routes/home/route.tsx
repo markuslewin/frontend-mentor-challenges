@@ -15,6 +15,7 @@ import { Button } from '#app/components/button'
 import { Input } from '#app/components/input'
 import * as Landmark from '#app/components/landmark'
 import { Picture, Source, Img } from '#app/components/picture'
+import { headingL } from '#app/styles.css'
 import { clientEnv } from '#app/utils/env/client'
 import { useSubmitInput } from '#app/utils/message'
 import { media } from '#app/utils/screens'
@@ -31,7 +32,7 @@ const FavoriteColorSchema = z.object({
 export function Home() {
 	return (
 		<>
-			<h1 className="text-heading-l">My React template</h1>
+			<h1 className={headingL}>My React template</h1>
 			<p className="mt-8">This is my React template.</p>
 			<h2 className="mt-24 text-heading-m">Mocked API</h2>
 			<MockedApi />
