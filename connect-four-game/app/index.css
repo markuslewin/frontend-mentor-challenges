@@ -1,6 +1,6 @@
 @tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* @tailwind components; */
+/* @tailwind utilities; */
 
 @layer base {
 	:root {
@@ -62,25 +62,5 @@
 
 	:focus {
 		outline-offset: 0.25rem;
-	}
-}
-
-@layer components {
-	.menu__overlay {
-		@apply bg-overlay/85;
-
-		position: fixed;
-		inset: 0;
-	}
-
-	.menu__content {
-		@apply bg-menu text-menu-foreground;
-
-		overflow-y: auto;
-		position: fixed;
-		inset: 0 auto 0 0;
-		max-width: 100%;
-		width: 16.25rem;
-		padding: 1.5rem;
 	}
 }
