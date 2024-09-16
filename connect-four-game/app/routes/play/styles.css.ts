@@ -239,6 +239,26 @@ export const boardBack = style({
 	height: 'auto',
 })
 
+function percentage(fraction: number) {
+	return `${fraction * 100}%`
+}
+
+export const counters = style({
+	position: 'absolute',
+	inset: `${percentage(7 / 320)} ${percentage(7 / 335)} ${percentage(34 / 320)}`,
+	display: 'grid',
+	gridTemplateColumns: `repeat(7, ${percentage(40 / 320)})`,
+	gridTemplateRows: `repeat(6, ${percentage(45 / 279)})`,
+	placeContent: 'space-between',
+	'@media': {
+		[media.tablet]: {
+			inset: `${percentage(17 / 594)} ${percentage(17 / 632)} ${percentage(62 / 594)}`,
+			gridTemplateColumns: `repeat(7, ${percentage(70 / 598)})`,
+			gridTemplateRows: `repeat(6, ${percentage(75 / 515)})`,
+		},
+	},
+})
+
 export const boardFront = style({
 	position: 'absolute',
 	inset: '0 0 auto 0',
@@ -247,14 +267,8 @@ export const boardFront = style({
 })
 
 export const counter = style({
-	width: rem(41),
-	height: rem(46),
-	'@media': {
-		[media.tablet]: {
-			width: rem(70),
-			height: rem(75),
-		},
-	},
+	width: '100%',
+	height: 'auto',
 })
 
 export const marker = style({

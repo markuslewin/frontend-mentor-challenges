@@ -3,10 +3,10 @@ import boardLayerBlackLarge from '#app/assets/board-layer-black-large.svg'
 import boardLayerBlackSmall from '#app/assets/board-layer-black-small.svg'
 import boardLayerWhiteLarge from '#app/assets/board-layer-white-large.svg'
 import boardLayerWhiteSmall from '#app/assets/board-layer-white-small.svg'
-// import counterRedLarge from '#app/assets/counter-red-large.svg'
-// import counterRedSmall from '#app/assets/counter-red-small.svg'
-// import counterYellowLarge from '#app/assets/counter-yellow-large.svg'
-// import counterYellowSmall from '#app/assets/counter-yellow-small.svg'
+import counterRedLarge from '#app/assets/counter-red-large.svg'
+import counterRedSmall from '#app/assets/counter-red-small.svg'
+import counterYellowLarge from '#app/assets/counter-yellow-large.svg'
+import counterYellowSmall from '#app/assets/counter-yellow-small.svg'
 import logoUrl from '#app/assets/logo.svg'
 // import markerRed from '#app/assets/marker-red.svg'
 // import markerYellow from '#app/assets/marker-yellow.svg'
@@ -23,7 +23,7 @@ import {
 	boardFront,
 	button,
 	center,
-	// counter,
+	counter,
 	gameLayout,
 	headerGrid,
 	headerLayout,
@@ -44,6 +44,7 @@ import {
 	backgroundLight,
 	playerOneAvatar,
 	playerTwoAvatar,
+	counters,
 } from '#app/routes/play/styles.css'
 import { srOnly } from '#app/styles.css'
 import { media } from '#app/utils/screens'
@@ -169,6 +170,51 @@ export function PlayRoute() {
 										height="320"
 									/>
 								</Picture>
+								<div className={counters}>
+									{Array(6)
+										.fill(Array(7).fill(null))
+										.flatMap((row, i) =>
+											row.map((_: null, u: number) =>
+												i % 2 === 0 ? (
+													<div key={`${i}-${u}`} />
+												) : u % 2 === 0 ? (
+													<Picture key={`${i}-${u}`}>
+														<Source
+															media={media.tablet}
+															srcSet={counterRedLarge}
+															width="70"
+															height="75"
+														/>
+														<Img
+															className={counter}
+															alt="Red"
+															src={counterRedSmall}
+															priority
+															width="41"
+															height="46"
+														/>
+													</Picture>
+												) : (
+													<Picture key={`${i}-${u}`}>
+														<Source
+															media={media.tablet}
+															srcSet={counterYellowLarge}
+															width="70"
+															height="75"
+														/>
+														<Img
+															className={counter}
+															alt="Yellow"
+															src={counterYellowSmall}
+															priority
+															width="41"
+															height="46"
+														/>
+													</Picture>
+												),
+											),
+										)}
+								</div>
 								<Picture>
 									<Source
 										media={media.tablet}
@@ -185,43 +231,7 @@ export function PlayRoute() {
 										height="310"
 									/>
 								</Picture>
-								{/* <p>
-									<Picture>
-										<Source
-											media={media.tablet}
-											srcSet={counterRedLarge}
-											width="70"
-											height="75"
-										/>
-										<Img
-											className={counter}
-											alt="Red"
-											src={counterRedSmall}
-											priority
-											width="41"
-											height="46"
-										/>
-									</Picture>
-								</p>
-								<p>
-									<Picture>
-										<Source
-											media={media.tablet}
-											srcSet={counterYellowLarge}
-											width="70"
-											height="75"
-										/>
-										<Img
-											className={counter}
-											alt="Yellow"
-											src={counterYellowSmall}
-											priority
-											width="41"
-											height="46"
-										/>
-									</Picture>
-								</p>
-								<Img
+								{/* <Img
 									className={marker}
 									alt=""
 									src={markerRed}
