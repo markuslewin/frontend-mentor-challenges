@@ -1,4 +1,4 @@
-import { style } from '@vanilla-extract/css'
+import { style, type StyleRule } from '@vanilla-extract/css'
 import { media } from '#app/utils/screens'
 import {
 	colors,
@@ -9,6 +9,88 @@ import {
 	headingS,
 	headingL,
 } from '#app/utils/style'
+
+export const center = style({
+	boxSizing: 'content-box',
+	marginInline: 'auto',
+	maxInlineSize: rem(632),
+	paddingInline: rem(20),
+	'@media': {
+		[media.desktop]: {
+			maxInlineSize: rem(1040),
+		},
+	},
+})
+
+const gameLayoutColumns = {
+	gridTemplateColumns: `${rem(147)} minmax(auto, ${rem(632)}) ${rem(147)}`,
+	gridTemplateAreas: '"left center right"',
+	justifyContent: 'space-between',
+} satisfies StyleRule
+
+export const headerGrid = style({
+	'@media': {
+		[media.desktop]: {
+			...gameLayoutColumns,
+			display: 'grid',
+		},
+	},
+})
+
+export const headerLayout = style({
+	gridArea: 'center',
+	display: 'flex',
+	alignItems: 'center',
+	paddingBlockStart: rem(47),
+	'@media': {
+		[media.tablet]: {
+			paddingBlockStart: rem(27),
+		},
+		[media.desktop]: {
+			paddingBlockStart: rem(50),
+		},
+	},
+})
+
+export const headerSide = style({
+	flex: '1 0 0',
+})
+
+export const headerRightSide = style([
+	headerSide,
+	{ order: 2, display: 'flex', justifyContent: 'end' },
+])
+
+export const logoContainer = style({
+	order: 1,
+})
+
+export const gameLayout = style({
+	marginBlockStart: rem(41),
+	paddingBlockEnd: rem(83),
+	display: 'grid',
+	gridTemplateAreas: `
+	"left right"
+	"center center"
+	`,
+	rowGap: rem(47),
+	columnGap: rem(15),
+	'@media': {
+		[media.tablet]: {
+			marginBlockStart: rem(23),
+			paddingBlockEnd: rem(71),
+			rowGap: rem(29),
+			columnGap: rem(35),
+		},
+		[media.desktop]: {
+			...gameLayoutColumns,
+			marginBlockStart: rem(8),
+			paddingBlockEnd: rem(37),
+			gap: 0,
+			alignItems: 'center',
+		},
+	},
+})
 
 export const logo = style({
 	width: rem(46),
@@ -35,7 +117,7 @@ export const button = style({
 	color: colors.white,
 })
 
-export const scoreCard = style({
+const scoreCard = style({
 	border: `${rem(3)} solid ${colors.black}`,
 	borderRadius: rem(20),
 	padding: rem(10),
@@ -53,6 +135,20 @@ export const scoreCard = style({
 		},
 	},
 })
+
+export const playerOneCard = style([
+	scoreCard,
+	{
+		gridArea: 'left',
+	},
+])
+
+export const playerTwoCard = style([
+	scoreCard,
+	{
+		gridArea: 'right',
+	},
+])
 
 export const playerAvatar = style({
 	width: rem(54),
@@ -78,6 +174,10 @@ export const score = style({
 			...headingL,
 		},
 	},
+})
+
+export const boardContainer = style({
+	gridArea: 'center',
 })
 
 export const board = style({
@@ -112,19 +212,34 @@ export const marker = style({
 	height: rem(36),
 })
 
-export const turnBackground = style({
-	width: rem(197),
-	height: rem(165),
+export const turn = style({
+	marginInline: 'auto',
+	maxInlineSize: rem(197),
+	display: 'grid',
+	gridTemplateRows: '43fr 122fr',
 })
 
-export const turn = style({
+export const turnBackground = style({
+	gridRow: '1 / -1',
+	gridColumn: 1,
+	width: '100%',
+	height: 'auto',
+})
+
+export const turnText = style({
+	gridRow: 2,
+	gridColumn: 1,
+	textAlign: 'center',
+})
+
+export const turnPlayer = style({
 	...headingXs,
 	textTransform: 'uppercase',
 	// todo: Red background?
 	color: colors.white,
 })
 
-export const timer = style({
+export const turnTimer = style({
 	...headingL,
 	// todo: Red background?
 	color: colors.white,
