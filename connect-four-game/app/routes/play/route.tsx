@@ -16,6 +16,23 @@ import turnBackgroundRed from '#app/assets/turn-background-red.svg'
 import turnBackgroundYellow from '#app/assets/turn-background-yellow.svg'
 import * as Landmark from '#app/components/landmark'
 import { Img, Picture, Source } from '#app/components/picture'
+import {
+	board,
+	boardBack,
+	boardFront,
+	button,
+	counter,
+	logo,
+	marker,
+	playerAvatar,
+	playerName,
+	score,
+	scoreCard,
+	timer,
+	turn,
+	turnBackground,
+} from '#app/routes/play/styles.css'
+import { srOnly } from '#app/styles.css'
 import { media } from '#app/utils/screens'
 
 export function PlayRoute() {
@@ -24,6 +41,7 @@ export function PlayRoute() {
 			<header>
 				<h1>
 					<Img
+						className={logo}
 						alt="Connect Four"
 						src={logoUrl}
 						priority
@@ -33,7 +51,7 @@ export function PlayRoute() {
 				</h1>
 				<p>
 					<Dialog.Root>
-						<Dialog.Trigger>Menu</Dialog.Trigger>
+						<Dialog.Trigger className={button}>Menu</Dialog.Trigger>
 						<Dialog.Portal>
 							<Dialog.Overlay className="fixed inset-0 overflow-y-auto">
 								<Dialog.Content>
@@ -73,32 +91,47 @@ export function PlayRoute() {
 				</p>
 				<p>
 					<button
+						className={button}
 						type="button"
 						onClick={() => {
 							console.log('todo: Restart game')
 						}}
 					>
-						Restart game
+						Restart
 					</button>
 				</p>
 			</header>
 			<main>
-				<h2>Score</h2>
-				<div>
-					<h3>Player 1</h3>
-					<Img alt="" src={playerOneUrl} priority width="54" height="59" />
-					<p>12</p>
+				<h2 className={srOnly}>Score</h2>
+				<div className={scoreCard}>
+					<h3 className={playerName}>Player 1</h3>
+					<Img
+						className={playerAvatar}
+						alt=""
+						src={playerOneUrl}
+						priority
+						width="54"
+						height="59"
+					/>
+					<p className={score}>12</p>
 				</div>
-				<div>
-					<h3>Player 2</h3>
-					<Img alt="" src={playerTwoUrl} priority width="54" height="59" />
-					<p>23</p>
+				<div className={scoreCard}>
+					<h3 className={playerName}>Player 2</h3>
+					<Img
+						className={playerAvatar}
+						alt=""
+						src={playerTwoUrl}
+						priority
+						width="54"
+						height="59"
+					/>
+					<p className={score}>23</p>
 				</div>
 				<Landmark.Root>
 					<Landmark.Label>
-						<h2>Game</h2>
+						<h2 className={srOnly}>Game</h2>
 					</Landmark.Label>
-					<div>
+					<div className={board}>
 						<Picture>
 							<Source
 								media={media.tablet}
@@ -107,6 +140,7 @@ export function PlayRoute() {
 								height="594"
 							/>
 							<Img
+								className={boardBack}
 								alt=""
 								src={boardLayerBlackSmall}
 								priority
@@ -122,6 +156,7 @@ export function PlayRoute() {
 								height="584"
 							/>
 							<Img
+								className={boardFront}
 								alt=""
 								src={boardLayerWhiteSmall}
 								priority
@@ -138,6 +173,7 @@ export function PlayRoute() {
 									height="75"
 								/>
 								<Img
+									className={counter}
 									alt="Red"
 									src={counterRedSmall}
 									priority
@@ -155,6 +191,7 @@ export function PlayRoute() {
 									height="75"
 								/>
 								<Img
+									className={counter}
 									alt="Yellow"
 									src={counterYellowSmall}
 									priority
@@ -163,12 +200,27 @@ export function PlayRoute() {
 								/>
 							</Picture>
 						</p>
-						<Img alt="" src={markerRed} priority width="38" height="36" />
-						<Img alt="" src={markerYellow} priority width="38" height="36" />
+						<Img
+							className={marker}
+							alt=""
+							src={markerRed}
+							priority
+							width="38"
+							height="36"
+						/>
+						<Img
+							className={marker}
+							alt=""
+							src={markerYellow}
+							priority
+							width="38"
+							height="36"
+						/>
 					</div>
-					<h3>Turn</h3>
+					<h3 className={srOnly}>Turn</h3>
 					<div>
 						<Img
+							className={turnBackground}
 							alt=""
 							src={turnBackgroundRed}
 							priority
@@ -176,14 +228,15 @@ export function PlayRoute() {
 							height="165"
 						/>
 						<Img
+							className={turnBackground}
 							alt=""
 							src={turnBackgroundYellow}
 							priority
 							width="197"
 							height="165"
 						/>
-						<p>Player 1’s turn</p>
-						<p>15s</p>
+						<p className={turn}>Player 1’s turn</p>
+						<p className={timer}>15s</p>
 					</div>
 				</Landmark.Root>
 			</main>

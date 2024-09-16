@@ -14,8 +14,8 @@ import {
 	mainContainer,
 	mainMenuLink,
 	mainMenuLinkContainer,
-	srOnly,
 } from '#app/routes/rules/styles.css'
+import { srOnly } from '#app/styles.css'
 
 export function RulesRoute() {
 	return (
