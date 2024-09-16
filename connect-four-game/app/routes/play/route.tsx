@@ -45,6 +45,13 @@ import {
 	playerOneAvatar,
 	playerTwoAvatar,
 	counters,
+	dialogOverlay,
+	dialogContent,
+	dialogTitle,
+	dialogOptions,
+	dialogOption,
+	whiteDialogButton,
+	redDialogButton,
 } from '#app/routes/play/styles.css'
 import { srOnly } from '#app/styles.css'
 import { media } from '#app/utils/screens'
@@ -70,18 +77,23 @@ export function PlayRoute() {
 								<Dialog.Root>
 									<Dialog.Trigger className={button}>Menu</Dialog.Trigger>
 									<Dialog.Portal>
-										<Dialog.Overlay className="fixed inset-0 overflow-y-auto">
-											<Dialog.Content>
-												<Dialog.Title>Pause</Dialog.Title>
-												<Dialog.Description>
+										<Dialog.Overlay className={dialogOverlay}>
+											<Dialog.Content className={dialogContent}>
+												<Dialog.Title className={dialogTitle}>
+													Pause
+												</Dialog.Title>
+												<Dialog.Description className={srOnly}>
 													What do you want to do?
 												</Dialog.Description>
-												<ul role="list">
-													<li>
-														<Dialog.Close>Continue game</Dialog.Close>
+												<ul className={dialogOptions} role="list">
+													<li className={dialogOption}>
+														<Dialog.Close className={whiteDialogButton}>
+															Continue game
+														</Dialog.Close>
 													</li>
-													<li>
+													<li className={dialogOption}>
 														<button
+															className={whiteDialogButton}
 															type="button"
 															onClick={() => {
 																console.log('todo: Restart game')
@@ -90,8 +102,9 @@ export function PlayRoute() {
 															Restart
 														</button>
 													</li>
-													<li>
+													<li className={dialogOption}>
 														<button
+															className={redDialogButton}
 															type="button"
 															onClick={() => {
 																console.log('todo: Quit game')

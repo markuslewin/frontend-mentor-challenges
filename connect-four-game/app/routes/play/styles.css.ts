@@ -8,6 +8,7 @@ import {
 	headingXs,
 	headingS,
 	headingL,
+	headingM,
 } from '#app/utils/style'
 
 export const center = style({
@@ -330,3 +331,82 @@ export const turnTimer = style({
 	// todo: Red background?
 	color: colors.white,
 })
+
+export const dialogOverlay = style({
+	position: 'fixed',
+	inset: 0,
+	display: 'grid',
+	gridTemplateColumns: `minmax(auto, ${rem(486)})`,
+	justifyContent: 'center',
+	alignItems: 'center',
+	padding: rem(20),
+	overflowY: 'auto',
+	background: `hsl(0 0% 0% / 50%)`,
+})
+
+export const dialogContent = style({
+	border: `${rem(3)} solid ${colors.black}`,
+	borderRadius: rem(40),
+	padding: `${rem(30)} ${rem(17)} ${rem(27)}`,
+	background: colors.purple,
+	color: colors.white,
+	boxShadow: `0 ${rem(10)} ${colors.black}`,
+	'@media': {
+		[media.tablet]: {
+			padding: `${rem(50)} ${rem(37)} ${rem(47)}`,
+		},
+	},
+})
+
+export const dialogTitle = style({
+	...headingL,
+	textTransform: 'uppercase',
+	textAlign: 'center',
+})
+
+export const dialogOptions = style({
+	marginBlockStart: rem(27),
+	display: 'grid',
+	gap: rem(24),
+	'@media': {
+		[media.tablet]: {
+			marginBlockStart: rem(41),
+		},
+	},
+})
+
+export const dialogOption = style({
+	display: 'grid',
+})
+
+const dialogButton = style({
+	...headingM,
+	...hocus({
+		borderColor: colors['dark-purple'],
+		boxShadow: `0 ${rem(10)} ${colors['dark-purple']}`,
+	}),
+	...transition('color', 'shadow'),
+	border: `${rem(3)} solid ${colors.black}`,
+	borderRadius: rem(20),
+	paddingBlockStart: rem(21),
+	paddingBlockEnd: rem(20),
+	textAlign: 'center',
+	textTransform: 'uppercase',
+	boxShadow: `0 ${rem(10)} ${colors.black}`,
+})
+
+export const whiteDialogButton = style([
+	dialogButton,
+	{
+		background: colors.white,
+		color: colors.black,
+	},
+])
+
+export const redDialogButton = style([
+	dialogButton,
+	{
+		background: colors.red,
+		color: colors.white,
+	},
+])
