@@ -67,7 +67,7 @@ export const logoContainer = style({
 
 export const gameLayout = style({
 	marginBlockStart: rem(41),
-	paddingBlockEnd: rem(83),
+	marginBlockEnd: `-${rem(15)}`,
 	display: 'grid',
 	gridTemplateAreas: `
 	"left right"
@@ -78,14 +78,13 @@ export const gameLayout = style({
 	'@media': {
 		[media.tablet]: {
 			marginBlockStart: rem(23),
-			paddingBlockEnd: rem(71),
+			marginBlockEnd: `-${rem(50)}`,
 			rowGap: rem(29),
 			columnGap: rem(35),
 		},
 		[media.desktop]: {
 			...gameLayoutColumns,
 			marginBlockStart: rem(8),
-			paddingBlockEnd: rem(37),
 			gap: 0,
 			alignItems: 'center',
 		},
@@ -212,11 +211,33 @@ export const marker = style({
 	height: rem(36),
 })
 
+export const backgroundLight = style({
+	borderStartStartRadius: rem(60),
+	borderStartEndRadius: rem(60),
+	paddingBlockEnd: rem(83),
+	// todo: https://vanilla-extract.style/documentation/packages/dynamic/#assigninlinevars
+	background: colors['dark-purple'],
+	'@media': {
+		[media.tablet]: {
+			paddingBlockEnd: rem(71),
+		},
+		[media.desktop]: {
+			paddingBlockEnd: rem(37),
+		},
+	},
+})
+
 export const turn = style({
 	marginInline: 'auto',
 	maxInlineSize: rem(197),
 	display: 'grid',
 	gridTemplateRows: '43fr 122fr',
+	transform: `translateY(-${rem(12)})`,
+	'@media': {
+		[media.tablet]: {
+			transform: `translateY(-${rem(2)})`,
+		},
+	},
 })
 
 export const turnBackground = style({

@@ -42,6 +42,7 @@ import {
 	turnBackground,
 	turn,
 	turnText,
+	backgroundLight,
 } from '#app/routes/play/styles.css'
 import { srOnly } from '#app/styles.css'
 import { media } from '#app/utils/screens'
@@ -236,30 +237,32 @@ export function PlayRoute() {
 									height="36"
 								/> */}
 							</div>
-							<h3 className={srOnly}>Turn</h3>
-							<div className={turn}>
-								<Img
-									className={turnBackground}
-									alt=""
-									src={turnBackgroundRed}
-									priority
-									width="197"
-									height="165"
-								/>
-								{/* <Img
+						</Landmark.Root>
+					</div>
+				</div>
+				<div className={backgroundLight}>
+					<h3 className={srOnly}>Turn</h3>
+					<div className={turn}>
+						<Img
+							className={turnBackground}
+							alt=""
+							src={turnBackgroundRed}
+							priority
+							width="197"
+							height="165"
+						/>
+						{/* <Img
 									className={turnBackground}
 									alt=""
 									src={turnBackgroundYellow}
 									priority
 									width="197"
 									height="165"
-								/> */}
-								<div className={turnText}>
-									<p className={turnPlayer}>Player 1’s turn</p>
-									<p className={turnTimer}>15s</p>
-								</div>
-							</div>
-						</Landmark.Root>
+									/> */}
+						<div className={turnText}>
+							<p className={turnPlayer}>Player 1’s turn</p>
+							<p className={turnTimer}>15s</p>
+						</div>
 					</div>
 				</div>
 			</main>
