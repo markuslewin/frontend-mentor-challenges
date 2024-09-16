@@ -117,6 +117,11 @@ export const button = style({
 })
 
 const scoreCard = style({
+	position: 'relative',
+	isolation: 'isolate',
+	display: 'flex',
+	flexDirection: 'column',
+	alignItems: 'center',
 	border: `${rem(3)} solid ${colors.black}`,
 	borderRadius: rem(20),
 	padding: rem(10),
@@ -125,12 +130,15 @@ const scoreCard = style({
 	boxShadow: `0 ${rem(10)} ${colors.black}`,
 	'@media': {
 		[media.tablet]: {
+			justifyContent: 'space-between',
 			paddingBlock: rem(15),
-			paddingInline: rem(20),
+			paddingInline: rem(40),
 		},
 		[media.desktop]: {
-			paddingBlock: rem(17),
-			paddingInline: rem(28),
+			flexDirection: 'column',
+			paddingBlockStart: rem(46),
+			paddingBlockEnd: rem(17),
+			paddingInline: 0,
 		},
 	},
 })
@@ -139,6 +147,13 @@ export const playerOneCard = style([
 	scoreCard,
 	{
 		gridArea: 'left',
+		marginInlineStart: rem(13),
+		'@media': {
+			[media.tablet]: {
+				flexDirection: 'row',
+				marginInlineStart: rem(20),
+			},
+		},
 	},
 ])
 
@@ -146,13 +161,49 @@ export const playerTwoCard = style([
 	scoreCard,
 	{
 		gridArea: 'right',
+		marginInlineEnd: rem(13),
+		'@media': {
+			[media.tablet]: {
+				flexDirection: 'row-reverse',
+				marginInlineEnd: rem(20),
+			},
+		},
 	},
 ])
 
-export const playerAvatar = style({
+const playerAvatar = style({
+	position: 'absolute',
+	top: '50%',
+	transform: 'translateY(-50%)',
 	width: rem(54),
 	height: rem(59),
+	'@media': {
+		[media.desktop]: {
+			top: `-${rem(24)}`,
+			left: '50%',
+			transform: 'translateX(-50%)',
+		},
+	},
 })
+
+export const playerOneAvatar = style([
+	playerAvatar,
+	{
+		left: `-${rem(24)}`,
+	},
+])
+
+export const playerTwoAvatar = style([
+	playerAvatar,
+	{
+		right: `-${rem(24)}`,
+		'@media': {
+			[media.desktop]: {
+				right: 'auto',
+			},
+		},
+	},
+])
 
 export const playerName = style({
 	...headingXs,

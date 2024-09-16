@@ -32,7 +32,6 @@ import {
 	logo,
 	logoContainer,
 	// marker,
-	playerAvatar,
 	playerName,
 	playerOneCard,
 	playerTwoCard,
@@ -43,6 +42,8 @@ import {
 	turn,
 	turnText,
 	backgroundLight,
+	playerOneAvatar,
+	playerTwoAvatar,
 } from '#app/routes/play/styles.css'
 import { srOnly } from '#app/styles.css'
 import { media } from '#app/utils/screens'
@@ -126,7 +127,7 @@ export function PlayRoute() {
 						<div className={playerOneCard}>
 							<h3 className={playerName}>Player 1</h3>
 							<Img
-								className={playerAvatar}
+								className={playerOneAvatar}
 								alt=""
 								src={playerOneUrl}
 								priority
@@ -138,7 +139,7 @@ export function PlayRoute() {
 						<div className={playerTwoCard}>
 							<h3 className={playerName}>Player 2</h3>
 							<Img
-								className={playerAvatar}
+								className={playerTwoAvatar}
 								alt=""
 								src={playerTwoUrl}
 								priority
