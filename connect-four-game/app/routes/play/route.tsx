@@ -169,7 +169,7 @@ export function PlayRoute() {
 							<h3 className={playerName}>Player 1</h3>
 							<Img
 								className={playerOneAvatar}
-								alt=""
+								alt="Player 1 is red"
 								src={playerOneUrl}
 								priority
 								width="54"
@@ -181,7 +181,7 @@ export function PlayRoute() {
 							<h3 className={playerName}>Player 2</h3>
 							<Img
 								className={playerTwoAvatar}
-								alt=""
+								alt="Player 2 is yellow"
 								src={playerTwoUrl}
 								priority
 								width="54"
