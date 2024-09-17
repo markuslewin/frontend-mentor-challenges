@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { useLocation, useMatches } from 'react-router-dom'
 import { z } from 'zod'
+import { srOnly } from '#app/styles.css'
 
 const AnnouncementHandleSchema = z.object({
 	announcement: z.function().args(z.unknown()).returns(z.string()),
@@ -32,7 +33,7 @@ export function RouteAnnouncer() {
 	}, [matches, pathname])
 
 	return (
-		<p className="sr-only" aria-live="assertive" role="alert">
+		<p className={srOnly} aria-live="assertive" role="alert">
 			{announcement}
 		</p>
 	)
