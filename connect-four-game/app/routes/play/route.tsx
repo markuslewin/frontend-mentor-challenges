@@ -9,11 +9,9 @@ import counterYellowLarge from '#app/assets/counter-yellow-large.svg'
 import counterYellowSmall from '#app/assets/counter-yellow-small.svg'
 import logoUrl from '#app/assets/logo.svg'
 import markerRed from '#app/assets/marker-red.svg'
-// import markerYellow from '#app/assets/marker-yellow.svg'
 import playerOneUrl from '#app/assets/player-one.svg'
 import playerTwoUrl from '#app/assets/player-two.svg'
 import turnBackgroundRed from '#app/assets/turn-background-red.svg'
-// import turnBackgroundYellow from '#app/assets/turn-background-yellow.svg'
 import * as Landmark from '#app/components/landmark'
 import { Img, Picture, Source } from '#app/components/picture'
 import {
@@ -54,13 +52,19 @@ import {
 	redDialogButton,
 	markerTrack,
 	markerSlots,
+	bottomSpacer,
+	middleSpacer,
+	main,
+	topSpacer,
+	screenContainer,
 } from '#app/routes/play/styles.css'
 import { srOnly } from '#app/styles.css'
 import { media } from '#app/utils/screens'
 
 export function PlayRoute() {
 	return (
-		<>
+		<div className={screenContainer}>
+			<div className={topSpacer} />
 			<header>
 				<div className={center}>
 					<div className={headerGrid}>
@@ -136,7 +140,8 @@ export function PlayRoute() {
 					</div>
 				</div>
 			</header>
-			<main>
+			<div className={middleSpacer} />
+			<main className={main}>
 				<div className={center}>
 					<div className={markerTrack}>
 						<div className={markerSlots}>
@@ -279,21 +284,14 @@ export function PlayRoute() {
 							width="197"
 							height="165"
 						/>
-						{/* <Img
-									className={turnBackground}
-									alt=""
-									src={turnBackgroundYellow}
-									priority
-									width="197"
-									height="165"
-									/> */}
 						<div className={turnText}>
 							<p className={turnPlayer}>Player 1’s turn</p>
 							<p className={turnTimer}>15s</p>
 						</div>
 					</div>
+					<div className={bottomSpacer} />
 				</div>
 			</main>
-		</>
+		</div>
 	)
 }

@@ -1,4 +1,4 @@
-import { style, type StyleRule } from '@vanilla-extract/css'
+import { globalStyle, style, type StyleRule } from '@vanilla-extract/css'
 import { media } from '#app/utils/screens'
 import {
 	colors,
@@ -12,15 +12,17 @@ import {
 } from '#app/utils/style'
 
 export const center = style({
-	boxSizing: 'content-box',
-	marginInline: 'auto',
-	maxInlineSize: rem(632),
-	paddingInline: rem(20),
+	display: 'grid',
+	gridTemplateColumns: `minmax(${rem(20)}, 1fr) minmax(auto, ${rem(632)}) minmax(${rem(20)}, 1fr)`,
 	'@media': {
 		[media.desktop]: {
-			maxInlineSize: rem(1040),
+			gridTemplateColumns: `minmax(${rem(20)}, 1fr) minmax(auto, ${rem(1040)}) minmax(${rem(20)}, 1fr)`,
 		},
 	},
+})
+
+globalStyle(`${center} > *`, {
+	gridColumn: 2,
 })
 
 const gameLayoutColumns = {
@@ -42,15 +44,6 @@ export const headerLayout = style({
 	gridArea: 'center',
 	display: 'flex',
 	alignItems: 'center',
-	paddingBlockStart: rem(47),
-	'@media': {
-		[media.tablet]: {
-			paddingBlockStart: rem(27),
-		},
-		[media.desktop]: {
-			paddingBlockStart: rem(50),
-		},
-	},
 })
 
 export const headerSide = style({
@@ -67,7 +60,6 @@ export const logoContainer = style({
 })
 
 export const gameLayout = style({
-	marginBlockStart: rem(41),
 	marginBlockEnd: `-${rem(15)}`,
 	display: 'grid',
 	gridTemplateAreas: `
@@ -78,14 +70,12 @@ export const gameLayout = style({
 	columnGap: rem(15),
 	'@media': {
 		[media.tablet]: {
-			marginBlockStart: rem(23),
 			marginBlockEnd: `-${rem(50)}`,
 			rowGap: rem(29),
 			columnGap: rem(35),
 		},
 		[media.desktop]: {
 			...gameLayoutColumns,
-			marginBlockStart: 0,
 			gap: 0,
 			alignItems: 'center',
 		},
@@ -311,19 +301,11 @@ export const marker = style({
 })
 
 export const backgroundLight = style({
+	flexGrow: 1,
 	borderStartStartRadius: rem(60),
 	borderStartEndRadius: rem(60),
-	paddingBlockEnd: rem(83),
 	// todo: https://vanilla-extract.style/documentation/packages/dynamic/#assigninlinevars
 	background: colors['dark-purple'],
-	'@media': {
-		[media.tablet]: {
-			paddingBlockEnd: rem(71),
-		},
-		[media.desktop]: {
-			paddingBlockEnd: rem(37),
-		},
-	},
 })
 
 export const turn = style({
@@ -443,3 +425,34 @@ export const redDialogButton = style([
 		color: colors.white,
 	},
 ])
+
+export const screenContainer = style({
+	display: 'flex',
+	flexDirection: 'column',
+	minHeight: '100vh',
+})
+
+export const topSpacer = style({
+	minHeight: rem(27),
+	flexGrow: 50,
+})
+
+export const middleSpacer = style({
+	minHeight: rem(23),
+	flexGrow: 45,
+	'@media': {
+		[media.desktop]: {
+			minHeight: rem(8),
+		},
+	},
+})
+
+export const main = style({
+	flexGrow: 37,
+	display: 'flex',
+	flexDirection: 'column',
+})
+
+export const bottomSpacer = style({
+	minHeight: rem(23),
+})
