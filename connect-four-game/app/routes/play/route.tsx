@@ -8,7 +8,7 @@ import counterRedSmall from '#app/assets/counter-red-small.svg'
 import counterYellowLarge from '#app/assets/counter-yellow-large.svg'
 import counterYellowSmall from '#app/assets/counter-yellow-small.svg'
 import logoUrl from '#app/assets/logo.svg'
-// import markerRed from '#app/assets/marker-red.svg'
+import markerRed from '#app/assets/marker-red.svg'
 // import markerYellow from '#app/assets/marker-yellow.svg'
 import playerOneUrl from '#app/assets/player-one.svg'
 import playerTwoUrl from '#app/assets/player-two.svg'
@@ -31,7 +31,7 @@ import {
 	headerSide,
 	logo,
 	logoContainer,
-	// marker,
+	marker,
 	playerName,
 	playerOneCard,
 	playerTwoCard,
@@ -52,6 +52,8 @@ import {
 	dialogOption,
 	whiteDialogButton,
 	redDialogButton,
+	markerTrack,
+	markerSlots,
 } from '#app/routes/play/styles.css'
 import { srOnly } from '#app/styles.css'
 import { media } from '#app/utils/screens'
@@ -136,6 +138,24 @@ export function PlayRoute() {
 			</header>
 			<main>
 				<div className={center}>
+					<div className={markerTrack}>
+						<div className={markerSlots}>
+							<div />
+							<div />
+							<div />
+							<Img
+								className={marker}
+								alt=""
+								src={markerRed}
+								priority
+								width="38"
+								height="36"
+							/>
+							<div />
+							<div />
+							<div />
+						</div>
+					</div>
 					<div className={gameLayout}>
 						<h2 className={srOnly}>Score</h2>
 						<div className={playerOneCard}>
@@ -244,22 +264,6 @@ export function PlayRoute() {
 										height="310"
 									/>
 								</Picture>
-								{/* <Img
-									className={marker}
-									alt=""
-									src={markerRed}
-									priority
-									width="38"
-									height="36"
-								/>
-								<Img
-									className={marker}
-									alt=""
-									src={markerYellow}
-									priority
-									width="38"
-									height="36"
-								/> */}
 							</div>
 						</Landmark.Root>
 					</div>

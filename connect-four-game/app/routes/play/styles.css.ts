@@ -85,7 +85,7 @@ export const gameLayout = style({
 		},
 		[media.desktop]: {
 			...gameLayoutColumns,
-			marginBlockStart: rem(8),
+			marginBlockStart: 0,
 			gap: 0,
 			alignItems: 'center',
 		},
@@ -227,6 +227,38 @@ export const score = style({
 	},
 })
 
+const countersColumns = style({
+	gridTemplateColumns: `repeat(7, ${percentage(40 / 320)})`,
+	justifyContent: 'space-between',
+	'@media': {
+		[media.tablet]: {
+			gridTemplateColumns: `repeat(7, ${percentage(70 / 598)})`,
+		},
+	},
+})
+
+export const markerTrack = style({
+	...gameLayoutColumns,
+	display: 'none',
+	marginBlockStart: rem(8),
+	height: rem(37),
+	'@media': {
+		[media.desktop]: {
+			display: 'grid',
+		},
+	},
+})
+
+export const markerSlots = style([
+	countersColumns,
+	{
+		gridArea: 'center',
+		marginInline: `${percentage(17 / 632)}`,
+		display: 'grid',
+		justifyItems: 'center',
+	},
+])
+
 export const boardContainer = style({
 	gridArea: 'center',
 })
@@ -244,21 +276,22 @@ function percentage(fraction: number) {
 	return `${fraction * 100}%`
 }
 
-export const counters = style({
-	position: 'absolute',
-	inset: `${percentage(7 / 320)} ${percentage(7 / 335)} ${percentage(34 / 320)}`,
-	display: 'grid',
-	gridTemplateColumns: `repeat(7, ${percentage(40 / 320)})`,
-	gridTemplateRows: `repeat(6, ${percentage(45 / 279)})`,
-	placeContent: 'space-between',
-	'@media': {
-		[media.tablet]: {
-			inset: `${percentage(17 / 594)} ${percentage(17 / 632)} ${percentage(62 / 594)}`,
-			gridTemplateColumns: `repeat(7, ${percentage(70 / 598)})`,
-			gridTemplateRows: `repeat(6, ${percentage(75 / 515)})`,
+export const counters = style([
+	countersColumns,
+	{
+		position: 'absolute',
+		inset: `${percentage(7 / 320)} ${percentage(7 / 335)} ${percentage(34 / 320)}`,
+		display: 'grid',
+		gridTemplateRows: `repeat(6, ${percentage(45 / 279)})`,
+		alignContent: 'space-between',
+		'@media': {
+			[media.tablet]: {
+				inset: `${percentage(17 / 594)} ${percentage(17 / 632)} ${percentage(62 / 594)}`,
+				gridTemplateRows: `repeat(6, ${percentage(75 / 515)})`,
+			},
 		},
 	},
-})
+])
 
 export const boardFront = style({
 	position: 'absolute',
