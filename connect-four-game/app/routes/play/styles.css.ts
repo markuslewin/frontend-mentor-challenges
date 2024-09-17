@@ -357,14 +357,10 @@ export const turnText = style({
 export const turnPlayer = style({
 	...headingXs,
 	textTransform: 'uppercase',
-	// todo: Red background?
-	color: colors.white,
 })
 
 export const turnTimer = style({
 	...headingL,
-	// todo: Red background?
-	color: colors.white,
 })
 
 export const dialogOverlay = style({

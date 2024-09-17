@@ -1,4 +1,7 @@
+import { invariant } from '@epic-web/invariant'
 import * as Dialog from '@radix-ui/react-dialog'
+import { useLocalStorage } from '@uidotdev/usehooks'
+import { produce } from 'immer'
 import boardLayerBlackLarge from '#app/assets/board-layer-black-large.svg'
 import boardLayerBlackSmall from '#app/assets/board-layer-black-small.svg'
 import boardLayerWhiteLarge from '#app/assets/board-layer-white-large.svg'
@@ -9,9 +12,11 @@ import counterYellowLarge from '#app/assets/counter-yellow-large.svg'
 import counterYellowSmall from '#app/assets/counter-yellow-small.svg'
 import logoUrl from '#app/assets/logo.svg'
 import markerRed from '#app/assets/marker-red.svg'
+import markerYellow from '#app/assets/marker-yellow.svg'
 import playerOneUrl from '#app/assets/player-one.svg'
 import playerTwoUrl from '#app/assets/player-two.svg'
 import turnBackgroundRed from '#app/assets/turn-background-red.svg'
+import turnBackgroundYellow from '#app/assets/turn-background-yellow.svg'
 import * as Landmark from '#app/components/landmark'
 import { Img, Picture, Source } from '#app/components/picture'
 import {
@@ -62,8 +67,23 @@ import {
 } from '#app/routes/play/styles.css'
 import { srOnly } from '#app/styles.css'
 import { media } from '#app/utils/screens'
+import { colors } from '#app/utils/style'
 
 export function PlayRoute() {
+	const [state, setState] = useLocalStorage('state', {
+		starter: 'red',
+		counters: createBoard(),
+	} satisfies {
+		starter: Color
+		counters: Counter[][]
+	})
+
+	const currentColor: Color =
+		state.counters.flatMap((r) => r).filter((c) => c !== 'empty').length % 2 ===
+		0
+			? state.starter
+			: getOtherColor(state.starter)
+
 	return (
 		<div className={screenContainer}>
 			<div className={topSpacer} />
@@ -151,9 +171,17 @@ export function PlayRoute() {
 							<div />
 							<div />
 							<Img
+								key={currentColor}
 								className={marker}
 								alt=""
-								src={markerRed}
+								src={
+									(
+										{
+											red: markerRed,
+											yellow: markerYellow,
+										} satisfies Record<Color, string>
+									)[currentColor]
+								}
 								priority
 								width="38"
 								height="36"
@@ -211,49 +239,11 @@ export function PlayRoute() {
 									/>
 								</Picture>
 								<div className={counters}>
-									{Array(6)
-										.fill(Array(7).fill(null))
-										.flatMap((row, i) =>
-											row.map((_: null, u: number) =>
-												i % 2 === 0 ? (
-													<div key={`${i}-${u}`} />
-												) : u % 2 === 0 ? (
-													<Picture key={`${i}-${u}`}>
-														<Source
-															media={media.tablet}
-															srcSet={counterRedLarge}
-															width="70"
-															height="75"
-														/>
-														<Img
-															className={counter}
-															alt="Red"
-															src={counterRedSmall}
-															priority
-															width="41"
-															height="46"
-														/>
-													</Picture>
-												) : (
-													<Picture key={`${i}-${u}`}>
-														<Source
-															media={media.tablet}
-															srcSet={counterYellowLarge}
-															width="70"
-															height="75"
-														/>
-														<Img
-															className={counter}
-															alt="Yellow"
-															src={counterYellowSmall}
-															priority
-															width="41"
-															height="46"
-														/>
-													</Picture>
-												),
-											),
-										)}
+									{state.counters.flatMap((row, y) =>
+										row.map((counter, x) => (
+											<Counter key={`${y}-${x}`} value={counter} />
+										)),
+									)}
 								</div>
 								<Picture>
 									<Source
@@ -271,22 +261,47 @@ export function PlayRoute() {
 										height="310"
 									/>
 								</Picture>
+								{/* todo: `role="grid"` > `role="row"` > `role="gridcell"` */}
 								<div className={counterButtons}>
-									{Array(6)
-										.fill(Array(7).fill(null))
-										.flatMap((row, i) =>
-											row.map((_: null, u: number) => (
-												<button className={counterButton} key={`${i}-${u}`}>
-													{i % 2 === 0 ? (
-														<>Blank</>
-													) : u % 2 === 0 ? (
-														<>Red</>
-													) : (
-														<>Yellow</>
-													)}
-												</button>
-											)),
-										)}
+									{state.counters.flatMap((row, y) =>
+										row.map((counter, x) => (
+											<button
+												className={counterButton}
+												key={`${y}-${x}`}
+												type="button"
+												aria-disabled={counter !== 'empty'}
+												onClick={() => {
+													if (counter !== 'empty') {
+														return
+													}
+													setState(
+														produce((draft) => {
+															const row = draft.counters[y]
+															invariant(
+																row !== undefined,
+																`Invalid row number ${y}`,
+															)
+															invariant(
+																row[x] !== undefined,
+																`Invalid column number ${x}`,
+															)
+															row[x] = currentColor
+														}),
+													)
+												}}
+											>
+												{
+													(
+														{
+															empty: 'Empty',
+															red: 'Red',
+															yellow: 'Yellow',
+														} satisfies Record<Counter, string>
+													)[counter]
+												}
+											</button>
+										)),
+									)}
 								</div>
 							</div>
 						</Landmark.Root>
@@ -294,17 +309,45 @@ export function PlayRoute() {
 				</div>
 				<div className={backgroundLight}>
 					<h3 className={srOnly}>Turn</h3>
-					<div className={turn}>
+					<div
+						className={turn}
+						style={{
+							color: (
+								{ red: colors.white, yellow: colors.black } satisfies Record<
+									Color,
+									string
+								>
+							)[currentColor],
+						}}
+					>
 						<Img
 							className={turnBackground}
+							key={currentColor}
 							alt=""
-							src={turnBackgroundRed}
+							src={
+								(
+									{
+										red: turnBackgroundRed,
+										yellow: turnBackgroundYellow,
+									} satisfies Record<Color, string>
+								)[currentColor]
+							}
 							priority
 							width="197"
 							height="165"
 						/>
 						<div className={turnText}>
-							<p className={turnPlayer}>Player 1’s turn</p>
+							<p className={turnPlayer}>
+								{
+									(
+										{ red: 'Player 1', yellow: 'Player 2' } satisfies Record<
+											Color,
+											string
+										>
+									)[currentColor]
+								}
+								’s turn
+							</p>
 							<p className={turnTimer}>15s</p>
 						</div>
 					</div>
@@ -313,4 +356,68 @@ export function PlayRoute() {
 			</main>
 		</div>
 	)
+}
+
+type Color = 'red' | 'yellow'
+type Counter = Color | 'empty'
+
+function createBoard() {
+	return Array<Counter[]>(6).fill(Array<Counter>(7).fill('empty'))
+}
+
+function getOtherColor(color: Color): Color {
+	return (
+		{
+			red: 'yellow',
+			yellow: 'red',
+		} satisfies Record<Color, Color>
+	)[color]
+}
+
+interface CounterProps {
+	value: Counter
+}
+
+function Counter({ value }: CounterProps) {
+	return (
+		{
+			empty: <div />,
+			red: (
+				<Picture>
+					<Source
+						media={media.tablet}
+						srcSet={counterRedLarge}
+						width="70"
+						height="75"
+					/>
+					<Img
+						className={counter}
+						alt="Red"
+						src={counterRedSmall}
+						priority
+						width="41"
+						height="46"
+					/>
+				</Picture>
+			),
+			yellow: (
+				<Picture>
+					<Source
+						media={media.tablet}
+						srcSet={counterYellowLarge}
+						width="70"
+						height="75"
+					/>
+					<Img
+						className={counter}
+						alt="Yellow"
+						src={counterYellowSmall}
+						priority
+						width="41"
+						height="46"
+					/>
+				</Picture>
+			),
+		} satisfies Record<Counter, JSX.Element>
+	)[value]
 }
