@@ -57,6 +57,8 @@ import {
 	main,
 	topSpacer,
 	screenContainer,
+	counterButtons,
+	counterButton,
 } from '#app/routes/play/styles.css'
 import { srOnly } from '#app/styles.css'
 import { media } from '#app/utils/screens'
@@ -269,6 +271,23 @@ export function PlayRoute() {
 										height="310"
 									/>
 								</Picture>
+								<div className={counterButtons}>
+									{Array(6)
+										.fill(Array(7).fill(null))
+										.flatMap((row, i) =>
+											row.map((_: null, u: number) => (
+												<button className={counterButton} key={`${i}-${u}`}>
+													{i % 2 === 0 ? (
+														<>Blank</>
+													) : u % 2 === 0 ? (
+														<>Red</>
+													) : (
+														<>Yellow</>
+													)}
+												</button>
+											)),
+										)}
+								</div>
 							</div>
 						</Landmark.Root>
 					</div>
