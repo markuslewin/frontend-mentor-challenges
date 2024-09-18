@@ -64,6 +64,76 @@ export function parseStatus(
 		}
 	}
 
+	// Diagonal wins, top-left to bottom-right
+	for (let y = 0; y < 6 - 3; ++y) {
+		for (let x = 0; x < 7 - 3; ++x) {
+			const oneX = x
+			const twoX = x + 1
+			const threeX = x + 2
+			const fourX = x + 3
+			const oneY = y
+			const twoY = y + 1
+			const threeY = y + 2
+			const fourY = y + 3
+
+			for (const color of colors) {
+				if (
+					[
+						// @ts-expect-error: What if position doesn't exist?
+						table[oneY][oneX],
+						// @ts-expect-error: What if position doesn't exist?
+						table[twoY][twoX],
+						// @ts-expect-error: What if position doesn't exist?
+						table[threeY][threeX],
+						// @ts-expect-error: What if position doesn't exist?
+						table[fourY][fourX],
+					].every((c) => c === color)
+				) {
+					winner = color
+					pushUnique(counters, [oneX, oneY])
+					pushUnique(counters, [twoX, twoY])
+					pushUnique(counters, [threeX, threeY])
+					pushUnique(counters, [fourX, fourY])
+				}
+			}
+		}
+	}
+
+	// Diagonal wins, bottom-left to top-right
+	for (let y = 0; y < 6 - 3; ++y) {
+		for (let x = 0; x < 7 - 3; ++x) {
+			const oneX = x + 3
+			const twoX = x + 2
+			const threeX = x + 1
+			const fourX = x
+			const oneY = y
+			const twoY = y + 1
+			const threeY = y + 2
+			const fourY = y + 3
+
+			for (const color of colors) {
+				if (
+					[
+						// @ts-expect-error: What if position doesn't exist?
+						table[oneY][oneX],
+						// @ts-expect-error: What if position doesn't exist?
+						table[twoY][twoX],
+						// @ts-expect-error: What if position doesn't exist?
+						table[threeY][threeX],
+						// @ts-expect-error: What if position doesn't exist?
+						table[fourY][fourX],
+					].every((c) => c === color)
+				) {
+					winner = color
+					pushUnique(counters, [oneX, oneY])
+					pushUnique(counters, [twoX, twoY])
+					pushUnique(counters, [threeX, threeY])
+					pushUnique(counters, [fourX, fourY])
+				}
+			}
+		}
+	}
+
 	if (winner === null) {
 		return {
 			type: 'ongoing',
