@@ -2,6 +2,7 @@ import { invariant } from '@epic-web/invariant'
 import * as Dialog from '@radix-ui/react-dialog'
 import { useLocalStorage } from '@uidotdev/usehooks'
 import { produce } from 'immer'
+import { useRef, useState } from 'react'
 import boardLayerBlackLarge from '#app/assets/board-layer-black-large.svg'
 import boardLayerBlackSmall from '#app/assets/board-layer-black-small.svg'
 import boardLayerWhiteLarge from '#app/assets/board-layer-white-large.svg'
@@ -71,14 +72,21 @@ import { srOnly } from '#app/styles.css'
 import { media } from '#app/utils/screens'
 import { colors } from '#app/utils/style'
 
+const rows = 6
+const columns = 7
+
 export function PlayRoute() {
-	const [state, setState] = useLocalStorage('state', {
-		starter: 'red',
-		counters: createBoard(),
-	} satisfies {
+	const [state, setState] = useLocalStorage<{
 		starter: Color
 		counters: Counter[][]
+	}>('state', {
+		starter: 'red',
+		counters: createTable(columns, rows, 'empty'),
 	})
+	const counterButtonsRef = useRef<(HTMLButtonElement | null)[][]>(
+		createTable(columns, rows, null),
+	)
+	const [cursor, setCursor] = useState<[number, number]>([0, 0])
 
 	const currentColor: Color =
 		state.counters.flatMap((r) => r).filter((c) => c !== 'empty').length % 2 ===
@@ -276,7 +284,17 @@ export function PlayRoute() {
 													>
 														<button
 															className={counterButton}
+															ref={(node) => {
+																setIndex(
+																	index(counterButtonsRef.current, y),
+																	x,
+																	node,
+																)
+															}}
 															type="button"
+															tabIndex={
+																cursor[0] === x && cursor[1] === y ? 0 : -1
+															}
 															aria-disabled={column.every((c) => c !== 'empty')}
 															onClick={() => {
 																const bottom = column.lastIndexOf('empty')
@@ -289,6 +307,61 @@ export function PlayRoute() {
 																		setIndex(row, x, currentColor)
 																	}),
 																)
+															}}
+															onKeyDown={(e) => {
+																const [cursorX, cursorY] = cursor
+																if (e.key === 'ArrowUp') {
+																	const nextY = Math.max(0, cursorY - 1)
+																	setCursor([cursorX, nextY])
+																	const nextButton = index(
+																		index(counterButtonsRef.current, nextY),
+																		cursorX,
+																	)
+																	invariant(
+																		nextButton !== null,
+																		'Expected button',
+																	)
+																	nextButton.focus()
+																} else if (e.key === 'ArrowRight') {
+																	const nextX = Math.min(
+																		columns - 1,
+																		cursorX + 1,
+																	)
+																	setCursor([nextX, cursorY])
+																	const nextButton = index(
+																		index(counterButtonsRef.current, cursorY),
+																		nextX,
+																	)
+																	invariant(
+																		nextButton !== null,
+																		'Expected button',
+																	)
+																	nextButton.focus()
+																} else if (e.key === 'ArrowDown') {
+																	const nextY = Math.min(rows - 1, cursorY + 1)
+																	setCursor([cursorX, nextY])
+																	const nextButton = index(
+																		index(counterButtonsRef.current, nextY),
+																		cursorX,
+																	)
+																	invariant(
+																		nextButton !== null,
+																		'Expected button',
+																	)
+																	nextButton.focus()
+																} else if (e.key === 'ArrowLeft') {
+																	const nextX = Math.max(0, cursorX - 1)
+																	setCursor([nextX, cursorY])
+																	const nextButton = index(
+																		index(counterButtonsRef.current, cursorY),
+																		nextX,
+																	)
+																	invariant(
+																		nextButton !== null,
+																		'Expected button',
+																	)
+																	nextButton.focus()
+																}
 															}}
 														>
 															{
@@ -365,8 +438,10 @@ export function PlayRoute() {
 type Color = 'red' | 'yellow'
 type Counter = Color | 'empty'
 
-function createBoard() {
-	return Array<Counter[]>(6).fill(Array<Counter>(7).fill('empty'))
+function createTable<T>(columns: number, rows: number, value: T) {
+	return Array(rows)
+		.fill(undefined)
+		.map(() => Array(columns).fill(value)) as T[][]
 }
 
 function getOtherColor(color: Color): Color {
