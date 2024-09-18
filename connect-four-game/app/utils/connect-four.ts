@@ -1,4 +1,6 @@
-export type Color = 'red' | 'yellow'
+const colors = ['red', 'yellow'] as const
+
+export type Color = (typeof colors)[number]
 export type Counter = Color | 'empty'
 export type Table = Counter[][]
 export type Position = [number, number]
@@ -20,29 +22,20 @@ export function parseStatus(
 			const two = x + 1
 			const three = x + 2
 			const four = x + 3
-			if (
-				// @ts-expect-error: What if position doesn't exist?
-				[table[y][one], table[y][two], table[y][three], table[y][four]].every(
-					(c) => c === 'red',
-				)
-			) {
-				winner = 'red'
-				pushUnique(counters, [one, y])
-				pushUnique(counters, [two, y])
-				pushUnique(counters, [three, y])
-				pushUnique(counters, [four, y])
-			} else if (
-				// @ts-expect-error: What if position doesn't exist?
-				[table[y][x], table[y][x + 1], table[y][x + 2], table[y][x + 3]].every(
-					(c) => c === 'yellow',
-				)
-			) {
-				winner = 'yellow'
-				pushUnique(counters, [one, y])
-				pushUnique(counters, [two, y])
-				pushUnique(counters, [three, y])
-				pushUnique(counters, [four, y])
-			}
+
+			for (const color of colors)
+				if (
+					// @ts-expect-error: What if position doesn't exist?
+					[table[y][one], table[y][two], table[y][three], table[y][four]].every(
+						(c) => c === color,
+					)
+				) {
+					winner = color
+					pushUnique(counters, [one, y])
+					pushUnique(counters, [two, y])
+					pushUnique(counters, [three, y])
+					pushUnique(counters, [four, y])
+				}
 		}
 	}
 
@@ -53,28 +46,20 @@ export function parseStatus(
 			const two = y + 1
 			const three = y + 2
 			const four = y + 3
-			if (
-				// @ts-expect-error: What if position doesn't exist?
-				[table[one][x], table[two][x], table[three][x], table[four][x]].every(
-					(c) => c === 'red',
-				)
-			) {
-				winner = 'red'
-				pushUnique(counters, [x, one])
-				pushUnique(counters, [x, two])
-				pushUnique(counters, [x, three])
-				pushUnique(counters, [x, four])
-			} else if (
-				// @ts-expect-error: What if position doesn't exist?
-				[table[one][x], table[two][x], table[three][x], table[four][x]].every(
-					(c) => c === 'yellow',
-				)
-			) {
-				winner = 'yellow'
-				pushUnique(counters, [x, one])
-				pushUnique(counters, [x, two])
-				pushUnique(counters, [x, three])
-				pushUnique(counters, [x, four])
+
+			for (const color of colors) {
+				if (
+					// @ts-expect-error: What if position doesn't exist?
+					[table[one][x], table[two][x], table[three][x], table[four][x]].every(
+						(c) => c === color,
+					)
+				) {
+					winner = color
+					pushUnique(counters, [x, one])
+					pushUnique(counters, [x, two])
+					pushUnique(counters, [x, three])
+					pushUnique(counters, [x, four])
+				}
 			}
 		}
 	}
