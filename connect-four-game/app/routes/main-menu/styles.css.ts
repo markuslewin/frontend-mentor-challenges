@@ -40,26 +40,28 @@ export const option = style({
 	display: 'grid',
 })
 
-const baseButton = style({
-	...headingM,
-	...transition('color', 'shadow'),
-	...hocus({
+const baseButton = style([
+	{
+		...headingM,
+		height: rem(78),
+		border: `${rem(3)} solid ${colors.black}`,
+		borderRadius: rem(20),
+		paddingInline: rem(20),
+		display: 'flex',
+		justifyContent: 'space-between',
+		alignItems: 'center',
+		textAlign: 'start',
+		textTransform: 'uppercase',
+		whiteSpace: 'nowrap',
+		color: colors.black,
+		boxShadow: `0 ${rem(10)} ${colors.black}`,
+	},
+	hocus({
 		borderColor: colors['dark-purple'],
 		boxShadow: `0 ${rem(10)} ${colors['dark-purple']}`,
 	}),
-	height: rem(78),
-	border: `${rem(3)} solid ${colors.black}`,
-	borderRadius: rem(20),
-	paddingInline: rem(20),
-	display: 'flex',
-	justifyContent: 'space-between',
-	alignItems: 'center',
-	textAlign: 'start',
-	textTransform: 'uppercase',
-	whiteSpace: 'nowrap',
-	color: colors.black,
-	boxShadow: `0 ${rem(10)} ${colors.black}`,
-})
+	transition('color', 'shadow'),
+])
 
 export const button = styleVariants({
 	yellow: [baseButton, { background: colors.yellow }],

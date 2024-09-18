@@ -93,14 +93,16 @@ export const mainMenuLinkContainer = style({
 	justifyContent: 'center',
 })
 
-export const mainMenuLink = style({
-	borderRadius: 9999,
-	color: colors.black,
-	...transition('color'),
-	...hocus({
+export const mainMenuLink = style([
+	{
+		borderRadius: 9999,
+		color: colors.black,
+	},
+	hocus({
 		color: colors['dark-purple'],
 	}),
-})
+	transition('color'),
+])
 
 export const check = style({
 	width: rem(70),

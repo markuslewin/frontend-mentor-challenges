@@ -1,4 +1,4 @@
-import { type StyleRule } from '@vanilla-extract/css'
+import { style, type StyleRule } from '@vanilla-extract/css'
 import { key as routeKey, type Route } from '#app/utils/body-route'
 
 export function rem(px: number) {
@@ -10,14 +10,14 @@ export function dataRoute(route: Route) {
 }
 
 export function hocus(rule: StyleRule) {
-	return {
+	return style({
 		':hover': rule,
 		':focus-visible': rule,
-	}
+	})
 }
 
 // https://tailwindcss.com/docs/transition-property
-const transitionBase = {
+export const transitionBase = {
 	transitionTimingFunction: 'cubic-bezier(0.4, 0, 0.2, 1)',
 	transitionDuration: '150ms',
 } satisfies StyleRule
@@ -37,12 +37,12 @@ const transitionPropsByGroup = {
 export function transition(
 	...properties: (keyof typeof transitionPropsByGroup)[]
 ) {
-	return {
+	return style({
 		...transitionBase,
 		transitionProperty: properties
 			.flatMap((g) => transitionPropsByGroup[g])
 			.join(', '),
-	} satisfies StyleRule
+	})
 }
 
 // Colors

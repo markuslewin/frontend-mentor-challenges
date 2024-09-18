@@ -93,19 +93,21 @@ export const logo = style({
 	},
 })
 
-export const button = style({
-	...headingXs,
-	...transition('color'),
-	...hocus({
+export const button = style([
+	{
+		...headingXs,
+		borderRadius: 9999,
+		paddingBlock: rem(9),
+		paddingInline: rem(20),
+		textTransform: 'uppercase',
+		background: colors['dark-purple'],
+		color: colors.white,
+	},
+	hocus({
 		background: colors.red,
 	}),
-	borderRadius: 9999,
-	paddingBlock: rem(9),
-	paddingInline: rem(20),
-	textTransform: 'uppercase',
-	background: colors['dark-purple'],
-	color: colors.white,
-})
+	transition('color'),
+])
 
 const scoreCard = style({
 	position: 'relative',
@@ -419,21 +421,23 @@ export const dialogOption = style({
 	display: 'grid',
 })
 
-const dialogButton = style({
-	...headingM,
-	...hocus({
+const dialogButton = style([
+	{
+		...headingM,
+		border: `${rem(3)} solid ${colors.black}`,
+		borderRadius: rem(20),
+		paddingBlockStart: rem(21),
+		paddingBlockEnd: rem(20),
+		textAlign: 'center',
+		textTransform: 'uppercase',
+		boxShadow: `0 ${rem(10)} ${colors.black}`,
+	},
+	hocus({
 		borderColor: colors['dark-purple'],
 		boxShadow: `0 ${rem(10)} ${colors['dark-purple']}`,
 	}),
-	...transition('color', 'shadow'),
-	border: `${rem(3)} solid ${colors.black}`,
-	borderRadius: rem(20),
-	paddingBlockStart: rem(21),
-	paddingBlockEnd: rem(20),
-	textAlign: 'center',
-	textTransform: 'uppercase',
-	boxShadow: `0 ${rem(10)} ${colors.black}`,
-})
+	transition('color', 'shadow'),
+])
 
 export const whiteDialogButton = style([
 	dialogButton,

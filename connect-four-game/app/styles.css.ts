@@ -1,12 +1,13 @@
 import { globalStyle, style } from '@vanilla-extract/css'
 import { media } from '#app/utils/screens'
-import { body, colors, dataRoute, transition } from '#app/utils/style'
+import { body, colors, dataRoute, transitionBase } from '#app/utils/style'
 
 globalStyle('body', {
 	...body,
-	...transition('color'),
+	...transitionBase,
 	fontFamily: "'Space Grotesk Variable', sans-serif",
 	background: colors.purple,
+	transitionProperty: 'background-color',
 })
 globalStyle(`body[${dataRoute('main-menu')}]`, {
 	'@media': {
