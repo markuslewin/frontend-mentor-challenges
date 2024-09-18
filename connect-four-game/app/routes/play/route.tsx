@@ -1,6 +1,7 @@
 import { invariant } from '@epic-web/invariant'
 import * as Dialog from '@radix-ui/react-dialog'
 import { useLocalStorage } from '@uidotdev/usehooks'
+import { assignInlineVars } from '@vanilla-extract/dynamic'
 import { produce } from 'immer'
 import { useRef, useState } from 'react'
 import boardLayerBlackLarge from '#app/assets/board-layer-black-large.svg'
@@ -67,8 +68,15 @@ import {
 	counterButton,
 	counterButtonsRow,
 	counterButtonsCell,
+	winningColor,
 } from '#app/routes/play/styles.css'
 import { srOnly } from '#app/styles.css'
+import {
+	parseStatus,
+	type Color,
+	type Counter,
+	type Table,
+} from '#app/utils/connect-four'
 import { media } from '#app/utils/screens'
 import { colors } from '#app/utils/style'
 
@@ -78,7 +86,7 @@ const columns = 7
 export function PlayRoute() {
 	const [state, setState] = useLocalStorage<{
 		starter: Color
-		counters: Counter[][]
+		counters: Table
 	}>('state', {
 		starter: 'red',
 		counters: createTable(columns, rows, 'empty'),
@@ -93,6 +101,8 @@ export function PlayRoute() {
 		0
 			? state.starter
 			: getOtherColor(state.starter)
+
+	const status = parseStatus(state.counters)
 
 	return (
 		<div className={screenContainer}>
@@ -384,7 +394,13 @@ export function PlayRoute() {
 						</Landmark.Root>
 					</div>
 				</div>
-				<div className={backgroundLight}>
+				<div
+					className={backgroundLight}
+					style={assignInlineVars({
+						[winningColor]:
+							status.type === 'win' ? getColor(status.winner) : undefined,
+					})}
+				>
 					<h3 className={srOnly}>Turn</h3>
 					<div
 						className={turn}
@@ -435,9 +451,6 @@ export function PlayRoute() {
 	)
 }
 
-type Color = 'red' | 'yellow'
-type Counter = Color | 'empty'
-
 function createTable<T>(columns: number, rows: number, value: T) {
 	return Array(rows)
 		.fill(undefined)
@@ -450,6 +463,15 @@ function getOtherColor(color: Color): Color {
 			red: 'yellow',
 			yellow: 'red',
 		} satisfies Record<Color, Color>
+	)[color]
+}
+
+function getColor(color: Color) {
+	return (
+		{
+			red: colors.red,
+			yellow: colors.yellow,
+		} satisfies Record<Color, string>
 	)[color]
 }
 

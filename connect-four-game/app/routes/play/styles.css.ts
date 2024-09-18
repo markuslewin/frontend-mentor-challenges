@@ -1,4 +1,10 @@
-import { globalStyle, style, type StyleRule } from '@vanilla-extract/css'
+import {
+	createVar,
+	fallbackVar,
+	globalStyle,
+	style,
+	type StyleRule,
+} from '@vanilla-extract/css'
 import { media } from '#app/utils/screens'
 import {
 	colors,
@@ -331,13 +337,17 @@ export const marker = style({
 	height: rem(36),
 })
 
-export const backgroundLight = style({
-	flexGrow: 1,
-	borderStartStartRadius: rem(60),
-	borderStartEndRadius: rem(60),
-	// todo: https://vanilla-extract.style/documentation/packages/dynamic/#assigninlinevars
-	background: colors['dark-purple'],
-})
+export const winningColor = createVar()
+
+export const backgroundLight = style([
+	{
+		flexGrow: 1,
+		borderStartStartRadius: rem(60),
+		borderStartEndRadius: rem(60),
+		background: fallbackVar(winningColor, colors['dark-purple']),
+	},
+	transition('color'),
+])
 
 export const turn = style({
 	marginInline: 'auto',
