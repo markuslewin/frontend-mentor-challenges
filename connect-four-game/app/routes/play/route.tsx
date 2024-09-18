@@ -266,49 +266,44 @@ export function PlayRoute() {
 								<div className={counterButtons} role="grid">
 									{state.counters.map((row, y) => (
 										<div className={counterButtonsRow} key={y} role="row">
-											{row.map((counter, x) => (
-												<div
-													className={counterButtonsCell}
-													key={x}
-													role="gridcell"
-												>
-													<button
-														className={counterButton}
-														key={`${y}-${x}`}
-														type="button"
-														aria-disabled={counter !== 'empty'}
-														onClick={() => {
-															if (counter !== 'empty') {
-																return
-															}
-															setState(
-																produce((draft) => {
-																	const row = draft.counters[y]
-																	invariant(
-																		row !== undefined,
-																		`Invalid row number ${y}`,
-																	)
-																	invariant(
-																		row[x] !== undefined,
-																		`Invalid column number ${x}`,
-																	)
-																	row[x] = currentColor
-																}),
-															)
-														}}
+											{row.map((counter, x) => {
+												const column = state.counters.map((r) => index(r, x))
+												return (
+													<div
+														className={counterButtonsCell}
+														key={x}
+														role="gridcell"
 													>
-														{
-															(
-																{
-																	empty: 'Empty',
-																	red: 'Red',
-																	yellow: 'Yellow',
-																} satisfies Record<Counter, string>
-															)[counter]
-														}
-													</button>
-												</div>
-											))}
+														<button
+															className={counterButton}
+															type="button"
+															aria-disabled={column.every((c) => c !== 'empty')}
+															onClick={() => {
+																const bottom = column.lastIndexOf('empty')
+																if (bottom === -1) {
+																	return
+																}
+																setState(
+																	produce((draft) => {
+																		const row = index(draft.counters, bottom)
+																		setIndex(row, x, currentColor)
+																	}),
+																)
+															}}
+														>
+															{
+																(
+																	{
+																		empty: 'Empty',
+																		red: 'Red',
+																		yellow: 'Yellow',
+																	} satisfies Record<Counter, string>
+																)[counter]
+															}
+														</button>
+													</div>
+												)
+											})}
 										</div>
 									))}
 								</div>
@@ -381,6 +376,16 @@ function getOtherColor(color: Color): Color {
 			yellow: 'red',
 		} satisfies Record<Color, Color>
 	)[color]
+}
+
+function index<T>(array: T[], index: number) {
+	invariant(index >= 0 || index < array.length, `Index out of range: ${index}`)
+	return array[index] as T
+}
+
+function setIndex<T>(array: T[], index: number, value: T) {
+	invariant(index >= 0 || index < array.length, `Index out of range: ${index}`)
+	array[index] = value
 }
 
 interface CounterProps {
