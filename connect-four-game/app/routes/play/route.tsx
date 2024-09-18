@@ -64,6 +64,8 @@ import {
 	screenContainer,
 	counterButtons,
 	counterButton,
+	counterButtonsRow,
+	counterButtonsCell,
 } from '#app/routes/play/styles.css'
 import { srOnly } from '#app/styles.css'
 import { media } from '#app/utils/screens'
@@ -261,47 +263,54 @@ export function PlayRoute() {
 										height="310"
 									/>
 								</Picture>
-								{/* todo: `role="grid"` > `role="row"` > `role="gridcell"` */}
-								<div className={counterButtons}>
-									{state.counters.flatMap((row, y) =>
-										row.map((counter, x) => (
-											<button
-												className={counterButton}
-												key={`${y}-${x}`}
-												type="button"
-												aria-disabled={counter !== 'empty'}
-												onClick={() => {
-													if (counter !== 'empty') {
-														return
-													}
-													setState(
-														produce((draft) => {
-															const row = draft.counters[y]
-															invariant(
-																row !== undefined,
-																`Invalid row number ${y}`,
+								<div className={counterButtons} role="grid">
+									{state.counters.map((row, y) => (
+										<div className={counterButtonsRow} key={y} role="row">
+											{row.map((counter, x) => (
+												<div
+													className={counterButtonsCell}
+													key={x}
+													role="gridcell"
+												>
+													<button
+														className={counterButton}
+														key={`${y}-${x}`}
+														type="button"
+														aria-disabled={counter !== 'empty'}
+														onClick={() => {
+															if (counter !== 'empty') {
+																return
+															}
+															setState(
+																produce((draft) => {
+																	const row = draft.counters[y]
+																	invariant(
+																		row !== undefined,
+																		`Invalid row number ${y}`,
+																	)
+																	invariant(
+																		row[x] !== undefined,
+																		`Invalid column number ${x}`,
+																	)
+																	row[x] = currentColor
+																}),
 															)
-															invariant(
-																row[x] !== undefined,
-																`Invalid column number ${x}`,
-															)
-															row[x] = currentColor
-														}),
-													)
-												}}
-											>
-												{
-													(
+														}}
+													>
 														{
-															empty: 'Empty',
-															red: 'Red',
-															yellow: 'Yellow',
-														} satisfies Record<Counter, string>
-													)[counter]
-												}
-											</button>
-										)),
-									)}
+															(
+																{
+																	empty: 'Empty',
+																	red: 'Red',
+																	yellow: 'Yellow',
+																} satisfies Record<Counter, string>
+															)[counter]
+														}
+													</button>
+												</div>
+											))}
+										</div>
+									))}
 								</div>
 							</div>
 						</Landmark.Root>

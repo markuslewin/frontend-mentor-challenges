@@ -294,16 +294,25 @@ export const counterButtons = style({
 	position: 'absolute',
 	inset: `${percentage(7 / 320)} ${percentage(7 / 335)} ${percentage(38 / 320)}`,
 	display: 'grid',
-	gridTemplateColumns: `repeat(7, ${percentage(40 / 321)})`,
 	gridTemplateRows: `repeat(6, ${percentage(40 / 275)})`,
-	placeContent: 'space-between',
+	alignContent: 'space-between',
 	'@media': {
 		[media.tablet]: {
 			inset: `${percentage(17 / 594)} ${percentage(17 / 632)} ${percentage(67 / 594)}`,
-			gridTemplateColumns: `repeat(7, ${percentage(70 / 598)})`,
 			gridTemplateRows: `repeat(6, ${percentage(70 / 510)})`,
 		},
 	},
+})
+
+export const counterButtonsRow = style([
+	countersColumns,
+	{
+		display: 'grid',
+	},
+])
+
+export const counterButtonsCell = style({
+	display: 'grid',
 })
 
 export const counterButton = style({
