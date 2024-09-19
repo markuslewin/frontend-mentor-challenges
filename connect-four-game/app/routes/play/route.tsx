@@ -79,7 +79,7 @@ import {
 	type Status,
 	type Color,
 	type Counter,
-	type Table,
+	type State,
 } from '#app/utils/connect-four'
 import { media } from '#app/utils/screens'
 import { colors } from '#app/utils/style'
@@ -88,12 +88,13 @@ const rows = 6
 const columns = 7
 
 export function PlayRoute() {
-	const [state, setState] = useLocalStorage<{
-		starter: Color
-		counters: Table
-	}>('state', {
+	const [state, setState] = useLocalStorage<State>('state', {
 		starter: 'red',
 		counters: createTable(columns, rows, 'empty'),
+		score: {
+			red: 0,
+			yellow: 0,
+		},
 	})
 	const counterButtonsRef = useRef<(HTMLButtonElement | null)[][]>(
 		createTable(columns, rows, null),
@@ -227,7 +228,9 @@ export function PlayRoute() {
 								width="54"
 								height="59"
 							/>
-							<p className={score}>12</p>
+							<p className={score} data-testid="score-red">
+								{state.score.red}
+							</p>
 						</div>
 						<div className={playerTwoCard}>
 							<h3 className={playerName}>Player 2</h3>
@@ -239,7 +242,9 @@ export function PlayRoute() {
 								width="54"
 								height="59"
 							/>
-							<p className={score}>23</p>
+							<p className={score} data-testid="score-yellow">
+								{state.score.yellow}
+							</p>
 						</div>
 						<Landmark.Root className={boardContainer}>
 							<Landmark.Label>
@@ -310,6 +315,7 @@ export function PlayRoute() {
 																cursor[0] === x && cursor[1] === y ? 0 : -1
 															}
 															aria-disabled={column.every((c) => c !== 'empty')}
+															data-testid={`${x},${y}`}
 															onClick={() => {
 																const bottom = column.lastIndexOf('empty')
 																if (bottom === -1) {
@@ -319,6 +325,12 @@ export function PlayRoute() {
 																	produce((draft) => {
 																		const row = index(draft.counters, bottom)
 																		setIndex(row, x, currentColor)
+																		const nextStatus = parseStatus(
+																			draft.counters,
+																		)
+																		if (nextStatus.type === 'win') {
+																			++draft.score[nextStatus.winner]
+																		}
 																	}),
 																)
 															}}

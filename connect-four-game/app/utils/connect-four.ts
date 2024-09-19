@@ -5,6 +5,11 @@ export type Counter = Color | 'empty'
 export type Table = Counter[][]
 export type Position = [number, number]
 export type Positions = Position[]
+export type State = {
+	starter: Color
+	counters: Table
+	score: Record<Color, number>
+}
 
 export function parseStatus(
 	table: Table,
