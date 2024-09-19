@@ -349,6 +349,36 @@ export const backgroundLight = style([
 	transition('color'),
 ])
 
+export const winner = style({
+	position: 'relative',
+	marginInline: 'auto',
+	maxWidth: rem(291),
+	border: `${rem(3)} solid ${colors.black}`,
+	borderRadius: rem(20),
+	paddingBlock: rem(17),
+	textTransform: 'uppercase',
+	textAlign: 'center',
+	boxShadow: `0 ${rem(10)} ${colors.black}`,
+	background: colors.white,
+	color: colors.black,
+	transform: `translateY(-${rem(10)})`,
+	'@media': {
+		[media.tablet]: {
+			transform: `translateY(-${rem(3)})`,
+		},
+	},
+})
+
+export const winnerPlayer = style({
+	...headingXs,
+})
+
+export const winnerWins = style({
+	...headingL,
+	display: 'block',
+	marginBlockStart: `-${rem(4)}`,
+})
+
 export const turn = style({
 	marginInline: 'auto',
 	maxInlineSize: rem(197),

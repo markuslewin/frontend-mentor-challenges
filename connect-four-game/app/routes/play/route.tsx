@@ -69,10 +69,14 @@ import {
 	counterButtonsRow,
 	counterButtonsCell,
 	winningColor,
+	winner,
+	winnerWins,
+	winnerPlayer,
 } from '#app/routes/play/styles.css'
 import { srOnly } from '#app/styles.css'
 import {
 	parseStatus,
+	type Status,
 	type Color,
 	type Counter,
 	type Table,
@@ -374,15 +378,17 @@ export function PlayRoute() {
 																}
 															}}
 														>
-															{
-																(
-																	{
-																		empty: 'Empty',
-																		red: 'Red',
-																		yellow: 'Yellow',
-																	} satisfies Record<Counter, string>
-																)[counter]
-															}
+															<span className={srOnly}>
+																{
+																	(
+																		{
+																			empty: 'Empty',
+																			red: 'Red',
+																			yellow: 'Yellow',
+																		} satisfies Record<Counter, string>
+																	)[counter]
+																}
+															</span>
 														</button>
 													</div>
 												)
@@ -401,47 +407,62 @@ export function PlayRoute() {
 							status.type === 'win' ? getColor(status.winner) : undefined,
 					})}
 				>
-					<h3 className={srOnly}>Turn</h3>
-					<div
-						className={turn}
-						style={{
-							color: (
-								{ red: colors.white, yellow: colors.black } satisfies Record<
-									Color,
-									string
+					<div className={center}>
+						<div>
+							<h3 className={srOnly}>Turn</h3>
+							{status.type === 'ongoing' ? (
+								<div
+									className={turn}
+									style={{
+										color: (
+											{
+												red: colors.white,
+												yellow: colors.black,
+											} satisfies Record<Color, string>
+										)[currentColor],
+									}}
 								>
-							)[currentColor],
-						}}
-					>
-						<Img
-							className={turnBackground}
-							key={currentColor}
-							alt=""
-							src={
-								(
-									{
-										red: turnBackgroundRed,
-										yellow: turnBackgroundYellow,
-									} satisfies Record<Color, string>
-								)[currentColor]
-							}
-							priority
-							width="197"
-							height="165"
-						/>
-						<div className={turnText}>
-							<p className={turnPlayer}>
-								{
-									(
-										{ red: 'Player 1', yellow: 'Player 2' } satisfies Record<
-											Color,
-											string
-										>
-									)[currentColor]
-								}
-								’s turn
-							</p>
-							<p className={turnTimer}>15s</p>
+									<Img
+										className={turnBackground}
+										key={currentColor}
+										alt=""
+										src={
+											(
+												{
+													red: turnBackgroundRed,
+													yellow: turnBackgroundYellow,
+												} satisfies Record<Color, string>
+											)[currentColor]
+										}
+										priority
+										width="197"
+										height="165"
+									/>
+									<div className={turnText}>
+										<p className={turnPlayer}>
+											{
+												(
+													{
+														red: 'Player 1',
+														yellow: 'Player 2',
+													} satisfies Record<Color, string>
+												)[currentColor]
+											}
+											’s turn
+										</p>
+										<p className={turnTimer}>15s</p>
+									</div>
+								</div>
+							) : (
+								<div className={winner}>
+									<p>
+										<Outcome status={status} />
+										<button className={button} type="button">
+											Play again
+										</button>
+									</p>
+								</div>
+							)}
 						</div>
 					</div>
 					<div className={bottomSpacer} />
@@ -449,6 +470,30 @@ export function PlayRoute() {
 			</main>
 		</div>
 	)
+}
+
+interface OutcomeProps {
+	status: Status
+}
+
+function Outcome({ status }: OutcomeProps) {
+	if (status.type === 'draw') {
+		return (
+			<p>
+				<span className={winnerPlayer}>It's a </span>
+				<span className={winnerWins}>draw</span>
+			</p>
+		)
+	} else if (status.type === 'win') {
+		return (
+			<p>
+				<span className={winnerPlayer}>{getName(status.winner)}</span>
+				<span className={winnerWins}>wins</span>
+			</p>
+		)
+	} else {
+		throw new Error(`Invalid type: ${status.type}`)
+	}
 }
 
 function createTable<T>(columns: number, rows: number, value: T) {
@@ -473,6 +518,16 @@ function getColor(color: Color) {
 			yellow: colors.yellow,
 		} satisfies Record<Color, string>
 	)[color]
+}
+
+function getName(color: Color) {
+	if (color === 'red') {
+		return 'Player 1'
+	} else if (color === 'yellow') {
+		return 'Player 2'
+	} else {
+		throw new Error(`Invalid color: ${color}`)
+	}
 }
 
 function index<T>(array: T[], index: number) {

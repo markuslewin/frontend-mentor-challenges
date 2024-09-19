@@ -153,3 +153,5 @@ function pushUnique(positions: Positions, value: Position) {
 		positions.push(value)
 	}
 }
+
+export type Status = ReturnType<typeof parseStatus>
