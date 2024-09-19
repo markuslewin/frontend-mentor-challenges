@@ -127,7 +127,39 @@ test('has correct initial state', async ({ page }) => {
 	await expect(page.getByTestId('timer')).toHaveText('30s')
 })
 
-test.fixme('alternates starter', async ({ page }) => {})
+test('alternates starter', async ({ page }) => {
+	await page.goto('/')
+	await page.evaluate(async () => {
+		const stateKey = 'state'
+
+		localStorage.setItem(
+			stateKey,
+			JSON.stringify({
+				starter: 'red',
+				counters: [
+					['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
+					['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
+					['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
+					['red', 'yellow', 'empty', 'empty', 'empty', 'empty', 'empty'],
+					['red', 'yellow', 'empty', 'empty', 'empty', 'empty', 'empty'],
+					['red', 'yellow', 'empty', 'empty', 'empty', 'empty', 'empty'],
+				],
+				score: { red: 0, yellow: 0 },
+			} satisfies State),
+		)
+	})
+	await page.goto('/play')
+
+	await expect(page.getByTestId('turn')).toHaveText('Player 1’s turn')
+
+	await page.getByTestId('0,0').click()
+	await page.getByRole('button', { name: 'play again' }).click()
+
+	await expect(page.getByTestId('turn')).toHaveText('Player 2’s turn')
+
+	// todo: Check timer win
+})
+
 test.fixme('resets game', async ({ page }) => {
 	// todo: Play game, go to main menu, click "play"
 	// todo: Expect reset grid
@@ -136,6 +168,7 @@ test.fixme('restarts game from header', async ({ page }) => {})
 test.fixme('restarts game from menu', async ({ page }) => {})
 test.fixme('continues game', async ({ page }) => {})
 test.fixme('quits game', async ({ page }) => {})
+test.fixme('plays again', async ({ page }) => {})
 
 test.describe('passes a11y checks', () => {
 	test('main menu', async ({ page }) => {

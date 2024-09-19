@@ -80,24 +80,24 @@ import {
 	type Color,
 	type Counter,
 	type State,
+	createTable,
+	columns,
+	rows,
 } from '#app/utils/connect-four'
 import { media } from '#app/utils/screens'
 import { colors } from '#app/utils/style'
 
-const rows = 6
-const columns = 7
-
 export function PlayRoute() {
 	const [state, setState] = useLocalStorage<State>('state', {
 		starter: 'red',
-		counters: createTable(columns, rows, 'empty'),
+		counters: createTable('empty'),
 		score: {
 			red: 0,
 			yellow: 0,
 		},
 	})
 	const counterButtonsRef = useRef<(HTMLButtonElement | null)[][]>(
-		createTable(columns, rows, null),
+		createTable(null),
 	)
 	const [cursor, setCursor] = useState<[number, number]>([0, 0])
 
@@ -469,9 +469,24 @@ export function PlayRoute() {
 								</div>
 							) : (
 								<div className={winner}>
+									<Outcome status={status} />
 									<p>
-										<Outcome status={status} />
-										<button className={button} type="button">
+										<button
+											className={button}
+											type="button"
+											onClick={() => {
+												setState(
+													produce((draft) => {
+														draft.starter = getOtherColor(state.starter)
+														draft.counters = createTable('empty')
+													}),
+												)
+												setCursor([0, 0])
+												const firstCell = counterButtonsRef.current[0]?.[0]
+												invariant(firstCell, 'Expected counter button')
+												firstCell.focus()
+											}}
+										>
 											Play again
 										</button>
 									</p>
@@ -508,12 +523,6 @@ function Outcome({ status }: OutcomeProps) {
 	} else {
 		throw new Error(`Invalid type: ${status.type}`)
 	}
-}
-
-function createTable<T>(columns: number, rows: number, value: T) {
-	return Array(rows)
-		.fill(undefined)
-		.map(() => Array(columns).fill(value)) as T[][]
 }
 
 function getOtherColor(color: Color): Color {

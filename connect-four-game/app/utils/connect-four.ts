@@ -11,6 +11,15 @@ export type State = {
 	score: Record<Color, number>
 }
 
+export const rows = 6
+export const columns = 7
+
+export function createTable<T>(value: T) {
+	return Array(rows)
+		.fill(undefined)
+		.map(() => Array(columns).fill(value)) as T[][]
+}
+
 export function parseStatus(
 	table: Table,
 ):
