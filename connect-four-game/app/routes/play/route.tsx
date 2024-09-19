@@ -451,7 +451,7 @@ export function PlayRoute() {
 										height="165"
 									/>
 									<div className={turnText}>
-										<p className={turnPlayer}>
+										<p className={turnPlayer} data-testid="turn">
 											{
 												(
 													{
@@ -462,7 +462,9 @@ export function PlayRoute() {
 											}
 											’s turn
 										</p>
-										<p className={turnTimer}>15s</p>
+										<p className={turnTimer} data-testid="timer">
+											30s
+										</p>
 									</div>
 								</div>
 							) : (

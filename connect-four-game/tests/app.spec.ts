@@ -2,6 +2,21 @@ import AxeBuilder from '@axe-core/playwright'
 import { test, expect } from '@playwright/test'
 import { type State } from '#app/utils/connect-four'
 
+test('has rules', async ({ page }) => {
+	await page.goto('/')
+	await page.getByRole('link', { name: 'rules' }).click()
+
+	await expect(page.getByRole('heading', { level: 1 })).toHaveAccessibleName(
+		/rules/i,
+	)
+
+	await page.getByRole('link', { name: 'main menu' }).click()
+
+	await expect(page.getByRole('heading', { level: 1 })).toHaveAccessibleName(
+		/connect four/i,
+	)
+})
+
 test('keeps score', async ({ page }) => {
 	await page.goto('/play')
 
@@ -98,6 +113,29 @@ test('keeps score', async ({ page }) => {
 	await expect(page.getByTestId('score-red')).toHaveText('2')
 	await expect(page.getByTestId('score-yellow')).toHaveText('3')
 })
+
+test('has correct initial state', async ({ page }) => {
+	await page.goto('/')
+	await page.getByRole('button', { name: 'play vs player' }).click()
+
+	await expect(page.getByTestId('score-red')).toHaveText('0')
+	await expect(page.getByTestId('score-yellow')).toHaveText('0')
+	await expect(page.getByRole('grid').getByRole('button')).toHaveText(
+		Array(42).fill('Empty'),
+	)
+	await expect(page.getByTestId('turn')).toHaveText('Player 1’s turn')
+	await expect(page.getByTestId('timer')).toHaveText('30s')
+})
+
+test.fixme('alternates starter', async ({ page }) => {})
+test.fixme('resets game', async ({ page }) => {
+	// todo: Play game, go to main menu, click "play"
+	// todo: Expect reset grid
+})
+test.fixme('restarts game from header', async ({ page }) => {})
+test.fixme('restarts game from menu', async ({ page }) => {})
+test.fixme('continues game', async ({ page }) => {})
+test.fixme('quits game', async ({ page }) => {})
 
 test.describe('passes a11y checks', () => {
 	test('main menu', async ({ page }) => {
