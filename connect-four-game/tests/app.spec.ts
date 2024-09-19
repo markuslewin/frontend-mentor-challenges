@@ -160,15 +160,43 @@ test('alternates starter', async ({ page }) => {
 	// todo: Check timer win
 })
 
-test.fixme('resets game', async ({ page }) => {
-	// todo: Play game, go to main menu, click "play"
-	// todo: Expect reset grid
+test('resets game', async ({ page }) => {
+	await page.goto('/')
+	await page.evaluate(async () => {
+		const stateKey = 'state'
+
+		localStorage.setItem(
+			stateKey,
+			JSON.stringify({
+				starter: 'red',
+				counters: [
+					['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
+					['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
+					['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
+					['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
+					['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
+					['red', 'yellow', 'red', 'yellow', 'red', 'yellow', 'red'],
+				],
+				score: { red: 10, yellow: 20 },
+			} satisfies State),
+		)
+	})
+	await page.getByRole('button', { name: 'play vs player' }).click()
+
+	await expect(page.getByRole('grid').getByRole('button')).toHaveText(
+		Array(42).fill(/empty/i),
+	)
+	await expect(page.getByTestId('score-red')).toHaveText('0')
+	await expect(page.getByTestId('score-yellow')).toHaveText('0')
 })
+
 test.fixme('restarts game from header', async ({ page }) => {})
 test.fixme('restarts game from menu', async ({ page }) => {})
 test.fixme('continues game', async ({ page }) => {})
 test.fixme('quits game', async ({ page }) => {})
 test.fixme('plays again', async ({ page }) => {})
+test.fixme('has time limit', async ({ page }) => {})
+test.fixme('drops counter', async ({ page }) => {})
 
 test.describe('passes a11y checks', () => {
 	test('main menu', async ({ page }) => {

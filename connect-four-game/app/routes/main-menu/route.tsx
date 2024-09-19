@@ -12,10 +12,12 @@ import {
 	playerVsPlayerIcon,
 } from '#app/routes/main-menu/styles.css'
 import { useBodyRoute } from '#app/utils/body-route'
+import { useConnectFour } from '#app/utils/connect-four'
 
 export function MainMenuRoute() {
 	useBodyRoute('main-menu')
 	const navigate = useNavigate()
+	const connectFour = useConnectFour()
 
 	return (
 		<main className={mainContainer}>
@@ -36,6 +38,7 @@ export function MainMenuRoute() {
 							className={button.yellow}
 							type="button"
 							onClick={() => {
+								connectFour.newGame()
 								navigate('/play')
 							}}
 						>

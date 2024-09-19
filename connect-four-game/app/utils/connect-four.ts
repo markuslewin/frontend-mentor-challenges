@@ -1,7 +1,17 @@
+import { invariant } from '@epic-web/invariant'
+import { useLocalStorage } from '@uidotdev/usehooks'
+import { produce } from 'immer'
+
 const colors = ['red', 'yellow'] as const
 
+const counters = [...colors, 'empty'] as const
+
+function assertCounter(value: any): asserts value is Counter {
+	invariant(counters.includes(value), `Invalid counter: ${value}`)
+}
+
 export type Color = (typeof colors)[number]
-export type Counter = Color | 'empty'
+export type Counter = (typeof counters)[number]
 export type Table = Counter[][]
 export type Position = [number, number]
 export type Positions = Position[]
@@ -10,6 +20,10 @@ export type State = {
 	counters: Table
 	score: Record<Color, number>
 }
+export type Status =
+	| { type: 'ongoing' }
+	| { type: 'draw' }
+	| { type: 'win'; winner: Color; counters: Positions }
 
 export const rows = 6
 export const columns = 7
@@ -20,12 +34,78 @@ export function createTable<T>(value: T) {
 		.map(() => Array(columns).fill(value)) as T[][]
 }
 
-export function parseStatus(
-	table: Table,
-):
-	| { type: 'ongoing' }
-	| { type: 'draw' }
-	| { type: 'win'; winner: Color; counters: Positions } {
+const initialState: State = {
+	starter: 'red',
+	counters: createTable('empty'),
+	score: {
+		red: 0,
+		yellow: 0,
+	},
+}
+
+export function useConnectFour() {
+	const [state, setState] = useLocalStorage<State>('state', initialState)
+
+	function getColumn(index: number) {
+		return state.counters.map((r) => {
+			const x = r[index]
+			assertCounter(x)
+			return x
+		})
+	}
+
+	const currentColor: Color =
+		state.counters.flatMap((r) => r).filter((c) => c !== 'empty').length % 2 ===
+		0
+			? state.starter
+			: getOtherColor(state.starter)
+
+	return {
+		...state,
+		currentColor,
+		newGame() {
+			setState(initialState)
+		},
+		getColumn,
+		selectColumn(index: number) {
+			const bottom = getColumn(index).lastIndexOf('empty')
+			if (bottom === -1) {
+				return
+			}
+			setState(
+				produce((draft) => {
+					const counter = draft.counters[bottom]?.[index]
+					assertCounter(counter)
+					draft.counters[bottom]![index] = currentColor
+
+					const nextStatus = parseStatus(draft.counters)
+					if (nextStatus.type === 'win') {
+						++draft.score[nextStatus.winner]
+					}
+				}),
+			)
+		},
+		playAgain() {
+			setState(
+				produce((draft) => {
+					draft.starter = getOtherColor(state.starter)
+					draft.counters = initialState.counters
+				}),
+			)
+		},
+	}
+}
+
+function getOtherColor(color: Color): Color {
+	return (
+		{
+			red: 'yellow',
+			yellow: 'red',
+		} satisfies Record<Color, Color>
+	)[color]
+}
+
+export function parseStatus(table: Table): Status {
 	let winner: Color | null = null
 	const counters: Positions = []
 
@@ -167,5 +247,3 @@ function pushUnique(positions: Positions, value: Position) {
 		positions.push(value)
 	}
 }
-
-export type Status = ReturnType<typeof parseStatus>

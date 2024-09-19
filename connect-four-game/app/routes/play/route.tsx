@@ -1,6 +1,5 @@
 import { invariant } from '@epic-web/invariant'
 import * as Dialog from '@radix-ui/react-dialog'
-import { useLocalStorage } from '@uidotdev/usehooks'
 import { assignInlineVars } from '@vanilla-extract/dynamic'
 import { produce } from 'immer'
 import { useRef, useState } from 'react'
@@ -79,35 +78,22 @@ import {
 	type Status,
 	type Color,
 	type Counter,
-	type State,
 	createTable,
 	columns,
 	rows,
+	useConnectFour,
 } from '#app/utils/connect-four'
 import { media } from '#app/utils/screens'
 import { colors } from '#app/utils/style'
 
 export function PlayRoute() {
-	const [state, setState] = useLocalStorage<State>('state', {
-		starter: 'red',
-		counters: createTable('empty'),
-		score: {
-			red: 0,
-			yellow: 0,
-		},
-	})
+	const connectFour = useConnectFour()
 	const counterButtonsRef = useRef<(HTMLButtonElement | null)[][]>(
 		createTable(null),
 	)
 	const [cursor, setCursor] = useState<[number, number]>([0, 0])
 
-	const currentColor: Color =
-		state.counters.flatMap((r) => r).filter((c) => c !== 'empty').length % 2 ===
-		0
-			? state.starter
-			: getOtherColor(state.starter)
-
-	const status = parseStatus(state.counters)
+	const status = parseStatus(connectFour.counters)
 
 	return (
 		<div className={screenContainer}>
@@ -196,7 +182,7 @@ export function PlayRoute() {
 							<div />
 							<div />
 							<Img
-								key={currentColor}
+								key={connectFour.currentColor}
 								className={marker}
 								alt=""
 								src={
@@ -205,7 +191,7 @@ export function PlayRoute() {
 											red: markerRed,
 											yellow: markerYellow,
 										} satisfies Record<Color, string>
-									)[currentColor]
+									)[connectFour.currentColor]
 								}
 								priority
 								width="38"
@@ -229,7 +215,7 @@ export function PlayRoute() {
 								height="59"
 							/>
 							<p className={score} data-testid="score-red">
-								{state.score.red}
+								{connectFour.score.red}
 							</p>
 						</div>
 						<div className={playerTwoCard}>
@@ -243,7 +229,7 @@ export function PlayRoute() {
 								height="59"
 							/>
 							<p className={score} data-testid="score-yellow">
-								{state.score.yellow}
+								{connectFour.score.yellow}
 							</p>
 						</div>
 						<Landmark.Root className={boardContainer}>
@@ -268,7 +254,7 @@ export function PlayRoute() {
 									/>
 								</Picture>
 								<div className={counters}>
-									{state.counters.flatMap((row, y) =>
+									{connectFour.counters.flatMap((row, y) =>
 										row.map((counter, x) => (
 											<Counter key={`${y}-${x}`} value={counter} />
 										)),
@@ -291,120 +277,101 @@ export function PlayRoute() {
 									/>
 								</Picture>
 								<div className={counterButtons} role="grid">
-									{state.counters.map((row, y) => (
+									{connectFour.counters.map((row, y) => (
 										<div className={counterButtonsRow} key={y} role="row">
-											{row.map((counter, x) => {
-												const column = state.counters.map((r) => index(r, x))
-												return (
-													<div
-														className={counterButtonsCell}
-														key={x}
-														role="gridcell"
-													>
-														<button
-															className={counterButton}
-															ref={(node) => {
-																setIndex(
-																	index(counterButtonsRef.current, y),
-																	x,
-																	node,
+											{row.map((counter, x) => (
+												<div
+													className={counterButtonsCell}
+													key={x}
+													role="gridcell"
+												>
+													<button
+														className={counterButton}
+														ref={(node) => {
+															setIndex(
+																index(counterButtonsRef.current, y),
+																x,
+																node,
+															)
+														}}
+														type="button"
+														tabIndex={
+															cursor[0] === x && cursor[1] === y ? 0 : -1
+														}
+														aria-disabled={connectFour
+															.getColumn(x)
+															.every((c) => c !== 'empty')}
+														data-testid={`${x},${y}`}
+														onClick={() => {
+															connectFour.selectColumn(x)
+														}}
+														onKeyDown={(e) => {
+															const [cursorX, cursorY] = cursor
+															if (e.key === 'ArrowUp') {
+																const nextY = Math.max(0, cursorY - 1)
+																setCursor([cursorX, nextY])
+																const nextButton = index(
+																	index(counterButtonsRef.current, nextY),
+																	cursorX,
 																)
-															}}
-															type="button"
-															tabIndex={
-																cursor[0] === x && cursor[1] === y ? 0 : -1
+																invariant(
+																	nextButton !== null,
+																	'Expected button',
+																)
+																nextButton.focus()
+															} else if (e.key === 'ArrowRight') {
+																const nextX = Math.min(columns - 1, cursorX + 1)
+																setCursor([nextX, cursorY])
+																const nextButton = index(
+																	index(counterButtonsRef.current, cursorY),
+																	nextX,
+																)
+																invariant(
+																	nextButton !== null,
+																	'Expected button',
+																)
+																nextButton.focus()
+															} else if (e.key === 'ArrowDown') {
+																const nextY = Math.min(rows - 1, cursorY + 1)
+																setCursor([cursorX, nextY])
+																const nextButton = index(
+																	index(counterButtonsRef.current, nextY),
+																	cursorX,
+																)
+																invariant(
+																	nextButton !== null,
+																	'Expected button',
+																)
+																nextButton.focus()
+															} else if (e.key === 'ArrowLeft') {
+																const nextX = Math.max(0, cursorX - 1)
+																setCursor([nextX, cursorY])
+																const nextButton = index(
+																	index(counterButtonsRef.current, cursorY),
+																	nextX,
+																)
+																invariant(
+																	nextButton !== null,
+																	'Expected button',
+																)
+																nextButton.focus()
 															}
-															aria-disabled={column.every((c) => c !== 'empty')}
-															data-testid={`${x},${y}`}
-															onClick={() => {
-																const bottom = column.lastIndexOf('empty')
-																if (bottom === -1) {
-																	return
-																}
-																setState(
-																	produce((draft) => {
-																		const row = index(draft.counters, bottom)
-																		setIndex(row, x, currentColor)
-																		const nextStatus = parseStatus(
-																			draft.counters,
-																		)
-																		if (nextStatus.type === 'win') {
-																			++draft.score[nextStatus.winner]
-																		}
-																	}),
-																)
-															}}
-															onKeyDown={(e) => {
-																const [cursorX, cursorY] = cursor
-																if (e.key === 'ArrowUp') {
-																	const nextY = Math.max(0, cursorY - 1)
-																	setCursor([cursorX, nextY])
-																	const nextButton = index(
-																		index(counterButtonsRef.current, nextY),
-																		cursorX,
-																	)
-																	invariant(
-																		nextButton !== null,
-																		'Expected button',
-																	)
-																	nextButton.focus()
-																} else if (e.key === 'ArrowRight') {
-																	const nextX = Math.min(
-																		columns - 1,
-																		cursorX + 1,
-																	)
-																	setCursor([nextX, cursorY])
-																	const nextButton = index(
-																		index(counterButtonsRef.current, cursorY),
-																		nextX,
-																	)
-																	invariant(
-																		nextButton !== null,
-																		'Expected button',
-																	)
-																	nextButton.focus()
-																} else if (e.key === 'ArrowDown') {
-																	const nextY = Math.min(rows - 1, cursorY + 1)
-																	setCursor([cursorX, nextY])
-																	const nextButton = index(
-																		index(counterButtonsRef.current, nextY),
-																		cursorX,
-																	)
-																	invariant(
-																		nextButton !== null,
-																		'Expected button',
-																	)
-																	nextButton.focus()
-																} else if (e.key === 'ArrowLeft') {
-																	const nextX = Math.max(0, cursorX - 1)
-																	setCursor([nextX, cursorY])
-																	const nextButton = index(
-																		index(counterButtonsRef.current, cursorY),
-																		nextX,
-																	)
-																	invariant(
-																		nextButton !== null,
-																		'Expected button',
-																	)
-																	nextButton.focus()
-																}
-															}}
-														>
-															<span className={srOnly}>
-																{
-																	(
-																		{
-																			empty: 'Empty',
-																			red: 'Red',
-																			yellow: 'Yellow',
-																		} satisfies Record<Counter, string>
-																	)[counter]
-																}
-															</span>
-														</button>
-													</div>
-												)
-											})}
+														}}
+													>
+														<span className={srOnly}>
+															{
+																(
+																	{
+																		empty: 'Empty',
+																		red: 'Red',
+																		yellow: 'Yellow',
+																	} satisfies Record<Counter, string>
+																)[counter]
+															}
+														</span>
+													</button>
+												</div>
+											))}
 										</div>
 									))}
 								</div>
@@ -431,12 +398,12 @@ export function PlayRoute() {
 												red: colors.white,
 												yellow: colors.black,
 											} satisfies Record<Color, string>
-										)[currentColor],
+										)[connectFour.currentColor],
 									}}
 								>
 									<Img
 										className={turnBackground}
-										key={currentColor}
+										key={connectFour.currentColor}
 										alt=""
 										src={
 											(
@@ -444,7 +411,7 @@ export function PlayRoute() {
 													red: turnBackgroundRed,
 													yellow: turnBackgroundYellow,
 												} satisfies Record<Color, string>
-											)[currentColor]
+											)[connectFour.currentColor]
 										}
 										priority
 										width="197"
@@ -458,7 +425,7 @@ export function PlayRoute() {
 														red: 'Player 1',
 														yellow: 'Player 2',
 													} satisfies Record<Color, string>
-												)[currentColor]
+												)[connectFour.currentColor]
 											}
 											’s turn
 										</p>
@@ -475,12 +442,7 @@ export function PlayRoute() {
 											className={button}
 											type="button"
 											onClick={() => {
-												setState(
-													produce((draft) => {
-														draft.starter = getOtherColor(state.starter)
-														draft.counters = createTable('empty')
-													}),
-												)
+												connectFour.playAgain()
 												setCursor([0, 0])
 												const firstCell = counterButtonsRef.current[0]?.[0]
 												invariant(firstCell, 'Expected counter button')
@@ -523,15 +485,6 @@ function Outcome({ status }: OutcomeProps) {
 	} else {
 		throw new Error(`Invalid type: ${status.type}`)
 	}
-}
-
-function getOtherColor(color: Color): Color {
-	return (
-		{
-			red: 'yellow',
-			yellow: 'red',
-		} satisfies Record<Color, Color>
-	)[color]
 }
 
 function getColor(color: Color) {
