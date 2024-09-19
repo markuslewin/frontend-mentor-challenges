@@ -2,6 +2,7 @@ import { invariant } from '@epic-web/invariant'
 import * as Dialog from '@radix-ui/react-dialog'
 import { assignInlineVars } from '@vanilla-extract/dynamic'
 import { useRef, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import boardLayerBlackLarge from '#app/assets/board-layer-black-large.svg'
 import boardLayerBlackSmall from '#app/assets/board-layer-black-small.svg'
 import boardLayerWhiteLarge from '#app/assets/board-layer-white-large.svg'
@@ -86,6 +87,7 @@ import { media } from '#app/utils/screens'
 import { colors } from '#app/utils/style'
 
 export function PlayRoute() {
+	const navigate = useNavigate()
 	const connectFour = useConnectFour()
 	const [isMenuOpen, setIsMenuOpen] = useState(false)
 	const counterButtonsRef = useRef<(HTMLButtonElement | null)[][]>(
@@ -147,7 +149,8 @@ export function PlayRoute() {
 															className={redDialogButton}
 															type="button"
 															onClick={() => {
-																console.log('todo: Quit game')
+																navigate('/')
+																connectFour.newGame()
 															}}
 														>
 															Quit game
