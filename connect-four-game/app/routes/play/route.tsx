@@ -1,7 +1,6 @@
 import { invariant } from '@epic-web/invariant'
 import * as Dialog from '@radix-ui/react-dialog'
 import { assignInlineVars } from '@vanilla-extract/dynamic'
-import { produce } from 'immer'
 import { useRef, useState } from 'react'
 import boardLayerBlackLarge from '#app/assets/board-layer-black-large.svg'
 import boardLayerBlackSmall from '#app/assets/board-layer-black-small.svg'
@@ -88,6 +87,7 @@ import { colors } from '#app/utils/style'
 
 export function PlayRoute() {
 	const connectFour = useConnectFour()
+	const [isMenuOpen, setIsMenuOpen] = useState(false)
 	const counterButtonsRef = useRef<(HTMLButtonElement | null)[][]>(
 		createTable(null),
 	)
@@ -113,7 +113,7 @@ export function PlayRoute() {
 								/>
 							</h1>
 							<p className={headerSide}>
-								<Dialog.Root>
+								<Dialog.Root open={isMenuOpen} onOpenChange={setIsMenuOpen}>
 									<Dialog.Trigger className={button}>Menu</Dialog.Trigger>
 									<Dialog.Portal>
 										<Dialog.Overlay className={dialogOverlay}>
@@ -135,7 +135,8 @@ export function PlayRoute() {
 															className={whiteDialogButton}
 															type="button"
 															onClick={() => {
-																console.log('todo: Restart game')
+																connectFour.newGame()
+																setIsMenuOpen(false)
 															}}
 														>
 															Restart
@@ -163,7 +164,7 @@ export function PlayRoute() {
 									className={button}
 									type="button"
 									onClick={() => {
-										console.log('todo: Restart game')
+										connectFour.newGame()
 									}}
 								>
 									Restart

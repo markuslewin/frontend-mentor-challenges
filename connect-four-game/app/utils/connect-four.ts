@@ -63,10 +63,10 @@ export function useConnectFour() {
 	return {
 		...state,
 		currentColor,
+		getColumn,
 		newGame() {
 			setState(initialState)
 		},
-		getColumn,
 		selectColumn(index: number) {
 			const bottom = getColumn(index).lastIndexOf('empty')
 			if (bottom === -1) {
