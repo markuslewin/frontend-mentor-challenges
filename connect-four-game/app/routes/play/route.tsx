@@ -74,7 +74,6 @@ import {
 } from '#app/routes/play/styles.css'
 import { srOnly } from '#app/styles.css'
 import {
-	parseStatus,
 	type Status,
 	type Color,
 	type Counter,
@@ -94,8 +93,6 @@ export function PlayRoute() {
 		createTable(null),
 	)
 	const [cursor, setCursor] = useState<[number, number]>([0, 0])
-
-	const status = parseStatus(connectFour.counters)
 
 	return (
 		<div className={screenContainer}>
@@ -302,9 +299,7 @@ export function PlayRoute() {
 														tabIndex={
 															cursor[0] === x && cursor[1] === y ? 0 : -1
 														}
-														aria-disabled={connectFour
-															.getColumn(x)
-															.every((c) => c !== 'empty')}
+														aria-disabled={!connectFour.canMakeMove(x)}
 														data-testid={`${x},${y}`}
 														onClick={() => {
 															connectFour.selectColumn(x)
@@ -387,13 +382,15 @@ export function PlayRoute() {
 					className={backgroundLight}
 					style={assignInlineVars({
 						[winningColor]:
-							status.type === 'win' ? getColor(status.winner) : undefined,
+							connectFour.status.type === 'win'
+								? getColor(connectFour.status.winner)
+								: undefined,
 					})}
 				>
 					<div className={center}>
 						<div>
 							<h3 className={srOnly}>Turn</h3>
-							{status.type === 'ongoing' ? (
+							{connectFour.status.type === 'ongoing' ? (
 								<div
 									className={turn}
 									style={{
@@ -440,7 +437,7 @@ export function PlayRoute() {
 								</div>
 							) : (
 								<div className={winner}>
-									<Outcome status={status} />
+									<Outcome status={connectFour.status} />
 									<p>
 										<button
 											className={button}

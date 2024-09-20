@@ -59,15 +59,25 @@ export function useConnectFour() {
 		0
 			? state.starter
 			: getOtherColor(state.starter)
+	const status = parseStatus(state.counters)
 
 	return {
 		...state,
 		currentColor,
-		getColumn,
+		status,
+		canMakeMove(index: number) {
+			return (
+				status.type === 'ongoing' &&
+				!getColumn(index).every((c) => c !== 'empty')
+			)
+		},
 		newGame() {
 			setState(initialState)
 		},
 		selectColumn(index: number) {
+			if (status.type !== 'ongoing') {
+				return
+			}
 			const bottom = getColumn(index).lastIndexOf('empty')
 			if (bottom === -1) {
 				return
