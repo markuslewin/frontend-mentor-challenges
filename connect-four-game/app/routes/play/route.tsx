@@ -431,7 +431,7 @@ export function PlayRoute() {
 											’s turn
 										</p>
 										<p className={turnTimer} data-testid="timer">
-											30s
+											{Math.ceil(connectFour.turnTime / 1000)}s
 										</p>
 									</div>
 								</div>
@@ -479,7 +479,7 @@ function Outcome({ status }: OutcomeProps) {
 	} else if (status.type === 'win') {
 		return (
 			<p data-testid="outcome">
-				<span className={winnerPlayer}>{getName(status.winner)}</span>
+				<span className={winnerPlayer}>{getName(status.winner)} </span>
 				<span className={winnerWins}>wins</span>
 			</p>
 		)

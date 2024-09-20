@@ -1,6 +1,7 @@
 import { invariant } from '@epic-web/invariant'
 import { useLocalStorage } from '@uidotdev/usehooks'
 import { produce } from 'immer'
+import { useEffect, useRef, useState } from 'react'
 
 const colors = ['red', 'yellow'] as const
 
@@ -42,9 +43,17 @@ const initialState: State = {
 		yellow: 0,
 	},
 }
+const initialTurnTime = 30_000
 
 export function useConnectFour() {
 	const [state, setState] = useLocalStorage<State>('state', initialState)
+	const stateRef = useRef(state)
+	useEffect(() => {
+		stateRef.current = state
+	}, [state])
+
+	const [turnTime, setTurnTime] = useState(initialTurnTime)
+	const counterRef = useRef<ReturnType<typeof setInterval>>()
 
 	function getColumn(index: number) {
 		return state.counters.map((r) => {
@@ -54,15 +63,29 @@ export function useConnectFour() {
 		})
 	}
 
+	function resetCounter() {
+		clearInterval(counterRef.current)
+		setTurnTime(initialTurnTime)
+	}
+
 	const currentColor: Color =
 		state.counters.flatMap((r) => r).filter((c) => c !== 'empty').length % 2 ===
 		0
 			? state.starter
 			: getOtherColor(state.starter)
-	const status = parseStatus(state.counters)
+	const currentColorRef = useRef(currentColor)
+	useEffect(() => {
+		currentColorRef.current = currentColor
+	}, [currentColor])
+
+	const status: Status =
+		turnTime === 0
+			? { type: 'win', winner: getOtherColor(currentColor), counters: [] }
+			: parseStatus(state.counters)
 
 	return {
 		...state,
+		turnTime,
 		currentColor,
 		status,
 		canMakeMove(index: number) {
@@ -72,6 +95,7 @@ export function useConnectFour() {
 			)
 		},
 		newGame() {
+			resetCounter()
 			setState(initialState)
 		},
 		selectColumn(index: number) {
@@ -92,10 +116,32 @@ export function useConnectFour() {
 					if (nextStatus.type === 'win') {
 						++draft.score[nextStatus.winner]
 					}
+
+					clearInterval(counterRef.current)
+					if (nextStatus.type === 'ongoing') {
+						const turnStart = new Date()
+						setTurnTime(initialTurnTime)
+						counterRef.current = setInterval(() => {
+							const nextTurnTime = Math.max(
+								0,
+								initialTurnTime - (new Date().getTime() - turnStart.getTime()),
+							)
+							setTurnTime(nextTurnTime)
+							if (nextTurnTime === 0) {
+								clearInterval(counterRef.current)
+								setState(
+									produce(stateRef.current, (draft) => {
+										++draft.score[getOtherColor(currentColorRef.current)]
+									}),
+								)
+							}
+						}, 100)
+					}
 				}),
 			)
 		},
 		playAgain() {
+			resetCounter()
 			setState(
 				produce((draft) => {
 					draft.starter = getOtherColor(state.starter)

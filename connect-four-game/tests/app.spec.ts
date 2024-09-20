@@ -161,6 +161,7 @@ test('alternates starter', async ({ page }) => {
 })
 
 test('resets game', async ({ page }) => {
+	await page.clock.install({ time: new Date('2024-09-20T15:45:00') })
 	await page.goto('/')
 	await page.evaluate(async () => {
 		const stateKey = 'state'
@@ -181,6 +182,10 @@ test('resets game', async ({ page }) => {
 			} satisfies State),
 		)
 	})
+	await page.goto('/play')
+	await page.getByTestId('0,0').click()
+	await page.clock.fastForward(5_000)
+	await page.goto('/')
 	await page.getByRole('button', { name: 'play vs player' }).click()
 
 	await expect(page.getByRole('grid').getByRole('button')).toHaveText(
@@ -188,6 +193,11 @@ test('resets game', async ({ page }) => {
 	)
 	await expect(page.getByTestId('score-red')).toHaveText('0')
 	await expect(page.getByTestId('score-yellow')).toHaveText('0')
+	await expect(page.getByTestId('timer')).toHaveText('30s')
+
+	await page.clock.fastForward(5_000)
+
+	await expect(page.getByTestId('timer')).toHaveText('30s')
 })
 
 test('restarts game from header', async ({ page }) => {
@@ -222,9 +232,11 @@ test('restarts game from header', async ({ page }) => {
 	await expect(page.getByRole('grid').getByRole('button')).toHaveText(
 		Array(42).fill(/empty/i),
 	)
+	await expect(page.getByTestId('timer')).toHaveText('30s')
 })
 
 test('restarts game from menu', async ({ page }) => {
+	await page.clock.install({ time: new Date('2024-09-20T15:45:00') })
 	await page.goto('/')
 	await page.evaluate(async () => {
 		const stateKey = 'state'
@@ -234,10 +246,10 @@ test('restarts game from menu', async ({ page }) => {
 			JSON.stringify({
 				starter: 'red',
 				counters: [
-					['empty', 'red', 'yellow', 'red', 'yellow', 'red', 'yellow'],
-					['red', 'yellow', 'red', 'yellow', 'red', 'yellow', 'red'],
-					['yellow', 'red', 'yellow', 'red', 'yellow', 'red', 'yellow'],
-					['red', 'yellow', 'red', 'yellow', 'red', 'yellow', 'red'],
+					['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
+					['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
+					['red', 'yellow', 'red', 'yellow', 'red', 'yellow', 'yellow'],
+					['yellow', 'red', 'yellow', 'red', 'yellow', 'red', 'red'],
 					['yellow', 'red', 'yellow', 'red', 'yellow', 'red', 'yellow'],
 					['red', 'yellow', 'red', 'yellow', 'red', 'yellow', 'red'],
 				],
@@ -246,6 +258,8 @@ test('restarts game from menu', async ({ page }) => {
 		)
 	})
 	await page.goto('/play')
+	await page.getByTestId('1,0').click()
+	await page.clock.fastForward(5_000)
 	await page.getByRole('banner').getByRole('button', { name: 'menu' }).click()
 	await page
 		.getByRole('dialog', { name: 'pause' })
@@ -258,6 +272,11 @@ test('restarts game from menu', async ({ page }) => {
 	await expect(page.getByRole('grid').getByRole('button')).toHaveText(
 		Array(42).fill(/empty/i),
 	)
+	await expect(page.getByTestId('timer')).toHaveText('30s')
+
+	await page.clock.fastForward(5_000)
+
+	await expect(page.getByTestId('timer')).toHaveText('30s')
 })
 
 test('quits game', async ({ page }) => {
@@ -300,6 +319,7 @@ test('quits game', async ({ page }) => {
 })
 
 test('plays again', async ({ page }) => {
+	await page.clock.install({ time: new Date('2024-09-20T15:45:00') })
 	await page.goto('/')
 	await page.evaluate(async () => {
 		const stateKey = 'state'
@@ -321,12 +341,20 @@ test('plays again', async ({ page }) => {
 		)
 	})
 	await page.goto('/play')
+	await page.getByTestId('0,0').click()
+	await page.getByTestId('0,0').click()
+	await page.clock.fastForward(5_000)
 	await page.getByTestId('3,0').click()
 	await page.getByRole('button', { name: 'play again' }).click()
 
 	await expect(page.getByRole('grid').getByRole('button')).toHaveText(
 		Array(42).fill(/empty/i),
 	)
+	await expect(page.getByTestId('timer')).toHaveText('30s')
+
+	await page.clock.fastForward(5_000)
+
+	await expect(page.getByTestId('timer')).toHaveText('30s')
 })
 
 test('drops counter', async ({ page }) => {
@@ -485,7 +513,60 @@ test('announces draw', async ({ page }) => {
 	await expect(page.getByTestId('outcome')).toContainText(/draw/i)
 })
 
-test.fixme('has time limit', async ({ page }) => {})
+test('turn has time limit', async ({ page }) => {
+	await page.clock.install({ time: new Date('2024-09-20T15:45:00') })
+	await page.goto('/play')
+
+	await expect(page.getByTestId('timer')).toHaveText('30s')
+
+	await page.clock.fastForward(5_000)
+
+	await expect(page.getByTestId('timer')).toHaveText('30s')
+
+	await page.getByTestId('0,0').click()
+
+	await expect(page.getByTestId('timer')).toHaveText('30s')
+
+	await page.clock.fastForward(5_000)
+
+	await expect(page.getByTestId('timer')).toHaveText('25s')
+
+	await page.clock.fastForward(25_000)
+
+	await expect(page.getByTestId('outcome')).toHaveText(/player 1 wins/i)
+	await expect(page.getByTestId('score-red')).toHaveText('1')
+	await expect(page.getByTestId('score-yellow')).toHaveText('0')
+})
+
+test('resets timer between turns', async ({ page }) => {
+	await page.clock.install({ time: new Date('2024-09-20T15:45:00') })
+
+	await page.goto('/play')
+	await page.getByTestId('0,0').click()
+
+	await expect(page.getByTestId('timer')).toHaveText('30s')
+
+	await page.clock.fastForward(5_000)
+
+	await expect(page.getByTestId('timer')).toHaveText('25s')
+
+	await page.getByTestId('0,0').click()
+
+	await expect(page.getByTestId('timer')).toHaveText('30s')
+
+	await page.clock.fastForward(5_000)
+
+	await expect(page.getByTestId('timer')).toHaveText('25s')
+
+	await page.getByTestId('0,0').click()
+
+	await expect(page.getByTestId('timer')).toHaveText('30s')
+
+	await page.clock.fastForward(5_000)
+
+	await expect(page.getByTestId('timer')).toHaveText('25s')
+})
+
 test.fixme('pauses game', async ({ page }) => {
 	// todo: Check counter
 })
