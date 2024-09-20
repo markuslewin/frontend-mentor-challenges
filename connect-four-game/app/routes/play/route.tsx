@@ -471,14 +471,14 @@ interface OutcomeProps {
 function Outcome({ status }: OutcomeProps) {
 	if (status.type === 'draw') {
 		return (
-			<p>
+			<p data-testid="outcome">
 				<span className={winnerPlayer}>It's a </span>
 				<span className={winnerWins}>draw</span>
 			</p>
 		)
 	} else if (status.type === 'win') {
 		return (
-			<p>
+			<p data-testid="outcome">
 				<span className={winnerPlayer}>{getName(status.winner)}</span>
 				<span className={winnerWins}>wins</span>
 			</p>

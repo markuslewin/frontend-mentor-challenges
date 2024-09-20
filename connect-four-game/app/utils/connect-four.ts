@@ -239,8 +239,14 @@ export function parseStatus(table: Table): Status {
 	}
 
 	if (winner === null) {
-		return {
-			type: 'ongoing',
+		if (!table.flatMap((r) => r).some((c) => c === 'empty')) {
+			return {
+				type: 'draw',
+			}
+		} else {
+			return {
+				type: 'ongoing',
+			}
 		}
 	} else {
 		return {

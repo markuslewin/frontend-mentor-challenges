@@ -402,6 +402,89 @@ test("doesn't allow moves when game is finished", async ({ page }) => {
 	)
 })
 
+test('announces player 1 win', async ({ page }) => {
+	await page.goto('/')
+	await page.evaluate(async () => {
+		const stateKey = 'state'
+
+		localStorage.setItem(
+			stateKey,
+			JSON.stringify({
+				starter: 'red',
+				counters: [
+					['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
+					['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
+					['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
+					['empty', 'yellow', 'empty', 'empty', 'empty', 'empty', 'empty'],
+					['yellow', 'yellow', 'empty', 'empty', 'empty', 'empty', 'empty'],
+					['red', 'red', 'red', 'empty', 'empty', 'empty', 'empty'],
+				],
+				score: { red: 0, yellow: 0 },
+			} satisfies State),
+		)
+	})
+	await page.goto('/play')
+	await page.getByTestId('3,0').click()
+
+	await expect(page.getByTestId('outcome')).toContainText(/player 1/i)
+	await expect(page.getByTestId('outcome')).toContainText(/wins/i)
+})
+
+test('announces player 2 win', async ({ page }) => {
+	await page.goto('/')
+	await page.evaluate(async () => {
+		const stateKey = 'state'
+
+		localStorage.setItem(
+			stateKey,
+			JSON.stringify({
+				starter: 'red',
+				counters: [
+					['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
+					['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
+					['red', 'yellow', 'empty', 'empty', 'empty', 'empty', 'empty'],
+					['red', 'yellow', 'empty', 'empty', 'empty', 'empty', 'empty'],
+					['yellow', 'yellow', 'empty', 'empty', 'empty', 'empty', 'empty'],
+					['red', 'red', 'red', 'empty', 'empty', 'empty', 'empty'],
+				],
+				score: { red: 0, yellow: 0 },
+			} satisfies State),
+		)
+	})
+	await page.goto('/play')
+	await page.getByTestId('1,0').click()
+
+	await expect(page.getByTestId('outcome')).toContainText(/player 2/i)
+	await expect(page.getByTestId('outcome')).toContainText(/wins/i)
+})
+
+test('announces draw', async ({ page }) => {
+	await page.goto('/')
+	await page.evaluate(async () => {
+		const stateKey = 'state'
+
+		localStorage.setItem(
+			stateKey,
+			JSON.stringify({
+				starter: 'red',
+				counters: [
+					['empty', 'red', 'yellow', 'yellow', 'red', 'yellow', 'red'],
+					['red', 'yellow', 'red', 'red', 'yellow', 'red', 'yellow'],
+					['yellow', 'red', 'yellow', 'yellow', 'yellow', 'red', 'red'],
+					['yellow', 'yellow', 'red', 'red', 'red', 'yellow', 'red'],
+					['red', 'red', 'red', 'yellow', 'red', 'yellow', 'yellow'],
+					['yellow', 'yellow', 'yellow', 'red', 'yellow', 'red', 'red'],
+				],
+				score: { red: 0, yellow: 0 },
+			} satisfies State),
+		)
+	})
+	await page.goto('/play')
+	await page.getByTestId('0,0').click()
+
+	await expect(page.getByTestId('outcome')).toContainText(/draw/i)
+})
+
 test.fixme('has time limit', async ({ page }) => {})
 test.fixme('pauses game', async ({ page }) => {
 	// todo: Check counter
