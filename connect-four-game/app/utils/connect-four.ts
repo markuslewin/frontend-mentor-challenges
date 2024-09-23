@@ -1,7 +1,8 @@
 import { invariant } from '@epic-web/invariant'
 import { useLocalStorage } from '@uidotdev/usehooks'
 import { produce } from 'immer'
-import { useEffect, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
+import { z } from 'zod'
 
 const colors = ['red', 'yellow'] as const
 
@@ -26,6 +27,8 @@ export type Status =
 	| { type: 'draw' }
 	| { type: 'win'; winner: Color; counters: Positions }
 
+export const stateKey = 'state'
+
 export const rows = 6
 export const columns = 7
 
@@ -46,12 +49,7 @@ const initialState: State = {
 const initialTurnTime = 30_000
 
 export function useConnectFour() {
-	const [state, setState] = useLocalStorage<State>('state', initialState)
-	const stateRef = useRef(state)
-	useEffect(() => {
-		stateRef.current = state
-	}, [state])
-
+	const [state, setState] = useLocalStorage<State>(stateKey, initialState)
 	const [turnTime, setTurnTime] = useState(initialTurnTime)
 	const counterRef = useRef<ReturnType<typeof setInterval>>()
 
@@ -68,16 +66,9 @@ export function useConnectFour() {
 		setTurnTime(initialTurnTime)
 	}
 
-	const currentColor: Color =
-		state.counters.flatMap((r) => r).filter((c) => c !== 'empty').length % 2 ===
-		0
-			? state.starter
-			: getOtherColor(state.starter)
-	const currentColorRef = useRef(currentColor)
-	useEffect(() => {
-		currentColorRef.current = currentColor
-	}, [currentColor])
+	const currentColor = getCurrentColor(state.starter, state.counters)
 
+	// todo: Make state
 	const status: Status =
 		turnTime === 0
 			? { type: 'win', winner: getOtherColor(currentColor), counters: [] }
@@ -107,7 +98,7 @@ export function useConnectFour() {
 				return
 			}
 			setState(
-				produce((draft) => {
+				produce(state, (draft) => {
 					const counter = draft.counters[bottom]?.[index]
 					assertCounter(counter)
 					draft.counters[bottom]![index] = currentColor
@@ -122,6 +113,7 @@ export function useConnectFour() {
 						const turnStart = new Date()
 						setTurnTime(initialTurnTime)
 						counterRef.current = setInterval(() => {
+							const state = getState()
 							const nextTurnTime = Math.max(
 								0,
 								initialTurnTime - (new Date().getTime() - turnStart.getTime()),
@@ -129,11 +121,11 @@ export function useConnectFour() {
 							setTurnTime(nextTurnTime)
 							if (nextTurnTime === 0) {
 								clearInterval(counterRef.current)
-								setState(
-									produce(stateRef.current, (draft) => {
-										++draft.score[getOtherColor(currentColorRef.current)]
-									}),
+								const winner = getOtherColor(
+									getCurrentColor(state.starter, state.counters),
 								)
+								++state.score[winner]
+								setState(state)
 							}
 						}, 100)
 					}
@@ -152,6 +144,13 @@ export function useConnectFour() {
 	}
 }
 
+function getCurrentColor(starter: Color, counters: Table) {
+	return counters.flatMap((r) => r).filter((c) => c !== 'empty').length % 2 ===
+		0
+		? starter
+		: getOtherColor(starter)
+}
+
 function getOtherColor(color: Color): Color {
 	return (
 		{
@@ -159,6 +158,25 @@ function getOtherColor(color: Color): Color {
 			yellow: 'red',
 		} satisfies Record<Color, Color>
 	)[color]
+}
+
+const colorSchema = z.enum(colors)
+const counterSchema = z.enum(counters)
+
+const stateSchema = z.object({
+	starter: colorSchema,
+	counters: z.array(z.array(counterSchema)),
+	score: z.object({
+		red: z.number(),
+		yellow: z.number(),
+	}),
+})
+
+function getState() {
+	const item = localStorage.getItem(stateKey)
+	invariant(typeof item === 'string', 'Expected string')
+	const json = JSON.parse(item)
+	return stateSchema.parse(json)
 }
 
 export function parseStatus(table: Table): Status {
