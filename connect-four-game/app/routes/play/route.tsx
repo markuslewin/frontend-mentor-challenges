@@ -1,7 +1,7 @@
 import { invariant } from '@epic-web/invariant'
 import * as Dialog from '@radix-ui/react-dialog'
 import { assignInlineVars } from '@vanilla-extract/dynamic'
-import { useRef, useState } from 'react'
+import { Fragment, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import boardLayerBlackLarge from '#app/assets/board-layer-black-large.svg'
 import boardLayerBlackSmall from '#app/assets/board-layer-black-small.svg'
@@ -93,6 +93,7 @@ export function PlayRoute() {
 		createTable(null),
 	)
 	const [cursor, setCursor] = useState<[number, number]>([0, 0])
+	const [markerCol, setMarkerCol] = useState(cursor[0])
 
 	return (
 		<div className={screenContainer}>
@@ -179,28 +180,32 @@ export function PlayRoute() {
 				<div className={center}>
 					<div className={markerTrack}>
 						<div className={markerSlots}>
-							<div />
-							<div />
-							<div />
-							<Img
-								key={connectFour.currentColor}
-								className={marker}
-								alt=""
-								src={
-									(
-										{
-											red: markerRed,
-											yellow: markerYellow,
-										} satisfies Record<Color, string>
-									)[connectFour.currentColor]
-								}
-								priority
-								width="38"
-								height="36"
-							/>
-							<div />
-							<div />
-							<div />
+							{Array(columns)
+								.fill(null)
+								.map((_, i) => (
+									<Fragment key={i}>
+										{i === markerCol ? (
+											<Img
+												key={connectFour.currentColor}
+												className={marker}
+												alt=""
+												src={
+													(
+														{
+															red: markerRed,
+															yellow: markerYellow,
+														} satisfies Record<Color, string>
+													)[connectFour.currentColor]
+												}
+												priority
+												width="38"
+												height="36"
+											/>
+										) : (
+											<div />
+										)}
+									</Fragment>
+								))}
 						</div>
 					</div>
 					<div className={gameLayout}>
@@ -304,11 +309,15 @@ export function PlayRoute() {
 														onClick={() => {
 															connectFour.selectColumn(x)
 														}}
+														onMouseEnter={() => {
+															setMarkerCol(x)
+														}}
 														onKeyDown={(e) => {
 															const [cursorX, cursorY] = cursor
 															if (e.key === 'ArrowUp') {
 																const nextY = Math.max(0, cursorY - 1)
 																setCursor([cursorX, nextY])
+																setMarkerCol(cursorX)
 																const nextButton = index(
 																	index(counterButtonsRef.current, nextY),
 																	cursorX,
@@ -321,6 +330,7 @@ export function PlayRoute() {
 															} else if (e.key === 'ArrowRight') {
 																const nextX = Math.min(columns - 1, cursorX + 1)
 																setCursor([nextX, cursorY])
+																setMarkerCol(nextX)
 																const nextButton = index(
 																	index(counterButtonsRef.current, cursorY),
 																	nextX,
@@ -333,6 +343,7 @@ export function PlayRoute() {
 															} else if (e.key === 'ArrowDown') {
 																const nextY = Math.min(rows - 1, cursorY + 1)
 																setCursor([cursorX, nextY])
+																setMarkerCol(cursorX)
 																const nextButton = index(
 																	index(counterButtonsRef.current, nextY),
 																	cursorX,
@@ -345,6 +356,7 @@ export function PlayRoute() {
 															} else if (e.key === 'ArrowLeft') {
 																const nextX = Math.max(0, cursorX - 1)
 																setCursor([nextX, cursorY])
+																setMarkerCol(nextX)
 																const nextButton = index(
 																	index(counterButtonsRef.current, cursorY),
 																	nextX,
