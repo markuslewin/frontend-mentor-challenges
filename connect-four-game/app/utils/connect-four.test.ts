@@ -1,11 +1,11 @@
 import { expect, test } from 'vitest'
-import { parseStatus } from '#app/utils/connect-four'
+import { parseCounters } from '#app/utils/connect-four'
 
 // test('adds 1 + 2 to equal 3', () => {
 // 	expect(sum(1, 2)).toBe(3)
 // })
 
-type GetWinner = typeof parseStatus
+type GetWinner = typeof parseCounters
 
 test.each<[Parameters<GetWinner>[0], ReturnType<GetWinner>]>([
 	[
@@ -156,7 +156,7 @@ test.each<[Parameters<GetWinner>[0], ReturnType<GetWinner>]>([
 		},
 	],
 ])('Horizontal wins', (table, expected) => {
-	expect(parseStatus(table)).toStrictEqual(expected)
+	expect(parseCounters(table)).toStrictEqual(expected)
 })
 
 test.each<[Parameters<GetWinner>[0], ReturnType<GetWinner>]>([
@@ -347,7 +347,7 @@ test.each<[Parameters<GetWinner>[0], ReturnType<GetWinner>]>([
 		},
 	],
 ])('Vertical wins', (table, expected) => {
-	expect(parseStatus(table)).toStrictEqual(expected)
+	expect(parseCounters(table)).toStrictEqual(expected)
 })
 
 test.each<[Parameters<GetWinner>[0], ReturnType<GetWinner>]>([
@@ -599,7 +599,7 @@ test.each<[Parameters<GetWinner>[0], ReturnType<GetWinner>]>([
 		},
 	],
 ])('Diagonal wins', (table, expected) => {
-	expect(parseStatus(table)).toStrictEqual(expected)
+	expect(parseCounters(table)).toStrictEqual(expected)
 })
 
 test.each<[Parameters<GetWinner>[0], ReturnType<GetWinner>]>([
@@ -688,5 +688,5 @@ test.each<[Parameters<GetWinner>[0], ReturnType<GetWinner>]>([
 		},
 	],
 ])('Mixed wins', (table, expected) => {
-	expect(parseStatus(table)).toStrictEqual(expected)
+	expect(parseCounters(table)).toStrictEqual(expected)
 })

@@ -46,11 +46,11 @@ const initialState: State = {
 		yellow: 0,
 	},
 }
-const initialTurnTime = 30_000
+const initialTimeLeft = 30_000
 
 export function useConnectFour() {
 	const [state, setState] = useLocalStorage<State>(stateKey, initialState)
-	const [turnTime, setTurnTime] = useState(initialTurnTime)
+	const [timeLeft, setTimeLeft] = useState(initialTimeLeft)
 	const counterRef = useRef<ReturnType<typeof setInterval>>()
 
 	function getColumn(index: number) {
@@ -63,20 +63,23 @@ export function useConnectFour() {
 
 	function resetCounter() {
 		clearInterval(counterRef.current)
-		setTurnTime(initialTurnTime)
+		setTimeLeft(initialTimeLeft)
 	}
 
 	const currentColor = getCurrentColor(state.starter, state.counters)
 
-	// todo: Make state
 	const status: Status =
-		turnTime === 0
-			? { type: 'win', winner: getOtherColor(currentColor), counters: [] }
-			: parseStatus(state.counters)
+		timeLeft <= 0
+			? {
+					type: 'win',
+					winner: getOtherColor(currentColor),
+					counters: [],
+				}
+			: parseCounters(state.counters)
 
 	return {
 		...state,
-		turnTime,
+		timeLeft,
 		currentColor,
 		status,
 		canMakeMove(index: number) {
@@ -98,34 +101,32 @@ export function useConnectFour() {
 				return
 			}
 			setState(
-				produce(state, (draft) => {
+				produce((draft) => {
 					const counter = draft.counters[bottom]?.[index]
 					assertCounter(counter)
 					draft.counters[bottom]![index] = currentColor
 
-					const nextStatus = parseStatus(draft.counters)
+					const nextStatus = parseCounters(draft.counters)
+					clearInterval(counterRef.current)
 					if (nextStatus.type === 'win') {
 						++draft.score[nextStatus.winner]
-					}
-
-					clearInterval(counterRef.current)
-					if (nextStatus.type === 'ongoing') {
+					} else if (nextStatus.type === 'ongoing') {
 						const turnStart = new Date()
-						setTurnTime(initialTurnTime)
+						setTimeLeft(initialTimeLeft)
 						counterRef.current = setInterval(() => {
-							const state = getState()
-							const nextTurnTime = Math.max(
+							const freshState = getState()
+							const nextTimeLeft = Math.max(
 								0,
-								initialTurnTime - (new Date().getTime() - turnStart.getTime()),
+								initialTimeLeft - (new Date().getTime() - turnStart.getTime()),
 							)
-							setTurnTime(nextTurnTime)
-							if (nextTurnTime === 0) {
+							setTimeLeft(nextTimeLeft)
+							if (nextTimeLeft === 0) {
 								clearInterval(counterRef.current)
 								const winner = getOtherColor(
-									getCurrentColor(state.starter, state.counters),
+									getCurrentColor(freshState.starter, freshState.counters),
 								)
-								++state.score[winner]
-								setState(state)
+								++freshState.score[winner]
+								setState(freshState)
 							}
 						}, 100)
 					}
@@ -179,7 +180,7 @@ function getState() {
 	return stateSchema.parse(json)
 }
 
-export function parseStatus(table: Table): Status {
+export function parseCounters(table: Table): Status {
 	let winner: Color | null = null
 	const counters: Positions = []
 

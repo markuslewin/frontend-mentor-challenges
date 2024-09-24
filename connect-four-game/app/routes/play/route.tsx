@@ -431,7 +431,7 @@ export function PlayRoute() {
 											’s turn
 										</p>
 										<p className={turnTimer} data-testid="timer">
-											{Math.ceil(connectFour.turnTime / 1000)}s
+											{Math.ceil(connectFour.timeLeft / 1000)}s
 										</p>
 									</div>
 								</div>
