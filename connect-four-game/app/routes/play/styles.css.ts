@@ -324,7 +324,21 @@ export const counterButtonsCell = style({
 })
 
 export const counterButton = style({
+	display: 'grid',
+	placeItems: 'center',
 	borderRadius: 9999,
+})
+
+export const winningCircle = style({
+	width: percentage(20 / 40),
+	aspectRatio: '1',
+	border: `${rem(6)} solid ${colors.white}`,
+	borderRadius: 'inherit',
+	'@media': {
+		[media.tablet]: {
+			width: percentage(34 / 70),
+		},
+	},
 })
 
 export const counter = style({

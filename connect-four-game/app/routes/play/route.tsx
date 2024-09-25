@@ -1,7 +1,7 @@
 import { invariant } from '@epic-web/invariant'
 import * as Dialog from '@radix-ui/react-dialog'
 import { assignInlineVars } from '@vanilla-extract/dynamic'
-import { Fragment, useRef, useState } from 'react'
+import { Fragment, useId, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import boardLayerBlackLarge from '#app/assets/board-layer-black-large.svg'
 import boardLayerBlackSmall from '#app/assets/board-layer-black-small.svg'
@@ -71,6 +71,7 @@ import {
 	winner,
 	winnerWins,
 	winnerPlayer,
+	winningCircle,
 } from '#app/routes/play/styles.css'
 import { srOnly } from '#app/styles.css'
 import {
@@ -94,6 +95,7 @@ export function PlayRoute() {
 	)
 	const [cursor, setCursor] = useState<[number, number]>([0, 0])
 	const [markerCol, setMarkerCol] = useState(cursor[0])
+	const winningCounterDesc = useId()
 
 	return (
 		<div className={screenContainer}>
@@ -305,6 +307,11 @@ export function PlayRoute() {
 															cursor[0] === x && cursor[1] === y ? 0 : -1
 														}
 														aria-disabled={!connectFour.canMakeMove(x)}
+														aria-describedby={
+															connectFour.isWinningCounter(x, y)
+																? winningCounterDesc
+																: undefined
+														}
 														data-testid={`${x},${y}`}
 														onClick={() => {
 															connectFour.selectColumn(x)
@@ -380,6 +387,9 @@ export function PlayRoute() {
 																)[counter]
 															}
 														</span>
+														{connectFour.isWinningCounter(x, y) ? (
+															<span className={winningCircle} />
+														) : null}
 													</button>
 												</div>
 											))}
@@ -470,6 +480,11 @@ export function PlayRoute() {
 						</div>
 					</div>
 					<div className={bottomSpacer} />
+					{connectFour.status.type === 'win' ? (
+						<p className={srOnly} id={winningCounterDesc}>
+							Winning counter
+						</p>
+					) : null}
 				</div>
 			</main>
 		</div>

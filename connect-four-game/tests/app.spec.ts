@@ -571,6 +571,59 @@ test.fixme('pauses game', async ({ page }) => {
 	// todo: Check counter
 })
 
+test('shows winning counters', async ({ page }) => {
+	await page.goto('/')
+	await page.evaluate(async () => {
+		const stateKey = 'state'
+
+		localStorage.setItem(
+			stateKey,
+			JSON.stringify({
+				starter: 'red',
+				counters: [
+					['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
+					['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
+					['red', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
+					['red', 'yellow', 'empty', 'empty', 'empty', 'empty', 'empty'],
+					['red', 'yellow', 'empty', 'empty', 'yellow', 'empty', 'empty'],
+					['red', 'red', 'empty', 'empty', 'yellow', 'empty', 'empty'],
+				],
+				score: { red: 0, yellow: 0 },
+			} satisfies State),
+		)
+	})
+	await page.goto('/play')
+
+	await expect(page.getByTestId('0,0')).not.toHaveAccessibleDescription(
+		/winning/i,
+	)
+	await expect(page.getByTestId('0,1')).not.toHaveAccessibleDescription(
+		/winning/i,
+	)
+	await expect(page.getByTestId('0,2')).toHaveAccessibleDescription(/winning/i)
+	await expect(page.getByTestId('0,3')).toHaveAccessibleDescription(/winning/i)
+	await expect(page.getByTestId('0,4')).toHaveAccessibleDescription(/winning/i)
+	await expect(page.getByTestId('0,5')).toHaveAccessibleDescription(/winning/i)
+	await expect(page.getByTestId('1,0')).not.toHaveAccessibleDescription(
+		/winning/i,
+	)
+	await expect(page.getByTestId('1,1')).not.toHaveAccessibleDescription(
+		/winning/i,
+	)
+	await expect(page.getByTestId('1,2')).not.toHaveAccessibleDescription(
+		/winning/i,
+	)
+	await expect(page.getByTestId('1,3')).not.toHaveAccessibleDescription(
+		/winning/i,
+	)
+	await expect(page.getByTestId('1,4')).not.toHaveAccessibleDescription(
+		/winning/i,
+	)
+	await expect(page.getByTestId('1,5')).not.toHaveAccessibleDescription(
+		/winning/i,
+	)
+})
+
 test.describe('passes a11y checks', () => {
 	test('main menu', async ({ page }) => {
 		await page.goto('/')

@@ -88,6 +88,12 @@ export function useConnectFour() {
 				!getColumn(index).every((c) => c !== 'empty')
 			)
 		},
+		isWinningCounter(x: number, y: number) {
+			return (
+				status.type === 'win' &&
+				status.counters.find((p) => p[0] === x && p[1] === y) !== undefined
+			)
+		},
 		newGame() {
 			resetCounter()
 			setState(initialState)
