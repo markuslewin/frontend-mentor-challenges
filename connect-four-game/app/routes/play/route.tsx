@@ -1,7 +1,8 @@
 import { invariant } from '@epic-web/invariant'
 import * as Dialog from '@radix-ui/react-dialog'
 import { assignInlineVars } from '@vanilla-extract/dynamic'
-import { Fragment, useId, useRef, useState } from 'react'
+import { motion } from 'framer-motion'
+import { useId, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import boardLayerBlackLarge from '#app/assets/board-layer-black-large.svg'
 import boardLayerBlackSmall from '#app/assets/board-layer-black-small.svg'
@@ -182,32 +183,27 @@ export function PlayRoute() {
 				<div className={center}>
 					<div className={markerTrack}>
 						<div className={markerSlots}>
-							{Array(columns)
-								.fill(null)
-								.map((_, i) => (
-									<Fragment key={i}>
-										{i === markerCol ? (
-											<Img
-												key={connectFour.currentColor}
-												className={marker}
-												alt=""
-												src={
-													(
-														{
-															red: markerRed,
-															yellow: markerYellow,
-														} satisfies Record<Color, string>
-													)[connectFour.currentColor]
-												}
-												priority
-												width="38"
-												height="36"
-											/>
-										) : (
-											<div />
-										)}
-									</Fragment>
-								))}
+							<MotionImg
+								className={marker}
+								key={connectFour.currentColor}
+								style={{
+									gridColumnStart: markerCol + 1,
+								}}
+								alt=""
+								src={
+									(
+										{
+											red: markerRed,
+											yellow: markerYellow,
+										} satisfies Record<Color, string>
+									)[connectFour.currentColor]
+								}
+								priority
+								width="38"
+								height="36"
+								layout
+								transition={{ duration: 0.1 }}
+							/>
 						</div>
 					</div>
 					<div className={gameLayout}>
@@ -557,3 +553,5 @@ function Counter({ value }: CounterProps) {
 		} satisfies Record<Counter, JSX.Element>
 	)[value]
 }
+
+const MotionImg = motion.create(Img)

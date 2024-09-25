@@ -1,3 +1,4 @@
+import { MotionConfig } from 'framer-motion'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import '#app/index.css'
@@ -50,9 +51,11 @@ void enableMocking().then(() => {
 
 	function App() {
 		return (
-			<AnnouncementProvider>
-				<RouterProvider router={router} />
-			</AnnouncementProvider>
+			<MotionConfig reducedMotion="user">
+				<AnnouncementProvider>
+					<RouterProvider router={router} />
+				</AnnouncementProvider>
+			</MotionConfig>
 		)
 	}
 
