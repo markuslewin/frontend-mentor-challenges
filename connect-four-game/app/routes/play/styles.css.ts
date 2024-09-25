@@ -437,7 +437,6 @@ export const dialogOverlay = style({
 	alignItems: 'center',
 	padding: rem(20),
 	overflowY: 'auto',
-	background: `hsl(0 0% 0% / 50%)`,
 })
 
 export const dialogContent = style({

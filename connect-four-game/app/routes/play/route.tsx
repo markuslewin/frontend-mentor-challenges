@@ -1,7 +1,7 @@
 import { invariant } from '@epic-web/invariant'
 import * as Dialog from '@radix-ui/react-dialog'
 import { assignInlineVars } from '@vanilla-extract/dynamic'
-import { motion } from 'framer-motion'
+import { AnimatePresence, motion } from 'framer-motion'
 import { useId, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import boardLayerBlackLarge from '#app/assets/board-layer-black-large.svg'
@@ -118,49 +118,89 @@ export function PlayRoute() {
 							<p className={headerSide}>
 								<Dialog.Root open={isMenuOpen} onOpenChange={setIsMenuOpen}>
 									<Dialog.Trigger className={button}>Menu</Dialog.Trigger>
-									<Dialog.Portal>
-										<Dialog.Overlay className={dialogOverlay}>
-											<Dialog.Content className={dialogContent}>
-												<Dialog.Title className={dialogTitle}>
-													Pause
-												</Dialog.Title>
-												<Dialog.Description className={srOnly}>
-													What do you want to do?
-												</Dialog.Description>
-												<ul className={dialogOptions} role="list">
-													<li className={dialogOption}>
-														<Dialog.Close className={whiteDialogButton}>
-															Continue game
-														</Dialog.Close>
-													</li>
-													<li className={dialogOption}>
-														<button
-															className={whiteDialogButton}
-															type="button"
-															onClick={() => {
-																connectFour.newGame()
-																setIsMenuOpen(false)
-															}}
-														>
-															Restart
-														</button>
-													</li>
-													<li className={dialogOption}>
-														<button
-															className={redDialogButton}
-															type="button"
-															onClick={() => {
-																navigate('/')
-																connectFour.newGame()
-															}}
-														>
-															Quit game
-														</button>
-													</li>
-												</ul>
-											</Dialog.Content>
-										</Dialog.Overlay>
-									</Dialog.Portal>
+									<AnimatePresence>
+										{isMenuOpen ? (
+											<Dialog.Portal forceMount>
+												<Dialog.Overlay className={dialogOverlay} asChild>
+													<motion.div
+														initial={{
+															backgroundColor: `hsl(0 0% 0% / 0)`,
+														}}
+														animate={{
+															backgroundColor: `hsl(0 0% 0% / 0.5)`,
+														}}
+														exit={{
+															backgroundColor: `hsl(0 0% 0% / 0)`,
+															transition: {
+																duration: 0.1,
+															},
+														}}
+													>
+														<Dialog.Content className={dialogContent} asChild>
+															<motion.div
+																initial={{
+																	scale: 0.95,
+																	opacity: 0,
+																}}
+																animate={{
+																	scale: 1,
+																	opacity: 1,
+																	transition: {
+																		delay: 0.2,
+																	},
+																}}
+																exit={{
+																	scale: 0.95,
+																	opacity: 0,
+																	transition: {
+																		duration: 0.1,
+																	},
+																}}
+															>
+																<Dialog.Title className={dialogTitle}>
+																	Pause
+																</Dialog.Title>
+																<Dialog.Description className={srOnly}>
+																	What do you want to do?
+																</Dialog.Description>
+																<ul className={dialogOptions} role="list">
+																	<li className={dialogOption}>
+																		<Dialog.Close className={whiteDialogButton}>
+																			Continue game
+																		</Dialog.Close>
+																	</li>
+																	<li className={dialogOption}>
+																		<button
+																			className={whiteDialogButton}
+																			type="button"
+																			onClick={() => {
+																				connectFour.newGame()
+																				setIsMenuOpen(false)
+																			}}
+																		>
+																			Restart
+																		</button>
+																	</li>
+																	<li className={dialogOption}>
+																		<button
+																			className={redDialogButton}
+																			type="button"
+																			onClick={() => {
+																				navigate('/')
+																				connectFour.newGame()
+																			}}
+																		>
+																			Quit game
+																		</button>
+																	</li>
+																</ul>
+															</motion.div>
+														</Dialog.Content>
+													</motion.div>
+												</Dialog.Overlay>
+											</Dialog.Portal>
+										) : null}
+									</AnimatePresence>
 								</Dialog.Root>
 							</p>
 							<p className={headerRightSide}>
