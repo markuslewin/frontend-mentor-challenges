@@ -296,11 +296,7 @@ export function PlayRoute() {
 													<button
 														className={counterButton}
 														ref={(node) => {
-															setIndex(
-																index(counterButtonsRef.current, y),
-																x,
-																node,
-															)
+															counterButtonsRef.current[y]![x] = node
 														}}
 														type="button"
 														tabIndex={
@@ -325,53 +321,33 @@ export function PlayRoute() {
 																const nextY = Math.max(0, cursorY - 1)
 																setCursor([cursorX, nextY])
 																setMarkerCol(cursorX)
-																const nextButton = index(
-																	index(counterButtonsRef.current, nextY),
-																	cursorX,
-																)
-																invariant(
-																	nextButton !== null,
-																	'Expected button',
-																)
+																const nextButton =
+																	counterButtonsRef.current[nextY]?.[cursorX]
+																invariant(nextButton, 'Expected button')
 																nextButton.focus()
 															} else if (e.key === 'ArrowRight') {
 																const nextX = Math.min(columns - 1, cursorX + 1)
 																setCursor([nextX, cursorY])
 																setMarkerCol(nextX)
-																const nextButton = index(
-																	index(counterButtonsRef.current, cursorY),
-																	nextX,
-																)
-																invariant(
-																	nextButton !== null,
-																	'Expected button',
-																)
+																const nextButton =
+																	counterButtonsRef.current[cursorY]?.[nextX]
+																invariant(nextButton, 'Expected button')
 																nextButton.focus()
 															} else if (e.key === 'ArrowDown') {
 																const nextY = Math.min(rows - 1, cursorY + 1)
 																setCursor([cursorX, nextY])
 																setMarkerCol(cursorX)
-																const nextButton = index(
-																	index(counterButtonsRef.current, nextY),
-																	cursorX,
-																)
-																invariant(
-																	nextButton !== null,
-																	'Expected button',
-																)
+																const nextButton =
+																	counterButtonsRef.current[nextY]?.[cursorX]
+																invariant(nextButton, 'Expected button')
 																nextButton.focus()
 															} else if (e.key === 'ArrowLeft') {
 																const nextX = Math.max(0, cursorX - 1)
 																setCursor([nextX, cursorY])
 																setMarkerCol(nextX)
-																const nextButton = index(
-																	index(counterButtonsRef.current, cursorY),
-																	nextX,
-																)
-																invariant(
-																	nextButton !== null,
-																	'Expected button',
-																)
+																const nextButton =
+																	counterButtonsRef.current[cursorY]?.[nextX]
+																invariant(nextButton, 'Expected button')
 																nextButton.focus()
 															}
 														}}
@@ -532,16 +508,6 @@ function getName(color: Color) {
 	} else {
 		throw new Error(`Invalid color: ${color}`)
 	}
-}
-
-function index<T>(array: T[], index: number) {
-	invariant(index >= 0 || index < array.length, `Index out of range: ${index}`)
-	return array[index] as T
-}
-
-function setIndex<T>(array: T[], index: number, value: T) {
-	invariant(index >= 0 || index < array.length, `Index out of range: ${index}`)
-	array[index] = value
 }
 
 interface CounterProps {
