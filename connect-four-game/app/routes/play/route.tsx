@@ -146,7 +146,7 @@ export function PlayRoute() {
 																	scale: 1,
 																	opacity: 1,
 																	transition: {
-																		delay: 0.2,
+																		delay: 0.1,
 																	},
 																}}
 																exit={{
@@ -298,11 +298,20 @@ export function PlayRoute() {
 									/>
 								</Picture>
 								<div className={counters}>
-									{connectFour.counters.flatMap((row, y) =>
-										row.map((counter, x) => (
-											<Counter key={`${y}-${x}`} value={counter} />
-										)),
-									)}
+									<AnimatePresence initial={false}>
+										{connectFour.counters.flatMap((row, y) =>
+											row.map((counter, x) =>
+												counter === 'empty' ? null : (
+													<Counter
+														key={`${y}-${x}`}
+														value={counter}
+														x={x}
+														y={y}
+													/>
+												),
+											),
+										)}
+									</AnimatePresence>
 								</div>
 								<Picture>
 									<Source
@@ -399,9 +408,16 @@ export function PlayRoute() {
 																)[counter]
 															}
 														</span>
-														{connectFour.isWinningCounter(x, y) ? (
-															<span className={winningCircle} />
-														) : null}
+														<AnimatePresence initial={false}>
+															{connectFour.isWinningCounter(x, y) ? (
+																<motion.span
+																	className={winningCircle}
+																	transition={{ delay: 0.3 }}
+																	initial={{ opacity: 0 }}
+																	animate={{ opacity: 1 }}
+																/>
+															) : null}
+														</AnimatePresence>
 													</button>
 												</div>
 											))}
@@ -547,51 +563,68 @@ function getName(color: Color) {
 }
 
 interface CounterProps {
-	value: Counter
+	value: Color
+	x: number
+	y: number
 }
 
-function Counter({ value }: CounterProps) {
+function Counter({ value, x, y }: CounterProps) {
 	return (
-		{
-			empty: <div />,
-			red: (
-				<Picture>
-					<Source
-						media={media.tablet}
-						srcSet={counterRedLarge}
-						width="70"
-						height="75"
-					/>
-					<Img
-						className={counter}
-						alt="Red"
-						src={counterRedSmall}
-						priority
-						width="41"
-						height="46"
-					/>
-				</Picture>
-			),
-			yellow: (
-				<Picture>
-					<Source
-						media={media.tablet}
-						srcSet={counterYellowLarge}
-						width="70"
-						height="75"
-					/>
-					<Img
-						className={counter}
-						alt="Yellow"
-						src={counterYellowSmall}
-						priority
-						width="41"
-						height="46"
-					/>
-				</Picture>
-			),
-		} satisfies Record<Counter, JSX.Element>
-	)[value]
+		<motion.div
+			style={{
+				gridColumn: x + 1,
+				gridRow: y + 1,
+			}}
+			transition={{ ease: 'easeIn' }}
+			initial={{
+				translateY: `-${(100 + (18 / 70) * 100) * y}%`,
+			}}
+			animate={{ translateY: 0 }}
+		>
+			{
+				(
+					{
+						red: (
+							<Picture>
+								<Source
+									media={media.tablet}
+									srcSet={counterRedLarge}
+									width="70"
+									height="75"
+								/>
+								<Img
+									className={counter}
+									alt=""
+									src={counterRedSmall}
+									priority
+									width="41"
+									height="46"
+								/>
+							</Picture>
+						),
+						yellow: (
+							<Picture>
+								<Source
+									media={media.tablet}
+									srcSet={counterYellowLarge}
+									width="70"
+									height="75"
+								/>
+								<Img
+									className={counter}
+									alt=""
+									src={counterYellowSmall}
+									priority
+									width="41"
+									height="46"
+								/>
+							</Picture>
+						),
+					} satisfies Record<Color, JSX.Element>
+				)[value]
+			}
+		</motion.div>
+	)
 }
 
 const MotionImg = motion.create(Img)
