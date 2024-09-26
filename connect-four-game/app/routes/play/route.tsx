@@ -83,6 +83,7 @@ import {
 	columns,
 	rows,
 	useConnectFour,
+	type Position,
 } from '#app/utils/connect-four'
 import { media } from '#app/utils/screens'
 import { colors } from '#app/utils/style'
@@ -94,9 +95,14 @@ export function PlayRoute() {
 	const counterButtonsRef = useRef<(HTMLButtonElement | null)[][]>(
 		createTable(null),
 	)
-	const [cursor, setCursor] = useState<[number, number]>([0, 0])
+	const [cursor, _setCursor] = useState<Position>([0, 0])
 	const [markerCol, setMarkerCol] = useState(cursor[0])
 	const winningCounterDesc = useId()
+
+	function setCursor(cursor: Position) {
+		_setCursor(cursor)
+		setMarkerCol(cursor[0])
+	}
 
 	return (
 		<div className={screenContainer}>
@@ -365,7 +371,6 @@ export function PlayRoute() {
 															if (e.key === 'ArrowUp') {
 																const nextY = Math.max(0, cursorY - 1)
 																setCursor([cursorX, nextY])
-																setMarkerCol(cursorX)
 																const nextButton =
 																	counterButtonsRef.current[nextY]?.[cursorX]
 																invariant(nextButton, 'Expected button')
@@ -373,7 +378,6 @@ export function PlayRoute() {
 															} else if (e.key === 'ArrowRight') {
 																const nextX = Math.min(columns - 1, cursorX + 1)
 																setCursor([nextX, cursorY])
-																setMarkerCol(nextX)
 																const nextButton =
 																	counterButtonsRef.current[cursorY]?.[nextX]
 																invariant(nextButton, 'Expected button')
@@ -381,7 +385,6 @@ export function PlayRoute() {
 															} else if (e.key === 'ArrowDown') {
 																const nextY = Math.min(rows - 1, cursorY + 1)
 																setCursor([cursorX, nextY])
-																setMarkerCol(cursorX)
 																const nextButton =
 																	counterButtonsRef.current[nextY]?.[cursorX]
 																invariant(nextButton, 'Expected button')
@@ -389,7 +392,6 @@ export function PlayRoute() {
 															} else if (e.key === 'ArrowLeft') {
 																const nextX = Math.max(0, cursorX - 1)
 																setCursor([nextX, cursorY])
-																setMarkerCol(nextX)
 																const nextButton =
 																	counterButtonsRef.current[cursorY]?.[nextX]
 																invariant(nextButton, 'Expected button')
