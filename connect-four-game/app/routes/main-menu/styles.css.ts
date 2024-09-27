@@ -1,6 +1,7 @@
 import { style, styleVariants } from '@vanilla-extract/css'
 import { media } from '#app/utils/screens'
-import { colors, headingM, transition, rem, hocus } from '#app/utils/style'
+import { colors, headingM, rem } from '#app/utils/style'
+import { hocus, transition } from '#app/utils/style.build'
 
 export const mainContainer = style({
 	minHeight: '100vh',

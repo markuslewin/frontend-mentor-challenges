@@ -8,14 +8,13 @@ import {
 import { media } from '#app/utils/screens'
 import {
 	colors,
-	transition,
-	rem,
-	hocus,
-	headingXs,
-	headingS,
 	headingL,
 	headingM,
+	headingS,
+	headingXs,
+	rem,
 } from '#app/utils/style'
+import { hocus, transition } from '#app/utils/style.build'
 
 export const center = style({
 	display: 'grid',

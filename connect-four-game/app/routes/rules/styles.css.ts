@@ -6,10 +6,9 @@ import {
 	headingL,
 	headingS,
 	headingXs,
-	hocus,
 	rem,
-	transition,
 } from '#app/utils/style'
+import { hocus, transition } from '#app/utils/style.build'
 
 export const mainContainer = style({
 	minHeight: '100vh',
