@@ -19,3 +19,40 @@ export function hocus(rule: StyleRule) {
 		':focus-visible': rule,
 	})
 }
+
+type Media = NonNullable<StyleRule['@media']>
+type Size = StyleRule['width']
+
+export function clickable(options: {
+	size: Size
+	'@media'?: Record<keyof Media, { size: Size }>
+}) {
+	return style({
+		position: 'relative',
+		isolation: 'isolate',
+		'::before': {
+			content: "''",
+			display: 'block',
+			width: options.size,
+			height: options.size,
+			position: 'absolute',
+			zIndex: -1,
+			top: '50%',
+			left: '50%',
+			transform: 'translate(-50%, -50%)',
+		},
+		'@media': options['@media']
+			? Object.fromEntries(
+					Object.entries(options['@media']).map(([query, queryOptions]) => [
+						query,
+						{
+							'::before': {
+								width: queryOptions.size,
+								height: queryOptions.size,
+							},
+						} satisfies Media[keyof Media],
+					]),
+				)
+			: undefined,
+	})
+}

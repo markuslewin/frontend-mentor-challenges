@@ -14,7 +14,7 @@ import {
 	headingXs,
 	rem,
 } from '#app/utils/style'
-import { hocus, transition } from '#app/utils/style.build'
+import { clickable, hocus, transition } from '#app/utils/style.build'
 
 export const center = style({
 	display: 'grid',
@@ -322,11 +322,21 @@ export const counterButtonsCell = style({
 	display: 'grid',
 })
 
-export const counterButton = style({
-	display: 'grid',
-	placeItems: 'center',
-	borderRadius: 9999,
-})
+export const counterButton = style([
+	clickable({
+		size: '115%',
+		'@media': {
+			[media.tablet]: {
+				size: '125%',
+			},
+		},
+	}),
+	{
+		display: 'grid',
+		placeItems: 'center',
+		borderRadius: 9999,
+	},
+])
 
 export const winningCircle = style({
 	width: percentage(20 / 40),
