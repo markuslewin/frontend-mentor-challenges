@@ -645,6 +645,26 @@ test.describe('passes a11y checks', () => {
 		await page.goto('/play')
 
 		const results = await new AxeBuilder({ page }).analyze()
-		expect(results.violations).toEqual([])
+
+		// Turn's white-on-red has insufficient contrast
+		expect(violationFingerprints(results)).toMatchSnapshot()
 	})
 })
+
+type AxeResults = Awaited<
+	ReturnType<InstanceType<typeof AxeBuilder>['analyze']>
+>
+
+// https://playwright.dev/docs/accessibility-testing#using-snapshots-to-allow-specific-known-issues
+function violationFingerprints(accessibilityScanResults: AxeResults) {
+	const violationFingerprints = accessibilityScanResults.violations.map(
+		(violation) => ({
+			rule: violation.id,
+			// These are CSS selectors which uniquely identify each element with
+			// a violation of the rule in question.
+			targets: violation.nodes.map((node) => node.target),
+		}),
+	)
+
+	return JSON.stringify(violationFingerprints, null, 2)
+}

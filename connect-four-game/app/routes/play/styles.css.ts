@@ -425,16 +425,22 @@ export const turnBackground = style({
 export const turnText = style({
 	gridRow: 2,
 	gridColumn: 1,
-	textAlign: 'center',
+	display: 'grid',
+	justifyItems: 'center',
+	alignContent: 'start',
 })
+
+export const turnBackgroundColor = createVar()
 
 export const turnPlayer = style({
 	...headingXs,
 	textTransform: 'uppercase',
+	background: turnBackgroundColor,
 })
 
 export const turnTimer = style({
 	...headingL,
+	background: turnBackgroundColor,
 })
 
 export const dialogOverlay = style({

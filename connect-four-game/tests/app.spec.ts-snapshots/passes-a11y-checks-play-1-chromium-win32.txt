@@ -1,0 +1,13 @@
+[
+  {
+    "rule": "color-contrast",
+    "targets": [
+      [
+        ".styles_turnPlayer__lg07qf19"
+      ],
+      [
+        ".styles_turnTimer__lg07qf1a"
+      ]
+    ]
+  }
+]

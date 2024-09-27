@@ -73,6 +73,7 @@ import {
 	winnerWins,
 	winnerPlayer,
 	winningCircle,
+	turnBackgroundColor,
 } from '#app/routes/play/styles.css'
 import { srOnly } from '#app/styles.css'
 import {
@@ -446,6 +447,14 @@ export function PlayRoute() {
 								<div
 									className={turn}
 									style={{
+										...assignInlineVars({
+											[turnBackgroundColor]: (
+												{
+													red: colors.red,
+													yellow: colors.yellow,
+												} satisfies Record<Color, string>
+											)[connectFour.currentColor],
+										}),
 										color: (
 											{
 												red: colors.white,
