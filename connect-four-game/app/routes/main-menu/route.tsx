@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion'
 import { Link, useNavigate } from 'react-router-dom'
 import logoUrl from '#app/assets/logo.svg'
 import playerVsPlayerUrl from '#app/assets/player-vs-player.svg'
@@ -21,7 +22,21 @@ export function MainMenuRoute() {
 
 	return (
 		<main className={mainContainer}>
-			<div className={menuContainer}>
+			<motion.div
+				className={menuContainer}
+				initial={{
+					opacity: 0,
+					scale: 0.8,
+				}}
+				animate={{
+					opacity: 1,
+					scale: 1,
+				}}
+				exit={{
+					opacity: 0,
+					scale: 0.8,
+				}}
+			>
 				<h1>
 					<Img
 						className={logo}
@@ -59,7 +74,7 @@ export function MainMenuRoute() {
 						</Link>
 					</li>
 				</ul>
-			</div>
+			</motion.div>
 		</main>
 	)
 }

@@ -190,6 +190,8 @@ test('resets game', async ({ page }) => {
 
 	await expect(page.getByRole('grid').getByRole('button')).toHaveText(
 		Array(42).fill(/empty/i),
+		// todo: These tests are getting slow in `env.DEV`
+		{ timeout: 10_000 },
 	)
 	await expect(page.getByTestId('score-red')).toHaveText('0')
 	await expect(page.getByTestId('score-yellow')).toHaveText('0')
