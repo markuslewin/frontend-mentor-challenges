@@ -129,6 +129,8 @@ export function PlayRoute() {
 										setIsMenuOpen(open)
 										if (open) {
 											connectFour.pause()
+										} else {
+											connectFour.resume()
 										}
 									}}
 								>

@@ -619,8 +619,30 @@ test("counter doesn't start until player has made a move", async ({ page }) => {
 	await page.getByRole('button', { name: 'menu' }).click()
 	await page.getByRole('button', { name: 'continue' }).click()
 	await page.clock.fastForward(5_000)
+})
 
-	await expect(page.getByTestId('timer')).toHaveText('30s')
+test('counter resumes when dialog closes', async ({ page }) => {
+	await page.clock.install({ time: new Date('2024-09-30T15:04:00') })
+	await page.goto('/play')
+	await page.getByTestId('0,0').click()
+	await page.getByRole('button', { name: 'menu' }).click()
+	await page.getByRole('button', { name: 'continue' }).click()
+	await page.clock.fastForward(5_000)
+
+	await expect(page.getByTestId('timer')).toHaveText('25s')
+
+	await page.getByRole('button', { name: 'menu' }).click()
+	await page.keyboard.down('Escape')
+	await page.clock.fastForward(5_000)
+
+	await expect(page.getByTestId('timer')).toHaveText('20s')
+
+	await page.getByRole('button', { name: 'menu' }).click()
+	// Close the dialog by clicking outside
+	await page.mouse.click(0, 0)
+	await page.clock.fastForward(5_000)
+
+	await expect(page.getByTestId('timer')).toHaveText('15s')
 })
 
 test('shows winning counters', async ({ page }) => {
