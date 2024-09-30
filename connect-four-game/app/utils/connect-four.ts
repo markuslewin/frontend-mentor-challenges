@@ -1,27 +1,34 @@
 import { invariant } from '@epic-web/invariant'
 import { useLocalStorage } from '@uidotdev/usehooks'
 import { produce } from 'immer'
-import { useRef, useState } from 'react'
+import { useMemo, useRef, useState } from 'react'
 import { z } from 'zod'
 
 const colors = ['red', 'yellow'] as const
+const colorSchema = z.enum(colors)
+export type Color = z.infer<typeof colorSchema>
 
 const counters = [...colors, 'empty'] as const
+const counterSchema = z.enum(counters)
+export type Counter = z.infer<typeof counterSchema>
+
+const stateSchema = z.object({
+	starter: colorSchema,
+	counters: z.array(z.array(counterSchema)),
+	score: z.object({
+		red: z.number(),
+		yellow: z.number(),
+	}),
+})
+export type State = z.infer<typeof stateSchema>
 
 function assertCounter(value: any): asserts value is Counter {
 	invariant(counters.includes(value), `Invalid counter: ${value}`)
 }
 
-export type Color = (typeof colors)[number]
-export type Counter = (typeof counters)[number]
 export type Table = Counter[][]
 export type Position = [number, number]
 export type Positions = Position[]
-export type State = {
-	starter: Color
-	counters: Table
-	score: Record<Color, number>
-}
 export type Status =
 	| { type: 'ongoing' }
 	| { type: 'draw' }
@@ -48,8 +55,22 @@ const initialState: State = {
 }
 const initialTimeLeft = 30_000
 
+function useGameState() {
+	const [json, setState] = useLocalStorage<unknown>(stateKey, initialState)
+	const state = useMemo(() => {
+		const result = stateSchema.safeParse(json)
+		if (result.success) {
+			return result.data
+		} else {
+			return initialState
+		}
+	}, [json])
+
+	return [state, setState] as const
+}
+
 export function useConnectFour() {
-	const [state, setState] = useLocalStorage<State>(stateKey, initialState)
+	const [state, setState] = useGameState()
 	const [timeLeft, setTimeLeft] = useState(initialTimeLeft)
 	const counterRef = useRef<ReturnType<typeof setInterval>>()
 	const playerHasMovedRef = useRef(false)
@@ -182,18 +203,6 @@ function getOtherColor(color: Color): Color {
 		} satisfies Record<Color, Color>
 	)[color]
 }
-
-const colorSchema = z.enum(colors)
-const counterSchema = z.enum(counters)
-
-const stateSchema = z.object({
-	starter: colorSchema,
-	counters: z.array(z.array(counterSchema)),
-	score: z.object({
-		red: z.number(),
-		yellow: z.number(),
-	}),
-})
 
 function getState() {
 	const item = localStorage.getItem(stateKey)
