@@ -212,10 +212,10 @@ test('restarts game from header', async ({ page }) => {
 			JSON.stringify({
 				starter: 'red',
 				counters: [
-					['empty', 'red', 'yellow', 'red', 'yellow', 'red', 'yellow'],
+					['empty', 'empty', 'yellow', 'red', 'yellow', 'red', 'yellow'],
 					['red', 'yellow', 'red', 'yellow', 'red', 'yellow', 'red'],
-					['yellow', 'red', 'yellow', 'red', 'yellow', 'red', 'yellow'],
-					['red', 'yellow', 'red', 'yellow', 'red', 'yellow', 'red'],
+					['yellow', 'yellow', 'red', 'yellow', 'red', 'yellow', 'red'],
+					['yellow', 'red', 'yellow', 'red', 'yellow', 'red', 'red'],
 					['yellow', 'red', 'yellow', 'red', 'yellow', 'red', 'yellow'],
 					['red', 'yellow', 'red', 'yellow', 'red', 'yellow', 'red'],
 				],
@@ -569,8 +569,58 @@ test('resets timer between turns', async ({ page }) => {
 	await expect(page.getByTestId('timer')).toHaveText('25s')
 })
 
-test.fixme('pauses game', async ({ page }) => {
-	// todo: Check counter
+test('pauses game', async ({ page }) => {
+	await page.clock.install({ time: new Date('2024-09-30T15:04:00') })
+	await page.goto('/play')
+	await page.getByTestId('0,0').click()
+	await page.getByRole('button', { name: 'menu' }).click()
+	await page.clock.fastForward(10_000)
+	await page.getByRole('button', { name: 'continue' }).click()
+
+	await expect(page.getByTestId('timer')).toHaveText('30s')
+})
+
+test("counter doesn't start in resolved game status", async ({ page }) => {
+	await page.clock.install({ time: new Date('2024-09-30T15:04:00') })
+	await page.goto('/play')
+	await page.getByTestId('0,0').click()
+	// Win by time
+	await page.clock.fastForward(30_000)
+	await page.clock.runFor(1_000)
+	await page.getByRole('button', { name: 'menu' }).click()
+	// Shouldn't trigger an instant win
+	await page.getByRole('button', { name: 'continue' }).click()
+	await page.clock.runFor(1_000)
+
+	await expect(page.getByTestId('score-red')).toHaveText('1')
+	await expect(page.getByTestId('score-yellow')).toHaveText('0')
+})
+
+test("counter doesn't start until player has made a move", async ({ page }) => {
+	await page.clock.install({ time: new Date('2024-09-30T15:04:00') })
+	await page.goto('/play')
+	await page.getByRole('button', { name: 'menu' }).click()
+	await page.getByRole('button', { name: 'continue' }).click()
+	await page.clock.fastForward(5_000)
+
+	await expect(page.getByTestId('timer')).toHaveText('30s')
+
+	await page.getByTestId('0,0').click()
+	await page.getByRole('button', { name: 'restart' }).click()
+	await page.getByRole('button', { name: 'menu' }).click()
+	await page.getByRole('button', { name: 'continue' }).click()
+	await page.clock.fastForward(5_000)
+
+	await expect(page.getByTestId('timer')).toHaveText('30s')
+
+	await page.getByTestId('0,0').click()
+	await page.getByRole('button', { name: 'menu' }).click()
+	await page.getByRole('button', { name: 'restart' }).click()
+	await page.getByRole('button', { name: 'menu' }).click()
+	await page.getByRole('button', { name: 'continue' }).click()
+	await page.clock.fastForward(5_000)
+
+	await expect(page.getByTestId('timer')).toHaveText('30s')
 })
 
 test('shows winning counters', async ({ page }) => {

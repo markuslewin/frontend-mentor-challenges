@@ -52,6 +52,7 @@ export function useConnectFour() {
 	const [state, setState] = useLocalStorage<State>(stateKey, initialState)
 	const [timeLeft, setTimeLeft] = useState(initialTimeLeft)
 	const counterRef = useRef<ReturnType<typeof setInterval>>()
+	const playerHasMovedRef = useRef(false)
 
 	function getColumn(index: number) {
 		return state.counters.map((r) => {
@@ -62,8 +63,31 @@ export function useConnectFour() {
 	}
 
 	function resetCounter() {
+		playerHasMovedRef.current = false
 		clearInterval(counterRef.current)
 		setTimeLeft(initialTimeLeft)
+	}
+
+	function startCounter(ms: number) {
+		clearInterval(counterRef.current)
+		const turnStart = new Date()
+		setTimeLeft(ms)
+		counterRef.current = setInterval(() => {
+			const freshState = getState()
+			const nextTimeLeft = Math.max(
+				0,
+				ms - (new Date().getTime() - turnStart.getTime()),
+			)
+			setTimeLeft(nextTimeLeft)
+			if (nextTimeLeft === 0) {
+				clearInterval(counterRef.current)
+				const winner = getOtherColor(
+					getCurrentColor(freshState.starter, freshState.counters),
+				)
+				++freshState.score[winner]
+				setState(freshState)
+			}
+		}, 100)
 	}
 
 	const currentColor = getCurrentColor(state.starter, state.counters)
@@ -117,27 +141,11 @@ export function useConnectFour() {
 					if (nextStatus.type === 'win') {
 						++draft.score[nextStatus.winner]
 					} else if (nextStatus.type === 'ongoing') {
-						const turnStart = new Date()
-						setTimeLeft(initialTimeLeft)
-						counterRef.current = setInterval(() => {
-							const freshState = getState()
-							const nextTimeLeft = Math.max(
-								0,
-								initialTimeLeft - (new Date().getTime() - turnStart.getTime()),
-							)
-							setTimeLeft(nextTimeLeft)
-							if (nextTimeLeft === 0) {
-								clearInterval(counterRef.current)
-								const winner = getOtherColor(
-									getCurrentColor(freshState.starter, freshState.counters),
-								)
-								++freshState.score[winner]
-								setState(freshState)
-							}
-						}, 100)
+						startCounter(initialTimeLeft)
 					}
 				}),
 			)
+			playerHasMovedRef.current = true
 		},
 		playAgain() {
 			resetCounter()
@@ -147,6 +155,14 @@ export function useConnectFour() {
 					draft.counters = initialState.counters
 				}),
 			)
+		},
+		pause() {
+			clearInterval(counterRef.current)
+		},
+		resume() {
+			if (status.type === 'ongoing' && playerHasMovedRef.current) {
+				startCounter(timeLeft)
+			}
 		},
 	}
 }

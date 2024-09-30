@@ -123,7 +123,15 @@ export function PlayRoute() {
 								/>
 							</h1>
 							<p className={headerSide}>
-								<Dialog.Root open={isMenuOpen} onOpenChange={setIsMenuOpen}>
+								<Dialog.Root
+									open={isMenuOpen}
+									onOpenChange={(open) => {
+										setIsMenuOpen(open)
+										if (open) {
+											connectFour.pause()
+										}
+									}}
+								>
 									<Dialog.Trigger className={button}>Menu</Dialog.Trigger>
 									<AnimatePresence>
 										{isMenuOpen ? (
@@ -172,7 +180,12 @@ export function PlayRoute() {
 																</Dialog.Description>
 																<ul className={dialogOptions} role="list">
 																	<li className={dialogOption}>
-																		<Dialog.Close className={whiteDialogButton}>
+																		<Dialog.Close
+																			className={whiteDialogButton}
+																			onClick={() => {
+																				connectFour.resume()
+																			}}
+																		>
 																			Continue game
 																		</Dialog.Close>
 																	</li>
