@@ -56,7 +56,7 @@ const initialState: State = {
 const initialTimeLeft = 30_000
 
 function useGameState() {
-	const [json, setState] = useLocalStorage<unknown>(stateKey, initialState)
+	const [json, setState] = useLocalStorage(stateKey, initialState)
 	const state = useMemo(() => {
 		const result = stateSchema.safeParse(json)
 		if (result.success) {
