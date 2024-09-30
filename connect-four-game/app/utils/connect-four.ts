@@ -56,7 +56,7 @@ const initialState: State = {
 const initialTimeLeft = 30_000
 
 function useGameState() {
-	const [json, setState] = useLocalStorage(stateKey, initialState)
+	const [json, setState] = useLocalStorage<unknown>(stateKey, initialState)
 	const state = useMemo(() => {
 		const result = stateSchema.safeParse(json)
 		if (result.success) {
@@ -66,7 +66,10 @@ function useGameState() {
 		}
 	}, [json])
 
-	return [state, setState] as const
+	return [
+		state,
+		setState as ReturnType<typeof useLocalStorage<State>>[1],
+	] as const
 }
 
 export function useConnectFour() {
@@ -83,14 +86,8 @@ export function useConnectFour() {
 		})
 	}
 
-	function resetCounter() {
-		playerHasMovedRef.current = false
-		clearInterval(counterRef.current)
-		setTimeLeft(initialTimeLeft)
-	}
-
 	function startCounter(ms: number) {
-		clearInterval(counterRef.current)
+		stopCounter()
 		const turnStart = new Date()
 		setTimeLeft(ms)
 		counterRef.current = setInterval(() => {
@@ -101,7 +98,7 @@ export function useConnectFour() {
 			)
 			setTimeLeft(nextTimeLeft)
 			if (nextTimeLeft === 0) {
-				clearInterval(counterRef.current)
+				stopCounter()
 				const winner = getOtherColor(
 					getCurrentColor(freshState.starter, freshState.counters),
 				)
@@ -109,6 +106,16 @@ export function useConnectFour() {
 				setState(freshState)
 			}
 		}, 100)
+	}
+
+	function stopCounter() {
+		clearInterval(counterRef.current)
+	}
+
+	function resetCounter() {
+		playerHasMovedRef.current = false
+		stopCounter()
+		setTimeLeft(initialTimeLeft)
 	}
 
 	const currentColor = getCurrentColor(state.starter, state.counters)
@@ -158,7 +165,7 @@ export function useConnectFour() {
 					draft.counters[bottom]![index] = currentColor
 
 					const nextStatus = parseCounters(draft.counters)
-					clearInterval(counterRef.current)
+					stopCounter()
 					if (nextStatus.type === 'win') {
 						++draft.score[nextStatus.winner]
 					} else if (nextStatus.type === 'ongoing') {
@@ -178,7 +185,7 @@ export function useConnectFour() {
 			)
 		},
 		pause() {
-			clearInterval(counterRef.current)
+			stopCounter()
 		},
 		resume() {
 			if (status.type === 'ongoing' && playerHasMovedRef.current) {
