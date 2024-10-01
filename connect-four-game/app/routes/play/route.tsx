@@ -12,6 +12,7 @@ import counterRedLarge from '#app/assets/counter-red-large.svg'
 import counterRedSmall from '#app/assets/counter-red-small.svg'
 import counterYellowLarge from '#app/assets/counter-yellow-large.svg'
 import counterYellowSmall from '#app/assets/counter-yellow-small.svg'
+import cpuUrl from '#app/assets/cpu.svg'
 import logoUrl from '#app/assets/logo.svg'
 import markerRed from '#app/assets/marker-red.svg'
 import markerYellow from '#app/assets/marker-yellow.svg'
@@ -19,6 +20,7 @@ import playerOneUrl from '#app/assets/player-one.svg'
 import playerTwoUrl from '#app/assets/player-two.svg'
 import turnBackgroundRed from '#app/assets/turn-background-red.svg'
 import turnBackgroundYellow from '#app/assets/turn-background-yellow.svg'
+import youUrl from '#app/assets/you.svg'
 import * as Landmark from '#app/components/landmark'
 import { Img, Picture, Source } from '#app/components/picture'
 import {
@@ -85,6 +87,7 @@ import {
 	rows,
 	useConnectFour,
 	type Position,
+	type Vs,
 } from '#app/utils/connect-four'
 import { media } from '#app/utils/screens'
 import { colors } from '#app/utils/style'
@@ -104,6 +107,11 @@ export function PlayRoute() {
 		_setCursor(cursor)
 		setMarkerCol(cursor[0])
 	}
+
+	const name = {
+		red: getName(connectFour.vs, 'red'),
+		yellow: getName(connectFour.vs, 'yellow'),
+	} as const
 
 	return (
 		<div className={screenContainer}>
@@ -270,12 +278,12 @@ export function PlayRoute() {
 					</div>
 					<div className={gameLayout}>
 						<h2 className={srOnly}>Score</h2>
-						<div className={playerOneCard}>
-							<h3 className={playerName}>Player 1</h3>
+						<div className={playerOneCard} data-testid="player-one-card">
+							<h3 className={playerName}>{name.red}</h3>
 							<Img
 								className={playerOneAvatar}
-								alt="Player 1 is red"
-								src={playerOneUrl}
+								alt={getColorDescription(name.red, 'red')}
+								src={getAvatarUrl(name.red)}
 								priority
 								width="54"
 								height="59"
@@ -284,12 +292,12 @@ export function PlayRoute() {
 								{connectFour.score.red}
 							</p>
 						</div>
-						<div className={playerTwoCard}>
-							<h3 className={playerName}>Player 2</h3>
+						<div className={playerTwoCard} data-testid="player-two-card">
+							<h3 className={playerName}>{name.yellow}</h3>
 							<Img
 								className={playerTwoAvatar}
-								alt="Player 2 is yellow"
-								src={playerTwoUrl}
+								alt={getColorDescription(name.yellow, 'yellow')}
+								src={getAvatarUrl(name.yellow)}
 								priority
 								width="54"
 								height="59"
@@ -496,15 +504,7 @@ export function PlayRoute() {
 									/>
 									<div className={turnText}>
 										<p className={turnPlayer} data-testid="turn">
-											{
-												(
-													{
-														red: 'Player 1',
-														yellow: 'Player 2',
-													} satisfies Record<Color, string>
-												)[connectFour.currentColor]
-											}
-											’s turn
+											{getTurnText(name[connectFour.currentColor])}
 										</p>
 										<p className={turnTimer} data-testid="timer">
 											{Math.ceil(connectFour.timeLeft / 1000)}s
@@ -513,7 +513,7 @@ export function PlayRoute() {
 								</div>
 							) : (
 								<div className={winner}>
-									<Outcome status={connectFour.status} />
+									<Outcome vs={connectFour.vs} status={connectFour.status} />
 									<p>
 										<button
 											className={button}
@@ -546,10 +546,11 @@ export function PlayRoute() {
 }
 
 interface OutcomeProps {
+	vs: Vs
 	status: Status
 }
 
-function Outcome({ status }: OutcomeProps) {
+function Outcome({ vs, status }: OutcomeProps) {
 	if (status.type === 'draw') {
 		return (
 			<p data-testid="outcome">
@@ -558,10 +559,12 @@ function Outcome({ status }: OutcomeProps) {
 			</p>
 		)
 	} else if (status.type === 'win') {
+		const name = getName(vs, status.winner)
+
 		return (
 			<p data-testid="outcome">
-				<span className={winnerPlayer}>{getName(status.winner)} </span>
-				<span className={winnerWins}>wins</span>
+				<span className={winnerPlayer}>{name} </span>
+				<span className={winnerWins}>{getWinText(name)}</span>
 			</p>
 		)
 	} else {
@@ -578,13 +581,78 @@ function getColor(color: Color) {
 	)[color]
 }
 
-function getName(color: Color) {
-	if (color === 'red') {
-		return 'Player 1'
-	} else if (color === 'yellow') {
-		return 'Player 2'
-	} else {
+function getName(vs: Vs, color: Color) {
+	if (vs === 'cpu') {
+		if (color === 'red') {
+			return 'You'
+		} else if (color === 'yellow') {
+			return 'CPU'
+		}
 		throw new Error(`Invalid color: ${color}`)
+	} else if (vs === 'player') {
+		if (color === 'red') {
+			return 'Player 1'
+		} else if (color === 'yellow') {
+			return 'Player 2'
+		}
+		throw new Error(`Invalid color: ${color}`)
+	}
+	throw new Error(`Invalid vs: ${vs}`)
+}
+
+type Name = ReturnType<typeof getName>
+
+function getAvatarUrl(name: Name) {
+	switch (name) {
+		case 'CPU':
+			return cpuUrl
+		case 'Player 1':
+			return playerOneUrl
+		case 'Player 2':
+			return playerTwoUrl
+		case 'You':
+			return youUrl
+		default:
+			throw new Error(`Invalid name: ${name}`)
+	}
+}
+
+function getColorDescription(name: Name, color: Color) {
+	switch (name) {
+		case 'You':
+			return `You are ${color}`
+		case 'CPU':
+		case 'Player 1':
+		case 'Player 2':
+			return `${name} is ${color}`
+		default:
+			throw new Error(`Invalid name: ${name}`)
+	}
+}
+
+function getWinText(name: Name) {
+	switch (name) {
+		case 'You':
+			return 'win'
+		case 'CPU':
+		case 'Player 1':
+		case 'Player 2':
+			return 'wins'
+		default:
+			throw new Error(`Invalid name: ${name}`)
+	}
+}
+
+function getTurnText(name: Name) {
+	switch (name) {
+		case 'You':
+			return 'Your turn'
+		case 'CPU':
+		case 'Player 1':
+		case 'Player 2':
+			return `${name}’s turn`
+		default:
+			throw new Error(`Invalid name: ${name}`)
 	}
 }
 

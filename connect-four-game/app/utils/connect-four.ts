@@ -13,6 +13,7 @@ const counterSchema = z.enum(counters)
 export type Counter = z.infer<typeof counterSchema>
 
 const stateSchema = z.object({
+	vs: z.enum(['player', 'cpu']),
 	starter: colorSchema,
 	counters: z.array(z.array(counterSchema)),
 	score: z.object({
@@ -21,6 +22,7 @@ const stateSchema = z.object({
 	}),
 })
 export type State = z.infer<typeof stateSchema>
+export type Vs = State['vs']
 
 function assertCounter(value: any): asserts value is Counter {
 	invariant(counters.includes(value), `Invalid counter: ${value}`)
@@ -46,6 +48,7 @@ export function createTable<T>(value: T) {
 }
 
 const initialState: State = {
+	vs: 'player',
 	starter: 'red',
 	counters: createTable('empty'),
 	score: {

@@ -30,6 +30,7 @@ test('keeps score', async ({ page }) => {
 		localStorage.setItem(
 			stateKey,
 			JSON.stringify({
+				vs: 'player',
 				starter: 'red',
 				counters: [
 					['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
@@ -60,6 +61,7 @@ test('keeps score', async ({ page }) => {
 		localStorage.setItem(
 			stateKey,
 			JSON.stringify({
+				vs: 'player',
 				starter: 'red',
 				counters: [
 					['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
@@ -90,6 +92,7 @@ test('keeps score', async ({ page }) => {
 		localStorage.setItem(
 			stateKey,
 			JSON.stringify({
+				vs: 'player',
 				starter: 'red',
 				counters: [
 					['empty', 'red', 'yellow', 'red', 'yellow', 'red', 'yellow'],
@@ -135,6 +138,7 @@ test('alternates starter', async ({ page }) => {
 		localStorage.setItem(
 			stateKey,
 			JSON.stringify({
+				vs: 'player',
 				starter: 'red',
 				counters: [
 					['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
@@ -169,6 +173,7 @@ test('resets game', async ({ page }) => {
 		localStorage.setItem(
 			stateKey,
 			JSON.stringify({
+				vs: 'player',
 				starter: 'red',
 				counters: [
 					['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
@@ -210,6 +215,7 @@ test('restarts game from header', async ({ page }) => {
 		localStorage.setItem(
 			stateKey,
 			JSON.stringify({
+				vs: 'player',
 				starter: 'red',
 				counters: [
 					['empty', 'empty', 'yellow', 'red', 'yellow', 'red', 'yellow'],
@@ -246,6 +252,7 @@ test('restarts game from menu', async ({ page }) => {
 		localStorage.setItem(
 			stateKey,
 			JSON.stringify({
+				vs: 'player',
 				starter: 'red',
 				counters: [
 					['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
@@ -289,6 +296,7 @@ test('quits game', async ({ page }) => {
 		localStorage.setItem(
 			stateKey,
 			JSON.stringify({
+				vs: 'player',
 				starter: 'red',
 				counters: [
 					['empty', 'red', 'yellow', 'red', 'yellow', 'red', 'yellow'],
@@ -329,6 +337,7 @@ test('plays again', async ({ page }) => {
 		localStorage.setItem(
 			stateKey,
 			JSON.stringify({
+				vs: 'player',
 				starter: 'red',
 				counters: [
 					['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
@@ -403,6 +412,7 @@ test("doesn't allow moves when game is finished", async ({ page }) => {
 		localStorage.setItem(
 			stateKey,
 			JSON.stringify({
+				vs: 'player',
 				starter: 'red',
 				counters,
 				score: { red: 0, yellow: 0 },
@@ -440,6 +450,7 @@ test('announces player 1 win', async ({ page }) => {
 		localStorage.setItem(
 			stateKey,
 			JSON.stringify({
+				vs: 'player',
 				starter: 'red',
 				counters: [
 					['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
@@ -468,6 +479,7 @@ test('announces player 2 win', async ({ page }) => {
 		localStorage.setItem(
 			stateKey,
 			JSON.stringify({
+				vs: 'player',
 				starter: 'red',
 				counters: [
 					['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
@@ -496,6 +508,7 @@ test('announces draw', async ({ page }) => {
 		localStorage.setItem(
 			stateKey,
 			JSON.stringify({
+				vs: 'player',
 				starter: 'red',
 				counters: [
 					['empty', 'red', 'yellow', 'yellow', 'red', 'yellow', 'red'],
@@ -653,6 +666,7 @@ test('shows winning counters', async ({ page }) => {
 		localStorage.setItem(
 			stateKey,
 			JSON.stringify({
+				vs: 'player',
 				starter: 'red',
 				counters: [
 					['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
@@ -696,6 +710,90 @@ test('shows winning counters', async ({ page }) => {
 	await expect(page.getByTestId('1,5')).not.toHaveAccessibleDescription(
 		/winning/i,
 	)
+})
+
+test('shows correct player names', async ({ page }) => {
+	await page.goto('/')
+	await page.evaluate(async () => {
+		const stateKey = 'state'
+
+		localStorage.setItem(
+			stateKey,
+			JSON.stringify({
+				vs: 'player',
+				starter: 'red',
+				counters: [
+					['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
+					['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
+					['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
+					['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
+					['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
+					['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
+				],
+				score: { red: 0, yellow: 0 },
+			} satisfies State),
+		)
+	})
+	await page.goto('/play')
+
+	await expect(
+		page.getByTestId('player-one-card').getByRole('heading'),
+	).toHaveText(/player 1/i)
+	await expect(
+		page.getByTestId('player-one-card').getByRole('img'),
+	).toHaveAccessibleName(/player 1 is red/i)
+	await expect(
+		page.getByTestId('player-two-card').getByRole('heading'),
+	).toHaveText(/player 2/i)
+	await expect(
+		page.getByTestId('player-two-card').getByRole('img'),
+	).toHaveAccessibleName(/player 2 is yellow/i)
+	await expect(page.getByTestId('turn')).toHaveText(/player 1’s turn/i)
+
+	await page.getByTestId('0,0').click()
+
+	await expect(page.getByTestId('turn')).toHaveText(/player 2’s turn/i)
+
+	await page.goto('/')
+	await page.evaluate(async () => {
+		const stateKey = 'state'
+
+		localStorage.setItem(
+			stateKey,
+			JSON.stringify({
+				vs: 'cpu',
+				starter: 'red',
+				counters: [
+					['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
+					['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
+					['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
+					['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
+					['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
+					['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
+				],
+				score: { red: 0, yellow: 0 },
+			} satisfies State),
+		)
+	})
+	await page.goto('/play')
+
+	await expect(
+		page.getByTestId('player-one-card').getByRole('heading'),
+	).toHaveText(/you/i)
+	await expect(
+		page.getByTestId('player-one-card').getByRole('img'),
+	).toHaveAccessibleName(/you are red/i)
+	await expect(
+		page.getByTestId('player-two-card').getByRole('heading'),
+	).toHaveText(/cpu/i)
+	await expect(
+		page.getByTestId('player-two-card').getByRole('img'),
+	).toHaveAccessibleName(/cpu is yellow/i)
+	await expect(page.getByTestId('turn')).toHaveText(/your turn/i)
+
+	await page.getByTestId('0,0').click()
+
+	await expect(page.getByTestId('turn')).toHaveText(/cpu’s turn/i)
 })
 
 test.describe('passes a11y checks', () => {
