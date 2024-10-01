@@ -1,6 +1,11 @@
 import AxeBuilder from '@axe-core/playwright'
 import { test, expect } from '@playwright/test'
-import { createTable, type Table, type State } from '#app/utils/connect-four'
+import {
+	createTable,
+	type Table,
+	type State,
+	stateKey,
+} from '#app/utils/connect-four'
 
 test('has rules', async ({ page }) => {
 	await page.goto('/')
@@ -24,25 +29,26 @@ test('keeps score', async ({ page }) => {
 	await expect(page.getByTestId('score-yellow')).toHaveText('0')
 
 	await page.goto('/')
-	await page.evaluate(async () => {
-		const stateKey = 'state'
-
-		localStorage.setItem(
-			stateKey,
-			JSON.stringify({
-				starter: 'red',
-				counters: [
-					['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
-					['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
-					['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
-					['red', 'yellow', 'empty', 'empty', 'empty', 'empty', 'empty'],
-					['red', 'yellow', 'empty', 'empty', 'empty', 'empty', 'empty'],
-					['red', 'yellow', 'empty', 'empty', 'empty', 'empty', 'empty'],
-				],
-				score: { red: 1, yellow: 2 },
-			} satisfies State),
-		)
-	})
+	await page.evaluate(
+		async ([stateKey]) => {
+			localStorage.setItem(
+				stateKey,
+				JSON.stringify({
+					starter: 'red',
+					counters: [
+						['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
+						['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
+						['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
+						['red', 'yellow', 'empty', 'empty', 'empty', 'empty', 'empty'],
+						['red', 'yellow', 'empty', 'empty', 'empty', 'empty', 'empty'],
+						['red', 'yellow', 'empty', 'empty', 'empty', 'empty', 'empty'],
+					],
+					score: { red: 1, yellow: 2 },
+				} satisfies State),
+			)
+		},
+		[stateKey] as const,
+	)
 	await page.goto('/play')
 
 	await expect(page.getByTestId('score-red')).toHaveText('1')
@@ -54,25 +60,26 @@ test('keeps score', async ({ page }) => {
 	await expect(page.getByTestId('score-yellow')).toHaveText('2')
 
 	await page.goto('/')
-	await page.evaluate(async () => {
-		const stateKey = 'state'
-
-		localStorage.setItem(
-			stateKey,
-			JSON.stringify({
-				starter: 'red',
-				counters: [
-					['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
-					['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
-					['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
-					['red', 'yellow', 'empty', 'empty', 'empty', 'empty', 'empty'],
-					['red', 'yellow', 'empty', 'empty', 'empty', 'empty', 'empty'],
-					['red', 'yellow', 'red', 'empty', 'empty', 'empty', 'empty'],
-				],
-				score: { red: 2, yellow: 2 },
-			} satisfies State),
-		)
-	})
+	await page.evaluate(
+		async ([stateKey]) => {
+			localStorage.setItem(
+				stateKey,
+				JSON.stringify({
+					starter: 'red',
+					counters: [
+						['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
+						['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
+						['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
+						['red', 'yellow', 'empty', 'empty', 'empty', 'empty', 'empty'],
+						['red', 'yellow', 'empty', 'empty', 'empty', 'empty', 'empty'],
+						['red', 'yellow', 'red', 'empty', 'empty', 'empty', 'empty'],
+					],
+					score: { red: 2, yellow: 2 },
+				} satisfies State),
+			)
+		},
+		[stateKey] as const,
+	)
 	await page.goto('/play')
 
 	await expect(page.getByTestId('score-red')).toHaveText('2')
@@ -84,25 +91,26 @@ test('keeps score', async ({ page }) => {
 	await expect(page.getByTestId('score-yellow')).toHaveText('3')
 
 	await page.goto('/')
-	await page.evaluate(async () => {
-		const stateKey = 'state'
-
-		localStorage.setItem(
-			stateKey,
-			JSON.stringify({
-				starter: 'red',
-				counters: [
-					['empty', 'red', 'yellow', 'red', 'yellow', 'red', 'yellow'],
-					['red', 'yellow', 'red', 'yellow', 'red', 'yellow', 'red'],
-					['red', 'yellow', 'red', 'yellow', 'red', 'yellow', 'yellow'],
-					['yellow', 'red', 'yellow', 'red', 'yellow', 'red', 'red'],
-					['yellow', 'red', 'yellow', 'red', 'yellow', 'red', 'yellow'],
-					['red', 'yellow', 'red', 'yellow', 'red', 'yellow', 'red'],
-				],
-				score: { red: 2, yellow: 3 },
-			} satisfies State),
-		)
-	})
+	await page.evaluate(
+		async ([stateKey]) => {
+			localStorage.setItem(
+				stateKey,
+				JSON.stringify({
+					starter: 'red',
+					counters: [
+						['empty', 'red', 'yellow', 'red', 'yellow', 'red', 'yellow'],
+						['red', 'yellow', 'red', 'yellow', 'red', 'yellow', 'red'],
+						['red', 'yellow', 'red', 'yellow', 'red', 'yellow', 'yellow'],
+						['yellow', 'red', 'yellow', 'red', 'yellow', 'red', 'red'],
+						['yellow', 'red', 'yellow', 'red', 'yellow', 'red', 'yellow'],
+						['red', 'yellow', 'red', 'yellow', 'red', 'yellow', 'red'],
+					],
+					score: { red: 2, yellow: 3 },
+				} satisfies State),
+			)
+		},
+		[stateKey] as const,
+	)
 	await page.goto('/play')
 
 	await expect(page.getByTestId('score-red')).toHaveText('2')
@@ -129,25 +137,26 @@ test('has correct initial state', async ({ page }) => {
 
 test('alternates starter', async ({ page }) => {
 	await page.goto('/')
-	await page.evaluate(async () => {
-		const stateKey = 'state'
-
-		localStorage.setItem(
-			stateKey,
-			JSON.stringify({
-				starter: 'red',
-				counters: [
-					['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
-					['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
-					['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
-					['red', 'yellow', 'empty', 'empty', 'empty', 'empty', 'empty'],
-					['red', 'yellow', 'empty', 'empty', 'empty', 'empty', 'empty'],
-					['red', 'yellow', 'empty', 'empty', 'empty', 'empty', 'empty'],
-				],
-				score: { red: 0, yellow: 0 },
-			} satisfies State),
-		)
-	})
+	await page.evaluate(
+		async ([stateKey]) => {
+			localStorage.setItem(
+				stateKey,
+				JSON.stringify({
+					starter: 'red',
+					counters: [
+						['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
+						['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
+						['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
+						['red', 'yellow', 'empty', 'empty', 'empty', 'empty', 'empty'],
+						['red', 'yellow', 'empty', 'empty', 'empty', 'empty', 'empty'],
+						['red', 'yellow', 'empty', 'empty', 'empty', 'empty', 'empty'],
+					],
+					score: { red: 0, yellow: 0 },
+				} satisfies State),
+			)
+		},
+		[stateKey] as const,
+	)
 	await page.goto('/play')
 
 	await expect(page.getByTestId('turn')).toHaveText('Player 1’s turn')
@@ -163,25 +172,26 @@ test('alternates starter', async ({ page }) => {
 test('resets game', async ({ page }) => {
 	await page.clock.install({ time: new Date('2024-09-20T15:45:00') })
 	await page.goto('/')
-	await page.evaluate(async () => {
-		const stateKey = 'state'
-
-		localStorage.setItem(
-			stateKey,
-			JSON.stringify({
-				starter: 'red',
-				counters: [
-					['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
-					['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
-					['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
-					['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
-					['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
-					['red', 'yellow', 'red', 'yellow', 'red', 'yellow', 'red'],
-				],
-				score: { red: 10, yellow: 20 },
-			} satisfies State),
-		)
-	})
+	await page.evaluate(
+		async ([stateKey]) => {
+			localStorage.setItem(
+				stateKey,
+				JSON.stringify({
+					starter: 'red',
+					counters: [
+						['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
+						['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
+						['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
+						['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
+						['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
+						['red', 'yellow', 'red', 'yellow', 'red', 'yellow', 'red'],
+					],
+					score: { red: 10, yellow: 20 },
+				} satisfies State),
+			)
+		},
+		[stateKey] as const,
+	)
 	await page.goto('/play')
 	await page.getByTestId('0,0').click()
 	await page.clock.fastForward(5_000)
@@ -204,25 +214,26 @@ test('resets game', async ({ page }) => {
 
 test('restarts game from header', async ({ page }) => {
 	await page.goto('/')
-	await page.evaluate(async () => {
-		const stateKey = 'state'
-
-		localStorage.setItem(
-			stateKey,
-			JSON.stringify({
-				starter: 'red',
-				counters: [
-					['empty', 'empty', 'yellow', 'red', 'yellow', 'red', 'yellow'],
-					['red', 'yellow', 'red', 'yellow', 'red', 'yellow', 'red'],
-					['yellow', 'yellow', 'red', 'yellow', 'red', 'yellow', 'red'],
-					['yellow', 'red', 'yellow', 'red', 'yellow', 'red', 'red'],
-					['yellow', 'red', 'yellow', 'red', 'yellow', 'red', 'yellow'],
-					['red', 'yellow', 'red', 'yellow', 'red', 'yellow', 'red'],
-				],
-				score: { red: 12, yellow: 34 },
-			} satisfies State),
-		)
-	})
+	await page.evaluate(
+		async ([stateKey]) => {
+			localStorage.setItem(
+				stateKey,
+				JSON.stringify({
+					starter: 'red',
+					counters: [
+						['empty', 'empty', 'yellow', 'red', 'yellow', 'red', 'yellow'],
+						['red', 'yellow', 'red', 'yellow', 'red', 'yellow', 'red'],
+						['yellow', 'yellow', 'red', 'yellow', 'red', 'yellow', 'red'],
+						['yellow', 'red', 'yellow', 'red', 'yellow', 'red', 'red'],
+						['yellow', 'red', 'yellow', 'red', 'yellow', 'red', 'yellow'],
+						['red', 'yellow', 'red', 'yellow', 'red', 'yellow', 'red'],
+					],
+					score: { red: 12, yellow: 34 },
+				} satisfies State),
+			)
+		},
+		[stateKey] as const,
+	)
 	await page.goto('/play')
 	await page
 		.getByRole('banner')
@@ -240,25 +251,26 @@ test('restarts game from header', async ({ page }) => {
 test('restarts game from menu', async ({ page }) => {
 	await page.clock.install({ time: new Date('2024-09-20T15:45:00') })
 	await page.goto('/')
-	await page.evaluate(async () => {
-		const stateKey = 'state'
-
-		localStorage.setItem(
-			stateKey,
-			JSON.stringify({
-				starter: 'red',
-				counters: [
-					['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
-					['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
-					['red', 'yellow', 'red', 'yellow', 'red', 'yellow', 'yellow'],
-					['yellow', 'red', 'yellow', 'red', 'yellow', 'red', 'red'],
-					['yellow', 'red', 'yellow', 'red', 'yellow', 'red', 'yellow'],
-					['red', 'yellow', 'red', 'yellow', 'red', 'yellow', 'red'],
-				],
-				score: { red: 43, yellow: 21 },
-			} satisfies State),
-		)
-	})
+	await page.evaluate(
+		async ([stateKey]) => {
+			localStorage.setItem(
+				stateKey,
+				JSON.stringify({
+					starter: 'red',
+					counters: [
+						['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
+						['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
+						['red', 'yellow', 'red', 'yellow', 'red', 'yellow', 'yellow'],
+						['yellow', 'red', 'yellow', 'red', 'yellow', 'red', 'red'],
+						['yellow', 'red', 'yellow', 'red', 'yellow', 'red', 'yellow'],
+						['red', 'yellow', 'red', 'yellow', 'red', 'yellow', 'red'],
+					],
+					score: { red: 43, yellow: 21 },
+				} satisfies State),
+			)
+		},
+		[stateKey] as const,
+	)
 	await page.goto('/play')
 	await page.getByTestId('1,0').click()
 	await page.clock.fastForward(5_000)
@@ -283,25 +295,26 @@ test('restarts game from menu', async ({ page }) => {
 
 test('quits game', async ({ page }) => {
 	await page.goto('/')
-	await page.evaluate(async () => {
-		const stateKey = 'state'
-
-		localStorage.setItem(
-			stateKey,
-			JSON.stringify({
-				starter: 'red',
-				counters: [
-					['empty', 'red', 'yellow', 'red', 'yellow', 'red', 'yellow'],
-					['red', 'yellow', 'red', 'yellow', 'red', 'yellow', 'red'],
-					['yellow', 'red', 'yellow', 'red', 'yellow', 'red', 'yellow'],
-					['red', 'yellow', 'red', 'yellow', 'red', 'yellow', 'red'],
-					['yellow', 'red', 'yellow', 'red', 'yellow', 'red', 'yellow'],
-					['red', 'yellow', 'red', 'yellow', 'red', 'yellow', 'red'],
-				],
-				score: { red: 11, yellow: 22 },
-			} satisfies State),
-		)
-	})
+	await page.evaluate(
+		async ([stateKey]) => {
+			localStorage.setItem(
+				stateKey,
+				JSON.stringify({
+					starter: 'red',
+					counters: [
+						['empty', 'red', 'yellow', 'red', 'yellow', 'red', 'yellow'],
+						['red', 'yellow', 'red', 'yellow', 'red', 'yellow', 'red'],
+						['yellow', 'red', 'yellow', 'red', 'yellow', 'red', 'yellow'],
+						['red', 'yellow', 'red', 'yellow', 'red', 'yellow', 'red'],
+						['yellow', 'red', 'yellow', 'red', 'yellow', 'red', 'yellow'],
+						['red', 'yellow', 'red', 'yellow', 'red', 'yellow', 'red'],
+					],
+					score: { red: 11, yellow: 22 },
+				} satisfies State),
+			)
+		},
+		[stateKey] as const,
+	)
 	await page.goto('/play')
 	await page.getByRole('banner').getByRole('button', { name: 'menu' }).click()
 	await page
@@ -323,25 +336,26 @@ test('quits game', async ({ page }) => {
 test('plays again', async ({ page }) => {
 	await page.clock.install({ time: new Date('2024-09-20T15:45:00') })
 	await page.goto('/')
-	await page.evaluate(async () => {
-		const stateKey = 'state'
-
-		localStorage.setItem(
-			stateKey,
-			JSON.stringify({
-				starter: 'red',
-				counters: [
-					['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
-					['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
-					['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
-					['empty', 'yellow', 'empty', 'empty', 'empty', 'empty', 'empty'],
-					['yellow', 'yellow', 'empty', 'empty', 'empty', 'empty', 'empty'],
-					['red', 'red', 'red', 'empty', 'empty', 'empty', 'empty'],
-				],
-				score: { red: 0, yellow: 0 },
-			} satisfies State),
-		)
-	})
+	await page.evaluate(
+		async ([stateKey]) => {
+			localStorage.setItem(
+				stateKey,
+				JSON.stringify({
+					starter: 'red',
+					counters: [
+						['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
+						['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
+						['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
+						['empty', 'yellow', 'empty', 'empty', 'empty', 'empty', 'empty'],
+						['yellow', 'yellow', 'empty', 'empty', 'empty', 'empty', 'empty'],
+						['red', 'red', 'red', 'empty', 'empty', 'empty', 'empty'],
+					],
+					score: { red: 0, yellow: 0 },
+				} satisfies State),
+			)
+		},
+		[stateKey] as const,
+	)
 	await page.goto('/play')
 	await page.getByTestId('0,0').click()
 	await page.getByTestId('0,0').click()
@@ -389,28 +403,30 @@ test('drops counter', async ({ page }) => {
 
 test("doesn't allow moves when game is finished", async ({ page }) => {
 	await page.goto('/')
-	const counters = await page.evaluate(async () => {
-		const stateKey = 'state'
-		const counters: Table = [
-			['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
-			['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
-			['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
-			['empty', 'yellow', 'empty', 'empty', 'empty', 'empty', 'empty'],
-			['yellow', 'yellow', 'empty', 'empty', 'empty', 'empty', 'empty'],
-			['red', 'red', 'red', 'empty', 'empty', 'empty', 'empty'],
-		]
+	const counters = await page.evaluate(
+		async ([stateKey]) => {
+			const counters: Table = [
+				['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
+				['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
+				['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
+				['empty', 'yellow', 'empty', 'empty', 'empty', 'empty', 'empty'],
+				['yellow', 'yellow', 'empty', 'empty', 'empty', 'empty', 'empty'],
+				['red', 'red', 'red', 'empty', 'empty', 'empty', 'empty'],
+			]
 
-		localStorage.setItem(
-			stateKey,
-			JSON.stringify({
-				starter: 'red',
-				counters,
-				score: { red: 0, yellow: 0 },
-			} satisfies State),
-		)
+			localStorage.setItem(
+				stateKey,
+				JSON.stringify({
+					starter: 'red',
+					counters,
+					score: { red: 0, yellow: 0 },
+				} satisfies State),
+			)
 
-		return counters
-	})
+			return counters
+		},
+		[stateKey] as const,
+	)
 	await page.goto('/play')
 	await page.getByTestId('3,0').click()
 	counters[5]![3] = 'red'
@@ -434,25 +450,26 @@ test("doesn't allow moves when game is finished", async ({ page }) => {
 
 test('announces player 1 win', async ({ page }) => {
 	await page.goto('/')
-	await page.evaluate(async () => {
-		const stateKey = 'state'
-
-		localStorage.setItem(
-			stateKey,
-			JSON.stringify({
-				starter: 'red',
-				counters: [
-					['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
-					['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
-					['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
-					['empty', 'yellow', 'empty', 'empty', 'empty', 'empty', 'empty'],
-					['yellow', 'yellow', 'empty', 'empty', 'empty', 'empty', 'empty'],
-					['red', 'red', 'red', 'empty', 'empty', 'empty', 'empty'],
-				],
-				score: { red: 0, yellow: 0 },
-			} satisfies State),
-		)
-	})
+	await page.evaluate(
+		async ([stateKey]) => {
+			localStorage.setItem(
+				stateKey,
+				JSON.stringify({
+					starter: 'red',
+					counters: [
+						['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
+						['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
+						['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
+						['empty', 'yellow', 'empty', 'empty', 'empty', 'empty', 'empty'],
+						['yellow', 'yellow', 'empty', 'empty', 'empty', 'empty', 'empty'],
+						['red', 'red', 'red', 'empty', 'empty', 'empty', 'empty'],
+					],
+					score: { red: 0, yellow: 0 },
+				} satisfies State),
+			)
+		},
+		[stateKey] as const,
+	)
 	await page.goto('/play')
 	await page.getByTestId('3,0').click()
 
@@ -462,25 +479,26 @@ test('announces player 1 win', async ({ page }) => {
 
 test('announces player 2 win', async ({ page }) => {
 	await page.goto('/')
-	await page.evaluate(async () => {
-		const stateKey = 'state'
-
-		localStorage.setItem(
-			stateKey,
-			JSON.stringify({
-				starter: 'red',
-				counters: [
-					['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
-					['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
-					['red', 'yellow', 'empty', 'empty', 'empty', 'empty', 'empty'],
-					['red', 'yellow', 'empty', 'empty', 'empty', 'empty', 'empty'],
-					['yellow', 'yellow', 'empty', 'empty', 'empty', 'empty', 'empty'],
-					['red', 'red', 'red', 'empty', 'empty', 'empty', 'empty'],
-				],
-				score: { red: 0, yellow: 0 },
-			} satisfies State),
-		)
-	})
+	await page.evaluate(
+		async ([stateKey]) => {
+			localStorage.setItem(
+				stateKey,
+				JSON.stringify({
+					starter: 'red',
+					counters: [
+						['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
+						['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
+						['red', 'yellow', 'empty', 'empty', 'empty', 'empty', 'empty'],
+						['red', 'yellow', 'empty', 'empty', 'empty', 'empty', 'empty'],
+						['yellow', 'yellow', 'empty', 'empty', 'empty', 'empty', 'empty'],
+						['red', 'red', 'red', 'empty', 'empty', 'empty', 'empty'],
+					],
+					score: { red: 0, yellow: 0 },
+				} satisfies State),
+			)
+		},
+		[stateKey] as const,
+	)
 	await page.goto('/play')
 	await page.getByTestId('1,0').click()
 
@@ -490,25 +508,26 @@ test('announces player 2 win', async ({ page }) => {
 
 test('announces draw', async ({ page }) => {
 	await page.goto('/')
-	await page.evaluate(async () => {
-		const stateKey = 'state'
-
-		localStorage.setItem(
-			stateKey,
-			JSON.stringify({
-				starter: 'red',
-				counters: [
-					['empty', 'red', 'yellow', 'yellow', 'red', 'yellow', 'red'],
-					['red', 'yellow', 'red', 'red', 'yellow', 'red', 'yellow'],
-					['yellow', 'red', 'yellow', 'yellow', 'yellow', 'red', 'red'],
-					['yellow', 'yellow', 'red', 'red', 'red', 'yellow', 'red'],
-					['red', 'red', 'red', 'yellow', 'red', 'yellow', 'yellow'],
-					['yellow', 'yellow', 'yellow', 'red', 'yellow', 'red', 'red'],
-				],
-				score: { red: 0, yellow: 0 },
-			} satisfies State),
-		)
-	})
+	await page.evaluate(
+		async ([stateKey]) => {
+			localStorage.setItem(
+				stateKey,
+				JSON.stringify({
+					starter: 'red',
+					counters: [
+						['empty', 'red', 'yellow', 'yellow', 'red', 'yellow', 'red'],
+						['red', 'yellow', 'red', 'red', 'yellow', 'red', 'yellow'],
+						['yellow', 'red', 'yellow', 'yellow', 'yellow', 'red', 'red'],
+						['yellow', 'yellow', 'red', 'red', 'red', 'yellow', 'red'],
+						['red', 'red', 'red', 'yellow', 'red', 'yellow', 'yellow'],
+						['yellow', 'yellow', 'yellow', 'red', 'yellow', 'red', 'red'],
+					],
+					score: { red: 0, yellow: 0 },
+				} satisfies State),
+			)
+		},
+		[stateKey] as const,
+	)
 	await page.goto('/play')
 	await page.getByTestId('0,0').click()
 
@@ -647,25 +666,26 @@ test('counter resumes when dialog closes', async ({ page }) => {
 
 test('shows winning counters', async ({ page }) => {
 	await page.goto('/')
-	await page.evaluate(async () => {
-		const stateKey = 'state'
-
-		localStorage.setItem(
-			stateKey,
-			JSON.stringify({
-				starter: 'red',
-				counters: [
-					['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
-					['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
-					['red', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
-					['red', 'yellow', 'empty', 'empty', 'empty', 'empty', 'empty'],
-					['red', 'yellow', 'empty', 'empty', 'yellow', 'empty', 'empty'],
-					['red', 'red', 'empty', 'empty', 'yellow', 'empty', 'empty'],
-				],
-				score: { red: 0, yellow: 0 },
-			} satisfies State),
-		)
-	})
+	await page.evaluate(
+		async ([stateKey]) => {
+			localStorage.setItem(
+				stateKey,
+				JSON.stringify({
+					starter: 'red',
+					counters: [
+						['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
+						['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
+						['red', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
+						['red', 'yellow', 'empty', 'empty', 'empty', 'empty', 'empty'],
+						['red', 'yellow', 'empty', 'empty', 'yellow', 'empty', 'empty'],
+						['red', 'red', 'empty', 'empty', 'yellow', 'empty', 'empty'],
+					],
+					score: { red: 0, yellow: 0 },
+				} satisfies State),
+			)
+		},
+		[stateKey] as const,
+	)
 	await page.goto('/play')
 
 	await expect(page.getByTestId('0,0')).not.toHaveAccessibleDescription(
