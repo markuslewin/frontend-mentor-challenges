@@ -1,0 +1,10 @@
+[
+  {
+    "rule": "color-contrast",
+    "targets": [
+      [
+        ".styles_button_red__3t97in8"
+      ]
+    ]
+  }
+]

@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion'
 import { Link, useNavigate } from 'react-router-dom'
 import logoUrl from '#app/assets/logo.svg'
+import playerVsCpuUrl from '#app/assets/player-vs-cpu.svg'
 import playerVsPlayerUrl from '#app/assets/player-vs-player.svg'
 import { Img } from '#app/components/picture'
 import {
@@ -50,10 +51,34 @@ export function MainMenuRoute() {
 				<ul className={options} role="list">
 					<li className={option}>
 						<button
+							className={button.red}
+							type="button"
+							onClick={() => {
+								connectFour.newGame({
+									vs: 'cpu',
+								})
+								navigate('/play')
+							}}
+						>
+							Play vs CPU
+							<Img
+								className={playerVsPlayerIcon}
+								alt=""
+								src={playerVsCpuUrl}
+								priority
+								width="82px"
+								height="46px"
+							/>
+						</button>
+					</li>
+					<li className={option}>
+						<button
 							className={button.yellow}
 							type="button"
 							onClick={() => {
-								connectFour.newGame()
+								connectFour.newGame({
+									vs: 'player',
+								})
 								navigate('/play')
 							}}
 						>

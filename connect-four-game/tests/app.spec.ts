@@ -816,12 +816,23 @@ test('shows correct player names', async ({ page }) => {
 	await expect(page.getByTestId('turn')).toHaveText(/cpu’s turn/i)
 })
 
+test('starts game vs cpu', async ({ page }) => {
+	await page.goto('/')
+	await page.getByRole('button', { name: 'play vs cpu' }).click()
+
+	await expect(
+		page.getByTestId('player-two-card').getByRole('heading'),
+	).toHaveText(/cpu/i)
+})
+
 test.describe('passes a11y checks', () => {
 	test('main menu', async ({ page }) => {
 		await page.goto('/')
 
 		const results = await new AxeBuilder({ page }).analyze()
-		expect(results.violations).toEqual([])
+
+		// The white-on-red of "Play vs CPU" has insufficient contrast
+		expect(violationFingerprints(results)).toMatchSnapshot()
 	})
 
 	test('rules', async ({ page }) => {

@@ -65,8 +65,9 @@ const baseButton = style([
 ])
 
 export const button = styleVariants({
-	yellow: [baseButton, { background: colors.yellow }],
+	red: [baseButton, { background: colors.red, color: colors.white }],
 	white: [baseButton, { background: colors.white }],
+	yellow: [baseButton, { background: colors.yellow }],
 })
 
 export const playerVsPlayerIcon = style({

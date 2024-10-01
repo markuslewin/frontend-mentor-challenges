@@ -153,9 +153,15 @@ export function useConnectFour() {
 				status.counters.find((p) => p[0] === x && p[1] === y) !== undefined
 			)
 		},
-		newGame() {
+		newGame({ vs }: { vs: Vs }) {
 			resetCounter()
-			setState(initialState)
+			setState({ ...initialState, vs })
+		},
+		restart() {
+			this.newGame({ vs: state.vs })
+		},
+		quit() {
+			localStorage.removeItem(stateKey)
 		},
 		selectColumn(index: number) {
 			if (status.type !== 'ongoing') {

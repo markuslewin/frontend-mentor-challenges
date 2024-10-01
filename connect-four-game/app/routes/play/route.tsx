@@ -204,7 +204,7 @@ export function PlayRoute() {
 																			className={whiteDialogButton}
 																			type="button"
 																			onClick={() => {
-																				connectFour.newGame()
+																				connectFour.restart()
 																				setIsMenuOpen(false)
 																			}}
 																		>
@@ -217,7 +217,7 @@ export function PlayRoute() {
 																			type="button"
 																			onClick={() => {
 																				navigate('/')
-																				connectFour.newGame()
+																				connectFour.quit()
 																			}}
 																		>
 																			Quit game
@@ -238,7 +238,7 @@ export function PlayRoute() {
 									className={button}
 									type="button"
 									onClick={() => {
-										connectFour.newGame()
+										connectFour.restart()
 									}}
 								>
 									Restart
