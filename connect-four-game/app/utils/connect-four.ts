@@ -68,7 +68,11 @@ function useGameState() {
 
 	return [
 		state,
-		setState as ReturnType<typeof useLocalStorage<State>>[1],
+		/*
+			`useLocalStorage` says `T`, but it's actually `T | null` when there's no
+			value in localStorage.
+		*/
+		setState as ReturnType<typeof useLocalStorage<State | null>>[1],
 	] as const
 }
 
@@ -159,7 +163,7 @@ export function useConnectFour() {
 				return
 			}
 			setState(
-				produce((draft) => {
+				produce(state, (draft) => {
 					const counter = draft.counters[bottom]?.[index]
 					assertCounter(counter)
 					draft.counters[bottom]![index] = currentColor
@@ -178,7 +182,7 @@ export function useConnectFour() {
 		playAgain() {
 			resetCounter()
 			setState(
-				produce((draft) => {
+				produce(state, (draft) => {
 					draft.starter = getOtherColor(state.starter)
 					draft.counters = initialState.counters
 				}),
@@ -212,10 +216,15 @@ function getOtherColor(color: Color): Color {
 }
 
 function getState() {
-	const item = localStorage.getItem(stateKey)
-	invariant(typeof item === 'string', 'Expected string')
-	const json = JSON.parse(item)
-	return stateSchema.parse(json)
+	try {
+		const item = localStorage.getItem(stateKey)
+		invariant(typeof item === 'string', 'Expected string')
+		const json = JSON.parse(item)
+		return stateSchema.parse(json)
+	} catch (e) {
+		console.warn('Failed to get state', e)
+		return initialState
+	}
 }
 
 export function parseCounters(table: Table): Status {
