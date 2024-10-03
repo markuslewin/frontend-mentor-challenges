@@ -84,13 +84,56 @@ export function useConnectFour() {
 	const [timeLeft, setTimeLeft] = useState(initialTimeLeft)
 	const counterRef = useRef<ReturnType<typeof setInterval>>()
 	const playerHasMovedRef = useRef(false)
+	const [isCpuThinking, _setIsCpuThinking] = useState(false)
+	const isCpuThinkingRef = useRef(isCpuThinking)
+	const cpuTimeoutRef = useRef<ReturnType<typeof setTimeout>>()
 
-	function getColumn(index: number) {
-		return state.counters.map((r) => {
-			const x = r[index]
-			assertCounter(x)
-			return x
+	function setIsCpuThinking(val: boolean) {
+		_setIsCpuThinking(val)
+		isCpuThinkingRef.current = val
+	}
+
+	function resolve(status: Exclude<Status, { type: 'ongoing' }>, state: State) {
+		stopCounter()
+		clearTimeout(cpuTimeoutRef.current)
+		return produce(state, (draft) => {
+			if (status.type === 'win') {
+				++draft.score[status.winner]
+			}
 		})
+	}
+
+	function beforeTurn(state: State) {
+		const color = getCurrentColor(state.starter, state.counters)
+		if (state.vs === 'cpu' && color === 'yellow') {
+			setTimeout(() => {
+				setIsCpuThinking(true)
+				// todo: Update `localStorage` directly
+				cpuTimeoutRef.current = setTimeout(
+					() => {
+						let state = getState()
+						const color = getCurrentColor(state.starter, state.counters)
+						state = produce(state, (draft) => {
+							draft.counters = drop(
+								color,
+								decide(draft.counters),
+								draft.counters,
+							)
+						})
+						const status = parseCounters(state.counters)
+						if (status.type === 'ongoing') {
+							resetCounter()
+							startCounter(initialTimeLeft)
+						} else {
+							state = resolve(status, state)
+						}
+						setState(state)
+						setIsCpuThinking(false)
+					},
+					getRandomInt(1000, 2000),
+				)
+			})
+		}
 	}
 
 	function startCounter(ms: number) {
@@ -106,6 +149,7 @@ export function useConnectFour() {
 			setTimeLeft(nextTimeLeft)
 			if (nextTimeLeft === 0) {
 				stopCounter()
+				// todo: `resolve`
 				const winner = getOtherColor(
 					getCurrentColor(freshState.starter, freshState.counters),
 				)
@@ -120,7 +164,6 @@ export function useConnectFour() {
 	}
 
 	function resetCounter() {
-		playerHasMovedRef.current = false
 		stopCounter()
 		setTimeLeft(initialTimeLeft)
 	}
@@ -144,7 +187,8 @@ export function useConnectFour() {
 		canMakeMove(index: number) {
 			return (
 				status.type === 'ongoing' &&
-				!getColumn(index).every((c) => c !== 'empty')
+				!getColumn(index, state.counters).every((c) => c !== 'empty') &&
+				!isCpuThinking
 			)
 		},
 		isWinningCounter(x: number, y: number) {
@@ -155,7 +199,10 @@ export function useConnectFour() {
 		},
 		newGame({ vs }: { vs: Vs }) {
 			resetCounter()
-			setState({ ...initialState, vs })
+			playerHasMovedRef.current = false
+			const state = { ...initialState, vs }
+			beforeTurn(state)
+			setState(state)
 		},
 		restart() {
 			this.newGame({ vs: state.vs })
@@ -163,39 +210,35 @@ export function useConnectFour() {
 		quit() {
 			localStorage.removeItem(stateKey)
 		},
-		selectColumn(index: number) {
-			if (status.type !== 'ongoing') {
+		selectColumn(columnId: number) {
+			if (status.type !== 'ongoing' || isCpuThinkingRef.current) {
 				return
 			}
-			const bottom = getColumn(index).lastIndexOf('empty')
-			if (bottom === -1) {
-				return
-			}
-			setState(
-				produce(state, (draft) => {
-					const counter = draft.counters[bottom]?.[index]
-					assertCounter(counter)
-					draft.counters[bottom]![index] = currentColor
 
-					const nextStatus = parseCounters(draft.counters)
-					stopCounter()
-					if (nextStatus.type === 'win') {
-						++draft.score[nextStatus.winner]
-					} else if (nextStatus.type === 'ongoing') {
-						startCounter(initialTimeLeft)
-					}
-				}),
-			)
+			const color = getCurrentColor(state.starter, state.counters)
+			let _state = produce(state, (draft) => {
+				draft.counters = drop(color, columnId, draft.counters)
+			})
+			const _status = parseCounters(_state.counters)
+			if (_status.type === 'ongoing') {
+				resetCounter()
+				startCounter(initialTimeLeft)
+				beforeTurn(_state)
+			} else {
+				_state = resolve(_status, _state)
+			}
 			playerHasMovedRef.current = true
+			setState(_state)
 		},
 		playAgain() {
 			resetCounter()
-			setState(
-				produce(state, (draft) => {
-					draft.starter = getOtherColor(state.starter)
-					draft.counters = initialState.counters
-				}),
-			)
+			playerHasMovedRef.current = false
+			let _state = produce(state, (draft) => {
+				draft.starter = getOtherColor(state.starter)
+				draft.counters = initialState.counters
+			})
+			beforeTurn(_state)
+			setState(_state)
 		},
 		pause() {
 			stopCounter()
@@ -234,6 +277,36 @@ function getState() {
 		console.warn('Failed to get state', e)
 		return initialState
 	}
+}
+
+export function getColumn(index: number, table: Table) {
+	return table.map((r) => {
+		const x = r[index]
+		assertCounter(x)
+		return x
+	})
+}
+
+function drop(counter: Counter, columnId: number, table: Table) {
+	const bottom = getColumn(columnId, table).lastIndexOf('empty')
+	invariant(bottom !== -1, 'Column is full')
+
+	return produce(table, (draft) => {
+		draft[bottom]![columnId] = counter
+	})
+}
+
+function decide(table: Table) {
+	const possibleCols = Array(columns)
+		.fill(undefined)
+		.map((_, i) => i)
+		.filter((i) => getColumn(i, table).some((c) => c === 'empty'))
+	invariant(possibleCols.length > 0, 'No possible columns found')
+
+	const columnId = possibleCols[getRandomInt(0, possibleCols.length)]
+	invariant(typeof columnId === 'number', 'Random column out of range')
+
+	return columnId
 }
 
 export function parseCounters(table: Table): Status {
@@ -383,4 +456,8 @@ function pushUnique(positions: Positions, value: Position) {
 	if (found === undefined) {
 		positions.push(value)
 	}
+}
+
+function getRandomInt(min: number, max: number) {
+	return Math.floor(Math.random() * (max - min)) + min
 }

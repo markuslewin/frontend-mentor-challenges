@@ -825,6 +825,10 @@ test('starts game vs cpu', async ({ page }) => {
 	).toHaveText(/cpu/i)
 })
 
+test.fixme('cpu makes move after player', () => {})
+test.fixme('cpu starts game', () => {})
+test.fixme('resets counter after cpu move', () => {})
+
 test.describe('passes a11y checks', () => {
 	test('main menu', async ({ page }) => {
 		await page.goto('/')
