@@ -148,13 +148,17 @@ export function useConnectFour() {
 			)
 			setTimeLeft(nextTimeLeft)
 			if (nextTimeLeft === 0) {
-				stopCounter()
-				// todo: `resolve`
-				const winner = getOtherColor(
-					getCurrentColor(freshState.starter, freshState.counters),
+				const state = resolve(
+					{
+						type: 'win',
+						winner: getOtherColor(
+							getCurrentColor(freshState.starter, freshState.counters),
+						),
+						counters: [],
+					},
+					freshState,
 				)
-				++freshState.score[winner]
-				setState(freshState)
+				setState(state)
 			}
 		}, 100)
 	}
