@@ -828,6 +828,7 @@ test('starts game vs cpu', async ({ page }) => {
 test.fixme('cpu makes move after player', () => {})
 test.fixme('cpu starts game', () => {})
 test.fixme('resets counter after cpu move', () => {})
+test.fixme("always starts in player's turn", () => {})
 
 test.describe('passes a11y checks', () => {
 	test('main menu', async ({ page }) => {

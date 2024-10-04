@@ -58,7 +58,15 @@ const initialState: State = {
 const initialTimeLeft = 30_000
 
 function useGameState() {
-	const [state, setState] = useState(getState())
+	const [state, setState] = useState(() => {
+		const state = getLocalStorageState()
+		const currentColor = getCurrentColor(state.starter, state.counters)
+		if (isCpuTurn(state.vs, currentColor)) {
+			// Start in player's turn
+			drop('yellow', decide(state.counters), state.counters)
+		}
+		return state
+	})
 	const stateRef = useRef(state)
 
 	return {
@@ -73,7 +81,7 @@ function useGameState() {
 					: updater
 			stateRef.current = state
 			setState(state)
-			localStorage.setItem(stateKey, JSON.stringify(state))
+			setLocalStorageState(state)
 		},
 	}
 }
@@ -103,8 +111,9 @@ export function useConnectFour() {
 	}
 
 	function beforeTurn(state: State) {
-		const color = getCurrentColor(state.starter, state.counters)
-		if (state.vs === 'cpu' && color === 'yellow') {
+		// todo: Remove state, check `gameState`
+		const currentColor = getCurrentColor(state.starter, state.counters)
+		if (isCpuTurn(state.vs, currentColor)) {
 			setTimeout(() => {
 				setIsCpuThinking(true)
 				cpuTimeoutRef.current = setTimeout(
@@ -270,7 +279,11 @@ function getOtherColor(color: Color): Color {
 	)[color]
 }
 
-function getState() {
+function isCpuTurn(vs: Vs, currentColor: Color) {
+	return vs === 'cpu' && currentColor === 'yellow'
+}
+
+function getLocalStorageState() {
 	try {
 		const item = localStorage.getItem(stateKey)
 		invariant(typeof item === 'string', 'Expected string')
@@ -280,6 +293,10 @@ function getState() {
 		console.warn('Failed to get state', e)
 		return initialState
 	}
+}
+
+function setLocalStorageState(state: State) {
+	localStorage.setItem(stateKey, JSON.stringify(state))
 }
 
 export function getColumn(index: number, table: Table) {
