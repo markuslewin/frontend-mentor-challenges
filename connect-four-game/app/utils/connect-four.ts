@@ -1,7 +1,6 @@
 import { invariant } from '@epic-web/invariant'
-import { useLocalStorage } from '@uidotdev/usehooks'
-import { produce } from 'immer'
-import { useMemo, useRef, useState } from 'react'
+import { type Draft, produce } from 'immer'
+import { useRef, useState } from 'react'
 import { z } from 'zod'
 
 const colors = ['red', 'yellow'] as const
@@ -59,28 +58,28 @@ const initialState: State = {
 const initialTimeLeft = 30_000
 
 function useGameState() {
-	const [json, setState] = useLocalStorage<unknown>(stateKey, initialState)
-	const state = useMemo(() => {
-		const result = stateSchema.safeParse(json)
-		if (result.success) {
-			return result.data
-		} else {
-			return initialState
-		}
-	}, [json])
+	const [state, setState] = useState(getState())
+	const stateRef = useRef(state)
 
-	return [
-		state,
-		/*
-			`useLocalStorage` says `T`, but it's actually `T | null` when there's no
-			value in localStorage.
-		*/
-		setState as ReturnType<typeof useLocalStorage<State | null>>[1],
-	] as const
+	return {
+		// Use for rendering
+		value: state,
+		// Use in event handlers
+		ref: stateRef,
+		set(updater: State | ((draft: Draft<State>) => void)) {
+			const state =
+				typeof updater === 'function'
+					? produce(stateRef.current, updater)
+					: updater
+			stateRef.current = state
+			setState(state)
+			localStorage.setItem(stateKey, JSON.stringify(state))
+		},
+	}
 }
 
 export function useConnectFour() {
-	const [state, setState] = useGameState()
+	const gameState = useGameState()
 	const [timeLeft, setTimeLeft] = useState(initialTimeLeft)
 	const counterRef = useRef<ReturnType<typeof setInterval>>()
 	const playerHasMovedRef = useRef(false)
@@ -93,14 +92,14 @@ export function useConnectFour() {
 		isCpuThinkingRef.current = val
 	}
 
-	function resolve(status: Exclude<Status, { type: 'ongoing' }>, state: State) {
+	function resolve(status: Exclude<Status, { type: 'ongoing' }>) {
 		stopCounter()
 		clearTimeout(cpuTimeoutRef.current)
-		return produce(state, (draft) => {
-			if (status.type === 'win') {
+		if (status.type === 'win') {
+			gameState.set((draft) => {
 				++draft.score[status.winner]
-			}
-		})
+			})
+		}
 	}
 
 	function beforeTurn(state: State) {
@@ -108,26 +107,22 @@ export function useConnectFour() {
 		if (state.vs === 'cpu' && color === 'yellow') {
 			setTimeout(() => {
 				setIsCpuThinking(true)
-				// todo: Update `localStorage` directly
 				cpuTimeoutRef.current = setTimeout(
 					() => {
-						let state = getState()
-						const color = getCurrentColor(state.starter, state.counters)
-						state = produce(state, (draft) => {
-							draft.counters = drop(
-								color,
-								decide(draft.counters),
-								draft.counters,
-							)
+						const color = getCurrentColor(
+							gameState.ref.current.starter,
+							gameState.ref.current.counters,
+						)
+						gameState.set((draft) => {
+							drop(color, decide(draft.counters), draft.counters)
 						})
-						const status = parseCounters(state.counters)
+						const status = parseCounters(gameState.ref.current.counters)
 						if (status.type === 'ongoing') {
 							resetCounter()
 							startCounter(initialTimeLeft)
 						} else {
-							state = resolve(status, state)
+							resolve(status)
 						}
-						setState(state)
 						setIsCpuThinking(false)
 					},
 					getRandomInt(1000, 2000),
@@ -141,24 +136,22 @@ export function useConnectFour() {
 		const turnStart = new Date()
 		setTimeLeft(ms)
 		counterRef.current = setInterval(() => {
-			const freshState = getState()
 			const nextTimeLeft = Math.max(
 				0,
 				ms - (new Date().getTime() - turnStart.getTime()),
 			)
 			setTimeLeft(nextTimeLeft)
 			if (nextTimeLeft === 0) {
-				const state = resolve(
-					{
-						type: 'win',
-						winner: getOtherColor(
-							getCurrentColor(freshState.starter, freshState.counters),
+				resolve({
+					type: 'win',
+					winner: getOtherColor(
+						getCurrentColor(
+							gameState.ref.current.starter,
+							gameState.ref.current.counters,
 						),
-						counters: [],
-					},
-					freshState,
-				)
-				setState(state)
+					),
+					counters: [],
+				})
 			}
 		}, 100)
 	}
@@ -172,7 +165,10 @@ export function useConnectFour() {
 		setTimeLeft(initialTimeLeft)
 	}
 
-	const currentColor = getCurrentColor(state.starter, state.counters)
+	const currentColor = getCurrentColor(
+		gameState.value.starter,
+		gameState.value.counters,
+	)
 
 	const status: Status =
 		timeLeft <= 0
@@ -181,17 +177,19 @@ export function useConnectFour() {
 					winner: getOtherColor(currentColor),
 					counters: [],
 				}
-			: parseCounters(state.counters)
+			: parseCounters(gameState.value.counters)
 
 	return {
-		...state,
+		...gameState.value,
 		timeLeft,
 		currentColor,
 		status,
 		canMakeMove(index: number) {
 			return (
 				status.type === 'ongoing' &&
-				!getColumn(index, state.counters).every((c) => c !== 'empty') &&
+				!getColumn(index, gameState.value.counters).every(
+					(c) => c !== 'empty',
+				) &&
 				!isCpuThinking
 			)
 		},
@@ -206,10 +204,10 @@ export function useConnectFour() {
 			playerHasMovedRef.current = false
 			const state = { ...initialState, vs }
 			beforeTurn(state)
-			setState(state)
+			gameState.set(state)
 		},
 		restart() {
-			this.newGame({ vs: state.vs })
+			this.newGame({ vs: gameState.ref.current.vs })
 		},
 		quit() {
 			localStorage.removeItem(stateKey)
@@ -219,30 +217,31 @@ export function useConnectFour() {
 				return
 			}
 
-			const color = getCurrentColor(state.starter, state.counters)
-			let _state = produce(state, (draft) => {
-				draft.counters = drop(color, columnId, draft.counters)
+			const color = getCurrentColor(
+				gameState.ref.current.starter,
+				gameState.ref.current.counters,
+			)
+			gameState.set((draft) => {
+				drop(color, columnId, draft.counters)
 			})
-			const _status = parseCounters(_state.counters)
+			const _status = parseCounters(gameState.ref.current.counters)
 			if (_status.type === 'ongoing') {
 				resetCounter()
 				startCounter(initialTimeLeft)
-				beforeTurn(_state)
+				beforeTurn(gameState.ref.current)
 			} else {
-				_state = resolve(_status, _state)
+				resolve(_status)
 			}
 			playerHasMovedRef.current = true
-			setState(_state)
 		},
 		playAgain() {
 			resetCounter()
 			playerHasMovedRef.current = false
-			let _state = produce(state, (draft) => {
-				draft.starter = getOtherColor(state.starter)
+			gameState.set((draft) => {
+				draft.starter = getOtherColor(draft.starter)
 				draft.counters = initialState.counters
 			})
-			beforeTurn(_state)
-			setState(_state)
+			beforeTurn(gameState.ref.current)
 		},
 		pause() {
 			stopCounter()
@@ -294,10 +293,7 @@ export function getColumn(index: number, table: Table) {
 function drop(counter: Counter, columnId: number, table: Table) {
 	const bottom = getColumn(columnId, table).lastIndexOf('empty')
 	invariant(bottom !== -1, 'Column is full')
-
-	return produce(table, (draft) => {
-		draft[bottom]![columnId] = counter
-	})
+	table[bottom]![columnId] = counter
 }
 
 function decide(table: Table) {
