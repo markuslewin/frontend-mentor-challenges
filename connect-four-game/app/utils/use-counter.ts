@@ -1,15 +1,24 @@
 import { useState, useRef } from 'react'
 
 const initialTimeLeft = 30_000
+const key = 'counter'
 
 export function useCounter(onTimeout: () => void) {
-	const [timeLeft, _setTimeLeft] = useState(initialTimeLeft)
+	const [timeLeft, _setTimeLeft] = useState(() => {
+		const item = localStorage.getItem(key)
+		if (typeof item === 'string') {
+			return Number(item)
+		} else {
+			return initialTimeLeft
+		}
+	})
 	const timeLeftRef = useRef(timeLeft)
 	const intervalRef = useRef<ReturnType<typeof setInterval>>()
 
 	function setTimeLeft(val: typeof timeLeft) {
 		_setTimeLeft(val)
 		timeLeftRef.current = val
+		localStorage.setItem(key, val.toString())
 	}
 
 	function start() {

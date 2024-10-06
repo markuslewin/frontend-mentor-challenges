@@ -825,6 +825,16 @@ test('starts game vs cpu', async ({ page }) => {
 	).toHaveText(/cpu/i)
 })
 
+test('derives timeout win on page refresh', async ({ page }) => {
+	await page.clock.install({ time: new Date() })
+	await page.goto('/play')
+	await page.getByTestId('0,0').click()
+	await page.clock.fastForward(31_000)
+	await page.reload()
+
+	await expect(page.getByTestId('outcome')).toHaveText(/player 1 wins/i)
+})
+
 test.fixme('cpu makes move after player', () => {})
 test.fixme('cpu starts game', () => {})
 test.fixme('resets counter after cpu move', () => {})
