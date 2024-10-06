@@ -11,17 +11,17 @@ import { PlayRoute } from '#app/routes/play/route'
 import { handle as playHandle } from '#app/routes/play/routing'
 import { RulesRoute } from '#app/routes/rules/route'
 import { handle as rulesHandle } from '#app/routes/rules/routing'
-import { clientEnv } from '#app/utils/env/client'
+// import { clientEnv } from '#app/utils/env/client'
 // Supports weights 300-700
 import '@fontsource-variable/space-grotesk'
 import '#app/styles.css'
 
 async function enableMocking() {
 	// Tree shake mocks when building for production
-	if (!import.meta.env.PROD && clientEnv.VITE_MOCKS) {
-		const { worker } = await import('#tests/mocks')
-		return worker.start()
-	}
+	// if (!import.meta.env.PROD && clientEnv.VITE_MOCKS) {
+	// 	const { worker } = await import('#tests/mocks')
+	// 	return worker.start()
+	// }
 }
 
 void enableMocking().then(() => {
