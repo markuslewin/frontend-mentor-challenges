@@ -262,7 +262,9 @@ function isCpuTurn(vs: Vs, currentColor: Color) {
 function getLocalStorageState() {
 	try {
 		const item = localStorage.getItem(stateKey)
-		invariant(typeof item === 'string', 'Expected string')
+		if (item === null) {
+			return initialState
+		}
 		const json = JSON.parse(item)
 		return stateSchema.parse(json)
 	} catch (e) {
