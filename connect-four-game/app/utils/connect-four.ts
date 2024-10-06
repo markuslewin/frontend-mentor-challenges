@@ -2,6 +2,7 @@ import { invariant } from '@epic-web/invariant'
 import { type Draft, produce } from 'immer'
 import { useRef, useState } from 'react'
 import { z } from 'zod'
+import { useCounter } from '#app/utils/use-counter'
 
 const colors = ['red', 'yellow'] as const
 const colorSchema = z.enum(colors)
@@ -55,7 +56,6 @@ const initialState: State = {
 		yellow: 0,
 	},
 }
-const initialTimeLeft = 30_000
 
 function useGameState() {
 	const [state, setState] = useState(() => {
@@ -88,8 +88,18 @@ function useGameState() {
 
 export function useConnectFour() {
 	const gameState = useGameState()
-	const [timeLeft, setTimeLeft] = useState(initialTimeLeft)
-	const counterRef = useRef<ReturnType<typeof setInterval>>()
+	const counter = useCounter(() => {
+		resolve({
+			type: 'win',
+			winner: getOtherColor(
+				getCurrentColor(
+					gameState.ref.current.starter,
+					gameState.ref.current.counters,
+				),
+			),
+			counters: [],
+		})
+	})
 	const playerHasMovedRef = useRef(false)
 	const [isCpuThinking, _setIsCpuThinking] = useState(false)
 	const isCpuThinkingRef = useRef(isCpuThinking)
@@ -101,7 +111,7 @@ export function useConnectFour() {
 	}
 
 	function resolve(status: Exclude<Status, { type: 'ongoing' }>) {
-		stopCounter()
+		counter.stop()
 		clearTimeout(cpuTimeoutRef.current)
 		if (status.type === 'win') {
 			gameState.set((draft) => {
@@ -127,8 +137,8 @@ export function useConnectFour() {
 						})
 						const status = parseCounters(gameState.ref.current.counters)
 						if (status.type === 'ongoing') {
-							resetCounter()
-							startCounter(initialTimeLeft)
+							counter.reset()
+							counter.start()
 						} else {
 							resolve(status)
 						}
@@ -140,47 +150,13 @@ export function useConnectFour() {
 		}
 	}
 
-	function startCounter(ms: number) {
-		stopCounter()
-		const turnStart = new Date()
-		setTimeLeft(ms)
-		counterRef.current = setInterval(() => {
-			const nextTimeLeft = Math.max(
-				0,
-				ms - (new Date().getTime() - turnStart.getTime()),
-			)
-			setTimeLeft(nextTimeLeft)
-			if (nextTimeLeft === 0) {
-				resolve({
-					type: 'win',
-					winner: getOtherColor(
-						getCurrentColor(
-							gameState.ref.current.starter,
-							gameState.ref.current.counters,
-						),
-					),
-					counters: [],
-				})
-			}
-		}, 100)
-	}
-
-	function stopCounter() {
-		clearInterval(counterRef.current)
-	}
-
-	function resetCounter() {
-		stopCounter()
-		setTimeLeft(initialTimeLeft)
-	}
-
 	const currentColor = getCurrentColor(
 		gameState.value.starter,
 		gameState.value.counters,
 	)
 
 	const status: Status =
-		timeLeft <= 0
+		counter.timeLeft <= 0
 			? {
 					type: 'win',
 					winner: getOtherColor(currentColor),
@@ -190,7 +166,7 @@ export function useConnectFour() {
 
 	return {
 		...gameState.value,
-		timeLeft,
+		timeLeft: counter.timeLeft,
 		currentColor,
 		status,
 		canMakeMove(index: number) {
@@ -209,7 +185,7 @@ export function useConnectFour() {
 			)
 		},
 		newGame({ vs }: { vs: Vs }) {
-			resetCounter()
+			counter.reset()
 			playerHasMovedRef.current = false
 			const state = { ...initialState, vs }
 			beforeTurn(state)
@@ -235,8 +211,8 @@ export function useConnectFour() {
 			})
 			const _status = parseCounters(gameState.ref.current.counters)
 			if (_status.type === 'ongoing') {
-				resetCounter()
-				startCounter(initialTimeLeft)
+				counter.reset()
+				counter.start()
 				beforeTurn(gameState.ref.current)
 			} else {
 				resolve(_status)
@@ -244,7 +220,7 @@ export function useConnectFour() {
 			playerHasMovedRef.current = true
 		},
 		playAgain() {
-			resetCounter()
+			counter.reset()
 			playerHasMovedRef.current = false
 			gameState.set((draft) => {
 				draft.starter = getOtherColor(draft.starter)
@@ -253,11 +229,11 @@ export function useConnectFour() {
 			beforeTurn(gameState.ref.current)
 		},
 		pause() {
-			stopCounter()
+			counter.stop()
 		},
 		resume() {
 			if (status.type === 'ongoing' && playerHasMovedRef.current) {
-				startCounter(timeLeft)
+				counter.start()
 			}
 		},
 	}
