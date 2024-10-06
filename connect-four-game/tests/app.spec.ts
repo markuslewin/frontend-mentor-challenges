@@ -573,14 +573,14 @@ test('turn has time limit', async ({ page }) => {
 })
 
 test('resets timer between turns', async ({ page }) => {
-	await page.clock.install({ time: new Date('2024-09-20T15:45:00') })
+	await page.clock.setFixedTime('2024-09-20T15:45:00')
 
 	await page.goto('/play')
-	await page.getByTestId('0,0').click()
 
 	await expect(page.getByTestId('timer')).toHaveText('30s')
 
-	await page.clock.fastForward(5_000)
+	await page.getByTestId('0,0').click()
+	await page.clock.setFixedTime('2024-09-20T15:45:05')
 
 	await expect(page.getByTestId('timer')).toHaveText('25s')
 
@@ -588,7 +588,7 @@ test('resets timer between turns', async ({ page }) => {
 
 	await expect(page.getByTestId('timer')).toHaveText('30s')
 
-	await page.clock.fastForward(5_000)
+	await page.clock.setFixedTime('2024-09-20T15:45:10')
 
 	await expect(page.getByTestId('timer')).toHaveText('25s')
 
@@ -596,7 +596,7 @@ test('resets timer between turns', async ({ page }) => {
 
 	await expect(page.getByTestId('timer')).toHaveText('30s')
 
-	await page.clock.fastForward(5_000)
+	await page.clock.setFixedTime('2024-09-20T15:45:15')
 
 	await expect(page.getByTestId('timer')).toHaveText('25s')
 })
@@ -654,25 +654,25 @@ test("counter doesn't start until player has made a move", async ({ page }) => {
 })
 
 test('counter resumes when dialog closes', async ({ page }) => {
-	await page.clock.install({ time: new Date('2024-09-30T15:04:00') })
+	await page.clock.setFixedTime('2024-09-30T15:04:00')
 	await page.goto('/play')
 	await page.getByTestId('0,0').click()
 	await page.getByRole('button', { name: 'menu' }).click()
 	await page.getByRole('button', { name: 'continue' }).click()
-	await page.clock.fastForward(5_000)
+	await page.clock.setFixedTime('2024-09-30T15:04:05')
 
 	await expect(page.getByTestId('timer')).toHaveText('25s')
 
 	await page.getByRole('button', { name: 'menu' }).click()
 	await page.keyboard.down('Escape')
-	await page.clock.fastForward(5_000)
+	await page.clock.setFixedTime('2024-09-30T15:04:10')
 
 	await expect(page.getByTestId('timer')).toHaveText('20s')
 
 	await page.getByRole('button', { name: 'menu' }).click()
 	// Close the dialog by clicking outside
 	await page.mouse.click(0, 0)
-	await page.clock.fastForward(5_000)
+	await page.clock.setFixedTime('2024-09-30T15:04:15')
 
 	await expect(page.getByTestId('timer')).toHaveText('15s')
 })
@@ -826,10 +826,13 @@ test('starts game vs cpu', async ({ page }) => {
 })
 
 test('derives timeout win on page refresh', async ({ page }) => {
-	await page.clock.install({ time: new Date() })
+	await page.clock.setFixedTime('2024-10-06T21:19:00')
 	await page.goto('/play')
 	await page.getByTestId('0,0').click()
-	await page.clock.fastForward(31_000)
+	await page.clock.setFixedTime('2024-10-06T21:19:30')
+
+	await expect(page.getByTestId('outcome')).toHaveText(/player 1 wins/i)
+
 	await page.reload()
 
 	await expect(page.getByTestId('outcome')).toHaveText(/player 1 wins/i)
