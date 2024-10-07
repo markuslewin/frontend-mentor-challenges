@@ -838,10 +838,108 @@ test('derives timeout win on page refresh', async ({ page }) => {
 	await expect(page.getByTestId('outcome')).toHaveText(/player 1 wins/i)
 })
 
-test.fixme('cpu makes move after player', () => {})
-test.fixme('cpu starts game', () => {})
-test.fixme('resets counter after cpu move', () => {})
-test.fixme("always starts in player's turn", () => {})
+test('cpu makes move after player', async ({ page }) => {
+	await page.goto('/')
+	await page.getByRole('button', { name: 'vs cpu' }).click()
+	await page.getByTestId('0,0').click()
+
+	await expect(
+		page.getByRole('grid').getByRole('button', { name: 'yellow' }),
+	).toHaveCount(1)
+})
+
+test('cpu can start game', async ({ page }) => {
+	await page.goto('/')
+	await page.evaluate(
+		async ([stateKey]) => {
+			localStorage.setItem(
+				stateKey,
+				JSON.stringify({
+					vs: 'cpu',
+					starter: 'red',
+					counters: [
+						['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
+						['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
+						['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
+						['empty', 'yellow', 'empty', 'empty', 'empty', 'empty', 'empty'],
+						['yellow', 'yellow', 'empty', 'empty', 'empty', 'empty', 'empty'],
+						['red', 'red', 'red', 'red', 'empty', 'empty', 'empty'],
+					],
+					score: { red: 0, yellow: 0 },
+				} satisfies State),
+			)
+		},
+		[stateKey] as const,
+	)
+	await page.goto('/play')
+	await page.getByRole('button', { name: 'play again' }).click()
+
+	await expect(
+		page.getByRole('grid').getByRole('button', { name: 'yellow' }),
+	).toHaveCount(1)
+})
+
+test('resets counter after cpu move', async ({ page }) => {
+	await page.goto('/')
+	await page.evaluate(
+		async ([stateKey]) => {
+			localStorage.setItem(
+				stateKey,
+				JSON.stringify({
+					vs: 'cpu',
+					starter: 'red',
+					counters: [
+						['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
+						['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
+						['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
+						['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
+						['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
+						['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
+					],
+					score: { red: 0, yellow: 0 },
+				} satisfies State),
+			)
+		},
+		[stateKey] as const,
+	)
+	await page.goto('/play')
+	await page.getByTestId('0,0').click()
+	await page.getByTestId('turn').filter({ hasText: 'your turn' }).waitFor()
+
+	await expect(page.getByTestId('timer')).toHaveText('30s')
+})
+
+test("always starts in player's turn after reload", async ({ page }) => {
+	await page.goto('/')
+	await page.evaluate(
+		async ([stateKey]) => {
+			localStorage.setItem(
+				stateKey,
+				JSON.stringify({
+					vs: 'cpu',
+					starter: 'red',
+					counters: [
+						['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
+						['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
+						['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
+						['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
+						['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
+						['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
+					],
+					score: { red: 0, yellow: 0 },
+				} satisfies State),
+			)
+		},
+		[stateKey] as const,
+	)
+	await page.goto('/play')
+	await page.getByTestId('0,0').click()
+	await page.reload()
+
+	await expect(page.getByTestId('turn')).toHaveText(/your turn/i, {
+		timeout: 0,
+	})
+})
 
 test.describe('passes a11y checks', () => {
 	test('main menu', async ({ page }) => {
