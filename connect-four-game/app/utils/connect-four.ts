@@ -169,12 +169,10 @@ export function useConnectFour() {
 		timeLeft: counter.timeLeft,
 		currentColor,
 		status,
-		canMakeMove(index: number) {
+		canMakeMove(columnId: number) {
 			return (
 				status.type === 'ongoing' &&
-				!getColumn(index, gameState.value.counters).every(
-					(c) => c !== 'empty',
-				) &&
+				!isColumnFull(columnId, gameState.value.counters) &&
 				!isCpuThinking
 			)
 		},
@@ -198,7 +196,11 @@ export function useConnectFour() {
 			localStorage.removeItem(stateKey)
 		},
 		selectColumn(columnId: number) {
-			if (status.type !== 'ongoing' || isCpuThinkingRef.current) {
+			if (
+				status.type !== 'ongoing' ||
+				isColumnFull(columnId, gameState.ref.current.counters) ||
+				isCpuThinkingRef.current
+			) {
 				return
 			}
 
@@ -277,12 +279,16 @@ function setLocalStorageState(state: State) {
 	localStorage.setItem(stateKey, JSON.stringify(state))
 }
 
-export function getColumn(index: number, table: Table) {
+function getColumn(index: number, table: Table) {
 	return table.map((r) => {
 		const x = r[index]
 		assertCounter(x)
 		return x
 	})
+}
+
+function isColumnFull(columnId: number, table: Table) {
+	return !getColumn(columnId, table).some((c) => c === 'empty')
 }
 
 function drop(counter: Counter, columnId: number, table: Table) {
@@ -295,7 +301,7 @@ function decide(table: Table) {
 	const possibleCols = Array(columns)
 		.fill(undefined)
 		.map((_, i) => i)
-		.filter((i) => getColumn(i, table).some((c) => c === 'empty'))
+		.filter((i) => !isColumnFull(i, table))
 	invariant(possibleCols.length > 0, 'No possible columns found')
 
 	const columnId = possibleCols[getRandomInt(0, possibleCols.length)]
