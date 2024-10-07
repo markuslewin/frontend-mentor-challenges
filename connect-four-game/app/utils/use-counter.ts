@@ -7,7 +7,13 @@ export function useCounter(onTimeout: () => void) {
 	const [timeLeft, _setTimeLeft] = useState(() => {
 		const item = localStorage.getItem(key)
 		if (typeof item === 'string') {
-			return Number(item)
+			const timeLeft = Number(item)
+			// 0 is needed to derive timeout win
+			if (timeLeft === 0) {
+				return timeLeft
+			} else {
+				return initialTimeLeft
+			}
 		} else {
 			return initialTimeLeft
 		}

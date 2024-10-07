@@ -941,6 +941,17 @@ test("always starts in player's turn after reload", async ({ page }) => {
 	})
 })
 
+test('restart timer on page reload', async ({ page }) => {
+	await page.clock.setFixedTime('2024-10-07T18:40:00')
+	await page.goto('/play')
+	await page.getByTestId('0,0').click()
+	await page.clock.setFixedTime('2024-10-07T18:40:05')
+	await page.getByTestId('timer').filter({ hasText: '25s' }).waitFor()
+	await page.reload()
+
+	await expect(page.getByTestId('timer')).toHaveText(/30s/i)
+})
+
 test.describe('passes a11y checks', () => {
 	test('main menu', async ({ page }) => {
 		await page.goto('/')
