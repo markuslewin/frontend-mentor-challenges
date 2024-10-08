@@ -136,6 +136,7 @@ export function useConnectFour() {
 							drop(color, decide(draft.counters), draft.counters)
 						})
 						const status = parseCounters(gameState.ref.current.counters)
+						// todo: Check `isPausedRef`
 						if (status.type === 'ongoing') {
 							counter.reset()
 							counter.start()
