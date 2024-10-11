@@ -6,7 +6,7 @@ import { defineConfig, devices } from '@playwright/test'
  */
 // require('dotenv').config();
 
-const PORT = 8888
+const PORT = 5173
 
 /**
  * See https://playwright.dev/docs/test-configuration.
