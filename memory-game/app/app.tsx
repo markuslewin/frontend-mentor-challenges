@@ -22,7 +22,8 @@ function Memory() {
 			<h1 className="text-game-title">
 				<Icon name="logo" /> memory
 			</h1>
-			<p className="text-game-meta-current">CURRENT TURN</p>
+			<p className="text-game-meta-label">Player 1</p>
+			<p className="text-game-meta-value">4</p>
 			<p className="grid grid-cols-5">
 				<FontAwesomeIcon icon={faFutbolBall} style={iconStyle} />
 				<FontAwesomeIcon icon={faAnchor} style={iconStyle} />

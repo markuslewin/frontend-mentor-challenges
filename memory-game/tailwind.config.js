@@ -39,8 +39,18 @@ export default {
 			'game-option': [clamp(16, 20)],
 			'game-tile-4x4': [clamp(40, 56)],
 			'game-tile-6x6': [clamp(24, 44)],
-			'game-meta-label': [clamp(24, 39)],
-			'game-meta-value': [clamp(24, 39)],
+			'game-meta-label': [
+				clamp(15, 18, {
+					minWidth: 768,
+					maxWidth: 1110,
+				}),
+			],
+			'game-meta-value': [
+				clamp(24, 32, {
+					minWidth: 768,
+					maxWidth: 1110,
+				}),
+			],
 			'game-meta-current': [
 				clamp(13, 13),
 				{
