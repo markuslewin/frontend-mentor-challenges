@@ -1,6 +1,7 @@
 /// <reference types="vitest" />
 import path from 'node:path'
 import react from '@vitejs/plugin-react'
+import wyw from '@wyw-in-js/vite'
 import { defineConfig } from 'vite'
 import { imagetools } from 'vite-imagetools'
 
@@ -14,7 +15,7 @@ export default defineConfig({
 			return content.byteLength < 4096
 		},
 	},
-	plugins: [react(), imagetools()],
+	plugins: [react(), imagetools(), wyw()],
 	test: {
 		include: ['./app/**/*.test.{ts,tsx}'],
 	},

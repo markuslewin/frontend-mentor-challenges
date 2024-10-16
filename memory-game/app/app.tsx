@@ -12,13 +12,46 @@ import {
 	faSun,
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { css, cx } from '@linaria/core'
 import * as Dialog from '@radix-ui/react-dialog'
 import { useMediaQuery } from '@uidotdev/usehooks'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { z } from 'zod'
 import { AnnouncementProvider } from '#app/components/announcer'
 import * as Landmark from '#app/components/landmark'
 import { media } from '#app/utils/screens'
+
+function rem(px: number) {
+	return `${px / 16}rem`
+}
+
+const hocus = '&:hover, &:focus-visible'
+
+const values = css`
+	margin-top: ${rem(16)};
+	display: flex;
+	gap: var(--values-gap, ${rem(11)});
+
+	& > * {
+		flex: 1 0 0;
+	}
+
+	@media ${media.tablet} {
+		gap: var(--values-gap, ${rem(30)});
+	}
+`
+
+const value = css`
+	display: block;
+	border-radius: 9999px;
+	padding: ${rem(10)};
+	text-align: center;
+
+	input:focus-visible + & {
+		outline: ${rem(2)} solid black;
+		outline-offset: ${rem(2)};
+	}
+`
 
 const iconStyle = { width: 'auto', height: '3.5rem' }
 
@@ -88,64 +121,177 @@ function Memory() {
 		},
 	})
 
+	useEffect(() => {
+		document.body.dataset['screen'] = screen.type
+		return () => {
+			delete document.body.dataset['screen']
+		}
+	}, [screen.type])
+
 	if (screen.type === 'start-game') {
 		return (
-			<main>
-				<h1 className="text-new-title">memory</h1>
-				<form {...getFormProps(form)}>
+			<main
+				className={css`
+					min-height: 100vh;
+					padding: ${rem(24)};
+					display: grid;
+					grid-template-columns: minmax(auto, ${rem(654)});
+					place-content: center;
+				`}
+			>
+				<h1
+					className={cx(
+						'text-new-title',
+						css`
+							text-align: center;
+						`,
+					)}
+				>
+					memory
+				</h1>
+				<form
+					{...getFormProps(form)}
+					className={cx(
+						'bg-FCFCFC text-7191A5',
+						css`
+							margin-top: ${rem(45)};
+							border-radius: ${rem(10)};
+							padding: ${rem(24)};
+							@media ${media.tablet} {
+								margin-top: ${rem(78)};
+								border-radius: ${rem(20)};
+								padding: ${rem(56)};
+							}
+						`,
+					)}
+				>
 					<fieldset>
-						<legend>Select Theme</legend>
-						{getCollectionProps(fields.theme, {
-							type: 'radio',
-							options: themes as Writeable<typeof themes>,
-							value: true,
-						}).map((props) => {
-							const { key, ...ps } = props
-							assertTheme(props.value)
+						<legend className="text-new-label">Select Theme</legend>
+						<div className={values}>
+							{getCollectionProps(fields.theme, {
+								type: 'radio',
+								options: themes as Writeable<typeof themes>,
+								value: true,
+							}).map((props) => {
+								const { key, ...ps } = props
+								assertTheme(props.value)
 
-							return (
-								<label key={key}>
-									<input {...ps} />
-									<span>{getThemeName(props.value)}</span>
-								</label>
-							)
-						})}
+								return (
+									<label key={key}>
+										<input {...ps} className="peer sr-only" />
+										<span
+											className={cx(
+												'bg-BCCED9 text-new-value text-FCFCFC transition-colors peer-checked:bg-304859 hocus:bg-6395B8',
+												value,
+											)}
+										>
+											{getThemeName(props.value)}
+										</span>
+									</label>
+								)
+							})}
+						</div>
 					</fieldset>
-					<fieldset>
-						<legend>Number of Players</legend>
-						{getCollectionProps(fields.players, {
-							type: 'radio',
-							options: players as Writeable<typeof players>,
-							value: true,
-						}).map((props) => {
-							const { key, ...ps } = props
+					<fieldset
+						className={css`
+							margin-top: ${rem(24)};
+							@media ${media.tablet} {
+								margin-top: ${rem(32)};
+							}
+						`}
+					>
+						<legend className="text-new-label">Number of Players</legend>
+						<div
+							className={cx(
+								values,
+								css`
+									--values-gap: ${rem(10)};
+									@media ${media.tablet} {
+										--values-gap: ${rem(21)};
+									}
+								`,
+							)}
+						>
+							{getCollectionProps(fields.players, {
+								type: 'radio',
+								options: players as Writeable<typeof players>,
+								value: true,
+							}).map((props) => {
+								const { key, ...ps } = props
 
-							return (
-								<label key={key}>
-									<input {...ps} />
-									<span>{ps.value}</span>
-								</label>
-							)
-						})}
+								return (
+									<label key={key}>
+										<input {...ps} className="peer sr-only" />
+										<span
+											className={cx(
+												'bg-BCCED9 text-new-value text-FCFCFC transition-colors peer-checked:bg-304859 hocus:bg-6395B8',
+												value,
+											)}
+										>
+											{ps.value}
+										</span>
+									</label>
+								)
+							})}
+						</div>
 					</fieldset>
-					<fieldset>
-						<legend>Grid Size</legend>
-						{getCollectionProps(fields.grid, {
-							type: 'radio',
-							options: grids as Writeable<typeof grids>,
-							value: true,
-						}).map((props) => {
-							const { key, ...ps } = props
+					<fieldset
+						className={css`
+							margin-top: ${rem(24)};
+							@media ${media.tablet} {
+								margin-top: ${rem(32)};
+							}
+						`}
+					>
+						<legend className="text-new-label">Grid Size</legend>
+						<div className={values}>
+							{getCollectionProps(fields.grid, {
+								type: 'radio',
+								options: grids as Writeable<typeof grids>,
+								value: true,
+							}).map((props) => {
+								const { key, ...ps } = props
 
-							return (
-								<label key={key}>
-									<input {...ps} />
-									<span>{ps.value}</span>
-								</label>
-							)
-						})}
+								return (
+									<label key={key}>
+										<input {...ps} className="peer sr-only" />
+										<span
+											className={cx(
+												'bg-BCCED9 text-new-value text-FCFCFC transition-colors peer-checked:bg-304859 hocus:bg-6395B8',
+												value,
+											)}
+										>
+											{ps.value}
+										</span>
+									</label>
+								)
+							})}
+						</div>
 					</fieldset>
-					<button type="submit">Start Game</button>
+					<button
+						className={cx(
+							'bg-FDA214 text-new-start text-FCFCFC transition-colors',
+							css`
+								display: block;
+								margin-top: ${rem(32)};
+								width: 100%;
+								border-radius: 9999px;
+								padding: ${rem(13)};
+								${hocus} {
+									&:focus-visible,
+									&:hover {
+										background: hsl(37 100% 65%);
+									}
+								}
+								@media ${media.tablet} {
+									padding: ${rem(15)};
+								}
+							`,
+						)}
+						type="submit"
+					>
+						Start Game
+					</button>
 				</form>
 			</main>
 		)

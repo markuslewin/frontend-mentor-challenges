@@ -10,10 +10,14 @@
 	}
 
 	body {
-		@apply bg-FCFCFC text-152938 font-base;
+		@apply bg-152938 font-base text-FCFCFC transition-colors;
 
 		line-height: 1.25;
 		font-weight: 700;
+	}
+
+	body[data-screen='play'] {
+		@apply bg-FCFCFC text-152938;
 	}
 
 	h1,
