@@ -53,7 +53,35 @@ const value = css`
 	}
 `
 
-const iconStyle = { width: 'auto', height: '3.5rem' }
+const button = css`
+	height: ${rem(40)};
+	border-radius: 9999px;
+	padding-inline: ${rem(24)};
+	white-space: nowrap;
+
+	@media ${media.tablet} {
+		height: ${rem(52)};
+	}
+`
+
+const grid4 = css`
+	--grid-columns: 4;
+	--grid-size: ${rem(532)};
+	--grid-gap: ${rem(20)};
+`
+
+const grid6 = css`
+	--grid-columns: 6;
+	--grid-size: ${rem(572)};
+	--grid-gap: ${rem(16)};
+`
+
+const iconStyle = {
+	width: 'auto',
+	height: rem(56),
+	// todo: 🤔
+	// height: `${(56 / 118) * 100}%`
+}
 
 const themes = ['numbers', 'icons'] as const
 const themeSchema = z.enum(themes)
@@ -297,129 +325,248 @@ function Memory() {
 		)
 	} else if (screen.type === 'play') {
 		const tiles = [
-			[faFutbolBall, faAnchor, faFlask, faSun],
-			[faMoon, faSnowflake, faHandSpock, faBug],
-			[faFutbolBall, faAnchor, faFlask, faSun],
-			[faMoon, faSnowflake, faHandSpock, faBug],
+			[
+				{ name: 'Futbol ball', icon: faFutbolBall },
+				{ name: 'Anchor', icon: faAnchor },
+				{ name: 'Flask', icon: faFlask },
+				{ name: 'Sun', icon: faSun },
+			],
+			[
+				{ name: 'Moon', icon: faMoon },
+				{ name: 'Snowflake', icon: faSnowflake },
+				{ name: 'Spock hand', icon: faHandSpock },
+				{ name: 'Bug', icon: faBug },
+			],
+			[null, null, null, null],
+			[null, null, null, null],
 			// faCar,
 			// faLiraSign,
 		]
 		const isSinglePlayer = screen.options && screen.options.players === '1'
+		const scores = [4, 4, 2, 0]
+		const currentPlayer = 1
 
 		return (
-			<>
-				<header>
-					<h1>Memory</h1>
-					{tabletMatches ? (
-						<ul role="list">
-							<li>
-								<button type="button">Restart</button>
-							</li>
-							<li>
-								<button
-									type="button"
-									onClick={() => {
-										setScreen({ type: 'start-game' })
-									}}
-								>
-									New Game
-								</button>
-							</li>
-						</ul>
-					) : (
-						<Dialog.Root>
-							<Dialog.Trigger className="rounded bg-white text-violet11 shadow-blackA4 hover:bg-mauve3 focus:shadow-black inline-flex h-[35px] items-center justify-center px-[15px] font-medium leading-none shadow-[0_2px_10px] focus:shadow-[0_0_0_2px] focus:outline-none">
-								Menu
-							</Dialog.Trigger>
-							<Dialog.Portal>
-								<Dialog.Overlay className="bg-blackA6 data-[state=open]:animate-overlayShow fixed inset-0" />
-								<Dialog.Content className="rounded-md bg-white data-[state=open]:animate-contentShow fixed left-1/2 top-1/2 max-h-[85vh] w-[90vw] max-w-[450px] -translate-x-1/2 -translate-y-1/2 p-[25px] shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] focus:outline-none">
-									<Dialog.Title className="text-mauve12 m-0 text-[17px] font-medium">
-										Menu
-									</Dialog.Title>
-									<Dialog.Description className="text-mauve11 mb-5 mt-2.5 text-[15px] leading-normal">
-										What do you want to do?
-									</Dialog.Description>
-									<ul role="list">
-										<li>
-											<button type="button">Restart</button>
-										</li>
-										<li>
-											<button
-												type="button"
-												onClick={() => {
-													setScreen({ type: 'start-game' })
-												}}
-											>
-												New Game
-											</button>
-										</li>
-										<li>
-											<Dialog.Close>Resume Game</Dialog.Close>
-										</li>
-									</ul>
-								</Dialog.Content>
-							</Dialog.Portal>
-						</Dialog.Root>
-					)}
-				</header>
-				<main>
-					<h2>Tiles</h2>
-					<div role="grid">
-						{tiles.map((row, y) => (
-							<div className="grid grid-cols-4" key={y} role="row">
-								{row.map((tile, x) => (
-									<div key={x} role="gridcell">
-										<button type="button">
-											<FontAwesomeIcon icon={tile} style={iconStyle} />
-											<span>Tile</span>
-										</button>
+			<div
+				className={css`
+					display: grid;
+					grid-template-columns: minmax(auto, ${rem(1110)});
+					justify-content: center;
+					min-height: 100vh;
+					padding: ${rem(24)};
+					@media ${media.tablet} {
+						padding: ${rem(40)};
+					}
+				`}
+			>
+				<div>
+					<header
+						className={css`
+							display: flex;
+							justify-content: space-between;
+							align-items: center;
+							flex-wrap: wrap;
+						`}
+					>
+						<h1 className="text-game-title">memory</h1>
+						{tabletMatches ? (
+							<ul
+								className={css`
+									display: flex;
+									align-items: center;
+									gap: ${rem(16)};
+									flex-wrap: wrap;
+								`}
+								role="list"
+							>
+								<li>
+									<button
+										className={cx(
+											'bg-FDA214 text-game-option text-FCFCFC transition-colors',
+											button,
+											css`
+												${hocus} {
+													background: hsl(37 100% 67%);
+												}
+											`,
+										)}
+										type="button"
+									>
+										Restart
+									</button>
+								</li>
+								<li>
+									<button
+										className={cx(
+											'text-game-option text-304859 transition-colors hocus:bg-6395B8 hocus:text-FCFCFC',
+											button,
+											css`
+												background: hsl(203 25% 90%);
+											`,
+										)}
+										type="button"
+										onClick={() => {
+											setScreen({ type: 'start-game' })
+										}}
+									>
+										New Game
+									</button>
+								</li>
+							</ul>
+						) : (
+							<Dialog.Root>
+								<Dialog.Trigger className="rounded bg-white text-violet11 shadow-blackA4 hover:bg-mauve3 focus:shadow-black inline-flex h-[35px] items-center justify-center px-[15px] font-medium leading-none shadow-[0_2px_10px] focus:shadow-[0_0_0_2px] focus:outline-none">
+									Menu
+								</Dialog.Trigger>
+								<Dialog.Portal>
+									<Dialog.Overlay className="bg-blackA6 data-[state=open]:animate-overlayShow fixed inset-0" />
+									<Dialog.Content className="rounded-md bg-white data-[state=open]:animate-contentShow fixed left-1/2 top-1/2 max-h-[85vh] w-[90vw] max-w-[450px] -translate-x-1/2 -translate-y-1/2 p-[25px] shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] focus:outline-none">
+										<Dialog.Title className="text-mauve12 m-0 text-[17px] font-medium">
+											Menu
+										</Dialog.Title>
+										<Dialog.Description className="text-mauve11 mb-5 mt-2.5 text-[15px] leading-normal">
+											What do you want to do?
+										</Dialog.Description>
+										<ul role="list">
+											<li>
+												<button type="button">Restart</button>
+											</li>
+											<li>
+												<button
+													type="button"
+													onClick={() => {
+														setScreen({ type: 'start-game' })
+													}}
+												>
+													New Game
+												</button>
+											</li>
+											<li>
+												<Dialog.Close>Resume Game</Dialog.Close>
+											</li>
+										</ul>
+									</Dialog.Content>
+								</Dialog.Portal>
+							</Dialog.Root>
+						)}
+					</header>
+					<main>
+						<h2 className="sr-only">Tiles</h2>
+						<div
+							className={cx(
+								css`
+									display: grid;
+									grid-template-columns: minmax(auto, var(--grid-size));
+									justify-content: center;
+									gap: var(--grid-gap);
+								`,
+								screen.options.grid === '4x4' ? grid4 : null,
+								screen.options.grid === '6x6' ? grid6 : null,
+							)}
+						>
+							<div
+								className={css`
+									display: grid;
+									gap: var(--grid-gap);
+								`}
+								role="grid"
+							>
+								{tiles.map((row, y) => (
+									<div
+										className={css`
+											display: grid;
+											grid-template-columns: repeat(var(--grid-columns), 1fr);
+											gap: var(--grid-gap);
+										`}
+										key={y}
+										role="row"
+									>
+										{row.map((tile, x) => (
+											<div key={x} role="gridcell">
+												<button
+													className={cx(
+														'bg-BCCED9 text-FCFCFC',
+														css`
+															border-radius: 9999px;
+															width: 100%;
+															aspect-ratio: 1;
+															display: grid;
+															place-items: center;
+														`,
+													)}
+													type="button"
+												>
+													{tile === null ? (
+														<span className="sr-only">Tile</span>
+													) : (
+														<>
+															<FontAwesomeIcon
+																icon={tile.icon}
+																style={iconStyle}
+															/>
+															<span className="sr-only">{tile.name}</span>
+														</>
+													)}
+												</button>
+											</div>
+										))}
 									</div>
 								))}
 							</div>
-						))}
-					</div>
-					<Landmark.Root>
-						<Landmark.Label>
-							<h2 className="text-heading-m mt-24">Score</h2>
-						</Landmark.Label>
-						{isSinglePlayer ? (
-							<>
-								<div>
-									<h3>Time</h3>
-									<p>1:53</p>
-								</div>
-								<div>
-									<h3>Moves</h3>
-									<p>39</p>
-								</div>
-							</>
-						) : (
-							<ul role="list">
-								<li>
-									<span>{tabletMatches ? <>Player 1</> : <>P1</>}:</span>{' '}
-									<span>4</span>
-								</li>
-								<li aria-current="true">
-									<p>
-										<span>{tabletMatches ? <>Player 2</> : <>P2</>}:</span>{' '}
-										<span>4</span>
-									</p>
-									{desktopMatches ? <p>Current turn</p> : null}
-								</li>
-								<li>
-									<span>{tabletMatches ? <>Player 3</> : <>P3</>}:</span>{' '}
-									<span>2</span>
-								</li>
-								<li>
-									<span>{tabletMatches ? <>Player 4</> : <>P4</>}:</span>{' '}
-									<span>0</span>
-								</li>
-							</ul>
-						)}
-					</Landmark.Root>
-				</main>
-			</>
+						</div>
+						<Landmark.Root>
+							<Landmark.Label>
+								<h2 className="sr-only">Score</h2>
+							</Landmark.Label>
+							{isSinglePlayer ? (
+								<>
+									<div>
+										<h3 className="text-game-meta-label">Time</h3>
+										<p className="text-game-meta-value">1:53</p>
+									</div>
+									<div>
+										<h3 className="text-game-meta-label">Moves</h3>
+										<p className="text-game-meta-value">39</p>
+									</div>
+								</>
+							) : (
+								<ul role="list">
+									{scores.map((score, i) => {
+										const player = i + 1
+										const isCurrentPlayer = currentPlayer === i
+
+										return (
+											<li key={i} aria-current={isCurrentPlayer}>
+												<span className="text-game-meta-label">
+													{tabletMatches ? (
+														<>Player {player}</>
+													) : (
+														<>P{player}</>
+													)}
+													<span className="sr-only">:</span>
+												</span>{' '}
+												<span className="text-game-meta-value">{score}</span>
+												{desktopMatches && isCurrentPlayer ? (
+													<p
+														className={cx(
+															'text-game-meta-current',
+															css`
+																text-transform: uppercase;
+															`,
+														)}
+													>
+														Current turn
+													</p>
+												) : null}
+											</li>
+										)
+									})}
+								</ul>
+							)}
+						</Landmark.Root>
+					</main>
+				</div>
+			</div>
 		)
 	} else {
 		throw new Error(`Invalid screen: ${screen}`)
