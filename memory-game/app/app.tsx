@@ -1,22 +1,24 @@
+import { getCollectionProps, getFormProps, useForm } from '@conform-to/react'
+import { getZodConstraint, parseWithZod } from '@conform-to/zod'
+import { invariant } from '@epic-web/invariant'
 import {
 	faAnchor,
 	faBug,
-	faCar,
 	faFlask,
 	faFutbolBall,
 	faHandSpock,
-	faLiraSign,
 	faMoon,
 	faSnowflake,
 	faSun,
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { AnnouncementProvider } from '#app/components/announcer'
+import * as Dialog from '@radix-ui/react-dialog'
+import { useMediaQuery } from '@uidotdev/usehooks'
 import { useState } from 'react'
-import { getCollectionProps, getFormProps, useForm } from '@conform-to/react'
-import { getZodConstraint, parseWithZod } from '@conform-to/zod'
 import { z } from 'zod'
-import { invariant } from '@epic-web/invariant'
+import { AnnouncementProvider } from '#app/components/announcer'
+import * as Landmark from '#app/components/landmark'
+import { media } from '#app/utils/screens'
 
 const iconStyle = { width: 'auto', height: '3.5rem' }
 
@@ -35,17 +37,17 @@ const players = ['1', '2', '3', '4'] as const
 const playersSchema = z.enum(players)
 
 const grids = ['4x4', '6x6'] as const
-const gridsSchema = z.enum(grids)
+const gridSchema = z.enum(grids)
 
 const startGameSchema = z.object({
 	theme: themeSchema,
 	players: playersSchema,
-	grids: gridsSchema,
+	grid: gridSchema,
 })
 
-type Screen = 'start-game' | 'play'
 type Theme = z.infer<typeof themeSchema>
-type StartGameOptions = z.infer<typeof startGameSchema>
+type Options = z.infer<typeof startGameSchema>
+type Screen = { type: 'start-game' } | { type: 'play'; options: Options }
 
 type Writeable<T> = { -readonly [K in keyof T]: T[K] }
 
@@ -60,28 +62,33 @@ function getThemeName(id: Theme) {
 }
 
 function Memory() {
-	const [screen, setScreen] = useState<Screen>('start-game')
+	const [screen, setScreen] = useState<Screen>({ type: 'start-game' })
+	const tabletMatches = useMediaQuery(media.tablet)
+	const desktopMatches = useMediaQuery(media.desktop)
 	const [form, fields] = useForm({
 		constraint: getZodConstraint(startGameSchema),
 		defaultValue: {
 			theme: 'numbers',
 			players: '1',
-			grids: '4x4',
-		} satisfies StartGameOptions,
-		onValidate({ formData }) {
-			return parseWithZod(formData, { schema: startGameSchema })
-		},
-		onSubmit(event, { submission }) {
+			grid: '4x4',
+		} satisfies Options,
+		onSubmit(event, { formData }) {
 			event.preventDefault()
 
-			if (submission?.status !== 'success') return
+			const submission = parseWithZod(formData, { schema: startGameSchema })
+			invariant(
+				submission.status === 'success',
+				`Invalid form submission: ${JSON.stringify(submission.reply())}`,
+			)
 
-			console.log(submission.value)
-			setScreen('play')
+			setScreen({
+				type: 'play',
+				options: submission.value,
+			})
 		},
 	})
 
-	if (screen === 'start-game') {
+	if (screen.type === 'start-game') {
 		return (
 			<main>
 				<h1 className="text-new-title">memory</h1>
@@ -123,7 +130,7 @@ function Memory() {
 					</fieldset>
 					<fieldset>
 						<legend>Grid Size</legend>
-						{getCollectionProps(fields.grids, {
+						{getCollectionProps(fields.grid, {
 							type: 'radio',
 							options: grids as Writeable<typeof grids>,
 							value: true,
@@ -142,20 +149,131 @@ function Memory() {
 				</form>
 			</main>
 		)
-	} else if (screen === 'play') {
+	} else if (screen.type === 'play') {
+		const tiles = [
+			[faFutbolBall, faAnchor, faFlask, faSun],
+			[faMoon, faSnowflake, faHandSpock, faBug],
+			[faFutbolBall, faAnchor, faFlask, faSun],
+			[faMoon, faSnowflake, faHandSpock, faBug],
+			// faCar,
+			// faLiraSign,
+		]
+		const isSinglePlayer = screen.options && screen.options.players === '1'
+
 		return (
-			<p className="grid grid-cols-5">
-				<FontAwesomeIcon icon={faFutbolBall} style={iconStyle} />
-				<FontAwesomeIcon icon={faAnchor} style={iconStyle} />
-				<FontAwesomeIcon icon={faFlask} style={iconStyle} />
-				<FontAwesomeIcon icon={faSun} style={iconStyle} />
-				<FontAwesomeIcon icon={faHandSpock} style={iconStyle} />
-				<FontAwesomeIcon icon={faBug} style={iconStyle} />
-				<FontAwesomeIcon icon={faMoon} style={iconStyle} />
-				<FontAwesomeIcon icon={faSnowflake} style={iconStyle} />
-				<FontAwesomeIcon icon={faLiraSign} style={iconStyle} />
-				<FontAwesomeIcon icon={faCar} style={iconStyle} />
-			</p>
+			<>
+				<header>
+					<h1>Memory</h1>
+					{tabletMatches ? (
+						<ul role="list">
+							<li>
+								<button type="button">Restart</button>
+							</li>
+							<li>
+								<button
+									type="button"
+									onClick={() => {
+										setScreen({ type: 'start-game' })
+									}}
+								>
+									New Game
+								</button>
+							</li>
+						</ul>
+					) : (
+						<Dialog.Root>
+							<Dialog.Trigger className="rounded bg-white text-violet11 shadow-blackA4 hover:bg-mauve3 focus:shadow-black inline-flex h-[35px] items-center justify-center px-[15px] font-medium leading-none shadow-[0_2px_10px] focus:shadow-[0_0_0_2px] focus:outline-none">
+								Menu
+							</Dialog.Trigger>
+							<Dialog.Portal>
+								<Dialog.Overlay className="bg-blackA6 data-[state=open]:animate-overlayShow fixed inset-0" />
+								<Dialog.Content className="rounded-md bg-white data-[state=open]:animate-contentShow fixed left-1/2 top-1/2 max-h-[85vh] w-[90vw] max-w-[450px] -translate-x-1/2 -translate-y-1/2 p-[25px] shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] focus:outline-none">
+									<Dialog.Title className="text-mauve12 m-0 text-[17px] font-medium">
+										Menu
+									</Dialog.Title>
+									<Dialog.Description className="text-mauve11 mb-5 mt-2.5 text-[15px] leading-normal">
+										What do you want to do?
+									</Dialog.Description>
+									<ul role="list">
+										<li>
+											<button type="button">Restart</button>
+										</li>
+										<li>
+											<button
+												type="button"
+												onClick={() => {
+													setScreen({ type: 'start-game' })
+												}}
+											>
+												New Game
+											</button>
+										</li>
+										<li>
+											<Dialog.Close>Resume Game</Dialog.Close>
+										</li>
+									</ul>
+								</Dialog.Content>
+							</Dialog.Portal>
+						</Dialog.Root>
+					)}
+				</header>
+				<main>
+					<h2>Tiles</h2>
+					<div role="grid">
+						{tiles.map((row, y) => (
+							<div className="grid grid-cols-4" key={y} role="row">
+								{row.map((tile, x) => (
+									<div key={x} role="gridcell">
+										<button type="button">
+											<FontAwesomeIcon icon={tile} style={iconStyle} />
+											<span>Tile</span>
+										</button>
+									</div>
+								))}
+							</div>
+						))}
+					</div>
+					<Landmark.Root>
+						<Landmark.Label>
+							<h2 className="text-heading-m mt-24">Score</h2>
+						</Landmark.Label>
+						{isSinglePlayer ? (
+							<>
+								<div>
+									<h3>Time</h3>
+									<p>1:53</p>
+								</div>
+								<div>
+									<h3>Moves</h3>
+									<p>39</p>
+								</div>
+							</>
+						) : (
+							<ul role="list">
+								<li>
+									<span>{tabletMatches ? <>Player 1</> : <>P1</>}:</span>{' '}
+									<span>4</span>
+								</li>
+								<li aria-current="true">
+									<p>
+										<span>{tabletMatches ? <>Player 2</> : <>P2</>}:</span>{' '}
+										<span>4</span>
+									</p>
+									{desktopMatches ? <p>Current turn</p> : null}
+								</li>
+								<li>
+									<span>{tabletMatches ? <>Player 3</> : <>P3</>}:</span>{' '}
+									<span>2</span>
+								</li>
+								<li>
+									<span>{tabletMatches ? <>Player 4</> : <>P4</>}:</span>{' '}
+									<span>0</span>
+								</li>
+							</ul>
+						)}
+					</Landmark.Root>
+				</main>
+			</>
 		)
 	} else {
 		throw new Error(`Invalid screen: ${screen}`)
@@ -169,40 +287,3 @@ export function App() {
 		</AnnouncementProvider>
 	)
 }
-
-// <!-- Game board start -->
-
-// Restart
-// New Game
-
-// <!-- Multiplayer scores start -->
-
-// Player 1
-// <!-- P1 score -->
-// Current Turn
-
-// Player 2
-// <!-- P2 score -->
-// Current Turn
-
-// Player 3
-// <!-- P3 score -->
-// Current Turn
-
-// Player 4
-// <!-- P4 score -->
-// Current Turn
-
-// <!-- Multiplayer scores start -->
-
-// <!-- Solo game time and moves counter start -->
-
-// Time
-// <!-- Time elapsed -->
-
-// Moves
-// <!-- Moves total -->
-
-// <!-- Solo game time and moves counter end -->
-
-// <!-- Game board end -->
