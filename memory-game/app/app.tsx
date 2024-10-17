@@ -15,7 +15,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { css, cx } from '@linaria/core'
 import * as Dialog from '@radix-ui/react-dialog'
 import { useMediaQuery } from '@uidotdev/usehooks'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { z } from 'zod'
 import { AnnouncementProvider } from '#app/components/announcer'
 import * as Landmark from '#app/components/landmark'
@@ -114,10 +114,40 @@ const startGameSchema = z.object({
 	grid: gridSchema,
 })
 
+const tiles = [
+	[
+		{ id: 'futbol-ball', name: 'Futbol ball', icon: faFutbolBall },
+		{ id: 'anchor', name: 'Anchor', icon: faAnchor },
+		{ id: 'flask', name: 'Flask', icon: faFlask },
+		{ id: 'sun', name: 'Sun', icon: faSun },
+	],
+	[
+		{ id: 'moon', name: 'Moon', icon: faMoon },
+		{ id: 'snowflake', name: 'Snowflake', icon: faSnowflake },
+		{ id: 'hand-spock', name: 'Spock hand', icon: faHandSpock },
+		{ id: 'bug', name: 'Bug', icon: faBug },
+	],
+	[
+		{ id: 'futbol-ball', name: 'Futbol ball', icon: faFutbolBall },
+		{ id: 'anchor', name: 'Anchor', icon: faAnchor },
+		{ id: 'flask', name: 'Flask', icon: faFlask },
+		{ id: 'sun', name: 'Sun', icon: faSun },
+	],
+	[
+		{ id: 'moon', name: 'Moon', icon: faMoon },
+		{ id: 'snowflake', name: 'Snowflake', icon: faSnowflake },
+		{ id: 'hand-spock', name: 'Spock hand', icon: faHandSpock },
+		{ id: 'bug', name: 'Bug', icon: faBug },
+	],
+	// faCar,
+	// faLiraSign,
+] as const
+
 type Theme = z.infer<typeof themeSchema>
 type Options = z.infer<typeof startGameSchema>
 type Screen = { type: 'start-game' } | { type: 'play'; options: Options }
 
+type Tiles = typeof tiles
 type Position = [number, number]
 
 type Writeable<T> = { -readonly [K in keyof T]: T[K] }
@@ -132,10 +162,21 @@ function getThemeName(id: Theme) {
 	}
 }
 
+function getTile(position: Position, tiles: Tiles) {
+	const [x, y] = position
+	return tiles[y]![x]!
+}
+
+function areEqual(a: Position, b: Position) {
+	return a[0] === b[0] && a[1] === b[1]
+}
+
 function Memory() {
-	const [screen, setScreen] = useState<Screen>({ type: 'start-game' })
 	const tabletMatches = useMediaQuery(media.tablet)
 	const desktopMatches = useMediaQuery(media.desktop)
+
+	const [screen, setScreen] = useState<Screen>({ type: 'start-game' })
+
 	const [form, fields] = useForm({
 		constraint: getZodConstraint(startGameSchema),
 		defaultValue: {
@@ -158,34 +199,7 @@ function Memory() {
 			})
 		},
 	})
-	const tiles = [
-		[
-			{ id: 'futbol-ball', name: 'Futbol ball', icon: faFutbolBall },
-			{ id: 'anchor', name: 'Anchor', icon: faAnchor },
-			{ id: 'flask', name: 'Flask', icon: faFlask },
-			{ id: 'sun', name: 'Sun', icon: faSun },
-		],
-		[
-			{ id: 'moon', name: 'Moon', icon: faMoon },
-			{ id: 'snowflake', name: 'Snowflake', icon: faSnowflake },
-			{ id: 'hand-spock', name: 'Spock hand', icon: faHandSpock },
-			{ id: 'bug', name: 'Bug', icon: faBug },
-		],
-		[
-			{ id: 'futbol-ball', name: 'Futbol ball', icon: faFutbolBall },
-			{ id: 'anchor', name: 'Anchor', icon: faAnchor },
-			{ id: 'flask', name: 'Flask', icon: faFlask },
-			{ id: 'sun', name: 'Sun', icon: faSun },
-		],
-		[
-			{ id: 'moon', name: 'Moon', icon: faMoon },
-			{ id: 'snowflake', name: 'Snowflake', icon: faSnowflake },
-			{ id: 'hand-spock', name: 'Spock hand', icon: faHandSpock },
-			{ id: 'bug', name: 'Bug', icon: faBug },
-		],
-		// faCar,
-		// faLiraSign,
-	] as const
+
 	const [tile1, setTile1] = useState<Position | null>(null)
 	const [tile2, setTile2] = useState<Position | null>(null)
 	const [highlightedTiles, setHighlightedTiles] = useState<
@@ -194,6 +208,7 @@ function Memory() {
 	const [solvedTiles, setSolvedTiles] = useState<
 		Partial<Record<(typeof tiles)[number][number]['id'], 'p1'>>
 	>({})
+	const resetSelectedTilesTimerRef = useRef<ReturnType<typeof setTimeout>>()
 
 	useEffect(() => {
 		document.body.dataset['screen'] = screen.type
@@ -374,31 +389,38 @@ function Memory() {
 		const scores = [4, 4, 2, 0].slice(0, parseInt(screen.options.players))
 		const currentPlayer = 1
 
-		function getIsFlipped(x: number, y: number) {
-			const tile = tiles[y]![x]!
+		function getIsFlipped(position: Position) {
+			const tile = getTile(position, tiles)
 
 			return (
-				(tile1 !== null && tile1[0] === x && tile1[1] === y) ||
-				(tile2 !== null && tile2[0] === x && tile2[1] === y) ||
+				(tile1 !== null && areEqual(position, tile1)) ||
+				(tile2 !== null && areEqual(position, tile2)) ||
 				solvedTiles[tile.id] !== undefined
 			)
 		}
 
 		function selectTile(x: number, y: number) {
-			if (getIsFlipped(x, y)) {
+			if (getIsFlipped([x, y])) {
 				return
 			}
 
+			clearTimeout(resetSelectedTilesTimerRef.current)
 			setHighlightedTiles(null)
+
 			if (tile1 === null) {
 				setTile1([x, y])
 			} else if (tile2 === null) {
-				const id = tiles[y]![x]!.id
+				const id = getTile([x, y], tiles).id
 				setTile2([x, y])
-				if (tiles[tile1[1]]![tile1[0]]!.id === id) {
+				if (getTile(tile1, tiles).id === id) {
 					setHighlightedTiles([tile1, [x, y]])
 					// todo: Typing
 					setSolvedTiles({ ...solvedTiles, [id]: '123' })
+				} else {
+					resetSelectedTilesTimerRef.current = setTimeout(() => {
+						setTile1(null)
+						setTile2(null)
+					}, 2000)
 				}
 			} else {
 				setTile1([x, y])
@@ -568,12 +590,11 @@ function Memory() {
 										role="row"
 									>
 										{row.map((tile, x) => {
-											const isFlipped = getIsFlipped(x, y)
+											const isFlipped = getIsFlipped([x, y])
 											const isHighlighted =
 												highlightedTiles !== null &&
-												highlightedTiles.find(
-													(t) => t[0] === x && t[1] === y,
-												) !== undefined
+												highlightedTiles.find((t) => areEqual(t, [x, y])) !==
+													undefined
 
 											return (
 												<div key={x} role="gridcell">
