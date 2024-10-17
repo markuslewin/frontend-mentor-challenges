@@ -64,25 +64,6 @@ const button = css`
 	}
 `
 
-const grid4 = css`
-	--grid-columns: 4;
-	--grid-size: ${rem(532)};
-	--grid-gap: ${rem(20)};
-`
-
-const grid6 = css`
-	--grid-columns: 6;
-	--grid-size: ${rem(572)};
-	--grid-gap: ${rem(16)};
-`
-
-const iconStyle = {
-	width: 'auto',
-	height: rem(56),
-	// todo: 🤔
-	// height: `${(56 / 118) * 100}%`
-}
-
 const themes = ['numbers', 'icons'] as const
 const themeSchema = z.enum(themes)
 
@@ -337,8 +318,18 @@ function Memory() {
 				{ name: 'Spock hand', icon: faHandSpock },
 				{ name: 'Bug', icon: faBug },
 			],
-			[null, null, null, null],
-			[null, null, null, null],
+			[
+				{ name: 'Futbol ball', icon: faFutbolBall },
+				{ name: 'Anchor', icon: faAnchor },
+				{ name: 'Flask', icon: faFlask },
+				{ name: 'Sun', icon: faSun },
+			],
+			[
+				{ name: 'Moon', icon: faMoon },
+				{ name: 'Snowflake', icon: faSnowflake },
+				{ name: 'Spock hand', icon: faHandSpock },
+				{ name: 'Bug', icon: faBug },
+			],
 			// faCar,
 			// faLiraSign,
 		]
@@ -460,8 +451,20 @@ function Memory() {
 									justify-content: center;
 									gap: var(--grid-gap);
 								`,
-								screen.options.grid === '4x4' ? grid4 : null,
-								screen.options.grid === '6x6' ? grid6 : null,
+								screen.options.grid === '4x4'
+									? css`
+											--grid-columns: 4;
+											--grid-size: ${rem(532)};
+											--grid-gap: ${rem(20)};
+										`
+									: null,
+								screen.options.grid === '6x6'
+									? css`
+											--grid-columns: 6;
+											--grid-size: ${rem(572)};
+											--grid-gap: ${rem(16)};
+										`
+									: null,
 							)}
 						>
 							<div
@@ -481,35 +484,84 @@ function Memory() {
 										key={y}
 										role="row"
 									>
-										{row.map((tile, x) => (
-											<div key={x} role="gridcell">
-												<button
-													className={cx(
-														'bg-BCCED9 text-FCFCFC',
-														css`
-															border-radius: 9999px;
-															width: 100%;
-															aspect-ratio: 1;
-															display: grid;
-															place-items: center;
-														`,
-													)}
-													type="button"
-												>
-													{tile === null ? (
-														<span className="sr-only">Tile</span>
-													) : (
-														<>
-															<FontAwesomeIcon
-																icon={tile.icon}
-																style={iconStyle}
+										{row.map((tile, x) => {
+											const isFlipped = true
+
+											return (
+												<div key={x} role="gridcell">
+													<button
+														className={cx(
+															'group',
+															css`
+																border-radius: 9999px;
+																width: 100%;
+															`,
+														)}
+														type="button"
+													>
+														<span
+															className={cx(
+																css`
+																	position: relative;
+																	display: block;
+																	border-radius: inherit;
+																	transform-style: preserve-3d;
+																	transition-property: transform;
+																	transition-duration: 0.6s;
+																`,
+																!isFlipped
+																	? css`
+																			transform: rotateY(0.5turn);
+																		`
+																	: null,
+															)}
+														>
+															<span
+																className={cx(
+																	'bg-BCCED9 text-FCFCFC',
+																	css`
+																		display: grid;
+																		place-items: center;
+																		border-radius: inherit;
+																		aspect-ratio: 1;
+																		backface-visibility: hidden;
+																	`,
+																)}
+															>
+																<span className="sr-only">
+																	{isFlipped ? tile.name : <>Tile</>}
+																</span>
+																{/* todo: Numbers */}
+																{/* <span aria-hidden="true">{value}</span> */}
+																<FontAwesomeIcon
+																	className={css`
+																		width: ${(56 / 118) * 100}%;
+																		height: auto;
+																		aspect-ratio: 1;
+																	`}
+																	icon={tile.icon}
+																/>
+															</span>
+															<span
+																className={cx(
+																	'bg-304859 transition-colors group-hocus:bg-6395B8',
+																	css`
+																		position: absolute;
+																		display: block;
+																		inset: 0;
+																		width: 100%;
+																		height: 100%;
+																		border-radius: inherit;
+																		transform: rotateY(0.5turn);
+																		backface-visibility: hidden;
+																	`,
+																)}
 															/>
-															<span className="sr-only">{tile.name}</span>
-														</>
-													)}
-												</button>
-											</div>
-										))}
+														</span>
+													</button>
+												</div>
+											)
+										})}
 									</div>
 								))}
 							</div>
