@@ -118,6 +118,8 @@ type Theme = z.infer<typeof themeSchema>
 type Options = z.infer<typeof startGameSchema>
 type Screen = { type: 'start-game' } | { type: 'play'; options: Options }
 
+type Position = [number, number]
+
 type Writeable<T> = { -readonly [K in keyof T]: T[K] }
 
 function getThemeName(id: Theme) {
@@ -156,6 +158,42 @@ function Memory() {
 			})
 		},
 	})
+	const tiles = [
+		[
+			{ id: 'futbol-ball', name: 'Futbol ball', icon: faFutbolBall },
+			{ id: 'anchor', name: 'Anchor', icon: faAnchor },
+			{ id: 'flask', name: 'Flask', icon: faFlask },
+			{ id: 'sun', name: 'Sun', icon: faSun },
+		],
+		[
+			{ id: 'moon', name: 'Moon', icon: faMoon },
+			{ id: 'snowflake', name: 'Snowflake', icon: faSnowflake },
+			{ id: 'hand-spock', name: 'Spock hand', icon: faHandSpock },
+			{ id: 'bug', name: 'Bug', icon: faBug },
+		],
+		[
+			{ id: 'futbol-ball', name: 'Futbol ball', icon: faFutbolBall },
+			{ id: 'anchor', name: 'Anchor', icon: faAnchor },
+			{ id: 'flask', name: 'Flask', icon: faFlask },
+			{ id: 'sun', name: 'Sun', icon: faSun },
+		],
+		[
+			{ id: 'moon', name: 'Moon', icon: faMoon },
+			{ id: 'snowflake', name: 'Snowflake', icon: faSnowflake },
+			{ id: 'hand-spock', name: 'Spock hand', icon: faHandSpock },
+			{ id: 'bug', name: 'Bug', icon: faBug },
+		],
+		// faCar,
+		// faLiraSign,
+	] as const
+	const [tile1, setTile1] = useState<Position | null>(null)
+	const [tile2, setTile2] = useState<Position | null>(null)
+	const [highlightedTiles, setHighlightedTiles] = useState<
+		[Position, Position] | null
+	>(null)
+	const [solvedTiles, setSolvedTiles] = useState<
+		Partial<Record<(typeof tiles)[number][number]['id'], 'p1'>>
+	>({})
 
 	useEffect(() => {
 		document.body.dataset['screen'] = screen.type
@@ -332,37 +370,41 @@ function Memory() {
 			</main>
 		)
 	} else if (screen.type === 'play') {
-		const tiles = [
-			[
-				{ name: 'Futbol ball', icon: faFutbolBall },
-				{ name: 'Anchor', icon: faAnchor },
-				{ name: 'Flask', icon: faFlask },
-				{ name: 'Sun', icon: faSun },
-			],
-			[
-				{ name: 'Moon', icon: faMoon },
-				{ name: 'Snowflake', icon: faSnowflake },
-				{ name: 'Spock hand', icon: faHandSpock },
-				{ name: 'Bug', icon: faBug },
-			],
-			[
-				{ name: 'Futbol ball', icon: faFutbolBall },
-				{ name: 'Anchor', icon: faAnchor },
-				{ name: 'Flask', icon: faFlask },
-				{ name: 'Sun', icon: faSun },
-			],
-			[
-				{ name: 'Moon', icon: faMoon },
-				{ name: 'Snowflake', icon: faSnowflake },
-				{ name: 'Spock hand', icon: faHandSpock },
-				{ name: 'Bug', icon: faBug },
-			],
-			// faCar,
-			// faLiraSign,
-		]
 		const isSinglePlayer = screen.options && screen.options.players === '1'
 		const scores = [4, 4, 2, 0].slice(0, parseInt(screen.options.players))
 		const currentPlayer = 1
+
+		function getIsFlipped(x: number, y: number) {
+			const tile = tiles[y]![x]!
+
+			return (
+				(tile1 !== null && tile1[0] === x && tile1[1] === y) ||
+				(tile2 !== null && tile2[0] === x && tile2[1] === y) ||
+				solvedTiles[tile.id] !== undefined
+			)
+		}
+
+		function selectTile(x: number, y: number) {
+			if (getIsFlipped(x, y)) {
+				return
+			}
+
+			setHighlightedTiles(null)
+			if (tile1 === null) {
+				setTile1([x, y])
+			} else if (tile2 === null) {
+				const id = tiles[y]![x]!.id
+				setTile2([x, y])
+				if (tiles[tile1[1]]![tile1[0]]!.id === id) {
+					setHighlightedTiles([tile1, [x, y]])
+					// todo: Typing
+					setSolvedTiles({ ...solvedTiles, [id]: '123' })
+				}
+			} else {
+				setTile1([x, y])
+				setTile2(null)
+			}
+		}
 
 		return (
 			<div
@@ -526,7 +568,12 @@ function Memory() {
 										role="row"
 									>
 										{row.map((tile, x) => {
-											const isFlipped = true
+											const isFlipped = getIsFlipped(x, y)
+											const isHighlighted =
+												highlightedTiles !== null &&
+												highlightedTiles.find(
+													(t) => t[0] === x && t[1] === y,
+												) !== undefined
 
 											return (
 												<div key={x} role="gridcell">
@@ -539,16 +586,18 @@ function Memory() {
 															`,
 														)}
 														type="button"
+														onClick={() => {
+															selectTile(x, y)
+														}}
 													>
 														<span
 															className={cx(
+																'transition-transform',
 																css`
 																	position: relative;
 																	display: block;
 																	border-radius: inherit;
 																	transform-style: preserve-3d;
-																	transition-property: transform;
-																	transition-duration: 0.6s;
 																`,
 																!isFlipped
 																	? css`
@@ -559,7 +608,7 @@ function Memory() {
 														>
 															<span
 																className={cx(
-																	'bg-BCCED9 text-FCFCFC',
+																	'text-FCFCFC transition-colors',
 																	css`
 																		display: grid;
 																		place-items: center;
@@ -567,6 +616,7 @@ function Memory() {
 																		aspect-ratio: 1;
 																		backface-visibility: hidden;
 																	`,
+																	isHighlighted ? 'bg-FDA214' : 'bg-BCCED9',
 																)}
 															>
 																<span className="sr-only">
