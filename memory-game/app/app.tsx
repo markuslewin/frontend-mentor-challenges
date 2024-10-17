@@ -64,6 +64,33 @@ const button = css`
 	}
 `
 
+const meta = cx(
+	'text-304859',
+	css`
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		align-items: center;
+		gap: ${rem(2)};
+		border-radius: ${rem(5)};
+		padding-block: ${rem(16)};
+		background: hsl(203 25% 90%);
+		@media ${media.tablet} {
+			align-items: start;
+			gap: ${rem(5)};
+			border-radius: ${rem(10)};
+			padding-inline: ${rem(24)};
+		}
+		@media ${media.desktop} {
+			flex-direction: row;
+			align-items: center;
+			gap: 0;
+		}
+	`,
+)
+const metaLabel = cx('text-game-meta-label text-7191A5')
+const metaValue = cx('text-game-meta-value')
+
 const themes = ['numbers', 'icons'] as const
 const themeSchema = z.enum(themes)
 
@@ -334,7 +361,7 @@ function Memory() {
 			// faLiraSign,
 		]
 		const isSinglePlayer = screen.options && screen.options.players === '1'
-		const scores = [4, 4, 2, 0]
+		const scores = [4, 4, 2, 0].slice(0, parseInt(screen.options.players))
 		const currentPlayer = 1
 
 		return (
@@ -571,38 +598,70 @@ function Memory() {
 								<h2 className="sr-only">Score</h2>
 							</Landmark.Label>
 							{isSinglePlayer ? (
-								<>
-									<div>
-										<h3 className="text-game-meta-label">Time</h3>
-										<p className="text-game-meta-value">1:53</p>
+								<div
+									className={css`
+										display: flex;
+										justify-content: center;
+										gap: ${rem(25)};
+										& > * {
+											flex: 0 1 ${rem(255)};
+										}
+										@media ${media.tablet} {
+											gap: ${rem(30)};
+										}
+									`}
+								>
+									<div className={meta}>
+										<h3 className={metaLabel}>Time</h3>
+										<p className={metaValue}>1:53</p>
 									</div>
-									<div>
-										<h3 className="text-game-meta-label">Moves</h3>
-										<p className="text-game-meta-value">39</p>
+									<div className={meta}>
+										<h3 className={metaLabel}>Moves</h3>
+										<p className={metaValue}>39</p>
 									</div>
-								</>
+								</div>
 							) : (
-								<ul role="list">
+								<ul
+									className={css`
+										display: flex;
+										justify-content: center;
+										gap: ${rem(24)};
+										& > * {
+											flex: 0 1 ${rem(255)};
+										}
+										@media ${media.tablet} {
+											gap: ${rem(11)};
+										}
+										@media ${media.desktop} {
+											gap: ${rem(24)};
+										}
+									`}
+									role="list"
+								>
 									{scores.map((score, i) => {
 										const player = i + 1
 										const isCurrentPlayer = currentPlayer === i
 
 										return (
 											<li key={i} aria-current={isCurrentPlayer}>
-												<span className="text-game-meta-label">
-													{tabletMatches ? (
-														<>Player {player}</>
-													) : (
-														<>P{player}</>
-													)}
-													<span className="sr-only">:</span>
-												</span>{' '}
-												<span className="text-game-meta-value">{score}</span>
+												<div className={meta}>
+													<span className={metaLabel}>
+														{tabletMatches ? (
+															<>Player {player}</>
+														) : (
+															<>P{player}</>
+														)}
+														<span className="sr-only">:</span>
+													</span>{' '}
+													<span className={metaValue}>{score}</span>
+												</div>
 												{desktopMatches && isCurrentPlayer ? (
 													<p
 														className={cx(
 															'text-game-meta-current',
 															css`
+																margin-top: ${rem(24)};
+																text-align: center;
 																text-transform: uppercase;
 															`,
 														)}
