@@ -377,7 +377,14 @@ function Memory() {
 					}
 				`}
 			>
-				<div>
+				<div
+					className={css`
+						--layout-gap: 2rem;
+						display: grid;
+						grid-template-rows: auto 1fr;
+						gap: var(--layout-gap);
+					`}
+				>
 					<header
 						className={css`
 							display: flex;
@@ -468,11 +475,18 @@ function Memory() {
 							</Dialog.Root>
 						)}
 					</header>
-					<main>
+					<main
+						className={css`
+							display: grid;
+							grid-template-rows: 1fr auto;
+							gap: var(--layout-gap);
+						`}
+					>
 						<h2 className="sr-only">Tiles</h2>
 						<div
 							className={cx(
 								css`
+									align-self: center;
 									display: grid;
 									grid-template-columns: minmax(auto, var(--grid-size));
 									justify-content: center;
