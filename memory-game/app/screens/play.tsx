@@ -48,6 +48,10 @@ function rem(px: number) {
 	return `${px / 16}rem`
 }
 
+function percentage(fraction: number) {
+	return `${fraction * 100}%`
+}
+
 const button = css`
 	border-radius: 9999px;
 	white-space: nowrap;
@@ -402,20 +406,19 @@ export function Play({ options, onNewGame }: PlayProps) {
 									display: grid;
 									grid-template-columns: minmax(auto, var(--grid-size));
 									justify-content: center;
-									gap: var(--grid-gap);
 								`,
 								options.grid === '4x4'
 									? css`
 											--grid-columns: 4;
 											--grid-size: ${rem(532)};
-											--grid-gap: ${rem(20)};
+											--grid-gap: ${percentage(20 / 532)};
 										`
 									: null,
 								options.grid === '6x6'
 									? css`
 											--grid-columns: 6;
 											--grid-size: ${rem(572)};
-											--grid-gap: ${rem(16)};
+											--grid-gap: ${percentage(16 / 572)};
 										`
 									: null,
 							)}
@@ -424,7 +427,8 @@ export function Play({ options, onNewGame }: PlayProps) {
 								{...cursor.gridProps}
 								className={css`
 									display: grid;
-									gap: var(--grid-gap);
+									aspect-ratio: 1;
+									align-content: space-between;
 								`}
 								role="grid"
 								aria-describedby={gridInstructionsId}
@@ -498,7 +502,7 @@ export function Play({ options, onNewGame }: PlayProps) {
 																{/* <span aria-hidden="true">{value}</span> */}
 																<FontAwesomeIcon
 																	className={css`
-																		width: ${(56 / 118) * 100}%;
+																		width: ${percentage(56 / 118)};
 																		height: auto;
 																		aspect-ratio: 1;
 																	`}
