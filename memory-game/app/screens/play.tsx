@@ -119,6 +119,18 @@ const meta = cx(
 const metaLabel = cx('text-game-meta-label text-7191A5')
 const metaValue = cx('text-game-meta-value')
 
+const dialogOverlay = css`
+	position: fixed;
+	inset: 0;
+	overflow-y: auto;
+	padding: ${rem(24)};
+	display: grid;
+	grid-template-columns: minmax(auto, ${rem(654)});
+	justify-content: center;
+	align-items: center;
+	background: hsl(0 0% 0% / 0.5);
+`
+
 const stat = cx(
 	'text-304859',
 	css`
@@ -283,37 +295,72 @@ export function Play({ options, onNewGame }: PlayProps) {
 							</ul>
 						) : (
 							<Dialog.Root>
-								<Dialog.Trigger className="rounded bg-white text-violet11 shadow-blackA4 hover:bg-mauve3 focus:shadow-black inline-flex h-[35px] items-center justify-center px-[15px] font-medium leading-none shadow-[0_2px_10px] focus:shadow-[0_0_0_2px] focus:outline-none">
+								<Dialog.Trigger
+									className={cx(
+										'text-game-option',
+										button,
+										primaryButton,
+										css`
+											padding: ${rem(10)} ${rem(19)};
+										`,
+									)}
+								>
 									Menu
 								</Dialog.Trigger>
 								<Dialog.Portal>
-									<Dialog.Overlay className="bg-blackA6 data-[state=open]:animate-overlayShow fixed inset-0" />
-									<Dialog.Content className="rounded-md bg-white data-[state=open]:animate-contentShow fixed left-1/2 top-1/2 max-h-[85vh] w-[90vw] max-w-[450px] -translate-x-1/2 -translate-y-1/2 p-[25px] shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] focus:outline-none">
-										<Dialog.Title className="text-mauve12 m-0 text-[17px] font-medium">
-											Menu
-										</Dialog.Title>
-										<Dialog.Description className="text-mauve11 mb-5 mt-2.5 text-[15px] leading-normal">
-											What do you want to do?
-										</Dialog.Description>
-										<ul role="list">
-											<li>
-												<button type="button">Restart</button>
-											</li>
-											<li>
-												<button
-													type="button"
-													onClick={() => {
-														onNewGame()
-													}}
-												>
-													New Game
-												</button>
-											</li>
-											<li>
-												<Dialog.Close>Resume Game</Dialog.Close>
-											</li>
-										</ul>
-									</Dialog.Content>
+									<Dialog.Overlay className={dialogOverlay}>
+										<Dialog.Content
+											className={cx(
+												'bg-F2F2F2 text-7191A5',
+												css`
+													border-radius: ${rem(10)};
+													padding: ${rem(24)};
+												`,
+											)}
+										>
+											<Dialog.Title className="sr-only">Menu</Dialog.Title>
+											<Dialog.Description className="sr-only">
+												What do you want to do?
+											</Dialog.Description>
+											<ul
+												className={css`
+													display: grid;
+													gap: ${rem(16)};
+													& > * {
+														display: grid;
+													}
+												`}
+												role="list"
+											>
+												<li>
+													<button
+														className={cx(dialogButton, primaryButton)}
+														type="button"
+													>
+														Restart
+													</button>
+												</li>
+												<li>
+													<button
+														className={cx(dialogButton, secondaryButton)}
+														type="button"
+														onClick={() => {
+															onNewGame()
+														}}
+													>
+														New Game
+													</button>
+												</li>
+												<li>
+													<Dialog.Close
+														className={cx(dialogButton, secondaryButton)}
+													>
+														Resume Game
+													</Dialog.Close>
+												</li>
+											</ul>
+										</Dialog.Content>
+									</Dialog.Overlay>
 								</Dialog.Portal>
 							</Dialog.Root>
 						)}
@@ -580,19 +627,7 @@ export function Play({ options, onNewGame }: PlayProps) {
 			</div>
 			<AlertDialog.Root open={isFinished}>
 				<AlertDialog.Portal>
-					<AlertDialog.Overlay
-						className={css`
-							position: fixed;
-							inset: 0;
-							overflow-y: auto;
-							padding: ${rem(24)};
-							display: grid;
-							grid-template-columns: minmax(auto, ${rem(654)});
-							justify-content: center;
-							align-items: center;
-							background: hsl(0 0% 0% / 0.5);
-						`}
-					>
+					<AlertDialog.Overlay className={dialogOverlay}>
 						<AlertDialog.Content
 							className={cx(
 								'bg-F2F2F2 text-7191A5',
