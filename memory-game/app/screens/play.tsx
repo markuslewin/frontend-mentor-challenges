@@ -204,6 +204,7 @@ export function Play({ options, onNewGame }: PlayProps) {
 		}
 
 		clearTimeout(resetSelectedTilesTimerRef.current)
+		resetSelectedTilesTimerRef.current = undefined
 		setHighlightedTiles(null)
 
 		if (tile1 === null) {
@@ -230,6 +231,17 @@ export function Play({ options, onNewGame }: PlayProps) {
 			setTile1([x, y])
 			setTile2(null)
 		}
+	}
+
+	function restart() {
+		cursor.reset()
+		setTile1(null)
+		setTile2(null)
+		setHighlightedTiles(null)
+		setSolvedTiles({})
+		setCurrentPlayer(0)
+		clearTimeout(resetSelectedTilesTimerRef.current)
+		resetSelectedTilesTimerRef.current = undefined
 	}
 
 	return (
@@ -277,6 +289,9 @@ export function Play({ options, onNewGame }: PlayProps) {
 									<button
 										className={cx(headerButton, primaryButton)}
 										type="button"
+										onClick={() => {
+											restart()
+										}}
 									>
 										Restart
 									</button>
@@ -333,12 +348,15 @@ export function Play({ options, onNewGame }: PlayProps) {
 												role="list"
 											>
 												<li>
-													<button
+													<Dialog.Close
 														className={cx(dialogButton, primaryButton)}
 														type="button"
+														onClick={() => {
+															restart()
+														}}
 													>
 														Restart
-													</button>
+													</Dialog.Close>
 												</li>
 												<li>
 													<button
@@ -719,12 +737,15 @@ export function Play({ options, onNewGame }: PlayProps) {
 								role="list"
 							>
 								<li>
-									<button
+									<AlertDialog.Cancel
 										className={cx(dialogButton, primaryButton)}
 										type="button"
+										onClick={() => {
+											restart()
+										}}
 									>
 										Restart
-									</button>
+									</AlertDialog.Cancel>
 								</li>
 								<li>
 									<button

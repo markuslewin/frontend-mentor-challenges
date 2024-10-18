@@ -6,9 +6,11 @@ import {
 } from 'react'
 import { areEqual, createTable, type Position } from '#app/utils/table'
 
+const initialPosition: Position = [0, 0]
+
 // todo: Implicit dimensions from `getButtonProps` calls?
 export function useCursor(columns: number, rows: number) {
-	const [_position, setPosition] = useState<Position>([0, 0])
+	const [_position, setPosition] = useState<Position>(initialPosition)
 	const buttonsRef = useRef<(HTMLButtonElement | null)[][]>(
 		createTable(columns, rows, null),
 	)
@@ -44,6 +46,9 @@ export function useCursor(columns: number, rows: number) {
 					buttonsRef.current[y]![x] = node
 				},
 			} satisfies ComponentPropsWithRef<'button'>
+		},
+		reset() {
+			setPosition(initialPosition)
 		},
 	}
 }
