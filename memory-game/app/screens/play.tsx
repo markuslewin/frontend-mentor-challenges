@@ -10,6 +10,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { css } from '@linaria/core'
+import * as AlertDialog from '@radix-ui/react-alert-dialog'
 import * as Dialog from '@radix-ui/react-dialog'
 import { useMediaQuery } from '@uidotdev/usehooks'
 import { cx } from 'class-variance-authority'
@@ -48,15 +49,48 @@ function rem(px: number) {
 }
 
 const button = css`
-	height: ${rem(40)};
 	border-radius: 9999px;
-	padding-inline: ${rem(24)};
 	white-space: nowrap;
-
-	@media ${media.tablet} {
-		height: ${rem(52)};
-	}
 `
+
+const primaryButton = cx(
+	'bg-FDA214 text-FCFCFC transition-colors',
+	css`
+		${hocus} {
+			background: hsl(37 100% 67%);
+		}
+	`,
+)
+
+const secondaryButton = cx(
+	'text-304859 transition-colors hocus:bg-6395B8 hocus:text-FCFCFC',
+	css`
+		background: hsl(203 25% 90%);
+	`,
+)
+
+const headerButton = cx(
+	'text-game-option',
+	button,
+	css`
+		height: ${rem(40)};
+		padding-inline: ${rem(24)};
+		@media ${media.tablet} {
+			height: ${rem(52)};
+		}
+	`,
+)
+
+const dialogButton = cx(
+	'text-dialog-button',
+	button,
+	css`
+		height: ${rem(48)};
+		@media ${media.tablet} {
+			height: ${rem(52)};
+		}
+	`,
+)
 
 const meta = cx(
 	'text-304859',
@@ -85,12 +119,34 @@ const meta = cx(
 const metaLabel = cx('text-game-meta-label text-7191A5')
 const metaValue = cx('text-game-meta-value')
 
+const stat = cx(
+	'text-304859',
+	css`
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		height: ${rem(48)};
+		border-radius: ${rem(5)};
+		padding-inline: ${rem(16)};
+		background: hsl(203 25% 90%);
+		@media ${media.tablet} {
+			height: ${rem(72)};
+			border-radius: ${rem(10)};
+			padding-inline: ${rem(32)};
+		}
+	`,
+)
+
+const statLabel = cx('text-dialog-label text-7191A5')
+
 interface PlayProps {
 	options: Options
 	onNewGame(): void
 }
 
 export function Play({ options, onNewGame }: PlayProps) {
+	const finishDialogTitleRef = useRef<HTMLHeadingElement>(null)
+
 	const tabletMatches = useMediaQuery(media.tablet)
 	const desktopMatches = useMediaQuery(media.desktop)
 
@@ -108,6 +164,8 @@ export function Play({ options, onNewGame }: PlayProps) {
 	const resetSelectedTilesTimerRef = useRef<ReturnType<typeof setTimeout>>()
 
 	const isSinglePlayer = options && options.players === '1'
+	const isFinished =
+		Object.keys(solvedTiles).length === tiles.flatMap((r) => r).length / 2
 	const playerCount = parseInt(options.players, 10)
 
 	const onMove = isSinglePlayer
@@ -163,375 +221,492 @@ export function Play({ options, onNewGame }: PlayProps) {
 	}
 
 	return (
-		<div
-			className={css`
-				display: grid;
-				grid-template-columns: minmax(auto, ${rem(1110)});
-				justify-content: center;
-				min-height: 100vh;
-				padding: ${rem(24)};
-				@media ${media.tablet} {
-					padding: ${rem(40)};
-				}
-			`}
-		>
+		<>
 			<div
 				className={css`
-					--layout-gap: 2rem;
 					display: grid;
-					grid-template-rows: auto 1fr;
-					gap: var(--layout-gap);
+					grid-template-columns: minmax(auto, ${rem(1110)});
+					justify-content: center;
+					min-height: 100vh;
+					padding: ${rem(24)};
+					@media ${media.tablet} {
+						padding: ${rem(40)};
+					}
 				`}
 			>
-				<header
+				<div
 					className={css`
-						display: flex;
-						justify-content: space-between;
-						align-items: center;
-						flex-wrap: wrap;
-					`}
-				>
-					<h1 className="text-game-title">memory</h1>
-					{tabletMatches ? (
-						<ul
-							className={css`
-								display: flex;
-								align-items: center;
-								gap: ${rem(16)};
-								flex-wrap: wrap;
-							`}
-							role="list"
-						>
-							<li>
-								<button
-									className={cx(
-										'bg-FDA214 text-game-option text-FCFCFC transition-colors',
-										button,
-										css`
-											${hocus} {
-												background: hsl(37 100% 67%);
-											}
-										`,
-									)}
-									type="button"
-								>
-									Restart
-								</button>
-							</li>
-							<li>
-								<button
-									className={cx(
-										'text-game-option text-304859 transition-colors hocus:bg-6395B8 hocus:text-FCFCFC',
-										button,
-										css`
-											background: hsl(203 25% 90%);
-										`,
-									)}
-									type="button"
-									onClick={() => {
-										onNewGame()
-									}}
-								>
-									New Game
-								</button>
-							</li>
-						</ul>
-					) : (
-						<Dialog.Root>
-							<Dialog.Trigger className="rounded bg-white text-violet11 shadow-blackA4 hover:bg-mauve3 focus:shadow-black inline-flex h-[35px] items-center justify-center px-[15px] font-medium leading-none shadow-[0_2px_10px] focus:shadow-[0_0_0_2px] focus:outline-none">
-								Menu
-							</Dialog.Trigger>
-							<Dialog.Portal>
-								<Dialog.Overlay className="bg-blackA6 data-[state=open]:animate-overlayShow fixed inset-0" />
-								<Dialog.Content className="rounded-md bg-white data-[state=open]:animate-contentShow fixed left-1/2 top-1/2 max-h-[85vh] w-[90vw] max-w-[450px] -translate-x-1/2 -translate-y-1/2 p-[25px] shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] focus:outline-none">
-									<Dialog.Title className="text-mauve12 m-0 text-[17px] font-medium">
-										Menu
-									</Dialog.Title>
-									<Dialog.Description className="text-mauve11 mb-5 mt-2.5 text-[15px] leading-normal">
-										What do you want to do?
-									</Dialog.Description>
-									<ul role="list">
-										<li>
-											<button type="button">Restart</button>
-										</li>
-										<li>
-											<button
-												type="button"
-												onClick={() => {
-													onNewGame()
-												}}
-											>
-												New Game
-											</button>
-										</li>
-										<li>
-											<Dialog.Close>Resume Game</Dialog.Close>
-										</li>
-									</ul>
-								</Dialog.Content>
-							</Dialog.Portal>
-						</Dialog.Root>
-					)}
-				</header>
-				<main
-					className={css`
+						--layout-gap: 2rem;
 						display: grid;
-						grid-template-rows: 1fr auto;
+						grid-template-rows: auto 1fr;
 						gap: var(--layout-gap);
 					`}
 				>
-					<h2 className="sr-only">Tiles</h2>
-					<div
-						className={cx(
-							css`
-								align-self: center;
-								display: grid;
-								grid-template-columns: minmax(auto, var(--grid-size));
-								justify-content: center;
-								gap: var(--grid-gap);
-							`,
-							options.grid === '4x4'
-								? css`
-										--grid-columns: 4;
-										--grid-size: ${rem(532)};
-										--grid-gap: ${rem(20)};
-									`
-								: null,
-							options.grid === '6x6'
-								? css`
-										--grid-columns: 6;
-										--grid-size: ${rem(572)};
-										--grid-gap: ${rem(16)};
-									`
-								: null,
-						)}
+					<header
+						className={css`
+							display: flex;
+							justify-content: space-between;
+							align-items: center;
+							flex-wrap: wrap;
+						`}
 					>
-						<div
-							{...cursor.gridProps}
-							className={css`
-								display: grid;
-								gap: var(--grid-gap);
-							`}
-							role="grid"
-						>
-							{tiles.map((row, y) => (
-								<div
-									className={css`
-										display: grid;
-										grid-template-columns: repeat(var(--grid-columns), 1fr);
-										gap: var(--grid-gap);
-									`}
-									key={y}
-									role="row"
-								>
-									{row.map((tile, x) => {
-										const isFlipped = getIsFlipped([x, y])
-										const isHighlighted =
-											highlightedTiles !== null &&
-											highlightedTiles.find((t) => areEqual(t, [x, y])) !==
-												undefined
-
-										return (
-											<div key={x} role="gridcell">
+						<h1 className="text-game-title">memory</h1>
+						{tabletMatches ? (
+							<ul
+								className={css`
+									display: flex;
+									align-items: center;
+									gap: ${rem(16)};
+									flex-wrap: wrap;
+								`}
+								role="list"
+							>
+								<li>
+									<button
+										className={cx(headerButton, primaryButton)}
+										type="button"
+									>
+										Restart
+									</button>
+								</li>
+								<li>
+									<button
+										className={cx(headerButton, secondaryButton)}
+										type="button"
+										onClick={() => {
+											onNewGame()
+										}}
+									>
+										New Game
+									</button>
+								</li>
+							</ul>
+						) : (
+							<Dialog.Root>
+								<Dialog.Trigger className="rounded bg-white text-violet11 shadow-blackA4 hover:bg-mauve3 focus:shadow-black inline-flex h-[35px] items-center justify-center px-[15px] font-medium leading-none shadow-[0_2px_10px] focus:shadow-[0_0_0_2px] focus:outline-none">
+									Menu
+								</Dialog.Trigger>
+								<Dialog.Portal>
+									<Dialog.Overlay className="bg-blackA6 data-[state=open]:animate-overlayShow fixed inset-0" />
+									<Dialog.Content className="rounded-md bg-white data-[state=open]:animate-contentShow fixed left-1/2 top-1/2 max-h-[85vh] w-[90vw] max-w-[450px] -translate-x-1/2 -translate-y-1/2 p-[25px] shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] focus:outline-none">
+										<Dialog.Title className="text-mauve12 m-0 text-[17px] font-medium">
+											Menu
+										</Dialog.Title>
+										<Dialog.Description className="text-mauve11 mb-5 mt-2.5 text-[15px] leading-normal">
+											What do you want to do?
+										</Dialog.Description>
+										<ul role="list">
+											<li>
+												<button type="button">Restart</button>
+											</li>
+											<li>
 												<button
-													{...cursor.getButtonProps([x, y])}
-													className={cx(
-														'group',
-														css`
-															border-radius: 9999px;
-															width: 100%;
-														`,
-													)}
 													type="button"
 													onClick={() => {
-														selectTile(x, y)
+														onNewGame()
 													}}
 												>
-													<span
+													New Game
+												</button>
+											</li>
+											<li>
+												<Dialog.Close>Resume Game</Dialog.Close>
+											</li>
+										</ul>
+									</Dialog.Content>
+								</Dialog.Portal>
+							</Dialog.Root>
+						)}
+					</header>
+					<main
+						className={css`
+							display: grid;
+							grid-template-rows: 1fr auto;
+							gap: var(--layout-gap);
+						`}
+					>
+						<h2 className="sr-only">Tiles</h2>
+						<div
+							className={cx(
+								css`
+									align-self: center;
+									display: grid;
+									grid-template-columns: minmax(auto, var(--grid-size));
+									justify-content: center;
+									gap: var(--grid-gap);
+								`,
+								options.grid === '4x4'
+									? css`
+											--grid-columns: 4;
+											--grid-size: ${rem(532)};
+											--grid-gap: ${rem(20)};
+										`
+									: null,
+								options.grid === '6x6'
+									? css`
+											--grid-columns: 6;
+											--grid-size: ${rem(572)};
+											--grid-gap: ${rem(16)};
+										`
+									: null,
+							)}
+						>
+							<div
+								{...cursor.gridProps}
+								className={css`
+									display: grid;
+									gap: var(--grid-gap);
+								`}
+								role="grid"
+							>
+								{tiles.map((row, y) => (
+									<div
+										className={css`
+											display: grid;
+											grid-template-columns: repeat(var(--grid-columns), 1fr);
+											gap: var(--grid-gap);
+										`}
+										key={y}
+										role="row"
+									>
+										{row.map((tile, x) => {
+											const isFlipped = getIsFlipped([x, y])
+											const isHighlighted =
+												highlightedTiles !== null &&
+												highlightedTiles.find((t) => areEqual(t, [x, y])) !==
+													undefined
+
+											return (
+												<div key={x} role="gridcell">
+													<button
+														{...cursor.getButtonProps([x, y])}
 														className={cx(
-															'transition-transform',
+															'group',
 															css`
-																position: relative;
-																display: block;
-																border-radius: inherit;
-																transform-style: preserve-3d;
+																border-radius: 9999px;
+																width: 100%;
 															`,
-															!isFlipped
-																? css`
+														)}
+														type="button"
+														onClick={() => {
+															selectTile(x, y)
+														}}
+													>
+														<span
+															className={cx(
+																'transition-transform',
+																css`
+																	position: relative;
+																	display: block;
+																	border-radius: inherit;
+																	transform-style: preserve-3d;
+																`,
+																!isFlipped
+																	? css`
+																			transform: rotateY(0.5turn);
+																		`
+																	: null,
+															)}
+														>
+															<span
+																className={cx(
+																	'text-FCFCFC transition-colors',
+																	css`
+																		display: grid;
+																		place-items: center;
+																		border-radius: inherit;
+																		aspect-ratio: 1;
+																		backface-visibility: hidden;
+																	`,
+																	isHighlighted ? 'bg-FDA214' : 'bg-BCCED9',
+																)}
+															>
+																<span className="sr-only">
+																	{isFlipped ? icons[tile].name : <>Tile</>}
+																</span>
+																{/* todo: Numbers */}
+																{/* <span aria-hidden="true">{value}</span> */}
+																<FontAwesomeIcon
+																	className={css`
+																		width: ${(56 / 118) * 100}%;
+																		height: auto;
+																		aspect-ratio: 1;
+																	`}
+																	icon={icons[tile].icon}
+																/>
+															</span>
+															<span
+																className={cx(
+																	'bg-304859 transition-colors group-hocus:bg-6395B8',
+																	css`
+																		position: absolute;
+																		display: block;
+																		inset: 0;
+																		width: 100%;
+																		height: 100%;
+																		border-radius: inherit;
 																		transform: rotateY(0.5turn);
-																	`
-																: null,
+																		backface-visibility: hidden;
+																	`,
+																)}
+															/>
+														</span>
+													</button>
+												</div>
+											)
+										})}
+									</div>
+								))}
+							</div>
+						</div>
+						<Landmark.Root>
+							<Landmark.Label>
+								<h2 className="sr-only">Score</h2>
+							</Landmark.Label>
+							{isSinglePlayer ? (
+								<div
+									className={css`
+										display: flex;
+										justify-content: center;
+										gap: ${rem(25)};
+										& > * {
+											flex: 0 1 ${rem(255)};
+										}
+										@media ${media.tablet} {
+											gap: ${rem(30)};
+										}
+									`}
+								>
+									<div className={meta}>
+										<h3 className={metaLabel}>Time</h3>
+										<p className={metaValue}>1:53</p>
+									</div>
+									<div className={meta}>
+										<h3 className={metaLabel}>Moves</h3>
+										<p className={metaValue}>39</p>
+									</div>
+								</div>
+							) : (
+								<ul
+									className={css`
+										display: flex;
+										justify-content: center;
+										gap: ${rem(24)};
+										& > * {
+											flex: 0 1 ${rem(255)};
+										}
+										@media ${media.tablet} {
+											gap: ${rem(11)};
+										}
+										@media ${media.desktop} {
+											gap: ${rem(24)};
+										}
+									`}
+									role="list"
+								>
+									{Array(playerCount)
+										.fill(null)
+										.map((_, i) => {
+											const player = i + 1
+											const isCurrentPlayer = currentPlayer === i
+											const score = Object.values(solvedTiles).filter(
+												(p) => p === i,
+											).length
+
+											return (
+												<li
+													className="group"
+													key={i}
+													aria-current={isCurrentPlayer}
+												>
+													<div
+														className={cx(
+															'transition-colors group-aria-[current="true"]:bg-FDA214',
+															meta,
 														)}
 													>
 														<span
 															className={cx(
-																'text-FCFCFC transition-colors',
-																css`
-																	display: grid;
-																	place-items: center;
-																	border-radius: inherit;
-																	aspect-ratio: 1;
-																	backface-visibility: hidden;
-																`,
-																isHighlighted ? 'bg-FDA214' : 'bg-BCCED9',
+																'group-aria-[current="true"]:text-FCFCFC',
+																metaLabel,
 															)}
 														>
-															<span className="sr-only">
-																{isFlipped ? icons[tile].name : <>Tile</>}
-															</span>
-															{/* todo: Numbers */}
-															{/* <span aria-hidden="true">{value}</span> */}
-															<FontAwesomeIcon
-																className={css`
-																	width: ${(56 / 118) * 100}%;
-																	height: auto;
-																	aspect-ratio: 1;
-																`}
-																icon={icons[tile].icon}
-															/>
-														</span>
+															{tabletMatches ? (
+																<>Player {player}</>
+															) : (
+																<>P{player}</>
+															)}
+															<span className="sr-only">:</span>
+														</span>{' '}
 														<span
 															className={cx(
-																'bg-304859 transition-colors group-hocus:bg-6395B8',
-																css`
-																	position: absolute;
-																	display: block;
-																	inset: 0;
-																	width: 100%;
-																	height: 100%;
-																	border-radius: inherit;
-																	transform: rotateY(0.5turn);
-																	backface-visibility: hidden;
-																`,
+																'group-aria-[current="true"]:text-FCFCFC',
+																metaValue,
 															)}
-														/>
-													</span>
-												</button>
-											</div>
-										)
-									})}
-								</div>
-							))}
-						</div>
-					</div>
-					<Landmark.Root>
-						<Landmark.Label>
-							<h2 className="sr-only">Score</h2>
-						</Landmark.Label>
-						{isSinglePlayer ? (
-							<div
-								className={css`
-									display: flex;
-									justify-content: center;
-									gap: ${rem(25)};
-									& > * {
-										flex: 0 1 ${rem(255)};
-									}
+														>
+															{score}
+														</span>
+													</div>
+													{desktopMatches ? (
+														<p
+															className={cx(
+																'text-game-meta-current transition-opacity',
+																css`
+																	margin-top: ${rem(24)};
+																	text-align: center;
+																	text-transform: uppercase;
+																`,
+																isCurrentPlayer
+																	? css`
+																			opacity: 1;
+																		`
+																	: css`
+																			opacity: 0;
+																		`,
+															)}
+															aria-hidden={!isCurrentPlayer}
+														>
+															Current turn
+														</p>
+													) : null}
+												</li>
+											)
+										})}
+								</ul>
+							)}
+						</Landmark.Root>
+					</main>
+				</div>
+			</div>
+			<AlertDialog.Root open={isFinished}>
+				<AlertDialog.Portal>
+					<AlertDialog.Overlay
+						className={css`
+							position: fixed;
+							inset: 0;
+							overflow-y: auto;
+							padding: ${rem(24)};
+							display: grid;
+							grid-template-columns: minmax(auto, ${rem(654)});
+							justify-content: center;
+							align-items: center;
+							background: hsl(0 0% 0% / 0.5);
+						`}
+					>
+						<AlertDialog.Content
+							className={cx(
+								'bg-F2F2F2 text-7191A5',
+								css`
+									border-radius: ${rem(10)};
+									padding: ${rem(24)};
+									padding-top: ${rem(32)};
 									@media ${media.tablet} {
-										gap: ${rem(30)};
+										border-radius: ${rem(20)};
+										padding-top: ${rem(51)};
+										padding-inline: ${rem(56)};
+										padding-bottom: ${rem(69)};
 									}
-								`}
+								`,
+							)}
+							onOpenAutoFocus={(e) => {
+								// We don't have any good buttons to focus
+								e.preventDefault()
+								finishDialogTitleRef.current!.focus()
+							}}
+						>
+							<AlertDialog.Title
+								className={cx(
+									'text-dialog-title text-152938',
+									css`
+										text-align: center;
+									`,
+								)}
+								ref={finishDialogTitleRef}
+								tabIndex={-1}
 							>
-								<div className={meta}>
-									<h3 className={metaLabel}>Time</h3>
-									<p className={metaValue}>1:53</p>
-								</div>
-								<div className={meta}>
-									<h3 className={metaLabel}>Moves</h3>
-									<p className={metaValue}>39</p>
-								</div>
-							</div>
-						) : (
+								You did it!
+							</AlertDialog.Title>
+							<AlertDialog.Description
+								className={cx(
+									'text-dialog-body',
+									css`
+										margin-top: ${rem(9)};
+										text-align: center;
+										@media ${media.tablet} {
+											margin-top: ${rem(16)};
+										}
+									`,
+								)}
+							>
+								Game over! Here’s how you got on…
+							</AlertDialog.Description>
 							<ul
 								className={css`
-									display: flex;
-									justify-content: center;
-									gap: ${rem(24)};
-									& > * {
-										flex: 0 1 ${rem(255)};
-									}
+									margin-top: ${rem(24)};
+									display: grid;
+									gap: ${rem(8)};
 									@media ${media.tablet} {
-										gap: ${rem(11)};
-									}
-									@media ${media.desktop} {
-										gap: ${rem(24)};
+										margin-top: ${rem(40)};
+										gap: ${rem(16)};
 									}
 								`}
 								role="list"
 							>
-								{Array(playerCount)
-									.fill(null)
-									.map((_, i) => {
-										const player = i + 1
-										const isCurrentPlayer = currentPlayer === i
-										const score = Object.values(solvedTiles).filter(
-											(p) => p === i,
-										).length
-
-										return (
-											<li
-												className="group"
-												key={i}
-												aria-current={isCurrentPlayer}
-											>
-												<div
-													className={cx(
-														'transition-colors group-aria-[current="true"]:bg-FDA214',
-														meta,
-													)}
-												>
-													<span
-														className={cx(
-															'group-aria-[current="true"]:text-FCFCFC',
-															metaLabel,
-														)}
-													>
-														{tabletMatches ? (
-															<>Player {player}</>
-														) : (
-															<>P{player}</>
-														)}
-														<span className="sr-only">:</span>
-													</span>{' '}
-													<span
-														className={cx(
-															'group-aria-[current="true"]:text-FCFCFC',
-															metaValue,
-														)}
-													>
-														{score}
-													</span>
-												</div>
-												{desktopMatches ? (
-													<p
-														className={cx(
-															'text-game-meta-current transition-opacity',
-															css`
-																margin-top: ${rem(24)};
-																text-align: center;
-																text-transform: uppercase;
-															`,
-															isCurrentPlayer
-																? css`
-																		opacity: 1;
-																	`
-																: css`
-																		opacity: 0;
-																	`,
-														)}
-														aria-hidden={!isCurrentPlayer}
-													>
-														Current turn
-													</p>
-												) : null}
-											</li>
-										)
-									})}
+								<li className={stat}>
+									<span className={statLabel}>
+										Time Elapsed<span className="sr-only">:</span>{' '}
+									</span>{' '}
+									<span className="text-dialog-value">1:53</span>
+								</li>
+								<li className={stat}>
+									<span className={statLabel}>
+										Moves Taken<span className="sr-only">:</span>{' '}
+									</span>{' '}
+									<span className="text-dialog-value">39 Moves</span>
+								</li>
 							</ul>
-						)}
-					</Landmark.Root>
-				</main>
-			</div>
-		</div>
+							<ul
+								className={css`
+									margin-top: ${rem(24)};
+									display: flex;
+									flex-direction: column;
+									gap: ${rem(16)};
+									& > * {
+										flex: 1 0 0;
+										display: grid;
+									}
+									@media ${media.tablet} {
+										margin-top: ${rem(40)};
+										flex-direction: row;
+										gap: ${rem(14)};
+									}
+								`}
+								role="list"
+							>
+								<li>
+									<button
+										className={cx(dialogButton, primaryButton)}
+										type="button"
+									>
+										Restart
+									</button>
+								</li>
+								<li>
+									<button
+										className={cx(dialogButton, secondaryButton)}
+										type="button"
+										onClick={() => {
+											onNewGame()
+										}}
+									>
+										Setup New Game
+									</button>
+								</li>
+							</ul>
+						</AlertDialog.Content>
+					</AlertDialog.Overlay>
+				</AlertDialog.Portal>
+			</AlertDialog.Root>
+		</>
 	)
 }
