@@ -205,7 +205,6 @@ export function Play({ options, onNewGame }: PlayProps) {
 
 		clearTimeout(resetSelectedTilesTimerRef.current)
 		resetSelectedTilesTimerRef.current = undefined
-		setHighlightedTiles(null)
 
 		if (tile1 === null) {
 			setTile1([x, y])
@@ -221,6 +220,7 @@ export function Play({ options, onNewGame }: PlayProps) {
 					[id]: currentPlayer satisfies (typeof solvedTiles)[keyof typeof solvedTiles],
 				})
 			} else {
+				setHighlightedTiles(null)
 				resetSelectedTilesTimerRef.current = setTimeout(() => {
 					setTile1(null)
 					setTile2(null)
