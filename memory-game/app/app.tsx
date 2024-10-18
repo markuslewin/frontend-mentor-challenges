@@ -15,7 +15,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { css, cx } from '@linaria/core'
 import * as Dialog from '@radix-ui/react-dialog'
 import { useMediaQuery } from '@uidotdev/usehooks'
-import { useEffect, useRef, useState } from 'react'
+import {
+	type ComponentPropsWithoutRef,
+	type ComponentPropsWithRef,
+	useEffect,
+	useRef,
+	useState,
+} from 'react'
 import { z } from 'zod'
 import { AnnouncementProvider } from '#app/components/announcer'
 import * as Landmark from '#app/components/landmark'
@@ -171,6 +177,58 @@ function areEqual(a: Position, b: Position) {
 	return a[0] === b[0] && a[1] === b[1]
 }
 
+function createTable<T>(columns: number, rows: number, value: T) {
+	return Array(rows)
+		.fill(null)
+		.map(() =>
+			Array(columns)
+				.fill(null)
+				.map(() => value),
+		)
+}
+
+// todo: Implicit dimensions from `getButtonProps` calls?
+function useCursor(columns: number, rows: number) {
+	const [_position, setPosition] = useState<Position>([0, 0])
+	const buttonsRef = useRef<(HTMLButtonElement | null)[][]>(
+		createTable(columns, rows, null),
+	)
+
+	return {
+		gridProps: {
+			onKeyDown(e) {
+				const [x, y] = _position
+				if (e.key === 'ArrowUp') {
+					const nextY = Math.max(0, y - 1)
+					setPosition([x, nextY])
+					buttonsRef.current[nextY]![x]!.focus()
+				} else if (e.key === 'ArrowRight') {
+					const nextX = Math.min(columns - 1, x + 1)
+					setPosition([nextX, y])
+					buttonsRef.current[y]![nextX]!.focus()
+				} else if (e.key === 'ArrowDown') {
+					const nextY = Math.min(rows - 1, y + 1)
+					setPosition([x, nextY])
+					buttonsRef.current[nextY]![x]!.focus()
+				} else if (e.key === 'ArrowLeft') {
+					const nextX = Math.max(0, x - 1)
+					setPosition([nextX, y])
+					buttonsRef.current[y]![nextX]!.focus()
+				}
+			},
+		} satisfies ComponentPropsWithoutRef<'div'>,
+		getButtonProps(position: Position) {
+			const [x, y] = position
+			return {
+				tabIndex: areEqual(position, _position) ? 0 : -1,
+				ref(node) {
+					buttonsRef.current[y]![x] = node
+				},
+			} satisfies ComponentPropsWithRef<'button'>
+		},
+	}
+}
+
 function Memory() {
 	const tabletMatches = useMediaQuery(media.tablet)
 	const desktopMatches = useMediaQuery(media.desktop)
@@ -200,6 +258,8 @@ function Memory() {
 		},
 	})
 
+	// todo: 6x6
+	const cursor = useCursor(4, 4)
 	const [tile1, setTile1] = useState<Position | null>(null)
 	const [tile2, setTile2] = useState<Position | null>(null)
 	const [highlightedTiles, setHighlightedTiles] = useState<
@@ -573,6 +633,7 @@ function Memory() {
 							)}
 						>
 							<div
+								{...cursor.gridProps}
 								className={css`
 									display: grid;
 									gap: var(--grid-gap);
@@ -599,6 +660,7 @@ function Memory() {
 											return (
 												<div key={x} role="gridcell">
 													<button
+														{...cursor.getButtonProps([x, y])}
 														className={cx(
 															'group',
 															css`
