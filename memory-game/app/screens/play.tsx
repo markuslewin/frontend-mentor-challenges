@@ -14,7 +14,7 @@ import * as AlertDialog from '@radix-ui/react-alert-dialog'
 import * as Dialog from '@radix-ui/react-dialog'
 import { useMediaQuery } from '@uidotdev/usehooks'
 import { cx } from 'class-variance-authority'
-import { useState, useRef } from 'react'
+import { useState, useRef, useId } from 'react'
 import * as Landmark from '#app/components/landmark'
 import { useCursor } from '#app/utils/cursor'
 import { type Options } from '#app/utils/memory'
@@ -157,6 +157,7 @@ interface PlayProps {
 }
 
 export function Play({ options, onNewGame }: PlayProps) {
+	const gridInstructionsId = useId()
 	const finishDialogTitleRef = useRef<HTMLHeadingElement>(null)
 
 	const tabletMatches = useMediaQuery(media.tablet)
@@ -391,6 +392,9 @@ export function Play({ options, onNewGame }: PlayProps) {
 						`}
 					>
 						<h2 className="sr-only">Tiles</h2>
+						<p className="sr-only" id={gridInstructionsId}>
+							Use the arrow keys to browse the tiles.
+						</p>
 						<div
 							className={cx(
 								css`
@@ -423,6 +427,7 @@ export function Play({ options, onNewGame }: PlayProps) {
 									gap: var(--grid-gap);
 								`}
 								role="grid"
+								aria-describedby={gridInstructionsId}
 							>
 								{tiles.map((row, y) => (
 									<div
