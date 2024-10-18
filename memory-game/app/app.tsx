@@ -266,8 +266,9 @@ function Memory() {
 		[Position, Position] | null
 	>(null)
 	const [solvedTiles, setSolvedTiles] = useState<
-		Partial<Record<(typeof tiles)[number][number]['id'], 'p1'>>
+		Partial<Record<(typeof tiles)[number][number]['id'], number>>
 	>({})
+	const [currentPlayer, setCurrentPlayer] = useState<number>(0)
 	const resetSelectedTilesTimerRef = useRef<ReturnType<typeof setTimeout>>()
 
 	useEffect(() => {
@@ -446,8 +447,15 @@ function Memory() {
 		)
 	} else if (screen.type === 'play') {
 		const isSinglePlayer = screen.options && screen.options.players === '1'
-		const scores = [4, 4, 2, 0].slice(0, parseInt(screen.options.players))
-		const currentPlayer = 1
+		const playerCount = parseInt(screen.options.players, 10)
+
+		const onMove = isSinglePlayer
+			? () => {
+					console.log('todo: Increment move count')
+				}
+			: () => {
+					setCurrentPlayer((currentPlayer + 1) % playerCount)
+				}
 
 		function getIsFlipped(position: Position) {
 			const tile = getTile(position, tiles)
@@ -474,14 +482,19 @@ function Memory() {
 				setTile2([x, y])
 				if (getTile(tile1, tiles).id === id) {
 					setHighlightedTiles([tile1, [x, y]])
-					// todo: Typing
-					setSolvedTiles({ ...solvedTiles, [id]: '123' })
+					// TS doesn't check computed properties?
+					// https://github.com/microsoft/TypeScript/issues/36920
+					setSolvedTiles({
+						...solvedTiles,
+						[id]: currentPlayer satisfies (typeof solvedTiles)[keyof typeof solvedTiles],
+					})
 				} else {
 					resetSelectedTilesTimerRef.current = setTimeout(() => {
 						setTile1(null)
 						setTile2(null)
 					}, 2000)
 				}
+				onMove()
 			} else {
 				setTile1([x, y])
 				setTile2(null)
@@ -785,40 +798,74 @@ function Memory() {
 									`}
 									role="list"
 								>
-									{scores.map((score, i) => {
-										const player = i + 1
-										const isCurrentPlayer = currentPlayer === i
+									{Array(playerCount)
+										.fill(null)
+										.map((_, i) => {
+											const player = i + 1
+											const isCurrentPlayer = currentPlayer === i
+											const score = Object.values(solvedTiles).filter(
+												(p) => p === i,
+											).length
 
-										return (
-											<li key={i} aria-current={isCurrentPlayer}>
-												<div className={meta}>
-													<span className={metaLabel}>
-														{tabletMatches ? (
-															<>Player {player}</>
-														) : (
-															<>P{player}</>
-														)}
-														<span className="sr-only">:</span>
-													</span>{' '}
-													<span className={metaValue}>{score}</span>
-												</div>
-												{desktopMatches && isCurrentPlayer ? (
-													<p
+											return (
+												<li
+													className="group"
+													key={i}
+													aria-current={isCurrentPlayer}
+												>
+													<div
 														className={cx(
-															'text-game-meta-current',
-															css`
-																margin-top: ${rem(24)};
-																text-align: center;
-																text-transform: uppercase;
-															`,
+															'transition-colors group-aria-[current="true"]:bg-FDA214',
+															meta,
 														)}
 													>
-														Current turn
-													</p>
-												) : null}
-											</li>
-										)
-									})}
+														<span
+															className={cx(
+																'group-aria-[current="true"]:text-FCFCFC',
+																metaLabel,
+															)}
+														>
+															{tabletMatches ? (
+																<>Player {player}</>
+															) : (
+																<>P{player}</>
+															)}
+															<span className="sr-only">:</span>
+														</span>{' '}
+														<span
+															className={cx(
+																'group-aria-[current="true"]:text-FCFCFC',
+																metaValue,
+															)}
+														>
+															{score}
+														</span>
+													</div>
+													{desktopMatches ? (
+														<p
+															className={cx(
+																'text-game-meta-current transition-opacity',
+																css`
+																	margin-top: ${rem(24)};
+																	text-align: center;
+																	text-transform: uppercase;
+																`,
+																isCurrentPlayer
+																	? css`
+																			opacity: 1;
+																		`
+																	: css`
+																			opacity: 0;
+																		`,
+															)}
+															aria-hidden={!isCurrentPlayer}
+														>
+															Current turn
+														</p>
+													) : null}
+												</li>
+											)
+										})}
 								</ul>
 							)}
 						</Landmark.Root>
