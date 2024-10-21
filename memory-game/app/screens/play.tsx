@@ -21,6 +21,7 @@ import { type Options } from '#app/utils/memory'
 import { media } from '#app/utils/screens'
 import { hocus } from '#app/utils/style'
 import { areEqual, getCell, type Position, type Table } from '#app/utils/table'
+import { type Value } from '#app/utils/type'
 
 const icons = {
 	'futbol-ball': { name: 'Futbol ball', icon: faFutbolBall },
@@ -169,6 +170,7 @@ export function Play({ options, onNewGame }: PlayProps) {
 
 	// todo: 6x6
 	const cursor = useCursor(4, 4)
+	const isStartedRef = useRef(false)
 	const [tile1, setTile1] = useState<Position | null>(null)
 	const [tile2, setTile2] = useState<Position | null>(null)
 	const [highlightedTiles, setHighlightedTiles] = useState<
@@ -177,17 +179,48 @@ export function Play({ options, onNewGame }: PlayProps) {
 	const [solvedTiles, setSolvedTiles] = useState<
 		Partial<Record<IconId, number>>
 	>({})
-	const [currentPlayer, setCurrentPlayer] = useState<number>(0)
+	const pairsLeft =
+		tiles.flatMap((r) => r).length / 2 - Object.keys(solvedTiles).length
 	const resetSelectedTilesTimerRef = useRef<ReturnType<typeof setTimeout>>()
 
+	const [moves, setMoves] = useState(0)
+	const [startTime, setStartTime] = useState<number | null>(null)
+	const [now, setNow] = useState<number | null>(null)
+	const elapsedTimerRef = useRef<ReturnType<typeof setInterval>>()
+	const elapsedTime = startTime === null || now === null ? 0 : now - startTime
+	const elapsedSeconds = elapsedTime / 1000
+	const time = `${Math.floor(elapsedSeconds / 60)}:${Math.floor(
+		elapsedSeconds % 60,
+	)
+		.toString()
+		.padStart(2, '0')}`
+
+	const [currentPlayer, setCurrentPlayer] = useState<number>(0)
+
 	const isSinglePlayer = options && options.players === '1'
-	const isFinished =
-		Object.keys(solvedTiles).length === tiles.flatMap((r) => r).length / 2
+	const isFinished = pairsLeft === 0
 	const playerCount = parseInt(options.players, 10)
+
+	const onStart = isSinglePlayer
+		? () => {
+				const now = Date.now()
+				setStartTime(now)
+				setNow(now)
+				elapsedTimerRef.current = setInterval(() => {
+					setNow(Date.now())
+				}, 1000)
+			}
+		: () => {}
+
+	const onEnd = isSinglePlayer
+		? () => {
+				clearInterval(elapsedTimerRef.current)
+			}
+		: () => {}
 
 	const onMove = isSinglePlayer
 		? () => {
-				console.log('todo: Increment move count')
+				setMoves(moves + 1)
 			}
 		: () => {
 				setCurrentPlayer((currentPlayer + 1) % playerCount)
@@ -212,18 +245,26 @@ export function Play({ options, onNewGame }: PlayProps) {
 		resetSelectedTilesTimerRef.current = undefined
 
 		if (tile1 === null) {
+			if (!isStartedRef.current) {
+				onStart()
+				isStartedRef.current = true
+			}
 			setTile1([x, y])
 		} else if (tile2 === null) {
 			const id = getCell([x, y], tiles)
 			setTile2([x, y])
 			if (getCell(tile1, tiles) === id) {
-				setHighlightedTiles([tile1, [x, y]])
 				// TS doesn't check computed properties?
 				// https://github.com/microsoft/TypeScript/issues/36920
 				setSolvedTiles({
 					...solvedTiles,
-					[id]: currentPlayer satisfies (typeof solvedTiles)[keyof typeof solvedTiles],
+					[id]: currentPlayer satisfies Value<typeof solvedTiles>,
 				})
+				setHighlightedTiles([tile1, [x, y]])
+				// The pair just found was the last one
+				if (pairsLeft === 1) {
+					onEnd()
+				}
 			} else {
 				setHighlightedTiles(null)
 				resetSelectedTilesTimerRef.current = setTimeout(() => {
@@ -240,11 +281,16 @@ export function Play({ options, onNewGame }: PlayProps) {
 
 	function restart() {
 		cursor.reset()
+		isStartedRef.current = false
 		setTile1(null)
 		setTile2(null)
 		setHighlightedTiles(null)
 		setSolvedTiles({})
 		setCurrentPlayer(0)
+		setMoves(0)
+		setStartTime(null)
+		setNow(null)
+		clearInterval(elapsedTimerRef.current)
 		clearTimeout(resetSelectedTilesTimerRef.current)
 		resetSelectedTilesTimerRef.current = undefined
 	}
@@ -553,11 +599,11 @@ export function Play({ options, onNewGame }: PlayProps) {
 								>
 									<div className={meta}>
 										<h3 className={metaLabel}>Time</h3>
-										<p className={metaValue}>1:53</p>
+										<p className={metaValue}>{time}</p>
 									</div>
 									<div className={meta}>
 										<h3 className={metaLabel}>Moves</h3>
-										<p className={metaValue}>39</p>
+										<p className={metaValue}>{moves}</p>
 									</div>
 								</div>
 							) : (
@@ -718,13 +764,13 @@ export function Play({ options, onNewGame }: PlayProps) {
 									<span className={statLabel}>
 										Time Elapsed<span className="sr-only">:</span>{' '}
 									</span>{' '}
-									<span className="text-dialog-value">1:53</span>
+									<span className="text-dialog-value">{time}</span>
 								</li>
 								<li className={stat}>
 									<span className={statLabel}>
 										Moves Taken<span className="sr-only">:</span>{' '}
 									</span>{' '}
-									<span className="text-dialog-value">39 Moves</span>
+									<span className="text-dialog-value">{moves} Moves</span>
 								</li>
 							</ul>
 							<ul
