@@ -1,0 +1,714 @@
+import { invariant } from '@epic-web/invariant'
+import {
+	faAnchor,
+	faBug,
+	faFlask,
+	faFutbolBall,
+	faHandSpock,
+	faMoon,
+	faSnowflake,
+	faSun,
+} from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { css, cx } from '@linaria/core'
+import * as AlertDialog from '@radix-ui/react-alert-dialog'
+import * as Dialog from '@radix-ui/react-dialog'
+import { useMediaQuery } from '@uidotdev/usehooks'
+import {
+	createContext,
+	type ReactNode,
+	useContext,
+	useId,
+	useRef,
+	useState,
+} from 'react'
+import * as Landmark from '#app/components/landmark'
+import { useCursor } from '#app/utils/cursor'
+import { type Size } from '#app/utils/memory'
+import { media } from '#app/utils/screens'
+import { hocus } from '#app/utils/style'
+import { areEqual, getCell, type Position, type Table } from '#app/utils/table'
+import { type Value } from '#app/utils/type'
+
+const icons = {
+	'futbol-ball': { name: 'Futbol ball', icon: faFutbolBall },
+	anchor: { name: 'Anchor', icon: faAnchor },
+	flask: { name: 'Flask', icon: faFlask },
+	sun: { name: 'Sun', icon: faSun },
+	moon: { name: 'Moon', icon: faMoon },
+	snowflake: { name: 'Snowflake', icon: faSnowflake },
+	'hand-spock': { name: 'Spock hand', icon: faHandSpock },
+	bug: { name: 'Bug', icon: faBug },
+	// faCar,
+	// faLiraSign,
+}
+
+type IconId = keyof typeof icons
+
+const tiles = [
+	['futbol-ball', 'anchor', 'flask', 'sun'],
+	['moon', 'snowflake', 'hand-spock', 'bug'],
+	['futbol-ball', 'anchor', 'flask', 'sun'],
+	['moon', 'snowflake', 'hand-spock', 'bug'],
+] satisfies Table<IconId>
+
+function rem(px: number) {
+	return `${px / 16}rem`
+}
+
+function percentage(fraction: number) {
+	return `${fraction * 100}%`
+}
+
+const button = css`
+	border-radius: 9999px;
+	white-space: nowrap;
+`
+
+const primaryButton = cx(
+	'bg-FDA214 text-FCFCFC transition-colors',
+	css`
+		${hocus} {
+			background: hsl(37 100% 67%);
+		}
+	`,
+)
+
+const secondaryButton = cx(
+	'text-304859 transition-colors hocus:bg-6395B8 hocus:text-FCFCFC',
+	css`
+		background: hsl(203 25% 90%);
+	`,
+)
+
+const headerButton = cx(
+	'text-game-option',
+	button,
+	css`
+		height: ${rem(40)};
+		padding-inline: ${rem(24)};
+		@media ${media.tablet} {
+			height: ${rem(52)};
+		}
+	`,
+)
+
+const dialogButton = cx(
+	'text-dialog-button',
+	button,
+	css`
+		height: ${rem(48)};
+		@media ${media.tablet} {
+			height: ${rem(52)};
+		}
+	`,
+)
+
+const dialogOverlay = css`
+	position: fixed;
+	inset: 0;
+	overflow-y: auto;
+	padding: ${rem(24)};
+	display: grid;
+	grid-template-columns: minmax(auto, ${rem(654)});
+	justify-content: center;
+	align-items: center;
+	background: hsl(0 0% 0% / 0.5);
+`
+
+const stat = cx(
+	'text-304859',
+	css`
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		height: ${rem(48)};
+		border-radius: ${rem(5)};
+		padding-inline: ${rem(16)};
+		background: hsl(203 25% 90%);
+		@media ${media.tablet} {
+			height: ${rem(72)};
+			border-radius: ${rem(10)};
+			padding-inline: ${rem(32)};
+		}
+	`,
+)
+
+const statLabel = cx('text-dialog-label text-7191A5')
+
+const GameContext = createContext<{
+	isFinished: boolean
+	size: Size
+	newGame(): void
+	restart(): void
+	selectTile(position: Position): void
+	getIsFlipped(position: Position): boolean
+	getIsHighlighted(position: Position): boolean
+} | null>(null)
+
+function useGame() {
+	const value = useContext(GameContext)
+	invariant(value !== null, '`useGame` must be used inside of `GameContext`')
+
+	return value
+}
+
+interface GameProps {
+	// options: Options
+	size: Size
+	children: ReactNode
+	onNewGame(): void
+	onStart?(): void
+	onMove?(): void
+	onEnd?(): void
+}
+
+export function Game({
+	size,
+	children,
+	onNewGame,
+	onStart,
+	onMove,
+	onEnd,
+}: GameProps) {
+	const isStartedRef = useRef(false)
+	const [tile1, setTile1] = useState<Position | null>(null)
+	const [tile2, setTile2] = useState<Position | null>(null)
+	const [highlightedTiles, setHighlightedTiles] = useState<
+		[Position, Position] | null
+	>(null)
+	const [solvedTiles, setSolvedTiles] = useState<
+		Partial<Record<IconId, number>>
+	>({})
+	const pairsLeft =
+		tiles.flatMap((r) => r).length / 2 - Object.keys(solvedTiles).length
+	const resetSelectedTilesTimerRef = useRef<ReturnType<typeof setTimeout>>()
+
+	const isFinished = pairsLeft === 0
+
+	function getIsFlipped(position: Position) {
+		const id = getCell(position, tiles)
+
+		return (
+			(tile1 !== null && areEqual(position, tile1)) ||
+			(tile2 !== null && areEqual(position, tile2)) ||
+			solvedTiles[id] !== undefined
+		)
+	}
+
+	function getIsHighlighted(position: Position) {
+		return (
+			highlightedTiles !== null &&
+			highlightedTiles.find((t) => areEqual(t, position)) !== undefined
+		)
+	}
+
+	function selectTile(position: Position) {
+		if (getIsFlipped(position)) {
+			return
+		}
+
+		clearTimeout(resetSelectedTilesTimerRef.current)
+		resetSelectedTilesTimerRef.current = undefined
+
+		if (tile1 === null) {
+			if (!isStartedRef.current) {
+				onStart?.()
+				isStartedRef.current = true
+			}
+			setTile1(position)
+		} else if (tile2 === null) {
+			const id = getCell(position, tiles)
+			setTile2(position)
+			if (getCell(tile1, tiles) === id) {
+				// TS doesn't check computed properties?
+				// https://github.com/microsoft/TypeScript/issues/36920
+				setSolvedTiles({
+					...solvedTiles,
+					// todo: Fix multiplayer
+					// [id]: currentPlayer satisfies Value<typeof solvedTiles>,
+					[id]: 0 satisfies Value<typeof solvedTiles>,
+				})
+				setHighlightedTiles([tile1, position])
+				// The pair just found was the last one
+				if (pairsLeft === 1) {
+					onEnd?.()
+				}
+			} else {
+				setHighlightedTiles(null)
+				resetSelectedTilesTimerRef.current = setTimeout(() => {
+					setTile1(null)
+					setTile2(null)
+				}, 2000)
+			}
+			onMove?.()
+		} else {
+			setTile1(position)
+			setTile2(null)
+		}
+	}
+
+	function restart() {
+		// cursor.reset()
+		isStartedRef.current = false
+		setTile1(null)
+		setTile2(null)
+		setHighlightedTiles(null)
+		setSolvedTiles({})
+		// todo: Reset mode state
+		// setCurrentPlayer(0)
+		// setMoves(0)
+		// setStartTime(null)
+		// setNow(null)
+		// clearInterval(elapsedTimerRef.current)
+		clearTimeout(resetSelectedTilesTimerRef.current)
+		resetSelectedTilesTimerRef.current = undefined
+	}
+
+	return (
+		<GameContext.Provider
+			value={{
+				isFinished,
+				size,
+				newGame: onNewGame,
+				restart,
+				selectTile,
+				getIsFlipped,
+				getIsHighlighted,
+			}}
+		>
+			{children}
+		</GameContext.Provider>
+	)
+}
+
+export function Header() {
+	const game = useGame()
+	const tabletMatches = useMediaQuery(media.tablet)
+
+	return (
+		<header
+			className={css`
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				flex-wrap: wrap;
+			`}
+		>
+			<h1 className="text-game-title">memory</h1>
+			{tabletMatches ? (
+				<ul
+					className={css`
+						display: flex;
+						align-items: center;
+						gap: ${rem(16)};
+						flex-wrap: wrap;
+					`}
+					role="list"
+				>
+					<li>
+						<button
+							className={cx(headerButton, primaryButton)}
+							type="button"
+							onClick={() => {
+								game.restart()
+							}}
+						>
+							Restart
+						</button>
+					</li>
+					<li>
+						<button
+							className={cx(headerButton, secondaryButton)}
+							type="button"
+							onClick={() => {
+								game.newGame()
+							}}
+						>
+							New Game
+						</button>
+					</li>
+				</ul>
+			) : (
+				<Dialog.Root>
+					<Dialog.Trigger
+						className={cx(
+							'text-game-option',
+							button,
+							primaryButton,
+							css`
+								padding: ${rem(10)} ${rem(19)};
+							`,
+						)}
+					>
+						Menu
+					</Dialog.Trigger>
+					<Dialog.Portal>
+						<Dialog.Overlay className={dialogOverlay}>
+							<Dialog.Content
+								className={cx(
+									'bg-F2F2F2 text-7191A5',
+									css`
+										border-radius: ${rem(10)};
+										padding: ${rem(24)};
+									`,
+								)}
+							>
+								<Dialog.Title className="sr-only">Menu</Dialog.Title>
+								<Dialog.Description className="sr-only">
+									What do you want to do?
+								</Dialog.Description>
+								<ul
+									className={css`
+										display: grid;
+										gap: ${rem(16)};
+										& > * {
+											display: grid;
+										}
+									`}
+									role="list"
+								>
+									<li>
+										<Dialog.Close
+											className={cx(dialogButton, primaryButton)}
+											type="button"
+											onClick={() => {
+												game.restart()
+											}}
+										>
+											Restart
+										</Dialog.Close>
+									</li>
+									<li>
+										<button
+											className={cx(dialogButton, secondaryButton)}
+											type="button"
+											onClick={() => {
+												game.newGame()
+											}}
+										>
+											New Game
+										</button>
+									</li>
+									<li>
+										<Dialog.Close className={cx(dialogButton, secondaryButton)}>
+											Resume Game
+										</Dialog.Close>
+									</li>
+								</ul>
+							</Dialog.Content>
+						</Dialog.Overlay>
+					</Dialog.Portal>
+				</Dialog.Root>
+			)}
+		</header>
+	)
+}
+
+export function Main({ children }: { children: ReactNode }) {
+	return (
+		<main
+			className={css`
+				display: grid;
+				grid-template-rows: 1fr auto;
+				gap: var(--layout-gap);
+			`}
+		>
+			{children}
+		</main>
+	)
+}
+
+export function Grid() {
+	const { size, getIsFlipped, getIsHighlighted, selectTile } = useGame()
+	const gridInstructionsId = useId()
+	// todo: 6x6
+	const cursor = useCursor(4, 4)
+
+	return (
+		<>
+			<h2 className="sr-only">Tiles</h2>
+			<p className="sr-only" id={gridInstructionsId}>
+				Use the arrow keys to browse the tiles.
+			</p>
+			<div
+				className={cx(
+					css`
+						align-self: center;
+						display: grid;
+						grid-template-columns: minmax(auto, var(--grid-size));
+						justify-content: center;
+					`,
+					size === '4x4'
+						? css`
+								--grid-columns: 4;
+								--grid-size: ${rem(532)};
+								--grid-gap: ${percentage(20 / 532)};
+							`
+						: null,
+					size === '6x6'
+						? css`
+								--grid-columns: 6;
+								--grid-size: ${rem(572)};
+								--grid-gap: ${percentage(16 / 572)};
+							`
+						: null,
+				)}
+			>
+				<div
+					{...cursor.gridProps}
+					className={css`
+						display: grid;
+						aspect-ratio: 1;
+						align-content: space-between;
+					`}
+					role="grid"
+					aria-describedby={gridInstructionsId}
+				>
+					{tiles.map((row, y) => (
+						<div
+							className={css`
+								display: grid;
+								grid-template-columns: repeat(var(--grid-columns), 1fr);
+								gap: var(--grid-gap);
+							`}
+							key={y}
+							role="row"
+						>
+							{row.map((tile, x) => {
+								const position = [x, y] as const
+								const isFlipped = getIsFlipped(position)
+								const isHighlighted = getIsHighlighted(position)
+
+								return (
+									<div key={x} role="gridcell">
+										<button
+											{...cursor.getButtonProps(position)}
+											className={cx(
+												'group',
+												css`
+													border-radius: 9999px;
+													width: 100%;
+												`,
+											)}
+											type="button"
+											onClick={() => {
+												selectTile(position)
+											}}
+										>
+											<span
+												className={cx(
+													'transition-transform',
+													css`
+														position: relative;
+														display: block;
+														border-radius: inherit;
+														transform-style: preserve-3d;
+													`,
+													!isFlipped
+														? css`
+																transform: rotateY(0.5turn);
+															`
+														: null,
+												)}
+											>
+												<span
+													className={cx(
+														'text-FCFCFC transition-colors',
+														css`
+															display: grid;
+															place-items: center;
+															border-radius: inherit;
+															aspect-ratio: 1;
+															backface-visibility: hidden;
+														`,
+														isHighlighted ? 'bg-FDA214' : 'bg-BCCED9',
+													)}
+												>
+													<span className="sr-only">
+														{isFlipped ? icons[tile].name : <>Tile</>}
+													</span>
+													{/* todo: Numbers */}
+													{/* <span aria-hidden="true">{value}</span> */}
+													<FontAwesomeIcon
+														className={css`
+															width: ${percentage(56 / 118)};
+															height: auto;
+															aspect-ratio: 1;
+														`}
+														icon={icons[tile].icon}
+													/>
+												</span>
+												<span
+													className={cx(
+														'bg-304859 transition-colors group-hocus:bg-6395B8',
+														css`
+															position: absolute;
+															display: block;
+															inset: 0;
+															width: 100%;
+															height: 100%;
+															border-radius: inherit;
+															transform: rotateY(0.5turn);
+															backface-visibility: hidden;
+														`,
+													)}
+												/>
+											</span>
+										</button>
+									</div>
+								)
+							})}
+						</div>
+					))}
+				</div>
+			</div>
+		</>
+	)
+}
+
+export function Score({ children }: { children: ReactNode }) {
+	return (
+		<Landmark.Root>
+			<Landmark.Label>
+				<h2 className="sr-only">Score</h2>
+			</Landmark.Label>
+			{children}
+		</Landmark.Root>
+	)
+}
+
+// todo: SinglePlayerGameOverDialog
+export function GameOverDialog({
+	time,
+	moves,
+}: {
+	time: string
+	moves: number
+}) {
+	const { isFinished, newGame, restart } = useGame()
+	const finishDialogTitleRef = useRef<HTMLHeadingElement>(null)
+
+	return (
+		<AlertDialog.Root open={isFinished}>
+			<AlertDialog.Portal>
+				<AlertDialog.Overlay className={dialogOverlay}>
+					<AlertDialog.Content
+						className={cx(
+							'bg-F2F2F2 text-7191A5',
+							css`
+								border-radius: ${rem(10)};
+								padding: ${rem(24)};
+								padding-top: ${rem(32)};
+								@media ${media.tablet} {
+									border-radius: ${rem(20)};
+									padding-top: ${rem(51)};
+									padding-inline: ${rem(56)};
+									padding-bottom: ${rem(69)};
+								}
+							`,
+						)}
+						onOpenAutoFocus={(e) => {
+							// We don't have any good buttons to focus
+							e.preventDefault()
+							finishDialogTitleRef.current!.focus()
+						}}
+					>
+						<AlertDialog.Title
+							className={cx(
+								'text-dialog-title text-152938',
+								css`
+									text-align: center;
+								`,
+							)}
+							ref={finishDialogTitleRef}
+							tabIndex={-1}
+						>
+							You did it!
+						</AlertDialog.Title>
+						<AlertDialog.Description
+							className={cx(
+								'text-dialog-body',
+								css`
+									margin-top: ${rem(9)};
+									text-align: center;
+									@media ${media.tablet} {
+										margin-top: ${rem(16)};
+									}
+								`,
+							)}
+						>
+							Game over! Here’s how you got on…
+						</AlertDialog.Description>
+						<ul
+							className={css`
+								margin-top: ${rem(24)};
+								display: grid;
+								gap: ${rem(8)};
+								@media ${media.tablet} {
+									margin-top: ${rem(40)};
+									gap: ${rem(16)};
+								}
+							`}
+							role="list"
+						>
+							<li className={stat}>
+								<span className={statLabel}>
+									Time Elapsed<span className="sr-only">:</span>{' '}
+								</span>{' '}
+								<span className="text-dialog-value">{time}</span>
+							</li>
+							<li className={stat}>
+								<span className={statLabel}>
+									Moves Taken<span className="sr-only">:</span>{' '}
+								</span>{' '}
+								<span className="text-dialog-value">{moves} Moves</span>
+							</li>
+						</ul>
+						<ul
+							className={css`
+								margin-top: ${rem(24)};
+								display: flex;
+								flex-direction: column;
+								gap: ${rem(16)};
+								& > * {
+									flex: 1 0 0;
+									display: grid;
+								}
+								@media ${media.tablet} {
+									margin-top: ${rem(40)};
+									flex-direction: row;
+									gap: ${rem(14)};
+								}
+							`}
+							role="list"
+						>
+							<li>
+								<AlertDialog.Cancel
+									className={cx(dialogButton, primaryButton)}
+									type="button"
+									onClick={() => {
+										restart()
+									}}
+								>
+									Restart
+								</AlertDialog.Cancel>
+							</li>
+							<li>
+								<button
+									className={cx(dialogButton, secondaryButton)}
+									type="button"
+									onClick={() => {
+										newGame()
+									}}
+								>
+									Setup New Game
+								</button>
+							</li>
+						</ul>
+					</AlertDialog.Content>
+				</AlertDialog.Overlay>
+			</AlertDialog.Portal>
+		</AlertDialog.Root>
+	)
+}

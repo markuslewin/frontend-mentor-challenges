@@ -19,7 +19,7 @@ export function getCell<T>(position: Position, table: Table<T>) {
 	return table[y]![x]!
 }
 
-export type Position = [number, number]
+export type Position = readonly [number, number]
 
 export function areEqual(a: Position, b: Position) {
 	return a[0] === b[0] && a[1] === b[1]
