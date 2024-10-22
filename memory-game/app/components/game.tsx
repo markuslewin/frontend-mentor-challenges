@@ -96,6 +96,7 @@ const GameContext = createContext<{
 	isFinished: boolean
 	size: Size
 	tiles: Table<NumberId | IconId>
+	tileResetKey: boolean
 	cursor: Cursor
 	newGame(): void
 	restart(): void
@@ -139,6 +140,7 @@ export function Game({
 	const [tiles, setTiles] = useState(() =>
 		createTiles(dimensions.columns, dimensions.rows, theme),
 	)
+	const [tileResetKey, setTileResetKey] = useState(false)
 	const [tile1, setTile1] = useState<Position | null>(null)
 	const [tile2, setTile2] = useState<Position | null>(null)
 	const [highlightedTiles, setHighlightedTiles] = useState<
@@ -208,6 +210,7 @@ export function Game({
 	function restart() {
 		cursor.reset()
 		setTiles(createTiles(dimensions.columns, dimensions.rows, theme))
+		setTileResetKey(!tileResetKey)
 		setTile1(null)
 		setTile2(null)
 		setHighlightedTiles(null)
@@ -223,6 +226,7 @@ export function Game({
 				isFinished,
 				size,
 				tiles,
+				tileResetKey,
 				cursor,
 				newGame: onNewGame,
 				restart,
@@ -374,8 +378,15 @@ export function Main({ children }: { children: ReactNode }) {
 }
 
 export function Grid() {
-	const { size, tiles, cursor, getIsFlipped, getIsHighlighted, selectTile } =
-		useGame()
+	const {
+		size,
+		tiles,
+		tileResetKey,
+		cursor,
+		getIsFlipped,
+		getIsHighlighted,
+		selectTile,
+	} = useGame()
 	const gridInstructionsId = useId()
 
 	return (
@@ -487,6 +498,8 @@ export function Grid() {
 															`
 														: null,
 												)}
+												// Skip animations on restart
+												key={String(tileResetKey)}
 											>
 												<span
 													className={cx(
