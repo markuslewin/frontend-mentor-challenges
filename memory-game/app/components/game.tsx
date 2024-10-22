@@ -22,6 +22,7 @@ import {
 	type IconId,
 	createTiles,
 	iconsData,
+	sizes,
 } from '#app/utils/memory'
 import { media } from '#app/utils/screens'
 import { hocus } from '#app/utils/style'
@@ -132,11 +133,12 @@ export function Game({
 	onNewGame,
 	onSelectTile,
 }: GameProps) {
-	// todo: 6x6
-	const cursor = useCursor(4, 4)
+	const dimensions = sizes[size]
+	const cursor = useCursor(dimensions.columns, dimensions.rows)
 
-	// todo: 6x6
-	const [tiles, setTiles] = useState(() => createTiles(4, 4, theme))
+	const [tiles, setTiles] = useState(() =>
+		createTiles(dimensions.columns, dimensions.rows, theme),
+	)
 	const [tile1, setTile1] = useState<Position | null>(null)
 	const [tile2, setTile2] = useState<Position | null>(null)
 	const [highlightedTiles, setHighlightedTiles] = useState<
@@ -205,8 +207,7 @@ export function Game({
 
 	function restart() {
 		cursor.reset()
-		// todo: 6x6
-		setTiles(createTiles(4, 4, theme))
+		setTiles(createTiles(dimensions.columns, dimensions.rows, theme))
 		setTile1(null)
 		setTile2(null)
 		setHighlightedTiles(null)

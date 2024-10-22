@@ -13,6 +13,12 @@ import {
 	faGhost,
 	faCube,
 	type IconDefinition,
+	faLemon,
+	faDragon,
+	faFish,
+	faAppleWhole,
+	faHippo,
+	faWorm,
 } from '@fortawesome/free-solid-svg-icons'
 import { z } from 'zod'
 import { createTable, type Table } from '#app/utils/table'
@@ -61,6 +67,12 @@ const icons = [
 	'lira-sign',
 	'ghost',
 	'cube',
+	'lemon',
+	'dragon',
+	'fish',
+	'apple',
+	'hippo',
+	'worm',
 ] as const
 export type IconId = Item<typeof icons>
 
@@ -77,6 +89,12 @@ export const iconsData = {
 	'lira-sign': { name: 'Lira', icon: faLiraSign },
 	ghost: { name: 'Ghost', icon: faGhost },
 	cube: { name: 'Cube', icon: faCube },
+	lemon: { name: 'Lemon', icon: faLemon },
+	dragon: { name: 'Dragon', icon: faDragon },
+	fish: { name: 'Fish', icon: faFish },
+	apple: { name: 'Apple', icon: faAppleWhole },
+	hippo: { name: 'Hippo', icon: faHippo },
+	worm: { name: 'Worm', icon: faWorm },
 } satisfies Record<IconId, { name: string; icon: IconDefinition }>
 
 const numbers = [
@@ -111,3 +129,8 @@ export function createTiles(columns: number, rows: number, theme: Theme) {
 	}
 	return table as Table<IconId | NumberId>
 }
+
+export const sizes = {
+	'4x4': { columns: 4, rows: 4 },
+	'6x6': { columns: 6, rows: 6 },
+} satisfies Record<Size, { columns: number; rows: number }>
