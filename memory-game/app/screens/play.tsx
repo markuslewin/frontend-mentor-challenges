@@ -13,7 +13,12 @@ import {
 	Main,
 	Score,
 } from '#app/components/game'
-import { type Players, type Options, type Size } from '#app/utils/memory'
+import {
+	type Players,
+	type Options,
+	type Size,
+	type Theme,
+} from '#app/utils/memory'
 import { media } from '#app/utils/screens'
 
 function rem(px: number) {
@@ -102,9 +107,14 @@ export function Play({ options, onNewGame }: PlayProps) {
 					`}
 				>
 					{isSinglePlayer ? (
-						<SinglePlayer size={options.grid} onNewGame={onNewGame} />
+						<SinglePlayer
+							theme={options.theme}
+							size={options.grid}
+							onNewGame={onNewGame}
+						/>
 					) : (
 						<Multiplayer
+							theme={options.theme}
 							players={options.players}
 							size={options.grid}
 							onNewGame={onNewGame}
@@ -117,11 +127,12 @@ export function Play({ options, onNewGame }: PlayProps) {
 }
 
 interface SinglePlayerProps {
+	theme: Theme
 	size: Size
 	onNewGame(): void
 }
 
-function SinglePlayer({ size, onNewGame }: SinglePlayerProps) {
+function SinglePlayer({ theme, size, onNewGame }: SinglePlayerProps) {
 	const [moves, setMoves] = useState(0)
 	const [startTime, setStartTime] = useState<number | null>(null)
 	const [now, setNow] = useState<number | null>(null)
@@ -136,6 +147,7 @@ function SinglePlayer({ size, onNewGame }: SinglePlayerProps) {
 
 	return (
 		<Game
+			theme={theme}
 			size={size}
 			onRestart={() => {
 				setMoves(0)
@@ -227,12 +239,13 @@ function SinglePlayer({ size, onNewGame }: SinglePlayerProps) {
 }
 
 interface MultiplayerProps {
+	theme: Theme
 	players: Players
 	size: Size
 	onNewGame(): void
 }
 
-function Multiplayer({ players, size, onNewGame }: MultiplayerProps) {
+function Multiplayer({ theme, players, size, onNewGame }: MultiplayerProps) {
 	const tabletMatches = useMediaQuery(media.tablet)
 	const desktopMatches = useMediaQuery(media.desktop)
 
@@ -260,6 +273,7 @@ function Multiplayer({ players, size, onNewGame }: MultiplayerProps) {
 
 	return (
 		<Game
+			theme={theme}
 			size={size}
 			onRestart={() => {
 				setCurrentPlayer(0)

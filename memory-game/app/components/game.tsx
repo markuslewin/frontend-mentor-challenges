@@ -25,7 +25,7 @@ import {
 } from 'react'
 import * as Landmark from '#app/components/landmark'
 import { type Cursor, useCursor } from '#app/utils/cursor'
-import { type Size } from '#app/utils/memory'
+import { type Theme, type Size } from '#app/utils/memory'
 import { media } from '#app/utils/screens'
 import { hocus } from '#app/utils/style'
 import { areEqual, getCell, type Position, type Table } from '#app/utils/table'
@@ -45,12 +45,25 @@ const icons = {
 
 type IconId = keyof typeof icons
 
-const tiles = [
-	['futbol-ball', 'anchor', 'flask', 'sun'],
-	['moon', 'snowflake', 'hand-spock', 'bug'],
-	['futbol-ball', 'anchor', 'flask', 'sun'],
-	['moon', 'snowflake', 'hand-spock', 'bug'],
-] satisfies Table<IconId>
+function getTiles(theme: Theme): Table<IconId | number> {
+	if (theme === 'icons') {
+		return [
+			['futbol-ball', 'anchor', 'flask', 'sun'],
+			['moon', 'snowflake', 'hand-spock', 'bug'],
+			['futbol-ball', 'anchor', 'flask', 'sun'],
+			['moon', 'snowflake', 'hand-spock', 'bug'],
+		]
+	} else if (theme === 'numbers') {
+		return [
+			[1, 2, 3, 4],
+			[5, 6, 7, 8],
+			[1, 2, 3, 4],
+			[5, 6, 7, 8],
+		]
+	} else {
+		throw new Error(`Invalid theme: ${theme}`)
+	}
+}
 
 function rem(px: number) {
 	return `${px / 16}rem`
@@ -119,6 +132,7 @@ const dialogOverlay = css`
 const GameContext = createContext<{
 	isFinished: boolean
 	size: Size
+	tiles: Table<number | IconId>
 	cursor: Cursor
 	newGame(): void
 	restart(): void
@@ -135,6 +149,7 @@ function useGame() {
 }
 
 interface GameProps {
+	theme: Theme
 	size: Size
 	children: ReactNode
 	onRestart(): void
@@ -148,6 +163,7 @@ interface GameProps {
 }
 
 export function Game({
+	theme,
 	size,
 	children,
 	onRestart,
@@ -157,12 +173,14 @@ export function Game({
 	// todo: 6x6
 	const cursor = useCursor(4, 4)
 
+	const tiles = getTiles(theme)
+
 	const [tile1, setTile1] = useState<Position | null>(null)
 	const [tile2, setTile2] = useState<Position | null>(null)
 	const [highlightedTiles, setHighlightedTiles] = useState<
 		[Position, Position] | null
 	>(null)
-	const [solvedTiles, setSolvedTiles] = useState<IconId[]>([])
+	const [solvedTiles, setSolvedTiles] = useState<(IconId | number)[]>([])
 	const pairsLeft = tiles.flatMap((r) => r).length / 2 - solvedTiles.length
 	const resetSelectedTilesTimerRef = useRef<ReturnType<typeof setTimeout>>()
 
@@ -239,6 +257,7 @@ export function Game({
 			value={{
 				isFinished,
 				size,
+				tiles,
 				cursor,
 				newGame: onNewGame,
 				restart,
@@ -390,7 +409,8 @@ export function Main({ children }: { children: ReactNode }) {
 }
 
 export function Grid() {
-	const { size, cursor, getIsFlipped, getIsHighlighted, selectTile } = useGame()
+	const { size, tiles, cursor, getIsFlipped, getIsHighlighted, selectTile } =
+		useGame()
 	const gridInstructionsId = useId()
 
 	return (
@@ -447,6 +467,28 @@ export function Grid() {
 								const position = [x, y] as const
 								const isFlipped = getIsFlipped(position)
 								const isHighlighted = getIsHighlighted(position)
+								const name = typeof tile === 'number' ? tile : icons[tile].name
+								const display =
+									typeof tile === 'number' ? (
+										<span
+											className={cx(
+												size === '4x4' ? 'text-game-tile-4x4' : null,
+												size === '6x6' ? 'text-game-tile-6x6' : null,
+											)}
+											aria-hidden="true"
+										>
+											{tile}
+										</span>
+									) : (
+										<FontAwesomeIcon
+											className={css`
+												width: ${percentage(56 / 118)};
+												height: auto;
+												aspect-ratio: 1;
+											`}
+											icon={icons[tile].icon}
+										/>
+									)
 
 								return (
 									<div key={x} role="gridcell">
@@ -494,18 +536,9 @@ export function Grid() {
 													)}
 												>
 													<span className="sr-only">
-														{isFlipped ? icons[tile].name : <>Tile</>}
+														{isFlipped ? name : <>Tile</>}
 													</span>
-													{/* todo: Numbers */}
-													{/* <span aria-hidden="true">{value}</span> */}
-													<FontAwesomeIcon
-														className={css`
-															width: ${percentage(56 / 118)};
-															height: auto;
-															aspect-ratio: 1;
-														`}
-														icon={icons[tile].icon}
-													/>
+													{display}
 												</span>
 												<span
 													className={cx(
