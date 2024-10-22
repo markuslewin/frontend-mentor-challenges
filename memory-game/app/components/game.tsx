@@ -17,6 +17,7 @@ import { useMediaQuery } from '@uidotdev/usehooks'
 import {
 	createContext,
 	type ReactNode,
+	type RefObject,
 	useContext,
 	useId,
 	useRef,
@@ -114,26 +115,6 @@ const dialogOverlay = css`
 	align-items: center;
 	background: hsl(0 0% 0% / 0.5);
 `
-
-const stat = cx(
-	'text-304859',
-	css`
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		height: ${rem(48)};
-		border-radius: ${rem(5)};
-		padding-inline: ${rem(16)};
-		background: hsl(203 25% 90%);
-		@media ${media.tablet} {
-			height: ${rem(72)};
-			border-radius: ${rem(10)};
-			padding-inline: ${rem(32)};
-		}
-	`,
-)
-
-const statLabel = cx('text-dialog-label text-7191A5')
 
 const GameContext = createContext<{
 	isFinished: boolean
@@ -565,137 +546,161 @@ export function Score({ children }: { children: ReactNode }) {
 	)
 }
 
-// todo: SinglePlayerGameOverDialog
-export function GameOverDialog({
-	time,
-	moves,
-}: {
-	time: string
-	moves: number
-}) {
+const GameOverContext = createContext<{
+	titleRef: RefObject<HTMLHeadingElement>
+	restart(): void
+	newGame(): void
+} | null>(null)
+
+function useGameOver() {
+	const value = useContext(GameOverContext)
+	invariant(
+		value !== null,
+		'`useGameOver` must be used inside of `GameOverContext`',
+	)
+
+	return value
+}
+
+interface GameOverProps {
+	children: ReactNode
+}
+
+export function GameOver({ children }: GameOverProps) {
 	const { isFinished, newGame, restart } = useGame()
-	const finishDialogTitleRef = useRef<HTMLHeadingElement>(null)
+	const titleRef = useRef<HTMLHeadingElement>(null)
 
 	return (
-		<AlertDialog.Root open={isFinished}>
-			<AlertDialog.Portal>
-				<AlertDialog.Overlay className={dialogOverlay}>
-					<AlertDialog.Content
-						className={cx(
-							'bg-F2F2F2 text-7191A5',
-							css`
-								border-radius: ${rem(10)};
-								padding: ${rem(24)};
-								padding-top: ${rem(32)};
-								@media ${media.tablet} {
-									border-radius: ${rem(20)};
-									padding-top: ${rem(51)};
-									padding-inline: ${rem(56)};
-									padding-bottom: ${rem(69)};
-								}
-							`,
-						)}
-						onOpenAutoFocus={(e) => {
-							// We don't have any good buttons to focus
-							e.preventDefault()
-							finishDialogTitleRef.current!.focus()
-						}}
-					>
-						<AlertDialog.Title
+		<GameOverContext.Provider
+			value={{
+				titleRef,
+				restart,
+				newGame,
+			}}
+		>
+			<AlertDialog.Root open={isFinished}>
+				<AlertDialog.Portal>
+					<AlertDialog.Overlay className={dialogOverlay}>
+						<AlertDialog.Content
 							className={cx(
-								'text-dialog-title text-152938',
+								'bg-F2F2F2 text-7191A5',
 								css`
-									text-align: center;
-								`,
-							)}
-							ref={finishDialogTitleRef}
-							tabIndex={-1}
-						>
-							You did it!
-						</AlertDialog.Title>
-						<AlertDialog.Description
-							className={cx(
-								'text-dialog-body',
-								css`
-									margin-top: ${rem(9)};
-									text-align: center;
+									border-radius: ${rem(10)};
+									padding: ${rem(24)};
+									padding-top: ${rem(32)};
 									@media ${media.tablet} {
-										margin-top: ${rem(16)};
+										border-radius: ${rem(20)};
+										padding-top: ${rem(51)};
+										padding-inline: ${rem(56)};
+										padding-bottom: ${rem(69)};
 									}
 								`,
 							)}
+							onOpenAutoFocus={(e) => {
+								// We don't have any good buttons to focus
+								e.preventDefault()
+								titleRef.current!.focus()
+							}}
 						>
-							Game over! Here’s how you got on…
-						</AlertDialog.Description>
-						<ul
-							className={css`
-								margin-top: ${rem(24)};
-								display: grid;
-								gap: ${rem(8)};
-								@media ${media.tablet} {
-									margin-top: ${rem(40)};
-									gap: ${rem(16)};
-								}
-							`}
-							role="list"
-						>
-							<li className={stat}>
-								<span className={statLabel}>
-									Time Elapsed<span className="sr-only">:</span>{' '}
-								</span>{' '}
-								<span className="text-dialog-value">{time}</span>
-							</li>
-							<li className={stat}>
-								<span className={statLabel}>
-									Moves Taken<span className="sr-only">:</span>{' '}
-								</span>{' '}
-								<span className="text-dialog-value">{moves} Moves</span>
-							</li>
-						</ul>
-						<ul
-							className={css`
-								margin-top: ${rem(24)};
-								display: flex;
-								flex-direction: column;
-								gap: ${rem(16)};
-								& > * {
-									flex: 1 0 0;
-									display: grid;
-								}
-								@media ${media.tablet} {
-									margin-top: ${rem(40)};
-									flex-direction: row;
-									gap: ${rem(14)};
-								}
-							`}
-							role="list"
-						>
-							<li>
-								<AlertDialog.Cancel
-									className={cx(dialogButton, primaryButton)}
-									type="button"
-									onClick={() => {
-										restart()
-									}}
-								>
-									Restart
-								</AlertDialog.Cancel>
-							</li>
-							<li>
-								<button
-									className={cx(dialogButton, secondaryButton)}
-									type="button"
-									onClick={() => {
-										newGame()
-									}}
-								>
-									Setup New Game
-								</button>
-							</li>
-						</ul>
-					</AlertDialog.Content>
-				</AlertDialog.Overlay>
-			</AlertDialog.Portal>
-		</AlertDialog.Root>
+							{children}
+						</AlertDialog.Content>
+					</AlertDialog.Overlay>
+				</AlertDialog.Portal>
+			</AlertDialog.Root>
+		</GameOverContext.Provider>
+	)
+}
+
+interface GameOverTitleProps {
+	children: ReactNode
+}
+
+export function GameOverTitle({ children }: GameOverTitleProps) {
+	const { titleRef } = useGameOver()
+
+	return (
+		<AlertDialog.Title
+			className={cx(
+				'text-dialog-title text-152938',
+				css`
+					text-align: center;
+				`,
+			)}
+			ref={titleRef}
+			tabIndex={-1}
+		>
+			{children}
+		</AlertDialog.Title>
+	)
+}
+
+interface GameOverDescriptionProps {
+	children: ReactNode
+}
+
+export function GameOverDescription({ children }: GameOverDescriptionProps) {
+	return (
+		<AlertDialog.Description
+			className={cx(
+				'text-dialog-body',
+				css`
+					margin-top: ${rem(9)};
+					text-align: center;
+					@media ${media.tablet} {
+						margin-top: ${rem(16)};
+					}
+				`,
+			)}
+		>
+			{children}
+		</AlertDialog.Description>
+	)
+}
+
+export function GameOverOptions() {
+	const { restart, newGame } = useGameOver()
+
+	return (
+		<ul
+			className={css`
+				margin-top: ${rem(24)};
+				display: flex;
+				flex-direction: column;
+				gap: ${rem(16)};
+				& > * {
+					flex: 1 0 0;
+					display: grid;
+				}
+				@media ${media.tablet} {
+					margin-top: ${rem(40)};
+					flex-direction: row;
+					gap: ${rem(14)};
+				}
+			`}
+			role="list"
+		>
+			<li>
+				<AlertDialog.Cancel
+					className={cx(dialogButton, primaryButton)}
+					type="button"
+					onClick={() => {
+						restart()
+					}}
+				>
+					Restart
+				</AlertDialog.Cancel>
+			</li>
+			<li>
+				<button
+					className={cx(dialogButton, secondaryButton)}
+					type="button"
+					onClick={() => {
+						newGame()
+					}}
+				>
+					Setup New Game
+				</button>
+			</li>
+		</ul>
 	)
 }

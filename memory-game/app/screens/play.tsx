@@ -4,13 +4,16 @@ import { cx } from 'class-variance-authority'
 import { useState, useRef } from 'react'
 import {
 	Game,
-	GameOverDialog,
+	GameOver,
+	GameOverDescription,
+	GameOverOptions,
+	GameOverTitle,
 	Grid,
 	Header,
 	Main,
 	Score,
 } from '#app/components/game'
-import { type Players, type Options } from '#app/utils/memory'
+import { type Players, type Options, type Size } from '#app/utils/memory'
 import { media } from '#app/utils/screens'
 
 function rem(px: number) {
@@ -43,6 +46,30 @@ const meta = cx(
 )
 const metaLabel = cx('text-game-meta-label text-7191A5')
 const metaValue = cx('text-game-meta-value')
+
+const stat = cx(css`
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	height: ${rem(48)};
+	border-radius: ${rem(5)};
+	padding-inline: ${rem(16)};
+	@media ${media.tablet} {
+		height: ${rem(72)};
+		border-radius: ${rem(10)};
+		padding-inline: ${rem(32)};
+	}
+`)
+const statDefault = cx(
+	'text-304859',
+	css`
+		background: hsl(203 25% 90%);
+	`,
+)
+const statHighlighted = cx('bg-152938 text-FCFCFC')
+const statLabel = cx('text-dialog-label')
+const statLabelDefault = cx('text-7191A5')
+const statLabelHighlighted = cx('text-FCFCFC')
 
 interface PlayProps {
 	options: Options
@@ -163,7 +190,38 @@ function SinglePlayer({ size, onNewGame }: SinglePlayerProps) {
 					</div>
 				</Score>
 			</Main>
-			<GameOverDialog time={time} moves={moves} />
+			<GameOver>
+				<GameOverTitle>You did it!</GameOverTitle>
+				<GameOverDescription>
+					Game over! Here’s how you got on…
+				</GameOverDescription>
+				<ul
+					className={css`
+						margin-top: ${rem(24)};
+						display: grid;
+						gap: ${rem(8)};
+						@media ${media.tablet} {
+							margin-top: ${rem(40)};
+							gap: ${rem(16)};
+						}
+					`}
+					role="list"
+				>
+					<li className={cx(stat, statDefault)}>
+						<span className={cx(statLabel, statLabelDefault)}>
+							Time Elapsed<span className="sr-only">:</span>{' '}
+						</span>{' '}
+						<span className="text-dialog-value">{time}</span>
+					</li>
+					<li className={cx(stat, statDefault)}>
+						<span className={cx(statLabel, statLabelDefault)}>
+							Moves Taken<span className="sr-only">:</span>{' '}
+						</span>{' '}
+						<span className="text-dialog-value">{moves} Moves</span>
+					</li>
+				</ul>
+				<GameOverOptions />
+			</GameOver>
 		</Game>
 	)
 }
@@ -181,6 +239,24 @@ function Multiplayer({ players, size, onNewGame }: MultiplayerProps) {
 	const [currentPlayer, setCurrentPlayer] = useState<number>(0)
 	const playerCount = parseInt(players, 10)
 	const [scores, setScores] = useState(() => Array<number>(playerCount).fill(0))
+
+	const scoreboard = scores
+		.map((s, i) => {
+			return { player: i, score: s }
+		})
+		.sort((a, b) => b.score - a.score)
+
+	let winners = [scoreboard[0]!.player]
+	for (let i = 1; i < scoreboard.length; ++i) {
+		const item = scoreboard[i]!
+		if (item.score === scoreboard[0]!.score) {
+			winners.push(item.player)
+		}
+	}
+	const result =
+		winners.length > 1
+			? ({ type: 'tie', winners } as const)
+			: ({ type: 'victor', winner: winners[0]! } as const)
 
 	return (
 		<Game
@@ -285,9 +361,64 @@ function Multiplayer({ players, size, onNewGame }: MultiplayerProps) {
 					</ul>
 				</Score>
 			</Main>
-			<GameOverDialog time="N/A" moves={0} />
+			<GameOver>
+				<GameOverTitle>
+					{result.type === 'tie' ? (
+						<>It’s a tie!</>
+					) : (
+						<>Player {result.winner + 1} Wins!</>
+					)}
+				</GameOverTitle>
+				<GameOverDescription>
+					Game over! Here are the results…
+				</GameOverDescription>
+				<ol
+					className={css`
+						margin-top: ${rem(24)};
+						display: grid;
+						gap: ${rem(8)};
+						@media ${media.tablet} {
+							margin-top: ${rem(40)};
+							gap: ${rem(16)};
+						}
+					`}
+					role="list"
+				>
+					{scoreboard.map((item) => {
+						let isHighlighted = false
+						if (result.type === 'tie' && result.winners.includes(item.player)) {
+							isHighlighted = true
+						} else if (
+							result.type === 'victor' &&
+							result.winner === item.player
+						) {
+							isHighlighted = true
+						}
+
+						return (
+							<li
+								className={cx(
+									stat,
+									isHighlighted ? statHighlighted : statDefault,
+								)}
+								key={item.player}
+							>
+								<span
+									className={cx(
+										statLabel,
+										isHighlighted ? statLabelHighlighted : statLabelDefault,
+									)}
+								>
+									Player {item.player + 1}
+									<span className="sr-only">:</span>{' '}
+								</span>{' '}
+								<span className="text-dialog-value">{item.score} pairs</span>
+							</li>
+						)
+					})}
+				</ol>
+				<GameOverOptions />
+			</GameOver>
 		</Game>
 	)
 }
-
-type Size = '4x4' | '6x6'
