@@ -52,3 +52,5 @@ export function useCursor(columns: number, rows: number) {
 		},
 	}
 }
+
+export type Cursor = ReturnType<typeof useCursor>

@@ -23,7 +23,7 @@ import {
 	useState,
 } from 'react'
 import * as Landmark from '#app/components/landmark'
-import { useCursor } from '#app/utils/cursor'
+import { type Cursor, useCursor } from '#app/utils/cursor'
 import { type Size } from '#app/utils/memory'
 import { media } from '#app/utils/screens'
 import { hocus } from '#app/utils/style'
@@ -138,6 +138,7 @@ const statLabel = cx('text-dialog-label text-7191A5')
 const GameContext = createContext<{
 	isFinished: boolean
 	size: Size
+	cursor: Cursor
 	newGame(): void
 	restart(): void
 	selectTile(position: Position): void
@@ -155,6 +156,7 @@ function useGame() {
 interface GameProps {
 	size: Size
 	children: ReactNode
+	onRestart(): void
 	onNewGame(): void
 	onSelectTile?(
 		result:
@@ -164,7 +166,16 @@ interface GameProps {
 	): void
 }
 
-export function Game({ size, children, onNewGame, onSelectTile }: GameProps) {
+export function Game({
+	size,
+	children,
+	onRestart,
+	onNewGame,
+	onSelectTile,
+}: GameProps) {
+	// todo: 6x6
+	const cursor = useCursor(4, 4)
+
 	const [tile1, setTile1] = useState<Position | null>(null)
 	const [tile2, setTile2] = useState<Position | null>(null)
 	const [highlightedTiles, setHighlightedTiles] = useState<
@@ -232,19 +243,14 @@ export function Game({ size, children, onNewGame, onSelectTile }: GameProps) {
 	}
 
 	function restart() {
-		// cursor.reset()
+		cursor.reset()
 		setTile1(null)
 		setTile2(null)
 		setHighlightedTiles(null)
 		setSolvedTiles([])
-		// todo: Reset mode state
-		// setCurrentPlayer(0)
-		// setMoves(0)
-		// setStartTime(null)
-		// setNow(null)
-		// clearInterval(elapsedTimerRef.current)
 		clearTimeout(resetSelectedTilesTimerRef.current)
 		resetSelectedTilesTimerRef.current = undefined
+		onRestart()
 	}
 
 	return (
@@ -252,6 +258,7 @@ export function Game({ size, children, onNewGame, onSelectTile }: GameProps) {
 			value={{
 				isFinished,
 				size,
+				cursor,
 				newGame: onNewGame,
 				restart,
 				selectTile,
@@ -402,10 +409,8 @@ export function Main({ children }: { children: ReactNode }) {
 }
 
 export function Grid() {
-	const { size, getIsFlipped, getIsHighlighted, selectTile } = useGame()
+	const { size, cursor, getIsFlipped, getIsHighlighted, selectTile } = useGame()
 	const gridInstructionsId = useId()
-	// todo: 6x6
-	const cursor = useCursor(4, 4)
 
 	return (
 		<>

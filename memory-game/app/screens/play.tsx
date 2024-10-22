@@ -110,6 +110,13 @@ function SinglePlayer({ size, onNewGame }: SinglePlayerProps) {
 	return (
 		<Game
 			size={size}
+			onRestart={() => {
+				setMoves(0)
+				setStartTime(null)
+				setNow(null)
+				clearInterval(elapsedTimerRef.current)
+				elapsedTimerRef.current = undefined
+			}}
 			onNewGame={onNewGame}
 			onSelectTile={(result) => {
 				if (startTime === null) {
@@ -178,6 +185,10 @@ function Multiplayer({ players, size, onNewGame }: MultiplayerProps) {
 	return (
 		<Game
 			size={size}
+			onRestart={() => {
+				setCurrentPlayer(0)
+				setScores(Array<number>(playerCount).fill(0))
+			}}
 			onNewGame={onNewGame}
 			onSelectTile={(result) => {
 				if (result.type === 'move') {
