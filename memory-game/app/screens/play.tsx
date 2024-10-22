@@ -111,19 +111,21 @@ function SinglePlayer({ size, onNewGame }: SinglePlayerProps) {
 		<Game
 			size={size}
 			onNewGame={onNewGame}
-			onStart={() => {
-				const now = Date.now()
-				setStartTime(now)
-				setNow(now)
-				elapsedTimerRef.current = setInterval(() => {
-					setNow(Date.now())
-				}, 1000)
-			}}
-			onMove={() => {
-				setMoves(moves + 1)
-			}}
-			onEnd={() => {
-				clearInterval(elapsedTimerRef.current)
+			onSelectTile={(result) => {
+				if (startTime === null) {
+					const now = Date.now()
+					setStartTime(now)
+					setNow(now)
+					elapsedTimerRef.current = setInterval(() => {
+						setNow(Date.now())
+					}, 1000)
+				}
+				if (result.type === 'move') {
+					setMoves(moves + 1)
+					if (result.success && result.isLast) {
+						clearInterval(elapsedTimerRef.current)
+					}
+				}
 			}}
 		>
 			<Header />
@@ -171,16 +173,23 @@ function Multiplayer({ players, size, onNewGame }: MultiplayerProps) {
 
 	const [currentPlayer, setCurrentPlayer] = useState<number>(0)
 	const playerCount = parseInt(players, 10)
-
-	// todo: Track somehow
-	const solvedTiles = {}
+	const [scores, setScores] = useState(() => Array<number>(playerCount).fill(0))
 
 	return (
 		<Game
 			size={size}
 			onNewGame={onNewGame}
-			onMove={() => {
-				setCurrentPlayer((currentPlayer + 1) % playerCount)
+			onSelectTile={(result) => {
+				if (result.type === 'move') {
+					if (result.success) {
+						setScores(scores.map((s, i) => (i === currentPlayer ? s + 1 : s)))
+						if (!result.isLast) {
+							setCurrentPlayer((currentPlayer + 1) % playerCount)
+						}
+					} else {
+						setCurrentPlayer((currentPlayer + 1) % playerCount)
+					}
+				}
 			}}
 		>
 			<Header />
@@ -209,9 +218,7 @@ function Multiplayer({ players, size, onNewGame }: MultiplayerProps) {
 							.map((_, i) => {
 								const player = i + 1
 								const isCurrentPlayer = currentPlayer === i
-								const score = Object.values(solvedTiles).filter(
-									(p) => p === i,
-								).length
+								const score = scores[i]
 
 								return (
 									<li className="group" key={i} aria-current={isCurrentPlayer}>

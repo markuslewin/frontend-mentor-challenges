@@ -28,7 +28,6 @@ import { type Size } from '#app/utils/memory'
 import { media } from '#app/utils/screens'
 import { hocus } from '#app/utils/style'
 import { areEqual, getCell, type Position, type Table } from '#app/utils/table'
-import { type Value } from '#app/utils/type'
 
 const icons = {
 	'futbol-ball': { name: 'Futbol ball', icon: faFutbolBall },
@@ -154,34 +153,25 @@ function useGame() {
 }
 
 interface GameProps {
-	// options: Options
 	size: Size
 	children: ReactNode
 	onNewGame(): void
-	onStart?(): void
-	onMove?(): void
-	onEnd?(): void
+	onSelectTile?(
+		result:
+			| { type: 'flip' }
+			| { type: 'move'; success: true; isLast: boolean }
+			| { type: 'move'; success: false },
+	): void
 }
 
-export function Game({
-	size,
-	children,
-	onNewGame,
-	onStart,
-	onMove,
-	onEnd,
-}: GameProps) {
-	const isStartedRef = useRef(false)
+export function Game({ size, children, onNewGame, onSelectTile }: GameProps) {
 	const [tile1, setTile1] = useState<Position | null>(null)
 	const [tile2, setTile2] = useState<Position | null>(null)
 	const [highlightedTiles, setHighlightedTiles] = useState<
 		[Position, Position] | null
 	>(null)
-	const [solvedTiles, setSolvedTiles] = useState<
-		Partial<Record<IconId, number>>
-	>({})
-	const pairsLeft =
-		tiles.flatMap((r) => r).length / 2 - Object.keys(solvedTiles).length
+	const [solvedTiles, setSolvedTiles] = useState<IconId[]>([])
+	const pairsLeft = tiles.flatMap((r) => r).length / 2 - solvedTiles.length
 	const resetSelectedTilesTimerRef = useRef<ReturnType<typeof setTimeout>>()
 
 	const isFinished = pairsLeft === 0
@@ -192,7 +182,7 @@ export function Game({
 		return (
 			(tile1 !== null && areEqual(position, tile1)) ||
 			(tile2 !== null && areEqual(position, tile2)) ||
-			solvedTiles[id] !== undefined
+			solvedTiles.includes(id)
 		)
 	}
 
@@ -212,27 +202,19 @@ export function Game({
 		resetSelectedTilesTimerRef.current = undefined
 
 		if (tile1 === null) {
-			if (!isStartedRef.current) {
-				onStart?.()
-				isStartedRef.current = true
-			}
 			setTile1(position)
+			onSelectTile?.({ type: 'flip' })
 		} else if (tile2 === null) {
 			const id = getCell(position, tiles)
 			setTile2(position)
 			if (getCell(tile1, tiles) === id) {
-				// TS doesn't check computed properties?
-				// https://github.com/microsoft/TypeScript/issues/36920
-				setSolvedTiles({
-					...solvedTiles,
-					// todo: Fix multiplayer
-					// [id]: currentPlayer satisfies Value<typeof solvedTiles>,
-					[id]: 0 satisfies Value<typeof solvedTiles>,
-				})
+				setSolvedTiles([...solvedTiles, id])
 				setHighlightedTiles([tile1, position])
 				// The pair just found was the last one
 				if (pairsLeft === 1) {
-					onEnd?.()
+					onSelectTile?.({ type: 'move', success: true, isLast: true })
+				} else {
+					onSelectTile?.({ type: 'move', success: true, isLast: false })
 				}
 			} else {
 				setHighlightedTiles(null)
@@ -240,21 +222,21 @@ export function Game({
 					setTile1(null)
 					setTile2(null)
 				}, 2000)
+				onSelectTile?.({ type: 'move', success: false })
 			}
-			onMove?.()
 		} else {
 			setTile1(position)
 			setTile2(null)
+			onSelectTile?.({ type: 'flip' })
 		}
 	}
 
 	function restart() {
 		// cursor.reset()
-		isStartedRef.current = false
 		setTile1(null)
 		setTile2(null)
 		setHighlightedTiles(null)
-		setSolvedTiles({})
+		setSolvedTiles([])
 		// todo: Reset mode state
 		// setCurrentPlayer(0)
 		// setMoves(0)
