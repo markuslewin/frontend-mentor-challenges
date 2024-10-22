@@ -1,14 +1,4 @@
 import { invariant } from '@epic-web/invariant'
-import {
-	faAnchor,
-	faBug,
-	faFlask,
-	faFutbolBall,
-	faHandSpock,
-	faMoon,
-	faSnowflake,
-	faSun,
-} from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { css, cx } from '@linaria/core'
 import * as AlertDialog from '@radix-ui/react-alert-dialog'
@@ -25,45 +15,17 @@ import {
 } from 'react'
 import * as Landmark from '#app/components/landmark'
 import { type Cursor, useCursor } from '#app/utils/cursor'
-import { type Theme, type Size } from '#app/utils/memory'
+import {
+	type Theme,
+	type Size,
+	type NumberId,
+	type IconId,
+	createTiles,
+	iconsData,
+} from '#app/utils/memory'
 import { media } from '#app/utils/screens'
 import { hocus } from '#app/utils/style'
 import { areEqual, getCell, type Position, type Table } from '#app/utils/table'
-
-const icons = {
-	'futbol-ball': { name: 'Futbol ball', icon: faFutbolBall },
-	anchor: { name: 'Anchor', icon: faAnchor },
-	flask: { name: 'Flask', icon: faFlask },
-	sun: { name: 'Sun', icon: faSun },
-	moon: { name: 'Moon', icon: faMoon },
-	snowflake: { name: 'Snowflake', icon: faSnowflake },
-	'hand-spock': { name: 'Spock hand', icon: faHandSpock },
-	bug: { name: 'Bug', icon: faBug },
-	// faCar,
-	// faLiraSign,
-}
-
-type IconId = keyof typeof icons
-
-function getTiles(theme: Theme): Table<IconId | number> {
-	if (theme === 'icons') {
-		return [
-			['futbol-ball', 'anchor', 'flask', 'sun'],
-			['moon', 'snowflake', 'hand-spock', 'bug'],
-			['futbol-ball', 'anchor', 'flask', 'sun'],
-			['moon', 'snowflake', 'hand-spock', 'bug'],
-		]
-	} else if (theme === 'numbers') {
-		return [
-			[1, 2, 3, 4],
-			[5, 6, 7, 8],
-			[1, 2, 3, 4],
-			[5, 6, 7, 8],
-		]
-	} else {
-		throw new Error(`Invalid theme: ${theme}`)
-	}
-}
 
 function rem(px: number) {
 	return `${px / 16}rem`
@@ -132,7 +94,7 @@ const dialogOverlay = css`
 const GameContext = createContext<{
 	isFinished: boolean
 	size: Size
-	tiles: Table<number | IconId>
+	tiles: Table<NumberId | IconId>
 	cursor: Cursor
 	newGame(): void
 	restart(): void
@@ -173,8 +135,8 @@ export function Game({
 	// todo: 6x6
 	const cursor = useCursor(4, 4)
 
-	const tiles = getTiles(theme)
-
+	// todo: 6x6
+	const [tiles, setTiles] = useState(() => createTiles(4, 4, theme))
 	const [tile1, setTile1] = useState<Position | null>(null)
 	const [tile2, setTile2] = useState<Position | null>(null)
 	const [highlightedTiles, setHighlightedTiles] = useState<
@@ -243,6 +205,8 @@ export function Game({
 
 	function restart() {
 		cursor.reset()
+		// todo: 6x6
+		setTiles(createTiles(4, 4, theme))
 		setTile1(null)
 		setTile2(null)
 		setHighlightedTiles(null)
@@ -467,7 +431,8 @@ export function Grid() {
 								const position = [x, y] as const
 								const isFlipped = getIsFlipped(position)
 								const isHighlighted = getIsHighlighted(position)
-								const name = typeof tile === 'number' ? tile : icons[tile].name
+								const name =
+									typeof tile === 'number' ? tile : iconsData[tile].name
 								const display =
 									typeof tile === 'number' ? (
 										<span
@@ -486,7 +451,7 @@ export function Grid() {
 												height: auto;
 												aspect-ratio: 1;
 											`}
-											icon={icons[tile].icon}
+											icon={iconsData[tile].icon}
 										/>
 									)
 
