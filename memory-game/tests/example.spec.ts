@@ -1,17 +1,5 @@
 import AxeBuilder from '@axe-core/playwright'
 import { test, expect } from '@playwright/test'
-import { urls as worldtimeapiUrls } from '#app/utils/time'
-import { createMockResponse as createWorldtimeapiResponse } from '#tests/mocks/worldtimeapi.js'
-
-test.beforeEach(async ({ context }) => {
-	// Append * to include requests containing search params
-	await context.route(`${worldtimeapiUrls.ip}*`, async (route) => {
-		const json = createWorldtimeapiResponse()
-		await route.fulfill({
-			json,
-		})
-	})
-})
 
 test('has title', async ({ page }) => {
 	await page.goto('/')
