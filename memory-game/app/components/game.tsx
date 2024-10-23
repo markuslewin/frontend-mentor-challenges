@@ -101,6 +101,7 @@ const GameContext = createContext<{
 	newGame(): void
 	restart(): void
 	selectTile(position: Position): void
+	getCanFlip(position: Position): boolean
 	getIsFlipped(position: Position): boolean
 	getIsHighlighted(position: Position): boolean
 } | null>(null)
@@ -169,8 +170,12 @@ export function Game({
 		)
 	}
 
+	function getCanFlip(position: Position) {
+		return !getIsFlipped(position)
+	}
+
 	function selectTile(position: Position) {
-		if (getIsFlipped(position)) {
+		if (!getCanFlip(position)) {
 			return
 		}
 
@@ -231,6 +236,7 @@ export function Game({
 				newGame: onNewGame,
 				restart,
 				selectTile,
+				getCanFlip,
 				getIsFlipped,
 				getIsHighlighted,
 			}}
@@ -383,6 +389,7 @@ export function Grid() {
 		tiles,
 		tileResetKey,
 		cursor,
+		getCanFlip,
 		getIsFlipped,
 		getIsHighlighted,
 		selectTile,
@@ -441,6 +448,7 @@ export function Grid() {
 						>
 							{row.map((tile, x) => {
 								const position = [x, y] as const
+								const canFlip = getCanFlip(position)
 								const isFlipped = getIsFlipped(position)
 								const isHighlighted = getIsHighlighted(position)
 								const name = getTileName(tile)
@@ -481,6 +489,7 @@ export function Grid() {
 											onClick={() => {
 												selectTile(position)
 											}}
+											aria-disabled={!canFlip}
 										>
 											<span
 												className={cx(
