@@ -186,11 +186,15 @@ function SinglePlayer({ theme, size, onNewGame }: SinglePlayerProps) {
 					>
 						<div className={meta}>
 							<h3 className={metaLabel}>Time</h3>
-							<p className={metaValue}>{time}</p>
+							<p className={metaValue} data-testid="time">
+								{time}
+							</p>
 						</div>
 						<div className={meta}>
 							<h3 className={metaLabel}>Moves</h3>
-							<p className={metaValue}>{moves}</p>
+							<p className={metaValue} data-testid="moves">
+								{moves}
+							</p>
 						</div>
 					</div>
 				</Score>
@@ -321,6 +325,7 @@ function Multiplayer({ theme, players, size, onNewGame }: MultiplayerProps) {
 												'transition-colors group-aria-[current="true"]:bg-FDA214',
 												meta,
 											)}
+											data-testid="player"
 										>
 											<span
 												className={cx(

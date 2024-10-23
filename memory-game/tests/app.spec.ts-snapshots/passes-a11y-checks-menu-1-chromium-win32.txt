@@ -1,0 +1,16 @@
+[
+  {
+    "rule": "color-contrast",
+    "targets": [
+      [
+        "fieldset:nth-child(1) > .v1s8w839 > label:nth-child(2) > span"
+      ],
+      [
+        ".cnrus0o > .v1s8w839 > label:nth-child(2) > span"
+      ],
+      [
+        "button"
+      ]
+    ]
+  }
+]
