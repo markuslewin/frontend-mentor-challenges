@@ -18,11 +18,11 @@ import { type Cursor, useCursor } from '#app/utils/cursor'
 import {
 	type Theme,
 	type Size,
-	type NumberId,
-	type IconId,
 	createTiles,
 	iconsData,
 	sizes,
+	type Tile,
+	getTileName,
 } from '#app/utils/memory'
 import { media } from '#app/utils/screens'
 import { hocus } from '#app/utils/style'
@@ -95,7 +95,7 @@ const dialogOverlay = css`
 const GameContext = createContext<{
 	isFinished: boolean
 	size: Size
-	tiles: Table<NumberId | IconId>
+	tiles: Table<Tile>
 	tileResetKey: boolean
 	cursor: Cursor
 	newGame(): void
@@ -146,7 +146,7 @@ export function Game({
 	const [highlightedTiles, setHighlightedTiles] = useState<
 		[Position, Position] | null
 	>(null)
-	const [solvedTiles, setSolvedTiles] = useState<(IconId | number)[]>([])
+	const [solvedTiles, setSolvedTiles] = useState<Tile[]>([])
 	const pairsLeft = tiles.flatMap((r) => r).length / 2 - solvedTiles.length
 	const resetSelectedTilesTimerRef = useRef<ReturnType<typeof setTimeout>>()
 
@@ -443,8 +443,7 @@ export function Grid() {
 								const position = [x, y] as const
 								const isFlipped = getIsFlipped(position)
 								const isHighlighted = getIsHighlighted(position)
-								const name =
-									typeof tile === 'number' ? tile : iconsData[tile].name
+								const name = getTileName(tile)
 								const display =
 									typeof tile === 'number' ? (
 										<span
@@ -542,6 +541,16 @@ export function Grid() {
 						</div>
 					))}
 				</div>
+			</div>
+			{/* Announce flips */}
+			<div className="sr-only" aria-live="polite">
+				{tiles.map((row, y) =>
+					row.map((tile, x) => {
+						const isFlipped = getIsFlipped([x, y])
+						const name = getTileName(tile)
+						return isFlipped ? <p key={`${x},${y}`}>{name}</p> : null
+					}),
+				)}
 			</div>
 		</>
 	)

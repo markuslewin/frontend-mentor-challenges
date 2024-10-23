@@ -102,6 +102,8 @@ const numbers = [
 ] as const
 export type NumberId = Item<typeof numbers>
 
+export type Tile = NumberId | IconId
+
 export function createTiles(columns: number, rows: number, theme: Theme) {
 	const variantsCount = (columns * rows) / 2
 	let collection = null
@@ -127,7 +129,11 @@ export function createTiles(columns: number, rows: number, theme: Theme) {
 			)[0]
 		}
 	}
-	return table as Table<IconId | NumberId>
+	return table as Table<Tile>
+}
+
+export function getTileName(tile: Tile) {
+	return typeof tile === 'number' ? tile : iconsData[tile].name
 }
 
 export const sizes = {
