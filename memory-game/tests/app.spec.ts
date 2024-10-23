@@ -54,9 +54,116 @@ test('starts multiplayer game', async ({ page }) => {
 	).toHaveText(['Player 1: 0', 'Player 2: 0', 'Player 3: 0', 'Player 4: 0'])
 })
 
-test.fixme('starts timer', async ({ page }) => {
-	// Prefer `setFixedTime` over `page.clock.install({ time: '' })` and `page.clock.fastForward(5_000)`
-	await page.clock.setFixedTime('2024-10-08T21:00:00')
+test('has clickable tiles', async ({ page }) => {
+	await page.goto('/')
+	await start(
+		{
+			theme: 'numbers',
+			players: '1',
+			grid: '4x4',
+		},
+		page,
+	)
+
+	await expect(page.getByRole('grid').getByRole('button').first()).toHaveText(
+		/tile/i,
+	)
+
+	await page.getByRole('grid').getByRole('button').first().click()
+
+	await expect(
+		page.getByRole('grid').getByRole('button').first(),
+	).not.toHaveText(/tile/i)
+})
+
+test('creates 4x4 grid', async ({ page }) => {
+	await page.goto('/')
+	await start(
+		{
+			theme: 'numbers',
+			players: '1',
+			grid: '4x4',
+		},
+		page,
+	)
+
+	await expect(
+		page.getByRole('grid').getByRole('button', { name: 'tile' }),
+	).toHaveCount(4 * 4)
+})
+
+test('creates 6x6 grid', async ({ page }) => {
+	await page.goto('/')
+	await start(
+		{
+			theme: 'numbers',
+			players: '1',
+			grid: '6x6',
+		},
+		page,
+	)
+
+	await expect(
+		page.getByRole('grid').getByRole('button', { name: 'tile' }),
+	).toHaveCount(6 * 6)
+})
+
+test('starts timer', async ({ page }) => {
+	await page.clock.setFixedTime('2024-10-23T17:15:00')
+	await page.goto('/')
+	await start(
+		{
+			theme: 'numbers',
+			players: '1',
+			grid: '4x4',
+		},
+		page,
+	)
+	await page.getByRole('button', { name: 'tile' }).first().click()
+	await page.clock.setFixedTime('2024-10-23T17:15:15')
+
+	await expect(page.getByTestId('time')).toHaveText('0:15')
+})
+
+test('changes current player', async ({ page }) => {
+	await page.goto('/')
+	await start(
+		{
+			theme: 'numbers',
+			players: '2',
+			grid: '4x4',
+		},
+		page,
+	)
+
+	await expect(
+		page
+			.getByRole('region', { name: 'score' })
+			.getByRole('listitem')
+			.filter({ hasText: 'player 1' }),
+	).toHaveAttribute('aria-current', 'true')
+	await expect(
+		page
+			.getByRole('region', { name: 'score' })
+			.getByRole('listitem')
+			.filter({ hasText: 'player 2' }),
+	).toHaveAttribute('aria-current', 'false')
+
+	await page.getByRole('button', { name: 'tile' }).first().click()
+	await page.getByRole('button', { name: 'tile' }).last().click()
+
+	await expect(
+		page
+			.getByRole('region', { name: 'score' })
+			.getByRole('listitem')
+			.filter({ hasText: 'player 1' }),
+	).toHaveAttribute('aria-current', 'false')
+	await expect(
+		page
+			.getByRole('region', { name: 'score' })
+			.getByRole('listitem')
+			.filter({ hasText: 'player 2' }),
+	).toHaveAttribute('aria-current', 'true')
 })
 
 test.describe('passes a11y checks', () => {
