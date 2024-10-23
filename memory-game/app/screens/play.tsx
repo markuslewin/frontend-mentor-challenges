@@ -13,6 +13,7 @@ import {
 	Main,
 	Score,
 } from '#app/components/game'
+import { formatTime } from '#app/utils/format'
 import {
 	type Players,
 	type Options,
@@ -138,12 +139,7 @@ function SinglePlayer({ theme, size, onNewGame }: SinglePlayerProps) {
 	const [now, setNow] = useState<number | null>(null)
 	const elapsedTimerRef = useRef<ReturnType<typeof setInterval>>()
 	const elapsedTime = startTime === null || now === null ? 0 : now - startTime
-	const elapsedSeconds = elapsedTime / 1000
-	const time = `${Math.floor(elapsedSeconds / 60)}:${Math.floor(
-		elapsedSeconds % 60,
-	)
-		.toString()
-		.padStart(2, '0')}`
+	const time = formatTime(elapsedTime)
 
 	return (
 		<Game
