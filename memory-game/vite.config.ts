@@ -15,7 +15,16 @@ export default defineConfig({
 			return content.byteLength < 4096
 		},
 	},
-	plugins: [react(), imagetools(), wyw()],
+	plugins: [
+		react(),
+		imagetools(),
+		wyw({
+			include: ['**/*.{ts,tsx}'],
+			babelOptions: {
+				presets: ['@babel/preset-typescript', '@babel/preset-react'],
+			},
+		}),
+	],
 	test: {
 		include: ['./app/**/*.test.{ts,tsx}'],
 	},

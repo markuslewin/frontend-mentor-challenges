@@ -25,16 +25,8 @@ import {
 	getTileName,
 } from '#app/utils/memory'
 import { media } from '#app/utils/screens'
-import { hocus } from '#app/utils/style'
+import { hocus, percentage, rem } from '#app/utils/style'
 import { areEqual, getCell, type Position, type Table } from '#app/utils/table'
-
-function rem(px: number) {
-	return `${px / 16}rem`
-}
-
-function percentage(fraction: number) {
-	return `${fraction * 100}%`
-}
 
 const button = css`
 	border-radius: 9999px;

@@ -21,10 +21,7 @@ import {
 	type Theme,
 } from '#app/utils/memory'
 import { media } from '#app/utils/screens'
-
-function rem(px: number) {
-	return `${px / 16}rem`
-}
+import { rem } from '#app/utils/style'
 
 const meta = cx(
 	'text-304859',

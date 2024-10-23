@@ -12,12 +12,8 @@ import {
 	themes,
 } from '#app/utils/memory'
 import { media } from '#app/utils/screens'
-import { hocus } from '#app/utils/style'
+import { hocus, rem } from '#app/utils/style'
 import { type Writeable } from '#app/utils/type'
-
-function rem(px: number) {
-	return `${px / 16}rem`
-}
 
 const values = css`
 	margin-top: ${rem(16)};
