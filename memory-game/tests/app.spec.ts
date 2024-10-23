@@ -125,6 +125,22 @@ test('starts timer', async ({ page }) => {
 	await expect(page.getByTestId('time')).toHaveText('0:15')
 })
 
+test('tracks moves', async ({ page }) => {
+	await page.goto('/')
+	await start(
+		{
+			theme: 'numbers',
+			players: '1',
+			grid: '4x4',
+		},
+		page,
+	)
+	await page.getByRole('button', { name: 'tile' }).first().click()
+	await page.getByRole('button', { name: 'tile' }).last().click()
+
+	await expect(page.getByTestId('moves')).toHaveText('1')
+})
+
 test('changes current player', async ({ page }) => {
 	await page.goto('/')
 	await start(
@@ -164,6 +180,117 @@ test('changes current player', async ({ page }) => {
 			.getByRole('listitem')
 			.filter({ hasText: 'player 2' }),
 	).toHaveAttribute('aria-current', 'true')
+})
+
+test('restarts game', async ({ page }) => {
+	await page.clock.setFixedTime('2024-10-23T17:15:00')
+	await page.goto('/')
+	await start(
+		{
+			theme: 'numbers',
+			players: '1',
+			grid: '4x4',
+		},
+		page,
+	)
+	await page.getByRole('button', { name: 'tile' }).first().click()
+	await page.getByRole('button', { name: 'tile' }).last().click()
+	await page.getByTestId('moves').filter({ hasText: '1' }).waitFor()
+	await page.clock.setFixedTime('2024-10-23T17:15:15')
+	await page.getByTestId('time').filter({ hasText: '0:15' }).waitFor()
+	await page.getByRole('button', { name: 'restart' }).click()
+
+	await expect(page.getByTestId('time')).toHaveText('0:00')
+	await expect(page.getByTestId('moves')).toHaveText('0')
+	await expect(
+		page.getByRole('grid').getByRole('button', { name: 'tile' }),
+	).toHaveCount(4 * 4)
+})
+
+test('navigates to main menu', async ({ page }) => {
+	await page.goto('/')
+	await start(
+		{
+			theme: 'numbers',
+			players: '1',
+			grid: '4x4',
+		},
+		page,
+	)
+	await page.getByRole('button', { name: 'new game' }).click()
+
+	await expect(page.getByRole('button', { name: 'start' })).toBeAttached()
+})
+
+test.describe('mobile menu', () => {
+	test.use({ viewport: { width: 375, height: 667 } })
+
+	test('restarts game', async ({ page }) => {
+		await page.clock.setFixedTime('2024-10-23T17:15:00')
+		await page.goto('/')
+		await start(
+			{
+				theme: 'numbers',
+				players: '1',
+				grid: '4x4',
+			},
+			page,
+		)
+		await page.getByRole('button', { name: 'tile' }).first().click()
+		await page.getByRole('button', { name: 'tile' }).last().click()
+		await page.getByTestId('moves').filter({ hasText: '1' }).waitFor()
+		await page.clock.setFixedTime('2024-10-23T17:15:15')
+		await page.getByTestId('time').filter({ hasText: '0:15' }).waitFor()
+		await page.getByRole('button', { name: 'menu' }).click()
+		await page.getByRole('button', { name: 'restart' }).click()
+
+		await expect(page.getByTestId('time')).toHaveText('0:00')
+		await expect(page.getByTestId('moves')).toHaveText('0')
+		await expect(
+			page.getByRole('grid').getByRole('button', { name: 'tile' }),
+		).toHaveCount(4 * 4)
+	})
+
+	test('navigates to main menu', async ({ page }) => {
+		await page.goto('/')
+		await start(
+			{
+				theme: 'numbers',
+				players: '1',
+				grid: '4x4',
+			},
+			page,
+		)
+		await page.getByRole('button', { name: 'menu' }).click()
+		await page.getByRole('button', { name: 'new game' }).click()
+
+		await expect(page.getByRole('button', { name: 'start' })).toBeAttached()
+	})
+
+	test('resumes game', async ({ page }) => {
+		await page.clock.setFixedTime('2024-10-23T17:15:00')
+		await page.goto('/')
+		await start(
+			{
+				theme: 'numbers',
+				players: '1',
+				grid: '4x4',
+			},
+			page,
+		)
+		await page.getByRole('button', { name: 'tile' }).first().click()
+		await page.getByRole('button', { name: 'tile' }).last().click()
+		await page.getByTestId('moves').filter({ hasText: '1' }).waitFor()
+		await page.clock.setFixedTime('2024-10-23T17:15:15')
+		await page.getByTestId('time').filter({ hasText: '0:15' }).waitFor()
+		await page.getByRole('button', { name: 'menu' }).click()
+		await page.getByRole('dialog', { name: 'menu' }).waitFor()
+		await page.getByRole('button', { name: 'resume game' }).click()
+
+		await expect(page.getByRole('dialog', { name: 'menu' })).not.toBeAttached()
+		await expect(page.getByTestId('time')).toHaveText('0:15')
+		await expect(page.getByTestId('moves')).toHaveText('1')
+	})
 })
 
 test.describe('passes a11y checks', () => {
