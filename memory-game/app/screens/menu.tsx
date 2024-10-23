@@ -56,17 +56,14 @@ function getThemeName(id: Theme) {
 }
 
 interface MenuProps {
+	defaultOptions: Options
 	onStartGame(options: Options): void
 }
 
-export function Menu({ onStartGame }: MenuProps) {
+export function Menu({ defaultOptions, onStartGame }: MenuProps) {
 	const [form, fields] = useForm({
 		constraint: getZodConstraint(optionsSchema),
-		defaultValue: {
-			theme: 'numbers',
-			players: '1',
-			grid: '4x4',
-		} satisfies Options,
+		defaultValue: defaultOptions,
 		onSubmit(event, { formData }) {
 			event.preventDefault()
 

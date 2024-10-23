@@ -4,32 +4,39 @@ import { Menu } from '#app/screens/menu'
 import { Play } from '#app/screens/play'
 import { type Options } from '#app/utils/memory'
 
-type Screen = { type: 'start-game' } | { type: 'play'; options: Options }
+type Screen = 'start-game' | 'play'
 
 function Memory() {
-	const [screen, setScreen] = useState<Screen>({ type: 'start-game' })
+	const [screen, setScreen] = useState<Screen>('start-game')
+	const [options, setOptions] = useState<Options>({
+		theme: 'numbers',
+		players: '1',
+		grid: '4x4',
+	})
 
 	useEffect(() => {
-		document.body.dataset['screen'] = screen.type
+		document.body.dataset['screen'] = screen
 		return () => {
 			delete document.body.dataset['screen']
 		}
-	}, [screen.type])
+	}, [screen])
 
-	if (screen.type === 'start-game') {
+	if (screen === 'start-game') {
 		return (
 			<Menu
+				defaultOptions={options}
 				onStartGame={(options) => {
-					setScreen({ type: 'play', options })
+					setOptions(options)
+					setScreen('play')
 				}}
 			/>
 		)
-	} else if (screen.type === 'play') {
+	} else if (screen === 'play') {
 		return (
 			<Play
-				options={screen.options}
+				options={options}
 				onNewGame={() => {
-					setScreen({ type: 'start-game' })
+					setScreen('start-game')
 				}}
 			/>
 		)
