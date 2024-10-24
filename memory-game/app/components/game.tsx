@@ -14,7 +14,8 @@ import {
 	useState,
 } from 'react'
 import * as Landmark from '#app/components/landmark'
-import { type Cursor, useCursor } from '#app/utils/cursor'
+import { useCursor } from '#app/utils/cursor'
+import { GameContext, useGame } from '#app/utils/game'
 import {
 	type Theme,
 	type Size,
@@ -26,7 +27,7 @@ import {
 } from '#app/utils/memory'
 import { media } from '#app/utils/screens'
 import { hocus, percentage, rem } from '#app/utils/style'
-import { areEqual, getCell, type Position, type Table } from '#app/utils/table'
+import { areEqual, getCell, type Position } from '#app/utils/table'
 
 const button = css`
 	border-radius: 9999px;
@@ -84,33 +85,12 @@ const dialogOverlay = css`
 	background: hsl(0 0% 0% / 0.5);
 `
 
-const GameContext = createContext<{
-	isFinished: boolean
-	size: Size
-	tiles: Table<Tile>
-	tileResetKey: boolean
-	cursor: Cursor
-	newGame(): void
-	restart(): void
-	selectTile(position: Position): void
-	getCanFlip(position: Position): boolean
-	getIsFlipped(position: Position): boolean
-	getIsHighlighted(position: Position): boolean
-} | null>(null)
-
-function useGame() {
-	const value = useContext(GameContext)
-	invariant(value !== null, '`useGame` must be used inside of `GameContext`')
-
-	return value
-}
-
 interface GameProps {
 	theme: Theme
 	size: Size
 	children: ReactNode
-	onRestart(): void
-	onNewGame(): void
+	onRestart?(): void
+	onNewGame?(): void
 	onSelectTile?(
 		result:
 			| { type: 'flip' }
@@ -214,7 +194,7 @@ export function Game({
 		setSolvedTiles([])
 		clearTimeout(resetSelectedTilesTimerRef.current)
 		resetSelectedTilesTimerRef.current = undefined
-		onRestart()
+		onRestart?.()
 	}
 
 	return (
@@ -225,7 +205,9 @@ export function Game({
 				tiles,
 				tileResetKey,
 				cursor,
-				newGame: onNewGame,
+				newGame() {
+					onNewGame?.()
+				},
 				restart,
 				selectTile,
 				getCanFlip,
