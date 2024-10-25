@@ -123,5 +123,71 @@ test('tracks multiplayer scores', async () => {
 	expect(results[3]).toHaveTextContent('Player 2: 0')
 })
 
-test.todo('tile button exposes name on flip')
-test.todo('incorrect move auto-flips tiles')
+test('tile button exposes name on flip', async () => {
+	const user = userEvent.setup()
+
+	render(<App />)
+
+	vi.mock(import('#app/utils/memory'), async (importOriginal) => {
+		return {
+			...(await importOriginal()),
+			createTiles() {
+				return [
+					['anchor', 'anchor', 'apple', 'apple'],
+					['bug', 'bug', 'car', 'car'],
+					['cube', 'cube', 'dragon', 'dragon'],
+					['fish', 'fish', 'flask', 'flask'],
+				]
+			},
+		} satisfies Awaited<ReturnType<typeof importOriginal>>
+	})
+
+	await user.click(
+		within(screen.getByRole('group', { name: /theme/i })).getByRole('radio', {
+			name: /icons/i,
+		}),
+	)
+	await user.click(screen.getByRole('button', { name: /start/i }))
+	const tiles = screen.getAllByRole('button', { name: /tile/i })
+
+	expect(tiles[0]).toHaveAccessibleName(/tile/i)
+
+	await user.click(tiles[0]!)
+
+	expect(tiles[0]).toHaveAccessibleName(/anchor/i)
+})
+
+test('incorrect move auto-flips tiles', async () => {
+	const user = userEvent.setup()
+
+	render(<App />)
+
+	vi.mock(import('#app/utils/memory'), async (importOriginal) => {
+		return {
+			...(await importOriginal()),
+			createTiles() {
+				return [
+					['anchor', 'anchor', 'apple', 'apple'],
+					['bug', 'bug', 'car', 'car'],
+					['cube', 'cube', 'dragon', 'dragon'],
+					['fish', 'fish', 'flask', 'flask'],
+				]
+			},
+		} satisfies Awaited<ReturnType<typeof importOriginal>>
+	})
+
+	await user.click(
+		within(screen.getByRole('group', { name: /theme/i })).getByRole('radio', {
+			name: /icons/i,
+		}),
+	)
+	await user.click(screen.getByRole('button', { name: /start/i }))
+	const tiles = screen.getAllByRole('button', { name: /tile/i })
+	await user.click(tiles[0]!)
+	await user.click(tiles[2]!)
+
+	await vi.advanceTimersByTimeAsync(3000)
+
+	expect(tiles[0]).toHaveAccessibleName(/tile/i)
+	expect(tiles[2]).toHaveAccessibleName(/tile/i)
+})
