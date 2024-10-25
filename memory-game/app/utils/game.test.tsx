@@ -1,9 +1,15 @@
 /**
  * @vitest-environment jsdom
  */
-import { render, screen } from '@testing-library/react'
-import { userEvent } from '@testing-library/user-event'
-import { expect, test, vi } from 'vitest'
+import {
+	cleanup,
+	render,
+	type Screen,
+	screen,
+	within,
+} from '@testing-library/react'
+import { type UserEvent, userEvent } from '@testing-library/user-event'
+import { afterEach, expect, test, vi } from 'vitest'
 import {
 	Game,
 	GameOver,
@@ -13,6 +19,7 @@ import {
 } from '#app/components/game'
 import { useGame } from '#app/utils/game'
 import '@testing-library/jest-dom/vitest'
+import { type Position } from '#app/utils/table'
 
 vi.mock(import('#app/utils/memory'), async (importOriginal) => {
 	return {
@@ -28,6 +35,10 @@ vi.mock(import('#app/utils/memory'), async (importOriginal) => {
 	} satisfies Awaited<ReturnType<typeof importOriginal>>
 })
 
+afterEach(() => {
+	cleanup()
+})
+
 // Debug tiles
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 function Tiles() {
@@ -38,6 +49,43 @@ function Tiles() {
 		.map((tile, i) => {
 			return <p key={i}>{tile}</p>
 		})
+}
+
+const buttonsTestId = 'buttons'
+
+function getButtons(screen: Screen) {
+	return within(screen.getByTestId(buttonsTestId)).getAllByRole('button')
+}
+
+async function clickButtons(user: UserEvent, screen: Screen) {
+	for (const button of getButtons(screen)) {
+		await user.click(button)
+	}
+}
+
+interface ButtonsProps {
+	onClicks: (() => void)[]
+}
+
+function Buttons({ onClicks }: ButtonsProps) {
+	return (
+		<div data-testid={buttonsTestId}>
+			{onClicks.map((onClick, i) => {
+				return (
+					<button key={i} type="button" onClick={onClick}>
+						{i}
+					</button>
+				)
+			})}
+		</div>
+	)
+}
+
+const positions: Position[] = []
+for (let y = 0; y < 4; ++y) {
+	for (let x = 0; x < 4; ++x) {
+		positions.push([x, y])
+	}
 }
 
 test('displays game over dialog', async () => {
@@ -51,25 +99,7 @@ test('displays game over dialog', async () => {
 
 		return (
 			<>
-				{Array(4)
-					.fill(null)
-					.map((_, y) =>
-						Array(4)
-							.fill(null)
-							.map((_, x) => {
-								return (
-									<button
-										key={`${x},${y}`}
-										type="button"
-										onClick={() => {
-											game.selectTile([x, y])
-										}}
-									>
-										selectTile({x}, {y})
-									</button>
-								)
-							}),
-					)}
+				<Buttons onClicks={positions.map((p) => () => game.selectTile(p))} />
 			</>
 		)
 	}
@@ -86,9 +116,7 @@ test('displays game over dialog', async () => {
 
 	expect(screen.queryByRole('alertdialog')).not.toBeInTheDocument()
 
-	for (const button of screen.getAllByRole('button')) {
-		await user.click(button)
-	}
+	await clickButtons(user, screen)
 
 	expect(screen.getByRole('alertdialog')).toHaveAccessibleName(title)
 	expect(screen.getByRole('alertdialog')).toHaveAccessibleDescription(
@@ -96,22 +124,77 @@ test('displays game over dialog', async () => {
 	)
 })
 
-test.todo('game over dialog restarts the game', () => {
-	// const onNewGame = vi.fn()
-	// const onRestart = vi.fn()
-	// <Game
-	// 	theme="numbers"
-	// 	size="4x4"
-	// 	onNewGame={onNewGame}
-	// 	onRestart={onRestart}
-	// />
-	// await user.click(screen.getByRole('button', { name: /restart/i }))
-	// expect(onRestart).toHaveBeenCalledOnce()
+test('game over dialog calls restart callback', async () => {
+	const user = userEvent.setup()
+
+	const onRestart = vi.fn()
+
+	function TestComponent() {
+		const game = useGame()
+
+		return (
+			<>
+				<Buttons onClicks={positions.map((p) => () => game.selectTile(p))} />
+			</>
+		)
+	}
+	render(
+		<Game theme="numbers" size="4x4" onRestart={onRestart}>
+			<TestComponent />
+			<GameOver>
+				<GameOverTitle>Title</GameOverTitle>
+				<GameOverDescription>Description</GameOverDescription>
+				<GameOverOptions />
+			</GameOver>
+		</Game>,
+	)
+
+	await clickButtons(user, screen)
+	await user.click(
+		within(screen.getByRole('alertdialog')).getByRole('button', {
+			name: /restart/i,
+		}),
+	)
+
+	expect(onRestart).toHaveBeenCalledOnce()
+	expect(screen.queryByRole('alertdialog')).not.toBeInTheDocument()
 })
-test.todo('game over dialog navigates to new game', () => {
-	// await user.click(screen.getByRole('button', { name: /new game/i }))
-	// expect(onNewGame).toHaveBeenCalledOnce()
+
+test('game over dialog calls new game callback', async () => {
+	const user = userEvent.setup()
+
+	const onNewGame = vi.fn()
+
+	function TestComponent() {
+		const game = useGame()
+
+		return (
+			<>
+				<Buttons onClicks={positions.map((p) => () => game.selectTile(p))} />
+			</>
+		)
+	}
+	render(
+		<Game theme="numbers" size="4x4" onNewGame={onNewGame}>
+			<TestComponent />
+			<GameOver>
+				<GameOverTitle>Title</GameOverTitle>
+				<GameOverDescription>Description</GameOverDescription>
+				<GameOverOptions />
+			</GameOver>
+		</Game>,
+	)
+
+	await clickButtons(user, screen)
+	await user.click(
+		within(screen.getByRole('alertdialog')).getByRole('button', {
+			name: /new game/i,
+		}),
+	)
+
+	expect(onNewGame).toHaveBeenCalledOnce()
 })
+
 test.todo('tile button exposes name on flip')
 test.todo('incorrect move auto-flips tiles')
 test.todo('tracks score')
