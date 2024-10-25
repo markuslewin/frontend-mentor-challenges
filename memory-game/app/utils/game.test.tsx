@@ -1,15 +1,9 @@
 /**
  * @vitest-environment jsdom
  */
-import {
-	cleanup,
-	render,
-	type Screen,
-	screen,
-	within,
-} from '@testing-library/react'
+import { render, type Screen, screen, within } from '@testing-library/react'
 import { type UserEvent, userEvent } from '@testing-library/user-event'
-import { afterEach, expect, test, vi } from 'vitest'
+import { expect, test, vi } from 'vitest'
 import {
 	Game,
 	GameOver,
@@ -18,7 +12,6 @@ import {
 	GameOverTitle,
 } from '#app/components/game'
 import { useGame } from '#app/utils/game'
-import '@testing-library/jest-dom/vitest'
 import { type Position } from '#app/utils/table'
 
 vi.mock(import('#app/utils/memory'), async (importOriginal) => {
@@ -33,10 +26,6 @@ vi.mock(import('#app/utils/memory'), async (importOriginal) => {
 			]
 		},
 	} satisfies Awaited<ReturnType<typeof importOriginal>>
-})
-
-afterEach(() => {
-	cleanup()
 })
 
 // Debug tiles
@@ -194,7 +183,3 @@ test('game over dialog calls new game callback', async () => {
 
 	expect(onNewGame).toHaveBeenCalledOnce()
 })
-
-test.todo('tile button exposes name on flip')
-test.todo('incorrect move auto-flips tiles')
-test.todo('tracks score')

@@ -220,13 +220,17 @@ function SinglePlayer({ theme, size, onNewGame }: SinglePlayerProps) {
 						<span className={cx(statLabel, statLabelDefault)}>
 							Time Elapsed<span className="sr-only">:</span>{' '}
 						</span>{' '}
-						<span className="text-dialog-value">{time}</span>
+						<span className="text-dialog-value" data-testid="time">
+							{time}
+						</span>
 					</li>
 					<li className={cx(stat, statDefault)}>
 						<span className={cx(statLabel, statLabelDefault)}>
 							Moves Taken<span className="sr-only">:</span>{' '}
 						</span>{' '}
-						<span className="text-dialog-value">{moves} Moves</span>
+						<span className="text-dialog-value">
+							<span data-testid="moves">{moves}</span> Moves
+						</span>
 					</li>
 				</ul>
 				<GameOverOptions />
