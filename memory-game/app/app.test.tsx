@@ -55,7 +55,73 @@ test('displays single-player stats when game is over', async () => {
 	expect(moves).toHaveTextContent('8')
 })
 
-test.todo('tracks score')
-test.todo('displays multiplayer scoreboard when game is over')
+test('tracks multiplayer scores', async () => {
+	const user = userEvent.setup()
+
+	render(<App />)
+
+	await user.click(
+		within(screen.getByRole('group', { name: /players/i })).getByRole('radio', {
+			name: '4',
+		}),
+	)
+	await user.click(screen.getByRole('button', { name: /start/i }))
+	const tiles = screen.getAllByRole('button', { name: /tile/i })
+
+	// P1 correct
+	await user.click(tiles[0]!)
+	await user.click(tiles[1]!)
+	// P2 incorrect
+	await user.click(tiles[2]!)
+	await user.click(tiles[4]!)
+	// P3 correct
+	await user.click(tiles[3]!)
+	await user.click(tiles[2]!)
+	// P4 incorrect
+	await user.click(tiles[4]!)
+	await user.click(tiles[6]!)
+	// P1 correct
+	await user.click(tiles[5]!)
+	await user.click(tiles[4]!)
+	// P2 incorrect
+	await user.click(tiles[6]!)
+	await user.click(tiles[10]!)
+	// P3 correct
+	await user.click(tiles[8]!)
+	await user.click(tiles[9]!)
+	// P4 correct
+	await user.click(tiles[10]!)
+	await user.click(tiles[11]!)
+	// P1 correct
+	await user.click(tiles[12]!)
+	await user.click(tiles[13]!)
+	// P2 incorrect
+	await user.click(tiles[6]!)
+	await user.click(tiles[14]!)
+	// P3 correct
+	await user.click(tiles[7]!)
+	await user.click(tiles[6]!)
+	// P4 ...
+	await user.click(tiles[14]!)
+
+	const scores = within(
+		screen.getByRole('region', { name: /score/i }),
+	).getAllByTestId('player')
+	expect(scores[0]).toHaveTextContent('Player 1: 3')
+	expect(scores[1]).toHaveTextContent('Player 2: 0')
+	expect(scores[2]).toHaveTextContent('Player 3: 3')
+	expect(scores[3]).toHaveTextContent('Player 4: 1')
+
+	// P4 correct
+	await user.click(tiles[15]!)
+
+	const dialog = screen.getByRole('alertdialog')
+	const results = within(dialog).getAllByRole('listitem')
+	expect(results[0]).toHaveTextContent('Player 1: 3')
+	expect(results[1]).toHaveTextContent('Player 3: 3')
+	expect(results[2]).toHaveTextContent('Player 4: 2')
+	expect(results[3]).toHaveTextContent('Player 2: 0')
+})
+
 test.todo('tile button exposes name on flip')
 test.todo('incorrect move auto-flips tiles')

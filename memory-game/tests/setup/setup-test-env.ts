@@ -9,7 +9,8 @@ beforeEach(() => {
 		// https://jestjs.io/docs/manual-mocks#mocking-methods-which-are-not-implemented-in-jsdom
 		vi.spyOn(window, 'matchMedia').mockImplementation((query) => {
 			return {
-				matches: false,
+				// `@media (${media.tablet})` and `media.desktop` matches
+				matches: true,
 				media: query,
 				onchange: null,
 				addListener: vi.fn(), // deprecated
