@@ -93,6 +93,7 @@ export function Play({ options, onNewGame }: PlayProps) {
 					padding: ${rem(24)};
 					@media ${media.tablet} {
 						padding: ${rem(40)};
+						padding-top: ${rem(67)};
 					}
 				`}
 			>
@@ -323,31 +324,78 @@ function Multiplayer({ theme, players, size, onNewGame }: MultiplayerProps) {
 								const score = scores[i]
 
 								return (
-									<li className="group" key={i} aria-current={isCurrentPlayer}>
+									<li
+										className={cx(
+											'group',
+											css`
+												padding-top: ${rem(8)};
+												@media (${media.tablet}) {
+													padding-top: ${rem(12)};
+												}
+												@media (${media.desktop}) {
+													padding-top: ${rem(19)};
+												}
+											`,
+										)}
+										key={i}
+										aria-current={isCurrentPlayer}
+									>
 										<div
-											className={cx(
-												'transition-colors group-aria-[current="true"]:bg-FDA214',
-												meta,
-											)}
-											data-testid="player"
+											className={css`
+												position: relative;
+												isolation: isolate;
+											`}
 										>
-											<span
+											<div
 												className={cx(
-													'group-aria-[current="true"]:text-FCFCFC',
-													metaLabel,
+													'transition-colors group-aria-[current="true"]:bg-FDA214',
+													css`
+														position: absolute;
+														top: 0;
+														left: 50%;
+														transform: translate(-50%, -50%) rotate(45deg);
+														z-index: -1;
+														width: ${rem(11)};
+														aspect-ratio: 1;
+														background: hsl(203 25% 90% / 0);
+														@media (${media.tablet}) {
+															width: ${rem(17)};
+														}
+														@media (${media.desktop}) {
+															width: ${rem(27)};
+														}
+													`,
 												)}
-											>
-												{tabletMatches ? <>Player {player}</> : <>P{player}</>}
-												<span className="sr-only">:</span>
-											</span>{' '}
-											<span
+											/>
+											<div
 												className={cx(
-													'group-aria-[current="true"]:text-FCFCFC',
-													metaValue,
+													'transition-colors group-aria-[current="true"]:bg-FDA214',
+													meta,
 												)}
+												data-testid="player"
 											>
-												{score}
-											</span>
+												<span
+													className={cx(
+														'group-aria-[current="true"]:text-FCFCFC',
+														metaLabel,
+													)}
+												>
+													{tabletMatches ? (
+														<>Player {player}</>
+													) : (
+														<>P{player}</>
+													)}
+													<span className="sr-only">:</span>
+												</span>{' '}
+												<span
+													className={cx(
+														'group-aria-[current="true"]:text-FCFCFC',
+														metaValue,
+													)}
+												>
+													{score}
+												</span>
+											</div>
 										</div>
 										{desktopMatches ? (
 											<p
