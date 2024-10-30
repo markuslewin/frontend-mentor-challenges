@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function HomePage() {
   return (
     <main className="min-h-screen">
@@ -10,7 +12,30 @@ export default function HomePage() {
         out more about our services.
       </p>
       <h2 className="text-h2 uppercase">Web design</h2>
-      <h2 className="text-h3">Passionate</h2>
+      <h3 className="text-h3">Passionate</h3>
+      <ul>
+        <li>
+          <Link href="/">Home</Link>
+        </li>
+        <li>
+          <Link href="/about">About</Link>
+        </li>
+        <li>
+          <Link href="/app-design">App Design</Link>
+        </li>
+        <li>
+          <Link href="/contact">Contact</Link>
+        </li>
+        <li>
+          <Link href="/graphic-design">Graphic Design</Link>
+        </li>
+        <li>
+          <Link href="/locations">Locations</Link>
+        </li>
+        <li>
+          <Link href="/web-design">Web Design</Link>
+        </li>
+      </ul>
     </main>
   );
 }
