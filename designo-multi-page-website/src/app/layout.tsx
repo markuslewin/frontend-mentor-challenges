@@ -1,7 +1,12 @@
 import "~/styles/globals.css";
 
-import { GeistSans } from "geist/font/sans";
+import { Jost } from "next/font/google";
 import { type Metadata } from "next";
+
+const jost = Jost({
+  subsets: ["latin"],
+  variable: "--font-jost",
+});
 
 export const metadata: Metadata = {
   title: "Create T3 App",
@@ -13,7 +18,7 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${GeistSans.variable}`}>
+    <html lang="en" className={`${jost.variable}`}>
       <body>{children}</body>
     </html>
   );
