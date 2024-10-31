@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function HomePage() {
   return (
-    <main className="min-h-screen">
+    <>
       <h1 className="text-h1">
         Award-winning custom designs and digital branding solutions
       </h1>
@@ -36,6 +36,6 @@ export default function HomePage() {
           <Link href="/web-design">Web Design</Link>
         </li>
       </ul>
-    </main>
+    </>
   );
 }

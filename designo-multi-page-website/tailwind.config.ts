@@ -1,5 +1,6 @@
 import { type Config } from "tailwindcss";
 import { fontFamily } from "tailwindcss/defaultTheme";
+import plugin from "tailwindcss/plugin";
 import { calculateClamp } from "utopia-core";
 
 function rem(px: number) {
@@ -18,6 +19,18 @@ function clamp(minSize: number, maxSize: number) {
     maxSize,
   });
 }
+
+const hocus = plugin((p) => {
+  p.addVariant("hocus", ["&:hover", "&:focus-visible"]);
+  p.addVariant("group-hocus", [
+    ":merge(.group):hover &",
+    ":merge(.group):focus-visible &",
+  ]);
+  p.addVariant("peer-hocus", [
+    ":merge(.peer):hover ~ &",
+    ":merge(.peer):focus-visible ~ &",
+  ]);
+});
 
 export default {
   content: ["./src/**/*.tsx"],
@@ -73,5 +86,5 @@ export default {
       },
     },
   },
-  plugins: [],
+  plugins: [hocus],
 } satisfies Config;

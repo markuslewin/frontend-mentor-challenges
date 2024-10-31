@@ -45,6 +45,10 @@ yarn-error.log*
 # idea files
 .idea
 
+# Generated files
+/public/sprite.svg
+/src/app/_components/icons
+
 # Avoid accidental Sketch file upload 
 ###############################################
 ## Please do not remove line 5 - thanks! 🙂 ##
