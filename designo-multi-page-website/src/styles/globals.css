@@ -2,6 +2,27 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  @apply bg-white text-dark-grey;
+@layer base {
+  :root {
+    -moz-text-size-adjust: none;
+    -webkit-text-size-adjust: none;
+    text-size-adjust: none;
+  }
+
+  body {
+    @apply bg-white text-dark-grey;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    text-wrap: balance;
+  }
+
+  :focus {
+    outline-offset: 0.25rem;
+  }
 }

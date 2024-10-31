@@ -2,6 +2,7 @@ import { type Config } from "tailwindcss";
 import { fontFamily } from "tailwindcss/defaultTheme";
 import plugin from "tailwindcss/plugin";
 import { calculateClamp } from "utopia-core";
+import { screens } from "./src/app/_utils/screens";
 
 function rem(px: number) {
   return `${px / 16}rem`;
@@ -35,6 +36,7 @@ const hocus = plugin((p) => {
 export default {
   content: ["./src/**/*.tsx"],
   theme: {
+    screens,
     colors: {
       inherit: "inherit",
       current: "currentColor",
