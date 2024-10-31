@@ -90,21 +90,36 @@ const hashLocations = {
 export default function HomePage() {
   return (
     <>
-      <div>
-        <div>
-          <h1 className="text-h1">
-            Award-winning custom designs and digital branding solutions
-          </h1>
-          <p>
-            With over 10 years in the industry, we are experienced in creating
-            fully responsive websites, app design, and engaging brand
-            experiences. Find out more about our services.
-          </p>
-          <p>
-            <Link href={`#${hashLocations.services}`}>Learn more</Link>
-          </p>
+      <div className="center tablet:px-gutter px-0">
+        <div className="overflow-hidden bg-peach px-6 pt-20 text-white tablet:rounded-[0.9375rem] tablet:pt-16 desktop:pt-32">
+          <div className="mx-auto box-content max-w-[57.5rem] desktop:grid desktop:grid-cols-[minmax(auto,33.75rem)_minmax(auto,17.5rem)] desktop:justify-between">
+            <div className="mx-auto max-w-[35.8125rem] text-center desktop:mx-0 desktop:text-start">
+              <h1 className="text-h1">
+                Award-winning custom designs and digital branding solutions
+              </h1>
+              <p className="mx-auto mt-5 max-w-[27.8125rem] desktop:mx-0">
+                With over 10 years in the industry, we are experienced in
+                creating fully responsive websites, app design, and engaging
+                brand experiences. Find out more about our services.
+              </p>
+              <p className="mt-6 flex justify-center tablet:mt-5 desktop:mt-10 desktop:justify-start">
+                <Link
+                  className="rounded-[0.5rem] bg-white px-6 py-4 font-medium uppercase tracking-[0.0625rem] text-dark-grey transition-colors hocus:bg-light-peach hocus:text-white"
+                  href={`#${hashLocations.services}`}
+                >
+                  Learn more
+                </Link>
+              </p>
+            </div>
+            <div className="relative mx-auto mt-20 aspect-[283/371] max-w-72 tablet:aspect-[283/388] desktop:m-0 desktop:aspect-[283/501]">
+              <Image
+                className="absolute w-[224%] max-w-none -translate-x-[28%] -translate-y-[18%]"
+                alt=""
+                src={heroPhoneUrl}
+              />
+            </div>
+          </div>
         </div>
-        <Image alt="" src={heroPhoneUrl} />
       </div>
       <h2 id={hashLocations.services}>Services</h2>
       <Service>
