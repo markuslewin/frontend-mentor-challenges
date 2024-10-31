@@ -58,36 +58,36 @@ function getMediaImageProps({
   };
 }
 
+const webDesignImageProps = getMediaImageProps({
+  alt: "",
+  breakpoint: {
+    mobile: mobileWebDesignUrl,
+    tablet: tabletWebDesignUrl,
+    desktop: desktopWebDesignUrl,
+  },
+});
+const appDesignImageProps = getMediaImageProps({
+  alt: "",
+  breakpoint: {
+    mobile: mobileAppDesignUrl,
+    tablet: tabletAppDesignUrl,
+    desktop: desktopAppDesignUrl,
+  },
+});
+const graphicDesignImageProps = getMediaImageProps({
+  alt: "",
+  breakpoint: {
+    mobile: mobileGraphicDesignUrl,
+    tablet: tabletGraphicDesignUrl,
+    desktop: desktopGraphicDesignUrl,
+  },
+});
+
 const hashLocations = {
   services: "services",
 };
 
 export default function HomePage() {
-  const webDesignImageProps = getMediaImageProps({
-    alt: "",
-    breakpoint: {
-      mobile: mobileWebDesignUrl,
-      tablet: tabletWebDesignUrl,
-      desktop: desktopWebDesignUrl,
-    },
-  });
-  const appDesignImageProps = getMediaImageProps({
-    alt: "",
-    breakpoint: {
-      mobile: mobileAppDesignUrl,
-      tablet: tabletAppDesignUrl,
-      desktop: desktopAppDesignUrl,
-    },
-  });
-  const graphicDesignImageProps = getMediaImageProps({
-    alt: "",
-    breakpoint: {
-      mobile: mobileGraphicDesignUrl,
-      tablet: tabletGraphicDesignUrl,
-      desktop: desktopGraphicDesignUrl,
-    },
-  });
-
   return (
     <>
       <div>

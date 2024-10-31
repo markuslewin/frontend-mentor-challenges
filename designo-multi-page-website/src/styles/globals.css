@@ -10,7 +10,7 @@
   }
 
   body {
-    @apply bg-white text-dark-grey;
+    @apply bg-white text-body text-dark-grey;
   }
 
   h1,
@@ -22,7 +22,21 @@
     text-wrap: balance;
   }
 
+  a {
+    text-underline-offset: 0.14em;
+  }
+
   :focus {
     outline-offset: 0.25rem;
+  }
+}
+
+@layer components {
+  .center {
+    @apply mx-auto box-content max-w-[69.4375rem] px-6 tablet:px-10;
+  }
+
+  .cluster {
+    @apply flex flex-wrap items-center;
   }
 }
