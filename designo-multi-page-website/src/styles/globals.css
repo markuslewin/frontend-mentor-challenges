@@ -44,8 +44,16 @@
     @apply px-gutter mx-auto box-content max-w-[69.4375rem];
   }
 
+  .center-inner {
+    @apply mx-auto box-content max-w-[35.8125rem] px-6 desktop:max-w-[57.5rem];
+  }
+
   .cluster {
     @apply flex flex-wrap items-center;
+  }
+
+  .button {
+    @apply rounded-[0.5rem] bg-white px-6 py-4 font-medium uppercase tracking-[0.0625rem] text-dark-grey transition-colors hocus:bg-light-peach hocus:text-white;
   }
 }
 
