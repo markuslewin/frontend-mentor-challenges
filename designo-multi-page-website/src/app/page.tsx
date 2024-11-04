@@ -1,4 +1,4 @@
-import Image, { getImageProps, type ImageProps } from "next/image";
+import Image from "next/image";
 import Link from "next/link";
 import { type ComponentProps, useId } from "react";
 import { Icon } from "~/app/_components/icon";
@@ -15,48 +15,8 @@ import mobileGraphicDesignUrl from "~/app/_assets/mobile/image-graphic-design.jp
 import illustrationPassionate from "~/app/_assets/illustration-passionate.svg";
 import illustrationResourceful from "~/app/_assets/illustration-resourceful.svg";
 import illustrationFriendly from "~/app/_assets/illustration-friendly.svg";
-import { media } from "~/app/_utils/screens";
-
-function getMediaImageProps({
-  alt,
-  breakpoint,
-}: {
-  alt: ImageProps["alt"];
-  breakpoint: {
-    mobile: ImageProps["src"];
-    tablet: ImageProps["src"];
-    desktop: ImageProps["src"];
-  };
-}) {
-  const { props: mobileImageProps } = getImageProps({
-    alt,
-    src: breakpoint.mobile,
-  });
-  const { props: tabletImageProps } = getImageProps({
-    alt: "",
-    src: breakpoint.tablet,
-  });
-  const { props: desktopImageProps } = getImageProps({
-    alt: "",
-    src: breakpoint.desktop,
-  });
-
-  return {
-    mobileImageProps,
-    tabletSourceProps: {
-      media: media.tablet,
-      width: tabletImageProps.width,
-      height: tabletImageProps.height,
-      srcSet: tabletImageProps.srcSet,
-    },
-    desktopSourceProps: {
-      media: media.desktop,
-      width: desktopImageProps.width,
-      height: desktopImageProps.height,
-      srcSet: desktopImageProps.srcSet,
-    },
-  };
-}
+import { getMediaImageProps } from "~/app/_utils/image";
+import { GetInTouch } from "~/app/_components/get-in-touch";
 
 const webDesignImageProps = getMediaImageProps({
   alt: "",
@@ -159,24 +119,7 @@ export default function HomePage() {
           body="We are a group of enthusiastic folks who know how to put people first. Our success depends on our customers, and we strive to give them the best experience a company can provide."
         />
       </div>
-      <div className="center">
-        <div className="relative -mb-48 mt-32 rounded-[0.9375rem] bg-peach py-16 text-center text-white tablet:-mb-20 tablet:mt-16 tablet:py-14 desktop:-mb-20 desktop:mt-40 desktop:py-20 desktop:text-start">
-          <div className="center-inner desktop:grid desktop:grid-cols-[minmax(auto,28.6875rem)_auto] desktop:items-center desktop:justify-between">
-            <div>
-              <h2 className="text-h2">Let’s talk about your project</h2>
-              <p className="mt-3 tablet:mt-2">
-                Ready to take it to the next level? Contact us today and find
-                out how our expertise can help your business grow.
-              </p>
-            </div>
-            <p className="mt-8 flex justify-center desktop:mt-0">
-              <Link className="button" href="/contact">
-                Get in touch
-              </Link>
-            </p>
-          </div>
-        </div>
-      </div>
+      <GetInTouch className="mt-32 tablet:mt-16 desktop:mt-40" />
     </>
   );
 }

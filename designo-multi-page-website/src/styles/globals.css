@@ -52,8 +52,20 @@
     @apply flex flex-wrap items-center;
   }
 
+  .region {
+    @apply overflow-hidden tablet:rounded desktop:grid desktop:grid-cols-[95fr_458fr_82fr_380fr_96fr] desktop:items-center;
+  }
+
+  .region__text {
+    @apply max-w-[35.8125rem] justify-self-center px-6 py-20 text-center tablet:py-16 desktop:px-0 desktop:text-start;
+  }
+
   .button {
     @apply rounded-[0.5rem] bg-white px-6 py-4 font-medium uppercase tracking-[0.0625rem] text-dark-grey transition-colors hocus:bg-light-peach hocus:text-white;
+  }
+
+  .button-peach {
+    @apply rounded-[0.5rem] bg-peach px-6 py-4 font-medium uppercase tracking-[0.0625rem] text-white transition-colors hocus:bg-light-peach;
   }
 }
 

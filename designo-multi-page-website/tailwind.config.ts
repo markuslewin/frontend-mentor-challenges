@@ -82,6 +82,10 @@ export default {
         },
       ],
     },
+    borderRadius: {
+      inherit: "inherit",
+      DEFAULT: rem(15),
+    },
     extend: {
       fontFamily: {
         sans: ["var(--font-jost)", ...fontFamily.sans],
