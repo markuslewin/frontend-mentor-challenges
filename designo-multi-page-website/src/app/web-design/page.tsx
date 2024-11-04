@@ -1,23 +1,24 @@
-import Image from "next/image";
-import Link from "next/link";
-import { useId } from "react";
-import { GetInTouch } from "~/app/_components/get-in-touch";
 import {
   AppDesignService,
   GraphicDesignService,
 } from "~/app/_components/service";
+import {
+  Description,
+  GetInTouch,
+  Hero,
+  HeroContainer,
+  Project,
+  Projects,
+  ProjectsAndServicesContainer,
+  Services,
+  Title,
+} from "~/app/_components/service-page";
 import blogrUrl from "~/app/web-design/_assets/image-blogr.jpg";
 import builderUrl from "~/app/web-design/_assets/image-builder.jpg";
 import campUrl from "~/app/web-design/_assets/image-camp.jpg";
 import expressUrl from "~/app/web-design/_assets/image-express.jpg";
 import photonUrl from "~/app/web-design/_assets/image-photon.jpg";
 import transferUrl from "~/app/web-design/_assets/image-transfer.jpg";
-
-interface Project {
-  image: typeof blogrUrl;
-  name: string;
-  body: string;
-}
 
 const projects: Project[] = [
   {
@@ -55,60 +56,27 @@ const projects: Project[] = [
 export default function WebDesignPage() {
   return (
     <>
-      <div className="center tablet:px-gutter px-0">
-        <div className="bg-peach py-28 text-center text-white tablet:rounded tablet:py-16">
-          <div className="center max-w-96">
-            <h1 className="text-h1">Web design</h1>
-            <p className="mt-6">
-              We build websites that serve as powerful marketing tools and bring
-              memorable brand experiences.
-            </p>
-          </div>
-        </div>
-      </div>
-      <div className="center">
-        <div className="mt-24 grid gap-10 tablet:mt-32 tablet:gap-8 desktop:mt-40 desktop:grid-cols-3">
-          <h2 className="sr-only">Projects</h2>
+      <HeroContainer>
+        <Hero>
+          <Title>Web design</Title>
+          <Description>
+            We build websites that serve as powerful marketing tools and bring
+            memorable brand experiences.
+          </Description>
+        </Hero>
+      </HeroContainer>
+      <ProjectsAndServicesContainer>
+        <Projects>
           {projects.map((project) => {
             return <Project key={project.name} {...project} />;
           })}
-        </div>
-        <div className="mt-24 grid gap-6 tablet:mt-32 desktop:mt-40 desktop:grid-cols-2 desktop:gap-8">
-          <h2 className="sr-only">Other services</h2>
+        </Projects>
+        <Services>
           <AppDesignService />
           <GraphicDesignService />
-        </div>
-      </div>
-      <GetInTouch className="mt-24 tablet:mt-32 desktop:mt-40" />
+        </Services>
+      </ProjectsAndServicesContainer>
+      <GetInTouch />
     </>
-  );
-}
-
-type ProjectProps = Project;
-
-function Project({ image, name, body }: ProjectProps) {
-  const labelId = useId();
-  const descId = useId();
-
-  return (
-    <Link
-      className="group grid items-center overflow-hidden rounded bg-[hsl(14_76%_97%)] transition-colors hocus:bg-peach tablet:grid-cols-[339fr_350fr] desktop:grid-cols-none"
-      href="#"
-      aria-labelledby={labelId}
-      aria-describedby={descId}
-    >
-      <div className="p-8 text-center">
-        <h3
-          className="text-h3 uppercase text-peach group-hocus:text-white"
-          id={labelId}
-        >
-          {name}
-        </h3>
-        <p className="mt-4 group-hocus:text-white" id={descId}>
-          {body}
-        </p>
-      </div>
-      <Image className="-order-1" alt="" src={image} />
-    </Link>
   );
 }
