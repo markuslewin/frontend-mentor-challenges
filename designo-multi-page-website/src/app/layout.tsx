@@ -118,7 +118,7 @@ export default function RootLayout({
             <h3 className="sr-only">Address</h3>
             <div className="mt-10 grid gap-10 tablet:mt-8 tablet:grid-cols-[233fr_273fr_minmax(max-content,184fr)] tablet:gap-0 desktop:grid-cols-[380fr_546fr_minmax(max-content,185fr)]">
               <p className="text-center tablet:text-start">
-                <strong className="font-bold">Designo Central Office</strong>
+                <strong>Designo Central Office</strong>
                 <br />
                 3886 Wellington Street
                 <br />

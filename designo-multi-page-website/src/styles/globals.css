@@ -28,6 +28,10 @@
     text-underline-offset: 0.14em;
   }
 
+  strong {
+    @apply font-bold;
+  }
+
   :focus {
     outline-offset: 0.25rem;
   }
