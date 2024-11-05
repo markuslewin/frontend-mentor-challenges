@@ -3,6 +3,7 @@ import Link from "next/link";
 import illustrationAustraliaUrl from "~/app/_assets/illustration-australia.svg";
 import illustrationCanadaUrl from "~/app/_assets/illustration-canada.svg";
 import illustrationUnitedKingdomUrl from "~/app/_assets/illustration-united-kingdom.svg";
+import { createLocationHref } from "~/app/_utils/locations";
 
 export function Locations() {
   return (
@@ -13,8 +14,7 @@ export function Locations() {
         <Image alt="" src={illustrationCanadaUrl} />
         <h3 className="mt-12 text-h3 uppercase">Canada</h3>
         <p className="mt-8 grid">
-          {/* todo: Hash */}
-          <Link className="button-peach" href="/locations">
+          <Link className="button-peach" href={createLocationHref("Canada")}>
             See location
           </Link>
         </p>
@@ -24,7 +24,7 @@ export function Locations() {
         <Image alt="" src={illustrationAustraliaUrl} />
         <h3 className="mt-12 text-h3 uppercase">Australia</h3>
         <p className="mt-8 grid">
-          <Link className="button-peach" href="/locations">
+          <Link className="button-peach" href={createLocationHref("Australia")}>
             See location
           </Link>
         </p>
@@ -34,7 +34,10 @@ export function Locations() {
         <Image alt="" src={illustrationUnitedKingdomUrl} />
         <h3 className="mt-12 text-h3 uppercase">United Kingdom</h3>
         <p className="mt-8 grid">
-          <Link className="button-peach" href="/locations">
+          <Link
+            className="button-peach"
+            href={createLocationHref("United Kingdom")}
+          >
             See location
           </Link>
         </p>

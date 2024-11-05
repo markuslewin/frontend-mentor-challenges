@@ -1,89 +1,5 @@
 import { GetInTouch } from "~/app/_components/get-in-touch";
-import { getMediaImageProps } from "~/app/_utils/image";
-import desktopMapAustraliaUrl from "~/app/locations/_assets/desktop/image-map-australia.png";
-import desktopMapCanadaUrl from "~/app/locations/_assets/desktop/image-map-canada.png";
-import desktopMapUnitedKingdomUrl from "~/app/locations/_assets/desktop/image-map-united-kingdom.png";
-import tabletMapAustraliaUrl from "~/app/locations/_assets/tablet/image-map-australia.png";
-import tabletMapCanadaUrl from "~/app/locations/_assets/tablet/image-map-canada.png";
-import tabletMapUnitedKingdomUrl from "~/app/locations/_assets/tablet/image-map-uk.png";
-
-const mapAustralia = getMediaImageProps({
-  alt: "",
-  breakpoint: {
-    desktop: desktopMapAustraliaUrl,
-    // todo: Make optional
-    tablet: tabletMapAustraliaUrl,
-    mobile: tabletMapAustraliaUrl,
-  },
-});
-
-const mapCanada = getMediaImageProps({
-  alt: "",
-  breakpoint: {
-    desktop: desktopMapCanadaUrl,
-    // todo: Make optional
-    tablet: tabletMapCanadaUrl,
-    mobile: tabletMapCanadaUrl,
-  },
-});
-
-const mapUnitedKingdom = getMediaImageProps({
-  alt: "",
-  breakpoint: {
-    desktop: desktopMapUnitedKingdomUrl,
-    // todo: Make optional
-    tablet: tabletMapUnitedKingdomUrl,
-    mobile: tabletMapUnitedKingdomUrl,
-  },
-});
-
-interface Location {
-  country: string;
-  address: {
-    name: string;
-    street: string;
-    postCode: string;
-  };
-  phone: string;
-  mail: string;
-  map: typeof mapCanada;
-}
-
-const locations: Location[] = [
-  {
-    country: "Canada",
-    address: {
-      name: "Designo Central Office",
-      street: "3886 Wellington Street",
-      postCode: "Toronto, Ontario M9C 3J5",
-    },
-    phone: "+1 253-863-8967",
-    mail: "contact@designo.co",
-    map: mapCanada,
-  },
-  {
-    country: "Australia",
-    address: {
-      name: "Designo AU Office",
-      street: "19 Balonne Street",
-      postCode: "New South Wales 2443",
-    },
-    phone: "(02) 6720 9092",
-    mail: "contact@designo.au",
-    map: mapAustralia,
-  },
-  {
-    country: "United Kingdom",
-    address: {
-      name: "Designo UK Office",
-      street: "13 Colorado Way",
-      postCode: "Rhyd-y-fro SA8 9GA",
-    },
-    phone: "078 3115 1400",
-    mail: "contact@designo.uk",
-    map: mapUnitedKingdom,
-  },
-];
+import { locations } from "~/app/_utils/locations";
 
 export default function LocationsPage() {
   return (
@@ -101,6 +17,7 @@ export default function LocationsPage() {
                   : "desktop:grid-cols-[350fr_730fr]",
               ].join(" ")}
               key={i}
+              id={location.fragmentId}
             >
               <div className="grid items-center bg-[hsl(14_76%_97%)] py-20 tablet:rounded">
                 <div className="grid text-center tablet:grid-cols-[75fr_540fr_75fr] tablet:text-start desktop:grid-cols-[95fr_540fr_95fr]">
