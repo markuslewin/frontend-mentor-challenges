@@ -1,5 +1,3 @@
-import Image from "next/image";
-import Link from "next/link";
 import desktopAboutHeroUrl from "~/app/about/_assets/desktop/image-about-hero.jpg";
 import tabletAboutHeroUrl from "~/app/about/_assets/tablet/image-about-hero.jpg";
 import mobileAboutHeroUrl from "~/app/about/_assets/mobile/image-about-hero.jpg";
@@ -9,11 +7,9 @@ import mobileWorldClassTalentUrl from "~/app/about/_assets/mobile/image-world-cl
 import desktopRealDealUrl from "~/app/about/_assets/desktop/image-real-deal.jpg";
 import tabletRealDealUrl from "~/app/about/_assets/tablet/image-real-deal.jpg";
 import mobileRealDealUrl from "~/app/about/_assets/mobile/image-real-deal.jpg";
-import illustrationAustraliaUrl from "~/app/_assets/illustration-australia.svg";
-import illustrationCanadaUrl from "~/app/_assets/illustration-canada.svg";
-import illustrationUnitedKingdomUrl from "~/app/_assets/illustration-united-kingdom.svg";
 import { getMediaImageProps } from "~/app/_utils/image";
 import { GetInTouch } from "~/app/_components/get-in-touch";
+import { Locations } from "~/app/_components/locations";
 
 const aboutHeroImage = getMediaImageProps({
   alt: "",
@@ -90,40 +86,7 @@ export default function AboutPage() {
             </p>
           </div>
         </div>
-        <div className="mx-auto mt-32 box-content grid max-w-[60rem] gap-12 text-center desktop:mt-40 desktop:grid-cols-3 desktop:gap-0">
-          <h2 className="sr-only">Locations</h2>
-          <div className="grid justify-items-center">
-            {/* eslint-disable-next-line @typescript-eslint/no-unsafe-assignment */}
-            <Image alt="" src={illustrationCanadaUrl} />
-            <h3 className="mt-12 text-h3 uppercase">Canada</h3>
-            <p className="mt-8 grid">
-              {/* todo: Hash */}
-              <Link className="button-peach" href="/locations">
-                See location
-              </Link>
-            </p>
-          </div>
-          <div className="grid justify-items-center">
-            {/* eslint-disable-next-line @typescript-eslint/no-unsafe-assignment */}
-            <Image alt="" src={illustrationAustraliaUrl} />
-            <h3 className="mt-12 text-h3 uppercase">Australia</h3>
-            <p className="mt-8 grid">
-              <Link className="button-peach" href="/locations">
-                See location
-              </Link>
-            </p>
-          </div>
-          <div className="grid justify-items-center">
-            {/* eslint-disable-next-line @typescript-eslint/no-unsafe-assignment */}
-            <Image alt="" src={illustrationUnitedKingdomUrl} />
-            <h3 className="mt-12 text-h3 uppercase">United Kingdom</h3>
-            <p className="mt-8 grid">
-              <Link className="button-peach" href="/locations">
-                See location
-              </Link>
-            </p>
-          </div>
-        </div>
+        <Locations />
         <div className="region mt-32 bg-[hsl(14_76%_97%)] desktop:mt-40">
           <picture className="desktop:col-span-2 desktop:col-start-4 desktop:row-start-1">
             <source {...realDealImage.desktopSourceProps} />
