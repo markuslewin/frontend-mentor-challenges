@@ -1,4 +1,5 @@
 import { Locations } from "~/app/_components/locations";
+import { ContactForm } from "~/app/_components/contact-form";
 
 export default function ContactPage() {
   return (
@@ -17,55 +18,7 @@ export default function ContactPage() {
                 </p>
               </div>
             </div>
-            <form className="mt-12 tablet:mt-10 desktop:col-start-3 desktop:mt-0">
-              <div className="grid gap-6">
-                <label className="relative">
-                  <span className="sr-only">Name</span>
-                  <input
-                    className="rounded-none peer block w-full border-b-[0.0625rem] bg-transparent px-3 pb-3 placeholder:text-white/50 tablet:px-6 desktop:px-4"
-                    type="text"
-                    name="name"
-                    placeholder="Name"
-                  />
-                  <div className="absolute inset-x-0 bottom-0 border-t-[0.1875rem] opacity-0 transition-opacity peer-hocus:opacity-100" />
-                </label>
-                <label className="relative">
-                  <span className="sr-only">Email Address</span>
-                  <input
-                    className="rounded-none peer block w-full border-b-[0.0625rem] bg-transparent px-3 pb-3 placeholder:text-white/50 tablet:px-6 desktop:px-4"
-                    type="email"
-                    name="email-address"
-                    placeholder="Email Address"
-                  />
-                  <div className="absolute inset-x-0 bottom-0 border-t-[0.1875rem] opacity-0 transition-opacity peer-hocus:opacity-100" />
-                </label>
-                <label className="relative">
-                  <span className="sr-only">Phone</span>
-                  <input
-                    className="rounded-none peer block w-full border-b-[0.0625rem] bg-transparent px-3 pb-3 placeholder:text-white/50 tablet:px-6 desktop:px-4"
-                    type="tel"
-                    name="phone"
-                    placeholder="Phone"
-                  />
-                  <div className="absolute inset-x-0 bottom-0 border-t-[0.1875rem] opacity-0 transition-opacity peer-hocus:opacity-100" />
-                </label>
-                <label className="relative">
-                  <span className="sr-only">Your Message</span>
-                  <textarea
-                    className="rounded-none peer block w-full border-b-[0.0625rem] bg-transparent px-3 pb-3 placeholder:text-white/50 tablet:px-6 desktop:px-4"
-                    name="message"
-                    placeholder="Your Message"
-                    rows={3}
-                  />
-                  <div className="absolute inset-x-0 bottom-0 border-t-[0.1875rem] opacity-0 transition-opacity peer-hocus:opacity-100" />
-                </label>
-              </div>
-              <p className="mt-10 grid justify-center tablet:mt-6 tablet:justify-end">
-                <button className="button" type="submit">
-                  Submit
-                </button>
-              </p>
-            </form>
+            <ContactForm />
           </div>
         </div>
       </div>

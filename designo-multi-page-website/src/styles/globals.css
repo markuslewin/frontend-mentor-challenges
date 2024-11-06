@@ -71,6 +71,18 @@
   .button-peach {
     @apply rounded-[0.5rem] bg-peach px-6 py-4 font-medium uppercase tracking-[0.0625rem] text-white transition-colors hocus:bg-light-peach;
   }
+
+  .textbox {
+    @apply grid grid-cols-[1fr_auto] items-start;
+  }
+
+  .textbox__input {
+    @apply col-span-2 col-start-1 row-start-1 block w-full rounded-none border-b-[0.0625rem] bg-transparent px-3 pb-3 placeholder:text-white/50 tablet:px-6 desktop:px-4;
+  }
+
+  .textbox__error {
+    @apply pointer-events-none col-start-2 row-start-1 grid grid-cols-[auto_auto] items-center gap-2 pr-2 text-[0.75rem] italic transition-opacity;
+  }
 }
 
 @layer utilities {
