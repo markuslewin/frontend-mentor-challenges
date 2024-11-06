@@ -17,7 +17,7 @@ export default function LocationsPage() {
             return (
               <div
                 className={[
-                  "grid tablet:grid-rows-2 tablet:gap-8 tablet:rounded desktop:grid-rows-none",
+                  "grid tablet:scroll-my-8 tablet:grid-rows-2 tablet:gap-8 tablet:rounded desktop:grid-rows-none",
                   i > 0 ? "mt-10 tablet:mt-32 desktop:mt-8" : "",
                   i % 2 === 0
                     ? "desktop:grid-cols-[730fr_350fr]"

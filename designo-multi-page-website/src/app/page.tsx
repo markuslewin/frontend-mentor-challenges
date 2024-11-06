@@ -49,10 +49,11 @@ export default function HomePage() {
             </div>
           </div>
         </div>
-        <h2 className="sr-only" id={hashLocations.services}>
-          Services
-        </h2>
-        <div className="center mt-32 grid gap-6 desktop:mt-40 desktop:grid-cols-2">
+        <h2 className="sr-only">Services</h2>
+        <div
+          className="center mt-32 grid scroll-my-8 gap-6 desktop:mt-40 desktop:grid-cols-2"
+          id={hashLocations.services}
+        >
           <WebDesignService className="desktop:row-span-2" />
           <AppDesignService />
           <GraphicDesignService />

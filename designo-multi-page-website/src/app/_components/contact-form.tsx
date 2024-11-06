@@ -122,7 +122,7 @@ function Textarea({ error, textareaProps, label }: TextareaProps) {
         {label}
       </label>
       <textarea
-        className="textbox__input peer h-[6.375rem]"
+        className="textbox__input peer min-h-[6.375rem]"
         id={textareaId}
         placeholder={label}
         required
