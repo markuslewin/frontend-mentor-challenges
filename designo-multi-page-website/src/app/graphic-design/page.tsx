@@ -1,3 +1,4 @@
+import { OverlaidFooter } from "~/app/_components/footer";
 import { AppDesignService, WebDesignService } from "~/app/_components/service";
 import {
   Description,
@@ -35,27 +36,30 @@ const projects: Project[] = [
 export default function GraphicDesignPage() {
   return (
     <>
-      <HeroContainer>
-        <Hero>
-          <Title>Graphic design</Title>
-          <Description>
-            We deliver eye-catching branding materials that are tailored to meet
-            your business objectives.
-          </Description>
-        </Hero>
-      </HeroContainer>
-      <ProjectsAndServicesContainer>
-        <Projects>
-          {projects.map((project) => {
-            return <Project key={project.name} {...project} />;
-          })}
-        </Projects>
-        <Services>
-          <AppDesignService />
-          <WebDesignService />
-        </Services>
-      </ProjectsAndServicesContainer>
-      <GetInTouch />
+      <main>
+        <HeroContainer>
+          <Hero>
+            <Title>Graphic design</Title>
+            <Description>
+              We deliver eye-catching branding materials that are tailored to
+              meet your business objectives.
+            </Description>
+          </Hero>
+        </HeroContainer>
+        <ProjectsAndServicesContainer>
+          <Projects>
+            {projects.map((project) => {
+              return <Project key={project.name} {...project} />;
+            })}
+          </Projects>
+          <Services>
+            <AppDesignService />
+            <WebDesignService />
+          </Services>
+        </ProjectsAndServicesContainer>
+        <GetInTouch />
+      </main>
+      <OverlaidFooter />
     </>
   );
 }
