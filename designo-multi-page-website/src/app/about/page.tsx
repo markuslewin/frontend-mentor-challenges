@@ -11,6 +11,7 @@ import { getMediaImageProps } from "~/app/_utils/image";
 import { GetInTouch } from "~/app/_components/get-in-touch";
 import { Locations } from "~/app/_components/locations";
 import { OverlaidFooter } from "~/app/_components/footer";
+import { type Metadata } from "next";
 
 const aboutHeroImage = getMediaImageProps({
   alt: "",
@@ -38,6 +39,10 @@ const realDealImage = getMediaImageProps({
     desktop: desktopRealDealUrl,
   },
 });
+
+export const metadata: Metadata = {
+  title: "About Us",
+};
 
 export default function AboutPage() {
   return (

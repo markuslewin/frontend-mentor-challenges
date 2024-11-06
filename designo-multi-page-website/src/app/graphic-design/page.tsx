@@ -1,3 +1,4 @@
+import { type Metadata } from "next";
 import { OverlaidFooter } from "~/app/_components/footer";
 import { AppDesignService, WebDesignService } from "~/app/_components/service";
 import {
@@ -33,13 +34,17 @@ const projects: Project[] = [
   },
 ];
 
+export const metadata: Metadata = {
+  title: "Graphic Design",
+};
+
 export default function GraphicDesignPage() {
   return (
     <>
       <main>
         <HeroContainer>
           <Hero>
-            <Title>Graphic design</Title>
+            <Title>Graphic Design</Title>
             <Description>
               We deliver eye-catching branding materials that are tailored to
               meet your business objectives.

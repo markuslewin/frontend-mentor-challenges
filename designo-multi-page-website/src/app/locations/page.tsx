@@ -1,6 +1,11 @@
+import { type Metadata } from "next";
 import { OverlaidFooter } from "~/app/_components/footer";
 import { GetInTouch } from "~/app/_components/get-in-touch";
 import { locations } from "~/app/_utils/locations";
+
+export const metadata: Metadata = {
+  title: "Locations",
+};
 
 export default function LocationsPage() {
   return (

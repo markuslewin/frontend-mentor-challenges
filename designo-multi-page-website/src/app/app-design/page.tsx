@@ -1,3 +1,4 @@
+import { type Metadata } from "next";
 import { OverlaidFooter } from "~/app/_components/footer";
 import {
   GraphicDesignService,
@@ -48,13 +49,17 @@ const projects: Project[] = [
   },
 ];
 
+export const metadata: Metadata = {
+  title: "App Design",
+};
+
 export default function AppDesignPage() {
   return (
     <>
       <main>
         <HeroContainer>
           <Hero>
-            <Title>App design</Title>
+            <Title>App Design</Title>
             <Description>
               Our mobile designs bring intuitive digital solutions to your
               customers right at their fingertips.

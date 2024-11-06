@@ -14,7 +14,10 @@ const jost = Jost({
 });
 
 export const metadata: Metadata = {
-  title: "Frontend Mentor | Designo Agency Website Challenge",
+  title: {
+    template: "%s | Designo",
+    default: "Designo",
+  },
   description: "Award-winning custom designs and digital branding solutions",
   icons: [
     {

@@ -1,3 +1,4 @@
+import { type Metadata } from "next";
 import { OverlaidFooter } from "~/app/_components/footer";
 import {
   AppDesignService,
@@ -54,13 +55,17 @@ const projects: Project[] = [
   },
 ];
 
+export const metadata: Metadata = {
+  title: "Web Design",
+};
+
 export default function WebDesignPage() {
   return (
     <>
       <main>
         <HeroContainer>
           <Hero>
-            <Title>Web design</Title>
+            <Title>Web Design</Title>
             <Description>
               We build websites that serve as powerful marketing tools and bring
               memorable brand experiences.

@@ -1,6 +1,11 @@
 import { Locations } from "~/app/_components/locations";
 import { ContactForm } from "~/app/_components/contact-form";
 import { Footer } from "~/app/_components/footer";
+import { type Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Contact Us",
+};
 
 export default function ContactPage() {
   return (
