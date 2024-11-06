@@ -56,7 +56,7 @@ export default function AboutPage() {
               <img {...aboutHeroImage.mobileImageProps} className="w-full" />
             </picture>
             <div className="region__text desktop:col-start-2 desktop:row-start-1">
-              <h1 className="text-h1">About us</h1>
+              <h1 className="text-h1">About Us</h1>
               <p className="mt-6 tablet:mt-8">
                 Founded in 2010, we are a creative agency that produces lasting
                 results for our clients. We’ve partnered with many startups,

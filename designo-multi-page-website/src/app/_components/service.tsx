@@ -63,7 +63,7 @@ function Service({ className = "", heading, image, ...props }: ServiceProps) {
         />
       </picture>
       <div className="absolute inset-0 -z-10 rounded-[inherit] bg-[hsl(0_0%_0%/0.5)] transition-colors group-hocus:bg-peach/80" />
-      <h3 className="text-h2" id={labelId}>
+      <h3 className="text-service" id={labelId}>
         {heading}
       </h3>
       <p className="flex items-center justify-center gap-4 text-[0.9375rem] leading-[1.375rem] tracking-[0.3125rem] tablet:gap-5">

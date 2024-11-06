@@ -81,6 +81,15 @@ export default {
           lineHeight: rem(26),
         },
       ],
+      // Other
+      service: [
+        clamp(28, 40),
+        {
+          fontWeight: 500,
+          letterSpacing: em(2 / 40),
+          lineHeight: clamp(36, 48),
+        },
+      ],
     },
     borderRadius: {
       inherit: "inherit",
