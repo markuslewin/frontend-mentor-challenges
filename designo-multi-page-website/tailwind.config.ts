@@ -33,6 +33,31 @@ const hocus = plugin((p) => {
   ]);
 });
 
+const clickable = plugin((p) => {
+  p.matchUtilities(
+    {
+      clickable: (size: string) => {
+        return {
+          position: "relative",
+          isolation: "isolate",
+          "&::before": {
+            content: "''",
+            display: "block",
+            width: size,
+            height: size,
+            position: "absolute",
+            "z-index": "-1",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+          },
+        };
+      },
+    },
+    { values: p.theme("size") },
+  );
+});
+
 export default {
   content: ["./src/**/*.tsx"],
   theme: {
@@ -102,5 +127,5 @@ export default {
       },
     },
   },
-  plugins: [hocus],
+  plugins: [hocus, clickable],
 } satisfies Config;
