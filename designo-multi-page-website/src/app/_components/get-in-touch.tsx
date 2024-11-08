@@ -1,5 +1,7 @@
+import Image from "next/image";
 import Link from "next/link";
 import { type ComponentPropsWithoutRef } from "react";
+import bgPatternCallToAction from "~/app/_assets/bg-pattern-call-to-action.svg";
 
 type GetInTouchProps = ComponentPropsWithoutRef<"div">;
 
@@ -9,7 +11,15 @@ export function GetInTouch({ className = "", ...props }: GetInTouchProps) {
       className={`${className} center -mb-48 tablet:-mb-20 desktop:-mb-20`}
       {...props}
     >
-      <div className="relative rounded-[0.9375rem] bg-peach py-16 text-center text-white tablet:py-14 desktop:py-20 desktop:text-start">
+      <div className="relative isolate rounded-[0.9375rem] bg-peach py-16 text-center text-white tablet:py-14 desktop:py-20 desktop:text-start">
+        <div className="absolute inset-0 -z-10 grid place-content-center overflow-hidden rounded-inherit">
+          <Image
+            className="h-[36.5rem] w-auto max-w-none translate-x-7 tablet:translate-x-9 desktop:translate-x-[7.25rem]"
+            alt=""
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+            src={bgPatternCallToAction}
+          />
+        </div>
         <div className="center-inner desktop:grid desktop:grid-cols-[minmax(auto,28.6875rem)_auto] desktop:items-center desktop:justify-between">
           <div>
             <h2 className="text-h2">Let’s talk about your project</h2>

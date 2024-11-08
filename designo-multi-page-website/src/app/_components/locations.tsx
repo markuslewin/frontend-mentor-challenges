@@ -3,15 +3,24 @@ import Link from "next/link";
 import illustrationAustraliaUrl from "~/app/_assets/illustration-australia.svg";
 import illustrationCanadaUrl from "~/app/_assets/illustration-canada.svg";
 import illustrationUnitedKingdomUrl from "~/app/_assets/illustration-united-kingdom.svg";
+import bgPatternSmallCircle from "~/app/_assets/bg-pattern-small-circle.svg";
 import { createLocationHref } from "~/app/_utils/locations";
+import { type ComponentPropsWithoutRef } from "react";
 
 export function Locations() {
   return (
-    <div className="mx-auto mt-32 box-content grid max-w-[60rem] gap-12 text-center desktop:mt-40 desktop:grid-cols-3 desktop:gap-0">
+    <div className="center mt-32 grid gap-12 text-center desktop:mt-40 desktop:grid-cols-3 desktop:gap-8">
       <h2 className="sr-only">Locations</h2>
       <div className="grid justify-items-center">
-        {/* eslint-disable-next-line @typescript-eslint/no-unsafe-assignment */}
-        <Image alt="" src={illustrationCanadaUrl} />
+        <div className="relative isolate">
+          <BgPatternSmallCircle className="rotate-90" />
+          <Image
+            className="h-auto w-[12.625rem]"
+            alt=""
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+            src={illustrationCanadaUrl}
+          />
+        </div>
         <h3 className="mt-12 text-h3 uppercase">Canada</h3>
         <p className="mt-8 grid">
           <Link className="button-peach" href={createLocationHref("Canada")}>
@@ -20,8 +29,15 @@ export function Locations() {
         </p>
       </div>
       <div className="grid justify-items-center">
-        {/* eslint-disable-next-line @typescript-eslint/no-unsafe-assignment */}
-        <Image alt="" src={illustrationAustraliaUrl} />
+        <div className="relative isolate">
+          <BgPatternSmallCircle className="" />
+          <Image
+            className="h-auto w-[12.625rem]"
+            alt=""
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+            src={illustrationAustraliaUrl}
+          />
+        </div>
         <h3 className="mt-12 text-h3 uppercase">Australia</h3>
         <p className="mt-8 grid">
           <Link className="button-peach" href={createLocationHref("Australia")}>
@@ -30,8 +46,15 @@ export function Locations() {
         </p>
       </div>
       <div className="grid justify-items-center">
-        {/* eslint-disable-next-line @typescript-eslint/no-unsafe-assignment */}
-        <Image alt="" src={illustrationUnitedKingdomUrl} />
+        <div className="relative isolate">
+          <BgPatternSmallCircle className="-rotate-90" />
+          <Image
+            className="h-auto w-[12.625rem]"
+            alt=""
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+            src={illustrationUnitedKingdomUrl}
+          />
+        </div>
         <h3 className="mt-12 text-h3 uppercase">United Kingdom</h3>
         <p className="mt-8 grid">
           <Link
@@ -43,5 +66,20 @@ export function Locations() {
         </p>
       </div>
     </div>
+  );
+}
+
+function BgPatternSmallCircle({
+  className = "",
+  ...props
+}: Partial<ComponentPropsWithoutRef<typeof Image>>) {
+  return (
+    <Image
+      className={["absolute -z-10 h-auto w-[12.625rem]", className].join(" ")}
+      alt=""
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      src={bgPatternSmallCircle}
+      {...props}
+    />
   );
 }

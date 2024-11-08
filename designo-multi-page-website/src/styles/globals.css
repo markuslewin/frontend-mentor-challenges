@@ -61,7 +61,7 @@
   }
 
   .region__text {
-    @apply max-w-[35.8125rem] justify-self-center px-6 py-20 text-center tablet:py-16 desktop:px-0 desktop:text-start;
+    @apply box-content max-w-[35.8125rem] justify-self-center px-6 py-20 text-center tablet:py-16 desktop:px-0 desktop:text-start;
   }
 
   .button {

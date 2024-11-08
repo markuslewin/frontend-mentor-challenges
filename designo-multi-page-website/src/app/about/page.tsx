@@ -13,6 +13,9 @@ import { Locations } from "~/app/_components/locations";
 import { OverlaidFooter } from "~/app/_components/footer";
 import { type Metadata } from "next";
 import { Leaf } from "~/app/_components/leaf";
+import bgPatternHeroHome from "~/app/_assets/bg-pattern-hero-home.svg";
+import bgPatternThreeCircles from "~/app/_assets/bg-pattern-three-circles.svg";
+import Image from "next/image";
 
 const aboutHeroImage = getMediaImageProps({
   alt: "",
@@ -50,22 +53,32 @@ export default function AboutPage() {
     <>
       <main>
         <div className="center tablet:px-gutter px-0">
-          <div className="region bg-peach text-white">
+          <div className="region relative isolate overflow-hidden bg-peach text-white">
             <picture className="desktop:col-span-2 desktop:col-start-4 desktop:row-start-1">
               <source {...aboutHeroImage.desktopSourceProps} />
               <source {...aboutHeroImage.tabletSourceProps} />
               <img {...aboutHeroImage.mobileImageProps} className="w-full" />
             </picture>
-            <div className="region__text desktop:col-start-2 desktop:row-start-1">
-              <h1 className="text-h1">About Us</h1>
-              <p className="mt-6 tablet:mt-8">
-                Founded in 2010, we are a creative agency that produces lasting
-                results for our clients. We’ve partnered with many startups,
-                corporations, and nonprofits alike to craft designs that make
-                real impact. We’re always looking forward to creating brands,
-                products, and digital experiences that connect with our
-                clients&apos; audiences.
-              </p>
+            <div className="relative desktop:col-start-2 desktop:row-start-1">
+              <div className="absolute inset-0 -z-10 grid justify-center">
+                <Image
+                  className="relative -top-36 left-11 h-auto w-[18.25rem] max-w-none rotate-180 tablet:-left-36 tablet:-top-[26.9375rem] tablet:w-[40rem] tablet:rotate-90 desktop:-left-1 desktop:-top-[14.4375rem]"
+                  alt=""
+                  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+                  src={bgPatternHeroHome}
+                />
+              </div>
+              <div className="region__text">
+                <h1 className="text-h1">About Us</h1>
+                <p className="mt-6 tablet:mt-8">
+                  Founded in 2010, we are a creative agency that produces
+                  lasting results for our clients. We’ve partnered with many
+                  startups, corporations, and nonprofits alike to craft designs
+                  that make real impact. We’re always looking forward to
+                  creating brands, products, and digital experiences that
+                  connect with our clients&apos; audiences.
+                </p>
+              </div>
             </div>
           </div>
         </div>
@@ -73,13 +86,21 @@ export default function AboutPage() {
           <Leaf className="-translate-x-[13.5625rem]" />
         </div>
         <div className="center tablet:px-gutter px-0">
-          <div className="region bg-[hsl(14_76%_97%)] tablet:mt-32 desktop:mt-40">
+          <div className="region relative isolate bg-[hsl(14_76%_97%)] tablet:mt-32 desktop:mt-40 desktop:grid-cols-[95fr_445fr_30fr_445fr_95fr]">
+            <div className="absolute inset-0 -z-10 grid items-center justify-center overflow-hidden desktop:items-start">
+              <Image
+                className="relative left-28 top-44 h-auto w-[36.5rem] max-w-none tablet:left-1 tablet:top-7 desktop:left-[4.1875rem] desktop:top-[3.4375rem]"
+                alt=""
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+                src={bgPatternThreeCircles}
+              />
+            </div>
             <picture className="col-span-2 row-start-1">
               <source {...worldClassTalentImage.desktopSourceProps} />
               <source {...worldClassTalentImage.tabletSourceProps} />
               <img
                 {...worldClassTalentImage.mobileImageProps}
-                className="w-full"
+                className="w-full desktop:w-auto"
               />
             </picture>
             <div className="region__text col-start-4 row-start-1">
@@ -105,11 +126,14 @@ export default function AboutPage() {
           <Leaf className="translate-x-[38.3125rem]" />
         </div>
         <div className="center tablet:px-gutter px-0">
-          <div className="region mt-32 bg-[hsl(14_76%_97%)] desktop:mt-40">
-            <picture className="desktop:col-span-2 desktop:col-start-4 desktop:row-start-1">
+          <div className="region mt-32 bg-[hsl(14_76%_97%)] desktop:mt-40 desktop:grid-cols-[95fr_445fr_30fr_445fr_95fr]">
+            <picture className="desktop:col-span-2 desktop:col-start-4 desktop:row-start-1 desktop:justify-self-end">
               <source {...realDealImage.desktopSourceProps} />
               <source {...realDealImage.tabletSourceProps} />
-              <img {...realDealImage.mobileImageProps} className="w-full" />
+              <img
+                {...realDealImage.mobileImageProps}
+                className="w-full desktop:w-auto"
+              />
             </picture>
             <div className="region__text desktop:col-start-2 desktop:row-start-1">
               <h2 className="text-h2 text-peach">The real deal</h2>
