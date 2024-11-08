@@ -9,6 +9,7 @@ import {
   GetInTouch,
   Hero,
   HeroContainer,
+  Leaf,
   Project,
   Projects,
   ProjectsAndServicesContainer,
@@ -72,6 +73,7 @@ export default function WebDesignPage() {
             </Description>
           </Hero>
         </HeroContainer>
+        <Leaf />
         <ProjectsAndServicesContainer>
           <Projects>
             {projects.map((project) => {

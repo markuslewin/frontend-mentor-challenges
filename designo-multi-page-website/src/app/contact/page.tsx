@@ -2,6 +2,7 @@ import { Locations } from "~/app/_components/locations";
 import { ContactForm } from "~/app/_components/contact-form";
 import { Footer } from "~/app/_components/footer";
 import { type Metadata } from "next";
+import { Leaf } from "~/app/_components/leaf";
 
 export const metadata: Metadata = {
   title: "Contact Us",
@@ -31,6 +32,9 @@ export default function ContactPage() {
             </div>
           </div>
           <Locations />
+          <div className="absolute -z-10 hidden w-full -translate-y-72 justify-center overflow-x-hidden desktop:grid">
+            <Leaf className="translate-x-[13.6875rem]" />
+          </div>
         </div>
       </main>
       <Footer />

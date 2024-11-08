@@ -6,6 +6,7 @@ import {
   GetInTouch,
   Hero,
   HeroContainer,
+  Leaf,
   Project,
   Projects,
   ProjectsAndServicesContainer,
@@ -51,6 +52,7 @@ export default function GraphicDesignPage() {
             </Description>
           </Hero>
         </HeroContainer>
+        <Leaf />
         <ProjectsAndServicesContainer>
           <Projects>
             {projects.map((project) => {

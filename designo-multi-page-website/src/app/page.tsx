@@ -5,6 +5,7 @@ import heroPhoneUrl from "~/app/_assets/desktop/image-hero-phone.png";
 import illustrationPassionate from "~/app/_assets/illustration-passionate.svg";
 import illustrationResourceful from "~/app/_assets/illustration-resourceful.svg";
 import illustrationFriendly from "~/app/_assets/illustration-friendly.svg";
+import bgPatternHeroHome from "~/app/_assets/bg-pattern-hero-home.svg";
 import { GetInTouch } from "~/app/_components/get-in-touch";
 import {
   AppDesignService,
@@ -12,6 +13,7 @@ import {
   WebDesignService,
 } from "~/app/_components/service";
 import { OverlaidFooter } from "~/app/_components/footer";
+import { Leaf } from "~/app/_components/leaf";
 
 const hashLocations = {
   services: "services",
@@ -22,7 +24,15 @@ export default function HomePage() {
     <>
       <main>
         <div className="center tablet:px-gutter px-0">
-          <div className="isolate overflow-hidden bg-peach pt-20 text-white tablet:rounded-[0.9375rem] tablet:pt-16 desktop:pt-32">
+          <div className="relative isolate overflow-hidden bg-peach pt-20 text-white tablet:rounded-[0.9375rem] tablet:pt-16 desktop:pt-32">
+            <div className="absolute inset-0 -z-10 grid justify-center overflow-hidden">
+              <Image
+                className="h-[39.9375rem] w-auto max-w-none translate-x-32 translate-y-24 tablet:translate-x-36 desktop:translate-x-[14.625rem] desktop:translate-y-0"
+                alt=""
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+                src={bgPatternHeroHome}
+              />
+            </div>
             <div className="center-inner desktop:grid desktop:grid-cols-[minmax(auto,33.75rem)_minmax(auto,17.5rem)] desktop:justify-between">
               <div className="text-center desktop:text-start">
                 <h1 className="text-h1">
@@ -48,6 +58,9 @@ export default function HomePage() {
               </div>
             </div>
           </div>
+        </div>
+        <div className="absolute -z-10 hidden w-full -translate-y-80 justify-center overflow-x-hidden desktop:grid">
+          <Leaf className="-translate-x-[13.5625rem]" />
         </div>
         <h2 className="sr-only">Services</h2>
         <div
@@ -78,6 +91,9 @@ export default function HomePage() {
             heading="Friendly"
             body="We are a group of enthusiastic folks who know how to put people first. Our success depends on our customers, and we strive to give them the best experience a company can provide."
           />
+        </div>
+        <div className="absolute -z-10 hidden w-full -translate-y-72 justify-center overflow-x-hidden desktop:grid">
+          <Leaf className="translate-x-[13.5625rem]" upsideDown />
         </div>
         <GetInTouch className="mt-32 tablet:mt-16 desktop:mt-40" />
       </main>

@@ -12,6 +12,7 @@ import { GetInTouch } from "~/app/_components/get-in-touch";
 import { Locations } from "~/app/_components/locations";
 import { OverlaidFooter } from "~/app/_components/footer";
 import { type Metadata } from "next";
+import { Leaf } from "~/app/_components/leaf";
 
 const aboutHeroImage = getMediaImageProps({
   alt: "",
@@ -67,6 +68,11 @@ export default function AboutPage() {
               </p>
             </div>
           </div>
+        </div>
+        <div className="absolute -z-10 hidden w-full -translate-y-40 justify-center overflow-x-hidden desktop:grid">
+          <Leaf className="-translate-x-[13.5625rem]" />
+        </div>
+        <div className="center tablet:px-gutter px-0">
           <div className="region bg-[hsl(14_76%_97%)] tablet:mt-32 desktop:mt-40">
             <picture className="col-span-2 row-start-1">
               <source {...worldClassTalentImage.desktopSourceProps} />
@@ -94,6 +100,11 @@ export default function AboutPage() {
             </div>
           </div>
           <Locations />
+        </div>
+        <div className="absolute -z-10 hidden w-full -translate-y-44 justify-center overflow-x-hidden desktop:grid">
+          <Leaf className="translate-x-[38.3125rem]" />
+        </div>
+        <div className="center tablet:px-gutter px-0">
           <div className="region mt-32 bg-[hsl(14_76%_97%)] desktop:mt-40">
             <picture className="desktop:col-span-2 desktop:col-start-4 desktop:row-start-1">
               <source {...realDealImage.desktopSourceProps} />

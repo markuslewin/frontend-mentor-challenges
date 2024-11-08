@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useId, type ComponentPropsWithoutRef } from "react";
 import type blogrUrl from "~/app/web-design/_assets/image-blogr.jpg";
 import { GetInTouch as GetInTouchBase } from "~/app/_components/get-in-touch";
+import { Leaf as LeafBase } from "~/app/_components/leaf";
 
 export interface Project {
   image: typeof blogrUrl;
@@ -25,6 +26,14 @@ export function Hero({ children, ...props }: HeroProps) {
       {...props}
     >
       <div className="center max-w-96">{children}</div>
+    </div>
+  );
+}
+
+export function Leaf() {
+  return (
+    <div className="absolute -z-10 hidden w-full -translate-y-32 justify-center overflow-x-hidden desktop:grid">
+      <LeafBase className="-translate-x-[13.5625rem]" />
     </div>
   );
 }
