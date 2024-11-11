@@ -15,6 +15,7 @@ import { type Metadata } from "next";
 import { Leaf } from "~/app/_components/leaf";
 import bgPatternHeroHome from "~/app/_assets/bg-pattern-hero-home.svg";
 import bgPatternThreeCircles from "~/app/_assets/bg-pattern-three-circles.svg";
+import bgPatternTwoCircles from "~/app/_assets/bg-pattern-two-circles.svg";
 import Image from "next/image";
 
 const aboutHeroImage = getMediaImageProps({
@@ -41,6 +42,18 @@ const realDealImage = getMediaImageProps({
     mobile: mobileRealDealUrl,
     tablet: tabletRealDealUrl,
     desktop: desktopRealDealUrl,
+  },
+});
+
+const realDealBgImage = getMediaImageProps({
+  alt: "",
+  breakpoint: {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    mobile: bgPatternThreeCircles,
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    tablet: bgPatternThreeCircles,
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    desktop: bgPatternTwoCircles,
   },
 });
 
@@ -126,7 +139,17 @@ export default function AboutPage() {
           <Leaf className="translate-x-[38.3125rem]" />
         </div>
         <div className="center tablet:px-gutter px-0">
-          <div className="region mt-32 bg-[hsl(14_76%_97%)] desktop:mt-40 desktop:grid-cols-[95fr_445fr_30fr_445fr_95fr]">
+          <div className="region relative isolate mt-32 bg-[hsl(14_76%_97%)] desktop:mt-40 desktop:grid-cols-[95fr_445fr_30fr_445fr_95fr]">
+            <div className="absolute inset-0 -z-10 grid items-center justify-center overflow-hidden desktop:items-start">
+              <picture className="">
+                <source {...realDealBgImage.desktopSourceProps} />
+                <source {...realDealBgImage.tabletSourceProps} />
+                <img
+                  {...realDealBgImage.mobileImageProps}
+                  className="relative left-28 top-44 h-auto w-[36.5rem] max-w-none tablet:left-1 tablet:top-7 desktop:-left-[16.4375rem] desktop:top-[21.6875rem]"
+                />
+              </picture>
+            </div>
             <picture className="desktop:col-span-2 desktop:col-start-4 desktop:row-start-1 desktop:justify-self-end">
               <source {...realDealImage.desktopSourceProps} />
               <source {...realDealImage.tabletSourceProps} />

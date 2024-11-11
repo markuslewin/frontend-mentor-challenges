@@ -125,6 +125,24 @@ export default {
       fontFamily: {
         sans: ["var(--font-jost)", ...fontFamily.sans],
       },
+      backgroundImage: {
+        "bg-pattern-three-circles":
+          "url('../app/_assets/bg-pattern-three-circles.svg')",
+        "bg-pattern-design-pages-intro-mobile":
+          "url('../app/_assets/bg-pattern-design-pages-intro-mobile.svg')",
+        "bg-pattern-design-pages-intro-tablet":
+          "url('../app/_assets/bg-pattern-design-pages-intro-tablet.svg')",
+        "bg-pattern-intro-app":
+          "url('../app/_assets/bg-pattern-intro-app.svg')",
+        "bg-pattern-intro-graphic":
+          "url('../app/_assets/bg-pattern-intro-graphic.svg')",
+        "bg-pattern-intro-web":
+          "url('../app/_assets/bg-pattern-intro-web.svg')",
+        "bg-pattern-hero-contact-mobile":
+          "url('../app/contact/_assets/bg-pattern-hero-contact-mobile.svg')",
+        "bg-pattern-hero-contact-desktop":
+          "url('../app/contact/_assets/bg-pattern-hero-desktop.svg')",
+      },
     },
   },
   plugins: [hocus, clickable],

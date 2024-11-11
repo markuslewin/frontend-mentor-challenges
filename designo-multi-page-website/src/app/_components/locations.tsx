@@ -3,9 +3,8 @@ import Link from "next/link";
 import illustrationAustraliaUrl from "~/app/_assets/illustration-australia.svg";
 import illustrationCanadaUrl from "~/app/_assets/illustration-canada.svg";
 import illustrationUnitedKingdomUrl from "~/app/_assets/illustration-united-kingdom.svg";
-import bgPatternSmallCircle from "~/app/_assets/bg-pattern-small-circle.svg";
+import { BgPatternSmallCircle } from "~/app/_components/bg-pattern-small-circle";
 import { createLocationHref } from "~/app/_utils/locations";
-import { type ComponentPropsWithoutRef } from "react";
 
 export function Locations() {
   return (
@@ -66,20 +65,5 @@ export function Locations() {
         </p>
       </div>
     </div>
-  );
-}
-
-function BgPatternSmallCircle({
-  className = "",
-  ...props
-}: Partial<ComponentPropsWithoutRef<typeof Image>>) {
-  return (
-    <Image
-      className={["absolute -z-10 h-auto w-[12.625rem]", className].join(" ")}
-      alt=""
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      src={bgPatternSmallCircle}
-      {...props}
-    />
   );
 }

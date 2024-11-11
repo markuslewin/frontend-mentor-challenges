@@ -14,7 +14,7 @@ export default function ContactPage() {
       <main>
         <div className="pb-32 desktop:pb-40">
           <div className="center tablet:px-gutter px-0">
-            <div className="bg-peach py-20 text-white tablet:rounded desktop:py-14">
+            <div className="bg-bg-pattern-hero-contact-mobile tablet:bg-bg-pattern-hero-contact-desktop bg-peach bg-[length:54.75rem] bg-[calc(50%+9.875rem)_top] bg-no-repeat py-20 text-white tablet:rounded tablet:bg-[length:40rem] tablet:bg-[calc(50%-9.1875rem)_-5.1875rem] desktop:bg-[calc(50%-14.875rem)_-10rem] desktop:py-14">
               <div className="center-inner grid desktop:grid-cols-[445fr_95fr_380fr]">
                 <div className="grid text-center tablet:text-start desktop:grid-rows-[80fr_auto_107fr]">
                   <div className="desktop:row-start-2">

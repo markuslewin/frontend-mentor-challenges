@@ -44,7 +44,7 @@ export default function GraphicDesignPage() {
     <>
       <main>
         <HeroContainer>
-          <Hero>
+          <Hero desktopPattern="graphic">
             <Title>Graphic Design</Title>
             <Description>
               We deliver eye-catching branding materials that are tailored to

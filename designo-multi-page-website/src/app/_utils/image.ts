@@ -31,13 +31,15 @@ export function getMediaImageProps({
       media: media.tablet,
       width: tabletImageProps.width,
       height: tabletImageProps.height,
-      srcSet: tabletImageProps.srcSet,
+      // `srcSet` not available for SVGs
+      srcSet: tabletImageProps.srcSet ?? tabletImageProps.src,
     },
     desktopSourceProps: {
       media: media.desktop,
       width: desktopImageProps.width,
       height: desktopImageProps.height,
-      srcSet: desktopImageProps.srcSet,
+      // `srcSet` not available for SVGs
+      srcSet: desktopImageProps.srcSet ?? desktopImageProps.src,
     },
   };
 }

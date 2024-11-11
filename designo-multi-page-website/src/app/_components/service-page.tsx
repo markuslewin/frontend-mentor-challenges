@@ -17,12 +17,23 @@ export function HeroContainer(props: HeroContainerProps) {
   return <div className="center tablet:px-gutter px-0" {...props} />;
 }
 
-type HeroProps = ComponentPropsWithoutRef<"div">;
+interface HeroProps extends ComponentPropsWithoutRef<"div"> {
+  desktopPattern: "app" | "graphic" | "web";
+}
 
-export function Hero({ children, ...props }: HeroProps) {
+export function Hero({ children, desktopPattern, ...props }: HeroProps) {
   return (
     <div
-      className="bg-peach py-28 text-center text-white tablet:rounded tablet:py-16"
+      className={[
+        "bg-bg-pattern-design-pages-intro-mobile tablet:bg-bg-pattern-design-pages-intro-tablet bg-peach bg-[length:54.75rem] bg-right-top bg-no-repeat py-28 text-center text-white tablet:rounded tablet:bg-[calc(50%+4.5rem)_center] tablet:py-16",
+        desktopPattern === "app"
+          ? "desktop:bg-bg-pattern-intro-app desktop:bg-[calc(50%-10.9375rem)_center]"
+          : desktopPattern === "graphic"
+            ? "desktop:bg-bg-pattern-intro-graphic desktop:bg-[calc(50%-10.9375rem)_center]"
+            : desktopPattern === "web"
+              ? "desktop:bg-bg-pattern-intro-web desktop:bg-[calc(50%+7.3125rem)_center]"
+              : "",
+      ].join(" ")}
       {...props}
     >
       <div className="center max-w-96">{children}</div>

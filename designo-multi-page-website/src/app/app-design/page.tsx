@@ -59,7 +59,7 @@ export default function AppDesignPage() {
     <>
       <main>
         <HeroContainer>
-          <Hero>
+          <Hero desktopPattern="app">
             <Title>App Design</Title>
             <Description>
               Our mobile designs bring intuitive digital solutions to your

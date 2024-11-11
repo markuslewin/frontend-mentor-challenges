@@ -65,7 +65,7 @@ export default function WebDesignPage() {
     <>
       <main>
         <HeroContainer>
-          <Hero>
+          <Hero desktopPattern="web">
             <Title>Web Design</Title>
             <Description>
               We build websites that serve as powerful marketing tools and bring

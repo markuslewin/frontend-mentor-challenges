@@ -26,10 +26,12 @@ export default function LocationsPage() {
                 key={i}
                 id={location.fragmentId}
               >
-                <div className="grid items-center bg-[hsl(14_76%_97%)] py-20 tablet:rounded">
+                <div className="bg-bg-pattern-three-circles grid items-center bg-[hsl(14_76%_97%)] bg-[length:36.5rem] bg-no-repeat py-20 tablet:rounded tablet:bg-left-bottom tablet:py-[5.5rem]">
                   <div className="grid text-center tablet:grid-cols-[75fr_540fr_75fr] tablet:text-start desktop:grid-cols-[95fr_540fr_95fr]">
                     <div className="tablet:col-start-2">
-                      <h2 className="text-h2 text-peach">{location.country}</h2>
+                      <h2 className="text-h2 tracking-normal text-peach">
+                        {location.country}
+                      </h2>
                       <div className="mt-6 grid gap-6 tablet:grid-cols-2 tablet:gap-8">
                         <h3 className="sr-only">Address</h3>
                         <p>

@@ -14,6 +14,7 @@ import {
 } from "~/app/_components/service";
 import { OverlaidFooter } from "~/app/_components/footer";
 import { Leaf } from "~/app/_components/leaf";
+import { BgPatternSmallCircle } from "~/app/_components/bg-pattern-small-circle";
 
 const hashLocations = {
   services: "services",
@@ -80,12 +81,14 @@ export default function HomePage() {
             body="Each project starts with an in-depth brand research to ensure we only create products that serve a purpose. We merge art, design, and technology into exciting new solutions."
           />
           <Adjective
+            circle="down"
             // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
             image={illustrationResourceful}
             heading="Resourceful"
             body="Everything that we do has a strategic purpose. We use an agile approach in all of our projects and value customer collaboration. It guarantees superior results that fulfill our clients’ needs."
           />
           <Adjective
+            circle="up"
             // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
             image={illustrationFriendly}
             heading="Friendly"
@@ -103,15 +106,29 @@ export default function HomePage() {
 }
 
 interface AdjectiveProps {
+  circle?: "up" | "down" | "left";
   image: ComponentProps<typeof Image>["src"];
   heading: string;
   body: string;
 }
 
-function Adjective({ body, heading, image }: AdjectiveProps) {
+function Adjective({ body, heading, image, circle }: AdjectiveProps) {
   return (
     <div className="grid justify-items-center gap-12 text-center tablet:grid-cols-[auto_1fr] tablet:items-center tablet:text-start desktop:grid-cols-none desktop:items-start desktop:text-center">
-      <Image alt="" src={image} />
+      <div className="relative isolate">
+        <BgPatternSmallCircle
+          className={[
+            circle === "up"
+              ? "rotate-90"
+              : circle === "down"
+                ? "-rotate-90"
+                : circle === "left"
+                  ? ""
+                  : "",
+          ].join(" ")}
+        />
+        <Image className="h-auto w-[12.625rem]" alt="" src={image} />
+      </div>
       <div>
         <h3 className="text-h3 uppercase">{heading}</h3>
         <p className="mt-8 tablet:mt-4 desktop:mt-8">{body}</p>
