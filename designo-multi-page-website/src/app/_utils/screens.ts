@@ -1,5 +1,5 @@
 export const screens = {
-  tablet: "40em",
+  tablet: "43.75em",
   desktop: "64em",
 };
 

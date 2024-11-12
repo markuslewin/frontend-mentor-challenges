@@ -23,7 +23,11 @@ function FooterBase({ className = "", ...props }: FooterProps) {
       <div className="center">
         <div className="flex flex-col flex-wrap items-center justify-between tablet:flex-row">
           <Link href="/">
-            <Image className="h-6 w-auto" alt="Designo" src={logoLight} />
+            <Image
+              className="h-[1.6875rem] w-auto"
+              alt="Designo"
+              src={logoLight}
+            />
           </Link>
           <div className="mt-8 self-stretch border-t-[0.0625rem] text-white/10 tablet:hidden" />
           <nav className="mt-8 tablet:mt-0" aria-describedby={footerNavLabelId}>

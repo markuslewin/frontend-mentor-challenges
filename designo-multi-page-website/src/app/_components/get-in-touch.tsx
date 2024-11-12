@@ -11,7 +11,7 @@ export function GetInTouch({ className = "", ...props }: GetInTouchProps) {
       className={`${className} center -mb-48 tablet:-mb-20 desktop:-mb-20`}
       {...props}
     >
-      <div className="relative isolate rounded-[0.9375rem] bg-peach py-16 text-center text-white tablet:py-14 desktop:py-20 desktop:text-start">
+      <div className="relative isolate rounded-[0.9375rem] bg-peach py-16 text-center text-white tablet:py-14 desktop:py-[4.5rem] desktop:text-start">
         <div className="absolute inset-0 -z-10 grid place-content-center overflow-hidden rounded-inherit">
           <Image
             className="h-[36.5rem] w-auto max-w-none translate-x-7 tablet:translate-x-9 desktop:translate-x-[7.25rem]"
@@ -22,8 +22,10 @@ export function GetInTouch({ className = "", ...props }: GetInTouchProps) {
         </div>
         <div className="center-inner desktop:grid desktop:grid-cols-[minmax(auto,28.6875rem)_auto] desktop:items-center desktop:justify-between">
           <div>
-            <h2 className="text-h2">Let’s talk about your project</h2>
-            <p className="mt-3 tablet:mt-2">
+            <h2 className="text-h2 leading-none tracking-normal">
+              Let’s talk about your project
+            </h2>
+            <p className="mt-4">
               Ready to take it to the next level? Contact us today and find out
               how our expertise can help your business grow.
             </p>

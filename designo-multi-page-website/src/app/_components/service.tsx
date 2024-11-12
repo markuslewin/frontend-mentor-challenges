@@ -50,7 +50,7 @@ function Service({ className = "", heading, image, ...props }: ServiceProps) {
 
   return (
     <Link
-      className={`${className} group relative isolate flex flex-col justify-center gap-3 rounded bg-black py-24 text-center uppercase text-white tablet:gap-6 tablet:py-14 desktop:py-28`}
+      className={`${className} group relative isolate flex flex-col justify-center rounded bg-black py-24 text-center uppercase text-white tablet:py-14 desktop:py-[6.6875rem]`}
       aria-labelledby={labelId}
       {...props}
     >
@@ -66,7 +66,7 @@ function Service({ className = "", heading, image, ...props }: ServiceProps) {
       <h3 className="text-service" id={labelId}>
         {heading}
       </h3>
-      <p className="flex items-center justify-center gap-4 text-[0.9375rem] leading-[1.375rem] tracking-[0.3125rem] tablet:gap-5">
+      <p className="mt-3 flex items-center justify-center gap-4 text-[0.9375rem] leading-[1.375rem] tracking-[0.3125rem] tablet:mt-6 tablet:gap-5">
         View projects{" "}
         <span className="text-peach">
           <Icon

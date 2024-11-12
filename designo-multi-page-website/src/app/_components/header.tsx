@@ -61,7 +61,11 @@ export function Header() {
     >
       <div className="center flex items-center justify-between py-9 tablet:flex-wrap tablet:py-16">
         <Link href="/">
-          <Image className="h-6 w-auto" alt="Designo" src={logoDark} />
+          <Image
+            className="h-[1.6875rem] w-auto"
+            alt="Designo"
+            src={logoDark}
+          />
         </Link>
         <nav aria-describedby={headerNavLabelId}>
           <h2 className="sr-only" id={headerNavLabelId}>
@@ -88,7 +92,7 @@ export function Header() {
             open={isMenuOpen}
             onOpenChange={setIsMenuOpen}
           >
-            <Collapsible.Trigger className="clickable-12 outline-offset-8">
+            <Collapsible.Trigger className="outline-offset-8 clickable-12">
               {isMenuOpen ? (
                 <Icon className="size-5" name="icon-close" />
               ) : (

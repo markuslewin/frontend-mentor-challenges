@@ -25,7 +25,7 @@ export default function HomePage() {
     <>
       <main>
         <div className="center tablet:px-gutter px-0">
-          <div className="relative isolate overflow-hidden bg-peach pt-20 text-white tablet:rounded-[0.9375rem] tablet:pt-16 desktop:pt-32">
+          <div className="relative isolate overflow-hidden bg-peach pt-20 text-white tablet:rounded-[0.9375rem] tablet:pt-16 desktop:pt-[8.3125rem]">
             <div className="absolute inset-0 -z-10 grid justify-center overflow-hidden">
               <Image
                 className="h-[39.9375rem] w-auto max-w-none translate-x-32 translate-y-24 tablet:translate-x-36 desktop:translate-x-[14.625rem] desktop:translate-y-0"
@@ -35,11 +35,11 @@ export default function HomePage() {
               />
             </div>
             <div className="center-inner desktop:grid desktop:grid-cols-[minmax(auto,33.75rem)_minmax(auto,17.5rem)] desktop:justify-between">
-              <div className="text-center desktop:text-start">
+              <div className="text-center desktop:mt-[0.8125rem] desktop:text-start">
                 <h1 className="text-h1">
                   Award-winning custom designs and digital branding solutions
                 </h1>
-                <p className="mx-auto mt-5 max-w-[27.8125rem] desktop:mx-0">
+                <p className="mx-auto mt-6 max-w-[27.8125rem] tablet:mt-7 desktop:mx-0 desktop:mt-8">
                   With over 10 years in the industry, we are experienced in
                   creating fully responsive websites, app design, and engaging
                   brand experiences. Find out more about our services.
