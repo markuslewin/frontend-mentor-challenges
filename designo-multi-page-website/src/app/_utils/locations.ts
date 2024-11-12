@@ -1,4 +1,5 @@
 import { invariant } from "@epic-web/invariant";
+import { type LatLngTuple } from "leaflet";
 import { getMediaImageProps } from "~/app/_utils/image";
 import desktopMapAustraliaUrl from "~/app/locations/_assets/desktop/image-map-australia.png";
 import desktopMapCanadaUrl from "~/app/locations/_assets/desktop/image-map-canada.png";
@@ -37,7 +38,21 @@ const mapUnitedKingdom = getMediaImageProps({
   },
 });
 
-export const locations = [
+interface Location {
+  fragmentId: string;
+  country: "Canada" | "Australia" | "United Kingdom";
+  address: {
+    name: string;
+    street: string;
+    postCode: string;
+  };
+  phone: string;
+  mail: string;
+  map: typeof mapCanada;
+  center: LatLngTuple;
+}
+
+export const locations: Location[] = [
   {
     fragmentId: "canada",
     country: "Canada",
@@ -49,6 +64,7 @@ export const locations = [
     phone: "+1 253-863-8967",
     mail: "contact@designo.co",
     map: mapCanada,
+    center: [43.70475, -79.245583],
   },
   {
     fragmentId: "australia",
@@ -61,6 +77,7 @@ export const locations = [
     phone: "(02) 6720 9092",
     mail: "contact@designo.au",
     map: mapAustralia,
+    center: [-33.109333, 151.624472],
   },
   {
     fragmentId: "united-kingdom",
@@ -73,10 +90,9 @@ export const locations = [
     phone: "078 3115 1400",
     mail: "contact@designo.uk",
     map: mapUnitedKingdom,
+    center: [53.735306, -1.329889],
   },
-] as const;
-
-type Location = (typeof locations)[number];
+];
 
 export function createLocationHref(country: Location["country"]) {
   const location = locations.find((l) => l.country === country);

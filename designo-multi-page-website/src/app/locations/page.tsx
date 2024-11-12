@@ -2,6 +2,7 @@ import { type Metadata } from "next";
 import { OverlaidFooter } from "~/app/_components/footer";
 import { GetInTouch } from "~/app/_components/get-in-touch";
 import { locations } from "~/app/_utils/locations";
+import { Map } from "~/app/_components/map";
 
 export const metadata: Metadata = {
   title: "Locations",
@@ -26,7 +27,7 @@ export default function LocationsPage() {
                 key={i}
                 id={location.fragmentId}
               >
-                <div className="bg-bg-pattern-three-circles grid items-center bg-[hsl(14_76%_97%)] bg-[length:36.5rem] bg-no-repeat py-20 tablet:rounded tablet:bg-left-bottom tablet:py-[5.5rem]">
+                <div className="grid items-center bg-[hsl(14_76%_97%)] bg-bg-pattern-three-circles bg-[length:36.5rem] bg-no-repeat py-20 tablet:rounded tablet:bg-left-bottom tablet:py-[5.5rem]">
                   <div className="grid text-center tablet:grid-cols-[75fr_540fr_75fr] tablet:text-start desktop:grid-cols-[95fr_540fr_95fr]">
                     <div className="tablet:col-start-2">
                       <h2 className="text-h2 tracking-normal text-peach">
@@ -60,18 +61,24 @@ export default function LocationsPage() {
                     </div>
                   </div>
                 </div>
-                <picture
+                <div
                   className={[
-                    "relative order-first",
+                    "relative isolate order-first aspect-[375/320] overflow-hidden tablet:aspect-auto tablet:rounded",
                     i % 2 === 0 ? "desktop:order-last" : "",
                   ].join(" ")}
                 >
-                  <source {...location.map.desktopSourceProps} />
-                  <img
-                    className="aspect-[375/320] size-full object-cover tablet:absolute tablet:aspect-auto tablet:rounded desktop:block"
-                    {...location.map.mobileImageProps}
+                  <picture>
+                    <source {...location.map.desktopSourceProps} />
+                    <img
+                      className="absolute inset-0 size-full object-cover"
+                      {...location.map.mobileImageProps}
+                    />
+                  </picture>
+                  <Map
+                    className="absolute inset-0 isolate"
+                    center={location.center}
                   />
-                </picture>
+                </div>
               </div>
             );
           })}
