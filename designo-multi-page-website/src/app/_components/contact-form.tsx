@@ -54,7 +54,7 @@ export function ContactForm() {
           error={errors.message}
         />
       </div>
-      <p className="mt-10 grid justify-center tablet:mt-6 tablet:justify-end">
+      <p className="mt-10 flex justify-center tablet:mt-6 tablet:justify-end">
         <button className="button" type="submit">
           Submit
         </button>

@@ -20,8 +20,8 @@ export function GetInTouch({ className = "", ...props }: GetInTouchProps) {
             src={bgPatternCallToAction}
           />
         </div>
-        <div className="center-inner desktop:grid desktop:grid-cols-[minmax(auto,28.6875rem)_auto] desktop:items-center desktop:justify-between">
-          <div>
+        <div className="center-inner desktop:flex desktop:items-center desktop:justify-between">
+          <div className="basis-[28.6875rem]">
             <h2 className="text-h2 leading-none tracking-normal">
               Let’s talk about your project
             </h2>
@@ -30,7 +30,7 @@ export function GetInTouch({ className = "", ...props }: GetInTouchProps) {
               how our expertise can help your business grow.
             </p>
           </div>
-          <p className="mt-8 flex justify-center desktop:mt-0">
+          <p className="mt-8 flex justify-center desktop:mt-0 desktop:grow desktop:justify-end">
             <Link className="button" href="/contact">
               Get in touch
             </Link>

@@ -21,7 +21,7 @@ export function Locations() {
           />
         </div>
         <h3 className="mt-12 text-h3 uppercase">Canada</h3>
-        <p className="mt-8 grid">
+        <p className="mt-8 flex justify-center justify-self-stretch">
           <Link className="button-peach" href={createLocationHref("Canada")}>
             See location
           </Link>
@@ -38,7 +38,7 @@ export function Locations() {
           />
         </div>
         <h3 className="mt-12 text-h3 uppercase">Australia</h3>
-        <p className="mt-8 grid">
+        <p className="mt-8 flex justify-center justify-self-stretch">
           <Link className="button-peach" href={createLocationHref("Australia")}>
             See location
           </Link>
@@ -55,7 +55,7 @@ export function Locations() {
           />
         </div>
         <h3 className="mt-12 text-h3 uppercase">United Kingdom</h3>
-        <p className="mt-8 grid">
+        <p className="mt-8 flex justify-center justify-self-stretch">
           <Link
             className="button-peach"
             href={createLocationHref("United Kingdom")}
