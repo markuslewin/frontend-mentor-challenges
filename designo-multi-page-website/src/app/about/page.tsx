@@ -108,12 +108,12 @@ export default function AboutPage() {
                 src={bgPatternThreeCircles}
               />
             </div>
-            <picture className="col-span-2 row-start-1">
+            <picture className="col-span-2 row-start-1 self-stretch">
               <source {...worldClassTalentImage.desktopSourceProps} />
               <source {...worldClassTalentImage.tabletSourceProps} />
               <img
                 {...worldClassTalentImage.mobileImageProps}
-                className="w-full desktop:w-auto"
+                className="w-full object-cover desktop:w-[29.75rem]"
               />
             </picture>
             <div className="region__text col-start-4 row-start-1">
@@ -141,7 +141,7 @@ export default function AboutPage() {
         <div className="center tablet:px-gutter px-0">
           <div className="region relative isolate mt-32 bg-[hsl(14_76%_97%)] desktop:mt-40 desktop:grid-cols-[95fr_445fr_30fr_445fr_95fr]">
             <div className="absolute inset-0 -z-10 grid items-center justify-center overflow-hidden desktop:items-start">
-              <picture className="">
+              <picture>
                 <source {...realDealBgImage.desktopSourceProps} />
                 <source {...realDealBgImage.tabletSourceProps} />
                 <img
@@ -150,12 +150,12 @@ export default function AboutPage() {
                 />
               </picture>
             </div>
-            <picture className="desktop:col-span-2 desktop:col-start-4 desktop:row-start-1 desktop:justify-self-end">
+            <picture className="desktop:col-span-2 desktop:col-start-4 desktop:row-start-1 desktop:self-stretch desktop:justify-self-end">
               <source {...realDealImage.desktopSourceProps} />
               <source {...realDealImage.tabletSourceProps} />
               <img
                 {...realDealImage.mobileImageProps}
-                className="w-full desktop:w-auto"
+                className="w-full object-cover desktop:w-[29.75rem]"
               />
             </picture>
             <div className="region__text desktop:col-start-2 desktop:row-start-1">
