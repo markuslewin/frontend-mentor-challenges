@@ -25,7 +25,7 @@ export function Hero({ children, desktopPattern, ...props }: HeroProps) {
   return (
     <div
       className={[
-        "bg-bg-pattern-design-pages-intro-mobile tablet:bg-bg-pattern-design-pages-intro-tablet bg-peach bg-[length:54.75rem] bg-right-top bg-no-repeat py-28 text-center text-white tablet:rounded tablet:bg-[calc(50%+4.5rem)_center] tablet:py-16",
+        "bg-peach bg-bg-pattern-design-pages-intro-mobile bg-[length:54.75rem] bg-right-top bg-no-repeat py-28 text-center text-white tablet:rounded tablet:bg-bg-pattern-design-pages-intro-tablet tablet:bg-[calc(50%+4.5rem)_center] tablet:py-16",
         desktopPattern === "app"
           ? "desktop:bg-bg-pattern-intro-app desktop:bg-[calc(50%-10.9375rem)_center]"
           : desktopPattern === "graphic"
@@ -83,9 +83,11 @@ export function Projects({ children, ...props }: ProjectsProps) {
   );
 }
 
-type ProjectProps = Project;
+interface ProjectProps extends Project {
+  priority?: boolean;
+}
 
-export function Project({ image, name, body }: ProjectProps) {
+export function Project({ image, name, body, priority }: ProjectProps) {
   const labelId = useId();
   const descId = useId();
 
@@ -107,7 +109,7 @@ export function Project({ image, name, body }: ProjectProps) {
           {body}
         </p>
       </div>
-      <Image className="-order-1" alt="" src={image} />
+      <Image className="-order-1" alt="" priority={priority} src={image} />
     </Link>
   );
 }

@@ -20,6 +20,7 @@ import Image from "next/image";
 
 const aboutHeroImage = getMediaImageProps({
   alt: "",
+  priority: true,
   breakpoint: {
     mobile: mobileAboutHeroUrl,
     tablet: tabletAboutHeroUrl,

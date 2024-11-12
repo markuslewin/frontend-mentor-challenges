@@ -8,18 +8,9 @@ import tabletMapAustraliaUrl from "~/app/locations/_assets/tablet/image-map-aust
 import tabletMapCanadaUrl from "~/app/locations/_assets/tablet/image-map-canada.png";
 import tabletMapUnitedKingdomUrl from "~/app/locations/_assets/tablet/image-map-uk.png";
 
-const mapAustralia = getMediaImageProps({
-  alt: "",
-  breakpoint: {
-    desktop: desktopMapAustraliaUrl,
-    // todo: Make optional
-    tablet: tabletMapAustraliaUrl,
-    mobile: tabletMapAustraliaUrl,
-  },
-});
-
 const mapCanada = getMediaImageProps({
   alt: "",
+  priority: true,
   breakpoint: {
     desktop: desktopMapCanadaUrl,
     // todo: Make optional
@@ -28,8 +19,20 @@ const mapCanada = getMediaImageProps({
   },
 });
 
+const mapAustralia = getMediaImageProps({
+  alt: "",
+  priority: true,
+  breakpoint: {
+    desktop: desktopMapAustraliaUrl,
+    // todo: Make optional
+    tablet: tabletMapAustraliaUrl,
+    mobile: tabletMapAustraliaUrl,
+  },
+});
+
 const mapUnitedKingdom = getMediaImageProps({
   alt: "",
+  priority: true,
   breakpoint: {
     desktop: desktopMapUnitedKingdomUrl,
     // todo: Make optional

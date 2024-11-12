@@ -55,8 +55,10 @@ export default function GraphicDesignPage() {
         <Leaf />
         <ProjectsAndServicesContainer>
           <Projects>
-            {projects.map((project) => {
-              return <Project key={project.name} {...project} />;
+            {projects.map((project, i) => {
+              return (
+                <Project key={project.name} {...project} priority={i < 3} />
+              );
             })}
           </Projects>
           <Services>

@@ -54,6 +54,7 @@ export default function HomePage() {
                 <Image
                   className="absolute -z-10 w-[224%] max-w-none -translate-x-[28%] -translate-y-[18%]"
                   alt=""
+                  priority
                   src={heroPhoneUrl}
                 />
               </div>

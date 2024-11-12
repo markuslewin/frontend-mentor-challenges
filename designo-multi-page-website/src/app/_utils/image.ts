@@ -3,9 +3,11 @@ import { media } from "~/app/_utils/screens";
 
 export function getMediaImageProps({
   alt,
+  priority,
   breakpoint,
 }: {
   alt: ImageProps["alt"];
+  priority?: boolean;
   breakpoint: {
     mobile: ImageProps["src"];
     tablet: ImageProps["src"];
@@ -14,14 +16,17 @@ export function getMediaImageProps({
 }) {
   const { props: mobileImageProps } = getImageProps({
     alt,
+    priority,
     src: breakpoint.mobile,
   });
   const { props: tabletImageProps } = getImageProps({
     alt: "",
+    priority,
     src: breakpoint.tablet,
   });
   const { props: desktopImageProps } = getImageProps({
     alt: "",
+    priority,
     src: breakpoint.desktop,
   });
 
