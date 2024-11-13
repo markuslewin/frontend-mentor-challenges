@@ -109,7 +109,13 @@ export function Project({ image, name, body, priority }: ProjectProps) {
           {body}
         </p>
       </div>
-      <Image className="-order-1" alt="" priority={priority} src={image} />
+      <Image
+        className="-order-1"
+        alt=""
+        priority={priority}
+        placeholder="blur"
+        src={image}
+      />
     </Link>
   );
 }

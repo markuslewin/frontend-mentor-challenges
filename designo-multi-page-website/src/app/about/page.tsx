@@ -48,6 +48,7 @@ const realDealImage = getMediaImageProps({
 
 const realDealBgImage = getMediaImageProps({
   alt: "",
+  placeholder: "empty",
   breakpoint: {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     mobile: bgPatternThreeCircles,
