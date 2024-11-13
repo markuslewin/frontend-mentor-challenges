@@ -67,7 +67,7 @@ export function Header() {
             src={logoDark}
           />
         </Link>
-        <nav aria-describedby={headerNavLabelId}>
+        <nav aria-labelledby={headerNavLabelId}>
           <h2 className="sr-only" id={headerNavLabelId}>
             Header navigation
           </h2>
