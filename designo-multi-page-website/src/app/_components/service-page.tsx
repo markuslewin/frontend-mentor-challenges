@@ -93,12 +93,12 @@ export function Project({ image, name, body, priority }: ProjectProps) {
 
   return (
     <Link
-      className="group grid items-center overflow-hidden rounded bg-[hsl(14_76%_97%)] transition-colors hocus:bg-peach tablet:grid-cols-[339fr_350fr] desktop:grid-cols-none"
+      className="group grid items-center overflow-hidden rounded bg-[hsl(14_76%_97%)] transition-colors hocus:bg-peach tablet:grid-cols-[339fr_350fr] desktop:grid-cols-none desktop:grid-rows-[auto_1fr] desktop:items-start"
       href="#"
       aria-labelledby={labelId}
       aria-describedby={descId}
     >
-      <div className="p-8 text-center">
+      <div className="grid grid-rows-[auto_1fr] p-8 text-center">
         <h3
           className="text-h3 uppercase text-peach group-hocus:text-white"
           id={labelId}

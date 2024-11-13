@@ -116,7 +116,7 @@ interface AdjectiveProps {
 
 function Adjective({ body, heading, image, circle }: AdjectiveProps) {
   return (
-    <div className="grid justify-items-center gap-12 text-center tablet:grid-cols-[auto_1fr] tablet:items-center tablet:text-start desktop:grid-cols-none desktop:items-start desktop:text-center">
+    <div className="grid justify-items-center gap-12 text-center tablet:grid-cols-[auto_1fr] tablet:items-center tablet:text-start desktop:grid-cols-none desktop:grid-rows-[auto_1fr] desktop:items-start desktop:text-center">
       <div className="relative isolate">
         <BgPatternSmallCircle
           className={[
