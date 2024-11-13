@@ -65,11 +65,11 @@
   }
 
   .button {
-    @apply basis-[9.5rem] rounded-[0.5rem] bg-white p-[1.0625rem] text-center text-[0.9375rem] font-medium uppercase leading-[1.375rem] tracking-[0.0625rem] text-dark-grey transition-colors hocus:bg-light-peach hocus:text-white;
+    @apply min-w-[9.5rem] rounded-[0.5rem] bg-white p-[1.0625rem] text-center text-[0.9375rem] font-medium uppercase leading-[1.375rem] tracking-[0.0625rem] text-dark-grey transition-colors hocus:bg-light-peach hocus:text-white;
   }
 
   .button-peach {
-    @apply basis-[9.5rem] rounded-[0.5rem] bg-peach p-[1.0625rem] text-center text-[0.9375rem] font-medium uppercase leading-[1.375rem] tracking-[0.0625rem] text-white transition-colors hocus:bg-light-peach;
+    @apply min-w-[9.5rem] rounded-[0.5rem] bg-peach p-[1.0625rem] text-center text-[0.9375rem] font-medium uppercase leading-[1.375rem] tracking-[0.0625rem] text-white transition-colors hocus:bg-light-peach;
   }
 
   .textbox {
