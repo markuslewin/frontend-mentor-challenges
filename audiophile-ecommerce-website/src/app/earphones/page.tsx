@@ -1,5 +1,5 @@
-export default function HomePage() {
-  return <h1>Home</h1>;
+export default async function EarphonesPage() {
+  return <h1>Earphones</h1>;
 }
 
 // Home
@@ -8,8 +8,10 @@ export default function HomePage() {
 // Earphones
 
 // New product
-// XX99 Mark II Headphones
-// Experience natural, lifelike audio and exceptional build quality made for the passionate music enthusiast.
+
+// YX1 wireless earphones
+// Tailor your listening experience with bespoke dynamic drivers from the new YX1 Wireless Earphones.
+// Enjoy incredible high-fidelity sound even in noisy environments with its active noise cancellation feature.
 
 // See product
 
@@ -21,16 +23,6 @@ export default function HomePage() {
 
 // Earphones
 // Shop
-
-// ZX9 speaker
-// Upgrade to premium speakers that are phenomenally built to deliver truly remarkable sound.
-// See product
-
-// ZX7 speaker
-// See product
-
-// YX1 earphones
-// See product
 
 // Bringing you the best audio gear
 // Located at the heart of New York City, Audiophile is the premier store for high end headphones,

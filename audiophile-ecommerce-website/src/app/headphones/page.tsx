@@ -1,5 +1,5 @@
-export default function HomePage() {
-  return <h1>Home</h1>;
+export default async function HeadphonesPage() {
+  return <h1>Headphones</h1>;
 }
 
 // Home
@@ -7,9 +7,25 @@ export default function HomePage() {
 // Speakers
 // Earphones
 
+// Headphones
+
 // New product
+
 // XX99 Mark II Headphones
-// Experience natural, lifelike audio and exceptional build quality made for the passionate music enthusiast.
+// The new XX99 Mark II headphones is the pinnacle of pristine audio. It redefines your premium
+// headphone experience by reproducing the balanced depth and precision of studio-quality sound.
+
+// See product
+
+// XX99 Mark I Headphones
+// As the gold standard for headphones, the classic XX99 Mark I offers detailed and accurate audio
+// reproduction for audiophiles, mixing engineers, and music aficionados alike in studios and on the go.
+
+// See product
+
+// XX59 Headphones
+// Enjoy your audio almost anywhere and customize it to your specific tastes with the XX59 headphones.
+// The stylish yet durable versatile wireless headset is a brilliant companion at home or on the move.
 
 // See product
 
@@ -21,16 +37,6 @@ export default function HomePage() {
 
 // Earphones
 // Shop
-
-// ZX9 speaker
-// Upgrade to premium speakers that are phenomenally built to deliver truly remarkable sound.
-// See product
-
-// ZX7 speaker
-// See product
-
-// YX1 earphones
-// See product
 
 // Bringing you the best audio gear
 // Located at the heart of New York City, Audiophile is the premier store for high end headphones,

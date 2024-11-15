@@ -1,5 +1,5 @@
-export default function HomePage() {
-  return <h1>Home</h1>;
+export default async function SpeakersPage() {
+  return <h1>Speakers</h1>;
 }
 
 // Home
@@ -8,8 +8,18 @@ export default function HomePage() {
 // Earphones
 
 // New product
-// XX99 Mark II Headphones
-// Experience natural, lifelike audio and exceptional build quality made for the passionate music enthusiast.
+
+// ZX9 speaker
+// Upgrade your sound system with the all new ZX9 active speaker. It’s a bookshelf speaker
+// system that offers truly wireless connectivity -- creating new possibilities for more
+// pleasing and practical audio setups.
+
+// See product
+
+// ZX7 speaker
+// Stream high quality sound wirelessly with minimal loss. The ZX7 bookshelf speaker uses
+// high-end audiophile components that represents the top of the line powered speakers for
+// home or studio use.
 
 // See product
 
@@ -21,16 +31,6 @@ export default function HomePage() {
 
 // Earphones
 // Shop
-
-// ZX9 speaker
-// Upgrade to premium speakers that are phenomenally built to deliver truly remarkable sound.
-// See product
-
-// ZX7 speaker
-// See product
-
-// YX1 earphones
-// See product
 
 // Bringing you the best audio gear
 // Located at the heart of New York City, Audiophile is the premier store for high end headphones,
