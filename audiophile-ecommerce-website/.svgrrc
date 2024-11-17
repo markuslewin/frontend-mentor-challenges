@@ -1,0 +1,11 @@
+{
+  "svgoConfig": {
+    "plugins": [
+      "removeDimensions"
+    ]
+  },
+  "svgProps": {
+    "focusable": false,
+    "aria-hidden": "true"
+  }
+}

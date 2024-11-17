@@ -2,9 +2,9 @@ import { type Config } from "tailwindcss";
 import { calculateClamp } from "utopia-core";
 import plugin from "tailwindcss/plugin";
 
-// function rem(px: number) {
-//   return `${px / 16}rem`;
-// }
+function rem(px: number) {
+  return `${px / 16}rem`;
+}
 
 function em(fraction: number) {
   return `${fraction}em`;
@@ -143,6 +143,9 @@ export default {
           lineHeight: clamp(25, 25),
         },
       ],
+    },
+    borderRadius: {
+      DEFAULT: rem(8),
     },
     extend: {},
   },
