@@ -70,28 +70,42 @@ export default function HomePage() {
   return (
     <>
       <h1 className="sr-only text-h1">Audiophile home</h1>
-      <div className="bg-[hsl(0_0%_9%)] text-FFFFFF">
-        <div>
-          <h2 className="text-h1">XX99 Mark II Headphones</h2>
-          <p className="text-overline uppercase text-FFFFFF/50">New product</p>
-          <p>
-            Experience natural, lifelike audio and exceptional build quality
-            made for the passionate music enthusiast.
-          </p>
-          <p>
-            <Link
-              className="bg-D87D4A text-sub-title uppercase text-FFFFFF transition-colors hocus:bg-fbaf85"
-              href="/product/xx99-mark-two-headphones"
-            >
-              See product
-            </Link>
-          </p>
+      <div className="desktop:center isolate overflow-hidden bg-[hsl(0_0%_9%)] text-FFFFFF">
+        <div className="desktop:layout grid desktop:py-[3.625rem]">
+          <div className="order-last col-start-1 row-start-1 grid grid-rows-[108fr_auto_112fr] px-6 text-center tablet:grid-rows-[126fr_auto_167fr] desktop:col-span-9 desktop:col-start-auto desktop:row-start-auto desktop:grid-rows-[70fr_auto_100fr] desktop:px-0 desktop:text-start">
+            <div className="row-start-2 mx-auto flex max-w-[24.75rem] flex-col desktop:mx-0">
+              <h2 className="mt-4 text-h1 tablet:mt-6">
+                XX99 Mark II Headphones
+              </h2>
+              <p className="order-first text-overline uppercase text-FFFFFF/50">
+                New product
+              </p>
+              <p className="mx-auto mt-6 max-w-[21.8125rem] desktop:mx-0">
+                Experience natural, lifelike audio and exceptional build quality
+                made for the passionate music enthusiast.
+              </p>
+              <p className="mt-7 tablet:mt-10">
+                <Link
+                  className="button-primary"
+                  href="/product/xx99-mark-two-headphones"
+                >
+                  See product
+                </Link>
+              </p>
+            </div>
+          </div>
+          <div className="col-start-1 row-start-1 desktop:relative desktop:-z-10 desktop:col-span-12 desktop:col-start-12 desktop:aspect-[570/516]">
+            <picture>
+              <source {...imageHero.desktopSourceProps} />
+              <source {...imageHero.tabletSourceProps} />
+              {/* eslint-disable-next-line jsx-a11y/alt-text */}
+              <img
+                className="w-full desktop:absolute desktop:-right-[29%] desktop:-top-[30%] desktop:w-[253%] desktop:max-w-none"
+                {...imageHero.mobileImageProps}
+              />
+            </picture>
+          </div>
         </div>
-        <picture>
-          <source {...imageHero.desktopSourceProps} />
-          <source {...imageHero.tabletSourceProps} />
-          <img {...imageHero.mobileImageProps} />
-        </picture>
       </div>
       <h2 className="sr-only">Categories</h2>
       <div className="center mt-10 tablet:mt-24 desktop:mt-[7.5rem]">
