@@ -148,6 +148,7 @@ export default {
     },
     borderRadius: {
       DEFAULT: rem(8),
+      inherit: "inherit",
     },
     extend: {},
   },

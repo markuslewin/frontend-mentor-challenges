@@ -93,42 +93,69 @@ export default function HomePage() {
           <img {...imageHero.mobileImageProps} />
         </picture>
       </div>
-      <h2>Categories</h2>
-      <div className="tablet:grid-cols-3 grid">
-        {[
-          {
-            image: imageCategoryThumbnailHeadphones,
-            name: "Headphones",
-          },
-          {
-            image: imageCategoryThumbnailSpeakers,
-            name: "Speakers",
-          },
-          {
-            image: imageCategoryThumbnailEarphones,
-            name: "Earphones",
-          },
-        ].map((category, i) => {
-          return (
-            <div className="bg-F1F1F1" key={i}>
-              <Image alt="" placeholder="blur" src={category.image} />
-              <h3 className="text-h6 text-000000">{category.name}</h3>
-              <p>
-                <Link
-                  className="text-sub-title uppercase transition-colors hocus:text-D87D4A"
-                  href="/headphones"
-                >
-                  Shop{" "}
-                  <span className="text-D87D4A">
-                    <IconArrowRight className="h-3 w-2" />
-                  </span>
-                </Link>
-              </p>
-            </div>
-          );
-        })}
+      <h2 className="sr-only">Categories</h2>
+      <div className="center mt-10 tablet:mt-24 desktop:mt-[7.5rem]">
+        <div className="layout grid gap-4 tablet:gap-0">
+          {[
+            {
+              className: "",
+              image: imageCategoryThumbnailHeadphones,
+              name: "Headphones",
+              href: "/headphones",
+            },
+            {
+              className: "tablet:col-start-9",
+              image: imageCategoryThumbnailSpeakers,
+              name: "Speakers",
+              href: "/speakers",
+            },
+            {
+              className: "tablet:col-start-[17]",
+              image: imageCategoryThumbnailEarphones,
+              name: "Earphones",
+              href: "/earphones",
+            },
+          ].map((category, i) => {
+            return (
+              <Link
+                className={`${category.className} group relative isolate rounded text-center tablet:col-span-7`}
+                key={i}
+                href={category.href}
+              >
+                <div className="aspect-[350/80] w-full" />
+                <div className="rounded-inherit bg-F1F1F1 pb-6">
+                  <div className="aspect-[350/130] w-full" />
+                  <div className="absolute inset-x-0 top-0 mx-auto grid aspect-[218/210] w-[62%] items-end">
+                    <Image
+                      className="w-full"
+                      alt=""
+                      placeholder="blur"
+                      src={category.image}
+                    />
+                  </div>
+                  <div className="relative grid justify-items-center">
+                    <h3 className="-mt-4 text-h6 text-000000">
+                      {category.name}
+                    </h3>
+                    <p className="mt-4">
+                      <span
+                        className="flex items-center gap-3 text-sub-title uppercase transition-colors group-hocus:text-D87D4A"
+                        aria-hidden="true"
+                      >
+                        Shop{" "}
+                        <span className="text-D87D4A">
+                          <IconArrowRight className="h-3 w-2" />
+                        </span>
+                      </span>
+                    </p>
+                  </div>
+                </div>
+              </Link>
+            );
+          })}
+        </div>
       </div>
-      <div className="bg-D87D4A text-FFFFFF/75">
+      <div className="mt-32 bg-D87D4A text-FFFFFF/75 tablet:mt-24 desktop:mt-[10.5rem]">
         <div>
           <h2 className="text-h1 text-FFFFFF">ZX9 speaker</h2>
           <p>
@@ -165,7 +192,7 @@ export default function HomePage() {
           <img {...imageSpeakerZx7.mobileImageProps} />
         </picture>
       </div>
-      <div className="tablet:grid-cols-2 grid">
+      <div className="grid tablet:grid-cols-2">
         <div className="order-last bg-F1F1F1 text-000000">
           <h2 className="text-h4">YX1 earphones</h2>
           <p>
@@ -180,7 +207,7 @@ export default function HomePage() {
           <img {...imageEarphonesYx1.mobileImageProps} />
         </picture>
       </div>
-      <div className="desktop:grid-cols-2 grid">
+      <div className="grid desktop:grid-cols-2">
         <picture className="desktop:order-last">
           <source {...imageBestGear.desktopSourceProps} />
           <source {...imageBestGear.tabletSourceProps} />

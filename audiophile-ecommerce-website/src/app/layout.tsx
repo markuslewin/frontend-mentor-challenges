@@ -8,6 +8,7 @@ import IconCart from "~/app/_assets/icon-cart.svg";
 import IconFacebook from "~/app/_assets/icon-facebook.svg";
 import IconInstagram from "~/app/_assets/icon-instagram.svg";
 import IconTwitter from "~/app/_assets/icon-twitter.svg";
+import { useId } from "react";
 
 const manrope = Manrope({
   subsets: ["latin"],
@@ -30,6 +31,9 @@ export const metadata: Metadata = {
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  const headerNavLabelId = useId();
+  const footerNavLabelId = useId();
+
   return (
     <html lang="en" className={`${manrope.className}`}>
       <body>
@@ -38,7 +42,10 @@ export default function RootLayout({
             <Logo className="h-[1.5625rem] w-[8.9375rem]" />
             <span className="sr-only">Audiophile</span>
           </Link>
-          <nav>
+          <nav aria-labelledby={headerNavLabelId}>
+            <h2 className="sr-only" id={headerNavLabelId}>
+              Header navigation
+            </h2>
             <ul role="list">
               {[
                 { name: "Home", href: "/" },
@@ -70,7 +77,10 @@ export default function RootLayout({
             <Logo className="h-[1.5625rem] w-[8.9375rem]" />
             <span className="sr-only">Audiophile</span>
           </Link>
-          <nav>
+          <nav aria-labelledby={footerNavLabelId}>
+            <h2 className="sr-only" id={footerNavLabelId}>
+              Footer navigation
+            </h2>
             <ul role="list">
               {[
                 { name: "Home", href: "/" },
