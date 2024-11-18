@@ -4,7 +4,7 @@
 
 @layer base {
   body {
-    @apply text-body bg-FAFAFA text-000000/50;
+    @apply bg-FAFAFA text-body text-000000/50;
   }
 
   h1,
@@ -14,5 +14,11 @@
   h5,
   h6 {
     text-transform: uppercase;
+  }
+}
+
+@layer components {
+  .button-ghost {
+    @apply border-[0.0625rem] bg-transparent text-sub-title uppercase transition-colors hocus:bg-000000 hocus:text-FFFFFF;
   }
 }

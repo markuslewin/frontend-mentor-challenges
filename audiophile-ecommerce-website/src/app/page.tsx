@@ -1,51 +1,206 @@
+import Image from "next/image";
+import Link from "next/link";
+import IconArrowRight from "~/app/_assets/icon-arrow-right.svg";
+import imageHeroDesktop from "~/app/_assets/desktop/image-hero.jpg";
+import imageHeroTablet from "~/app/_assets/tablet/image-header.jpg";
+import imageHeroMobile from "~/app/_assets/mobile/image-header.jpg";
+import imageCategoryThumbnailEarphones from "~/app/_assets/image-category-thumbnail-earphones.png";
+import imageCategoryThumbnailHeadphones from "~/app/_assets/image-category-thumbnail-headphones.png";
+import imageCategoryThumbnailSpeakers from "~/app/_assets/image-category-thumbnail-speakers.png";
+import imageSpeakerZx9Desktop from "~/app/_assets/desktop/image-speaker-zx9.png";
+import imageSpeakerZx9Tablet from "~/app/_assets/tablet/image-speaker-zx9.png";
+import imageSpeakerZx9Mobile from "~/app/_assets/mobile/image-speaker-zx9.png";
+import imageSpeakerZx7Desktop from "~/app/_assets/desktop/image-speaker-zx7.jpg";
+import imageSpeakerZx7Tablet from "~/app/_assets/tablet/image-speaker-zx7.jpg";
+import imageSpeakerZx7Mobile from "~/app/_assets/mobile/image-speaker-zx7.jpg";
+import imageEarphonesYx1Desktop from "~/app/_assets/desktop/image-earphones-yx1.jpg";
+import imageEarphonesYx1Tablet from "~/app/_assets/tablet/image-earphones-yx1.jpg";
+import imageEarphonesYx1Mobile from "~/app/_assets/mobile/image-earphones-yx1.jpg";
+import imageBestGearDesktop from "~/app/_assets/desktop/image-best-gear.jpg";
+import imageBestGearTablet from "~/app/_assets/tablet/image-best-gear.jpg";
+import imageBestGearMobile from "~/app/_assets/mobile/image-best-gear.jpg";
+import { getMediaImageProps } from "~/app/_utils/image";
+
+const imageHero = getMediaImageProps({
+  alt: "todo",
+  breakpoint: {
+    desktop: imageHeroDesktop,
+    tablet: imageHeroTablet,
+    mobile: imageHeroMobile,
+  },
+});
+
+const imageSpeakerZx9 = getMediaImageProps({
+  alt: "todo",
+  breakpoint: {
+    desktop: imageSpeakerZx9Desktop,
+    tablet: imageSpeakerZx9Tablet,
+    mobile: imageSpeakerZx9Mobile,
+  },
+});
+
+const imageSpeakerZx7 = getMediaImageProps({
+  alt: "todo",
+  breakpoint: {
+    desktop: imageSpeakerZx7Desktop,
+    tablet: imageSpeakerZx7Tablet,
+    mobile: imageSpeakerZx7Mobile,
+  },
+});
+
+const imageEarphonesYx1 = getMediaImageProps({
+  alt: "todo",
+  breakpoint: {
+    desktop: imageEarphonesYx1Desktop,
+    tablet: imageEarphonesYx1Tablet,
+    mobile: imageEarphonesYx1Mobile,
+  },
+});
+
+const imageBestGear = getMediaImageProps({
+  alt: "",
+  breakpoint: {
+    desktop: imageBestGearDesktop,
+    tablet: imageBestGearTablet,
+    mobile: imageBestGearMobile,
+  },
+});
+
 export default function HomePage() {
-  return <h1 className="text-h1">Home</h1>;
+  return (
+    <>
+      <h1 className="sr-only text-h1">Audiophile home</h1>
+      <div className="bg-[hsl(0_0%_9%)] text-FFFFFF">
+        <div>
+          <h2 className="text-h1">XX99 Mark II Headphones</h2>
+          <p className="text-overline uppercase text-FFFFFF/50">New product</p>
+          <p>
+            Experience natural, lifelike audio and exceptional build quality
+            made for the passionate music enthusiast.
+          </p>
+          <p>
+            <Link
+              className="bg-D87D4A text-sub-title uppercase text-FFFFFF transition-colors hocus:bg-fbaf85"
+              href="/product/xx99-mark-two-headphones"
+            >
+              See product
+            </Link>
+          </p>
+        </div>
+        <picture>
+          <source {...imageHero.desktopSourceProps} />
+          <source {...imageHero.tabletSourceProps} />
+          <img {...imageHero.mobileImageProps} />
+        </picture>
+      </div>
+      <h2>Categories</h2>
+      <div className="tablet:grid-cols-3 grid">
+        {[
+          {
+            image: imageCategoryThumbnailHeadphones,
+            name: "Headphones",
+          },
+          {
+            image: imageCategoryThumbnailSpeakers,
+            name: "Speakers",
+          },
+          {
+            image: imageCategoryThumbnailEarphones,
+            name: "Earphones",
+          },
+        ].map((category, i) => {
+          return (
+            <div className="bg-F1F1F1" key={i}>
+              <Image alt="" placeholder="blur" src={category.image} />
+              <h3 className="text-h6 text-000000">{category.name}</h3>
+              <p>
+                <Link
+                  className="text-sub-title uppercase transition-colors hocus:text-D87D4A"
+                  href="/headphones"
+                >
+                  Shop{" "}
+                  <span className="text-D87D4A">
+                    <IconArrowRight className="h-3 w-2" />
+                  </span>
+                </Link>
+              </p>
+            </div>
+          );
+        })}
+      </div>
+      <div className="bg-D87D4A text-FFFFFF/75">
+        <div>
+          <h2 className="text-h1 text-FFFFFF">ZX9 speaker</h2>
+          <p>
+            Upgrade to premium speakers that are phenomenally built to deliver
+            truly remarkable sound.
+          </p>
+          <p>
+            <Link
+              className="bg-000000 text-sub-title uppercase text-FFFFFF transition-colors hocus:bg-[hsl(0_0%_30%)]"
+              href="/product/zx9-speaker"
+            >
+              See product
+            </Link>
+          </p>
+        </div>
+        <picture>
+          <source {...imageSpeakerZx9.desktopSourceProps} />
+          <source {...imageSpeakerZx9.tabletSourceProps} />
+          <img {...imageSpeakerZx9.mobileImageProps} />
+        </picture>
+      </div>
+      <div className="bg-[hsl(0_0%_92%)] text-000000">
+        <div>
+          <h2 className="text-h4">ZX7 speaker</h2>
+          <p>
+            <Link className="button-ghost" href="/product/zx7-speaker">
+              See product
+            </Link>
+          </p>
+        </div>
+        <picture>
+          <source {...imageSpeakerZx7.desktopSourceProps} />
+          <source {...imageSpeakerZx7.tabletSourceProps} />
+          <img {...imageSpeakerZx7.mobileImageProps} />
+        </picture>
+      </div>
+      <div className="tablet:grid-cols-2 grid">
+        <div className="order-last bg-F1F1F1 text-000000">
+          <h2 className="text-h4">YX1 earphones</h2>
+          <p>
+            <Link className="button-ghost" href="/product/yx1-earphones">
+              See product
+            </Link>
+          </p>
+        </div>
+        <picture>
+          <source {...imageEarphonesYx1.desktopSourceProps} />
+          <source {...imageEarphonesYx1.tabletSourceProps} />
+          <img {...imageEarphonesYx1.mobileImageProps} />
+        </picture>
+      </div>
+      <div className="desktop:grid-cols-2 grid">
+        <picture className="desktop:order-last">
+          <source {...imageBestGear.desktopSourceProps} />
+          <source {...imageBestGear.tabletSourceProps} />
+          <img {...imageBestGear.mobileImageProps} />
+        </picture>
+        <div>
+          <h2 className="text-h2 text-000000">
+            Bringing you the <em className="not-italic text-D87D4A">best</em>{" "}
+            audio gear
+          </h2>
+          <p>
+            Located at the heart of New York City, Audiophile is the premier
+            store for high end headphones, earphones, speakers, and audio
+            accessories. We have a large showroom and luxury demonstration rooms
+            available for you to browse and experience a wide range of our
+            products. Stop by our store to meet some of the fantastic people who
+            make Audiophile the best place to buy your portable audio equipment.
+          </p>
+        </div>
+      </div>
+    </>
+  );
 }
-
-// Home
-// Headphones
-// Speakers
-// Earphones
-
-// New product
-// XX99 Mark II Headphones
-// Experience natural, lifelike audio and exceptional build quality made for the passionate music enthusiast.
-
-// See product
-
-// Headphones
-// Shop
-
-// Speakers
-// Shop
-
-// Earphones
-// Shop
-
-// ZX9 speaker
-// Upgrade to premium speakers that are phenomenally built to deliver truly remarkable sound.
-// See product
-
-// ZX7 speaker
-// See product
-
-// YX1 earphones
-// See product
-
-// Bringing you the best audio gear
-// Located at the heart of New York City, Audiophile is the premier store for high end headphones,
-// earphones, speakers, and audio accessories. We have a large showroom and luxury demonstration
-// rooms available for you to browse and experience a wide range of our products. Stop by our store
-// to meet some of the fantastic people who make Audiophile the best place to buy your portable
-// audio equipment.
-
-// Home
-// Headphones
-// Speakers
-// Earphones
-
-// Audiophile is an all in one stop to fulfill your audio needs. We're a small team of music lovers
-// and sound specialists who are devoted to helping you get the most out of personal audio. Come and
-// visit our demo facility - we’re open 7 days a week.
-
-// Copyright 2021. All Rights Reserved

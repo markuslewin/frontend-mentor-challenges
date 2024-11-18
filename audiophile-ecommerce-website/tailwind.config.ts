@@ -1,6 +1,7 @@
 import { type Config } from "tailwindcss";
 import { calculateClamp } from "utopia-core";
 import plugin from "tailwindcss/plugin";
+import { screens } from "./src/app/_utils/screens";
 
 function rem(px: number) {
   return `${px / 16}rem`;
@@ -59,6 +60,7 @@ const clickable = plugin((p) => {
 export default {
   content: ["./src/**/*.tsx"],
   theme: {
+    screens,
     colors: {
       inherit: "inherit",
       current: "currentColor",
