@@ -4,11 +4,11 @@ import { Manrope } from "next/font/google";
 import Link from "next/link";
 import { NavLink } from "~/app/_components/nav-link";
 import Logo from "~/app/_assets/logo.svg";
-import IconCart from "~/app/_assets/icon-cart.svg";
 import IconFacebook from "~/app/_assets/icon-facebook.svg";
 import IconInstagram from "~/app/_assets/icon-instagram.svg";
 import IconTwitter from "~/app/_assets/icon-twitter.svg";
 import { useId } from "react";
+import { Header } from "~/app/_components/header";
 
 const manrope = Manrope({
   subsets: ["latin"],
@@ -31,46 +31,12 @@ export const metadata: Metadata = {
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
-  const headerNavLabelId = useId();
   const footerNavLabelId = useId();
 
   return (
     <html lang="en" className={`${manrope.className}`}>
-      <body>
-        <header>
-          <Link href="/">
-            <Logo className="h-[1.5625rem] w-[8.9375rem]" />
-            <span className="sr-only">Audiophile</span>
-          </Link>
-          <nav aria-labelledby={headerNavLabelId}>
-            <h2 className="sr-only" id={headerNavLabelId}>
-              Header navigation
-            </h2>
-            <ul role="list">
-              {[
-                { name: "Home", href: "/" },
-                { name: "Headphones", href: "/headphones" },
-                { name: "Speakers", href: "/speakers" },
-                { name: "Earphones", href: "/earphones" },
-              ].map((link, i) => {
-                return (
-                  <li className="text-sub-title uppercase" key={i}>
-                    <NavLink
-                      className="transition-colors hocus:text-D87D4A"
-                      href={link.href}
-                    >
-                      {link.name}
-                    </NavLink>
-                  </li>
-                );
-              })}
-            </ul>
-          </nav>
-          <button>
-            <IconCart className="h-5 w-[1.4375rem]" />
-            <span className="sr-only">Cart</span>
-          </button>
-        </header>
+      <body className="grid min-h-screen grid-rows-[auto_1fr_auto]">
+        <Header />
         <main>{children}</main>
         <footer className="center mt-32 bg-101010 pb-10 text-FFFFFF/50 tablet:mt-24 desktop:mt-[12.5rem] desktop:pb-12">
           <div>
