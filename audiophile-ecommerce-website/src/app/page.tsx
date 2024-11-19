@@ -169,77 +169,105 @@ export default function HomePage() {
           })}
         </div>
       </div>
-      <div className="mt-32 bg-D87D4A text-FFFFFF/75 tablet:mt-24 desktop:mt-[10.5rem]">
-        <div>
-          <h2 className="text-h1 text-FFFFFF">ZX9 speaker</h2>
-          <p>
-            Upgrade to premium speakers that are phenomenally built to deliver
-            truly remarkable sound.
-          </p>
-          <p>
-            <Link
-              className="bg-000000 text-sub-title uppercase text-FFFFFF transition-colors hocus:bg-[hsl(0_0%_30%)]"
-              href="/product/zx9-speaker"
-            >
-              See product
-            </Link>
-          </p>
+      <div className="center">
+        <div className="desktop:layout mt-32 grid justify-items-center rounded bg-D87D4A px-6 pb-14 pt-16 text-FFFFFF/75 tablet:mt-24 tablet:py-16 desktop:mt-[10.5rem] desktop:overflow-hidden desktop:p-0">
+          <div className="mx-auto mt-10 max-w-[21.8125rem] text-center tablet:mt-20 desktop:col-span-7 desktop:col-start-[15] desktop:row-start-1 desktop:mx-0 desktop:mt-0 desktop:grid desktop:grid-rows-[133fr_auto_124fr] desktop:text-start">
+            <div className="row-start-2">
+              <h2 className="text-h1 text-FFFFFF">ZX9 speaker</h2>
+              <p className="mt-6">
+                Upgrade to premium speakers that are phenomenally built to
+                deliver truly remarkable sound.
+              </p>
+              <p className="mt-6 tablet:mt-10">
+                <Link className="button-secondary" href="/product/zx9-speaker">
+                  See product
+                </Link>
+              </p>
+            </div>
+          </div>
+          <picture className="order-first desktop:relative desktop:isolate desktop:order-none desktop:col-span-9 desktop:col-start-3 desktop:row-start-1 desktop:aspect-[445/560] desktop:w-full">
+            <source {...imageSpeakerZx9.desktopSourceProps} />
+            <source {...imageSpeakerZx9.tabletSourceProps} />
+            {/* eslint-disable-next-line jsx-a11y/alt-text */}
+            <img
+              className="max-w-40 tablet:max-w-44 desktop:absolute desktop:-bottom-[1%] desktop:left-[9%] desktop:w-[85%] desktop:max-w-full"
+              {...imageSpeakerZx9.mobileImageProps}
+            />
+          </picture>
         </div>
-        <picture>
-          <source {...imageSpeakerZx9.desktopSourceProps} />
-          <source {...imageSpeakerZx9.tabletSourceProps} />
-          <img {...imageSpeakerZx9.mobileImageProps} />
-        </picture>
       </div>
-      <div className="bg-[hsl(0_0%_92%)] text-000000">
-        <div>
-          <h2 className="text-h4">ZX7 speaker</h2>
-          <p>
-            <Link className="button-ghost" href="/product/zx7-speaker">
-              See product
-            </Link>
-          </p>
+      <div className="center mt-6 tablet:mt-8 desktop:mt-12">
+        <div className="layout grid overflow-hidden rounded bg-[hsl(0_0%_92%)] text-000000 tablet:isolate">
+          <div className="order-last col-start-1 row-start-1 grid items-center p-6 tablet:col-span-7 tablet:col-start-3 tablet:p-0">
+            <div>
+              <h2 className="text-h4">ZX7 speaker</h2>
+              <p className="mt-8">
+                <Link className="button-ghost" href="/product/zx7-speaker">
+                  See product
+                </Link>
+              </p>
+            </div>
+          </div>
+          <picture className="col-start-1 row-start-1 tablet:relative tablet:isolate tablet:-z-10 tablet:col-span-9 tablet:col-start-13 tablet:aspect-[280/320] tablet:w-full desktop:aspect-[445/320]">
+            <source {...imageSpeakerZx7.desktopSourceProps} />
+            <source {...imageSpeakerZx7.tabletSourceProps} />
+            {/* eslint-disable-next-line jsx-a11y/alt-text */}
+            <img
+              className="w-full tablet:absolute tablet:-left-[125%] tablet:bottom-0 tablet:h-full tablet:w-auto tablet:max-w-none desktop:-left-[128%]"
+              {...imageSpeakerZx7.mobileImageProps}
+            />
+          </picture>
         </div>
-        <picture>
-          <source {...imageSpeakerZx7.desktopSourceProps} />
-          <source {...imageSpeakerZx7.tabletSourceProps} />
-          <img {...imageSpeakerZx7.mobileImageProps} />
-        </picture>
       </div>
-      <div className="grid tablet:grid-cols-2">
-        <div className="order-last bg-F1F1F1 text-000000">
-          <h2 className="text-h4">YX1 earphones</h2>
-          <p>
-            <Link className="button-ghost" href="/product/yx1-earphones">
-              See product
-            </Link>
-          </p>
+      <div className="center mt-6 tablet:mt-8 desktop:mt-12">
+        <div className="tablet:layout grid auto-rows-fr gap-6 tablet:gap-0">
+          <div className="order-last grid items-center rounded bg-F1F1F1 p-6 text-000000 tablet:col-span-11 tablet:col-start-13 tablet:p-10 desktop:grid-cols-[65fr_30fr_65fr_30fr_65fr_30fr_65fr_30fr_65fr_30fr_65fr] desktop:p-0">
+            <div className="desktop:col-span-9 desktop:col-start-3">
+              <h2 className="text-h4">YX1 earphones</h2>
+              <p className="mt-8">
+                <Link className="button-ghost" href="/product/yx1-earphones">
+                  See product
+                </Link>
+              </p>
+            </div>
+          </div>
+          <picture className="tablet:col-span-11">
+            <source {...imageEarphonesYx1.desktopSourceProps} />
+            <source {...imageEarphonesYx1.tabletSourceProps} />
+            {/* eslint-disable-next-line jsx-a11y/alt-text */}
+            <img
+              className="w-full rounded"
+              {...imageEarphonesYx1.mobileImageProps}
+            />
+          </picture>
         </div>
-        <picture>
-          <source {...imageEarphonesYx1.desktopSourceProps} />
-          <source {...imageEarphonesYx1.tabletSourceProps} />
-          <img {...imageEarphonesYx1.mobileImageProps} />
-        </picture>
       </div>
-      <div className="grid desktop:grid-cols-2">
-        <picture className="desktop:order-last">
-          <source {...imageBestGear.desktopSourceProps} />
-          <source {...imageBestGear.tabletSourceProps} />
-          <img {...imageBestGear.mobileImageProps} />
-        </picture>
-        <div>
-          <h2 className="text-h2 text-000000">
-            Bringing you the <em className="not-italic text-D87D4A">best</em>{" "}
-            audio gear
-          </h2>
-          <p>
-            Located at the heart of New York City, Audiophile is the premier
-            store for high end headphones, earphones, speakers, and audio
-            accessories. We have a large showroom and luxury demonstration rooms
-            available for you to browse and experience a wide range of our
-            products. Stop by our store to meet some of the fantastic people who
-            make Audiophile the best place to buy your portable audio equipment.
-          </p>
+      <div className="center mt-32 tablet:mt-24 desktop:mt-[12.5rem]">
+        <div className="desktop:layout desktop:items-center">
+          <picture className="desktop:order-last desktop:col-span-11 desktop:col-start-13">
+            <source {...imageBestGear.desktopSourceProps} />
+            <source {...imageBestGear.tabletSourceProps} />
+            {/* eslint-disable-next-line jsx-a11y/alt-text */}
+            <img
+              className="w-full rounded"
+              {...imageBestGear.mobileImageProps}
+            />
+          </picture>
+          <div className="mx-auto mt-10 max-w-[35.8125rem] text-center tablet:mt-16 desktop:col-span-9 desktop:mx-0 desktop:mt-0 desktop:text-start">
+            <h2 className="text-h2 text-000000">
+              Bringing you the <em className="not-italic text-D87D4A">best</em>{" "}
+              audio gear
+            </h2>
+            <p className="mt-8">
+              Located at the heart of New York City, Audiophile is the premier
+              store for high end headphones, earphones, speakers, and audio
+              accessories. We have a large showroom and luxury demonstration
+              rooms available for you to browse and experience a wide range of
+              our products. Stop by our store to meet some of the fantastic
+              people who make Audiophile the best place to buy your portable
+              audio equipment.
+            </p>
+          </div>
         </div>
       </div>
     </>

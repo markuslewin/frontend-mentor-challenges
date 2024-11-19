@@ -101,6 +101,10 @@
     @apply inline-block min-w-[10rem] border-[0.0625rem] border-transparent bg-D87D4A p-[0.875rem] text-center text-sub-title uppercase text-FFFFFF transition-colors hocus:bg-fbaf85;
   }
 
+  .button-secondary {
+    @apply inline-block min-w-[10rem] border-[0.0625rem] border-transparent bg-000000 p-[0.875rem] text-center text-sub-title uppercase text-FFFFFF transition-colors hocus:bg-[hsl(0_0%_30%)];
+  }
+
   .button-ghost {
     @apply inline-block min-w-[10rem] border-[0.0625rem] bg-transparent p-[0.875rem] text-center text-sub-title uppercase transition-colors hocus:bg-000000 hocus:text-FFFFFF;
   }

@@ -72,7 +72,7 @@ export default function RootLayout({
           </button>
         </header>
         <main>{children}</main>
-        <footer className="bg-101010 text-FFFFFF">
+        <footer className="mt-32 bg-101010 text-FFFFFF tablet:mt-24 desktop:mt-[12.5rem]">
           <Link href="/">
             <Logo className="h-[1.5625rem] w-[8.9375rem]" />
             <span className="sr-only">Audiophile</span>
