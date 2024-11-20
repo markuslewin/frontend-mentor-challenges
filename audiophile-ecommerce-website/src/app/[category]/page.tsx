@@ -1,28 +1,57 @@
 import Link from "next/link";
 import { BestGear } from "~/app/_components/best-gear";
 import { Categories } from "~/app/_components/categories";
-import products from "~/app/_data/data.json";
+import _products from "~/app/_data/data.json";
 import { media } from "~/app/_utils/screens";
 
-const headphones = products
-  .filter((p) => p.category === "headphones")
-  .reverse();
+const categories = [...new Set(_products.map((p) => p.category))];
 
-export default async function HeadphonesPage() {
+function getName(category: string) {
+  if (category === "earphones") {
+    return "Earphones";
+  } else if (category === "headphones") {
+    return "Headphones";
+  } else if (category === "speakers") {
+    return "Speakers";
+  }
+  // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+  throw new Error(`Invalid category: ${category}`);
+}
+
+export const dynamicParams = false;
+
+export async function generateStaticParams() {
+  return categories.map((category) => {
+    return {
+      category,
+    };
+  });
+}
+
+export default async function CategoryPage({
+  params,
+}: {
+  params: Promise<{ category: string }>;
+}) {
+  const { category } = await params;
+
+  const name = getName(category);
+  const products = _products.filter((p) => p.category === category).reverse();
+
   return (
     <>
       <div className="center bg-000000 py-8 text-FFFFFF tablet:py-24">
         <div>
-          <h1 className="text-center text-h2">Headphones</h1>
+          <h1 className="text-center text-h2">{name}</h1>
         </div>
       </div>
       <div className="center mt-16 tablet:mt-32 desktop:mt-40">
         <div className="grid gap-32 desktop:gap-40">
-          {headphones.map((headphone, i) => {
+          {products.map((product, i) => {
             const isEven = i % 2 === 0;
 
             return (
-              <div className="layout grid items-center" key={headphone.id}>
+              <div className="layout grid items-center" key={product.id}>
                 <div
                   className={[
                     "order-last mx-auto mt-8 grid max-w-[35.75rem] text-center tablet:col-span-full tablet:mt-14 desktop:mx-0 desktop:mt-0 desktop:text-start",
@@ -30,18 +59,18 @@ export default async function HeadphonesPage() {
                   ].join(" ")}
                 >
                   <h2 className="mx-auto mt-6 max-w-96 text-h2 text-000000 tablet:mt-4 desktop:mx-0">
-                    {headphone.name}
+                    {product.name}
                   </h2>
-                  {headphone.new ? (
+                  {product.new ? (
                     <p className="order-first text-overline uppercase text-D87D4A">
                       New product
                     </p>
                   ) : null}
-                  <p className="mt-6 tablet:mt-8">{headphone.description}</p>
+                  <p className="mt-6 tablet:mt-8">{product.description}</p>
                   <p className="mt-6 desktop:mt-10">
                     <Link
                       className="button-primary"
-                      href={`/product/${headphone.slug}`}
+                      href={`/product/${product.slug}`}
                     >
                       See product
                     </Link>
@@ -57,20 +86,20 @@ export default async function HeadphonesPage() {
                     media={media.desktop}
                     width={1080}
                     height={1120}
-                    srcSet={headphone.categoryImage.desktop}
+                    srcSet={product.categoryImage.desktop}
                   />
                   <source
                     media={media.tablet}
                     width={1378}
                     height={704}
-                    srcSet={headphone.categoryImage.tablet}
+                    srcSet={product.categoryImage.tablet}
                   />
                   <img
                     className="w-full rounded"
                     alt="todo"
                     width={654}
                     height={704}
-                    src={headphone.categoryImage.mobile}
+                    src={product.categoryImage.mobile}
                   />
                 </picture>
               </div>
