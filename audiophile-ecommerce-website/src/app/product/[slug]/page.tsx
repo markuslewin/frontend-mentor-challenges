@@ -1,4 +1,8 @@
+import Link from "next/link";
+import { BestGear } from "~/app/_components/best-gear";
+import { Categories } from "~/app/_components/categories";
 import products from "~/app/_data/data.json";
+import { media } from "~/app/_utils/screens";
 
 export const dynamicParams = false;
 
@@ -14,82 +18,204 @@ export default async function ProductPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const product = products.find((p) => p.slug === slug)!;
+  const product = products.find((p) => p.slug === slug);
+  if (!product) {
+    throw new Error(`Invalid product: ${slug}`);
+  }
 
-  return <h1>Product: {product.name}</h1>;
+  return (
+    <>
+      <div className="center mt-4 tablet:mt-8 desktop:mt-20">
+        <div>
+          <Link href={`/${product.category}`}>Go Back</Link>
+        </div>
+      </div>
+      <div className="center mt-6 desktop:mt-14">
+        <div className="layout grid tablet:items-center">
+          <div className="mt-8 grid tablet:col-span-11 tablet:col-start-13 tablet:mt-0 desktop:col-[15/span_9]">
+            <h1 className="mt-6 text-h2 text-000000 tablet:mt-4">
+              {product.name}
+            </h1>
+            {product.new ? (
+              <p className="order-first text-overline uppercase text-D87D4A">
+                New product
+              </p>
+            ) : null}
+            <p className="mt-6 tablet:mt-8">{product.description}</p>
+            <p className="mt-6 tablet:mt-8">
+              <span className="sr-only">Price: </span>
+              <strong className="text-h6 text-000000">{product.price}</strong>
+            </p>
+            <form className="mt-8 desktop:mt-12">
+              <fieldset className="bg-F1F1F1 text-000000/25">
+                <legend className="sr-only">Select quantity</legend>
+                <input type="hidden" />
+                <p className="text-000000">
+                  <span>Quantity: </span> 1
+                </p>
+                <button type="button">
+                  <span aria-hidden="true">-</span>
+                  <span className="sr-only">Decrement quantity</span>
+                </button>
+                <button type="button">
+                  <span aria-hidden="true">+</span>
+                  <span className="sr-only">Increment quantity</span>
+                </button>
+              </fieldset>
+              <button className="button-primary" type="submit">
+                Add to cart
+              </button>
+            </form>
+          </div>
+          <picture className="order-first tablet:col-span-9 tablet:col-start-1 tablet:row-start-1 desktop:col-span-11">
+            <source
+              media={media.desktop}
+              width={1080}
+              height={1120}
+              srcSet={getAssetUrl(product.image.desktop)}
+            />
+            <source
+              media={media.tablet}
+              width={562}
+              height={960}
+              srcSet={getAssetUrl(product.image.tablet)}
+            />
+            <img
+              className="w-full rounded"
+              alt="todo"
+              width={654}
+              height={654}
+              srcSet={getAssetUrl(product.image.mobile)}
+            />
+          </picture>
+        </div>
+      </div>
+      <div className="center mt-20 tablet:mt-32 desktop:mt-40">
+        <div className="layout">
+          <div className="tablet:col-span-full desktop:col-[1/span_13]">
+            <h2 className="text-h3 text-000000">Features</h2>
+            <div className="mt-6 space-y-[1.5625rem] tablet:mt-8">
+              {product.features.split("\n\n").map((feature, i) => {
+                return <p key={i}>{feature}</p>;
+              })}
+            </div>
+          </div>
+          <div className="mt-20 tablet:col-span-full tablet:mt-32 tablet:grid tablet:grid-cols-[inherit] desktop:col-[17/span_7] desktop:mt-0 desktop:block">
+            <h2 className="text-h3 text-000000 tablet:col-span-9">
+              In the box
+            </h2>
+            <ul
+              className="mt-6 grid gap-2 tablet:col-[13/span_11] tablet:mt-0 desktop:mt-8"
+              role="list"
+            >
+              {product.includes.map((include, i) => {
+                return (
+                  <li className="grid grid-cols-[2.5rem_1fr]" key={i}>
+                    <span className="font-bold text-D87D4A">
+                      {include.quantity}x
+                    </span>{" "}
+                    {include.item}
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div className="center mt-20 tablet:mt-32 desktop:mt-40">
+        <div>
+          <h2 className="sr-only">Gallery</h2>
+          <picture>
+            <source
+              media={media.desktop}
+              width={445}
+              height={280}
+              srcSet={getAssetUrl(product.gallery.first.desktop)}
+            />
+            <source
+              media={media.tablet}
+              width={554}
+              height={348}
+              srcSet={getAssetUrl(product.gallery.first.tablet)}
+            />
+            <img
+              className="rounded"
+              alt="todo"
+              width={654}
+              height={348}
+              src={getAssetUrl(product.gallery.first.mobile)}
+            />
+          </picture>
+          <picture>
+            <source
+              media={media.desktop}
+              width={445}
+              height={280}
+              srcSet={getAssetUrl(product.gallery.second.desktop)}
+            />
+            <source
+              media={media.tablet}
+              width={554}
+              height={348}
+              srcSet={getAssetUrl(product.gallery.second.tablet)}
+            />
+            <img
+              className="rounded"
+              alt="todo"
+              width={654}
+              height={348}
+              src={getAssetUrl(product.gallery.second.mobile)}
+            />
+          </picture>
+          <picture>
+            <source
+              media={media.desktop}
+              width={635}
+              height={592}
+              srcSet={getAssetUrl(product.gallery.third.desktop)}
+            />
+            <source
+              media={media.tablet}
+              width={790}
+              height={736}
+              srcSet={getAssetUrl(product.gallery.third.tablet)}
+            />
+            <img
+              className="rounded"
+              alt="todo"
+              width={654}
+              height={736}
+              src={getAssetUrl(product.gallery.third.mobile)}
+            />
+          </picture>
+        </div>
+      </div>
+      <div className="center mt-32 desktop:mt-40">
+        <div>
+          <h2 className="text-h3 text-000000">You may also like</h2>
+          <div className="grid tablet:grid-cols-3">
+            {product.others.map((other, i) => {
+              return (
+                <div key={i}>
+                  <h3 className="text-h5 text-000000">{other.name}</h3>
+                  <Link
+                    className="button-primary"
+                    href={`/product/${other.slug}`}
+                  >
+                    See product
+                  </Link>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+      <Categories className="mt-32 desktop:mt-40" />
+      <BestGear className="mt-32 desktop:mt-40" />
+    </>
+  );
 }
 
-// Home
-// Headphones
-// Speakers
-// Earphones
-
-// Go back
-
-// New product
-
-// ZX9 Speaker
-// Upgrade your sound system with the all new ZX9 active speaker. It’s a bookshelf speaker
-// system that offers truly wireless connectivity -- creating new possibilities for more
-// pleasing and practical audio setups.
-
-// $4,500
-// 1
-// Add to cart
-
-// Features
-// Connect via Bluetooth or nearly any wired source. This speaker features optical, digital coaxial,
-// USB Type-B, stereo RCA, and stereo XLR inputs, allowing you to have up to five wired source devices
-// connected for easy switching. Improved bluetooth technology offers near lossless audio quality at
-// up to 328ft (100m).
-
-// Discover clear, more natural sounding highs than the competition with ZX9’s signature planar diaphragm
-// tweeter. Equally important is its powerful room-shaking bass courtesy of a 6.5” aluminum alloy bass
-// unit. You’ll be able to enjoy equal sound quality whether in a large room or small den. Furthermore, you
-// will experience new sensations from old songs since it can respond to even the subtle waveforms.
-
-// In the box
-
-// 2x Speaker unit
-// 2x Speaker cloth panel
-// 1x User manual
-// 1x 3.5mm 10m audio cable
-// 1x 10m optical cable
-
-// You may also like
-
-// ZX7 Speaker
-// See product
-
-// XX99 Mark I
-// See product
-
-// XX59
-// See product
-
-// Headphones
-// Shop
-
-// Speakers
-// Shop
-
-// Earphones
-// Shop
-
-// Bringing you the best audio gear
-// Located at the heart of New York City, Audiophile is the premier store for high end headphones,
-// earphones, speakers, and audio accessories. We have a large showroom and luxury demonstration
-// rooms available for you to browse and experience a wide range of our products. Stop by our store
-// to meet some of the fantastic people who make Audiophile the best place to buy your portable
-// audio equipment.
-
-// Home
-// Headphones
-// Speakers
-// Earphones
-
-// Audiophile is an all in one stop to fulfill your audio needs. We're a small team of music lovers
-// and sound specialists who are devoted to helping you get the most out of personal audio. Come and
-// visit our demo facility - we’re open 7 days a week.
-
-// Copyright 2021. All Rights Reserved
+function getAssetUrl(url: string) {
+  return url.replace(/^\.\//, "/");
+}
