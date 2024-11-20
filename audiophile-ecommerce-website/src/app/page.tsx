@@ -1,12 +1,7 @@
-import Image from "next/image";
 import Link from "next/link";
-import IconArrowRight from "~/app/_assets/icon-arrow-right.svg";
 import imageHeroDesktop from "~/app/_assets/desktop/image-hero.jpg";
 import imageHeroTablet from "~/app/_assets/tablet/image-header.jpg";
 import imageHeroMobile from "~/app/_assets/mobile/image-header.jpg";
-import imageCategoryThumbnailEarphones from "~/app/_assets/image-category-thumbnail-earphones.png";
-import imageCategoryThumbnailHeadphones from "~/app/_assets/image-category-thumbnail-headphones.png";
-import imageCategoryThumbnailSpeakers from "~/app/_assets/image-category-thumbnail-speakers.png";
 import imageSpeakerZx9Desktop from "~/app/_assets/desktop/image-speaker-zx9.png";
 import imageSpeakerZx9Tablet from "~/app/_assets/tablet/image-speaker-zx9.png";
 import imageSpeakerZx9Mobile from "~/app/_assets/mobile/image-speaker-zx9.png";
@@ -16,10 +11,9 @@ import imageSpeakerZx7Mobile from "~/app/_assets/mobile/image-speaker-zx7.jpg";
 import imageEarphonesYx1Desktop from "~/app/_assets/desktop/image-earphones-yx1.jpg";
 import imageEarphonesYx1Tablet from "~/app/_assets/tablet/image-earphones-yx1.jpg";
 import imageEarphonesYx1Mobile from "~/app/_assets/mobile/image-earphones-yx1.jpg";
-import imageBestGearDesktop from "~/app/_assets/desktop/image-best-gear.jpg";
-import imageBestGearTablet from "~/app/_assets/tablet/image-best-gear.jpg";
-import imageBestGearMobile from "~/app/_assets/mobile/image-best-gear.jpg";
 import { getMediaImageProps } from "~/app/_utils/image";
+import { Categories } from "~/app/_components/categories";
+import { BestGear } from "~/app/_components/best-gear";
 
 const imageHero = getMediaImageProps({
   alt: "todo",
@@ -54,15 +48,6 @@ const imageEarphonesYx1 = getMediaImageProps({
     desktop: imageEarphonesYx1Desktop,
     tablet: imageEarphonesYx1Tablet,
     mobile: imageEarphonesYx1Mobile,
-  },
-});
-
-const imageBestGear = getMediaImageProps({
-  alt: "",
-  breakpoint: {
-    desktop: imageBestGearDesktop,
-    tablet: imageBestGearTablet,
-    mobile: imageBestGearMobile,
   },
 });
 
@@ -107,68 +92,7 @@ export default function HomePage() {
           </div>
         </div>
       </div>
-      <h2 className="sr-only">Categories</h2>
-      <div className="center mt-10 tablet:mt-24 desktop:mt-[7.5rem]">
-        <div className="layout grid gap-4 tablet:gap-0">
-          {[
-            {
-              className: "",
-              image: imageCategoryThumbnailHeadphones,
-              name: "Headphones",
-              href: "/headphones",
-            },
-            {
-              className: "tablet:col-start-9",
-              image: imageCategoryThumbnailSpeakers,
-              name: "Speakers",
-              href: "/speakers",
-            },
-            {
-              className: "tablet:col-start-[17]",
-              image: imageCategoryThumbnailEarphones,
-              name: "Earphones",
-              href: "/earphones",
-            },
-          ].map((category, i) => {
-            return (
-              <Link
-                className={`${category.className} group relative isolate rounded text-center tablet:col-span-7`}
-                key={i}
-                href={category.href}
-              >
-                <div className="aspect-[350/80] w-full" />
-                <div className="rounded-inherit bg-F1F1F1 pb-6">
-                  <div className="aspect-[350/130] w-full" />
-                  <div className="absolute inset-x-0 top-0 mx-auto grid aspect-[218/210] w-[62%] items-end">
-                    <Image
-                      className="w-full"
-                      alt=""
-                      placeholder="blur"
-                      src={category.image}
-                    />
-                  </div>
-                  <div className="relative grid justify-items-center">
-                    <h3 className="-mt-4 text-h6 text-000000">
-                      {category.name}
-                    </h3>
-                    <p className="mt-4">
-                      <span
-                        className="flex items-center gap-3 text-sub-title uppercase transition-colors group-hocus:text-D87D4A"
-                        aria-hidden="true"
-                      >
-                        Shop{" "}
-                        <span className="text-D87D4A">
-                          <IconArrowRight className="h-3 w-2" />
-                        </span>
-                      </span>
-                    </p>
-                  </div>
-                </div>
-              </Link>
-            );
-          })}
-        </div>
-      </div>
+      <Categories className="mt-10 tablet:mt-24 desktop:mt-[7.5rem]" />
       <div className="center">
         <div className="desktop:layout mt-32 grid justify-items-center rounded bg-D87D4A px-6 pb-14 pt-16 text-FFFFFF/75 tablet:mt-24 tablet:py-16 desktop:mt-[10.5rem] desktop:overflow-hidden desktop:p-0">
           <div className="mx-auto mt-10 max-w-[21.8125rem] text-center tablet:mt-20 desktop:col-span-7 desktop:col-start-[15] desktop:row-start-1 desktop:mx-0 desktop:mt-0 desktop:grid desktop:grid-rows-[133fr_auto_124fr] desktop:text-start">
@@ -242,34 +166,7 @@ export default function HomePage() {
           </picture>
         </div>
       </div>
-      <div className="center mt-32 tablet:mt-24 desktop:mt-[12.5rem]">
-        <div className="desktop:layout desktop:items-center">
-          <picture className="desktop:order-last desktop:col-span-11 desktop:col-start-13">
-            <source {...imageBestGear.desktopSourceProps} />
-            <source {...imageBestGear.tabletSourceProps} />
-            {/* eslint-disable-next-line jsx-a11y/alt-text */}
-            <img
-              className="w-full rounded"
-              {...imageBestGear.mobileImageProps}
-            />
-          </picture>
-          <div className="mx-auto mt-10 max-w-[35.8125rem] text-center tablet:mt-16 desktop:col-span-9 desktop:mx-0 desktop:mt-0 desktop:text-start">
-            <h2 className="text-h2 text-000000">
-              Bringing you the <em className="not-italic text-D87D4A">best</em>{" "}
-              audio gear
-            </h2>
-            <p className="mt-8">
-              Located at the heart of New York City, Audiophile is the premier
-              store for high end headphones, earphones, speakers, and audio
-              accessories. We have a large showroom and luxury demonstration
-              rooms available for you to browse and experience a wide range of
-              our products. Stop by our store to meet some of the fantastic
-              people who make Audiophile the best place to buy your portable
-              audio equipment.
-            </p>
-          </div>
-        </div>
-      </div>
+      <BestGear className="mt-32 tablet:mt-24 desktop:mt-[12.5rem]" />
     </>
   );
 }

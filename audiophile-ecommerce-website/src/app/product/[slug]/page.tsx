@@ -1,4 +1,4 @@
-import products from "~/app/product/[slug]/_data/data.json";
+import products from "~/app/_data/data.json";
 
 export const dynamicParams = false;
 
