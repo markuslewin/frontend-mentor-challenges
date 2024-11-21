@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { BestGear } from "~/app/_components/best-gear";
 import { Categories } from "~/app/_components/categories";
+import { GoBack } from "~/app/_components/go-back";
 import products from "~/app/_data/data.json";
 import { currency } from "~/app/_utils/format";
 import { media } from "~/app/_utils/screens";
@@ -27,11 +28,7 @@ export default async function ProductPage({
 
   return (
     <>
-      <div className="center mt-4 tablet:mt-8 desktop:mt-20">
-        <div>
-          <Link href={`/${product.category}`}>Go Back</Link>
-        </div>
-      </div>
+      <GoBack href={`/${product.category}`} />
       <div className="center mt-6 desktop:mt-14">
         <div className="layout grid tablet:items-center">
           <div className="mt-8 grid tablet:col-span-11 tablet:col-start-13 tablet:mt-0 desktop:col-[15/span_9]">

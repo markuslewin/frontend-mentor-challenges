@@ -4,7 +4,7 @@
 
 @layer base {
   body {
-    @apply bg-FAFAFA text-body text-000000/50;
+    @apply bg-FAFAFA text-body text-000000/50 caret-D87D4A;
   }
 
   h1,
@@ -14,6 +14,14 @@
   h5,
   h6 {
     text-transform: uppercase;
+  }
+
+  strong {
+    @apply font-bold;
+  }
+
+  :focus {
+    @apply outline-offset-4;
   }
 }
 
