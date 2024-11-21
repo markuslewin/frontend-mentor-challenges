@@ -123,9 +123,9 @@ export default async function ProductPage({
         </div>
       </div>
       <div className="center mt-20 tablet:mt-32 desktop:mt-40">
-        <div>
+        <div className="layout grid grid-rows-[auto_1fr_auto] gap-5 tablet:gap-0">
           <h2 className="sr-only">Gallery</h2>
-          <picture>
+          <picture className="tablet:col-span-9">
             <source
               media={media.desktop}
               width={445}
@@ -139,14 +139,14 @@ export default async function ProductPage({
               srcSet={getAssetUrl(product.gallery.first.tablet)}
             />
             <img
-              className="rounded"
+              className="w-full rounded"
               alt="todo"
               width={654}
               height={348}
               src={getAssetUrl(product.gallery.first.mobile)}
             />
           </picture>
-          <picture>
+          <picture className="tablet:col-span-9 tablet:row-start-3">
             <source
               media={media.desktop}
               width={445}
@@ -160,14 +160,14 @@ export default async function ProductPage({
               srcSet={getAssetUrl(product.gallery.second.tablet)}
             />
             <img
-              className="rounded"
+              className="w-full rounded"
               alt="todo"
               width={654}
               height={348}
               src={getAssetUrl(product.gallery.second.mobile)}
             />
           </picture>
-          <picture>
+          <picture className="tablet:col-[11/span_13] tablet:row-span-3">
             <source
               media={media.desktop}
               width={635}
@@ -181,7 +181,7 @@ export default async function ProductPage({
               srcSet={getAssetUrl(product.gallery.third.tablet)}
             />
             <img
-              className="rounded"
+              className="w-full rounded"
               alt="todo"
               width={654}
               height={736}
@@ -192,18 +192,51 @@ export default async function ProductPage({
       </div>
       <div className="center mt-32 desktop:mt-40">
         <div>
-          <h2 className="text-h3 text-000000">You may also like</h2>
-          <div className="grid tablet:grid-cols-3">
+          <h2 className="text-center text-h3 text-000000">You may also like</h2>
+          <div className="layout mt-10 grid gap-14 tablet:mt-14 tablet:gap-0 desktop:mt-16">
             {product.others.map((other, i) => {
               return (
-                <div key={i}>
-                  <h3 className="text-h5 text-000000">{other.name}</h3>
-                  <Link
-                    className="button-primary"
-                    href={`/product/${other.slug}`}
-                  >
-                    See product
-                  </Link>
+                <div
+                  className={[
+                    "grid text-center tablet:col-span-7",
+                    i % 3 === 0 ? "" : "",
+                    i % 3 === 1 ? "tablet:col-start-9" : "",
+                    i % 3 === 2 ? "tablet:col-start-[17]" : "",
+                  ].join(" ")}
+                  key={i}
+                >
+                  <h3 className="mt-8 text-h5 text-000000 tablet:mt-10">
+                    {other.name}
+                  </h3>
+                  <picture className="order-first">
+                    <source
+                      media={media.desktop}
+                      width={700}
+                      height={636}
+                      srcSet={getAssetUrl(other.image.desktop)}
+                    />
+                    <source
+                      media={media.tablet}
+                      width={446}
+                      height={636}
+                      srcSet={getAssetUrl(other.image.tablet)}
+                    />
+                    <img
+                      className="w-full rounded"
+                      alt="todo"
+                      width={654}
+                      height={240}
+                      src={getAssetUrl(other.image.mobile)}
+                    />
+                  </picture>
+                  <p className="mt-8">
+                    <Link
+                      className="button-primary"
+                      href={`/product/${other.slug}`}
+                    >
+                      See product
+                    </Link>
+                  </p>
                 </div>
               );
             })}
