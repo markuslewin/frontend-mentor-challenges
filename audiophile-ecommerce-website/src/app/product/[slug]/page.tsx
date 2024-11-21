@@ -2,7 +2,9 @@ import Link from "next/link";
 import { BestGear } from "~/app/_components/best-gear";
 import { Categories } from "~/app/_components/categories";
 import products from "~/app/_data/data.json";
+import { currency } from "~/app/_utils/format";
 import { media } from "~/app/_utils/screens";
+import { nbsp } from "~/app/_utils/unicode";
 
 export const dynamicParams = false;
 
@@ -36,31 +38,42 @@ export default async function ProductPage({
             <h1 className="mt-6 text-h2 text-000000 tablet:mt-4">
               {product.name}
             </h1>
-            {product.new ? (
-              <p className="order-first text-overline uppercase text-D87D4A">
-                New product
-              </p>
-            ) : null}
+            <p className="order-first text-overline uppercase text-D87D4A">
+              {product.new ? "New product" : nbsp}
+            </p>
             <p className="mt-6 tablet:mt-8">{product.description}</p>
             <p className="mt-6 tablet:mt-8">
               <span className="sr-only">Price: </span>
-              <strong className="text-h6 text-000000">{product.price}</strong>
+              <strong className="text-h6 text-000000">
+                {currency(product.price)}
+              </strong>
             </p>
-            <form className="mt-8 desktop:mt-12">
-              <fieldset className="bg-F1F1F1 text-000000/25">
+            <form className="mt-8 flex flex-wrap gap-4 desktop:mt-12">
+              <fieldset className="grid">
                 <legend className="sr-only">Select quantity</legend>
                 <input type="hidden" />
-                <p className="text-000000">
-                  <span>Quantity: </span> 1
-                </p>
-                <button type="button">
-                  <span aria-hidden="true">-</span>
-                  <span className="sr-only">Decrement quantity</span>
-                </button>
-                <button type="button">
-                  <span aria-hidden="true">+</span>
-                  <span className="sr-only">Increment quantity</span>
-                </button>
+                <div className="inline-grid h-12 min-w-[7.5rem] grid-cols-[3rem_1fr_3rem] bg-F1F1F1 text-sub-title text-000000/25">
+                  <p
+                    className="self-center text-center text-000000"
+                    aria-live="polite"
+                  >
+                    <span className="sr-only">Quantity: </span> 1
+                  </p>
+                  <button
+                    className="order-first transition-colors hocus:text-D87D4A"
+                    type="button"
+                  >
+                    <span aria-hidden="true">-</span>
+                    <span className="sr-only">Decrement quantity</span>
+                  </button>
+                  <button
+                    className="transition-colors hocus:text-D87D4A"
+                    type="button"
+                  >
+                    <span aria-hidden="true">+</span>
+                    <span className="sr-only">Increment quantity</span>
+                  </button>
+                </div>
               </fieldset>
               <button className="button-primary" type="submit">
                 Add to cart
