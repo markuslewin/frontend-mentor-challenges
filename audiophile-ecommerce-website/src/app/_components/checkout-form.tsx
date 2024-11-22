@@ -1,9 +1,3 @@
-// todo: Fix
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-return */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-
 "use client";
 
 import {
@@ -75,7 +69,10 @@ export function CheckoutForm() {
             </Control>
             <Control meta={billingDetails.phoneNumber}>
               <Label>Phone Number</Label>
-              <Input options={{ type: "tel" }} placeholder="alexei@mail.com" />
+              <Input
+                options={{ type: "tel" }}
+                placeholder="+1 (202) 555-0136"
+              />
               <ErrorMessage />
             </Control>
           </div>
@@ -126,7 +123,6 @@ export function CheckoutForm() {
               <div className="mt-4 grid gap-4 tablet:mt-0">
                 {getCollectionProps(paymentDetails.paymentMethod, {
                   type: "radio",
-                  // todo: Get from schema
                   options: [
                     "e-money",
                     "cash-on-delivery",

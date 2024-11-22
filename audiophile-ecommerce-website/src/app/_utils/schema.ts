@@ -1,11 +1,9 @@
 import { z } from "zod";
 
-// todo: Transform/validate non-strings
-// todo: Correct error messages
 export const checkoutSchema = z.object({
   billingDetails: z.object({
     name: z.string(),
-    emailAddress: z.string().email(),
+    emailAddress: z.string().email({ message: "Wrong format" }),
     phoneNumber: z.string(),
   }),
   shippingInfo: z.object({

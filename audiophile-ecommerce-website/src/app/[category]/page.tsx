@@ -96,7 +96,7 @@ export default async function CategoryPage({
                   />
                   <img
                     className="w-full rounded"
-                    alt="todo"
+                    alt=""
                     width={654}
                     height={704}
                     src={product.categoryImage.mobile}

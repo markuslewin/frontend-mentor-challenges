@@ -10,6 +10,8 @@ export async function checkout(prevState: unknown, formData: FormData) {
     return submission.reply();
   }
 
+  console.log("Success:", submission.value);
+
   // todo: Success dialog
   redirect("/");
 }

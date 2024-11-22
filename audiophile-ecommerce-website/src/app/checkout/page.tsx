@@ -4,8 +4,7 @@ import { GoBack } from "~/app/_components/go-back";
 export default async function CheckoutPage() {
   return (
     <>
-      {/* todo: Fix */}
-      <GoBack href="#" />
+      <GoBack />
       <CheckoutForm />
     </>
   );

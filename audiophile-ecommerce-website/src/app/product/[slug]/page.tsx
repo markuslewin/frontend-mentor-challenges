@@ -28,7 +28,7 @@ export default async function ProductPage({
 
   return (
     <>
-      <GoBack href={`/${product.category}`} />
+      <GoBack />
       <div className="center mt-6 desktop:mt-14">
         <div className="layout grid tablet:items-center">
           <div className="mt-8 grid tablet:col-span-11 tablet:col-start-13 tablet:mt-0 desktop:col-[15/span_9]">
@@ -92,7 +92,7 @@ export default async function ProductPage({
             />
             <img
               className="w-full rounded"
-              alt="todo"
+              alt=""
               width={654}
               height={654}
               srcSet={getAssetUrl(product.image.mobile)}
@@ -150,7 +150,7 @@ export default async function ProductPage({
             />
             <img
               className="w-full rounded"
-              alt="todo"
+              alt=""
               width={654}
               height={348}
               src={getAssetUrl(product.gallery.first.mobile)}
@@ -171,7 +171,7 @@ export default async function ProductPage({
             />
             <img
               className="w-full rounded"
-              alt="todo"
+              alt=""
               width={654}
               height={348}
               src={getAssetUrl(product.gallery.second.mobile)}
@@ -192,7 +192,7 @@ export default async function ProductPage({
             />
             <img
               className="w-full rounded"
-              alt="todo"
+              alt=""
               width={654}
               height={736}
               src={getAssetUrl(product.gallery.third.mobile)}
@@ -233,7 +233,7 @@ export default async function ProductPage({
                     />
                     <img
                       className="w-full rounded"
-                      alt="todo"
+                      alt=""
                       width={654}
                       height={240}
                       src={getAssetUrl(other.image.mobile)}
