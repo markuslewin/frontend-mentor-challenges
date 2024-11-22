@@ -72,6 +72,8 @@ export default {
       fbaf85: "hsl(21 94% 75%)",
       FFFFFF: "hsl(0 0% 100%)",
       "000000": "hsl(0 0% 0%)",
+      // Not in system
+      CD2C2C: "hsl(0 65% 49%)",
     },
     fontSize: {
       h1: [
@@ -150,7 +152,11 @@ export default {
       DEFAULT: rem(8),
       inherit: "inherit",
     },
-    extend: {},
+    extend: {
+      aria: {
+        invalid: 'invalid="true"',
+      },
+    },
   },
   plugins: [hocus, clickable],
 } satisfies Config;
