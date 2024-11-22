@@ -112,66 +112,85 @@ export function CheckoutForm() {
           </div>
           <div className="mt-8 tablet:mt-[3.8125rem]">
             <h3 className="text-sub-title text-D87D4A">Payment details</h3>
-            <fieldset {...getFieldsetProps(paymentDetails.paymentMethod)}>
-              <legend>Payment method</legend>
-              {getCollectionProps(paymentDetails.paymentMethod, {
-                type: "radio",
-                // todo: Get from schema
-                options: [
-                  "e-money",
-                  "cash-on-delivery",
-                ] satisfies PaymentMethod[],
-              }).map(
-                ({
-                  // Not allowed to spread key into JSX
-                  key: _key,
-                  ...props
-                }) => {
-                  return (
-                    <label key={props.id}>
-                      <input {...props} className="peer" />
-                      <span>
-                        {props.value === "e-money"
-                          ? "e-Money"
-                          : props.value === "cash-on-delivery"
-                            ? "Cash on Delivery"
-                            : undefined}
-                      </span>
-                    </label>
-                  );
-                },
-              )}
+            <fieldset
+              {...getFieldsetProps(paymentDetails.paymentMethod)}
+              className="mt-4 grid gap-x-4 tablet:grid-cols-2"
+            >
+              <legend className="sr-only">Payment method</legend>
+              <p
+                className="text-[0.75rem] font-bold leading-[1rem] -tracking-[0.013125rem] text-000000"
+                aria-hidden="true"
+              >
+                Payment method
+              </p>
+              <div className="mt-4 grid gap-4 tablet:mt-0">
+                {getCollectionProps(paymentDetails.paymentMethod, {
+                  type: "radio",
+                  // todo: Get from schema
+                  options: [
+                    "e-money",
+                    "cash-on-delivery",
+                  ] satisfies PaymentMethod[],
+                }).map(
+                  ({
+                    // Not allowed to spread key into JSX
+                    key: _key,
+                    ...props
+                  }) => {
+                    return (
+                      <label
+                        className="grid grid-cols-[auto_1fr] items-center gap-4"
+                        key={props.id}
+                      >
+                        <input {...props} className="peer sr-only" />
+                        <span className="text-CFCFCF col-span-full row-start-1 h-14 rounded border-[0.0625rem] transition-colors peer-checked:text-D87D4A peer-hover:text-D87D4A" />
+                        <span className="rounded-full border-CFCFCF col-start-1 row-start-1 ml-4 inline-grid size-5 place-content-center border-[0.0625rem] text-D87D4A before:inline-block before:size-[0.625rem] before:rounded-inherit before:border-t-[0.625rem] before:opacity-0 before:transition-opacity peer-checked:before:opacity-100 peer-focus-visible:outline" />
+                        <span className="col-start-2 row-start-1 text-[0.875rem] font-bold leading-[1.1875rem] -tracking-[0.015625rem] text-000000">
+                          {props.value === "e-money"
+                            ? "e-Money"
+                            : props.value === "cash-on-delivery"
+                              ? "Cash on Delivery"
+                              : null}
+                        </span>
+                      </label>
+                    );
+                  },
+                )}
+              </div>
             </fieldset>
-            {/* todo: If e-money */}
-            <div className="mt-4 grid gap-x-4 gap-y-6 tablet:grid-cols-2">
-              <Control meta={paymentDetails.eMoneyNumber}>
-                <Label>e-Money Number</Label>
-                <Input options={{ type: "text" }} placeholder="238521993" />
-                <ErrorMessage />
-              </Control>
-              <Control meta={paymentDetails.eMoneyPin}>
-                <Label>e-Money PIN</Label>
-                <Input options={{ type: "text" }} placeholder="6891" />
-                <ErrorMessage />
-              </Control>
+            {paymentDetails.paymentMethod.value === "e-money" ? (
+              <div className="mt-8 grid gap-x-4 gap-y-6 tablet:mt-6 tablet:grid-cols-2">
+                <Control meta={paymentDetails.eMoneyNumber}>
+                  <Label>e-Money Number</Label>
+                  <Input options={{ type: "text" }} placeholder="238521993" />
+                  <ErrorMessage />
+                </Control>
+                <Control meta={paymentDetails.eMoneyPin}>
+                  <Label>e-Money PIN</Label>
+                  <Input options={{ type: "text" }} placeholder="6891" />
+                  <ErrorMessage />
+                </Control>
+              </div>
+            ) : null}
+          </div>
+          {paymentDetails.paymentMethod.value === "cash-on-delivery" ? (
+            <div className="mt-8 flex flex-wrap gap-x-8 gap-y-4">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                className="mt-[0.8125rem] size-12"
+                alt=""
+                width="48"
+                height="48"
+                src="/assets/checkout/icon-cash-on-delivery.svg"
+              />
+              <p className="grow basis-64">
+                The ‘Cash on Delivery’ option enables you to pay in cash when
+                our delivery courier arrives at your residence. Just make sure
+                your address is correct so that your order will not be
+                cancelled.
+              </p>
             </div>
-          </div>
-          {/* todo: If cash-on-delivery */}
-          <div className="grid grid-cols-[auto_1fr] items-center gap-8">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              className="size-12"
-              alt=""
-              width="48"
-              height="48"
-              src="/assets/checkout/icon-cash-on-delivery.svg"
-            />
-            <p>
-              The ‘Cash on Delivery’ option enables you to pay in cash when our
-              delivery courier arrives at your residence. Just make sure your
-              address is correct so that your order will not be cancelled.
-            </p>
-          </div>
+          ) : null}
         </div>
         <div className="rounded bg-FFFFFF px-6 py-8 text-000000/50 tablet:p-8 desktop:col-[17/span_7]">
           <h2 className="text-h6 text-000000">Summary</h2>
@@ -311,7 +330,7 @@ function Input(props: InputProps) {
 
   return (
     <input
-      className="aria-invalid:border-CD2C2C aria-invalid:px-[1.375rem] aria-invalid:border-[0.125rem] peer col-span-full row-start-2 h-14 w-full rounded border-[0.0625rem] border-[hsl(0_0%_81%)] px-[1.4375rem] text-[0.875rem] font-bold leading-[1.1875rem] -tracking-[0.015625rem] text-000000 transition-colors placeholder:text-000000/40 hocus:border-D87D4A"
+      className="aria-invalid:border-CD2C2C aria-invalid:px-[1.375rem] aria-invalid:border-[0.125rem] border-CFCFCF peer col-span-full row-start-2 h-14 w-full rounded border-[0.0625rem] px-[1.4375rem] text-[0.875rem] font-bold leading-[1.1875rem] -tracking-[0.015625rem] text-000000 transition-colors placeholder:text-000000/40 hocus:border-D87D4A"
       {...getInputProps(meta, props.options)}
       {...props}
     />

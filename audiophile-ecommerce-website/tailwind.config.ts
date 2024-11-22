@@ -1,6 +1,7 @@
 import { type Config } from "tailwindcss";
 import { calculateClamp } from "utopia-core";
 import plugin from "tailwindcss/plugin";
+import defaultTheme from "tailwindcss/defaultTheme";
 import { screens } from "./src/app/_utils/screens";
 
 function rem(px: number) {
@@ -74,6 +75,7 @@ export default {
       "000000": "hsl(0 0% 0%)",
       // Not in system
       CD2C2C: "hsl(0 65% 49%)",
+      CFCFCF: "hsl(0 0% 81%)",
     },
     fontSize: {
       h1: [
@@ -150,6 +152,7 @@ export default {
     },
     borderRadius: {
       DEFAULT: rem(8),
+      full: defaultTheme.borderRadius.full,
       inherit: "inherit",
     },
     extend: {
