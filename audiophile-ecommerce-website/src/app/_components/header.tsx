@@ -2,69 +2,37 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useId, useRef, useState } from "react";
+import {
+  type ComponentPropsWithoutRef,
+  type ComponentPropsWithRef,
+  useEffect,
+  useId,
+  useRef,
+  useState,
+} from "react";
 import Logo from "~/app/_assets/logo.svg";
 import IconCart from "~/app/_assets/icon-cart.svg";
 import IconHamburger from "~/app/_assets/icon-hamburger.svg";
 import { NavLink } from "~/app/_components/nav-link";
 import { currency } from "~/app/_utils/format";
 import { QuantitySelect } from "~/app/_components/quantity-select";
+import { Categories } from "~/app/_components/categories";
 
 export function Header() {
   const headerNavLabelId = useId();
-  const [isCartExpanded, setIsCartExpanded] = useState(false);
-  const cartTriggerRef = useRef<HTMLButtonElement>(null);
-  const cartContentRef = useRef<HTMLDivElement>(null);
+  const menu = useDisclosure();
+  const cart = useDisclosure();
   const pathname = usePathname();
 
   const hasBorder = ["/", "/headphones", "/speakers", "/earphones"].includes(
     pathname,
   );
 
-  // Click outside
-  useEffect(() => {
-    function handleClick(e: MouseEvent) {
-      if (
-        e.target instanceof Node &&
-        !cartContentRef.current!.contains(e.target)
-      ) {
-        setIsCartExpanded(false);
-      }
-    }
-
-    if (isCartExpanded) {
-      document.addEventListener("click", handleClick);
-    }
-    return () => {
-      document.removeEventListener("click", handleClick);
-    };
-  }, [isCartExpanded]);
-
-  // Focus outside
-  useEffect(() => {
-    function handleFocusin(e: FocusEvent) {
-      if (
-        e.target !== cartTriggerRef.current &&
-        e.target instanceof Node &&
-        !cartContentRef.current!.contains(e.target)
-      ) {
-        setIsCartExpanded(false);
-      }
-    }
-
-    if (isCartExpanded) {
-      document.addEventListener("focusin", handleFocusin);
-    }
-    return () => {
-      document.removeEventListener("focusin", handleFocusin);
-    };
-  }, [isCartExpanded]);
-
   return (
     <header
       className={[
         "bg-000000 text-FFFFFF",
-        isCartExpanded ? "sticky top-0 z-10" : "",
+        menu.isExpanded || cart.isExpanded ? "sticky top-0 z-10" : "",
       ].join(" ")}
     >
       <div className="center">
@@ -83,10 +51,30 @@ export function Header() {
             <h2 className="sr-only" id={headerNavLabelId}>
               Header navigation
             </h2>
-            <button className="desktop:hidden">
-              <IconHamburger className="h-[0.9375rem] w-4" />
-              <span className="sr-only">Menu</span>
-            </button>
+            <div className="desktop:hidden">
+              <button
+                className="transition-colors clickable-12 hocus:text-D87D4A"
+                {...menu.triggerProps}
+              >
+                <IconHamburger className="h-[0.9375rem] w-4" />
+                <span className="sr-only">Menu</span>
+              </button>
+              {menu.isExpanded ? (
+                <Overlay>
+                  <div
+                    className="rounded-b bg-FFFFFF pb-9 pt-8 text-000000/50 tablet:pb-[4.1875rem] tablet:pt-14"
+                    {...menu.contentProps}
+                  >
+                    <Categories
+                      headingLevel={3}
+                      onSelect={() => {
+                        menu.setIsExpanded(false);
+                      }}
+                    />
+                  </div>
+                </Overlay>
+              ) : null}
+            </div>
             <ul
               className="hidden desktop:flex desktop:gap-[2.125rem]"
               role="list"
@@ -113,32 +101,21 @@ export function Header() {
           <p className="order-3 grid justify-end">
             <button
               className="transition-colors clickable-12 hocus:text-D87D4A"
-              ref={cartTriggerRef}
-              type="button"
-              aria-expanded={isCartExpanded}
-              onClick={() => {
-                setIsCartExpanded(!isCartExpanded);
-              }}
+              {...cart.triggerProps}
             >
               <IconCart className="h-5 w-[1.4375rem]" />
               <span className="sr-only">Cart</span>
             </button>
           </p>
-          {isCartExpanded ? (
-            <div className="fixed inset-0 top-[5.625rem] z-10 overflow-y-auto bg-000000/40 py-6 desktop:top-[6.0625rem] desktop:py-8">
+          {cart.isExpanded ? (
+            <Overlay className="py-6 desktop:py-8">
               <div className="center">
                 <div className="grid tablet:grid-cols-[minmax(auto,23.5625rem)] tablet:justify-end">
                   <div
                     className={
                       "rounded bg-FFFFFF px-7 py-8 text-000000/50 tablet:p-8"
                     }
-                    ref={cartContentRef}
-                    onKeyDown={(e) => {
-                      if (e.key === "Escape") {
-                        setIsCartExpanded(false);
-                        cartTriggerRef.current!.focus();
-                      }
-                    }}
+                    {...cart.contentProps}
                   >
                     <div className="flex flex-wrap justify-between">
                       <h2 className="text-[1.125rem] font-bold tracking-[0.08125rem] text-000000">
@@ -198,7 +175,7 @@ export function Header() {
                         className="button-primary w-full"
                         href={"/checkout"}
                         onClick={() => {
-                          setIsCartExpanded(false);
+                          cart.setIsExpanded(false);
                         }}
                       >
                         Checkout
@@ -207,7 +184,7 @@ export function Header() {
                   </div>
                 </div>
               </div>
-            </div>
+            </Overlay>
           ) : null}
         </div>
       </div>
@@ -217,5 +194,91 @@ export function Header() {
         </div>
       ) : null}
     </header>
+  );
+}
+
+function useDisclosure() {
+  const [isExpanded, setIsExpanded] = useState(false);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (isExpanded) {
+      document.documentElement.style.overflow = "hidden";
+    } else {
+      document.documentElement.style.overflow = "";
+    }
+    return () => {
+      document.documentElement.style.overflow = "";
+    };
+  }, [isExpanded]);
+
+  // Click outside
+  useEffect(() => {
+    function handleClick(e: MouseEvent) {
+      if (e.target instanceof Node && !contentRef.current!.contains(e.target)) {
+        setIsExpanded(false);
+      }
+    }
+
+    if (isExpanded) {
+      document.addEventListener("click", handleClick);
+    }
+    return () => {
+      document.removeEventListener("click", handleClick);
+    };
+  }, [isExpanded]);
+
+  // Focus outside
+  useEffect(() => {
+    function handleFocusin(e: FocusEvent) {
+      if (
+        e.target !== triggerRef.current &&
+        e.target instanceof Node &&
+        !contentRef.current!.contains(e.target)
+      ) {
+        setIsExpanded(false);
+      }
+    }
+
+    if (isExpanded) {
+      document.addEventListener("focusin", handleFocusin);
+    }
+    return () => {
+      document.removeEventListener("focusin", handleFocusin);
+    };
+  }, [isExpanded]);
+
+  return {
+    triggerProps: {
+      ref: triggerRef,
+      type: "button",
+      "aria-expanded": isExpanded,
+      onClick() {
+        setIsExpanded(!isExpanded);
+      },
+    } satisfies ComponentPropsWithRef<"button">,
+    contentProps: {
+      ref: contentRef,
+      onKeyDown(e) {
+        if (e.key === "Escape") {
+          setIsExpanded(false);
+          triggerRef.current!.focus();
+        }
+      },
+    } satisfies ComponentPropsWithRef<"div">,
+    isExpanded,
+    setIsExpanded,
+  };
+}
+
+type OverlayProps = ComponentPropsWithoutRef<"div">;
+
+function Overlay({ className = "", ...props }: OverlayProps) {
+  return (
+    <div
+      className={`${className} fixed inset-0 top-[5.625rem] z-10 overflow-y-auto bg-000000/40 desktop:top-[6.0625rem]`}
+      {...props}
+    />
   );
 }

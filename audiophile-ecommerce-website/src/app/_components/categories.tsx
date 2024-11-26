@@ -5,14 +5,26 @@ import imageCategoryThumbnailEarphones from "~/app/_assets/image-category-thumbn
 import imageCategoryThumbnailHeadphones from "~/app/_assets/image-category-thumbnail-headphones.png";
 import imageCategoryThumbnailSpeakers from "~/app/_assets/image-category-thumbnail-speakers.png";
 
+// todo: Refactor into heading components
+type HeadingLevel = 1 | 2 | 3 | 4 | 5;
+type Heading = `h${HeadingLevel}`;
+
 interface CategoriesProps {
   className?: string;
+  headingLevel?: HeadingLevel;
+  onSelect?: () => void;
 }
 
-export function Categories({ className = "" }: CategoriesProps) {
+export function Categories({
+  className = "",
+  headingLevel = 2,
+  onSelect,
+}: CategoriesProps) {
+  const CategoriesHeading = `h${headingLevel}` satisfies Heading;
+  const CategoryHeading = `h${headingLevel + 1}` as Heading;
   return (
     <>
-      <h2 className="sr-only">Categories</h2>
+      <CategoriesHeading className="sr-only">Categories</CategoriesHeading>
       <div className={`${className} center`}>
         <div className="layout grid gap-4 tablet:gap-0">
           {[
@@ -40,6 +52,7 @@ export function Categories({ className = "" }: CategoriesProps) {
                 className={`${category.className} group relative isolate rounded text-center tablet:col-span-7`}
                 key={i}
                 href={category.href}
+                onClick={onSelect}
               >
                 <div className="aspect-[350/80] w-full" />
                 <div className="rounded-inherit bg-F1F1F1 pb-6">
@@ -53,9 +66,9 @@ export function Categories({ className = "" }: CategoriesProps) {
                     />
                   </div>
                   <div className="relative grid justify-items-center">
-                    <h3 className="-mt-4 text-h6 text-000000">
+                    <CategoryHeading className="-mt-4 text-h6 text-000000">
                       {category.name}
-                    </h3>
+                    </CategoryHeading>
                     <p className="mt-4">
                       <span
                         className="flex items-center gap-3 text-sub-title uppercase transition-colors group-hocus:text-D87D4A"
