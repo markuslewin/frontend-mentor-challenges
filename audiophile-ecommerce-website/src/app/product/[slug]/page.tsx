@@ -2,6 +2,7 @@ import Link from "next/link";
 import { BestGear } from "~/app/_components/best-gear";
 import { Categories } from "~/app/_components/categories";
 import { GoBack } from "~/app/_components/go-back";
+import { QuantitySelect } from "~/app/_components/quantity-select";
 import products from "~/app/_data/data.json";
 import { currency } from "~/app/_utils/format";
 import { media } from "~/app/_utils/screens";
@@ -46,32 +47,7 @@ export default async function ProductPage({
               </strong>
             </p>
             <form className="mt-8 flex flex-wrap gap-4 desktop:mt-12">
-              <fieldset className="grid">
-                <legend className="sr-only">Select quantity</legend>
-                <input type="hidden" />
-                <div className="inline-grid h-12 min-w-[7.5rem] grid-cols-[3rem_1fr_3rem] bg-F1F1F1 text-sub-title text-000000/25">
-                  <p
-                    className="self-center text-center text-000000"
-                    aria-live="polite"
-                  >
-                    <span className="sr-only">Quantity: </span> 1
-                  </p>
-                  <button
-                    className="order-first transition-colors hocus:text-D87D4A"
-                    type="button"
-                  >
-                    <span aria-hidden="true">-</span>
-                    <span className="sr-only">Decrement quantity</span>
-                  </button>
-                  <button
-                    className="transition-colors hocus:text-D87D4A"
-                    type="button"
-                  >
-                    <span aria-hidden="true">+</span>
-                    <span className="sr-only">Increment quantity</span>
-                  </button>
-                </div>
-              </fieldset>
+              <QuantitySelect size="large" />
               <button className="button-primary" type="submit">
                 Add to cart
               </button>
