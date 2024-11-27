@@ -17,8 +17,13 @@ import { NavLink } from "~/app/_components/nav-link";
 import { currency } from "~/app/_utils/format";
 import { QuantitySelect } from "~/app/_components/quantity-select";
 import { Categories } from "~/app/_components/categories";
+import { type Item } from "~/app/_utils/cart";
 
-export function Header() {
+interface HeaderProps {
+  cartItems: Item[];
+}
+
+export function Header({ cartItems }: HeaderProps) {
   const headerNavLabelId = useId();
   const menu = useDisclosure();
   const cart = useDisclosure();
@@ -126,31 +131,22 @@ export function Header() {
                       </button>
                     </div>
                     <ul className="mt-8 grid gap-6" role="list">
-                      {[
-                        {
-                          name: "XX99 MK II",
-                          slug: "xx99-mark-two-headphones",
-                          price: 2999,
-                          quantity: 1,
-                        },
-                        {
-                          name: "XX99 MK II",
-                          slug: "xx99-mark-two-headphones",
-                          price: 2999,
-                          quantity: 1,
-                        },
-                      ].map((item, i) => {
+                      {cartItems.map((item) => {
                         return (
                           <li
                             className="grid grid-cols-[auto_1fr] items-center gap-4 font-bold"
-                            key={i}
+                            key={item.id}
                           >
                             <div className="flex items-center justify-between">
                               <div>
                                 <h3 className="text-000000">{item.name}</h3>
                                 <p>{currency(item.price)}</p>
                               </div>
-                              <QuantitySelect size="small" />
+                              {/* todo: Control value */}
+                              <QuantitySelect
+                                size="small"
+                                defaultValue={item.quantity}
+                              />
                             </div>
                             {/* eslint-disable-next-line @next/next/no-img-element */}
                             <img

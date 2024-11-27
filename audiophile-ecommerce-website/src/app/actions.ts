@@ -1,8 +1,20 @@
 "use server";
 
 import { parseWithZod } from "@conform-to/zod";
+import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { addToCartSchema, checkoutSchema } from "~/app/_utils/schema";
+import {
+  cartKey,
+  getCart,
+  addToCart as _addToCart,
+  serializeCart,
+} from "~/app/_utils/cart";
+import {
+  addToCartSchema,
+  checkoutSchema,
+  idKey,
+  quantityKey,
+} from "~/app/_utils/schema";
 
 export async function addToCart(formData: FormData) {
   const submission = parseWithZod(formData, { schema: addToCartSchema });
@@ -10,9 +22,11 @@ export async function addToCart(formData: FormData) {
     throw new Error(JSON.stringify(submission.error));
   }
 
-  // todo: Add to cart
-  await new Promise((resolve) => setTimeout(resolve, 5000));
-  console.log("Success:", submission.value);
+  const cookieStore = await cookies();
+  const cart = getCart(cookieStore.get(cartKey)?.value);
+  _addToCart(submission.value[idKey], submission.value[quantityKey], cart);
+  // todo: Options
+  cookieStore.set(cartKey, serializeCart(cart));
 }
 
 export async function checkout(prevState: unknown, formData: FormData) {

@@ -1,8 +1,10 @@
 import { z } from "zod";
 
+export const idKey = "id";
 export const quantityKey = "quantity";
 
 export const addToCartSchema = z.object({
+  [idKey]: z.number(),
   [quantityKey]: z.number(),
 });
 

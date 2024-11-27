@@ -5,10 +5,15 @@ import {
   QuantitySelect,
   type QuantitySelectRef,
 } from "~/app/_components/quantity-select";
-import { quantityKey } from "~/app/_utils/schema";
+import { type Product } from "~/app/_utils/product";
+import { idKey, quantityKey } from "~/app/_utils/schema";
 import { addToCart } from "~/app/actions";
 
-export const QuantityForm = () => {
+interface QuantityFormProps {
+  productId: Product["id"];
+}
+
+export const QuantityForm = ({ productId }: QuantityFormProps) => {
   const quantitySelectRef = useRef<QuantitySelectRef>(null);
   const [isPending, startTransition] = useTransition();
 
@@ -29,6 +34,7 @@ export const QuantityForm = () => {
         }
       }}
     >
+      <input type="hidden" name={idKey} value={productId} />
       <QuantitySelect
         ref={quantitySelectRef}
         size="large"
