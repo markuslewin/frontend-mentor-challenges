@@ -1,5 +1,11 @@
 import { z } from "zod";
 
+export const quantityKey = "quantity";
+
+export const addToCartSchema = z.object({
+  [quantityKey]: z.number(),
+});
+
 export const checkoutSchema = z.object({
   billingDetails: z.object({
     name: z.string(),

@@ -2,7 +2,7 @@ import Link from "next/link";
 import { BestGear } from "~/app/_components/best-gear";
 import { Categories } from "~/app/_components/categories";
 import { GoBack } from "~/app/_components/go-back";
-import { QuantitySelect } from "~/app/_components/quantity-select";
+import { QuantityForm } from "~/app/_components/quantity-form";
 import products from "~/app/_data/data.json";
 import { currency } from "~/app/_utils/format";
 import { media } from "~/app/_utils/screens";
@@ -46,12 +46,7 @@ export default async function ProductPage({
                 {currency(product.price)}
               </strong>
             </p>
-            <form className="mt-8 flex flex-wrap gap-4 desktop:mt-12">
-              <QuantitySelect size="large" />
-              <button className="button-primary" type="submit">
-                Add to cart
-              </button>
-            </form>
+            <QuantityForm />
           </div>
           <picture className="order-first tablet:col-span-9 tablet:col-start-1 tablet:row-start-1 desktop:col-span-11">
             <source
