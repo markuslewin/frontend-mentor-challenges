@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
-import { CheckoutForm } from "~/app/_components/checkout-form";
 import { GoBack } from "~/app/_components/go-back";
 import { cartKey, getItemsBeingPurchased, getCart } from "~/app/_utils/cart";
+import { Checkout } from "~/app/checkout/_components/checkout";
 
 export default async function CheckoutPage() {
   // todo: Get from layout somehow?
@@ -12,7 +12,7 @@ export default async function CheckoutPage() {
   return (
     <>
       <GoBack />
-      <CheckoutForm cartItems={cartItems} />
+      <Checkout cartItems={cartItems} />
     </>
   );
 }

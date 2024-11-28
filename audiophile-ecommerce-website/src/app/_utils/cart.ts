@@ -71,6 +71,20 @@ export const getItemsBeingPurchased = (cart: Cart) => {
   return items;
 };
 
-export const getTotal = (items: Items) => {
+export const getProductImage = (slug: Product["slug"]) => {
+  return `/assets/cart/image-${slug}.jpg`;
+};
+
+export const getTotal = (items: { price: number; quantity: number }[]) => {
   return items.reduce((total, item) => total + item.price * item.quantity, 0);
 };
+
+export interface Receipt {
+  total: number;
+  products: {
+    name: string;
+    price: number;
+    quantity: number;
+    image: string;
+  }[];
+}

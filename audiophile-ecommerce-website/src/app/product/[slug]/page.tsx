@@ -2,7 +2,7 @@ import Link from "next/link";
 import { BestGear } from "~/app/_components/best-gear";
 import { Categories } from "~/app/_components/categories";
 import { GoBack } from "~/app/_components/go-back";
-import { QuantityForm } from "~/app/_components/quantity-form";
+import { QuantityForm } from "~/app/product/[slug]/_components/quantity-form";
 import products from "~/app/_data/data.json";
 import { currency } from "~/app/_utils/format";
 import { media } from "~/app/_utils/screens";

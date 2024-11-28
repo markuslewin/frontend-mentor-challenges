@@ -12,20 +12,25 @@ import { getZodConstraint, parseWithZod } from "@conform-to/zod";
 import {
   type ComponentPropsWithoutRef,
   createContext,
-  useActionState,
   useContext,
 } from "react";
-import { getTotal, type Items } from "~/app/_utils/cart";
+import {
+  getTotal,
+  type Receipt,
+  type Items,
+  getProductImage,
+} from "~/app/_utils/cart";
 import { currency } from "~/app/_utils/format";
 import { checkoutSchema, type PaymentMethod } from "~/app/_utils/schema";
 import { checkout } from "~/app/actions";
+import * as Item from "~/app/checkout/_components/item";
 
 interface CheckoutFormProps {
   cartItems: Items;
+  onCheckout: (receipt: Receipt) => void;
 }
 
-export function CheckoutForm({ cartItems }: CheckoutFormProps) {
-  const [lastResult, action] = useActionState(checkout, undefined);
+export function CheckoutForm({ cartItems, onCheckout }: CheckoutFormProps) {
   const [form, fields] = useForm({
     constraint: getZodConstraint(checkoutSchema),
     defaultValue: {
@@ -35,9 +40,20 @@ export function CheckoutForm({ cartItems }: CheckoutFormProps) {
     },
     shouldValidate: "onBlur",
     shouldRevalidate: "onInput",
-    lastResult,
-    onValidate({ formData }) {
+    onValidate: ({ formData }) => {
       return parseWithZod(formData, { schema: checkoutSchema });
+    },
+    onSubmit: (evt, context) => {
+      evt.preventDefault();
+      // todo: Fix API
+      checkout(null, context.formData)
+        .then((products) => {
+          onCheckout(products);
+        })
+        .catch((err) => {
+          // todo: Error UI
+          console.error(err);
+        });
     },
   });
 
@@ -55,7 +71,6 @@ export function CheckoutForm({ cartItems }: CheckoutFormProps) {
       <form
         {...getFormProps(form)}
         className="desktop:layout grid gap-8 desktop:items-start desktop:gap-0"
-        action={action}
       >
         <div className="rounded bg-FFFFFF px-6 py-8 tablet:p-8 desktop:col-[1/span_15] desktop:p-12 desktop:pt-14">
           <h1 className="text-h3 text-000000">Checkout</h1>
@@ -203,26 +218,14 @@ export function CheckoutForm({ cartItems }: CheckoutFormProps) {
           <ul className="mt-8 grid gap-6" role="list">
             {cartItems.map((item, i) => {
               return (
-                <li
-                  className="grid grid-cols-[auto_1fr] items-center gap-4 font-bold"
+                <Item.Root
                   key={i}
+                  price={item.price}
+                  quantity={item.quantity}
+                  image={getProductImage(item.slug)}
                 >
-                  <div>
-                    <div className="flex justify-between">
-                      <h3 className="text-000000">{item.name}</h3>
-                      <p>x{item.quantity}</p>
-                    </div>
-                    <p>{currency(item.price)}</p>
-                  </div>
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    className="order-first size-16 rounded object-cover"
-                    alt=""
-                    width={150}
-                    height={150}
-                    src={`/assets/cart/image-${item.slug}.jpg`}
-                  />
-                </li>
+                  <Item.Heading>{item.name}</Item.Heading>
+                </Item.Root>
               );
             })}
           </ul>

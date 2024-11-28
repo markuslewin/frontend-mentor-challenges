@@ -19,6 +19,7 @@ import { QuantitySelect } from "~/app/_components/quantity-select";
 import { Categories } from "~/app/_components/categories";
 import { getTotal, type Item } from "~/app/_utils/cart";
 import { removeAllItemsFromCart, setCart } from "~/app/actions";
+import { getProductImage } from "~/app/_utils/cart";
 
 interface HeaderProps {
   cartItems: Item[];
@@ -179,7 +180,7 @@ export function Header({ cartItems }: HeaderProps) {
                               alt=""
                               width={150}
                               height={150}
-                              src={`/assets/cart/image-${item.slug}.jpg`}
+                              src={getProductImage(item.slug)}
                             />
                           </li>
                         );
