@@ -15,11 +15,16 @@ import {
   useActionState,
   useContext,
 } from "react";
+import { getTotal, type Items } from "~/app/_utils/cart";
 import { currency } from "~/app/_utils/format";
 import { checkoutSchema, type PaymentMethod } from "~/app/_utils/schema";
 import { checkout } from "~/app/actions";
 
-export function CheckoutForm() {
+interface CheckoutFormProps {
+  cartItems: Items;
+}
+
+export function CheckoutForm({ cartItems }: CheckoutFormProps) {
   const [lastResult, action] = useActionState(checkout, undefined);
   const [form, fields] = useForm({
     constraint: getZodConstraint(checkoutSchema),
@@ -39,6 +44,11 @@ export function CheckoutForm() {
   const billingDetails = fields.billingDetails.getFieldset();
   const shippingInfo = fields.shippingInfo.getFieldset();
   const paymentDetails = fields.paymentDetails.getFieldset();
+
+  const total = getTotal(cartItems);
+  const shipping = 50;
+  const vat = total * 0.2;
+  const grandTotal = total + shipping;
 
   return (
     <div className="center mt-6 desktop:mt-[2.375rem]">
@@ -139,8 +149,8 @@ export function CheckoutForm() {
                         key={props.id}
                       >
                         <input {...props} className="peer sr-only" />
-                        <span className="text-CFCFCF col-span-full row-start-1 h-14 rounded border-[0.0625rem] transition-colors peer-checked:text-D87D4A peer-hover:text-D87D4A" />
-                        <span className="rounded-full border-CFCFCF col-start-1 row-start-1 ml-4 inline-grid size-5 place-content-center border-[0.0625rem] text-D87D4A before:inline-block before:size-[0.625rem] before:rounded-inherit before:border-t-[0.625rem] before:opacity-0 before:transition-opacity peer-checked:before:opacity-100 peer-focus-visible:outline" />
+                        <span className="col-span-full row-start-1 h-14 rounded border-[0.0625rem] text-CFCFCF transition-colors peer-checked:text-D87D4A peer-hover:text-D87D4A" />
+                        <span className="col-start-1 row-start-1 ml-4 inline-grid size-5 place-content-center rounded-full border-[0.0625rem] border-CFCFCF text-D87D4A before:inline-block before:size-[0.625rem] before:rounded-inherit before:border-t-[0.625rem] before:opacity-0 before:transition-opacity peer-checked:before:opacity-100 peer-focus-visible:outline" />
                         <span className="col-start-2 row-start-1 text-[0.875rem] font-bold leading-[1.1875rem] -tracking-[0.015625rem] text-000000">
                           {props.value === "e-money"
                             ? "e-Money"
@@ -191,20 +201,7 @@ export function CheckoutForm() {
         <div className="rounded bg-FFFFFF px-6 py-8 text-000000/50 tablet:p-8 desktop:col-[17/span_7]">
           <h2 className="text-h6 text-000000">Summary</h2>
           <ul className="mt-8 grid gap-6" role="list">
-            {[
-              {
-                name: "XX99 MK II",
-                slug: "xx99-mark-two-headphones",
-                price: 2999,
-                quantity: 1,
-              },
-              {
-                name: "XX99 MK II",
-                slug: "xx99-mark-two-headphones",
-                price: 2999,
-                quantity: 1,
-              },
-            ].map((item, i) => {
+            {cartItems.map((item, i) => {
               return (
                 <li
                   className="grid grid-cols-[auto_1fr] items-center gap-4 font-bold"
@@ -235,7 +232,7 @@ export function CheckoutForm() {
                 Total<span className="sr-only">:</span>
               </span>{" "}
               <strong className="text-[1.125rem] text-000000">
-                {currency(5396)}
+                {currency(total)}
               </strong>
             </p>
             <p className="flex flex-wrap items-center justify-between gap-4">
@@ -243,7 +240,7 @@ export function CheckoutForm() {
                 Shipping<span className="sr-only">:</span>
               </span>{" "}
               <strong className="text-[1.125rem] text-000000">
-                {currency(50)}
+                {currency(shipping)}
               </strong>
             </p>
             <p className="flex flex-wrap items-center justify-between gap-4">
@@ -251,7 +248,7 @@ export function CheckoutForm() {
                 VAT (included)<span className="sr-only">:</span>
               </span>{" "}
               <strong className="text-[1.125rem] text-000000">
-                {currency(1079)}
+                {currency(vat)}
               </strong>
             </p>
           </div>
@@ -260,7 +257,7 @@ export function CheckoutForm() {
               Grand total<span className="sr-only">:</span>
             </span>{" "}
             <strong className="text-[1.125rem] text-000000">
-              {currency(5446)}
+              {currency(grandTotal)}
             </strong>
           </p>
           <p className="mt-8">
@@ -326,7 +323,7 @@ function Input(props: InputProps) {
 
   return (
     <input
-      className="aria-invalid:border-CD2C2C aria-invalid:px-[1.375rem] aria-invalid:border-[0.125rem] border-CFCFCF peer col-span-full row-start-2 h-14 w-full rounded border-[0.0625rem] px-[1.4375rem] text-[0.875rem] font-bold leading-[1.1875rem] -tracking-[0.015625rem] text-000000 transition-colors placeholder:text-000000/40 hocus:border-D87D4A"
+      className="peer col-span-full row-start-2 h-14 w-full rounded border-[0.0625rem] border-CFCFCF px-[1.4375rem] text-[0.875rem] font-bold leading-[1.1875rem] -tracking-[0.015625rem] text-000000 transition-colors placeholder:text-000000/40 aria-invalid:border-[0.125rem] aria-invalid:border-CD2C2C aria-invalid:px-[1.375rem] hocus:border-D87D4A"
       {...getInputProps(meta, props.options)}
       {...props}
     />
@@ -339,7 +336,7 @@ function ErrorMessage() {
   return (
     <p
       className={
-        "text-CD2C2C peer-aria-invalid:opacity-100 text-[0.75rem] leading-[1rem] -tracking-[0.013125rem] opacity-0 transition-opacity"
+        "text-[0.75rem] leading-[1rem] -tracking-[0.013125rem] text-CD2C2C opacity-0 transition-opacity peer-aria-invalid:opacity-100"
       }
       id={meta.errorId}
     >

@@ -54,6 +54,7 @@ export const serializeCart = (cart: Cart) => {
 export interface Item extends Product {
   quantity: number;
 }
+export type Items = Item[];
 
 export const getAvailableItems = (cart: Cart) => {
   const items: Item[] = [];
@@ -66,4 +67,8 @@ export const getAvailableItems = (cart: Cart) => {
     }
   });
   return items;
+};
+
+export const getTotal = (items: Items) => {
+  return items.reduce((total, item) => total + item.price * item.quantity, 0);
 };

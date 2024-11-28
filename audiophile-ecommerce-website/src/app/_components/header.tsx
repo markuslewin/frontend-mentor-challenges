@@ -17,7 +17,7 @@ import { NavLink } from "~/app/_components/nav-link";
 import { currency } from "~/app/_utils/format";
 import { QuantitySelect } from "~/app/_components/quantity-select";
 import { Categories } from "~/app/_components/categories";
-import { type Item } from "~/app/_utils/cart";
+import { getTotal, type Item } from "~/app/_utils/cart";
 
 interface HeaderProps {
   cartItems: Item[];
@@ -32,6 +32,8 @@ export function Header({ cartItems }: HeaderProps) {
   const hasBorder = ["/", "/headphones", "/speakers", "/earphones"].includes(
     pathname,
   );
+
+  const total = getTotal(cartItems);
 
   return (
     <header
@@ -124,7 +126,8 @@ export function Header({ cartItems }: HeaderProps) {
                   >
                     <div className="flex flex-wrap justify-between">
                       <h2 className="text-[1.125rem] font-bold tracking-[0.08125rem] text-000000">
-                        Cart (3<span className="sr-only"> items</span>)
+                        Cart ({cartItems.length}
+                        <span className="sr-only"> items</span>)
                       </h2>
                       <button className="underline transition-colors hocus:text-D87D4A">
                         Remove all
@@ -163,7 +166,7 @@ export function Header({ cartItems }: HeaderProps) {
                     <p className="mt-8 flex flex-wrap justify-between uppercase">
                       Total<span className="sr-only">: </span>
                       <strong className="text-[1.125rem] text-000000">
-                        {currency(5396)}
+                        {currency(total)}
                       </strong>
                     </p>
                     <p className="mt-6">
