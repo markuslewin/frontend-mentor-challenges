@@ -3,7 +3,7 @@ import { type Metadata } from "next";
 import { Manrope } from "next/font/google";
 import { Header } from "~/app/_components/header";
 import { cookies } from "next/headers";
-import { cartKey, getCart, getAvailableItems } from "~/app/_utils/cart";
+import { cartKey, getCart, getItemsBeingPurchased } from "~/app/_utils/cart";
 import { Footer } from "~/app/_components/footer";
 
 const manrope = Manrope({
@@ -29,7 +29,7 @@ export default async function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   const cookieStore = await cookies();
   const cart = getCart(cookieStore.get(cartKey)?.value);
-  const cartItems = getAvailableItems(cart);
+  const cartItems = getItemsBeingPurchased(cart);
 
   return (
     <html lang="en" className={`${manrope.className}`}>

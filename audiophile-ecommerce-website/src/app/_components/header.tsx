@@ -18,6 +18,7 @@ import { currency } from "~/app/_utils/format";
 import { QuantitySelect } from "~/app/_components/quantity-select";
 import { Categories } from "~/app/_components/categories";
 import { getTotal, type Item } from "~/app/_utils/cart";
+import { removeAllItemsFromCart, setCart } from "~/app/actions";
 
 interface HeaderProps {
   cartItems: Item[];
@@ -129,7 +130,13 @@ export function Header({ cartItems }: HeaderProps) {
                         Cart ({cartItems.length}
                         <span className="sr-only"> items</span>)
                       </h2>
-                      <button className="underline transition-colors hocus:text-D87D4A">
+                      <button
+                        className="underline transition-colors hocus:text-D87D4A"
+                        type="button"
+                        onClick={async () => {
+                          await removeAllItemsFromCart();
+                        }}
+                      >
                         Remove all
                       </button>
                     </div>
@@ -145,10 +152,25 @@ export function Header({ cartItems }: HeaderProps) {
                                 <h3 className="text-000000">{item.name}</h3>
                                 <p>{currency(item.price)}</p>
                               </div>
-                              {/* todo: Control value */}
                               <QuantitySelect
                                 size="small"
-                                defaultValue={item.quantity}
+                                value={item.quantity}
+                                onChange={async (value) => {
+                                  await setCart(
+                                    new Map(
+                                      cartItems.map((i) => {
+                                        if (i.id === item.id) {
+                                          return [i.id, { quantity: value }];
+                                        } else {
+                                          return [
+                                            i.id,
+                                            { quantity: i.quantity },
+                                          ];
+                                        }
+                                      }),
+                                    ),
+                                  );
+                                }}
                               />
                             </div>
                             {/* eslint-disable-next-line @next/next/no-img-element */}

@@ -8,6 +8,7 @@ import {
   getCart,
   addToCart as _addToCart,
   serializeCart,
+  type Cart,
 } from "~/app/_utils/cart";
 import {
   addToCartSchema,
@@ -27,6 +28,14 @@ export async function addToCart(formData: FormData) {
   _addToCart(submission.value[idKey], submission.value[quantityKey], cart);
   // todo: Options
   cookieStore.set(cartKey, serializeCart(cart));
+}
+
+export async function removeAllItemsFromCart() {
+  (await cookies()).delete(cartKey);
+}
+
+export async function setCart(cart: Cart) {
+  (await cookies()).set(cartKey, serializeCart(cart));
 }
 
 export async function checkout(prevState: unknown, formData: FormData) {

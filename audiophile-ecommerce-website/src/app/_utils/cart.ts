@@ -31,15 +31,6 @@ export const getCart = (cookie: string | undefined) => {
   return cart;
 };
 
-export const addToCart = (id: Product["id"], quantity: number, cart: Cart) => {
-  const entry = cart.get(id);
-  if (entry) {
-    cart.set(id, { quantity: entry.quantity + quantity });
-  } else {
-    cart.set(id, { quantity });
-  }
-};
-
 export const serializeCart = (cart: Cart) => {
   return JSON.stringify(
     [...cart].map(([id, entry]) => {
@@ -51,19 +42,30 @@ export const serializeCart = (cart: Cart) => {
   );
 };
 
+export const addToCart = (id: Product["id"], quantity: number, cart: Cart) => {
+  const entry = cart.get(id);
+  if (entry) {
+    cart.set(id, { quantity: entry.quantity + quantity });
+  } else {
+    cart.set(id, { quantity });
+  }
+};
+
 export interface Item extends Product {
   quantity: number;
 }
 export type Items = Item[];
 
-export const getAvailableItems = (cart: Cart) => {
+export const getItemsBeingPurchased = (cart: Cart) => {
   const items: Item[] = [];
   cart.forEach((entry, id) => {
-    const product = getProductById(id);
-    if (product) {
-      items.push({ ...product, quantity: entry.quantity });
-    } else {
-      console.warn(`Product not found: ${id}`);
+    if (entry.quantity > 0) {
+      const product = getProductById(id);
+      if (product) {
+        items.push({ ...product, quantity: entry.quantity });
+      } else {
+        console.warn(`Product not found: ${id}`);
+      }
     }
   });
   return items;
