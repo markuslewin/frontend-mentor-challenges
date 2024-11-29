@@ -1,5 +1,6 @@
 import { type Metadata } from "next";
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 import { GoBack } from "~/app/_components/go-back";
 import { cartKey, getItemsBeingPurchased, getCart } from "~/app/_utils/cart";
 import { Checkout } from "~/app/checkout/_components/checkout";
@@ -14,10 +15,14 @@ export default async function CheckoutPage() {
   const cart = getCart(cookieStore.get(cartKey)?.value);
   const cartItems = getItemsBeingPurchased(cart);
 
-  return (
-    <>
-      <GoBack />
-      <Checkout cartItems={cartItems} />
-    </>
-  );
+  if (cartItems.length) {
+    return (
+      <>
+        <GoBack />
+        <Checkout cartItems={cartItems} />
+      </>
+    );
+  } else {
+    redirect("/");
+  }
 }
