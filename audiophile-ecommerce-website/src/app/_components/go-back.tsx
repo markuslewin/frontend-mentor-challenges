@@ -1,13 +1,18 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { useId } from "react";
 
 export function GoBack() {
+  const labelId = useId();
   const router = useRouter();
 
   return (
     <div className="center mt-4 tablet:mt-8 desktop:mt-20">
-      <div>
+      <nav aria-labelledby={labelId}>
+        <h2 className="sr-only" id={labelId}>
+          Go back
+        </h2>
         <button
           className="transition-colors hocus:text-D87D4A"
           type="button"
@@ -18,7 +23,7 @@ export function GoBack() {
         >
           Go Back
         </button>
-      </div>
+      </nav>
     </div>
   );
 }
