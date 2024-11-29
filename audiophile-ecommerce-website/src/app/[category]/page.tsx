@@ -2,6 +2,11 @@ import Link from "next/link";
 import { BestGear } from "~/app/_components/best-gear";
 import { Categories } from "~/app/_components/categories";
 import _products from "~/app/_data/data.json";
+import {
+  type GenerateStaticParams,
+  type PageProps,
+  type GenerateMetadata,
+} from "~/app/_utils/next";
 import { media } from "~/app/_utils/screens";
 
 const categories = [...new Set(_products.map((p) => p.category))];
@@ -18,21 +23,31 @@ function getName(category: string) {
   throw new Error(`Invalid category: ${category}`);
 }
 
+type CategoryPageProps = PageProps<{ category: string }>;
+
 export const dynamicParams = false;
 
-export async function generateStaticParams() {
+export const generateStaticParams: GenerateStaticParams<
+  CategoryPageProps
+> = async () => {
   return categories.map((category) => {
     return {
       category,
     };
   });
-}
+};
 
-export default async function CategoryPage({
+export const generateMetadata: GenerateMetadata<CategoryPageProps> = async ({
   params,
-}: {
-  params: Promise<{ category: string }>;
-}) {
+}) => {
+  const { category } = await params;
+
+  return {
+    title: getName(category),
+  };
+};
+
+export default async function CategoryPage({ params }: CategoryPageProps) {
   const { category } = await params;
 
   const name = getName(category);

@@ -7,14 +7,39 @@ import products from "~/app/_data/data.json";
 import { currency } from "~/app/_utils/format";
 import { media } from "~/app/_utils/screens";
 import { nbsp } from "~/app/_utils/unicode";
+import {
+  type GenerateStaticParams,
+  type GenerateMetadata,
+} from "~/app/_utils/next";
+import { getProductBySlug } from "~/app/_utils/product";
+
+type ProductPageProps = {
+  params: Promise<{ slug: string }>;
+};
 
 export const dynamicParams = false;
 
-export async function generateStaticParams() {
+export const generateStaticParams: GenerateStaticParams<
+  ProductPageProps
+> = async () => {
   return products.map((p) => ({
     slug: p.slug,
   }));
-}
+};
+
+export const generateMetadata: GenerateMetadata<ProductPageProps> = async ({
+  params,
+}) => {
+  const { slug } = await params;
+  const product = getProductBySlug(slug);
+  if (!product) {
+    throw new Error(`Invalid product: ${slug}`);
+  }
+
+  return {
+    title: product.name,
+  };
+};
 
 export default async function ProductPage({
   params,
