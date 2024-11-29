@@ -80,7 +80,7 @@ export default function HomePage() {
               </p>
             </div>
           </div>
-          <div className="col-start-1 row-start-1 desktop:relative desktop:-z-10 desktop:col-span-12 desktop:col-start-12 desktop:aspect-[570/516]">
+          <div className="-z-10 col-start-1 row-start-1 desktop:relative desktop:col-span-12 desktop:col-start-12 desktop:aspect-[570/516]">
             <picture>
               <source {...imageHero.desktopSourceProps} />
               <source {...imageHero.tabletSourceProps} />
