@@ -24,6 +24,7 @@ import { currency } from "~/app/_utils/format";
 import { checkoutSchema, type PaymentMethod } from "~/app/_utils/schema";
 import { checkout } from "~/app/actions";
 import * as Item from "~/app/checkout/_components/item";
+import IconCashOnDelivery from "~/app/checkout/_assets/icon-cash-on-delivery.svg";
 
 interface CheckoutFormProps {
   cartItems: Items;
@@ -196,14 +197,7 @@ export function CheckoutForm({ cartItems, onCheckout }: CheckoutFormProps) {
           </div>
           {paymentDetails.paymentMethod.value === "cash-on-delivery" ? (
             <div className="mt-8 flex flex-wrap gap-x-8 gap-y-4">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                className="mt-[0.8125rem] size-12"
-                alt=""
-                width="48"
-                height="48"
-                src="/assets/checkout/icon-cash-on-delivery.svg"
-              />
+              <IconCashOnDelivery className="mt-[0.8125rem] size-12" />
               <p className="grow basis-64">
                 The ‘Cash on Delivery’ option enables you to pay in cash when
                 our delivery courier arrives at your residence. Just make sure

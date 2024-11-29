@@ -11,6 +11,7 @@ import imageSpeakerZx7Mobile from "~/app/_assets/mobile/image-speaker-zx7.jpg";
 import imageEarphonesYx1Desktop from "~/app/_assets/desktop/image-earphones-yx1.jpg";
 import imageEarphonesYx1Tablet from "~/app/_assets/tablet/image-earphones-yx1.jpg";
 import imageEarphonesYx1Mobile from "~/app/_assets/mobile/image-earphones-yx1.jpg";
+import PatternCircles from "~/app/_assets/pattern-circles.svg";
 import { getMediaImageProps } from "~/app/_utils/image";
 import { Categories } from "~/app/_components/categories";
 import { BestGear } from "~/app/_components/best-gear";
@@ -94,7 +95,7 @@ export default function HomePage() {
       </div>
       <Categories className="mt-10 tablet:mt-24 desktop:mt-[7.5rem]" />
       <div className="center">
-        <div className="desktop:layout mt-32 grid justify-items-center rounded bg-D87D4A px-6 pb-14 pt-16 text-FFFFFF/75 tablet:mt-24 tablet:py-16 desktop:mt-[10.5rem] desktop:overflow-hidden desktop:p-0">
+        <div className="desktop:layout isolate mt-32 grid justify-items-center overflow-hidden rounded bg-D87D4A px-6 pb-14 pt-16 text-FFFFFF/75 tablet:mt-24 tablet:py-16 desktop:mt-[10.5rem] desktop:p-0">
           <div className="mx-auto mt-10 max-w-[21.8125rem] text-center tablet:mt-20 desktop:col-span-7 desktop:col-start-[15] desktop:row-start-1 desktop:mx-0 desktop:mt-0 desktop:grid desktop:grid-rows-[133fr_auto_124fr] desktop:text-start">
             <div className="row-start-2">
               <h2 className="text-h1 text-FFFFFF">ZX9 speaker</h2>
@@ -109,15 +110,18 @@ export default function HomePage() {
               </p>
             </div>
           </div>
-          <picture className="order-first desktop:relative desktop:isolate desktop:order-none desktop:col-span-9 desktop:col-start-3 desktop:row-start-1 desktop:aspect-[445/560] desktop:w-full">
-            <source {...imageSpeakerZx9.desktopSourceProps} />
-            <source {...imageSpeakerZx9.tabletSourceProps} />
-            {/* eslint-disable-next-line jsx-a11y/alt-text */}
-            <img
-              className="max-w-40 tablet:max-w-44 desktop:absolute desktop:-bottom-[1%] desktop:left-[9%] desktop:w-[85%] desktop:max-w-full"
-              {...imageSpeakerZx9.mobileImageProps}
-            />
-          </picture>
+          <div className="relative isolate -z-10 order-first desktop:order-none desktop:col-span-9 desktop:col-start-3 desktop:row-start-1 desktop:aspect-[445/560] desktop:w-full">
+            <PatternCircles className="absolute left-1/2 top-1/2 -z-10 w-[349%] -translate-x-1/2 -translate-y-1/2 tablet:w-[536%] desktop:top-[77%] desktop:w-[212%]" />
+            <picture>
+              <source {...imageSpeakerZx9.desktopSourceProps} />
+              <source {...imageSpeakerZx9.tabletSourceProps} />
+              {/* eslint-disable-next-line jsx-a11y/alt-text */}
+              <img
+                className="max-w-40 tablet:max-w-44 desktop:absolute desktop:-bottom-[1%] desktop:left-[9%] desktop:w-[85%] desktop:max-w-full"
+                {...imageSpeakerZx9.mobileImageProps}
+              />
+            </picture>
+          </div>
         </div>
       </div>
       <div className="center mt-6 tablet:mt-8 desktop:mt-12">
