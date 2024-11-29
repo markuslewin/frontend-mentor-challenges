@@ -9,8 +9,10 @@ interface CheckoutProps {
   cartItems: Items;
 }
 
-export const Checkout = ({ cartItems }: CheckoutProps) => {
+export const Checkout = ({ cartItems: initialCartItems }: CheckoutProps) => {
   const [receipt, setReceipt] = useState<Receipt | null>(null);
+  // Hold old cart while showing receipt
+  const [cartItems] = useState(initialCartItems);
 
   return (
     <>

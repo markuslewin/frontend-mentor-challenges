@@ -46,15 +46,20 @@ export function CheckoutForm({ cartItems, onCheckout }: CheckoutFormProps) {
     },
     onSubmit: (evt, context) => {
       evt.preventDefault();
-      // todo: Fix API
-      checkout(null, context.formData)
-        .then((receipt) => {
-          onCheckout(receipt);
-        })
-        .catch((err) => {
-          // todo: Error UI
-          console.error(err);
-        });
+
+      if (cartItems.length) {
+        // todo: Fix API
+        checkout(null, context.formData)
+          .then((receipt) => {
+            onCheckout(receipt);
+          })
+          .catch((err) => {
+            // todo: Error UI
+            console.error(err);
+          });
+      } else {
+        // todo: Some nice UX for when the cart is empty
+      }
     },
   });
 
@@ -206,20 +211,22 @@ export function CheckoutForm({ cartItems, onCheckout }: CheckoutFormProps) {
         </div>
         <div className="rounded bg-FFFFFF px-6 py-8 text-000000/50 tablet:p-8 desktop:col-[17/span_7]">
           <h2 className="text-h6 text-000000">Summary</h2>
-          <ul className="mt-8 grid gap-6" role="list">
-            {cartItems.map((item, i) => {
-              return (
-                <Item.Root
-                  key={i}
-                  price={item.price}
-                  quantity={item.quantity}
-                  image={getProductImage(item.slug)}
-                >
-                  <Item.Heading>{item.shortName}</Item.Heading>
-                </Item.Root>
-              );
-            })}
-          </ul>
+          {cartItems.length ? (
+            <ul className="mt-8 grid gap-6" role="list">
+              {cartItems.map((item, i) => {
+                return (
+                  <Item.Root
+                    key={i}
+                    price={item.price}
+                    quantity={item.quantity}
+                    image={getProductImage(item.slug)}
+                  >
+                    <Item.Heading>{item.shortName}</Item.Heading>
+                  </Item.Root>
+                );
+              })}
+            </ul>
+          ) : null}
           <div className="mt-8 grid gap-2">
             <p className="flex flex-wrap items-center justify-between gap-4">
               <span className="uppercase">

@@ -40,7 +40,7 @@ export const ReceiptDialog = ({ isOpen, receipt }: ReceiptDialog) => {
             <div className="mt-6 grid overflow-hidden rounded tablet:mt-8 tablet:grid-cols-[246fr_198fr]">
               <div className="bg-F1F1F1 p-6">
                 <h3 className="sr-only">Products</h3>
-                <ul role="list">
+                <ul className="grid gap-4" role="list">
                   {receipt.products
                     .slice(0, areProductsExpanded ? undefined : 1)
                     .map((product, i) => {
