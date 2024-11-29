@@ -157,78 +157,91 @@ export function Header({ cartItems }: HeaderProps) {
                           Cart ({cartItems.length}
                           <span className="sr-only"> items</span>)
                         </h2>
-                        <button
-                          className="underline transition-colors hocus:text-D87D4A"
-                          type="button"
-                          onClick={async () => {
-                            await removeAllItemsFromCart();
-                          }}
-                        >
-                          Remove all
-                        </button>
+                        {cartItems.length > 0 ? (
+                          <button
+                            className="underline transition-colors hocus:text-D87D4A"
+                            type="button"
+                            onClick={async () => {
+                              await removeAllItemsFromCart();
+                            }}
+                          >
+                            Remove all
+                          </button>
+                        ) : null}
                       </div>
-                      <ul className="mt-8 grid gap-6" role="list">
-                        {cartItems.map((item) => {
-                          return (
-                            <li
-                              className="grid grid-cols-[auto_1fr] items-center gap-4 font-bold"
-                              key={item.id}
+                      {cartItems.length > 0 ? (
+                        <>
+                          <ul className="mt-8 grid gap-6" role="list">
+                            {cartItems.map((item) => {
+                              return (
+                                <li
+                                  className="grid grid-cols-[auto_1fr] items-center gap-4 font-bold"
+                                  key={item.id}
+                                >
+                                  <div className="flex items-center justify-between">
+                                    <div>
+                                      <h3 className="text-000000">
+                                        {item.name}
+                                      </h3>
+                                      <p>{currency(item.price)}</p>
+                                    </div>
+                                    <QuantitySelect
+                                      size="small"
+                                      value={item.quantity}
+                                      onChange={async (value) => {
+                                        await setCart(
+                                          new Map(
+                                            cartItems.map((i) => {
+                                              if (i.id === item.id) {
+                                                return [
+                                                  i.id,
+                                                  { quantity: value },
+                                                ];
+                                              } else {
+                                                return [
+                                                  i.id,
+                                                  { quantity: i.quantity },
+                                                ];
+                                              }
+                                            }),
+                                          ),
+                                        );
+                                      }}
+                                    />
+                                  </div>
+                                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                                  <img
+                                    className="order-first size-16 rounded object-cover"
+                                    alt=""
+                                    width={150}
+                                    height={150}
+                                    src={getProductImage(item.slug)}
+                                  />
+                                </li>
+                              );
+                            })}
+                          </ul>
+                          <p className="mt-8 flex flex-wrap justify-between uppercase">
+                            Total<span className="sr-only">: </span>
+                            <strong className="text-[1.125rem] text-000000">
+                              {currency(total)}
+                            </strong>
+                          </p>
+                          <p className="mt-6">
+                            <Link
+                              className="button-primary w-full"
+                              href={"/checkout"}
+                              onClick={() => {
+                                cart.setIsExpanded(false);
+                              }}
                             >
-                              <div className="flex items-center justify-between">
-                                <div>
-                                  <h3 className="text-000000">{item.name}</h3>
-                                  <p>{currency(item.price)}</p>
-                                </div>
-                                <QuantitySelect
-                                  size="small"
-                                  value={item.quantity}
-                                  onChange={async (value) => {
-                                    await setCart(
-                                      new Map(
-                                        cartItems.map((i) => {
-                                          if (i.id === item.id) {
-                                            return [i.id, { quantity: value }];
-                                          } else {
-                                            return [
-                                              i.id,
-                                              { quantity: i.quantity },
-                                            ];
-                                          }
-                                        }),
-                                      ),
-                                    );
-                                  }}
-                                />
-                              </div>
-                              {/* eslint-disable-next-line @next/next/no-img-element */}
-                              <img
-                                className="order-first size-16 rounded object-cover"
-                                alt=""
-                                width={150}
-                                height={150}
-                                src={getProductImage(item.slug)}
-                              />
-                            </li>
-                          );
-                        })}
-                      </ul>
-                      <p className="mt-8 flex flex-wrap justify-between uppercase">
-                        Total<span className="sr-only">: </span>
-                        <strong className="text-[1.125rem] text-000000">
-                          {currency(total)}
-                        </strong>
-                      </p>
-                      <p className="mt-6">
-                        <Link
-                          className="button-primary w-full"
-                          href={"/checkout"}
-                          onClick={() => {
-                            cart.setIsExpanded(false);
-                          }}
-                        >
-                          Checkout
-                        </Link>
-                      </p>
+                              Checkout
+                            </Link>
+                          </p>
+                        </>
+                      ) : (
+                        <p className="mt-4">The cart is empty.</p>
+                      )}
                     </div>
                   </div>
                 </div>
