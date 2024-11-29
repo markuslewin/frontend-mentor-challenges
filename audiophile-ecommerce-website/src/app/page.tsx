@@ -56,7 +56,7 @@ export default function HomePage() {
     <>
       <h1 className="sr-only text-h1">Audiophile home</h1>
       <div className="desktop:center isolate overflow-hidden bg-[hsl(0_0%_9%)] text-FFFFFF">
-        <div className="desktop:layout grid desktop:py-[3.625rem]">
+        <div className="desktop:layout grid desktop:pb-[3.625rem] desktop:pt-[9.6875rem]">
           <div className="order-last col-start-1 row-start-1 grid grid-rows-[108fr_auto_112fr] px-6 text-center tablet:grid-rows-[126fr_auto_167fr] desktop:col-span-9 desktop:col-start-auto desktop:row-start-auto desktop:grid-rows-[70fr_auto_100fr] desktop:px-0 desktop:text-start">
             <div className="row-start-2 mx-auto flex max-w-[24.75rem] flex-col desktop:mx-0">
               <h2 className="mt-4 text-h1 tablet:mt-6">
