@@ -58,12 +58,7 @@ export function Categories({
                 <div className="rounded-inherit bg-F1F1F1 pb-6">
                   <div className="aspect-[350/130] w-full" />
                   <div className="absolute inset-x-0 top-0 mx-auto grid aspect-[218/210] w-[62%] items-end">
-                    <Image
-                      className="w-full"
-                      alt=""
-                      placeholder="blur"
-                      src={category.image}
-                    />
+                    <Image className="w-full" alt="" src={category.image} />
                   </div>
                   <div className="relative grid justify-items-center">
                     <CategoryHeading className="-mt-4 text-h6 text-000000">

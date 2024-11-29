@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import { NavLink } from "~/app/_components/nav-link";
 import Logo from "~/app/_assets/logo.svg";
@@ -5,12 +7,27 @@ import IconFacebook from "~/app/_assets/icon-facebook.svg";
 import IconInstagram from "~/app/_assets/icon-instagram.svg";
 import IconTwitter from "~/app/_assets/icon-twitter.svg";
 import { useId } from "react";
+import { usePathname } from "next/navigation";
+import { categories } from "~/app/_utils/product";
 
 export const Footer = () => {
   const footerNavLabelId = useId();
+  const pathname = usePathname();
 
   return (
-    <footer className="center mt-32 bg-101010 pb-10 text-FFFFFF/50 tablet:mt-24 desktop:mt-[12.5rem] desktop:pb-12">
+    <footer
+      className={[
+        "center bg-101010 pb-10 text-FFFFFF/50 desktop:pb-12",
+        pathname === "/" ? "mt-32 tablet:mt-24 desktop:mt-[12.5rem]" : "",
+        categories.map((c) => `/${c}`).includes(pathname)
+          ? "mt-32 desktop:mt-[10rem]"
+          : "",
+        pathname.startsWith("/product") ? "mt-32 desktop:mt-[10rem]" : "",
+        pathname === "/checkout"
+          ? "mt-24 tablet:mt-28 desktop:mt-[8.8125rem]"
+          : "",
+      ].join(" ")}
+    >
       <div>
         <div className="grid grid-cols-[minmax(0,6.3125rem)] justify-center tablet:justify-start">
           <div className="border-t-[0.25rem] text-D87D4A" />

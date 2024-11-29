@@ -7,9 +7,8 @@ import {
   type PageProps,
   type GenerateMetadata,
 } from "~/app/_utils/next";
+import { categories } from "~/app/_utils/product";
 import { media } from "~/app/_utils/screens";
-
-const categories = [...new Set(_products.map((p) => p.category))];
 
 function getName(category: string) {
   if (category === "earphones") {
