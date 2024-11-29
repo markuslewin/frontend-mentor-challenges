@@ -215,7 +215,7 @@ export function CheckoutForm({ cartItems, onCheckout }: CheckoutFormProps) {
                   quantity={item.quantity}
                   image={getProductImage(item.slug)}
                 >
-                  <Item.Heading>{item.name}</Item.Heading>
+                  <Item.Heading>{item.shortName}</Item.Heading>
                 </Item.Root>
               );
             })}

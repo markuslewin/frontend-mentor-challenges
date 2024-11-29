@@ -52,7 +52,7 @@ export const ReceiptDialog = ({ isOpen, receipt }: ReceiptDialog) => {
                           image={product.image}
                         >
                           <Item.Heading asChild>
-                            <h4>{product.name}</h4>
+                            <h4>{product.shortName}</h4>
                           </Item.Heading>
                         </Item.Root>
                       );

@@ -181,7 +181,7 @@ export function Header({ cartItems }: HeaderProps) {
                                   <div className="flex items-center justify-between">
                                     <div>
                                       <h3 className="text-000000">
-                                        {item.name}
+                                        {item.shortName}
                                       </h3>
                                       <p>{currency(item.price)}</p>
                                     </div>

@@ -100,7 +100,7 @@ export interface Receipt {
     grandTotal: number;
   };
   products: {
-    name: string;
+    shortName: string;
     price: number;
     quantity: number;
     image: string;
