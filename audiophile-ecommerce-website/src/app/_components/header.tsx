@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
-  type ComponentPropsWithoutRef,
   type ComponentPropsWithRef,
   useEffect,
   useId,
@@ -20,6 +19,7 @@ import { Categories } from "~/app/_components/categories";
 import { getTotal, type Item } from "~/app/_utils/cart";
 import { removeAllItemsFromCart, setCart } from "~/app/actions";
 import { getProductImage } from "~/app/_utils/cart";
+import { media } from "~/app/_utils/screens";
 
 interface HeaderProps {
   cartItems: Item[];
@@ -27,9 +27,28 @@ interface HeaderProps {
 
 export function Header({ cartItems }: HeaderProps) {
   const headerNavLabelId = useId();
-  const menu = useDisclosure();
+  const {
+    // Stable reference for dep array
+    setIsExpanded: setMenuIsExpanded,
+    ...menu
+  } = useDisclosure();
   const cart = useDisclosure();
   const pathname = usePathname();
+
+  useEffect(() => {
+    const mql = matchMedia(media.desktop);
+    const handleChange = (e: MediaQueryListEvent) => {
+      if (e.matches) {
+        setMenuIsExpanded(false);
+      }
+    };
+
+    mql.addEventListener("change", handleChange);
+    return () => {
+      // todo: Necessary to remove?
+      mql.removeEventListener("change", handleChange);
+    };
+  }, [setMenuIsExpanded]);
 
   const isHome = pathname === "/";
   const hasBorder = ["/", "/headphones", "/speakers", "/earphones"].includes(
@@ -84,7 +103,7 @@ export function Header({ cartItems }: HeaderProps) {
                       <Categories
                         headingLevel={3}
                         onSelect={() => {
-                          menu.setIsExpanded(false);
+                          setMenuIsExpanded(false);
                         }}
                       />
                     </div>
