@@ -82,7 +82,7 @@ export const ReceiptDialog = ({ isOpen, receipt }: ReceiptDialog) => {
                   <h3>Grand total</h3>
                   <p className="mt-2">
                     <strong className="text-[1.125rem] text-FFFFFF">
-                      {currency(receipt.total)}
+                      {currency(receipt.totals.grandTotal)}
                     </strong>
                   </p>
                 </div>

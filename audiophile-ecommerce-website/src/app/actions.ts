@@ -8,7 +8,7 @@ import {
   addToCart as _addToCart,
   serializeCart,
   type Cart,
-  getTotal,
+  getTotals,
   type Receipt,
   getProductImage,
 } from "~/app/_utils/cart";
@@ -65,10 +65,10 @@ export async function checkout(prevState: unknown, formData: FormData) {
     }
   });
 
-  const total = getTotal(products);
+  const totals = getTotals(products);
 
   console.log("Success:", { submission: submission.value, products });
   cookieStore.delete(cartKey);
 
-  return { total, products } satisfies Receipt;
+  return { totals, products } satisfies Receipt;
 }

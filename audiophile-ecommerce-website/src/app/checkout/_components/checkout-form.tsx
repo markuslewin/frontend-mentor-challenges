@@ -15,7 +15,7 @@ import {
   useContext,
 } from "react";
 import {
-  getTotal,
+  getTotals,
   type Receipt,
   type Items,
   getProductImage,
@@ -48,8 +48,8 @@ export function CheckoutForm({ cartItems, onCheckout }: CheckoutFormProps) {
       evt.preventDefault();
       // todo: Fix API
       checkout(null, context.formData)
-        .then((products) => {
-          onCheckout(products);
+        .then((receipt) => {
+          onCheckout(receipt);
         })
         .catch((err) => {
           // todo: Error UI
@@ -62,10 +62,7 @@ export function CheckoutForm({ cartItems, onCheckout }: CheckoutFormProps) {
   const shippingInfo = fields.shippingInfo.getFieldset();
   const paymentDetails = fields.paymentDetails.getFieldset();
 
-  const total = getTotal(cartItems);
-  const shipping = 50;
-  const vat = total * 0.2;
-  const grandTotal = total + shipping;
+  const { total, shipping, vat, grandTotal } = getTotals(cartItems);
 
   return (
     <div className="center mt-6 desktop:mt-[2.375rem]">
@@ -253,7 +250,7 @@ export function CheckoutForm({ cartItems, onCheckout }: CheckoutFormProps) {
             <span className="uppercase">
               Grand total<span className="sr-only">:</span>
             </span>{" "}
-            <strong className="text-[1.125rem] text-000000">
+            <strong className="text-[1.125rem] text-D87D4A">
               {currency(grandTotal)}
             </strong>
           </p>

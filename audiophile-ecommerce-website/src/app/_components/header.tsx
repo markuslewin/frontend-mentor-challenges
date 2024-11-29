@@ -16,7 +16,7 @@ import { NavLink } from "~/app/_components/nav-link";
 import { currency } from "~/app/_utils/format";
 import { QuantitySelect } from "~/app/_components/quantity-select";
 import { Categories } from "~/app/_components/categories";
-import { getTotal, type Item } from "~/app/_utils/cart";
+import { getTotals, type Item } from "~/app/_utils/cart";
 import { removeAllItemsFromCart, setCart } from "~/app/actions";
 import { getProductImage } from "~/app/_utils/cart";
 import { media } from "~/app/_utils/screens";
@@ -55,7 +55,7 @@ export function Header({ cartItems }: HeaderProps) {
     pathname,
   );
 
-  const total = getTotal(cartItems);
+  const totals = getTotals(cartItems);
 
   const isDisclosureExpanded = menu.isExpanded || cart.isExpanded;
 
@@ -224,7 +224,7 @@ export function Header({ cartItems }: HeaderProps) {
                           <p className="mt-8 flex flex-wrap justify-between uppercase">
                             Total<span className="sr-only">: </span>
                             <strong className="text-[1.125rem] text-000000">
-                              {currency(total)}
+                              {currency(totals.total)}
                             </strong>
                           </p>
                           <p className="mt-6">

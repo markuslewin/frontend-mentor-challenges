@@ -75,12 +75,30 @@ export const getProductImage = (slug: Product["slug"]) => {
   return `/assets/cart/image-${slug}.jpg`;
 };
 
-export const getTotal = (items: { price: number; quantity: number }[]) => {
-  return items.reduce((total, item) => total + item.price * item.quantity, 0);
+export const getTotals = (items: { price: number; quantity: number }[]) => {
+  const total = items.reduce(
+    (total, item) => total + item.price * item.quantity,
+    0,
+  );
+  const shipping = 50;
+  const vat = total * 0.2;
+  const grandTotal = total + shipping;
+
+  return {
+    total,
+    shipping,
+    vat,
+    grandTotal,
+  };
 };
 
 export interface Receipt {
-  total: number;
+  totals: {
+    total: number;
+    shipping: number;
+    vat: number;
+    grandTotal: number;
+  };
   products: {
     name: string;
     price: number;
