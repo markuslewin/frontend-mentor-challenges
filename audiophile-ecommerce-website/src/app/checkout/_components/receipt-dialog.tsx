@@ -1,4 +1,5 @@
 import * as AlertDialog from "@radix-ui/react-alert-dialog";
+import { motion } from "motion/react";
 import Link from "next/link";
 import { useRef, useState } from "react";
 import { type Receipt } from "~/app/_utils/cart";
@@ -8,15 +9,20 @@ import * as Item from "~/app/checkout/_components/item";
 
 interface ReceiptDialog {
   isOpen: boolean;
+  onIsOpenChange: (isOpen: boolean) => void;
   receipt: Receipt;
 }
 
-export const ReceiptDialog = ({ isOpen, receipt }: ReceiptDialog) => {
+export const ReceiptDialog = ({
+  isOpen,
+  receipt,
+  onIsOpenChange,
+}: ReceiptDialog) => {
   const titleRef = useRef<HTMLHeadingElement>(null);
   const [areProductsExpanded, setAreProductsExpanded] = useState(false);
 
   return (
-    <AlertDialog.Root open={isOpen}>
+    <AlertDialog.Root open={isOpen} onOpenChange={onIsOpenChange}>
       <AlertDialog.Portal>
         <AlertDialog.Overlay className="fixed inset-0 grid grid-cols-[minmax(auto,33.75rem)] items-center justify-center overflow-y-auto bg-000000/40 p-6">
           <AlertDialog.Content
