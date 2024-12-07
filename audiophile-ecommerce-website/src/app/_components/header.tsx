@@ -9,6 +9,7 @@ import {
   useRef,
   useState,
 } from "react";
+import { motion } from "motion/react";
 import Logo from "~/app/_assets/logo.svg";
 import IconCart from "~/app/_assets/icon-cart.svg";
 import IconHamburger from "~/app/_assets/icon-hamburger.svg";
@@ -62,7 +63,12 @@ export function Header({ cartItems }: HeaderProps) {
   return (
     <>
       {isDisclosureExpanded ? (
-        <div className="fixed inset-0 z-10 bg-000000/40" />
+        <motion.div
+          className="fixed inset-0 z-10 bg-000000/40"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.1 }}
+        />
       ) : null}
       <header
         className={[
@@ -96,8 +102,19 @@ export function Header({ cartItems }: HeaderProps) {
                 </button>
                 {menu.isExpanded ? (
                   <div className="absolute inset-x-0 top-full">
-                    <div
+                    <motion.div
                       className="rounded-b bg-FFFFFF pb-9 pt-8 text-000000/50 tablet:pb-[4.1875rem] tablet:pt-14"
+                      style={{
+                        originY: 0,
+                        transformPerspective: 2000,
+                      }}
+                      transition={{ duration: 0.2 }}
+                      initial={{
+                        opacity: 0,
+                        scale: 0.95,
+                        rotateX: -10,
+                      }}
+                      animate={{ opacity: 1, scale: 1, rotateX: 0 }}
                       {...menu.contentProps}
                     >
                       <Categories
@@ -106,7 +123,7 @@ export function Header({ cartItems }: HeaderProps) {
                           setMenuIsExpanded(false);
                         }}
                       />
-                    </div>
+                    </motion.div>
                   </div>
                 ) : null}
               </div>
@@ -146,10 +163,21 @@ export function Header({ cartItems }: HeaderProps) {
               <div className="absolute inset-x-0 top-[calc(100%+1.5rem)] desktop:top-[calc(100%+2rem)]">
                 <div className="center">
                   <div className="grid tablet:grid-cols-[minmax(auto,23.5625rem)] tablet:justify-end">
-                    <div
+                    <motion.div
                       className={
                         "rounded bg-FFFFFF px-7 py-8 text-000000/50 tablet:p-8"
                       }
+                      style={{
+                        originY: 0,
+                        transformPerspective: 2000,
+                      }}
+                      transition={{ duration: 0.2 }}
+                      initial={{
+                        opacity: 0,
+                        scale: 0.95,
+                        rotateX: -10,
+                      }}
+                      animate={{ opacity: 1, scale: 1, rotateX: 0 }}
                       {...cart.contentProps}
                     >
                       <div className="flex flex-wrap justify-between">
@@ -242,7 +270,7 @@ export function Header({ cartItems }: HeaderProps) {
                       ) : (
                         <p className="mt-4">The cart is empty.</p>
                       )}
-                    </div>
+                    </motion.div>
                   </div>
                 </div>
               </div>
