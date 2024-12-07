@@ -67,7 +67,7 @@ export async function checkout(prevState: unknown, formData: FormData) {
 
   const totals = getTotals(products);
 
-  console.log("Success:", { submission: submission.value, products });
+  // console.log("Success:", { submission: submission.value, products });
   cookieStore.delete(cartKey);
 
   return { totals, products } satisfies Receipt;

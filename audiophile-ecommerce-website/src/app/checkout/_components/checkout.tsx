@@ -13,44 +13,16 @@ export const Checkout = ({ cartItems: initialCartItems }: CheckoutProps) => {
   const [receipt, setReceipt] = useState<Receipt | null>(null);
   // Hold old cart while showing receipt
   const [cartItems] = useState(initialCartItems);
-  const [tmp, setTmp] = useState(false);
 
   return (
     <>
-      <button
-        className="bg-000000 text-FFFFFF"
-        type="button"
-        onClick={() => {
-          setTmp(!tmp);
-        }}
-      >
-        Toggle
-      </button>
       <CheckoutForm
         cartItems={cartItems}
         onCheckout={(receipt) => {
           setReceipt(receipt);
         }}
       />
-      {receipt ? (
-        <ReceiptDialog
-          isOpen={true}
-          receipt={receipt}
-          onIsOpenChange={() => {
-            console.log();
-          }}
-        />
-      ) : null}
-      {tmp ? (
-        <ReceiptDialog
-          isOpen={tmp}
-          onIsOpenChange={setTmp}
-          receipt={{
-            products: [],
-            totals: { grandTotal: 0, shipping: 0, total: 0, vat: 0 },
-          }}
-        />
-      ) : null}
+      {receipt ? <ReceiptDialog isOpen={true} receipt={receipt} /> : null}
     </>
   );
 };

@@ -106,10 +106,15 @@ export function Header({ cartItems }: HeaderProps) {
                       className="rounded-b bg-FFFFFF pb-9 pt-8 text-000000/50 tablet:pb-[4.1875rem] tablet:pt-14"
                       style={{
                         originY: 0,
+                        transformPerspective: 2000,
                       }}
-                      initial={{ opacity: 0, scale: 0 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      transition={{ duration: 0.1 }}
+                      transition={{ duration: 0.2 }}
+                      initial={{
+                        opacity: 0,
+                        scale: 0.95,
+                        rotateX: -10,
+                      }}
+                      animate={{ opacity: 1, scale: 1, rotateX: 0 }}
                       {...menu.contentProps}
                     >
                       <Categories
@@ -164,10 +169,15 @@ export function Header({ cartItems }: HeaderProps) {
                       }
                       style={{
                         originY: 0,
+                        transformPerspective: 2000,
                       }}
-                      initial={{ opacity: 0, scale: 0 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      transition={{ duration: 0.05 }}
+                      transition={{ duration: 0.2 }}
+                      initial={{
+                        opacity: 0,
+                        scale: 0.95,
+                        rotateX: -10,
+                      }}
+                      animate={{ opacity: 1, scale: 1, rotateX: 0 }}
                       {...cart.contentProps}
                     >
                       <div className="flex flex-wrap justify-between">
