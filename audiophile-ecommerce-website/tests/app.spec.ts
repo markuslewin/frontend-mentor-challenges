@@ -142,7 +142,6 @@ test("cart counts product types", async ({ page }) => {
 test("cart lists products", async ({ page }) => {
   const cartButton = getCartButton(page);
 
-  await page.goto("/");
   await page.goto("/product/zx9-speaker");
   await page.getByRole("button", { name: "add to cart" }).click();
   // todo: Fix race condition instead
@@ -161,7 +160,6 @@ test("cart lists products", async ({ page }) => {
 test("cart resets", async ({ page }) => {
   const cartButton = getCartButton(page);
 
-  await page.goto("/");
   await page.goto("/product/zx9-speaker");
   await page.getByRole("button", { name: "add to cart" }).click();
   await cartButton.click();
@@ -180,7 +178,6 @@ test("cart updates product quantity", async ({ page }) => {
   const cartButton = getCartButton(page);
   const productItem = page.getByTestId("cart").getByRole("listitem");
 
-  await page.goto("/");
   await page.goto("/product/zx9-speaker");
   await page.getByRole("button", { name: "add to cart" }).click();
   await cartButton.click();
@@ -197,6 +194,57 @@ test("cart updates product quantity", async ({ page }) => {
   await expect(productItem.getByTestId("quantity")).toHaveText(/2/i);
 });
 
+test("adds quantity of product to cart", async ({ page }) => {
+  const cartButton = getCartButton(page);
+  const productItem = page.getByTestId("cart").getByRole("listitem");
+  const quantityText = page.getByRole("main").getByTestId("quantity");
+  const decrementButton = page
+    .getByRole("main")
+    .getByRole("button", { name: "decrement" });
+  const incrementButton = page
+    .getByRole("main")
+    .getByRole("button", { name: "increment" });
+
+  await page.goto("/product/zx9-speaker");
+  await cartButton.click();
+
+  await expect(productItem).not.toBeAttached();
+  await expect(quantityText).toHaveText(/1/i);
+
+  await cartButton.click();
+  // Force disabled button click
+  await decrementButton.click({ force: true }); // Still 1
+  await incrementButton.click(); // 2
+  await incrementButton.click(); // 3
+
+  await expect(quantityText).toHaveText(/3/i);
+
+  await page.getByRole("button", { name: "add to cart" }).click();
+
+  await expect(quantityText).toHaveText(/1/i);
+
+  await cartButton.click();
+
+  await expect(productItem.getByTestId("quantity")).toHaveText(/3/i);
+
+  await cartButton.click();
+  await incrementButton.click();
+  await incrementButton.click();
+  await incrementButton.click();
+  await incrementButton.click();
+  await decrementButton.click();
+
+  await expect(quantityText).toHaveText(/4/i);
+
+  await page.getByRole("button", { name: "add to cart" }).click();
+  await cartButton.click();
+  await page
+    .getByRole("button", { name: "add to cart", disabled: false })
+    .waitFor();
+
+  await expect(productItem.getByTestId("quantity")).toHaveText(/7/i);
+});
+
 function getMenuButton(page: Page) {
   return page
     .getByRole("banner")
@@ -208,7 +256,6 @@ function getCartButton(page: Page) {
   return page.getByRole("banner").getByRole("button", { name: "cart" });
 }
 
-// todo: product | adds, sets quantity selector to 1
 // todo: checkout | validates form
 // todo: checkout | changes payment method instructions
 // todo: checkout | displays receipt

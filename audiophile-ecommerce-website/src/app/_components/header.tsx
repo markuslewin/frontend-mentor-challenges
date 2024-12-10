@@ -8,6 +8,7 @@ import {
   useId,
   useRef,
   useState,
+  useTransition,
 } from "react";
 import { motion } from "motion/react";
 import Logo from "~/app/_assets/logo.svg";
@@ -27,6 +28,7 @@ interface HeaderProps {
 }
 
 export function Header({ cartItems }: HeaderProps) {
+  const [isPending, startTransition] = useTransition();
   const headerNavLabelId = useId();
   const {
     // Stable reference for dep array
@@ -216,26 +218,29 @@ export function Header({ cartItems }: HeaderProps) {
                                     </div>
                                     <QuantitySelect
                                       size="small"
-                                      // todo: Should be controlled optimistic `value`
-                                      defaultValue={item.quantity}
-                                      onChange={async (value) => {
-                                        await setCart(
-                                          new Map(
-                                            cartItems.map((i) => {
-                                              if (i.id === item.id) {
-                                                return [
-                                                  i.id,
-                                                  { quantity: value },
-                                                ];
-                                              } else {
-                                                return [
-                                                  i.id,
-                                                  { quantity: i.quantity },
-                                                ];
-                                              }
-                                            }),
-                                          ),
-                                        );
+                                      value={item.quantity}
+                                      // todo: Proper loading state or optimistic UI
+                                      disabled={isPending}
+                                      onChange={(value) => {
+                                        startTransition(async () => {
+                                          await setCart(
+                                            new Map(
+                                              cartItems.map((i) => {
+                                                if (i.id === item.id) {
+                                                  return [
+                                                    i.id,
+                                                    { quantity: value },
+                                                  ];
+                                                } else {
+                                                  return [
+                                                    i.id,
+                                                    { quantity: i.quantity },
+                                                  ];
+                                                }
+                                              }),
+                                            ),
+                                          );
+                                        });
                                       }}
                                     />
                                   </div>
