@@ -7,6 +7,8 @@
     "build": "next build",
     "check": "next lint && tsc --noEmit",
     "dev": "next dev --turbo",
+    "test": "playwright test",
+    "test:dev": "playwright test --ui",
     "lint": "next lint",
     "lint:fix": "next lint --fix",
     "preview": "next build && next start",
@@ -30,6 +32,7 @@
     "zod": "^3.23.3"
   },
   "devDependencies": {
+    "@playwright/test": "^1.49.1",
     "@svgr/webpack": "^8.1.0",
     "@types/eslint": "^8.56.10",
     "@types/node": "^20.14.10",
