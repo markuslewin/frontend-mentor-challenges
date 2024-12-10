@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { test, expect, type Page } from "@playwright/test";
 
 test("has home title", async ({ page }) => {
   await page.goto("/");
@@ -23,3 +23,152 @@ test("has checkout title", async ({ page }) => {
 
   await expect(page).toHaveTitle(/checkout/i);
 });
+
+test("can navigate via header", async ({ page }) => {
+  await page.goto("/");
+  await page
+    .getByRole("banner")
+    .getByRole("navigation")
+    .getByRole("link", { name: "speakers" })
+    .click();
+
+  await expect(page.getByRole("heading", { level: 1 })).toHaveAccessibleName(
+    /speakers/i,
+  );
+
+  await page
+    .getByRole("banner")
+    .getByRole("navigation")
+    .getByRole("link", { name: "home" })
+    .click();
+
+  await expect(page.getByRole("heading", { level: 1 })).toHaveAccessibleName(
+    /home/i,
+  );
+});
+
+test("cart expands", async ({ page }) => {
+  const cartButton = getCartButton(page);
+
+  await page.goto("/");
+
+  await expect(cartButton).toHaveAttribute("aria-expanded", "false");
+  await expect(
+    page.getByRole("banner").getByRole("heading", { name: "cart" }),
+  ).not.toBeAttached();
+
+  await cartButton.click();
+
+  await expect(cartButton).toHaveAttribute("aria-expanded", "true");
+  await expect(
+    page.getByRole("banner").getByRole("heading", { name: "cart" }),
+  ).toBeAttached();
+});
+
+test("cart inits in empty state", async ({ page }) => {
+  const cartButton = getCartButton(page);
+
+  await page.goto("/");
+  await cartButton.click();
+
+  await expect(page.getByRole("banner")).toContainText(/the cart is empty/i);
+});
+
+test("cart counts product types", async ({ page }) => {
+  const cartButton = getCartButton(page);
+
+  await page.goto("/");
+  await cartButton.click();
+
+  await expect(
+    page.getByRole("banner").getByRole("heading", { name: "cart" }),
+  ).toContainText(/0/i);
+
+  await page.goto("/product/zx9-speaker");
+  await page.getByRole("button", { name: "increment" }).click();
+  await page.getByRole("button", { name: "add to cart" }).click();
+  await cartButton.click();
+
+  await expect(
+    page.getByRole("banner").getByRole("heading", { name: "cart" }),
+  ).toContainText(/1/i);
+
+  await page.goto("/product/yx1-earphones");
+  await page.getByRole("button", { name: "increment" }).click();
+  await page.getByRole("button", { name: "add to cart" }).click();
+  await cartButton.click();
+
+  await expect(
+    page.getByRole("banner").getByRole("heading", { name: "cart" }),
+  ).toContainText(/2/i);
+});
+
+test("cart lists products", async ({ page }) => {
+  const cartButton = getCartButton(page);
+
+  await page.goto("/");
+  await page.goto("/product/zx9-speaker");
+  await page.getByRole("button", { name: "add to cart" }).click();
+  // todo: Fix race condition instead
+  await page
+    .getByRole("button", { name: "add to cart", disabled: false })
+    .waitFor();
+  await page.goto("/product/xx59-headphones");
+  await page.getByRole("button", { name: "add to cart" }).click();
+  await cartButton.click();
+
+  await expect(
+    page.getByTestId("cart").getByRole("list").getByRole("listitem"),
+  ).toContainText([/zx9/i, /xx59/i]);
+});
+
+test("cart resets", async ({ page }) => {
+  const cartButton = getCartButton(page);
+
+  await page.goto("/");
+  await page.goto("/product/zx9-speaker");
+  await page.getByRole("button", { name: "add to cart" }).click();
+  await cartButton.click();
+  await page
+    .getByRole("banner")
+    .getByRole("button", { name: "remove" })
+    .click();
+
+  await expect(
+    page.getByRole("banner").getByRole("heading", { name: "cart" }),
+  ).toContainText(/0/i);
+  await expect(page.getByRole("banner")).toContainText(/the cart is empty/i);
+});
+
+test("cart updates product quantity", async ({ page }) => {
+  const cartButton = getCartButton(page);
+  const productItem = page.getByTestId("cart").getByRole("listitem");
+
+  await page.goto("/");
+  await page.goto("/product/zx9-speaker");
+  await page.getByRole("button", { name: "add to cart" }).click();
+  await cartButton.click();
+
+  await expect(productItem.getByTestId("quantity")).toHaveText(/1/i);
+
+  await productItem.getByRole("button", { name: "increment" }).click();
+  await productItem.getByRole("button", { name: "increment" }).click();
+
+  await expect(productItem.getByTestId("quantity")).toHaveText(/3/i);
+
+  await productItem.getByRole("button", { name: "decrement" }).click();
+
+  await expect(productItem.getByTestId("quantity")).toHaveText(/2/i);
+});
+
+function getCartButton(page: Page) {
+  return page.getByRole("banner").getByRole("button", { name: "cart" });
+}
+
+// todo: header | mobile/tablet nav
+// todo: product | adds, sets quantity selector to 1
+// todo: checkout | validates form
+// todo: checkout | changes payment method instructions
+// todo: checkout | displays receipt
+// todo: checkout | empty cart state after checkout
+// todo: cart | resets after purchase

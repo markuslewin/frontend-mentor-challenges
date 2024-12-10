@@ -179,6 +179,7 @@ export function Header({ cartItems }: HeaderProps) {
                       }}
                       animate={{ opacity: 1, scale: 1, rotateX: 0 }}
                       {...cart.contentProps}
+                      data-testid="cart"
                     >
                       <div className="flex flex-wrap justify-between">
                         <h2 className="text-[1.125rem] font-bold tracking-[0.08125rem] text-000000">
@@ -215,7 +216,8 @@ export function Header({ cartItems }: HeaderProps) {
                                     </div>
                                     <QuantitySelect
                                       size="small"
-                                      value={item.quantity}
+                                      // todo: Should be controlled optimistic `value`
+                                      defaultValue={item.quantity}
                                       onChange={async (value) => {
                                         await setCart(
                                           new Map(

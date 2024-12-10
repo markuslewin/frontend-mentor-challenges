@@ -65,7 +65,8 @@ export const QuantitySelect = forwardRef<
           ].join(" ")}
         >
           <p className="self-center text-center text-000000" aria-live="polite">
-            <span className="sr-only">Quantity: </span> {value}
+            <span className="sr-only">Quantity: </span>
+            <span data-testid="quantity">{value}</span>
           </p>
           <button
             className="order-first outline-offset-0 transition-colors hocus:text-D87D4A"
