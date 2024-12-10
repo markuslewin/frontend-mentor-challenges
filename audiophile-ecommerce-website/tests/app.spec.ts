@@ -47,6 +47,42 @@ test("can navigate via header", async ({ page }) => {
   );
 });
 
+test("mobile has nav menu", async ({ page }) => {
+  const menuButton = getMenuButton(page);
+
+  await page.setViewportSize({ width: 375, height: 667 });
+  await page.goto("/");
+
+  await expect(menuButton).toHaveAttribute("aria-expanded", "false");
+  await expect(
+    page.getByRole("banner").getByRole("navigation").getByRole("link"),
+  ).toHaveCount(0);
+
+  await menuButton.click();
+
+  await expect(menuButton).toHaveAttribute("aria-expanded", "true");
+  await expect(
+    page.getByRole("banner").getByRole("navigation").getByRole("link"),
+  ).not.toHaveCount(0);
+});
+
+test("mobile can navigate via menu", async ({ page }) => {
+  const menuButton = getMenuButton(page);
+
+  await page.setViewportSize({ width: 375, height: 667 });
+  await page.goto("/");
+  await menuButton.click();
+  await page
+    .getByRole("banner")
+    .getByRole("navigation")
+    .getByRole("link", { name: "headphones" })
+    .click();
+
+  await expect(page.getByRole("heading", { level: 1 })).toHaveAccessibleName(
+    /headphones/i,
+  );
+});
+
 test("cart expands", async ({ page }) => {
   const cartButton = getCartButton(page);
 
@@ -161,11 +197,17 @@ test("cart updates product quantity", async ({ page }) => {
   await expect(productItem.getByTestId("quantity")).toHaveText(/2/i);
 });
 
+function getMenuButton(page: Page) {
+  return page
+    .getByRole("banner")
+    .getByRole("navigation")
+    .getByRole("button", { name: "menu" });
+}
+
 function getCartButton(page: Page) {
   return page.getByRole("banner").getByRole("button", { name: "cart" });
 }
 
-// todo: header | mobile/tablet nav
 // todo: product | adds, sets quantity selector to 1
 // todo: checkout | validates form
 // todo: checkout | changes payment method instructions
