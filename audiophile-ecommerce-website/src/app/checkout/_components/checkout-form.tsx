@@ -200,7 +200,10 @@ export function CheckoutForm({ cartItems, onCheckout }: CheckoutFormProps) {
           {paymentDetails.paymentMethod.value === "cash-on-delivery" ? (
             <div className="mt-8 flex flex-wrap gap-x-8 gap-y-4">
               <IconCashOnDelivery className="mt-[0.8125rem] size-12" />
-              <p className="grow basis-64">
+              <p
+                className="grow basis-64"
+                data-testid="cash-on-delivery-instructions"
+              >
                 The ‘Cash on Delivery’ option enables you to pay in cash when
                 our delivery courier arrives at your residence. Just make sure
                 your address is correct so that your order will not be
@@ -209,7 +212,10 @@ export function CheckoutForm({ cartItems, onCheckout }: CheckoutFormProps) {
             </div>
           ) : null}
         </div>
-        <div className="rounded bg-FFFFFF px-6 py-8 text-000000/50 tablet:p-8 desktop:col-[17/span_7]">
+        <div
+          className="rounded bg-FFFFFF px-6 py-8 text-000000/50 tablet:p-8 desktop:col-[17/span_7]"
+          data-testid="summary"
+        >
           <h2 className="text-h6 text-000000">Summary</h2>
           {cartItems.length ? (
             <ul className="mt-8 grid gap-6" role="list">

@@ -12,6 +12,7 @@ type SerializableCart = z.infer<typeof cartSchema>;
 export type Cart = Map<Product["id"], { quantity: number }>;
 
 export const cartKey = "cart";
+export type CartKey = typeof cartKey;
 
 export const getCart = (cookie: string | undefined) => {
   let cart: Cart;
@@ -41,6 +42,7 @@ export const serializeCart = (cart: Cart) => {
     }) satisfies SerializableCart,
   );
 };
+export type SerializeCart = typeof serializeCart;
 
 export const addToCart = (id: Product["id"], quantity: number, cart: Cart) => {
   const entry = cart.get(id);

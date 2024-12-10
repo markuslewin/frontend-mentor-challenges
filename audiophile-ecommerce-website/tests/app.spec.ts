@@ -1,4 +1,18 @@
 import { test, expect, type Page } from "@playwright/test";
+import { type Cart, type CartKey, type SerializeCart } from "~/app/_utils/cart";
+
+// todo: These should be imported from the `cart.ts` module, but it indirectly imports JSON data, which isn't supported in Playwright
+const cartKey: CartKey = "cart";
+export const serializeCart: SerializeCart = (cart) => {
+  return JSON.stringify(
+    [...cart].map(([id, entry]) => {
+      return {
+        id,
+        quantity: entry.quantity,
+      };
+    }),
+  );
+};
 
 test("has home title", async ({ page }) => {
   await page.goto("/");
@@ -245,6 +259,81 @@ test("adds quantity of product to cart", async ({ page }) => {
   await expect(productItem.getByTestId("quantity")).toHaveText(/7/i);
 });
 
+test("can navigate to checkout via cart", async ({ page }) => {
+  const cartButton = getCartButton(page);
+
+  await setCart(page, new Map([[3, { quantity: 1 }]]));
+  await page.goto("/");
+  await cartButton.click();
+  await page
+    .getByRole("banner")
+    .getByRole("link", { name: "checkout" })
+    .click();
+
+  await expect(page.getByRole("heading", { level: 1 })).toHaveAccessibleName(
+    /checkout/i,
+  );
+});
+
+test("checkout displays cart items", async ({ page }) => {
+  await setCart(
+    page,
+    new Map([
+      [5, { quantity: 2 }],
+      [3, { quantity: 1 }],
+    ]),
+  );
+  await page.goto("/checkout");
+
+  await expect(page.getByTestId("summary").getByRole("listitem")).toContainText(
+    [/zx7/i, /xx99 mk i/i],
+  );
+});
+
+test("checkout displays payment method fields", async ({ page }) => {
+  await page.goto("/checkout");
+
+  await expect(page.getByRole("radio", { name: "e-money" })).toBeChecked();
+  await expect(
+    page.getByRole("textbox", { name: "e-money number" }),
+  ).toBeAttached();
+  await expect(
+    page.getByRole("textbox", { name: "e-money pin" }),
+  ).toBeAttached();
+  await expect(
+    page.getByTestId("cash-on-delivery-instructions"),
+  ).not.toBeAttached();
+
+  // Force click on label of `sr-only` input
+  await page
+    .getByRole("radio", { name: "cash on delivery" })
+    .click({ force: true });
+
+  await expect(
+    page.getByRole("textbox", { name: "e-money number" }),
+  ).not.toBeAttached();
+  await expect(
+    page.getByRole("textbox", { name: "e-money pin" }),
+  ).not.toBeAttached();
+  await expect(
+    page.getByTestId("cash-on-delivery-instructions"),
+  ).toBeAttached();
+
+  await page.getByRole("radio", { name: "e-money" }).click({ force: true });
+
+  await expect(
+    page.getByRole("textbox", { name: "e-money number" }),
+  ).toBeAttached();
+  await expect(
+    page.getByRole("textbox", { name: "e-money pin" }),
+  ).toBeAttached();
+  await expect(
+    page.getByTestId("cash-on-delivery-instructions"),
+  ).not.toBeAttached();
+});
+
+// todo: Test prices by mocking product data
+
 function getMenuButton(page: Page) {
   return page
     .getByRole("banner")
@@ -256,8 +345,18 @@ function getCartButton(page: Page) {
   return page.getByRole("banner").getByRole("button", { name: "cart" });
 }
 
+async function setCart(page: Page, cart: Cart) {
+  await page.context().addCookies([
+    {
+      name: cartKey,
+      value: serializeCart(cart),
+      domain: "localhost",
+      path: "/",
+    },
+  ]);
+}
+
 // todo: checkout | validates form
-// todo: checkout | changes payment method instructions
 // todo: checkout | displays receipt
 // todo: checkout | empty cart state after checkout
 // todo: cart | resets after purchase
