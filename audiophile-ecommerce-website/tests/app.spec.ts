@@ -1,5 +1,6 @@
 import { test, expect, type Page } from "@playwright/test";
 import { type Cart, type CartKey, type SerializeCart } from "~/app/_utils/cart";
+import { type Checkout } from "~/app/_utils/schema";
 
 // todo: These should be imported from the `cart.ts` module, but it indirectly imports JSON data, which isn't supported in Playwright
 const cartKey: CartKey = "cart";
@@ -332,6 +333,201 @@ test("checkout displays payment method fields", async ({ page }) => {
   ).not.toBeAttached();
 });
 
+test("checkout validates form", async ({ page }) => {
+  await page.goto("/checkout");
+  await page
+    .getByRole("button", {
+      name: "pay",
+    })
+    .click();
+
+  await expect(
+    page.getByRole("textbox").and(page.locator("[aria-invalid=true]")),
+  ).toHaveCount(9);
+  for (const textbox of await page
+    .getByRole("textbox")
+    .and(page.locator("[aria-invalid=true]"))
+    .all()) {
+    await expect(textbox).toHaveAccessibleDescription(/required/i);
+  }
+
+  await page
+    .getByRole("textbox", {
+      name: "email",
+    })
+    .fill("markus");
+  await page
+    .getByRole("button", {
+      name: "pay",
+    })
+    .click();
+
+  await expect(
+    page.getByRole("textbox").and(page.locator("[aria-invalid=true]")),
+  ).toHaveCount(9);
+  await expect(
+    page.getByRole("textbox", {
+      name: "email",
+    }),
+  ).toHaveAccessibleDescription(/wrong format/i);
+});
+
+test("checkout displays receipt", async ({ page }) => {
+  const receiptDialog = page.getByRole("alertdialog", { name: "thank you" });
+
+  await setCart(page, new Map([[1, { quantity: 1 }]]));
+  await page.goto("/checkout");
+  await fillCheckoutForm(page, {
+    billingDetails: {
+      emailAddress: "some@email.com",
+      name: "a name",
+      phoneNumber: "123",
+    },
+    paymentDetails: {
+      paymentMethod: "e-money",
+      eMoneyNumber: "123123",
+      eMoneyPin: "1234",
+    },
+    shippingInfo: {
+      address: "an address",
+      city: "a city",
+      country: "a country",
+      zipCode: "a zip code",
+    },
+  });
+  await page.getByRole("button", { name: "pay" }).click();
+
+  await expect(receiptDialog).toBeAttached();
+});
+
+test("receipt button navigates to home", async ({ page }) => {
+  const receiptDialog = getReceiptDialog(page);
+
+  await setCart(page, new Map([[1, { quantity: 1 }]]));
+  await page.goto("/checkout");
+  await fillCheckoutForm(page, {
+    billingDetails: {
+      emailAddress: "some@email.com",
+      name: "a name",
+      phoneNumber: "123",
+    },
+    paymentDetails: {
+      paymentMethod: "cash-on-delivery",
+    },
+    shippingInfo: {
+      address: "an address",
+      city: "a city",
+      country: "a country",
+      zipCode: "a zip code",
+    },
+  });
+  await page.getByRole("button", { name: "pay" }).click();
+  await receiptDialog.getByRole("link", { name: "back" }).click();
+
+  await expect(page.getByRole("heading", { level: 1 })).toHaveAccessibleName(
+    /home/i,
+  );
+});
+
+test("receipt displays bought products", async ({ page }) => {
+  const receiptDialog = getReceiptDialog(page);
+
+  await setCart(
+    page,
+    new Map([
+      [1, { quantity: 10 }],
+      [5, { quantity: 20 }],
+      [6, { quantity: 30 }],
+    ]),
+  );
+  await page.goto("/checkout");
+  await fillCheckoutForm(page, {
+    billingDetails: {
+      emailAddress: "some@email.com",
+      name: "a name",
+      phoneNumber: "123",
+    },
+    paymentDetails: {
+      paymentMethod: "cash-on-delivery",
+    },
+    shippingInfo: {
+      address: "an address",
+      city: "a city",
+      country: "a country",
+      zipCode: "a zip code",
+    },
+  });
+  await page.getByRole("button", { name: "pay" }).click();
+
+  await expect(receiptDialog.getByRole("listitem")).toContainText([/yx1/i]);
+  await expect(receiptDialog.getByRole("listitem")).toContainText([/x10/i]);
+
+  await page.getByRole("button", { name: "2 other", expanded: false }).click();
+
+  await expect(receiptDialog.getByRole("listitem")).toContainText([
+    /yx1/i,
+    /zx7/i,
+    /zx9/i,
+  ]);
+  await expect(receiptDialog.getByRole("listitem")).toContainText([
+    /x10/i,
+    /x20/i,
+    /x30/i,
+  ]);
+
+  await page.getByRole("button", { name: "view less", expanded: true }).click();
+
+  await expect(receiptDialog.getByRole("listitem")).toContainText([/yx1/i]);
+  await expect(receiptDialog.getByRole("listitem")).toContainText([/x10/i]);
+});
+
+test("checkout clears cart", async ({ page }) => {
+  const cartButton = getCartButton(page);
+  const receiptDialog = getReceiptDialog(page);
+
+  await setCart(page, new Map([[1, { quantity: 1 }]]));
+  await page.goto("/checkout");
+  await fillCheckoutForm(page, {
+    billingDetails: {
+      emailAddress: "some@email.com",
+      name: "a name",
+      phoneNumber: "123",
+    },
+    paymentDetails: {
+      paymentMethod: "cash-on-delivery",
+    },
+    shippingInfo: {
+      address: "an address",
+      city: "a city",
+      country: "a country",
+      zipCode: "a zip code",
+    },
+  });
+  await page.getByRole("button", { name: "pay" }).click();
+  await receiptDialog.waitFor();
+  await page.goto("/");
+  await cartButton.click();
+
+  await expect(
+    page.getByRole("banner").getByRole("heading", { name: "cart" }),
+  ).toContainText(/0/i);
+});
+
+test("checkout summary is in sync with cart", async ({ page }) => {
+  const cartButton = getCartButton(page);
+  const productItem = page.getByTestId("cart").getByRole("listitem");
+
+  await setCart(page, new Map([[1, { quantity: 1 }]]));
+  await page.goto("/checkout");
+  await cartButton.click();
+  await productItem.getByRole("button", { name: "increment" }).click();
+  await cartButton.click();
+
+  await expect(
+    page.getByTestId("summary").getByRole("listitem").getByTestId("quantity"),
+  ).toHaveText(["2"]);
+});
+
 // todo: Test prices by mocking product data
 
 function getMenuButton(page: Page) {
@@ -345,6 +541,10 @@ function getCartButton(page: Page) {
   return page.getByRole("banner").getByRole("button", { name: "cart" });
 }
 
+function getReceiptDialog(page: Page) {
+  return page.getByRole("alertdialog", { name: "thank you" });
+}
+
 async function setCart(page: Page, cart: Cart) {
   await page.context().addCookies([
     {
@@ -356,7 +556,42 @@ async function setCart(page: Page, cart: Cart) {
   ]);
 }
 
-// todo: checkout | validates form
-// todo: checkout | displays receipt
-// todo: checkout | empty cart state after checkout
-// todo: cart | resets after purchase
+async function fillCheckoutForm(page: Page, data: Checkout) {
+  await page
+    .getByRole("textbox", { name: "name" })
+    .fill(data.billingDetails.name);
+  await page
+    .getByRole("textbox", { name: "email" })
+    .fill(data.billingDetails.emailAddress);
+  await page
+    .getByRole("textbox", { name: "phone" })
+    .fill(data.billingDetails.phoneNumber);
+  await page
+    .getByRole("textbox", {
+      // Resolve conflict with "Email Address"
+      name: /^address/i,
+    })
+    .fill(data.shippingInfo.address);
+  await page
+    .getByRole("textbox", { name: "zip" })
+    .fill(data.shippingInfo.zipCode);
+  await page
+    .getByRole("textbox", { name: "city" })
+    .fill(data.shippingInfo.city);
+  await page
+    .getByRole("textbox", { name: "country" })
+    .fill(data.shippingInfo.country);
+  if (data.paymentDetails.paymentMethod === "e-money") {
+    await page.getByRole("radio", { name: "e-money" }).check({ force: true });
+    await page
+      .getByRole("textbox", { name: "e-money number" })
+      .fill(data.paymentDetails.eMoneyNumber);
+    await page
+      .getByRole("textbox", { name: "e-money pin" })
+      .fill(data.paymentDetails.eMoneyPin);
+  } else if (data.paymentDetails.paymentMethod === "cash-on-delivery") {
+    await page
+      .getByRole("radio", { name: "cash on delivery" })
+      .check({ force: true });
+  }
+}

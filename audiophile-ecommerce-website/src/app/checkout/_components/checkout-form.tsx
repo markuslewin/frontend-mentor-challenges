@@ -14,12 +14,7 @@ import {
   createContext,
   useContext,
 } from "react";
-import {
-  getTotals,
-  type Receipt,
-  type Items,
-  getProductImage,
-} from "~/app/_utils/cart";
+import { getTotals, type Receipt } from "~/app/_utils/cart";
 import { currency } from "~/app/_utils/format";
 import { checkoutSchema, type PaymentMethod } from "~/app/_utils/schema";
 import { checkout } from "~/app/actions";
@@ -27,11 +22,16 @@ import * as Item from "~/app/checkout/_components/item";
 import IconCashOnDelivery from "~/app/checkout/_assets/icon-cash-on-delivery.svg";
 
 interface CheckoutFormProps {
-  cartItems: Items;
+  items: {
+    shortName: string;
+    image: string;
+    price: number;
+    quantity: number;
+  }[];
   onCheckout: (receipt: Receipt) => void;
 }
 
-export function CheckoutForm({ cartItems, onCheckout }: CheckoutFormProps) {
+export function CheckoutForm({ items, onCheckout }: CheckoutFormProps) {
   const [form, fields] = useForm({
     constraint: getZodConstraint(checkoutSchema),
     defaultValue: {
@@ -47,7 +47,7 @@ export function CheckoutForm({ cartItems, onCheckout }: CheckoutFormProps) {
     onSubmit: (evt, context) => {
       evt.preventDefault();
 
-      if (cartItems.length) {
+      if (items.length) {
         // todo: Fix API
         checkout(null, context.formData)
           .then((receipt) => {
@@ -67,7 +67,7 @@ export function CheckoutForm({ cartItems, onCheckout }: CheckoutFormProps) {
   const shippingInfo = fields.shippingInfo.getFieldset();
   const paymentDetails = fields.paymentDetails.getFieldset();
 
-  const { total, shipping, vat, grandTotal } = getTotals(cartItems);
+  const { total, shipping, vat, grandTotal } = getTotals(items);
 
   return (
     <div className="center mt-6 desktop:mt-[2.375rem]">
@@ -217,15 +217,15 @@ export function CheckoutForm({ cartItems, onCheckout }: CheckoutFormProps) {
           data-testid="summary"
         >
           <h2 className="text-h6 text-000000">Summary</h2>
-          {cartItems.length ? (
+          {items.length ? (
             <ul className="mt-8 grid gap-6" role="list">
-              {cartItems.map((item, i) => {
+              {items.map((item, i) => {
                 return (
                   <Item.Root
                     key={i}
                     price={item.price}
                     quantity={item.quantity}
-                    image={getProductImage(item.slug)}
+                    image={item.image}
                   >
                     <Item.Heading>{item.shortName}</Item.Heading>
                   </Item.Root>

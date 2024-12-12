@@ -15,7 +15,9 @@ export const Root = ({ price, image, quantity, children }: RootProps) => {
       <div>
         <div className="flex justify-between">
           {children}
-          <p>x{quantity}</p>
+          <p>
+            x<span data-testid="quantity">{quantity}</span>
+          </p>
         </div>
         <p>{currency(price)}</p>
       </div>
