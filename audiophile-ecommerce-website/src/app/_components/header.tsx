@@ -32,6 +32,8 @@ export function Header() {
     setIsExpanded: setMenuIsExpanded,
     ...menu
   } = useDisclosure();
+  const cartLabelId = useId();
+  const cartDescId = useId();
   const cart = useDisclosure();
   const pathname = usePathname();
 
@@ -151,11 +153,27 @@ export function Header() {
             </nav>
             <p className="order-3 grid justify-end">
               <button
-                className="transition-colors clickable-12 hocus:text-D87D4A"
                 {...cart.triggerProps}
+                className="relative isolate transition-colors clickable-12 hocus:text-D87D4A"
+                aria-labelledby={cartLabelId}
+                aria-describedby={cartDescId}
               >
                 <IconCart className="h-5 w-[1.4375rem]" />
-                <span className="sr-only">Cart</span>
+                <span className="sr-only" id={cartLabelId}>
+                  Cart
+                </span>
+                {cartItems.length ? (
+                  <span
+                    className="absolute -right-3 -top-3 rounded-full bg-D87D4A px-2 text-[0.8125rem] leading-tight text-FFFFFF"
+                    id={cartDescId}
+                  >
+                    {cartItems.length}
+                    <span className="sr-only">
+                      {" "}
+                      item{cartItems.length > 1 ? <>s</> : null}
+                    </span>
+                  </span>
+                ) : null}
               </button>
             </p>
             {cart.isExpanded ? (
