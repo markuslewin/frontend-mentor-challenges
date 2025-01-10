@@ -4,11 +4,11 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
   type ComponentPropsWithRef,
+  startTransition,
   useEffect,
   useId,
   useRef,
   useState,
-  useTransition,
 } from "react";
 import { motion } from "motion/react";
 import Logo from "~/app/_assets/logo.svg";
@@ -18,18 +18,15 @@ import { NavLink } from "~/app/_components/nav-link";
 import { currency } from "~/app/_utils/format";
 import { QuantitySelect } from "~/app/_components/quantity-select";
 import { Categories } from "~/app/_components/categories";
-import { getTotals, type Item } from "~/app/_utils/cart";
+import { getTotals } from "~/app/_utils/cart";
 import { removeAllItemsFromCart, setCart } from "~/app/actions";
 import { getProductImage } from "~/app/_utils/cart";
 import { media } from "~/app/_utils/screens";
+import { useCart } from "~/app/_components/cart-context";
 
-interface HeaderProps {
-  cartItems: Item[];
-}
-
-export function Header({ cartItems }: HeaderProps) {
-  const [isPending, startTransition] = useTransition();
+export function Header() {
   const headerNavLabelId = useId();
+  const { items: cartItems, optimisticCartDispatch } = useCart();
   const {
     // Stable reference for dep array
     setIsExpanded: setMenuIsExpanded,
@@ -188,17 +185,18 @@ export function Header({ cartItems }: HeaderProps) {
                           Cart ({cartItems.length}
                           <span className="sr-only"> items</span>)
                         </h2>
-                        {cartItems.length > 0 ? (
-                          <button
-                            className="underline transition-colors hocus:text-D87D4A"
-                            type="button"
-                            onClick={async () => {
+                        <button
+                          className="underline transition-colors hocus:text-D87D4A"
+                          type="button"
+                          onClick={() => {
+                            startTransition(async () => {
+                              optimisticCartDispatch({ type: "remove-all" });
                               await removeAllItemsFromCart();
-                            }}
-                          >
-                            Remove all
-                          </button>
-                        ) : null}
+                            });
+                          }}
+                        >
+                          Remove all
+                        </button>
                       </div>
                       {cartItems.length > 0 ? (
                         <>
@@ -219,10 +217,15 @@ export function Header({ cartItems }: HeaderProps) {
                                     <QuantitySelect
                                       size="small"
                                       value={item.quantity}
-                                      // todo: Proper loading state or optimistic UI
-                                      disabled={isPending}
                                       onChange={(value) => {
                                         startTransition(async () => {
+                                          optimisticCartDispatch({
+                                            type: "quantity",
+                                            data: {
+                                              id: item.id,
+                                              quantity: value,
+                                            },
+                                          });
                                           await setCart(
                                             new Map(
                                               cartItems.map((i) => {

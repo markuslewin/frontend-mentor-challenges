@@ -1,15 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { type Receipt, type Items, getProductImage } from "~/app/_utils/cart";
+import { useCart } from "~/app/_components/cart-context";
+import { type Receipt, getProductImage } from "~/app/_utils/cart";
 import { CheckoutForm } from "~/app/checkout/_components/checkout-form";
 import { ReceiptDialog } from "~/app/checkout/_components/receipt-dialog";
 
-interface CheckoutProps {
-  cartItems: Items;
-}
-
-export const Checkout = ({ cartItems }: CheckoutProps) => {
+export const Checkout = () => {
+  const { items } = useCart();
   const [receipt, setReceipt] = useState<Receipt | null>(null);
 
   return (
@@ -19,7 +17,7 @@ export const Checkout = ({ cartItems }: CheckoutProps) => {
           // Hold old cart while showing receipt
           receipt
             ? receipt.products
-            : cartItems.map((i) => ({ ...i, image: getProductImage(i.slug) }))
+            : items.map((i) => ({ ...i, image: getProductImage(i.slug) }))
         }
         onCheckout={(receipt) => {
           setReceipt(receipt);

@@ -5,6 +5,7 @@ import { Header } from "~/app/_components/header";
 import { cookies } from "next/headers";
 import { cartKey, getCart, getItemsBeingPurchased } from "~/app/_utils/cart";
 import { Footer } from "~/app/_components/footer";
+import { CartProvider } from "~/app/_components/cart-context";
 
 const manrope = Manrope({
   subsets: ["latin"],
@@ -37,9 +38,11 @@ export default async function RootLayout({
   return (
     <html lang="en" className={`${manrope.className}`}>
       <body className="grid min-h-screen grid-rows-[auto_1fr_auto]">
-        <Header cartItems={cartItems} />
-        <main>{children}</main>
-        <Footer />
+        <CartProvider items={cartItems}>
+          <Header />
+          <main>{children}</main>
+          <Footer />
+        </CartProvider>
       </body>
     </html>
   );

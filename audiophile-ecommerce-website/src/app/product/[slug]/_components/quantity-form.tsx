@@ -1,52 +1,54 @@
 "use client";
 
-import { useRef, useTransition } from "react";
-import {
-  QuantitySelect,
-  type QuantitySelectRef,
-} from "~/app/_components/quantity-select";
+import { startTransition } from "react";
+import { z } from "zod";
+import { useCart } from "~/app/_components/cart-context";
+import { QuantitySelect } from "~/app/_components/quantity-select";
 import { type Product } from "~/app/_utils/product";
 import { idKey, quantityKey } from "~/app/_utils/schema";
 import { addToCart } from "~/app/actions";
 
+const addToCartSchema = z.object({
+  [quantityKey]: z.coerce.number(),
+});
+
 interface QuantityFormProps {
-  productId: Product["id"];
+  product: Product;
 }
 
-export const QuantityForm = ({ productId }: QuantityFormProps) => {
-  const quantitySelectRef = useRef<QuantitySelectRef>(null);
-  const [isPending, startTransition] = useTransition();
+export const QuantityForm = ({ product }: QuantityFormProps) => {
+  // todo: Should we reset after submit?
+  // const quantitySelectRef = useRef<QuantitySelectRef>(null);
+  const { optimisticCartDispatch } = useCart();
 
   return (
     <form
       className={[
         "mt-8 flex flex-wrap gap-4 transition-opacity desktop:mt-12",
-        isPending ? "opacity-50" : "",
       ].join(" ")}
       onSubmit={(e) => {
         e.preventDefault();
 
-        if (!isPending) {
-          startTransition(async () => {
-            await addToCart(new FormData(e.currentTarget));
-            quantitySelectRef.current!.reset();
+        startTransition(async () => {
+          const formData = new FormData(e.currentTarget);
+          const result = addToCartSchema.parse(Object.fromEntries(formData));
+          optimisticCartDispatch({
+            type: "add",
+            data: { ...product, quantity: result[quantityKey] },
           });
-        }
+          await addToCart(formData);
+          // quantitySelectRef.current!.reset();
+        });
       }}
     >
-      <input type="hidden" name={idKey} value={productId} />
+      <input type="hidden" name={idKey} value={product.id} />
       <QuantitySelect
-        ref={quantitySelectRef}
+        // ref={quantitySelectRef}
         size="large"
         name={quantityKey}
         min={1}
-        disabled={isPending}
       />
-      <button
-        className="button-primary"
-        type="submit"
-        aria-disabled={isPending}
-      >
+      <button className="button-primary" type="submit">
         Add to cart
       </button>
     </form>

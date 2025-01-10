@@ -71,7 +71,7 @@ export default async function ProductPage({
                 {currency(product.price)}
               </strong>
             </p>
-            <QuantityForm productId={product.id} />
+            <QuantityForm product={product} />
           </div>
           <picture className="order-first tablet:col-span-9 tablet:col-start-1 tablet:row-start-1 desktop:col-span-11">
             <source

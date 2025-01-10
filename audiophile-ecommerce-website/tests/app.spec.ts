@@ -236,13 +236,16 @@ test("adds quantity of product to cart", async ({ page }) => {
 
   await page.getByRole("button", { name: "add to cart" }).click();
 
-  await expect(quantityText).toHaveText(/1/i);
+  // Not resetting anymore
+  // await expect(quantityText).toHaveText(/1/i);
 
   await cartButton.click();
 
   await expect(productItem.getByTestId("quantity")).toHaveText(/3/i);
 
   await cartButton.click();
+  await decrementButton.click(); // 2
+  await decrementButton.click(); // 1
   await incrementButton.click();
   await incrementButton.click();
   await incrementButton.click();
