@@ -1,16 +1,12 @@
 import "~/styles/globals.css";
 import { type Metadata } from "next";
-import { Manrope } from "next/font/google";
 import { Header } from "~/app/_components/header";
 import { cookies } from "next/headers";
 import { cartKey, getCart, getItemsBeingPurchased } from "~/app/_utils/cart";
 import { Footer } from "~/app/_components/footer";
 import { CartProvider } from "~/app/_components/cart-context";
-
-const manrope = Manrope({
-  subsets: ["latin"],
-  display: "swap",
-});
+import { Toaster } from "sonner";
+import { manrope } from "~/app/_utils/fonts";
 
 export const metadata: Metadata = {
   title: {
@@ -43,6 +39,11 @@ export default async function RootLayout({
           <main>{children}</main>
           <Footer />
         </CartProvider>
+        <Toaster
+          toastOptions={{
+            className: `${manrope.className} text-000000 bg-F1F1F1`,
+          }}
+        />
       </body>
     </html>
   );
