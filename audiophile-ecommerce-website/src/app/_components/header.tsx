@@ -10,7 +10,7 @@ import {
   useRef,
   useState,
 } from "react";
-import { motion } from "motion/react";
+import { AnimatePresence, LayoutGroup, motion } from "motion/react";
 import Logo from "~/app/_assets/logo.svg";
 import IconCart from "~/app/_assets/icon-cart.svg";
 import IconHamburger from "~/app/_assets/icon-hamburger.svg";
@@ -180,125 +180,170 @@ export function Header() {
               <div className="absolute inset-x-0 top-[calc(100%+1.5rem)] desktop:top-[calc(100%+2rem)]">
                 <div className="center">
                   <div className="grid tablet:grid-cols-[minmax(auto,23.5625rem)] tablet:justify-end">
-                    <motion.div
-                      className={
-                        "rounded bg-FFFFFF px-7 py-8 text-000000/50 tablet:p-8"
-                      }
-                      style={{
-                        originY: 0,
-                        transformPerspective: 2000,
-                      }}
-                      transition={{ duration: 0.2 }}
-                      initial={{
-                        opacity: 0,
-                        scale: 0.95,
-                        rotateX: -10,
-                      }}
-                      animate={{ opacity: 1, scale: 1, rotateX: 0 }}
-                      {...cart.contentProps}
-                      data-testid="cart"
-                    >
-                      <div className="flex flex-wrap justify-between">
-                        <h2 className="text-[1.125rem] font-bold tracking-[0.08125rem] text-000000">
-                          Cart ({cartItems.length}
-                          <span className="sr-only"> items</span>)
-                        </h2>
-                        <button
-                          className="underline transition-colors hocus:text-D87D4A"
-                          type="button"
-                          onClick={() => {
-                            startTransition(async () => {
-                              optimisticCartDispatch({ type: "remove-all" });
-                              await removeAllItemsFromCart();
-                            });
-                          }}
+                    <LayoutGroup>
+                      <motion.div
+                        className={
+                          "rounded bg-FFFFFF px-7 py-8 text-000000/50 tablet:p-8"
+                        }
+                        style={{
+                          originY: 0,
+                          transformPerspective: 2000,
+                        }}
+                        initial={{
+                          opacity: 0,
+                          scale: 0.95,
+                          rotateX: -10,
+                        }}
+                        animate={{
+                          opacity: 1,
+                          scale: 1,
+                          rotateX: 0,
+                          transition: { duration: 0.2 },
+                        }}
+                        layout
+                        transition={{
+                          duration: cartLayoutDuration,
+                        }}
+                        {...cart.contentProps}
+                        data-testid="cart"
+                      >
+                        <motion.div
+                          className="flex flex-wrap justify-between"
+                          layout
                         >
-                          Remove all
-                        </button>
-                      </div>
-                      {cartItems.length > 0 ? (
-                        <>
-                          <ul className="mt-8 grid gap-6" role="list">
-                            {cartItems.map((item) => {
-                              return (
-                                <li
-                                  className="grid grid-cols-[auto_1fr] items-center gap-4 font-bold"
-                                  key={item.id}
-                                >
-                                  <div className="flex items-center justify-between">
-                                    <div>
-                                      <h3 className="text-000000">
-                                        {item.shortName}
-                                      </h3>
-                                      <p>{currency(item.price)}</p>
-                                    </div>
-                                    <QuantitySelect
-                                      size="small"
-                                      value={item.quantity}
-                                      onChange={(value) => {
-                                        startTransition(async () => {
-                                          optimisticCartDispatch({
-                                            type: "quantity",
-                                            data: {
-                                              id: item.id,
-                                              quantity: value,
-                                            },
-                                          });
-                                          await setCart(
-                                            new Map(
-                                              cartItems.map((i) => {
-                                                if (i.id === item.id) {
-                                                  return [
-                                                    i.id,
-                                                    { quantity: value },
-                                                  ];
-                                                } else {
-                                                  return [
-                                                    i.id,
-                                                    { quantity: i.quantity },
-                                                  ];
-                                                }
-                                              }),
-                                            ),
-                                          );
-                                        });
-                                      }}
-                                    />
-                                  </div>
-                                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                                  <img
-                                    className="order-first size-16 rounded object-cover"
-                                    alt=""
-                                    width={150}
-                                    height={150}
-                                    src={getProductImage(item.slug)}
-                                  />
-                                </li>
-                              );
-                            })}
-                          </ul>
-                          <p className="mt-8 flex flex-wrap justify-between uppercase">
-                            Total<span className="sr-only">: </span>
-                            <strong className="text-[1.125rem] text-000000">
-                              {currency(totals.total)}
-                            </strong>
-                          </p>
-                          <p className="mt-6">
-                            <Link
-                              className="button-primary w-full"
-                              href={"/checkout"}
+                          <h2 className="text-[1.125rem] font-bold tracking-[0.08125rem] text-000000">
+                            Cart ({cartItems.length}
+                            <span className="sr-only"> items</span>)
+                          </h2>
+                          {cartItems.length > 0 ? (
+                            <button
+                              className="underline transition-colors hocus:text-D87D4A"
+                              type="button"
                               onClick={() => {
-                                cart.setIsExpanded(false);
+                                startTransition(async () => {
+                                  optimisticCartDispatch({
+                                    type: "remove-all",
+                                  });
+                                  await removeAllItemsFromCart();
+                                });
                               }}
                             >
-                              Checkout
-                            </Link>
-                          </p>
-                        </>
-                      ) : (
-                        <p className="mt-4">The cart is empty.</p>
-                      )}
-                    </motion.div>
+                              Remove all
+                            </button>
+                          ) : null}
+                        </motion.div>
+                        {cartItems.length > 0 ? (
+                          <>
+                            <ul className="mt-8 grid gap-6" role="list">
+                              <AnimatePresence initial={false}>
+                                {cartItems.map((item) => {
+                                  return (
+                                    <motion.li
+                                      className="grid grid-cols-[auto_1fr] items-center gap-4 font-bold"
+                                      key={item.id}
+                                      layout
+                                      initial={{ opacity: 0, scale: 0.95 }}
+                                      animate={{
+                                        opacity: 1,
+                                        scale: 1,
+                                      }}
+                                      exit={{ opacity: 0, scale: 0.95 }}
+                                      transition={{
+                                        duration: cartLayoutDuration,
+                                      }}
+                                    >
+                                      <div className="flex items-center justify-between">
+                                        <div>
+                                          <h3 className="text-000000">
+                                            {item.shortName}
+                                          </h3>
+                                          <p>{currency(item.price)}</p>
+                                        </div>
+                                        <QuantitySelect
+                                          size="small"
+                                          value={item.quantity}
+                                          onChange={(value) => {
+                                            startTransition(async () => {
+                                              optimisticCartDispatch({
+                                                type: "quantity",
+                                                data: {
+                                                  id: item.id,
+                                                  quantity: value,
+                                                },
+                                              });
+                                              await setCart(
+                                                new Map(
+                                                  cartItems.map((i) => {
+                                                    if (i.id === item.id) {
+                                                      return [
+                                                        i.id,
+                                                        { quantity: value },
+                                                      ];
+                                                    } else {
+                                                      return [
+                                                        i.id,
+                                                        {
+                                                          quantity: i.quantity,
+                                                        },
+                                                      ];
+                                                    }
+                                                  }),
+                                                ),
+                                              );
+                                            });
+                                          }}
+                                        />
+                                      </div>
+                                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                                      <img
+                                        className="order-first size-16 rounded object-cover"
+                                        alt=""
+                                        width={150}
+                                        height={150}
+                                        src={getProductImage(item.slug)}
+                                      />
+                                    </motion.li>
+                                  );
+                                })}
+                              </AnimatePresence>
+                            </ul>
+                            <motion.p
+                              className="mt-8 flex flex-wrap justify-between uppercase"
+                              layout
+                              transition={{
+                                duration: cartLayoutDuration,
+                              }}
+                            >
+                              Total<span className="sr-only">: </span>
+                              <strong className="text-[1.125rem] text-000000">
+                                {currency(totals.total)}
+                              </strong>
+                            </motion.p>
+                            <motion.p
+                              className="mt-6"
+                              layout
+                              transition={{
+                                duration: cartLayoutDuration,
+                              }}
+                            >
+                              <Link
+                                className="button-primary w-full"
+                                href={"/checkout"}
+                                onClick={() => {
+                                  cart.setIsExpanded(false);
+                                }}
+                              >
+                                Checkout
+                              </Link>
+                            </motion.p>
+                          </>
+                        ) : (
+                          <motion.p className="mt-4" layout>
+                            The cart is empty.
+                          </motion.p>
+                        )}
+                      </motion.div>
+                    </LayoutGroup>
                   </div>
                 </div>
               </div>
@@ -323,7 +368,12 @@ function useDisclosure() {
   // Click outside
   useEffect(() => {
     function handleClick(e: MouseEvent) {
-      if (e.target instanceof Node && !contentRef.current!.contains(e.target)) {
+      if (
+        e.target instanceof Node &&
+        // Ignore clicks on removed targets, e.g. when the user removes an item in the cart disclosure.
+        e.target.isConnected &&
+        !contentRef.current!.contains(e.target)
+      ) {
         setIsExpanded(false);
       }
     }
@@ -378,3 +428,5 @@ function useDisclosure() {
     setIsExpanded,
   };
 }
+
+const cartLayoutDuration = 0.3;

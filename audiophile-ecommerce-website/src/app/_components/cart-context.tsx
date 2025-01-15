@@ -50,13 +50,17 @@ export const CartProvider = ({ children, items }: CartProviderProps) => {
           })
         : [...items, action.data];
     } else if (action.type === "quantity") {
-      return items.map((item) => {
-        if (item.id === action.data.id) {
-          return { ...item, quantity: action.data.quantity };
-        } else {
-          return item;
-        }
-      });
+      if (action.data.quantity <= 0) {
+        return items.filter((i) => i.id !== action.data.id);
+      } else {
+        return items.map((item) => {
+          if (item.id === action.data.id) {
+            return { ...item, quantity: action.data.quantity };
+          } else {
+            return item;
+          }
+        });
+      }
     } else if (action.type === "remove-all") {
       return [];
     } else {
