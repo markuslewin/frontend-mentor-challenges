@@ -57,17 +57,32 @@ export default async function ProductPage({
       <GoBack />
       <div className="center mt-6 desktop:mt-14">
         <div className="layout grid tablet:items-center">
-          <div className="mt-8 grid tablet:col-span-11 tablet:col-start-13 tablet:mt-0 desktop:col-[15/span_9]">
-            <h1 className="mt-6 text-h2 text-000000 tablet:mt-4">
+          <div
+            className={[
+              "grid tablet:col-span-11 tablet:col-start-13 tablet:mt-0 desktop:col-[15/span_9]",
+              product.new ? "mt-8" : "mt-10",
+            ].join(" ")}
+          >
+            <h1
+              className={[
+                "text-h2 text-000000 tablet:mt-4",
+                product.new ? "mt-6" : "",
+              ].join(" ")}
+            >
               {product.name}
             </h1>
-            <p className="order-first text-overline uppercase text-D87D4A">
+            <p
+              className={[
+                "order-first text-overline uppercase text-D87D4A",
+                product.new ? "" : "hidden tablet:block",
+              ].join(" ")}
+            >
               {product.new ? "New product" : nbsp}
             </p>
             <p className="mt-6 tablet:mt-8">{product.description}</p>
             <p className="mt-6 tablet:mt-8">
               <span className="sr-only">Price: </span>
-              <strong className="text-h6 text-000000">
+              <strong className="text-[1.125rem] font-bold leading-[1.5625rem] tracking-[0.08125rem] text-000000">
                 {currency(product.price)}
               </strong>
             </p>

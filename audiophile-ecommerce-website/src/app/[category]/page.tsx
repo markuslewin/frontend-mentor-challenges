@@ -72,7 +72,12 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
                     isEven ? "desktop:col-[15/span_9]" : "desktop:col-span-9",
                   ].join(" ")}
                 >
-                  <h2 className="mx-auto mt-6 max-w-96 text-h2 text-000000 tablet:mt-4 desktop:mx-0">
+                  <h2
+                    className={[
+                      "mx-auto max-w-96 text-h2 text-000000 desktop:mx-0",
+                      product.new ? "mt-6 tablet:mt-4" : "",
+                    ].join(" ")}
+                  >
                     {product.name}
                   </h2>
                   {product.new ? (

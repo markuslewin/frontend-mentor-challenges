@@ -75,10 +75,12 @@ export function CheckoutForm({ items, onCheckout }: CheckoutFormProps) {
         {...getFormProps(form)}
         className="desktop:layout grid gap-8 desktop:items-start desktop:gap-0"
       >
-        <div className="rounded bg-FFFFFF px-6 py-8 tablet:p-8 desktop:col-[1/span_15] desktop:p-12 desktop:pt-14">
-          <h1 className="text-h3 text-000000">Checkout</h1>
+        <div className="rounded bg-FFFFFF px-6 py-8 tablet:px-7 tablet:py-8 desktop:col-[1/span_15] desktop:p-12 desktop:pt-14">
+          <h1 className="text-[1.75rem] font-bold leading-[2.375rem] tracking-[0.0625rem] text-000000 tablet:text-h3">
+            Checkout
+          </h1>
           <h2 className="sr-only">Form</h2>
-          <h3 className="mt-8 text-sub-title text-D87D4A tablet:mt-10">
+          <h3 className="mt-8 text-sub-title leading-[1.5625rem] text-D87D4A tablet:mt-10">
             Billing details
           </h3>
           <div className="mt-4 grid gap-x-4 gap-y-6 tablet:grid-cols-2">
@@ -105,7 +107,9 @@ export function CheckoutForm({ items, onCheckout }: CheckoutFormProps) {
             </Control>
           </div>
           <div className="mt-8 tablet:mt-[3.3125rem]">
-            <h3 className="text-sub-title text-D87D4A">Shipping info</h3>
+            <h3 className="text-sub-title leading-[1.5625rem] text-D87D4A">
+              Shipping info
+            </h3>
             <div className="mt-4 grid gap-x-4 gap-y-6 tablet:grid-cols-2">
               <Control
                 className="tablet:col-span-2"
@@ -136,7 +140,9 @@ export function CheckoutForm({ items, onCheckout }: CheckoutFormProps) {
             </div>
           </div>
           <div className="mt-8 tablet:mt-[3.8125rem]">
-            <h3 className="text-sub-title text-D87D4A">Payment details</h3>
+            <h3 className="text-sub-title leading-[1.5625rem] text-D87D4A">
+              Payment details
+            </h3>
             <fieldset
               {...getFieldsetProps(paymentDetails.paymentMethod)}
               className="mt-4 grid gap-x-4 tablet:grid-cols-2"
@@ -216,7 +222,9 @@ export function CheckoutForm({ items, onCheckout }: CheckoutFormProps) {
           className="rounded bg-FFFFFF px-6 py-8 text-000000/50 tablet:p-8 desktop:col-[17/span_7]"
           data-testid="summary"
         >
-          <h2 className="text-h6 text-000000">Summary</h2>
+          <h2 className="text-[1.125rem] font-bold leading-[1.5625rem] tracking-[0.08125rem] text-000000 tablet:text-h6">
+            Summary
+          </h2>
           {items.length ? (
             <ul className="mt-8 grid gap-6" role="list">
               {items.map((item, i) => {

@@ -139,7 +139,10 @@ export function Header() {
                   { name: "Earphones", href: "/earphones" },
                 ].map((link, i) => {
                   return (
-                    <li className="text-sub-title uppercase" key={i}>
+                    <li
+                      className="text-sub-title uppercase leading-[1.5625rem] tracking-[0.125rem]"
+                      key={i}
+                    >
                       <NavLink
                         className="transition-colors hocus:text-D87D4A"
                         href={link.href}

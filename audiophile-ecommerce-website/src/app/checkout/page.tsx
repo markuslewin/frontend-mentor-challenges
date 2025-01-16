@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 export default async function CheckoutPage() {
   return (
     <>
-      <GoBack />
+      <GoBack className="center mt-4 tablet:mt-12 desktop:mt-20" />
       <Checkout />
     </>
   );

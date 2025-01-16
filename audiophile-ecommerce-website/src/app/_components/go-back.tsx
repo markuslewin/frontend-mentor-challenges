@@ -1,14 +1,16 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useId } from "react";
+import { type ComponentProps, useId } from "react";
 
-export function GoBack() {
+type GoBackProps = ComponentProps<"div">;
+
+export function GoBack(props: GoBackProps) {
   const labelId = useId();
   const router = useRouter();
 
   return (
-    <div className="center mt-4 tablet:mt-8 desktop:mt-20">
+    <div className="center mt-4 tablet:mt-8 desktop:mt-20" {...props}>
       <nav aria-labelledby={labelId}>
         <h2 className="sr-only" id={labelId}>
           Go back
