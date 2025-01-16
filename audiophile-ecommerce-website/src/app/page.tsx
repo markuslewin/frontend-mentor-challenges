@@ -125,7 +125,7 @@ export default function HomePage() {
         </div>
       </div>
       <div className="center mt-6 tablet:mt-8 desktop:mt-12">
-        <div className="layout grid overflow-hidden rounded bg-[hsl(0_0%_92%)] text-000000 tablet:isolate">
+        <div className="layout isolate grid overflow-hidden rounded bg-[hsl(0_0%_92%)] text-000000">
           <div className="order-last col-start-1 row-start-1 grid items-center p-6 tablet:col-span-7 tablet:col-start-3 tablet:p-0">
             <div>
               <h2 className="text-h4">ZX7 speaker</h2>
@@ -136,7 +136,7 @@ export default function HomePage() {
               </p>
             </div>
           </div>
-          <picture className="col-start-1 row-start-1 tablet:relative tablet:isolate tablet:-z-10 tablet:col-span-9 tablet:col-start-13 tablet:aspect-[280/320] tablet:w-full desktop:aspect-[445/320]">
+          <picture className="-z-10 col-start-1 row-start-1 tablet:relative tablet:isolate tablet:col-span-9 tablet:col-start-13 tablet:aspect-[280/320] tablet:w-full desktop:aspect-[445/320]">
             <source {...imageSpeakerZx7.desktopSourceProps} />
             <source {...imageSpeakerZx7.tabletSourceProps} />
             {/* eslint-disable-next-line jsx-a11y/alt-text */}
