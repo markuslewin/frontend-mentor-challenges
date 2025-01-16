@@ -18,16 +18,19 @@ export function getMediaImageProps({
   const { props: mobileImgProps } = getImageProps({
     alt,
     priority,
+    decoding: "auto",
     src: breakpoint.mobile,
   });
   const { props: tabletImageProps } = getImageProps({
     alt: "",
     priority,
+    decoding: "auto",
     src: breakpoint.tablet,
   });
   const { props: desktopImageProps } = getImageProps({
     alt: "",
     priority,
+    decoding: "auto",
     src: breakpoint.desktop,
   });
 
