@@ -18,6 +18,7 @@ import { BestGear } from "~/app/_components/best-gear";
 
 const imageHero = getMediaImageProps({
   alt: "",
+  priority: true,
   breakpoint: {
     desktop: imageHeroDesktop,
     tablet: imageHeroTablet,
@@ -27,6 +28,7 @@ const imageHero = getMediaImageProps({
 
 const imageSpeakerZx9 = getMediaImageProps({
   alt: "",
+  priority: true,
   breakpoint: {
     desktop: imageSpeakerZx9Desktop,
     tablet: imageSpeakerZx9Tablet,
@@ -36,6 +38,7 @@ const imageSpeakerZx9 = getMediaImageProps({
 
 const imageSpeakerZx7 = getMediaImageProps({
   alt: "",
+  priority: true,
   breakpoint: {
     desktop: imageSpeakerZx7Desktop,
     tablet: imageSpeakerZx7Tablet,
@@ -45,6 +48,7 @@ const imageSpeakerZx7 = getMediaImageProps({
 
 const imageEarphonesYx1 = getMediaImageProps({
   alt: "",
+  priority: true,
   breakpoint: {
     desktop: imageEarphonesYx1Desktop,
     tablet: imageEarphonesYx1Tablet,

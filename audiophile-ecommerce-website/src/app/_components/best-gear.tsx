@@ -5,6 +5,7 @@ import { getMediaImageProps } from "~/app/_utils/image";
 
 const imageBestGear = getMediaImageProps({
   alt: "",
+  priority: true,
   breakpoint: {
     desktop: imageBestGearDesktop,
     tablet: imageBestGearTablet,

@@ -65,6 +65,7 @@ export function Categories({
                   <Image
                     className={`${category.imageClassName} absolute inset-x-0 mx-auto`}
                     alt=""
+                    priority
                     src={category.image}
                   />
                   <div className="relative grid text-center">
