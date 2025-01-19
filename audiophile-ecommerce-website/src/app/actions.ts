@@ -55,6 +55,7 @@ export async function checkout(prevState: unknown, formData: FormData) {
     const product = getProductById(id);
     if (product) {
       products.push({
+        id: product.id,
         shortName: product.shortName,
         price: product.price,
         quantity: entry.quantity,

@@ -23,6 +23,7 @@ import IconCashOnDelivery from "~/app/checkout/_assets/icon-cash-on-delivery.svg
 
 interface CheckoutFormProps {
   items: {
+    id: number;
     shortName: string;
     image: string;
     price: number;
@@ -227,10 +228,10 @@ export function CheckoutForm({ items, onCheckout }: CheckoutFormProps) {
           </h2>
           {items.length ? (
             <ul className="mt-8 grid gap-6" role="list">
-              {items.map((item, i) => {
+              {items.map((item) => {
                 return (
                   <Item.Root
-                    key={i}
+                    key={item.id}
                     price={item.price}
                     quantity={item.quantity}
                     image={item.image}
