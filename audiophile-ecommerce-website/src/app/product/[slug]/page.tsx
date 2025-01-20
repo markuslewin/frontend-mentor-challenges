@@ -12,6 +12,7 @@ import {
   type GenerateMetadata,
 } from "~/app/_utils/next";
 import { getProductBySlug } from "~/app/_utils/product";
+import { getAssetUrl } from "~/app/_utils/image";
 
 type ProductPageProps = {
   params: Promise<{ slug: string }>;
@@ -268,8 +269,4 @@ export default async function ProductPage({
       <BestGear className="mt-32 desktop:mt-40" />
     </>
   );
-}
-
-function getAssetUrl(url: string) {
-  return url.replace(/^\.\//, "/");
 }

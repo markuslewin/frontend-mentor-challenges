@@ -2,6 +2,7 @@ import Link from "next/link";
 import { BestGear } from "~/app/_components/best-gear";
 import { Categories } from "~/app/_components/categories";
 import _products from "~/app/_data/data.json";
+import { getAssetUrl } from "~/app/_utils/image";
 import {
   type GenerateStaticParams,
   type PageProps,
@@ -105,20 +106,20 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
                     media={media.desktop}
                     width={1080}
                     height={1120}
-                    srcSet={product.categoryImage.desktop}
+                    srcSet={getAssetUrl(product.categoryImage.desktop)}
                   />
                   <source
                     media={media.tablet}
                     width={1378}
                     height={704}
-                    srcSet={product.categoryImage.tablet}
+                    srcSet={getAssetUrl(product.categoryImage.tablet)}
                   />
                   <img
                     className="w-full rounded"
                     alt=""
                     width={654}
                     height={704}
-                    src={product.categoryImage.mobile}
+                    src={getAssetUrl(product.categoryImage.mobile)}
                   />
                 </picture>
               </div>

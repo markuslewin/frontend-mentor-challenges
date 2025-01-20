@@ -50,3 +50,7 @@ export function getMediaImageProps({
     },
   };
 }
+
+export function getAssetUrl(url: string) {
+  return url.replace(/^\.\//, "/");
+}
